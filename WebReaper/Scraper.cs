@@ -182,14 +182,12 @@ public class Scraper
                     .Select(e => e.HyperReference(e.Attributes["href"].Value).ToString())
                     .Distinct();
 
-                //var notVisitedLinks = links.Where(l => !visited.Contains(l));
+                var notVisitedLinks = links.Where(l => !visited.Contains(l));
 
-                var nextPageTargetPagesTasks = nextPageLinks
+                var nextPageTargetPagesTasks = notVisitedLinks
                     .Select(link => GetTargetPages(link, selector));
 
                 var nextPageTargetPages = await Task.WhenAll(nextPageTargetPagesTasks);
-
-                //ImmutableInterlocked.Update(ref visited, old => old.Union(notVisitedLinks));
 
                 result = result.Concat(nextPageTargetPages.SelectMany(p => p)).ToArray();
             }
