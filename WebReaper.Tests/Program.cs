@@ -9,7 +9,7 @@ Log.Logger = new LoggerConfiguration()
 
 var watch = System.Diagnostics.Stopwatch.StartNew();
 
-await new ScraperLessRecursion("https://rutracker.org/forum/viewforum.php?f=399")
+await new Scraper("https://rutracker.org/forum/viewforum.php?f=399")
     .FollowLinks(".torTopic.bold.tt-text")
     .Paginate(".pg")
     .WithScheme(new WebEl[] {
