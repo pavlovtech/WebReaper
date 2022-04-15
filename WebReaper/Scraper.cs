@@ -25,6 +25,7 @@ public class Scraper
 
     public Scraper(string startUrl)
     {
+        ServicePointManager.DefaultConnectionLimit = int.MaxValue;
         this.startUrl = startUrl;
     }
 
@@ -92,7 +93,7 @@ public class Scraper
 
         var txtResults = string.Join(",", result.Select(r => {
             var result = GetJson(r);
-            var res = JsonConvert.SerializeObject(result);
+            var res = JsonConvert.SerializeObject(result) + Environment.NewLine;
             return res;
         }));
 
@@ -100,7 +101,7 @@ public class Scraper
         await File.AppendAllTextAsync(filePath, txtResults);
         await File.AppendAllTextAsync(filePath, "]" + Environment.NewLine);
 
-        Log.Logger.Information("Finished");
+        Log.Logger.Information("Done");
     }
 
     private JObject GetJson(IDocument doc) {
@@ -158,7 +159,7 @@ public class Scraper
 
         if (visited.Count >= limit)
         {
-            Log.Logger.Warning("Reached the limit {}", limit);
+            Log.Logger.Warning("Reached the limit {limit}", limit);
             return Array.Empty<IDocument>();
         }
 
@@ -217,12 +218,12 @@ public class Scraper
 
         var notVisitedLinks = links.Where(link => !visited.Contains(link));
 
+        ImmutableInterlocked.Update(ref visited, old => old.Union(notVisitedLinks));
+
         var tasks = notVisitedLinks.Select(link => GetDocument(link));
 
         var result = await Task.WhenAll(tasks);
         Log.Logger.Information("Finished downloading {count} target pages", result.Count());
-
-        ImmutableInterlocked.Update(ref visited, old => old.Union(notVisitedLinks));
 
         watch.Stop();
 
