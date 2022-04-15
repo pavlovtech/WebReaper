@@ -177,7 +177,7 @@ public class Scraper
         if (selector.Next == null)
         {
             Log.Logger.Information("Reached page with target links {url}", url);
-            IDocument[] result = await DownloadTargetPages(links);
+            IDocument[] result = Array.Empty<IDocument>();
 
             if (paginationSelector != null)
             {
@@ -196,6 +196,7 @@ public class Scraper
                 result = result.Concat(nextPageTargetPages.SelectMany(p => p)).ToArray();
             }
 
+            result = result.Concat(await DownloadTargetPages(links)).ToArray();
             return result;
         }
 
@@ -217,8 +218,6 @@ public class Scraper
         Log.Logger.Information("Downloading {count} target pages", links.Count);
 
         var notVisitedLinks = links.Where(link => !visited.Contains(link));
-
-        ImmutableInterlocked.Update(ref visited, old => old.Union(notVisitedLinks));
 
         var tasks = notVisitedLinks.Select(link => GetDocument(link));
 
