@@ -90,11 +90,14 @@ public class Scraper
 
         File.Delete(filePath);
 
+        var txtResults = string.Join(",", result.Select(r => {
+            var result = GetJson(r);
+            var res = JsonConvert.SerializeObject(result);
+            return res;
+        }));
+
         await File.AppendAllTextAsync(filePath, "[" + Environment.NewLine);
-        foreach(var item in result) {
-            await Save(item);
-            await File.AppendAllTextAsync(filePath, Environment.NewLine);
-        }
+        await File.AppendAllTextAsync(filePath, txtResults);
         await File.AppendAllTextAsync(filePath, "]" + Environment.NewLine);
 
         Log.Logger.Information("Finished");
@@ -182,7 +185,7 @@ public class Scraper
                     .Select(e => e.HyperReference(e.Attributes["href"].Value).ToString())
                     .Distinct();
 
-                var notVisitedLinks = links.Where(l => !visited.Contains(l));
+                var notVisitedLinks = nextPageLinks.Where(l => !visited.Contains(l));
 
                 var nextPageTargetPagesTasks = notVisitedLinks
                     .Select(link => GetTargetPages(link, selector));

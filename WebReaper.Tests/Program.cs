@@ -9,14 +9,12 @@ Log.Logger = new LoggerConfiguration()
 
 var watch = System.Diagnostics.Stopwatch.StartNew();
 
-await new Scraper("https://rutracker.org/forum/viewforum.php?f=2327")
-    .FollowLinks(".forumlink>a")
+await new Scraper("https://rutracker.org/forum/viewforum.php?f=399")
     .FollowLinks(".torTopic.bold.tt-text")
     .Paginate(".pg")
     .WithScheme(new WebEl[] {
         new("title", "span[style='font-size: 24px; line-height: normal;']"),
     })
-    .Limit(100)
     .To("output.json")
     .Run();
 
