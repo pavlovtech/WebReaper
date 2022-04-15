@@ -4,6 +4,8 @@ using AngleSharp;
 using AngleSharp.Dom;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Linq;
+using Serilog;
 
 namespace WebReaper;
 
@@ -81,12 +83,19 @@ public class Scraper
     public async Task Run()
     {
         var result = await GetTargetPages(startUrl, linkPathSelectors.First);
+
+        Log.Logger.Information("Crawled {count} pages", visited.Count);
+
+        Log.Logger.Information("Saving results");
+
         File.AppendAllText(filePath, "[" + Environment.NewLine);
         foreach(var item in result) {
             await Save(item);
             File.AppendAllText(filePath, Environment.NewLine);
         }
         File.AppendAllText(filePath, "]" + Environment.NewLine);
+
+        Log.Logger.Information("Finished");
     }
 
     private JObject GetJson(IDocument doc) {
@@ -134,7 +143,15 @@ public class Scraper
 
     private async Task<IDocument[]> GetTargetPages(string url, LinkedListNode<string> selector)
     {
-        if(visited.Contains(url) || visited.Count >= limit) {
+        Log.Logger.Information("Visiting {url} with selector {selector}", url, selector.Value);
+
+        if (visited.Contains(url)) {
+            Log.Logger.Information("Already visited {url} with selector {selector}", url, selector.Value);
+            return Array.Empty<IDocument>();
+        }
+
+        if (visited.Count >= limit) {
+            Log.Logger.Information("Reached the limit {}", limit);
             return Array.Empty<IDocument>();
         }
 
@@ -144,37 +161,38 @@ public class Scraper
         var document = await context.OpenAsync(url);
 
         ImmutableInterlocked.Update(ref visited, old => old.Add(url));
+        Log.Logger.Information("Visited {count} links", visited.Count);
 
-        var links = document.QuerySelectorAll(selector.Value).Select(e => e.HyperReference(e.Attributes["href"].Value).ToString()).ToList();
+        var links = document
+            .QuerySelectorAll(selector.Value)
+            .Select(e => e.HyperReference(e.Attributes["href"].Value).ToString())
+            .Distinct()
+            .ToList();
 
-        if (selector.Next == null && paginationSelector == null)
+        if (selector.Next == null)
         {
-            var notVisitedLinks = links.Where(l => !visited.Contains(l));
+            Log.Logger.Information("Reached page with target links {url}", url);
+            IDocument[] result = await DownloadTargetPages(links);
 
-            //ImmutableInterlocked.Update(ref visited, old => old.Union(notVisitedLinks));
+            if (paginationSelector != null) {
+                var nextPageLinks = document
+                    .QuerySelectorAll(paginationSelector)
+                    .Select(e => e.HyperReference(e.Attributes["href"].Value).ToString())
+                    .Distinct();
 
-            var tasks = notVisitedLinks.Select(l => context.OpenAsync(l));
+                //var notVisitedLinks = links.Where(l => !visited.Contains(l));
 
-            var result = await Task.WhenAll(tasks);
+                var nextPageTargetPagesTasks = nextPageLinks
+                    .Select(link => GetTargetPages(link, selector));
 
-            ImmutableInterlocked.Update(ref visited, old => old.Union(notVisitedLinks));
+                var nextPageTargetPages = await Task.WhenAll(nextPageTargetPagesTasks);
+
+                //ImmutableInterlocked.Update(ref visited, old => old.Union(notVisitedLinks));
+
+                result = result.Concat(nextPageTargetPages.SelectMany(p => p)).ToArray();
+            }
+
             return result;
-        } else if(selector.Next == null && paginationSelector != null)
-        {
-            var notVisitedLinks = links.Where(l => !visited.Contains(l));
-            //ImmutableInterlocked.Update(ref visited, old => old.Union(notVisitedLinks));
-
-            var tasks = notVisitedLinks.Select(l => context.OpenAsync(l));
-
-            var result = await Task.WhenAll(tasks);
-
-            ImmutableInterlocked.Update(ref visited, old => old.Union(notVisitedLinks));
-
-            var paginatedResult = await GetTargetPagesWithPagination(document, selector.Value);
-
-            var output = result.Concat(paginatedResult).ToArray();
-
-            return output;
         }
 
         var docs = new List<IDocument>();
@@ -188,38 +206,23 @@ public class Scraper
         return outputResult.ToArray();
     }
 
-    private void UpdateVisited(ImmutableHashSet<string> updated)
+    private async Task<IDocument[]> DownloadTargetPages(List<string> links)
     {
-        ImmutableInterlocked.Update(ref visited, (t) => updated);
-    }
+        Log.Logger.Information("Downloading {count} target pages", links.Count);
 
-    private async Task<List<IDocument>> GetTargetPagesWithPagination(IDocument document, string targetPageSelector)
-    {
         var config = Configuration.Default.WithDefaultLoader();
         var context = BrowsingContext.New(config);
 
-        var nextPageLinkNode = document.QuerySelector(paginationSelector);
-        var nextPageLink = nextPageLinkNode.HyperReference(nextPageLinkNode.GetAttribute("href"));
-        
-        var targetPages = new List<IDocument>();
+        var notVisitedLinks = links.Where(l => !visited.Contains(l));
 
-        for(int i = 0; nextPageLink != null; i++) {
-            document = await context.OpenAsync(nextPageLink);
+        var tasks = notVisitedLinks.Select(l => context.OpenAsync(l));
 
-            var links = document.QuerySelectorAll(targetPageSelector).Select(e => e.HyperReference(e.Attributes["href"].Value).ToString()).ToList();
+        var result = await Task.WhenAll(tasks);
+        Log.Logger.Information("Finished downloading {count} target pages", result.Count());
 
-            var notVisitedLinks = links.Where(link => !visited.Contains(link));
+        ImmutableInterlocked.Update(ref visited, old => old.Union(notVisitedLinks));
 
-            var tasks = notVisitedLinks.Select(link => context.OpenAsync(link));
-            targetPages.AddRange(await Task.WhenAll(tasks));
-
-            ImmutableInterlocked.Update(ref visited, old => old.Union(notVisitedLinks));
-
-            var paginationNode = document.QuerySelector(paginationSelector);
-            nextPageLink = paginationNode.HyperReference(paginationNode.GetAttribute("href"));
-        }
-
-        return targetPages;
+        return result;
     }
 
     private async Task Save(IDocument doc)
