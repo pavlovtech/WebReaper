@@ -1,0 +1,1001 @@
+2022-04-15 14:16:02.166 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=2327 with selector .forumlink>a
+2022-04-15 14:16:02.232 +03:00 [INF] Visited 1 links
+2022-04-15 14:16:03.009 +03:00 [INF] Method GetDocument. Elapsed: 0.7738804 sec
+2022-04-15 14:16:03.022 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=695 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:03.022 +03:00 [INF] Visited 2 links
+2022-04-15 14:16:03.024 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=399 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:03.024 +03:00 [INF] Visited 3 links
+2022-04-15 14:16:03.075 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=402 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:03.100 +03:00 [INF] Visited 4 links
+2022-04-15 14:16:03.197 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:03.224 +03:00 [INF] Visited 5 links
+2022-04-15 14:16:03.271 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=490 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:03.272 +03:00 [INF] Visited 6 links
+2022-04-15 14:16:03.470 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=499 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:03.495 +03:00 [INF] Visited 7 links
+2022-04-15 14:16:03.648 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=2137 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:03.675 +03:00 [INF] Visited 8 links
+2022-04-15 14:16:03.705 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=2127 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:03.732 +03:00 [INF] Visited 9 links
+2022-04-15 14:16:04.093 +03:00 [INF] Method GetDocument. Elapsed: 1.0704143 sec
+2022-04-15 14:16:04.093 +03:00 [INF] Method GetDocument. Elapsed: 1.0698354 sec
+2022-04-15 14:16:04.097 +03:00 [INF] Method GetDocument. Elapsed: 0.8730265 sec
+2022-04-15 14:16:04.098 +03:00 [INF] Reached page with target links https://rutracker.org/forum/viewforum.php?f=695
+2022-04-15 14:16:04.098 +03:00 [INF] Reached page with target links https://rutracker.org/forum/viewforum.php?f=399
+2022-04-15 14:16:04.109 +03:00 [INF] Method GetDocument. Elapsed: 0.9850078 sec
+2022-04-15 14:16:04.110 +03:00 [INF] Downloading 50 target pages
+2022-04-15 14:16:04.110 +03:00 [INF] Downloading 50 target pages
+2022-04-15 14:16:04.110 +03:00 [INF] Reached page with target links https://rutracker.org/forum/viewforum.php?f=467
+2022-04-15 14:16:04.110 +03:00 [INF] Downloading 50 target pages
+2022-04-15 14:16:04.215 +03:00 [INF] Reached page with target links https://rutracker.org/forum/viewforum.php?f=402
+2022-04-15 14:16:04.217 +03:00 [INF] Downloading 50 target pages
+2022-04-15 14:16:07.627 +03:00 [INF] Method GetDocument. Elapsed: 3.5163316 sec
+2022-04-15 14:16:08.277 +03:00 [INF] Method GetDocument. Elapsed: 4.6006917 sec
+2022-04-15 14:16:08.450 +03:00 [INF] Method GetDocument. Elapsed: 4.3391964 sec
+2022-04-15 14:16:08.505 +03:00 [INF] Method GetDocument. Elapsed: 5.164446 sec
+2022-04-15 14:16:08.766 +03:00 [INF] Reached page with target links https://rutracker.org/forum/viewforum.php?f=2137
+2022-04-15 14:16:08.788 +03:00 [INF] Downloading 50 target pages
+2022-04-15 14:16:08.880 +03:00 [INF] Reached page with target links https://rutracker.org/forum/viewforum.php?f=490
+2022-04-15 14:16:08.904 +03:00 [INF] Downloading 50 target pages
+2022-04-15 14:16:09.400 +03:00 [INF] Method GetDocument. Elapsed: 5.6671883 sec
+2022-04-15 14:16:09.968 +03:00 [INF] Reached page with target links https://rutracker.org/forum/viewforum.php?f=2127
+2022-04-15 14:16:09.970 +03:00 [INF] Downloading 50 target pages
+2022-04-15 14:16:10.299 +03:00 [INF] Method GetDocument. Elapsed: 6.8030938 sec
+2022-04-15 14:16:11.124 +03:00 [INF] Reached page with target links https://rutracker.org/forum/viewforum.php?f=499
+2022-04-15 14:16:11.152 +03:00 [INF] Downloading 50 target pages
+2022-04-15 14:16:13.125 +03:00 [INF] Method GetDocument. Elapsed: 8.9069928 sec
+2022-04-15 14:16:14.003 +03:00 [INF] Method GetDocument. Elapsed: 6.465474 sec
+2022-04-15 14:16:14.097 +03:00 [INF] Method GetDocument. Elapsed: 6.4356023 sec
+2022-04-15 14:16:14.227 +03:00 [INF] Method GetDocument. Elapsed: 6.7453869 sec
+2022-04-15 14:16:14.403 +03:00 [INF] Method GetDocument. Elapsed: 10.0934334 sec
+2022-04-15 14:16:14.421 +03:00 [INF] Method GetDocument. Elapsed: 6.9686173 sec
+2022-04-15 14:16:14.955 +03:00 [INF] Method GetDocument. Elapsed: 7.3235861 sec
+2022-04-15 14:16:14.972 +03:00 [INF] Method GetDocument. Elapsed: 7.7357659 sec
+2022-04-15 14:16:15.091 +03:00 [INF] Method GetDocument. Elapsed: 7.7365565 sec
+2022-04-15 14:16:15.215 +03:00 [INF] Method GetDocument. Elapsed: 8.028962 sec
+2022-04-15 14:16:15.601 +03:00 [INF] Method GetDocument. Elapsed: 8.2966129 sec
+2022-04-15 14:16:15.895 +03:00 [INF] Method GetDocument. Elapsed: 8.3362899 sec
+2022-04-15 14:16:16.066 +03:00 [INF] Method GetDocument. Elapsed: 8.0183691 sec
+2022-04-15 14:16:16.253 +03:00 [INF] Method GetDocument. Elapsed: 9.0171992 sec
+2022-04-15 14:16:16.327 +03:00 [INF] Method GetDocument. Elapsed: 9.5541104 sec
+2022-04-15 14:16:16.529 +03:00 [INF] Method GetDocument. Elapsed: 9.2471416 sec
+2022-04-15 14:16:16.553 +03:00 [INF] Method GetDocument. Elapsed: 9.0695982 sec
+2022-04-15 14:16:16.579 +03:00 [INF] Method GetDocument. Elapsed: 9.8336176 sec
+2022-04-15 14:16:16.775 +03:00 [INF] Method GetDocument. Elapsed: 8.5751931 sec
+2022-04-15 14:16:16.870 +03:00 [INF] Method GetDocument. Elapsed: 9.3957559 sec
+2022-04-15 14:16:16.992 +03:00 [INF] Method GetDocument. Elapsed: 8.665987 sec
+2022-04-15 14:16:16.996 +03:00 [INF] Method GetDocument. Elapsed: 9.0285552 sec
+2022-04-15 14:16:16.996 +03:00 [INF] Method GetDocument. Elapsed: 9.209302 sec
+2022-04-15 14:16:17.111 +03:00 [INF] Method GetDocument. Elapsed: 9.0893975 sec
+2022-04-15 14:16:17.118 +03:00 [INF] Method GetDocument. Elapsed: 9.2532385 sec
+2022-04-15 14:16:17.121 +03:00 [INF] Method GetDocument. Elapsed: 9.888604 sec
+2022-04-15 14:16:17.126 +03:00 [INF] Method GetDocument. Elapsed: 10.8535251 sec
+2022-04-15 14:16:17.128 +03:00 [INF] Method GetDocument. Elapsed: 11.4481267 sec
+2022-04-15 14:16:17.464 +03:00 [INF] Method GetDocument. Elapsed: 10.3514963 sec
+2022-04-15 14:16:17.464 +03:00 [INF] Method GetDocument. Elapsed: 10.0838616 sec
+2022-04-15 14:16:17.520 +03:00 [INF] Method GetDocument. Elapsed: 9.6551863 sec
+2022-04-15 14:16:17.608 +03:00 [INF] Method GetDocument. Elapsed: 10.3723012 sec
+2022-04-15 14:16:17.631 +03:00 [INF] Method GetDocument. Elapsed: 10.2502097 sec
+2022-04-15 14:16:17.736 +03:00 [INF] Method GetDocument. Elapsed: 10.8076182 sec
+2022-04-15 14:16:17.736 +03:00 [INF] Method GetDocument. Elapsed: 10.6553363 sec
+2022-04-15 14:16:17.801 +03:00 [INF] Method GetDocument. Elapsed: 10.1679861 sec
+2022-04-15 14:16:17.828 +03:00 [INF] Method GetDocument. Elapsed: 10.1664531 sec
+2022-04-15 14:16:17.904 +03:00 [INF] Method GetDocument. Elapsed: 11.2293254 sec
+2022-04-15 14:16:17.943 +03:00 [INF] Method GetDocument. Elapsed: 10.1819083 sec
+2022-04-15 14:16:17.971 +03:00 [INF] Method GetDocument. Elapsed: 10.4875328 sec
+2022-04-15 14:16:17.971 +03:00 [INF] Method GetDocument. Elapsed: 10.0033038 sec
+2022-04-15 14:16:17.971 +03:00 [INF] Method GetDocument. Elapsed: 10.3910267 sec
+2022-04-15 14:16:17.972 +03:00 [INF] Method GetDocument. Elapsed: 11.2978106 sec
+2022-04-15 14:16:17.972 +03:00 [INF] Method GetDocument. Elapsed: 10.8850995 sec
+2022-04-15 14:16:18.017 +03:00 [INF] Method GetDocument. Elapsed: 12.1823778 sec
+2022-04-15 14:16:18.018 +03:00 [INF] Method GetDocument. Elapsed: 10.906971 sec
+2022-04-15 14:16:18.042 +03:00 [INF] Method GetDocument. Elapsed: 11.403526 sec
+2022-04-15 14:16:18.042 +03:00 [INF] Method GetDocument. Elapsed: 11.1166294 sec
+2022-04-15 14:16:18.091 +03:00 [INF] Method GetDocument. Elapsed: 11.0074048 sec
+2022-04-15 14:16:18.145 +03:00 [INF] Method GetDocument. Elapsed: 11.1925041 sec
+2022-04-15 14:16:18.145 +03:00 [INF] Method GetDocument. Elapsed: 10.9595091 sec
+2022-04-15 14:16:18.160 +03:00 [INF] Method GetDocument. Elapsed: 11.7807472 sec
+2022-04-15 14:16:18.161 +03:00 [INF] Method GetDocument. Elapsed: 10.6853901 sec
+2022-04-15 14:16:18.187 +03:00 [INF] Method GetDocument. Elapsed: 11.3906646 sec
+2022-04-15 14:16:18.191 +03:00 [INF] Method GetDocument. Elapsed: 11.2871407 sec
+2022-04-15 14:16:18.260 +03:00 [INF] Method GetDocument. Elapsed: 11.7239043 sec
+2022-04-15 14:16:18.284 +03:00 [INF] Method GetDocument. Elapsed: 11.1725437 sec
+2022-04-15 14:16:18.408 +03:00 [INF] Method GetDocument. Elapsed: 11.4559199 sec
+2022-04-15 14:16:18.430 +03:00 [INF] Method GetDocument. Elapsed: 11.6860404 sec
+2022-04-15 14:16:18.503 +03:00 [INF] Method GetDocument. Elapsed: 12.1271551 sec
+2022-04-15 14:16:18.550 +03:00 [INF] Method GetDocument. Elapsed: 11.5710891 sec
+2022-04-15 14:16:18.596 +03:00 [INF] Method GetDocument. Elapsed: 14.4824216 sec
+2022-04-15 14:16:18.620 +03:00 [INF] Method GetDocument. Elapsed: 11.8771482 sec
+2022-04-15 14:16:18.643 +03:00 [INF] Method GetDocument. Elapsed: 12.4805671 sec
+2022-04-15 14:16:18.922 +03:00 [INF] Method GetDocument. Elapsed: 12.0469847 sec
+2022-04-15 14:16:18.978 +03:00 [INF] Method GetDocument. Elapsed: 12.5712662 sec
+2022-04-15 14:16:19.054 +03:00 [INF] Method GetDocument. Elapsed: 11.4964045 sec
+2022-04-15 14:16:19.055 +03:00 [INF] Method GetDocument. Elapsed: 12.3373272 sec
+2022-04-15 14:16:19.129 +03:00 [INF] Method GetDocument. Elapsed: 13.3947435 sec
+2022-04-15 14:16:19.137 +03:00 [INF] Method GetDocument. Elapsed: 12.8116723 sec
+2022-04-15 14:16:19.184 +03:00 [INF] Method GetDocument. Elapsed: 12.6485274 sec
+2022-04-15 14:16:19.185 +03:00 [INF] Method GetDocument. Elapsed: 12.6979356 sec
+2022-04-15 14:16:19.338 +03:00 [INF] Method GetDocument. Elapsed: 13.2688869 sec
+2022-04-15 14:16:19.361 +03:00 [INF] Method GetDocument. Elapsed: 13.9023227 sec
+2022-04-15 14:16:19.412 +03:00 [INF] Method GetDocument. Elapsed: 13.0350636 sec
+2022-04-15 14:16:19.504 +03:00 [INF] Method GetDocument. Elapsed: 13.1571006 sec
+2022-04-15 14:16:19.527 +03:00 [INF] Method GetDocument. Elapsed: 12.5976042 sec
+2022-04-15 14:16:19.552 +03:00 [INF] Method GetDocument. Elapsed: 11.8666221 sec
+2022-04-15 14:16:19.576 +03:00 [INF] Method GetDocument. Elapsed: 13.5333087 sec
+2022-04-15 14:16:19.577 +03:00 [INF] Method GetDocument. Elapsed: 13.6894992 sec
+2022-04-15 14:16:19.578 +03:00 [INF] Method GetDocument. Elapsed: 13.1219401 sec
+2022-04-15 14:16:19.628 +03:00 [INF] Method GetDocument. Elapsed: 12.9676714 sec
+2022-04-15 14:16:19.629 +03:00 [INF] Method GetDocument. Elapsed: 12.7292367 sec
+2022-04-15 14:16:19.632 +03:00 [INF] Method GetDocument. Elapsed: 13.3304037 sec
+2022-04-15 14:16:19.733 +03:00 [INF] Method GetDocument. Elapsed: 12.8585524 sec
+2022-04-15 14:16:19.759 +03:00 [INF] Method GetDocument. Elapsed: 12.8566897 sec
+2022-04-15 14:16:19.759 +03:00 [INF] Method GetDocument. Elapsed: 13.9731926 sec
+2022-04-15 14:16:19.761 +03:00 [INF] Method GetDocument. Elapsed: 14.5027854 sec
+2022-04-15 14:16:19.762 +03:00 [INF] Method GetDocument. Elapsed: 15.598893 sec
+2022-04-15 14:16:19.764 +03:00 [INF] Method GetDocument. Elapsed: 12.3839478 sec
+2022-04-15 14:16:19.773 +03:00 [INF] Method GetDocument. Elapsed: 12.5395148 sec
+2022-04-15 14:16:19.775 +03:00 [INF] Method GetDocument. Elapsed: 13.6115003 sec
+2022-04-15 14:16:19.777 +03:00 [INF] Method GetDocument. Elapsed: 13.3703413 sec
+2022-04-15 14:16:19.782 +03:00 [INF] Method GetDocument. Elapsed: 13.0366904 sec
+2022-04-15 14:16:19.782 +03:00 [INF] Method GetDocument. Elapsed: 12.7268622 sec
+2022-04-15 14:16:19.787 +03:00 [INF] Method GetDocument. Elapsed: 13.1733681 sec
+2022-04-15 14:16:19.787 +03:00 [INF] Method GetDocument. Elapsed: 13.4150654 sec
+2022-04-15 14:16:19.787 +03:00 [INF] Method GetDocument. Elapsed: 14.7026184 sec
+2022-04-15 14:16:19.845 +03:00 [INF] Method GetDocument. Elapsed: 13.5729863 sec
+2022-04-15 14:16:19.858 +03:00 [INF] Method GetDocument. Elapsed: 12.5536086 sec
+2022-04-15 14:16:19.859 +03:00 [INF] Method GetDocument. Elapsed: 13.9202281 sec
+2022-04-15 14:16:19.859 +03:00 [INF] Method GetDocument. Elapsed: 13.9198752 sec
+2022-04-15 14:16:19.861 +03:00 [INF] Method GetDocument. Elapsed: 14.3519132 sec
+2022-04-15 14:16:19.863 +03:00 [INF] Method GetDocument. Elapsed: 14.851933 sec
+2022-04-15 14:16:19.866 +03:00 [INF] Method GetDocument. Elapsed: 13.5641676 sec
+2022-04-15 14:16:19.863 +03:00 [INF] Method GetDocument. Elapsed: 12.6325548 sec
+2022-04-15 14:16:19.882 +03:00 [INF] Method GetDocument. Elapsed: 14.3723273 sec
+2022-04-15 14:16:19.937 +03:00 [INF] Method GetDocument. Elapsed: 13.6633431 sec
+2022-04-15 14:16:19.937 +03:00 [INF] Method GetDocument. Elapsed: 15.0573709 sec
+2022-04-15 14:16:19.937 +03:00 [INF] Method GetDocument. Elapsed: 13.7738137 sec
+2022-04-15 14:16:19.964 +03:00 [INF] Method GetDocument. Elapsed: 10.5356064 sec
+2022-04-15 14:16:19.967 +03:00 [INF] Method GetDocument. Elapsed: 14.3421508 sec
+2022-04-15 14:16:19.973 +03:00 [INF] Method GetDocument. Elapsed: 14.1376119 sec
+2022-04-15 14:16:19.973 +03:00 [INF] Method GetDocument. Elapsed: 13.4361769 sec
+2022-04-15 14:16:19.985 +03:00 [INF] Method GetDocument. Elapsed: 12.7250131 sec
+2022-04-15 14:16:19.986 +03:00 [INF] Method GetDocument. Elapsed: 13.5287725 sec
+2022-04-15 14:16:19.991 +03:00 [INF] Method GetDocument. Elapsed: 12.8065574 sec
+2022-04-15 14:16:19.991 +03:00 [INF] Method GetDocument. Elapsed: 13.4555544 sec
+2022-04-15 14:16:19.993 +03:00 [INF] Method GetDocument. Elapsed: 13.8750635 sec
+2022-04-15 14:16:19.995 +03:00 [INF] Method GetDocument. Elapsed: 12.5135949 sec
+2022-04-15 14:16:19.995 +03:00 [INF] Method GetDocument. Elapsed: 15.0375598 sec
+2022-04-15 14:16:20.044 +03:00 [INF] Method GetDocument. Elapsed: 13.6693013 sec
+2022-04-15 14:16:20.046 +03:00 [INF] Method GetDocument. Elapsed: 13.066945 sec
+2022-04-15 14:16:20.071 +03:00 [INF] Method GetDocument. Elapsed: 14.4173681 sec
+2022-04-15 14:16:20.071 +03:00 [INF] Method GetDocument. Elapsed: 13.2975465 sec
+2022-04-15 14:16:20.224 +03:00 [INF] Method GetDocument. Elapsed: 15.2126336 sec
+2022-04-15 14:16:20.225 +03:00 [INF] Method GetDocument. Elapsed: 13.2230486 sec
+2022-04-15 14:16:20.225 +03:00 [INF] Method GetDocument. Elapsed: 13.4767052 sec
+2022-04-15 14:16:20.347 +03:00 [INF] Method GetDocument. Elapsed: 14.3044794 sec
+2022-04-15 14:16:20.348 +03:00 [INF] Method GetDocument. Elapsed: 14.3064383 sec
+2022-04-15 14:16:20.536 +03:00 [INF] Method GetDocument. Elapsed: 13.0612048 sec
+2022-04-15 14:16:20.546 +03:00 [INF] Method GetDocument. Elapsed: 14.9226877 sec
+2022-04-15 14:16:20.596 +03:00 [INF] Method GetDocument. Elapsed: 15.9600475 sec
+2022-04-15 14:16:20.898 +03:00 [INF] Method GetDocument. Elapsed: 16.7866591 sec
+2022-04-15 14:16:20.996 +03:00 [INF] Method GetDocument. Elapsed: 12.0673617 sec
+2022-04-15 14:16:21.070 +03:00 [INF] Method GetDocument. Elapsed: 16.0323433 sec
+2022-04-15 14:16:21.072 +03:00 [INF] Method GetDocument. Elapsed: 16.958115 sec
+2022-04-15 14:16:21.070 +03:00 [INF] Method GetDocument. Elapsed: 15.6866991 sec
+2022-04-15 14:16:21.093 +03:00 [INF] Method GetDocument. Elapsed: 8.0547391 sec
+2022-04-15 14:16:21.146 +03:00 [INF] Method GetDocument. Elapsed: 16.3603456 sec
+2022-04-15 14:16:21.168 +03:00 [INF] Method GetDocument. Elapsed: 16.7838862 sec
+2022-04-15 14:16:21.169 +03:00 [INF] Method GetDocument. Elapsed: 16.8591755 sec
+2022-04-15 14:16:21.192 +03:00 [INF] Method GetDocument. Elapsed: 8.0681662 sec
+2022-04-15 14:16:21.361 +03:00 [INF] Method GetDocument. Elapsed: 8.6965938 sec
+2022-04-15 14:16:21.390 +03:00 [INF] Method GetDocument. Elapsed: 12.1500656 sec
+2022-04-15 14:16:21.526 +03:00 [INF] Method GetDocument. Elapsed: 11.5550295 sec
+2022-04-15 14:16:21.552 +03:00 [INF] Method GetDocument. Elapsed: 12.4421839 sec
+2022-04-15 14:16:21.630 +03:00 [INF] Method GetDocument. Elapsed: 17.4152015 sec
+2022-04-15 14:16:21.630 +03:00 [INF] Method GetDocument. Elapsed: 17.2468396 sec
+2022-04-15 14:16:21.633 +03:00 [INF] Method GetDocument. Elapsed: 16.925303 sec
+2022-04-15 14:16:21.846 +03:00 [INF] Method GetDocument. Elapsed: 17.3636672 sec
+2022-04-15 14:16:21.947 +03:00 [INF] Method GetDocument. Elapsed: 11.3442881 sec
+2022-04-15 14:16:21.996 +03:00 [INF] Method GetDocument. Elapsed: 12.2696265 sec
+2022-04-15 14:16:21.996 +03:00 [INF] Method GetDocument. Elapsed: 10.7043147 sec
+2022-04-15 14:16:22.074 +03:00 [INF] Method GetDocument. Elapsed: 13.2500921 sec
+2022-04-15 14:16:22.099 +03:00 [INF] Method GetDocument. Elapsed: 11.9008532 sec
+2022-04-15 14:16:22.150 +03:00 [INF] Method GetDocument. Elapsed: 11.8252002 sec
+2022-04-15 14:16:22.226 +03:00 [INF] Method GetDocument. Elapsed: 17.3211886 sec
+2022-04-15 14:16:22.284 +03:00 [INF] Method GetDocument. Elapsed: 17.8252697 sec
+2022-04-15 14:16:22.310 +03:00 [INF] Method GetDocument. Elapsed: 17.8010645 sec
+2022-04-15 14:16:22.416 +03:00 [INF] Method GetDocument. Elapsed: 17.7086503 sec
+2022-04-15 14:16:22.514 +03:00 [INF] Method GetDocument. Elapsed: 9.7213394 sec
+2022-04-15 14:16:22.614 +03:00 [INF] Method GetDocument. Elapsed: 16.880318 sec
+2022-04-15 14:16:22.698 +03:00 [INF] Method GetDocument. Elapsed: 18.1132685 sec
+2022-04-15 14:16:22.701 +03:00 [INF] Method GetDocument. Elapsed: 9.9358513 sec
+2022-04-15 14:16:22.750 +03:00 [INF] Method GetDocument. Elapsed: 17.0963117 sec
+2022-04-15 14:16:22.774 +03:00 [INF] Method GetDocument. Elapsed: 12.7780427 sec
+2022-04-15 14:16:22.776 +03:00 [INF] Method GetDocument. Elapsed: 12.601271 sec
+2022-04-15 14:16:22.777 +03:00 [INF] Method GetDocument. Elapsed: 13.4276652 sec
+2022-04-15 14:16:22.799 +03:00 [INF] Method GetDocument. Elapsed: 18.5828028 sec
+2022-04-15 14:16:23.008 +03:00 [INF] Method GetDocument. Elapsed: 13.2175533 sec
+2022-04-15 14:16:23.153 +03:00 [INF] Method GetDocument. Elapsed: 17.1672042 sec
+2022-04-15 14:16:23.155 +03:00 [INF] Method GetDocument. Elapsed: 17.5006492 sec
+2022-04-15 14:16:23.165 +03:00 [INF] Method GetDocument. Elapsed: 12.8096456 sec
+2022-04-15 14:16:23.170 +03:00 [INF] Method GetDocument. Elapsed: 17.5450964 sec
+2022-04-15 14:16:23.170 +03:00 [INF] Method GetDocument. Elapsed: 17.9610552 sec
+2022-04-15 14:16:23.172 +03:00 [INF] Method GetDocument. Elapsed: 18.1105322 sec
+2022-04-15 14:16:23.175 +03:00 [INF] Method GetDocument. Elapsed: 17.6871528 sec
+2022-04-15 14:16:23.175 +03:00 [INF] Method GetDocument. Elapsed: 11.9984668 sec
+2022-04-15 14:16:23.181 +03:00 [INF] Method GetDocument. Elapsed: 17.9991429 sec
+2022-04-15 14:16:23.181 +03:00 [INF] Method GetDocument. Elapsed: 13.1051836 sec
+2022-04-15 14:16:23.359 +03:00 [INF] Method GetDocument. Elapsed: 10.4975761 sec
+2022-04-15 14:16:23.619 +03:00 [INF] Method GetDocument. Elapsed: 18.7105593 sec
+2022-04-15 14:16:23.733 +03:00 [INF] Method GetDocument. Elapsed: 14.2081497 sec
+2022-04-15 14:16:23.804 +03:00 [INF] Method GetDocument. Elapsed: 10.8608657 sec
+2022-04-15 14:16:23.804 +03:00 [INF] Method GetDocument. Elapsed: 10.9368418 sec
+2022-04-15 14:16:23.807 +03:00 [INF] Method GetDocument. Elapsed: 19.6936013 sec
+2022-04-15 14:16:23.807 +03:00 [INF] Method GetDocument. Elapsed: 18.9987404 sec
+2022-04-15 14:16:23.807 +03:00 [INF] Finished downloading 50 target pages
+2022-04-15 14:16:23.819 +03:00 [INF] Method DownloadTargetPages. Docs count: 50. Elapsed: 19.6985989 sec
+2022-04-15 14:16:23.821 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467&start=50 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:23.821 +03:00 [INF] Visited 60 links
+2022-04-15 14:16:23.942 +03:00 [INF] Method GetDocument. Elapsed: 10.7576617 sec
+2022-04-15 14:16:23.963 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467&start=100 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:23.963 +03:00 [INF] Visited 61 links
+2022-04-15 14:16:24.116 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467&start=1250 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:24.116 +03:00 [INF] Visited 62 links
+2022-04-15 14:16:24.117 +03:00 [INF] Method GetDocument. Elapsed: 19.1581815 sec
+2022-04-15 14:16:24.257 +03:00 [INF] Method GetDocument. Elapsed: 14.0093751 sec
+2022-04-15 14:16:24.279 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467&start=1300 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:24.279 +03:00 [INF] Visited 63 links
+2022-04-15 14:16:24.303 +03:00 [INF] Method GetDocument. Elapsed: 19.8179177 sec
+2022-04-15 14:16:24.423 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467&start=1350 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:24.448 +03:00 [INF] Visited 64 links
+2022-04-15 14:16:24.549 +03:00 [INF] Method GetDocument. Elapsed: 12.1739382 sec
+2022-04-15 14:16:24.950 +03:00 [INF] Method GetDocument. Elapsed: 19.1139859 sec
+2022-04-15 14:16:25.095 +03:00 [INF] Method GetDocument. Elapsed: 12.358666 sec
+2022-04-15 14:16:25.228 +03:00 [INF] Method GetDocument. Elapsed: 15.6230387 sec
+2022-04-15 14:16:25.351 +03:00 [INF] Method GetDocument. Elapsed: 12.2281796 sec
+2022-04-15 14:16:25.625 +03:00 [INF] Method GetDocument. Elapsed: 16.6655055 sec
+2022-04-15 14:16:25.626 +03:00 [INF] Method GetDocument. Elapsed: 20.4161057 sec
+2022-04-15 14:16:25.866 +03:00 [INF] Method GetDocument. Elapsed: 13.0633744 sec
+2022-04-15 14:16:25.962 +03:00 [INF] Method GetDocument. Elapsed: 16.0192324 sec
+2022-04-15 14:16:26.287 +03:00 [INF] Method GetDocument. Elapsed: 11.8117918 sec
+2022-04-15 14:16:26.292 +03:00 [INF] Method GetDocument. Elapsed: 13.5820568 sec
+2022-04-15 14:16:26.530 +03:00 [INF] Method GetDocument. Elapsed: 13.2451227 sec
+2022-04-15 14:16:26.531 +03:00 [INF] Method GetDocument. Elapsed: 21.0728669 sec
+2022-04-15 14:16:26.820 +03:00 [INF] Method GetDocument. Elapsed: 22.184288 sec
+2022-04-15 14:16:27.014 +03:00 [INF] Method GetDocument. Elapsed: 22.5533458 sec
+2022-04-15 14:16:27.081 +03:00 [INF] Method GetDocument. Elapsed: 22.5219732 sec
+2022-04-15 14:16:27.106 +03:00 [INF] Method GetDocument. Elapsed: 22.2518763 sec
+2022-04-15 14:16:27.147 +03:00 [INF] Method GetDocument. Elapsed: 13.0560245 sec
+2022-04-15 14:16:27.172 +03:00 [INF] Method GetDocument. Elapsed: 13.0063869 sec
+2022-04-15 14:16:27.172 +03:00 [INF] Method GetDocument. Elapsed: 13.3418736 sec
+2022-04-15 14:16:27.173 +03:00 [INF] Method GetDocument. Elapsed: 13.0814808 sec
+2022-04-15 14:16:27.195 +03:00 [INF] Method GetDocument. Elapsed: 14.727655 sec
+2022-04-15 14:16:27.148 +03:00 [INF] Method GetDocument. Elapsed: 22.1147782 sec
+2022-04-15 14:16:27.236 +03:00 [INF] Method GetDocument. Elapsed: 13.0649724 sec
+2022-04-15 14:16:27.235 +03:00 [INF] Method GetDocument. Elapsed: 14.6881451 sec
+2022-04-15 14:16:27.262 +03:00 [INF] Method GetDocument. Elapsed: 16.3010469 sec
+2022-04-15 14:16:27.309 +03:00 [INF] Method GetDocument. Elapsed: 22.7007698 sec
+2022-04-15 14:16:27.334 +03:00 [INF] Method GetDocument. Elapsed: 15.488018 sec
+2022-04-15 14:16:27.408 +03:00 [INF] Method GetDocument. Elapsed: 21.6736527 sec
+2022-04-15 14:16:27.434 +03:00 [INF] Method GetDocument. Elapsed: 18.6465782 sec
+2022-04-15 14:16:27.449 +03:00 [INF] Method GetDocument. Elapsed: 22.4633419 sec
+2022-04-15 14:16:27.499 +03:00 [INF] Method GetDocument. Elapsed: 13.8141155 sec
+2022-04-15 14:16:27.500 +03:00 [INF] Method GetDocument. Elapsed: 15.089278 sec
+2022-04-15 14:16:27.641 +03:00 [INF] Method GetDocument. Elapsed: 22.8832569 sec
+2022-04-15 14:16:27.672 +03:00 [INF] Method GetDocument. Elapsed: 13.3606484 sec
+2022-04-15 14:16:27.700 +03:00 [INF] Method GetDocument. Elapsed: 23.2385352 sec
+2022-04-15 14:16:27.719 +03:00 [INF] Method GetDocument. Elapsed: 15.5509873 sec
+2022-04-15 14:16:27.720 +03:00 [INF] Method GetDocument. Elapsed: 22.0951674 sec
+2022-04-15 14:16:27.764 +03:00 [INF] Method GetDocument. Elapsed: 22.4324817 sec
+2022-04-15 14:16:27.814 +03:00 [INF] Method GetDocument. Elapsed: 13.1581165 sec
+2022-04-15 14:16:27.841 +03:00 [INF] Method GetDocument. Elapsed: 17.6659337 sec
+2022-04-15 14:16:27.890 +03:00 [INF] Method GetDocument. Elapsed: 14.0125676 sec
+2022-04-15 14:16:27.992 +03:00 [INF] Method GetDocument. Elapsed: 15.6923374 sec
+2022-04-15 14:16:28.178 +03:00 [INF] Method GetDocument. Elapsed: 15.5841485 sec
+2022-04-15 14:16:28.199 +03:00 [INF] Method GetDocument. Elapsed: 13.9713309 sec
+2022-04-15 14:16:28.199 +03:00 [INF] Method GetDocument. Elapsed: 14.8111244 sec
+2022-04-15 14:16:28.199 +03:00 [INF] Method GetDocument. Elapsed: 17.0228384 sec
+2022-04-15 14:16:28.317 +03:00 [INF] Method GetDocument. Elapsed: 24.003672 sec
+2022-04-15 14:16:28.344 +03:00 [INF] Method GetDocument. Elapsed: 15.5166908 sec
+2022-04-15 14:16:28.395 +03:00 [INF] Method GetDocument. Elapsed: 17.7645268 sec
+2022-04-15 14:16:28.395 +03:00 [INF] Method GetDocument. Elapsed: 15.9846941 sec
+2022-04-15 14:16:28.396 +03:00 [INF] Method GetDocument. Elapsed: 17.8691346 sec
+2022-04-15 14:16:28.446 +03:00 [INF] Method GetDocument. Elapsed: 17.7375 sec
+2022-04-15 14:16:28.446 +03:00 [INF] Method GetDocument. Elapsed: 18.0334116 sec
+2022-04-15 14:16:28.446 +03:00 [INF] Method GetDocument. Elapsed: 18.000308 sec
+2022-04-15 14:16:28.449 +03:00 [INF] Method GetDocument. Elapsed: 18.0935141 sec
+2022-04-15 14:16:28.471 +03:00 [INF] Method GetDocument. Elapsed: 23.5395274 sec
+2022-04-15 14:16:28.471 +03:00 [INF] Method GetDocument. Elapsed: 17.5618635 sec
+2022-04-15 14:16:28.472 +03:00 [INF] Method GetDocument. Elapsed: 19.4904394 sec
+2022-04-15 14:16:28.473 +03:00 [INF] Method GetDocument. Elapsed: 17.3531924 sec
+2022-04-15 14:16:28.475 +03:00 [INF] Method GetDocument. Elapsed: 14.5963525 sec
+2022-04-15 14:16:28.576 +03:00 [INF] Method GetDocument. Elapsed: 16.6107552 sec
+2022-04-15 14:16:28.593 +03:00 [INF] Method GetDocument. Elapsed: 17.437254 sec
+2022-04-15 14:16:28.593 +03:00 [INF] Method GetDocument. Elapsed: 18.3459304 sec
+2022-04-15 14:16:28.579 +03:00 [INF] Method GetDocument. Elapsed: 17.6139652 sec
+2022-04-15 14:16:28.646 +03:00 [INF] Method GetDocument. Elapsed: 16.4064325 sec
+2022-04-15 14:16:28.647 +03:00 [INF] Method GetDocument. Elapsed: 16.2367334 sec
+2022-04-15 14:16:28.648 +03:00 [INF] Method GetDocument. Elapsed: 17.4029705 sec
+2022-04-15 14:16:28.648 +03:00 [INF] Method GetDocument. Elapsed: 14.2353882 sec
+2022-04-15 14:16:28.650 +03:00 [INF] Method GetDocument. Elapsed: 15.8169851 sec
+2022-04-15 14:16:28.652 +03:00 [INF] Method GetDocument. Elapsed: 24.0927992 sec
+2022-04-15 14:16:28.654 +03:00 [INF] Method GetDocument. Elapsed: 17.016683 sec
+2022-04-15 14:16:28.655 +03:00 [INF] Method GetDocument. Elapsed: 18.4076156 sec
+2022-04-15 14:16:28.655 +03:00 [INF] Method GetDocument. Elapsed: 24.3450922 sec
+2022-04-15 14:16:28.668 +03:00 [INF] Method GetDocument. Elapsed: 23.3600768 sec
+2022-04-15 14:16:28.668 +03:00 [INF] Method GetDocument. Elapsed: 16.7734879 sec
+2022-04-15 14:16:28.669 +03:00 [INF] Method GetDocument. Elapsed: 17.8295311 sec
+2022-04-15 14:16:28.678 +03:00 [INF] Method GetDocument. Elapsed: 14.9272531 sec
+2022-04-15 14:16:28.752 +03:00 [INF] Method GetDocument. Elapsed: 17.0070484 sec
+2022-04-15 14:16:28.752 +03:00 [INF] Method GetDocument. Elapsed: 17.1902198 sec
+2022-04-15 14:16:28.774 +03:00 [INF] Method GetDocument. Elapsed: 17.3524244 sec
+2022-04-15 14:16:28.774 +03:00 [INF] Method GetDocument. Elapsed: 17.1350097 sec
+2022-04-15 14:16:28.774 +03:00 [INF] Method GetDocument. Elapsed: 14.9390734 sec
+2022-04-15 14:16:28.819 +03:00 [INF] Method GetDocument. Elapsed: 17.2927346 sec
+2022-04-15 14:16:28.958 +03:00 [INF] Method GetDocument. Elapsed: 16.125782 sec
+2022-04-15 14:16:28.958 +03:00 [INF] Method GetDocument. Elapsed: 24.3240275 sec
+2022-04-15 14:16:28.993 +03:00 [INF] Method GetDocument. Elapsed: 15.3377726 sec
+2022-04-15 14:16:28.995 +03:00 [INF] Method GetDocument. Elapsed: 17.0529945 sec
+2022-04-15 14:16:28.996 +03:00 [INF] Method GetDocument. Elapsed: 24.1157018 sec
+2022-04-15 14:16:28.998 +03:00 [INF] Method GetDocument. Elapsed: 18.6719069 sec
+2022-04-15 14:16:29.000 +03:00 [INF] Method GetDocument. Elapsed: 16.7596867 sec
+2022-04-15 14:16:29.000 +03:00 [INF] Method GetDocument. Elapsed: 14.1412581 sec
+2022-04-15 14:16:29.013 +03:00 [INF] Method GetDocument. Elapsed: 17.7426443 sec
+2022-04-15 14:16:29.017 +03:00 [INF] Method GetDocument. Elapsed: 18.4938939 sec
+2022-04-15 14:16:29.018 +03:00 [INF] Method GetDocument. Elapsed: 19.2289582 sec
+2022-04-15 14:16:29.019 +03:00 [INF] Method GetDocument. Elapsed: 24.6351144 sec
+2022-04-15 14:16:29.020 +03:00 [INF] Method GetDocument. Elapsed: 24.5339105 sec
+2022-04-15 14:16:29.021 +03:00 [INF] Method GetDocument. Elapsed: 18.5746806 sec
+2022-04-15 14:16:29.043 +03:00 [INF] Method GetDocument. Elapsed: 14.3006009 sec
+2022-04-15 14:16:29.045 +03:00 [INF] Method GetDocument. Elapsed: 16.8046396 sec
+2022-04-15 14:16:29.048 +03:00 [INF] Method GetDocument. Elapsed: 18.3144894 sec
+2022-04-15 14:16:29.048 +03:00 [INF] Method GetDocument. Elapsed: 17.6270657 sec
+2022-04-15 14:16:29.049 +03:00 [INF] Method GetDocument. Elapsed: 16.1855954 sec
+2022-04-15 14:16:29.049 +03:00 [INF] Method GetDocument. Elapsed: 14.6479274 sec
+2022-04-15 14:16:29.051 +03:00 [INF] Method GetDocument. Elapsed: 17.4899958 sec
+2022-04-15 14:16:29.051 +03:00 [INF] Method GetDocument. Elapsed: 17.4920069 sec
+2022-04-15 14:16:29.052 +03:00 [INF] Method GetDocument. Elapsed: 16.9823255 sec
+2022-04-15 14:16:29.052 +03:00 [INF] Method GetDocument. Elapsed: 15.5663403 sec
+2022-04-15 14:16:29.064 +03:00 [INF] Method GetDocument. Elapsed: 17.5360176 sec
+2022-04-15 14:16:29.064 +03:00 [INF] Method GetDocument. Elapsed: 16.0512788 sec
+2022-04-15 14:16:29.065 +03:00 [INF] Method GetDocument. Elapsed: 15.1345758 sec
+2022-04-15 14:16:29.067 +03:00 [INF] Method GetDocument. Elapsed: 17.6463663 sec
+2022-04-15 14:16:29.067 +03:00 [INF] Method GetDocument. Elapsed: 18.2272134 sec
+2022-04-15 14:16:29.069 +03:00 [INF] Method GetDocument. Elapsed: 18.3109545 sec
+2022-04-15 14:16:29.081 +03:00 [INF] Method GetDocument. Elapsed: 19.5990034 sec
+2022-04-15 14:16:29.082 +03:00 [INF] Method GetDocument. Elapsed: 20.1512302 sec
+2022-04-15 14:16:29.082 +03:00 [INF] Method GetDocument. Elapsed: 14.6651934 sec
+2022-04-15 14:16:29.083 +03:00 [INF] Method GetDocument. Elapsed: 24.4993029 sec
+2022-04-15 14:16:29.083 +03:00 [INF] Method GetDocument. Elapsed: 19.5027155 sec
+2022-04-15 14:16:29.086 +03:00 [INF] Method GetDocument. Elapsed: 18.1242543 sec
+2022-04-15 14:16:29.086 +03:00 [INF] Method GetDocument. Elapsed: 4.6121687 sec
+2022-04-15 14:16:29.086 +03:00 [INF] Method GetDocument. Elapsed: 17.4445579 sec
+2022-04-15 14:16:29.132 +03:00 [INF] Reached page with target links https://rutracker.org/forum/viewforum.php?f=467&start=1350
+2022-04-15 14:16:29.132 +03:00 [INF] Downloading 30 target pages
+2022-04-15 14:16:29.145 +03:00 [INF] Method GetDocument. Elapsed: 24.9040668 sec
+2022-04-15 14:16:29.147 +03:00 [INF] Method GetDocument. Elapsed: 18.7909265 sec
+2022-04-15 14:16:29.147 +03:00 [INF] Method GetDocument. Elapsed: 14.8924912 sec
+2022-04-15 14:16:29.176 +03:00 [INF] Method GetDocument. Elapsed: 20.1143032 sec
+2022-04-15 14:16:29.197 +03:00 [INF] Method GetDocument. Elapsed: 23.6876616 sec
+2022-04-15 14:16:29.298 +03:00 [INF] Method GetDocument. Elapsed: 18.8843053 sec
+2022-04-15 14:16:29.524 +03:00 [INF] Method GetDocument. Elapsed: 20.645518 sec
+2022-04-15 14:16:29.548 +03:00 [INF] Method GetDocument. Elapsed: 15.376431 sec
+2022-04-15 14:16:29.623 +03:00 [INF] Method GetDocument. Elapsed: 17.0781711 sec
+2022-04-15 14:16:29.745 +03:00 [INF] Method GetDocument. Elapsed: 18.7529697 sec
+2022-04-15 14:16:29.745 +03:00 [INF] Method GetDocument. Elapsed: 25.1609148 sec
+2022-04-15 14:16:29.745 +03:00 [INF] Method GetDocument. Elapsed: 19.545976 sec
+2022-04-15 14:16:29.859 +03:00 [INF] Method GetDocument. Elapsed: 18.3290546 sec
+2022-04-15 14:16:29.979 +03:00 [INF] Method GetDocument. Elapsed: 20.7637575 sec
+2022-04-15 14:16:30.077 +03:00 [INF] Method GetDocument. Elapsed: 16.3255465 sec
+2022-04-15 14:16:30.077 +03:00 [INF] Method GetDocument. Elapsed: 5.797992 sec
+2022-04-15 14:16:30.106 +03:00 [INF] Method GetDocument. Elapsed: 19.6930851 sec
+2022-04-15 14:16:30.133 +03:00 [INF] Method GetDocument. Elapsed: 25.3482204 sec
+2022-04-15 14:16:30.186 +03:00 [INF] Method GetDocument. Elapsed: 15.8688506 sec
+2022-04-15 14:16:30.231 +03:00 [INF] Reached page with target links https://rutracker.org/forum/viewforum.php?f=467&start=1300
+2022-04-15 14:16:30.231 +03:00 [INF] Downloading 50 target pages
+2022-04-15 14:16:30.375 +03:00 [INF] Method GetDocument. Elapsed: 19.1975043 sec
+2022-04-15 14:16:30.894 +03:00 [INF] Method GetDocument. Elapsed: 19.3332834 sec
+2022-04-15 14:16:30.993 +03:00 [INF] Method GetDocument. Elapsed: 18.5841204 sec
+2022-04-15 14:16:31.132 +03:00 [INF] Method GetDocument. Elapsed: 26.6457922 sec
+2022-04-15 14:16:31.157 +03:00 [INF] Finished downloading 50 target pages
+2022-04-15 14:16:31.208 +03:00 [INF] Method DownloadTargetPages. Docs count: 50. Elapsed: 27.0982114 sec
+2022-04-15 14:16:31.210 +03:00 [INF] Method GetDocument. Elapsed: 19.041573 sec
+2022-04-15 14:16:31.231 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=399&start=50 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:31.280 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:31.281 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=399&start=100 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:31.281 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:31.281 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=399&start=5100 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:31.306 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:31.352 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=399&start=5150 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:31.400 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:31.451 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=399&start=5200 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:31.452 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:31.452 +03:00 [INF] Method GetDocument. Elapsed: 16.7809062 sec
+2022-04-15 14:16:31.520 +03:00 [INF] Method GetDocument. Elapsed: 19.7970924 sec
+2022-04-15 14:16:31.521 +03:00 [INF] Method GetDocument. Elapsed: 17.1752026 sec
+2022-04-15 14:16:31.759 +03:00 [INF] Method GetDocument. Elapsed: 21.9160963 sec
+2022-04-15 14:16:31.946 +03:00 [INF] Method GetDocument. Elapsed: 17.525201 sec
+2022-04-15 14:16:32.175 +03:00 [INF] Method GetDocument. Elapsed: 20.9047888 sec
+2022-04-15 14:16:32.221 +03:00 [INF] Method GetDocument. Elapsed: 17.696844 sec
+2022-04-15 14:16:32.245 +03:00 [INF] Method GetDocument. Elapsed: 22.9235206 sec
+2022-04-15 14:16:32.315 +03:00 [INF] Method GetDocument. Elapsed: 17.4682387 sec
+2022-04-15 14:16:32.337 +03:00 [INF] Method GetDocument. Elapsed: 17.6132227 sec
+2022-04-15 14:16:32.731 +03:00 [INF] Method GetDocument. Elapsed: 18.1970747 sec
+2022-04-15 14:16:32.990 +03:00 [INF] Method GetDocument. Elapsed: 20.2564703 sec
+2022-04-15 14:16:33.017 +03:00 [INF] Method GetDocument. Elapsed: 21.2975594 sec
+2022-04-15 14:16:33.391 +03:00 [INF] Method GetDocument. Elapsed: 22.346719 sec
+2022-04-15 14:16:33.951 +03:00 [INF] Method GetDocument. Elapsed: 24.5227793 sec
+2022-04-15 14:16:33.975 +03:00 [INF] Method GetDocument. Elapsed: 21.1817037 sec
+2022-04-15 14:16:34.046 +03:00 [INF] Method GetDocument. Elapsed: 19.1005165 sec
+2022-04-15 14:16:34.067 +03:00 [INF] Method GetDocument. Elapsed: 22.2195251 sec
+2022-04-15 14:16:34.067 +03:00 [INF] Method GetDocument. Elapsed: 22.1017302 sec
+2022-04-15 14:16:34.204 +03:00 [INF] Method GetDocument. Elapsed: 21.9633539 sec
+2022-04-15 14:16:34.205 +03:00 [INF] Method GetDocument. Elapsed: 21.0833206 sec
+2022-04-15 14:16:34.231 +03:00 [INF] Method GetDocument. Elapsed: 22.701158 sec
+2022-04-15 14:16:34.282 +03:00 [INF] Method GetDocument. Elapsed: 21.4894043 sec
+2022-04-15 14:16:34.357 +03:00 [INF] Method GetDocument. Elapsed: 21.1740695 sec
+2022-04-15 14:16:34.604 +03:00 [INF] Method GetDocument. Elapsed: 20.6733268 sec
+2022-04-15 14:16:34.656 +03:00 [INF] Method GetDocument. Elapsed: 30.4376265 sec
+2022-04-15 14:16:34.656 +03:00 [INF] Method GetDocument. Elapsed: 24.6848931 sec
+2022-04-15 14:16:34.656 +03:00 [INF] Method GetDocument. Elapsed: 21.7929744 sec
+2022-04-15 14:16:34.750 +03:00 [INF] Method GetDocument. Elapsed: 22.4507848 sec
+2022-04-15 14:16:34.805 +03:00 [INF] Method GetDocument. Elapsed: 22.480204 sec
+2022-04-15 14:16:34.805 +03:00 [INF] Method GetDocument. Elapsed: 25.0793223 sec
+2022-04-15 14:16:34.807 +03:00 [INF] Method GetDocument. Elapsed: 21.6830578 sec
+2022-04-15 14:16:34.852 +03:00 [INF] Method GetDocument. Elapsed: 24.6536656 sec
+2022-04-15 14:16:34.852 +03:00 [INF] Method GetDocument. Elapsed: 21.1584826 sec
+2022-04-15 14:16:34.875 +03:00 [INF] Method GetDocument. Elapsed: 20.8148308 sec
+2022-04-15 14:16:34.903 +03:00 [INF] Method GetDocument. Elapsed: 21.4799977 sec
+2022-04-15 14:16:34.931 +03:00 [INF] Method GetDocument. Elapsed: 22.4097833 sec
+2022-04-15 14:16:34.954 +03:00 [INF] Method GetDocument. Elapsed: 22.2448827 sec
+2022-04-15 14:16:34.954 +03:00 [INF] Method GetDocument. Elapsed: 21.7430786 sec
+2022-04-15 14:16:35.009 +03:00 [INF] Method GetDocument. Elapsed: 21.7010822 sec
+2022-04-15 14:16:35.093 +03:00 [INF] Method GetDocument. Elapsed: 23.4538012 sec
+2022-04-15 14:16:35.300 +03:00 [INF] Method GetDocument. Elapsed: 2.0394253 sec
+2022-04-15 14:16:35.301 +03:00 [INF] Method GetDocument. Elapsed: 1.8565537 sec
+2022-04-15 14:16:35.542 +03:00 [INF] Method GetDocument. Elapsed: 23.3733812 sec
+2022-04-15 14:16:35.542 +03:00 [INF] Method GetDocument. Elapsed: 22.2846802 sec
+2022-04-15 14:16:35.718 +03:00 [INF] Method GetDocument. Elapsed: 23.8943121 sec
+2022-04-15 14:16:35.818 +03:00 [INF] Method GetDocument. Elapsed: 31.1100445 sec
+2022-04-15 14:16:36.112 +03:00 [INF] Method GetDocument. Elapsed: 25.7888989 sec
+2022-04-15 14:16:36.141 +03:00 [INF] Method GetDocument. Elapsed: 24.4215637 sec
+2022-04-15 14:16:36.142 +03:00 [INF] Method GetDocument. Elapsed: 21.9743704 sec
+2022-04-15 14:16:36.241 +03:00 [INF] Method GetDocument. Elapsed: 26.2982933 sec
+2022-04-15 14:16:36.241 +03:00 [INF] Method GetDocument. Elapsed: 22.6382231 sec
+2022-04-15 14:16:36.241 +03:00 [INF] Finished downloading 50 target pages
+2022-04-15 14:16:36.241 +03:00 [INF] Method DownloadTargetPages. Docs count: 50. Elapsed: 25.0911694 sec
+2022-04-15 14:16:36.293 +03:00 [INF] Method GetDocument. Elapsed: 5.9184886 sec
+2022-04-15 14:16:36.292 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=499&start=50 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:36.319 +03:00 [INF] Method GetDocument. Elapsed: 24.8982022 sec
+2022-04-15 14:16:36.319 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:36.322 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=499&start=100 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:36.322 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:36.322 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=499&start=4250 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:36.343 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:36.463 +03:00 [INF] Method GetDocument. Elapsed: 7.2882625 sec
+2022-04-15 14:16:36.464 +03:00 [INF] Method GetDocument. Elapsed: 6.6051341 sec
+2022-04-15 14:16:36.466 +03:00 [INF] Method GetDocument. Elapsed: 7.3331214 sec
+2022-04-15 14:16:36.532 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=499&start=4300 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:36.533 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:36.533 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=499&start=4350 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:36.533 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:36.533 +03:00 [INF] Method GetDocument. Elapsed: 7.2111047 sec
+2022-04-15 14:16:36.611 +03:00 [INF] Method GetDocument. Elapsed: 7.0650306 sec
+2022-04-15 14:16:36.612 +03:00 [INF] Method GetDocument. Elapsed: 6.865838 sec
+2022-04-15 14:16:36.781 +03:00 [INF] Method GetDocument. Elapsed: 7.3589802 sec
+2022-04-15 14:16:36.858 +03:00 [INF] Method GetDocument. Elapsed: 26.4135511 sec
+2022-04-15 14:16:36.909 +03:00 [INF] Method GetDocument. Elapsed: 32.2007704 sec
+2022-04-15 14:16:36.976 +03:00 [INF] Method GetDocument. Elapsed: 6.7457697 sec
+2022-04-15 14:16:37.048 +03:00 [INF] Method GetDocument. Elapsed: 7.4253804 sec
+2022-04-15 14:16:37.049 +03:00 [INF] Method GetDocument. Elapsed: 13.2279986 sec
+2022-04-15 14:16:37.049 +03:00 [INF] Method GetDocument. Elapsed: 27.206511 sec
+2022-04-15 14:16:37.050 +03:00 [INF] Method GetDocument. Elapsed: 4.4631084 sec
+2022-04-15 14:16:37.130 +03:00 [INF] Method GetDocument. Elapsed: 4.2712804 sec
+2022-04-15 14:16:37.130 +03:00 [INF] Method GetDocument. Elapsed: 4.6960486 sec
+2022-04-15 14:16:37.130 +03:00 [INF] Method GetDocument. Elapsed: 4.0890498 sec
+2022-04-15 14:16:37.152 +03:00 [INF] Method GetDocument. Elapsed: 32.16556 sec
+2022-04-15 14:16:37.152 +03:00 [INF] Finished downloading 50 target pages
+2022-04-15 14:16:37.152 +03:00 [INF] Method DownloadTargetPages. Docs count: 50. Elapsed: 32.9360621 sec
+2022-04-15 14:16:37.152 +03:00 [INF] Method GetDocument. Elapsed: 23.6073269 sec
+2022-04-15 14:16:37.155 +03:00 [INF] Method GetDocument. Elapsed: 32.5191672 sec
+2022-04-15 14:16:37.156 +03:00 [INF] Finished downloading 50 target pages
+2022-04-15 14:16:37.156 +03:00 [INF] Method GetDocument. Elapsed: 4.8644089 sec
+2022-04-15 14:16:37.156 +03:00 [INF] Method DownloadTargetPages. Docs count: 50. Elapsed: 33.0462777 sec
+2022-04-15 14:16:37.208 +03:00 [INF] Reached page with target links https://rutracker.org/forum/viewforum.php?f=467&start=50
+2022-04-15 14:16:37.208 +03:00 [INF] Downloading 50 target pages
+2022-04-15 14:16:37.258 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=695&start=50 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:37.258 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:37.258 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=695&start=100 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:37.258 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:37.259 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=695&start=400 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:37.259 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:37.259 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=695&start=450 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:37.258 +03:00 [INF] Method GetDocument. Elapsed: 25.6442151 sec
+2022-04-15 14:16:37.280 +03:00 [INF] Finished downloading 50 target pages
+2022-04-15 14:16:37.280 +03:00 [INF] Method GetDocument. Elapsed: 23.248596 sec
+2022-04-15 14:16:37.280 +03:00 [INF] Method DownloadTargetPages. Docs count: 50. Elapsed: 28.376703 sec
+2022-04-15 14:16:37.280 +03:00 [INF] Method GetDocument. Elapsed: 7.2036975 sec
+2022-04-15 14:16:37.280 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=402&start=50 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:37.304 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:37.304 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=402&start=100 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:37.304 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:37.304 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=402&start=6100 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:37.304 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:37.304 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=402&start=6150 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:37.304 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:37.304 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=402&start=6200 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:37.304 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:37.304 +03:00 [INF] Method GetDocument. Elapsed: 5.1787675 sec
+2022-04-15 14:16:37.280 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:37.329 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=490&start=50 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:37.355 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=695&start=500 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:37.381 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:37.382 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=490&start=100 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:37.382 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:37.381 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:37.381 +03:00 [INF] Method GetDocument. Elapsed: 7.4005677 sec
+2022-04-15 14:16:37.406 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=490&start=3950 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:37.504 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:37.505 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=490&start=4000 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:37.505 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:37.526 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=490&start=4050 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:37.526 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:37.577 +03:00 [INF] Method GetDocument. Elapsed: 7.1288684 sec
+2022-04-15 14:16:37.985 +03:00 [INF] Method GetDocument. Elapsed: 7.6359153 sec
+2022-04-15 14:16:37.985 +03:00 [INF] Method GetDocument. Elapsed: 13.8688312 sec
+2022-04-15 14:16:38.325 +03:00 [INF] Method GetDocument. Elapsed: 6.3797229 sec
+2022-04-15 14:16:38.325 +03:00 [INF] Reached page with target links https://rutracker.org/forum/viewforum.php?f=467&start=1250
+2022-04-15 14:16:38.325 +03:00 [INF] Downloading 50 target pages
+2022-04-15 14:16:38.638 +03:00 [INF] Method GetDocument. Elapsed: 25.1801555 sec
+2022-04-15 14:16:39.017 +03:00 [INF] Method GetDocument. Elapsed: 26.0252873 sec
+2022-04-15 14:16:39.017 +03:00 [INF] Finished downloading 50 target pages
+2022-04-15 14:16:39.041 +03:00 [INF] Method DownloadTargetPages. Docs count: 50. Elapsed: 29.0478218 sec
+2022-04-15 14:16:39.095 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=2127&start=50 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:39.095 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:39.097 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=2127&start=100 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:39.170 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:39.170 +03:00 [INF] Method GetDocument. Elapsed: 8.6792419 sec
+2022-04-15 14:16:39.194 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=2127&start=700 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:39.216 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:39.218 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=2127&start=750 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:39.218 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:39.219 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=2127&start=800 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:39.219 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:39.220 +03:00 [INF] Method GetDocument. Elapsed: 9.0603797 sec
+2022-04-15 14:16:39.351 +03:00 [INF] Method GetDocument. Elapsed: 8.7837396 sec
+2022-04-15 14:16:39.351 +03:00 [INF] Method GetDocument. Elapsed: 8.4308517 sec
+2022-04-15 14:16:39.426 +03:00 [INF] Method GetDocument. Elapsed: 28.9034768 sec
+2022-04-15 14:16:39.427 +03:00 [INF] Finished downloading 50 target pages
+2022-04-15 14:16:39.428 +03:00 [INF] Method DownloadTargetPages. Docs count: 50. Elapsed: 30.6394003 sec
+2022-04-15 14:16:39.481 +03:00 [INF] Method GetDocument. Elapsed: 15.5174048 sec
+2022-04-15 14:16:39.533 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=2137&start=50 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:39.534 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:39.534 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=2137&start=100 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:39.534 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:39.534 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=2137&start=4050 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:39.534 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:39.535 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=2137&start=4100 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:39.535 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:39.535 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=2137&start=4150 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:39.536 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:39.675 +03:00 [INF] Method GetDocument. Elapsed: 8.6597898 sec
+2022-04-15 14:16:39.902 +03:00 [INF] Method GetDocument. Elapsed: 8.1151175 sec
+2022-04-15 14:16:40.050 +03:00 [INF] Reached page with target links https://rutracker.org/forum/viewforum.php?f=467&start=100
+2022-04-15 14:16:40.076 +03:00 [INF] Downloading 50 target pages
+2022-04-15 14:16:40.459 +03:00 [INF] Method GetDocument. Elapsed: 8.7281481 sec
+2022-04-15 14:16:40.534 +03:00 [INF] Method GetDocument. Elapsed: 9.8925918 sec
+2022-04-15 14:16:40.535 +03:00 [INF] Method GetDocument. Elapsed: 3.1535735 sec
+2022-04-15 14:16:40.535 +03:00 [INF] Method GetDocument. Elapsed: 9.036844 sec
+2022-04-15 14:16:40.765 +03:00 [INF] Method GetDocument. Elapsed: 9.4344211 sec
+2022-04-15 14:16:40.821 +03:00 [INF] Method GetDocument. Elapsed: 9.6382173 sec
+2022-04-15 14:16:40.822 +03:00 [INF] Finished downloading 30 target pages
+2022-04-15 14:16:40.822 +03:00 [INF] Method DownloadTargetPages. Docs count: 30. Elapsed: 11.689716 sec
+2022-04-15 14:16:40.874 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467&start=1300 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:40.897 +03:00 [WRN] Already visited https://rutracker.org/forum/viewforum.php?f=467&start=1300 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:40.897 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:40.897 +03:00 [WRN] Already visited https://rutracker.org/forum/viewforum.php?f=467 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:40.897 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467&start=50 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:40.897 +03:00 [WRN] Already visited https://rutracker.org/forum/viewforum.php?f=467&start=50 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:40.897 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467&start=100 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:40.897 +03:00 [WRN] Already visited https://rutracker.org/forum/viewforum.php?f=467&start=100 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:40.897 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467&start=1250 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:40.922 +03:00 [WRN] Already visited https://rutracker.org/forum/viewforum.php?f=467&start=1250 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:40.925 +03:00 [INF] Method GetDocument. Elapsed: 10.1850598 sec
+2022-04-15 14:16:40.949 +03:00 [INF] Method GetDocument. Elapsed: 3.4225698 sec
+2022-04-15 14:16:41.073 +03:00 [INF] Method GetDocument. Elapsed: 3.8154812 sec
+2022-04-15 14:16:41.102 +03:00 [INF] Method GetDocument. Elapsed: 4.3215723 sec
+2022-04-15 14:16:41.130 +03:00 [INF] Method GetDocument. Elapsed: 4.0467451 sec
+2022-04-15 14:16:41.155 +03:00 [INF] Method GetDocument. Elapsed: 4.2485882 sec
+2022-04-15 14:16:41.158 +03:00 [INF] Method GetDocument. Elapsed: 4.5998344 sec
+2022-04-15 14:16:41.158 +03:00 [INF] Method GetDocument. Elapsed: 4.8139385 sec
+2022-04-15 14:16:41.205 +03:00 [INF] Method GetDocument. Elapsed: 4.5413957 sec
+2022-04-15 14:16:41.493 +03:00 [INF] Method GetDocument. Elapsed: 10.5726032 sec
+2022-04-15 14:16:41.493 +03:00 [INF] Method GetDocument. Elapsed: 2.5781539 sec
+2022-04-15 14:16:41.541 +03:00 [INF] Method GetDocument. Elapsed: 5.2741286 sec
+2022-04-15 14:16:41.569 +03:00 [INF] Method GetDocument. Elapsed: 10.4383022 sec
+2022-04-15 14:16:41.585 +03:00 [INF] Method GetDocument. Elapsed: 2.793004 sec
+2022-04-15 14:16:41.585 +03:00 [INF] Method GetDocument. Elapsed: 2.5163586 sec
+2022-04-15 14:16:41.608 +03:00 [INF] Method GetDocument. Elapsed: 3.1436995 sec
+2022-04-15 14:16:41.609 +03:00 [INF] Method GetDocument. Elapsed: 3.2604868 sec
+2022-04-15 14:16:41.610 +03:00 [INF] Method GetDocument. Elapsed: 10.6185762 sec
+2022-04-15 14:16:41.662 +03:00 [INF] Method GetDocument. Elapsed: 1.4619889 sec
+2022-04-15 14:16:41.712 +03:00 [INF] Method GetDocument. Elapsed: 2.4966871 sec
+2022-04-15 14:16:41.787 +03:00 [INF] Method GetDocument. Elapsed: 2.3895892 sec
+2022-04-15 14:16:41.787 +03:00 [INF] Method GetDocument. Elapsed: 1.2543228 sec
+2022-04-15 14:16:41.831 +03:00 [INF] Method GetDocument. Elapsed: 10.4305397 sec
+2022-04-15 14:16:41.808 +03:00 [INF] Method GetDocument. Elapsed: 1.400158 sec
+2022-04-15 14:16:41.832 +03:00 [INF] Method GetDocument. Elapsed: 1.7548033 sec
+2022-04-15 14:16:41.902 +03:00 [INF] Method GetDocument. Elapsed: 2.6534488 sec
+2022-04-15 14:16:41.993 +03:00 [INF] Method GetDocument. Elapsed: 10.2075687 sec
+2022-04-15 14:16:42.062 +03:00 [INF] Method GetDocument. Elapsed: 4.8542571 sec
+2022-04-15 14:16:42.131 +03:00 [INF] Method GetDocument. Elapsed: 2.6753363 sec
+2022-04-15 14:16:42.131 +03:00 [INF] Method GetDocument. Elapsed: 10.5731476 sec
+2022-04-15 14:16:42.131 +03:00 [INF] Method GetDocument. Elapsed: 3.4930467 sec
+2022-04-15 14:16:42.174 +03:00 [INF] Method GetDocument. Elapsed: 10.4695488 sec
+2022-04-15 14:16:42.224 +03:00 [INF] Method GetDocument. Elapsed: 6.2755433 sec
+2022-04-15 14:16:42.224 +03:00 [INF] Method GetDocument. Elapsed: 4.8422908 sec
+2022-04-15 14:16:42.466 +03:00 [INF] Method GetDocument. Elapsed: 2.9027254 sec
+2022-04-15 14:16:43.091 +03:00 [INF] Method GetDocument. Elapsed: 7.001623 sec
+2022-04-15 14:16:43.092 +03:00 [INF] Method GetDocument. Elapsed: 7.2699544 sec
+2022-04-15 14:16:43.320 +03:00 [INF] Method GetDocument. Elapsed: 2.3446185 sec
+2022-04-15 14:16:43.560 +03:00 [INF] Method GetDocument. Elapsed: 12.3029168 sec
+2022-04-15 14:16:43.607 +03:00 [INF] Method GetDocument. Elapsed: 2.5296835 sec
+2022-04-15 14:16:43.655 +03:00 [INF] Method GetDocument. Elapsed: 7.9391383 sec
+2022-04-15 14:16:43.685 +03:00 [INF] Method GetDocument. Elapsed: 2.9994708 sec
+2022-04-15 14:16:43.751 +03:00 [INF] Method GetDocument. Elapsed: 2.903401 sec
+2022-04-15 14:16:43.912 +03:00 [INF] Method GetDocument. Elapsed: 8.2988996 sec
+2022-04-15 14:16:44.007 +03:00 [INF] Method GetDocument. Elapsed: 2.7751602 sec
+2022-04-15 14:16:44.008 +03:00 [INF] Method GetDocument. Elapsed: 2.5798092 sec
+2022-04-15 14:16:44.086 +03:00 [INF] Method GetDocument. Elapsed: 8.6238509 sec
+2022-04-15 14:16:44.161 +03:00 [INF] Method GetDocument. Elapsed: 2.5926579 sec
+2022-04-15 14:16:44.188 +03:00 [INF] Method GetDocument. Elapsed: 12.3979111 sec
+2022-04-15 14:16:44.352 +03:00 [INF] Method GetDocument. Elapsed: 9.3212398 sec
+2022-04-15 14:16:44.440 +03:00 [INF] Method GetDocument. Elapsed: 9.2230252 sec
+2022-04-15 14:16:44.441 +03:00 [INF] Method GetDocument. Elapsed: 10.5899183 sec
+2022-04-15 14:16:44.441 +03:00 [INF] Method GetDocument. Elapsed: 4.8480822 sec
+2022-04-15 14:16:44.530 +03:00 [INF] Method GetDocument. Elapsed: 12.2860885 sec
+2022-04-15 14:16:44.559 +03:00 [INF] Method GetDocument. Elapsed: 12.0497728 sec
+2022-04-15 14:16:44.562 +03:00 [INF] Method GetDocument. Elapsed: 11.8585279 sec
+2022-04-15 14:16:44.562 +03:00 [INF] Method GetDocument. Elapsed: 11.7045605 sec
+2022-04-15 14:16:44.758 +03:00 [INF] Method GetDocument. Elapsed: 10.4274622 sec
+2022-04-15 14:16:44.759 +03:00 [INF] Method GetDocument. Elapsed: 11.4707644 sec
+2022-04-15 14:16:44.760 +03:00 [INF] Method GetDocument. Elapsed: 7.2336714 sec
+2022-04-15 14:16:44.858 +03:00 [INF] Method GetDocument. Elapsed: 11.1732814 sec
+2022-04-15 14:16:44.859 +03:00 [INF] Method GetDocument. Elapsed: 5.0082715 sec
+2022-04-15 14:16:44.917 +03:00 [INF] Method GetDocument. Elapsed: 11.9003479 sec
+2022-04-15 14:16:44.960 +03:00 [INF] Method GetDocument. Elapsed: 11.4174663 sec
+2022-04-15 14:16:44.960 +03:00 [INF] Method GetDocument. Elapsed: 11.8530505 sec
+2022-04-15 14:16:44.990 +03:00 [INF] Method GetDocument. Elapsed: 12.92924 sec
+2022-04-15 14:16:45.012 +03:00 [INF] Method GetDocument. Elapsed: 5.0880459 sec
+2022-04-15 14:16:45.066 +03:00 [INF] Method GetDocument. Elapsed: 4.8656212 sec
+2022-04-15 14:16:45.095 +03:00 [INF] Method GetDocument. Elapsed: 9.7424181 sec
+2022-04-15 14:16:45.097 +03:00 [INF] Method GetDocument. Elapsed: 4.7644431 sec
+2022-04-15 14:16:45.098 +03:00 [INF] Method GetDocument. Elapsed: 4.6138075 sec
+2022-04-15 14:16:45.098 +03:00 [INF] Method GetDocument. Elapsed: 11.123766 sec
+2022-04-15 14:16:45.152 +03:00 [INF] Method GetDocument. Elapsed: 10.3441638 sec
+2022-04-15 14:16:45.189 +03:00 [INF] Method GetDocument. Elapsed: 12.803965 sec
+2022-04-15 14:16:45.214 +03:00 [INF] Method GetDocument. Elapsed: 5.564808 sec
+2022-04-15 14:16:45.239 +03:00 [INF] Method GetDocument. Elapsed: 1.9981156 sec
+2022-04-15 14:16:45.264 +03:00 [INF] Method GetDocument. Elapsed: 1.8508221 sec
+2022-04-15 14:16:45.292 +03:00 [INF] Method GetDocument. Elapsed: 4.6569239 sec
+2022-04-15 14:16:45.344 +03:00 [INF] Method GetDocument. Elapsed: 4.342686 sec
+2022-04-15 14:16:45.396 +03:00 [INF] Method GetDocument. Elapsed: 4.5487208 sec
+2022-04-15 14:16:45.476 +03:00 [INF] Method GetDocument. Elapsed: 4.1811905 sec
+2022-04-15 14:16:45.499 +03:00 [INF] Method GetDocument. Elapsed: 5.4213203 sec
+2022-04-15 14:16:45.499 +03:00 [INF] Method GetDocument. Elapsed: 13.5529956 sec
+2022-04-15 14:16:45.546 +03:00 [INF] Method GetDocument. Elapsed: 10.8439206 sec
+2022-04-15 14:16:45.547 +03:00 [INF] Finished downloading 50 target pages
+2022-04-15 14:16:45.547 +03:00 [INF] Method GetDocument. Elapsed: 4.0549476 sec
+2022-04-15 14:16:45.572 +03:00 [INF] Method DownloadTargetPages. Docs count: 50. Elapsed: 15.3169895 sec
+2022-04-15 14:16:45.599 +03:00 [INF] Method GetDocument. Elapsed: 4.4413919 sec
+2022-04-15 14:16:45.599 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467&start=1250 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:45.622 +03:00 [WRN] Already visited https://rutracker.org/forum/viewforum.php?f=467&start=1250 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:45.646 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:45.673 +03:00 [WRN] Already visited https://rutracker.org/forum/viewforum.php?f=467 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:45.674 +03:00 [INF] Method GetDocument. Elapsed: 4.0382929 sec
+2022-04-15 14:16:45.674 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467&start=50 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:45.721 +03:00 [WRN] Already visited https://rutracker.org/forum/viewforum.php?f=467&start=50 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:45.748 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467&start=100 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:45.748 +03:00 [WRN] Already visited https://rutracker.org/forum/viewforum.php?f=467&start=100 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:45.748 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467&start=1350 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:45.772 +03:00 [WRN] Already visited https://rutracker.org/forum/viewforum.php?f=467&start=1350 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:45.913 +03:00 [INF] Method GetDocument. Elapsed: 4.179273 sec
+2022-04-15 14:16:45.914 +03:00 [INF] Method GetDocument. Elapsed: 2.777017 sec
+2022-04-15 14:16:45.914 +03:00 [INF] Method GetDocument. Elapsed: 4.0358699 sec
+2022-04-15 14:16:45.996 +03:00 [INF] Method GetDocument. Elapsed: 4.4119133 sec
+2022-04-15 14:16:46.379 +03:00 [INF] Method GetDocument. Elapsed: 4.6194024 sec
+2022-04-15 14:16:47.086 +03:00 [INF] Method GetDocument. Elapsed: 9.4558712 sec
+2022-04-15 14:16:47.337 +03:00 [INF] Method GetDocument. Elapsed: 5.2962244 sec
+2022-04-15 14:16:47.381 +03:00 [INF] Method GetDocument. Elapsed: 9.5234017 sec
+2022-04-15 14:16:47.384 +03:00 [INF] Method GetDocument. Elapsed: 9.6538924 sec
+2022-04-15 14:16:47.393 +03:00 [INF] Method GetDocument. Elapsed: 4.4111529 sec
+2022-04-15 14:16:47.668 +03:00 [INF] Method GetDocument. Elapsed: 9.635439 sec
+2022-04-15 14:16:47.671 +03:00 [INF] Method GetDocument. Elapsed: 4.8620629 sec
+2022-04-15 14:16:47.819 +03:00 [INF] Method GetDocument. Elapsed: 5.7097426 sec
+2022-04-15 14:16:47.930 +03:00 [INF] Method GetDocument. Elapsed: 6.0512046 sec
+2022-04-15 14:16:48.009 +03:00 [INF] Method GetDocument. Elapsed: 5.5702169 sec
+2022-04-15 14:16:48.058 +03:00 [INF] Method GetDocument. Elapsed: 5.5938252 sec
+2022-04-15 14:16:48.058 +03:00 [INF] Method GetDocument. Elapsed: 7.9828884 sec
+2022-04-15 14:16:48.207 +03:00 [INF] Method GetDocument. Elapsed: 4.7735996 sec
+2022-04-15 14:16:48.302 +03:00 [INF] Method GetDocument. Elapsed: 3.6443658 sec
+2022-04-15 14:16:48.302 +03:00 [INF] Method GetDocument. Elapsed: 5.981801 sec
+2022-04-15 14:16:48.325 +03:00 [INF] Method GetDocument. Elapsed: 6.6127886 sec
+2022-04-15 14:16:48.354 +03:00 [INF] Method GetDocument. Elapsed: 7.8706889 sec
+2022-04-15 14:16:48.399 +03:00 [INF] Method GetDocument. Elapsed: 8.8317996 sec
+2022-04-15 14:16:48.399 +03:00 [INF] Method GetDocument. Elapsed: 5.8329981 sec
+2022-04-15 14:16:48.447 +03:00 [INF] Method GetDocument. Elapsed: 5.2297711 sec
+2022-04-15 14:16:48.448 +03:00 [INF] Method GetDocument. Elapsed: 5.7874866 sec
+2022-04-15 14:16:48.867 +03:00 [INF] Method GetDocument. Elapsed: 5.0897942 sec
+2022-04-15 14:16:48.923 +03:00 [INF] Method GetDocument. Elapsed: 4.4297257 sec
+2022-04-15 14:16:49.018 +03:00 [INF] Method GetDocument. Elapsed: 9.5944143 sec
+2022-04-15 14:16:49.041 +03:00 [INF] Method GetDocument. Elapsed: 10.7819694 sec
+2022-04-15 14:16:49.042 +03:00 [INF] Method GetDocument. Elapsed: 8.2247043 sec
+2022-04-15 14:16:49.042 +03:00 [INF] Method GetDocument. Elapsed: 8.0183013 sec
+2022-04-15 14:16:49.063 +03:00 [INF] Method GetDocument. Elapsed: 7.4791288 sec
+2022-04-15 14:16:49.063 +03:00 [INF] Method GetDocument. Elapsed: 9.8478702 sec
+2022-04-15 14:16:49.139 +03:00 [INF] Method GetDocument. Elapsed: 9.6053073 sec
+2022-04-15 14:16:49.207 +03:00 [INF] Method GetDocument. Elapsed: 10.1121622 sec
+2022-04-15 14:16:49.236 +03:00 [INF] Method GetDocument. Elapsed: 7.3571767 sec
+2022-04-15 14:16:49.236 +03:00 [INF] Method GetDocument. Elapsed: 6.3772194 sec
+2022-04-15 14:16:49.260 +03:00 [INF] Method GetDocument. Elapsed: 6.0997913 sec
+2022-04-15 14:16:49.262 +03:00 [INF] Method GetDocument. Elapsed: 5.9941869 sec
+2022-04-15 14:16:49.262 +03:00 [INF] Method GetDocument. Elapsed: 2.1372553 sec
+2022-04-15 14:16:49.279 +03:00 [INF] Method GetDocument. Elapsed: 11.1206993 sec
+2022-04-15 14:16:49.279 +03:00 [INF] Method GetDocument. Elapsed: 10.3104844 sec
+2022-04-15 14:16:49.279 +03:00 [INF] Method GetDocument. Elapsed: 5.5670903 sec
+2022-04-15 14:16:49.280 +03:00 [INF] Method GetDocument. Elapsed: 7.0802106 sec
+2022-04-15 14:16:49.280 +03:00 [INF] Method GetDocument. Elapsed: 10.4403009 sec
+2022-04-15 14:16:49.281 +03:00 [INF] Method GetDocument. Elapsed: 6.2692676 sec
+2022-04-15 14:16:49.282 +03:00 [INF] Method GetDocument. Elapsed: 7.2412595 sec
+2022-04-15 14:16:49.283 +03:00 [INF] Method GetDocument. Elapsed: 6.7404804 sec
+2022-04-15 14:16:49.283 +03:00 [INF] Method GetDocument. Elapsed: 6.5280788 sec
+2022-04-15 14:16:49.283 +03:00 [INF] Method GetDocument. Elapsed: 10.8894236 sec
+2022-04-15 14:16:49.283 +03:00 [INF] Method GetDocument. Elapsed: 10.6903844 sec
+2022-04-15 14:16:49.318 +03:00 [INF] Method GetDocument. Elapsed: 9.4160676 sec
+2022-04-15 14:16:49.342 +03:00 [INF] Method GetDocument. Elapsed: 8.7068926 sec
+2022-04-15 14:16:49.343 +03:00 [INF] Method GetDocument. Elapsed: 2.1450927 sec
+2022-04-15 14:16:49.369 +03:00 [INF] Method GetDocument. Elapsed: 6.9041284 sec
+2022-04-15 14:16:49.369 +03:00 [INF] Method GetDocument. Elapsed: 9.5185422 sec
+2022-04-15 14:16:49.442 +03:00 [INF] Method GetDocument. Elapsed: 7.0976665 sec
+2022-04-15 14:16:49.444 +03:00 [INF] Method GetDocument. Elapsed: 9.2693134 sec
+2022-04-15 14:16:49.489 +03:00 [INF] Method GetDocument. Elapsed: 5.5457427 sec
+2022-04-15 14:16:49.591 +03:00 [INF] Method GetDocument. Elapsed: 9.2589862 sec
+2022-04-15 14:16:49.823 +03:00 [INF] Method GetDocument. Elapsed: 8.3544153 sec
+2022-04-15 14:16:49.875 +03:00 [INF] Method GetDocument. Elapsed: 11.1597265 sec
+2022-04-15 14:16:49.906 +03:00 [INF] Method GetDocument. Elapsed: 10.2311616 sec
+2022-04-15 14:16:49.935 +03:00 [INF] Method GetDocument. Elapsed: 8.7552875 sec
+2022-04-15 14:16:49.935 +03:00 [INF] Method GetDocument. Elapsed: 10.6350006 sec
+2022-04-15 14:16:50.130 +03:00 [INF] Method GetDocument. Elapsed: 5.067111 sec
+2022-04-15 14:16:50.164 +03:00 [INF] Method GetDocument. Elapsed: 6.1055037 sec
+2022-04-15 14:16:50.166 +03:00 [INF] Method GetDocument. Elapsed: 5.2069947 sec
+2022-04-15 14:16:50.214 +03:00 [INF] Method GetDocument. Elapsed: 8.8919217 sec
+2022-04-15 14:16:50.317 +03:00 [INF] Method GetDocument. Elapsed: 8.0933955 sec
+2022-04-15 14:16:50.317 +03:00 [INF] Finished downloading 46 target pages
+2022-04-15 14:16:50.318 +03:00 [INF] Method DownloadTargetPages. Docs count: 46. Elapsed: 13.109869 sec
+2022-04-15 14:16:50.318 +03:00 [INF] Method GetDocument. Elapsed: 3.3308945 sec
+2022-04-15 14:16:50.365 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:50.368 +03:00 [WRN] Already visited https://rutracker.org/forum/viewforum.php?f=467 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:50.368 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467&start=100 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:50.368 +03:00 [WRN] Already visited https://rutracker.org/forum/viewforum.php?f=467&start=100 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:50.368 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467&start=1250 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:50.368 +03:00 [WRN] Already visited https://rutracker.org/forum/viewforum.php?f=467&start=1250 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:50.368 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467&start=1300 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:50.392 +03:00 [WRN] Already visited https://rutracker.org/forum/viewforum.php?f=467&start=1300 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:50.392 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467&start=1350 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:50.393 +03:00 [WRN] Already visited https://rutracker.org/forum/viewforum.php?f=467&start=1350 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:50.368 +03:00 [INF] Method GetDocument. Elapsed: 6.0424689 sec
+2022-04-15 14:16:50.436 +03:00 [INF] Method GetDocument. Elapsed: 6.8049114 sec
+2022-04-15 14:16:50.436 +03:00 [INF] Finished downloading 50 target pages
+2022-04-15 14:16:50.436 +03:00 [INF] Method DownloadTargetPages. Docs count: 50. Elapsed: 12.1114041 sec
+2022-04-15 14:16:50.438 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467&start=1200 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:50.438 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:50.438 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:50.438 +03:00 [WRN] Already visited https://rutracker.org/forum/viewforum.php?f=467 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:50.438 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467&start=50 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:50.438 +03:00 [WRN] Already visited https://rutracker.org/forum/viewforum.php?f=467&start=50 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:50.438 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467&start=100 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:50.438 +03:00 [WRN] Already visited https://rutracker.org/forum/viewforum.php?f=467&start=100 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:50.438 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467&start=1300 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:50.438 +03:00 [WRN] Already visited https://rutracker.org/forum/viewforum.php?f=467&start=1300 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:50.438 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467&start=1350 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:50.439 +03:00 [WRN] Already visited https://rutracker.org/forum/viewforum.php?f=467&start=1350 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:50.440 +03:00 [INF] Method GetDocument. Elapsed: 3.7809726 sec
+2022-04-15 14:16:50.440 +03:00 [INF] Method GetDocument. Elapsed: 3.613942 sec
+2022-04-15 14:16:50.441 +03:00 [INF] Method GetDocument. Elapsed: 5.8807146 sec
+2022-04-15 14:16:50.539 +03:00 [INF] Method GetDocument. Elapsed: 4.8670308 sec
+2022-04-15 14:16:50.616 +03:00 [INF] Method GetDocument. Elapsed: 5.27358 sec
+2022-04-15 14:16:50.690 +03:00 [INF] Method GetDocument. Elapsed: 4.1719127 sec
+2022-04-15 14:16:50.690 +03:00 [INF] Method GetDocument. Elapsed: 4.3151285 sec
+2022-04-15 14:16:50.726 +03:00 [INF] Method GetDocument. Elapsed: 4.9299142 sec
+2022-04-15 14:16:50.726 +03:00 [INF] Method GetDocument. Elapsed: 5.6911877 sec
+2022-04-15 14:16:50.727 +03:00 [INF] Method GetDocument. Elapsed: 4.7316651 sec
+2022-04-15 14:16:50.730 +03:00 [INF] Method GetDocument. Elapsed: 4.4812056 sec
+2022-04-15 14:16:50.730 +03:00 [INF] Method GetDocument. Elapsed: 5.1832609 sec
+2022-04-15 14:16:50.733 +03:00 [INF] Method GetDocument. Elapsed: 7.2001632 sec
+2022-04-15 14:16:50.741 +03:00 [INF] Method GetDocument. Elapsed: 6.9913705 sec
+2022-04-15 14:16:50.741 +03:00 [INF] Method GetDocument. Elapsed: 6.0072269 sec
+2022-04-15 14:16:50.742 +03:00 [INF] Method GetDocument. Elapsed: 5.6156583 sec
+2022-04-15 14:16:50.742 +03:00 [INF] Method GetDocument. Elapsed: 7.0848164 sec
+2022-04-15 14:16:50.743 +03:00 [INF] Method GetDocument. Elapsed: 7.0325516 sec
+2022-04-15 14:16:50.743 +03:00 [INF] Method GetDocument. Elapsed: 6.8626533 sec
+2022-04-15 14:16:50.744 +03:00 [INF] Method GetDocument. Elapsed: 7.4758677 sec
+2022-04-15 14:16:50.744 +03:00 [INF] Method GetDocument. Elapsed: 4.6203399 sec
+2022-04-15 14:16:50.744 +03:00 [INF] Method GetDocument. Elapsed: 7.9368491 sec
+2022-04-15 14:16:50.745 +03:00 [INF] Method GetDocument. Elapsed: 6.5338026 sec
+2022-04-15 14:16:50.745 +03:00 [INF] Method GetDocument. Elapsed: 7.6516324 sec
+2022-04-15 14:16:50.745 +03:00 [INF] Method GetDocument. Elapsed: 5.2926241 sec
+2022-04-15 14:16:50.747 +03:00 [INF] Method GetDocument. Elapsed: 7.7645099 sec
+2022-04-15 14:16:50.747 +03:00 [INF] Method GetDocument. Elapsed: 6.7184145 sec
+2022-04-15 14:16:50.748 +03:00 [INF] Method GetDocument. Elapsed: 7.5312379 sec
+2022-04-15 14:16:50.750 +03:00 [INF] Method GetDocument. Elapsed: 8.112653 sec
+2022-04-15 14:16:50.793 +03:00 [INF] Method GetDocument. Elapsed: 6.3517251 sec
+2022-04-15 14:16:50.793 +03:00 [INF] Finished downloading 50 target pages
+2022-04-15 14:16:50.793 +03:00 [INF] Method DownloadTargetPages. Docs count: 50. Elapsed: 10.7176148 sec
+2022-04-15 14:16:50.794 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467&start=50 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:50.794 +03:00 [WRN] Already visited https://rutracker.org/forum/viewforum.php?f=467&start=50 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:50.794 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:50.794 +03:00 [WRN] Already visited https://rutracker.org/forum/viewforum.php?f=467 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:50.794 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467&start=150 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:50.794 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:16:50.794 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467&start=1250 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:50.794 +03:00 [WRN] Already visited https://rutracker.org/forum/viewforum.php?f=467&start=1250 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:50.794 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467&start=1300 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:50.794 +03:00 [WRN] Already visited https://rutracker.org/forum/viewforum.php?f=467&start=1300 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:50.794 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467&start=1350 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:50.794 +03:00 [WRN] Already visited https://rutracker.org/forum/viewforum.php?f=467&start=1350 with selector .torTopic.bold.tt-text
+2022-04-15 14:16:50.795 +03:00 [INF] Crawled 640 pages
+2022-04-15 14:16:50.795 +03:00 [INF] Saving results
+2022-04-15 14:16:54.423 +03:00 [INF] Finished
+2022-04-15 14:16:54.423 +03:00 [INF] Elapsed: 0.871372125 min
+2022-04-15 14:18:23.734 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=2327 with selector .forumlink>a
+2022-04-15 14:18:23.802 +03:00 [INF] Visited 1 links
+2022-04-15 14:18:24.610 +03:00 [INF] Method GetDocument. Elapsed: 0.8058693 sec
+2022-04-15 14:18:24.623 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=695 with selector .torTopic.bold.tt-text
+2022-04-15 14:18:24.623 +03:00 [INF] Visited 2 links
+2022-04-15 14:18:24.932 +03:00 [INF] Method GetDocument. Elapsed: 0.3091338 sec
+2022-04-15 14:18:24.936 +03:00 [INF] Reached page with target links https://rutracker.org/forum/viewforum.php?f=695
+2022-04-15 14:18:24.937 +03:00 [INF] Downloading 50 target pages
+2022-04-15 14:18:25.159 +03:00 [INF] Method GetDocument. Elapsed: 0.220601 sec
+2022-04-15 14:18:25.389 +03:00 [INF] Method GetDocument. Elapsed: 0.2304544 sec
+2022-04-15 14:18:25.772 +03:00 [INF] Method GetDocument. Elapsed: 0.3827248 sec
+2022-04-15 14:18:26.082 +03:00 [INF] Method GetDocument. Elapsed: 0.3094231 sec
+2022-04-15 14:18:26.306 +03:00 [INF] Method GetDocument. Elapsed: 0.2242417 sec
+2022-04-15 14:18:26.504 +03:00 [INF] Method GetDocument. Elapsed: 0.197915 sec
+2022-04-15 14:18:26.733 +03:00 [INF] Method GetDocument. Elapsed: 0.228703 sec
+2022-04-15 14:18:26.923 +03:00 [INF] Method GetDocument. Elapsed: 0.1899241 sec
+2022-04-15 14:18:27.193 +03:00 [INF] Method GetDocument. Elapsed: 0.2697598 sec
+2022-04-15 14:18:27.454 +03:00 [INF] Method GetDocument. Elapsed: 0.260209 sec
+2022-04-15 14:18:27.650 +03:00 [INF] Method GetDocument. Elapsed: 0.1959772 sec
+2022-04-15 14:18:27.864 +03:00 [INF] Method GetDocument. Elapsed: 0.2143103 sec
+2022-04-15 14:18:28.094 +03:00 [INF] Method GetDocument. Elapsed: 0.2295502 sec
+2022-04-15 14:18:28.355 +03:00 [INF] Method GetDocument. Elapsed: 0.2608275 sec
+2022-04-15 14:18:28.561 +03:00 [INF] Method GetDocument. Elapsed: 0.2057925 sec
+2022-04-15 14:18:28.751 +03:00 [INF] Method GetDocument. Elapsed: 0.1901531 sec
+2022-04-15 14:18:29.147 +03:00 [INF] Method GetDocument. Elapsed: 0.3952735 sec
+2022-04-15 14:18:29.393 +03:00 [INF] Method GetDocument. Elapsed: 0.2457081 sec
+2022-04-15 14:18:29.645 +03:00 [INF] Method GetDocument. Elapsed: 0.2523484 sec
+2022-04-15 14:18:29.998 +03:00 [INF] Method GetDocument. Elapsed: 0.3530215 sec
+2022-04-15 14:18:30.211 +03:00 [INF] Method GetDocument. Elapsed: 0.2121053 sec
+2022-04-15 14:18:30.407 +03:00 [INF] Method GetDocument. Elapsed: 0.1964641 sec
+2022-04-15 14:18:30.637 +03:00 [INF] Method GetDocument. Elapsed: 0.2298617 sec
+2022-04-15 14:18:30.846 +03:00 [INF] Method GetDocument. Elapsed: 0.2084215 sec
+2022-04-15 14:18:31.069 +03:00 [INF] Method GetDocument. Elapsed: 0.2225106 sec
+2022-04-15 14:18:31.575 +03:00 [INF] Method GetDocument. Elapsed: 0.5060652 sec
+2022-04-15 14:18:31.896 +03:00 [INF] Method GetDocument. Elapsed: 0.3207314 sec
+2022-04-15 14:18:32.087 +03:00 [INF] Method GetDocument. Elapsed: 0.1905788 sec
+2022-04-15 14:18:32.327 +03:00 [INF] Method GetDocument. Elapsed: 0.2403884 sec
+2022-04-15 14:18:32.546 +03:00 [INF] Method GetDocument. Elapsed: 0.2191744 sec
+2022-04-15 14:18:32.725 +03:00 [INF] Method GetDocument. Elapsed: 0.1778612 sec
+2022-04-15 14:18:33.007 +03:00 [INF] Method GetDocument. Elapsed: 0.2827236 sec
+2022-04-15 14:18:33.223 +03:00 [INF] Method GetDocument. Elapsed: 0.2156887 sec
+2022-04-15 14:18:33.440 +03:00 [INF] Method GetDocument. Elapsed: 0.2161153 sec
+2022-04-15 14:18:33.729 +03:00 [INF] Method GetDocument. Elapsed: 0.2897015 sec
+2022-04-15 14:18:34.010 +03:00 [INF] Method GetDocument. Elapsed: 0.2808224 sec
+2022-04-15 14:18:34.245 +03:00 [INF] Method GetDocument. Elapsed: 0.234956 sec
+2022-04-15 14:18:34.423 +03:00 [INF] Method GetDocument. Elapsed: 0.1774335 sec
+2022-04-15 14:18:34.602 +03:00 [INF] Method GetDocument. Elapsed: 0.1793882 sec
+2022-04-15 14:18:34.787 +03:00 [INF] Method GetDocument. Elapsed: 0.1849165 sec
+2022-04-15 14:18:35.089 +03:00 [INF] Method GetDocument. Elapsed: 0.3009873 sec
+2022-04-15 14:18:35.348 +03:00 [INF] Method GetDocument. Elapsed: 0.2595919 sec
+2022-04-15 14:18:35.531 +03:00 [INF] Method GetDocument. Elapsed: 0.1828227 sec
+2022-04-15 14:18:35.791 +03:00 [INF] Method GetDocument. Elapsed: 0.2593161 sec
+2022-04-15 14:18:35.990 +03:00 [INF] Method GetDocument. Elapsed: 0.1990151 sec
+2022-04-15 14:18:36.202 +03:00 [INF] Method GetDocument. Elapsed: 0.211883 sec
+2022-04-15 14:18:36.431 +03:00 [INF] Method GetDocument. Elapsed: 0.2291188 sec
+2022-04-15 14:18:36.616 +03:00 [INF] Method GetDocument. Elapsed: 0.1848372 sec
+2022-04-15 14:18:36.831 +03:00 [INF] Method GetDocument. Elapsed: 0.2143633 sec
+2022-04-15 14:18:37.294 +03:00 [INF] Method GetDocument. Elapsed: 0.4629371 sec
+2022-04-15 14:18:37.294 +03:00 [INF] Finished downloading 50 target pages
+2022-04-15 14:18:37.296 +03:00 [INF] Method DownloadTargetPages. Docs count: 50. Elapsed: 12.358015 sec
+2022-04-15 14:18:37.298 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=695&start=50 with selector .torTopic.bold.tt-text
+2022-04-15 14:18:37.298 +03:00 [INF] Visited 53 links
+2022-04-15 14:18:37.605 +03:00 [INF] Method GetDocument. Elapsed: 0.3074223 sec
+2022-04-15 14:18:37.607 +03:00 [INF] Reached page with target links https://rutracker.org/forum/viewforum.php?f=695&start=50
+2022-04-15 14:18:37.607 +03:00 [INF] Downloading 50 target pages
+2022-04-15 14:18:37.824 +03:00 [INF] Method GetDocument. Elapsed: 0.2162006 sec
+2022-04-15 14:18:38.090 +03:00 [INF] Method GetDocument. Elapsed: 0.2659631 sec
+2022-04-15 14:18:38.295 +03:00 [INF] Method GetDocument. Elapsed: 0.204627 sec
+2022-04-15 14:18:38.511 +03:00 [INF] Method GetDocument. Elapsed: 0.2160523 sec
+2022-04-15 14:18:38.702 +03:00 [INF] Method GetDocument. Elapsed: 0.1913989 sec
+2022-04-15 14:18:38.960 +03:00 [INF] Method GetDocument. Elapsed: 0.257301 sec
+2022-04-15 14:18:39.171 +03:00 [INF] Method GetDocument. Elapsed: 0.2112362 sec
+2022-04-15 14:18:39.383 +03:00 [INF] Method GetDocument. Elapsed: 0.2118261 sec
+2022-04-15 14:18:39.679 +03:00 [INF] Method GetDocument. Elapsed: 0.295734 sec
+2022-04-15 14:18:39.870 +03:00 [INF] Method GetDocument. Elapsed: 0.1906954 sec
+2022-04-15 14:18:40.132 +03:00 [INF] Method GetDocument. Elapsed: 0.2616989 sec
+2022-04-15 14:18:40.349 +03:00 [INF] Method GetDocument. Elapsed: 0.2176978 sec
+2022-04-15 14:18:40.553 +03:00 [INF] Method GetDocument. Elapsed: 0.2035171 sec
+2022-04-15 14:18:40.758 +03:00 [INF] Method GetDocument. Elapsed: 0.2047991 sec
+2022-04-15 14:18:40.952 +03:00 [INF] Method GetDocument. Elapsed: 0.1939882 sec
+2022-04-15 14:18:41.139 +03:00 [INF] Method GetDocument. Elapsed: 0.1871717 sec
+2022-04-15 14:18:41.414 +03:00 [INF] Method GetDocument. Elapsed: 0.274451 sec
+2022-04-15 14:18:41.619 +03:00 [INF] Method GetDocument. Elapsed: 0.2050809 sec
+2022-04-15 14:18:41.877 +03:00 [INF] Method GetDocument. Elapsed: 0.2577335 sec
+2022-04-15 14:18:42.078 +03:00 [INF] Method GetDocument. Elapsed: 0.2010458 sec
+2022-04-15 14:18:42.262 +03:00 [INF] Method GetDocument. Elapsed: 0.1835803 sec
+2022-04-15 14:18:42.477 +03:00 [INF] Method GetDocument. Elapsed: 0.2147326 sec
+2022-04-15 14:18:42.684 +03:00 [INF] Method GetDocument. Elapsed: 0.2066808 sec
+2022-04-15 14:18:42.894 +03:00 [INF] Method GetDocument. Elapsed: 0.2098365 sec
+2022-04-15 14:18:43.127 +03:00 [INF] Method GetDocument. Elapsed: 0.2328883 sec
+2022-04-15 14:18:43.541 +03:00 [INF] Method GetDocument. Elapsed: 0.4144183 sec
+2022-04-15 14:18:43.762 +03:00 [INF] Method GetDocument. Elapsed: 0.2205906 sec
+2022-04-15 14:18:43.953 +03:00 [INF] Method GetDocument. Elapsed: 0.1912671 sec
+2022-04-15 14:18:44.179 +03:00 [INF] Method GetDocument. Elapsed: 0.2256176 sec
+2022-04-15 14:18:44.373 +03:00 [INF] Method GetDocument. Elapsed: 0.1932426 sec
+2022-04-15 14:18:44.563 +03:00 [INF] Method GetDocument. Elapsed: 0.1904963 sec
+2022-04-15 14:18:44.769 +03:00 [INF] Method GetDocument. Elapsed: 0.2058623 sec
+2022-04-15 14:18:44.984 +03:00 [INF] Method GetDocument. Elapsed: 0.2149405 sec
+2022-04-15 14:18:45.184 +03:00 [INF] Method GetDocument. Elapsed: 0.1995565 sec
+2022-04-15 14:18:45.366 +03:00 [INF] Method GetDocument. Elapsed: 0.1817299 sec
+2022-04-15 14:18:45.574 +03:00 [INF] Method GetDocument. Elapsed: 0.2080939 sec
+2022-04-15 14:18:45.839 +03:00 [INF] Method GetDocument. Elapsed: 0.2646046 sec
+2022-04-15 14:18:46.060 +03:00 [INF] Method GetDocument. Elapsed: 0.2211815 sec
+2022-04-15 14:18:46.296 +03:00 [INF] Method GetDocument. Elapsed: 0.236208 sec
+2022-04-15 14:18:46.483 +03:00 [INF] Method GetDocument. Elapsed: 0.18641 sec
+2022-04-15 14:18:46.719 +03:00 [INF] Method GetDocument. Elapsed: 0.2356729 sec
+2022-04-15 14:18:46.943 +03:00 [INF] Method GetDocument. Elapsed: 0.2246265 sec
+2022-04-15 14:18:47.136 +03:00 [INF] Method GetDocument. Elapsed: 0.1925895 sec
+2022-04-15 14:18:47.321 +03:00 [INF] Method GetDocument. Elapsed: 0.1850245 sec
+2022-04-15 14:18:47.537 +03:00 [INF] Method GetDocument. Elapsed: 0.2158159 sec
+2022-04-15 14:18:47.742 +03:00 [INF] Method GetDocument. Elapsed: 0.2042362 sec
+2022-04-15 14:18:47.942 +03:00 [INF] Method GetDocument. Elapsed: 0.199717 sec
+2022-04-15 14:18:48.127 +03:00 [INF] Method GetDocument. Elapsed: 0.1848937 sec
+2022-04-15 14:18:48.321 +03:00 [INF] Method GetDocument. Elapsed: 0.194391 sec
+2022-04-15 14:18:48.498 +03:00 [INF] Method GetDocument. Elapsed: 0.1771467 sec
+2022-04-15 14:18:48.499 +03:00 [INF] Finished downloading 50 target pages
+2022-04-15 14:18:48.499 +03:00 [INF] Method DownloadTargetPages. Docs count: 50. Elapsed: 10.8913721 sec
+2022-04-15 14:18:48.500 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=695 with selector .torTopic.bold.tt-text
+2022-04-15 14:18:48.501 +03:00 [WRN] Already visited https://rutracker.org/forum/viewforum.php?f=695 with selector .torTopic.bold.tt-text
+2022-04-15 14:18:48.501 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=695&start=100 with selector .torTopic.bold.tt-text
+2022-04-15 14:18:48.501 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:18:48.501 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=695&start=400 with selector .torTopic.bold.tt-text
+2022-04-15 14:18:48.502 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:18:48.502 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=695&start=450 with selector .torTopic.bold.tt-text
+2022-04-15 14:18:48.502 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:18:48.502 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=695&start=500 with selector .torTopic.bold.tt-text
+2022-04-15 14:18:48.502 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:18:48.503 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=695&start=100 with selector .torTopic.bold.tt-text
+2022-04-15 14:18:48.503 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:18:48.503 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=695&start=400 with selector .torTopic.bold.tt-text
+2022-04-15 14:18:48.503 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:18:48.503 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=695&start=450 with selector .torTopic.bold.tt-text
+2022-04-15 14:18:48.503 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:18:48.503 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=695&start=500 with selector .torTopic.bold.tt-text
+2022-04-15 14:18:48.503 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:18:48.503 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=399 with selector .torTopic.bold.tt-text
+2022-04-15 14:18:48.503 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:18:48.504 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=402 with selector .torTopic.bold.tt-text
+2022-04-15 14:18:48.504 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:18:48.504 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=467 with selector .torTopic.bold.tt-text
+2022-04-15 14:18:48.504 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:18:48.504 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=490 with selector .torTopic.bold.tt-text
+2022-04-15 14:18:48.504 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:18:48.504 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=499 with selector .torTopic.bold.tt-text
+2022-04-15 14:18:48.504 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:18:48.504 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=2137 with selector .torTopic.bold.tt-text
+2022-04-15 14:18:48.504 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:18:48.504 +03:00 [INF] Visiting https://rutracker.org/forum/viewforum.php?f=2127 with selector .torTopic.bold.tt-text
+2022-04-15 14:18:48.504 +03:00 [WRN] Reached the limit {}
+2022-04-15 14:18:48.504 +03:00 [INF] Crawled 103 pages
+2022-04-15 14:18:48.505 +03:00 [INF] Saving results
+2022-04-15 14:18:48.896 +03:00 [INF] Finished
+2022-04-15 14:18:48.896 +03:00 [INF] Elapsed: 0.41977899 min

@@ -1,4 +1,4 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 using System.Net;
 using AngleSharp;
 using AngleSharp.Dom;
@@ -16,7 +16,7 @@ public class Scraper
     protected LinkedList<string> linkPathSelectors = new();
     protected ImmutableHashSet<string> visited = ImmutableHashSet.Create<string>();
     protected int limit = int.MaxValue;
-    private string? filePath = "output.json";
+    private string filePath = "output.json";
     private string startUrl;
     private WebEl[]? schema;
     private string? paginationSelector;
@@ -88,12 +88,14 @@ public class Scraper
 
         Log.Logger.Information("Saving results");
 
-        File.AppendAllText(filePath, "[" + Environment.NewLine);
+        File.Delete(filePath);
+
+        await File.AppendAllTextAsync(filePath, "[" + Environment.NewLine);
         foreach(var item in result) {
             await Save(item);
-            File.AppendAllText(filePath, Environment.NewLine);
+            await File.AppendAllTextAsync(filePath, Environment.NewLine);
         }
-        File.AppendAllText(filePath, "]" + Environment.NewLine);
+        await File.AppendAllTextAsync(filePath, "]" + Environment.NewLine);
 
         Log.Logger.Information("Finished");
     }
@@ -145,23 +147,22 @@ public class Scraper
     {
         Log.Logger.Information("Visiting {url} with selector {selector}", url, selector.Value);
 
-        if (visited.Contains(url)) {
-            Log.Logger.Information("Already visited {url} with selector {selector}", url, selector.Value);
+        if (visited.Contains(url))
+        {
+            Log.Logger.Warning("Already visited {url} with selector {selector}", url, selector.Value);
             return Array.Empty<IDocument>();
         }
 
-        if (visited.Count >= limit) {
-            Log.Logger.Information("Reached the limit {}", limit);
+        if (visited.Count >= limit)
+        {
+            Log.Logger.Warning("Reached the limit {}", limit);
             return Array.Empty<IDocument>();
         }
-
-        var config = Configuration.Default.WithDefaultLoader();
-        var context = BrowsingContext.New(config);
-
-        var document = await context.OpenAsync(url);
 
         ImmutableInterlocked.Update(ref visited, old => old.Add(url));
         Log.Logger.Information("Visited {count} links", visited.Count);
+
+        IDocument document = await GetDocument(url);
 
         var links = document
             .QuerySelectorAll(selector.Value)
@@ -174,7 +175,8 @@ public class Scraper
             Log.Logger.Information("Reached page with target links {url}", url);
             IDocument[] result = await DownloadTargetPages(links);
 
-            if (paginationSelector != null) {
+            if (paginationSelector != null)
+            {
                 var nextPageLinks = document
                     .QuerySelectorAll(paginationSelector)
                     .Select(e => e.HyperReference(e.Attributes["href"].Value).ToString())
@@ -196,33 +198,57 @@ public class Scraper
         }
 
         var docs = new List<IDocument>();
-        
+
         var jobs = links.Select(link => GetTargetPages(link, selector.Next));
 
         var taskResults = await Task.WhenAll(jobs);
-        
+
         var outputResult = taskResults.SelectMany(r => r);
 
         return outputResult.ToArray();
     }
 
-    private async Task<IDocument[]> DownloadTargetPages(List<string> links)
+    protected async Task<IDocument[]> DownloadTargetPages(List<string> links)
     {
+        var watch = System.Diagnostics.Stopwatch.StartNew();
+
         Log.Logger.Information("Downloading {count} target pages", links.Count);
 
-        var config = Configuration.Default.WithDefaultLoader();
-        var context = BrowsingContext.New(config);
+        var notVisitedLinks = links.Where(link => !visited.Contains(link));
 
-        var notVisitedLinks = links.Where(l => !visited.Contains(l));
-
-        var tasks = notVisitedLinks.Select(l => context.OpenAsync(l));
+        var tasks = notVisitedLinks.Select(link => GetDocument(link));
 
         var result = await Task.WhenAll(tasks);
         Log.Logger.Information("Finished downloading {count} target pages", result.Count());
 
         ImmutableInterlocked.Update(ref visited, old => old.Union(notVisitedLinks));
 
+        watch.Stop();
+
+        Log.Logger.Information("Method {method}. Docs count: {count}. Elapsed: {elapsed} sec",
+            nameof(DownloadTargetPages),
+            result.Count(),
+            watch.Elapsed.TotalSeconds);
+
         return result;
+    }
+
+    protected async Task<IDocument> GetDocument(string url)
+    {
+        var watch = System.Diagnostics.Stopwatch.StartNew();
+
+        var config = Configuration.Default.WithDefaultLoader();
+        var context = BrowsingContext.New(config);
+
+        var document = await context.OpenAsync(url);
+        
+        watch.Stop();
+
+        Log.Logger.Information("Method {method}. Elapsed: {elapsed} sec",
+            nameof(GetDocument),
+            watch.Elapsed.TotalSeconds);
+
+        return document;
     }
 
     private async Task Save(IDocument doc)

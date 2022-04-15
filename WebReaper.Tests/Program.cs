@@ -15,9 +15,8 @@ await new Scraper("https://rutracker.org/forum/viewforum.php?f=2327")
     .Paginate(".pg")
     .WithScheme(new WebEl[] {
         new("title", "span[style='font-size: 24px; line-height: normal;']"),
-        new("image", ".postImg", JsonType.Image)
     })
-    //.Limit(10000)
+    .Limit(100)
     .To("output.json")
     .Run();
 
