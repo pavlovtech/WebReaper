@@ -25,6 +25,7 @@ public class ScraperLessRecursion
 
     public ScraperLessRecursion(string startUrl)
     {
+        ServicePointManager.DefaultConnectionLimit = int.MaxValue;
         this.startUrl = startUrl;
     }
 
@@ -96,9 +97,9 @@ public class ScraperLessRecursion
 
         File.Delete(filePath);
 
-        var txtResults = string.Join(",", pages.Select(r => {
+        var txtResults = string.Join("," + Environment.NewLine, pages.Select(r => {
             var result = GetJson(r);
-            var res = JsonConvert.SerializeObject(result) + Environment.NewLine;
+            var res = JsonConvert.SerializeObject(result);
             return res;
         }));
 

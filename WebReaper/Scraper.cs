@@ -91,9 +91,9 @@ public class Scraper
 
         File.Delete(filePath);
 
-        var txtResults = string.Join(",", result.Select(r => {
+        var txtResults = string.Join("," + Environment.NewLine, result.Select(r => {
             var result = GetJson(r);
-            var res = JsonConvert.SerializeObject(result) + Environment.NewLine;
+            var res = JsonConvert.SerializeObject(result);
             return res;
         }));
 
@@ -222,6 +222,7 @@ public class Scraper
         var tasks = notVisitedLinks.Select(link => GetDocument(link));
 
         var result = await Task.WhenAll(tasks);
+
         Log.Logger.Information("Finished downloading {count} target pages", result.Count());
 
         watch.Stop();
