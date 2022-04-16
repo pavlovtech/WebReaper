@@ -194,6 +194,11 @@ public class ScraperLessRecursion
 
                 var notVisitedLinks = nextPageLinks.Where(l => !visited.Contains(l));
 
+                if(!notVisitedLinks.Any())
+                {
+                    return Array.Empty<string>();
+                }
+
                 var nextPageTargetPagesTasks = notVisitedLinks
                     .Select(link => GetTargetPages(link, selector));
 
@@ -207,6 +212,11 @@ public class ScraperLessRecursion
         }
 
         var jobs = links.Select(link => GetTargetPages(link, selector.Next));
+
+        if(!jobs.Any())
+        {
+            return Array.Empty<string>();
+        }
 
         var taskResults = await Task.WhenAll(jobs);
 
@@ -225,10 +235,13 @@ public class ScraperLessRecursion
 
         var tasks = notVisitedLinks.Select(link => GetDocument(link));
 
+        if(!notVisitedLinks.Any())
+        {
+            return Array.Empty<IDocument>();
+        }
+
         var result = await Task.WhenAll(tasks);
         Log.Logger.Information("Finished downloading {count} target pages", result.Count());
-
-        ImmutableInterlocked.Update(ref visited, old => old.Union(notVisitedLinks));
 
         watch.Stop();
 
