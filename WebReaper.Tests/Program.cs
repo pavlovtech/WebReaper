@@ -9,11 +9,14 @@ Log.Logger = new LoggerConfiguration()
 
 var watch = System.Diagnostics.Stopwatch.StartNew();
 
-await new Scraper("https://www.kniga.io/genres/page/1")
-    .FollowLinks(".list-group-item>a")
-    .FollowLinks("div.mb-2>h3>a")
+await new Scraper("https://rutracker.org/forum/index.php?c=33")
+    .FollowLinks("#cf-33>tbody>tr>td:nth-child(2)>h4>a")
+    .FollowLinks(".forumlink>a")
+    .FollowLinks(".torTopic.bold.tt-text")
+    .Paginate(".pg")
     .WithScheme(new WebEl[] {
-        new("title", "title")
+        new("title", "title"),
+        new("name", ".post_body>span:nth-of-type(1)"),
     })
     .To("output.json")
     .Run();
