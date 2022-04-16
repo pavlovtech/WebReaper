@@ -193,6 +193,8 @@ public class Scraper2
             return currentLinks;
         }
 
+        Log.Logger.Information("Processing pagination");
+
         IEnumerable<string> linksToPaginatedPages = GetLinksFromPages(paginatedPages, paginationSelector);
 
         var targetLinks = new HashSet<string>(currentLinks);
@@ -202,6 +204,12 @@ public class Scraper2
 
         while (linksToPaginatedPages.Any())
         {
+            if(targetLinks.Count >= limit) {
+                break;
+            }
+            
+            Log.Logger.Information("Downloading {count} paginated pages", linksToPaginatedPages.Count());
+
             var paginatedPagesTasks = linksToPaginatedPages
                 .Select(link => GetDocumentAsync(link));
 
