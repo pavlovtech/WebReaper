@@ -96,7 +96,8 @@ public class Scraper2
 
         //var build = 
 
-        resultBuilder.AppendJoin("," + Environment.NewLine, result.Select(r => {
+        resultBuilder.AppendJoin("," + Environment.NewLine, result.Select(r =>
+        {
             var result = GetJson(r);
             return JsonConvert.SerializeObject(result);
         }));
@@ -108,10 +109,11 @@ public class Scraper2
         Log.Logger.Information("Done");
     }
 
-    private JObject GetJson(IDocument doc) {
+    private JObject GetJson(IDocument doc)
+    {
         var output = new JObject();
 
-        foreach(var item in schema) 
+        foreach (var item in schema)
         {
             var result = FillOutput(output, doc, item);
         }
@@ -123,29 +125,29 @@ public class Scraper2
     {
         switch (item.Type)
         {
-            case JsonType.String: 
+            case JsonType.String:
                 obj[item.Field] = doc.QuerySelector(item.Selector)?.TextContent;
                 break;
-            case JsonType.Number: 
+            case JsonType.Number:
                 obj[item.Field] = Double.Parse(doc.QuerySelector(item.Selector).TextContent);
                 break;
-            case JsonType.Boolean: 
+            case JsonType.Boolean:
                 obj[item.Field] = bool.Parse(doc.QuerySelector(item.Selector).TextContent);
                 break;
-            case JsonType.Image: 
+            case JsonType.Image:
                 obj[item.Field] = doc.QuerySelector(item.Selector)?.GetAttribute("title");
                 break;
-            case JsonType.Html: 
+            case JsonType.Html:
                 obj[item.Field] = doc.QuerySelector(item.Selector).Html();
                 break;
-            // case JsonType.Array: 
-            //     var arr = new JArray();
-            //     obj[item.Field] = arr;
-            //     foreach(var el in item.Children) {
-            //         var result = FillOutput(doc, el);
-            //         arr.Add(result);
-            //     }
-            //     break;
+                // case JsonType.Array: 
+                //     var arr = new JArray();
+                //     obj[item.Field] = arr;
+                //     foreach(var el in item.Children) {
+                //         var result = FillOutput(doc, el);
+                //         arr.Add(result);
+                //     }
+                //     break;
         }
 
         return obj;
@@ -154,6 +156,9 @@ public class Scraper2
     protected async Task<IDocument[]> CrawlAsync(string url)
     {
         var linksToTargetPages = await GetLinksToTargetPages(url);
+
+        Log.Logger.Information("Started downloading {count} pages", linksToTargetPages.Count());
+
         var docs = await DownloadTargetPages(linksToTargetPages);
 
         return docs;
@@ -161,9 +166,9 @@ public class Scraper2
 
     protected async Task<IEnumerable<string>> GetLinksToTargetPages(params string[] links)
     {
-        IEnumerable<string> currentLinks =  new List<string>(links);
+        IEnumerable<string> currentLinks = new List<string>(links);
 
-        var pagesWithPagination = Array.Empty<IDocument>();
+        var paginatedPages = Array.Empty<IDocument>();
 
         for (int i = 0; i < linkPathSelectors.Count; i++)
         {
@@ -174,62 +179,72 @@ public class Scraper2
             var pageTasks = currentLinks.Select(link => GetDocumentAsync(link));
             var pages = await Task.WhenAll(pageTasks);
 
-            currentLinks = pages.Select(document =>
-                document.QuerySelectorAll(linkPathSelectors[i])
-                        .Select(e => e.HyperReference(e.Attributes["href"].Value).ToString())
-                        .Distinct()
-                        .ToList())
-                .SelectMany(p => p)
+            currentLinks = GetLinksFromPages(pages, linkPathSelectors[i])
                 .ToArray();
 
-            if(paginationSelector != null && i == linkPathSelectors.Count - 1) {
-                pagesWithPagination = pages;
+            if (paginationSelector != null && i == linkPathSelectors.Count - 1)
+            {
+                paginatedPages = pages;
             }
         }
 
-        if(paginationSelector == null) {
+        if (paginationSelector == null)
+        {
             return currentLinks;
         }
 
-        IEnumerable<string> linksToPagesWithPagination = pagesWithPagination.Select(document =>
-                document.QuerySelectorAll(paginationSelector)
-                        .Select(e => e.HyperReference(e.Attributes["href"].Value).ToString())
-                        .Distinct()
-                        .ToList())
-                .SelectMany(p => p);
+        IEnumerable<string> linksToPaginatedPages = GetLinksFromPages(paginatedPages, paginationSelector);
 
         var targetLinks = new HashSet<string>(currentLinks);
-        while (true)
+        var visitedPaginatedPages = new HashSet<string>(paginatedPages.Select(p => p.Url));
+
+        linksToPaginatedPages = linksToPaginatedPages.Except(visitedPaginatedPages);
+
+        while (linksToPaginatedPages.Any())
         {
-            var pagesWithPaginationTasks = linksToPagesWithPagination.Select(link => GetDocumentAsync(link));
-            pagesWithPagination = await Task.WhenAll(pagesWithPaginationTasks);
+            var paginatedPagesTasks = linksToPaginatedPages
+                .Select(link => GetDocumentAsync(link));
 
-            var newLinks = currentLinks.Concat(pagesWithPagination.Select(document =>
-                document.QuerySelectorAll(linkPathSelectors.Last())
-                        .Select(e => e.HyperReference(e.Attributes["href"].Value).ToString())
-                        .Distinct()
-                        .ToList())
-                .SelectMany(p => p));
+            paginatedPages = await Task.WhenAll(paginatedPagesTasks);
 
-            if(targetLinks.Overlaps(newLinks)) 
-            {
-                break;
-            }
+            AddTargetLinks(paginatedPages, targetLinks);
 
-            targetLinks.UnionWith(newLinks);
+            linksToPaginatedPages =
+                GetLinksFromPages(paginatedPages, paginationSelector)
+                .Except(visitedPaginatedPages)
+                .ToArray();
 
-            linksToPagesWithPagination = pagesWithPagination.Select(document =>
-                document.QuerySelectorAll(paginationSelector)
-                        .Select(e => e.HyperReference(e.Attributes["href"].Value).ToString())
-                        .Distinct()
-                        .ToList())
-                .SelectMany(p => p);
+            visitedPaginatedPages.UnionWith(linksToPaginatedPages);
+
+            GC.Collect(2);
         }
 
-        return currentLinks;
+        return targetLinks;
     }
 
-     protected async Task<IDocument[]> DownloadTargetPages(IEnumerable<string> links)
+    private IEnumerable<string> GetLinksFromPages(IDocument[] paginatedPages, string selector)
+    {
+        return paginatedPages.Select(document =>
+                        document.QuerySelectorAll(selector)
+                                .Select(e => e.HyperReference(e.Attributes["href"].Value).ToString())
+                                .Distinct()
+                                .ToList())
+                        .SelectMany(p => p);
+    }
+
+    private void AddTargetLinks(IDocument[] paginatedPages, HashSet<string> targetLinks)
+    {
+        var newLinks = paginatedPages.Select(document =>
+                        document.QuerySelectorAll(linkPathSelectors.Last())
+                                .Select(e => e.HyperReference(e.Attributes["href"].Value).ToString())
+                                .Distinct()
+                                .ToList())
+                        .SelectMany(p => p);
+
+        targetLinks.UnionWith(newLinks);
+    }
+
+    protected async Task<IDocument[]> DownloadTargetPages(IEnumerable<string> links)
     {
         var watch = System.Diagnostics.Stopwatch.StartNew();
 
@@ -259,12 +274,12 @@ public class Scraper2
         var context = BrowsingContext.New(config);
 
         var document = await context.OpenAsync(url);
-        
+
         watch.Stop();
 
-        Log.Logger.Information("Method {method}. Elapsed: {elapsed} sec",
-            nameof(GetDocumentAsync),
-            watch.Elapsed.TotalSeconds);
+        // Log.Logger.Information("Method {method}. Elapsed: {elapsed} sec",
+        //     nameof(GetDocumentAsync),
+        //     watch.Elapsed.TotalSeconds);
 
         return document;
     }
