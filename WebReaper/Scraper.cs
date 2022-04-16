@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Linq;
 using Serilog;
+using System.Text;
 
 namespace WebReaper;
 
@@ -83,7 +84,7 @@ public class Scraper
 
     public async Task Run()
     {
-        var result = await GetTargetPages(startUrl, linkPathSelectors.First);
+        var result = await GetTargetPagesAsync(startUrl, linkPathSelectors.First);
 
         Log.Logger.Information("Crawled {count} pages", visited.Count);
 
@@ -91,14 +92,17 @@ public class Scraper
 
         File.Delete(filePath);
 
-        var txtResults = string.Join("," + Environment.NewLine, result.Select(r => {
+        var resultBuilder = new StringBuilder();
+
+        //var build = 
+
+        resultBuilder.AppendJoin("," + Environment.NewLine, result.Select(r => {
             var result = GetJson(r);
-            var res = JsonConvert.SerializeObject(result);
-            return res;
+            return JsonConvert.SerializeObject(result);
         }));
 
         await File.AppendAllTextAsync(filePath, "[" + Environment.NewLine);
-        await File.AppendAllTextAsync(filePath, txtResults);
+        await File.AppendAllTextAsync(filePath, resultBuilder.ToString());
         await File.AppendAllTextAsync(filePath, "]" + Environment.NewLine);
 
         Log.Logger.Information("Done");
@@ -147,7 +151,7 @@ public class Scraper
         return obj;
     }
 
-    private async Task<IDocument[]> GetTargetPages(string url, LinkedListNode<string> selector)
+    private async Task<IDocument[]> GetTargetPagesAsync(string url, LinkedListNode<string> selector)
     {
         Log.Logger.Information("Visiting {url} with selector {selector}", url, selector.Value);
 
@@ -166,7 +170,7 @@ public class Scraper
         ImmutableInterlocked.Update(ref visited, old => old.Add(url));
         Log.Logger.Information("Visited {count} links", visited.Count);
 
-        IDocument document = await GetDocument(url);
+        IDocument document = await GetDocumentAsync(url);
 
         var links = document
             .QuerySelectorAll(selector.Value)
@@ -188,8 +192,13 @@ public class Scraper
 
                 var notVisitedLinks = nextPageLinks.Where(l => !visited.Contains(l));
 
+                if(!notVisitedLinks.Any())
+                {
+                    return Array.Empty<IDocument>();
+                }
+
                 var nextPageTargetPagesTasks = notVisitedLinks
-                    .Select(link => GetTargetPages(link, selector));
+                    .Select(link => GetTargetPagesAsync(link, selector));
 
                 var nextPageTargetPages = await Task.WhenAll(nextPageTargetPagesTasks);
 
@@ -202,7 +211,12 @@ public class Scraper
 
         var docs = new List<IDocument>();
 
-        var jobs = links.Select(link => GetTargetPages(link, selector.Next));
+        var jobs = links.Select(link => GetTargetPagesAsync(link, selector.Next));
+
+        if(!jobs.Any())
+        {
+            return Array.Empty<IDocument>();
+        }
 
         var taskResults = await Task.WhenAll(jobs);
 
@@ -219,7 +233,12 @@ public class Scraper
 
         var notVisitedLinks = links.Where(link => !visited.Contains(link));
 
-        var tasks = notVisitedLinks.Select(link => GetDocument(link));
+        if(!notVisitedLinks.Any())
+        {
+            return Array.Empty<IDocument>();
+        }
+
+        var tasks = notVisitedLinks.Select(link => GetDocumentAsync(link));
 
         var result = await Task.WhenAll(tasks);
 
@@ -235,7 +254,7 @@ public class Scraper
         return result;
     }
 
-    protected async Task<IDocument> GetDocument(string url)
+    protected async Task<IDocument> GetDocumentAsync(string url)
     {
         var watch = System.Diagnostics.Stopwatch.StartNew();
 
@@ -247,13 +266,13 @@ public class Scraper
         watch.Stop();
 
         Log.Logger.Information("Method {method}. Elapsed: {elapsed} sec",
-            nameof(GetDocument),
+            nameof(GetDocumentAsync),
             watch.Elapsed.TotalSeconds);
 
         return document;
     }
 
-    private async Task Save(IDocument doc)
+    private async Task SaveAsync(IDocument doc)
     {
         var result = GetJson(doc);
         await File.AppendAllTextAsync(filePath, JsonConvert.SerializeObject(result) + ",");
