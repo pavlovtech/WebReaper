@@ -9,7 +9,7 @@ Log.Logger = new LoggerConfiguration()
 
 var watch = System.Diagnostics.Stopwatch.StartNew();
 
-await new Scraper("https://www.kniga.io/genres/page/1")
+await new Scraper2("https://www.kniga.io/genres/page/1")
     .FollowLinks(".list-group-item>a")
     .FollowLinks("div.mb-2>h3>a")
     .WithScheme(new WebEl[] {
