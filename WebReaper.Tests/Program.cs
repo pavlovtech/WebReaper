@@ -1,5 +1,6 @@
 ﻿using Serilog;
 using WebReaper;
+using WebReaper.Domain;
 
 Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Information()
@@ -9,7 +10,7 @@ Log.Logger = new LoggerConfiguration()
 
 var watch = System.Diagnostics.Stopwatch.StartNew();
 
-await new Scraper2("https://rutracker.org/forum/index.php?c=33")
+await new Scraper("https://rutracker.org/forum/index.php?c=33")
     .FollowLinks("#cf-33 .forumlink>a")
     .FollowLinks(".forumlink>a")
     .FollowLinks("a.torTopic")

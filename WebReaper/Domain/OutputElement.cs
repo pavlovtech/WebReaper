@@ -1,6 +1,7 @@
-namespace WebReaper;
+namespace WebReaper.Domain;
 
-public class WebEl {
+public class WebEl
+{
 
     public WebEl[]? Children { get; set; }
 
@@ -16,17 +17,17 @@ public class WebEl {
         JsonType type = JsonType.String,
         string[]? excludeSelectors = null)
     {
-        this.Field = field;
-        this.Selector = selector;
-        this.Type = type;
+        Field = field;
+        Selector = selector;
+        Type = type;
     }
 
     public WebEl(
         string field,
         params WebEl[] children)
     {
-        this.Field = field;
-        this.Children = children;
-        this.Type = JsonType.Array;
+        Field = field;
+        Children = children;
+        Type = JsonType.Array;
     }
 }

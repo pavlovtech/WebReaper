@@ -6,8 +6,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Linq;
 using Serilog;
+using WebReaper.Domain;
 
-namespace WebReaper;
+namespace WebReaper.OldScrapers;
 
 // anglesharpjs
 // puppeter

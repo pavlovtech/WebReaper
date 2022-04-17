@@ -9,8 +9,9 @@ using RestSharp;
 using HtmlAgilityPack;
 using Fizzler.Systems.HtmlAgilityPack;
 using System.Net.Security;
+using WebReaper.Domain;
 
-namespace WebReaper;
+namespace WebReaper.OldScrapers;
 
 // anglesharpjs
 // puppeter
