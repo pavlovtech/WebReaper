@@ -1,0 +1,5 @@
+1. Get page by url
+2. Get all links from page with first selector
+3. For every link get pages
+4. For every page get links with second selector
+5. Repeat step 1 for every link
