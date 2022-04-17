@@ -2,7 +2,7 @@
 using WebReaper;
 
 Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Error()
+                .MinimumLevel.Information()
                 .WriteTo.Console()
                 .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)
                 .CreateLogger();

@@ -7,6 +7,8 @@ using Newtonsoft.Json.Linq;
 using System.Linq;
 using Serilog;
 using System.Text;
+using AngleSharp.Io.Network;
+using RestSharp;
 
 namespace WebReaper;
 
@@ -27,6 +29,7 @@ public class Scraper2
     public Scraper2(string startUrl)
     {
         ServicePointManager.DefaultConnectionLimit = int.MaxValue;
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         this.startUrl = startUrl;
     }
 
@@ -99,8 +102,10 @@ public class Scraper2
         resultBuilder.AppendJoin("," + Environment.NewLine, result.Select(r =>
         {
             var result = GetJson(r);
-            if(string.IsNullOrEmpty(result["title"].ToString())) {
-                Log.Logger.Warning("Shit {0}, {1},\n {2}", r.Url, r.Title, r.ToHtml());
+            if (string.IsNullOrEmpty(result["title"].ToString()))
+            {
+                Log.Logger.Error("Shit {0}, {1},\n {2}", r.Url, r.Title, r.Prettify());
+                return r.Prettify();
             }
             return JsonConvert.SerializeObject(result);
         }));
@@ -207,10 +212,11 @@ public class Scraper2
 
         while (linksToPaginatedPages.Any())
         {
-            if(targetLinks.Count >= limit) {
+            if (targetLinks.Count >= limit)
+            {
                 break;
             }
-            
+
             Log.Logger.Information("Downloading {count} paginated pages", linksToPaginatedPages.Count());
 
             var paginatedPagesTasks = linksToPaginatedPages
@@ -277,29 +283,34 @@ public class Scraper2
         return result;
     }
 
+
+    IConfiguration config = Configuration.Default;
+    //.WithDefaultLoader();
+    
+    RestClient client = new RestClient();
+
     protected async Task<IDocument> GetDocumentAsync(string url)
     {
+        var page = await client.GetAsync(new RestRequest(url));
+
+        if(page.StatusCode != HttpStatusCode.OK) {
+            Log.Logger.Error("Method {method}. Status: {status}. ",
+            nameof(GetDocumentAsync),
+            page.StatusCode);
+        }
+
         var watch = System.Diagnostics.Stopwatch.StartNew();
-
-       // We require a custom configuration with JavaScript, CSS and the default loader
-            var config = Configuration.Default
-                                      .WithJs()
-                                      .WithCss()
-                                      .WithDefaultLoader();
-
-
 
         var context = BrowsingContext.New(config);
 
-        var document = await context.OpenAsync(url);
+        var document = await context.OpenAsync(m => m.Content(page.Content).Address("https://rutracker.org/forum"));        
 
-        await document.WaitForReadyAsync();
 
         watch.Stop();
 
-        // Log.Logger.Information("Method {method}. Elapsed: {elapsed} sec",
-        //     nameof(GetDocumentAsync),
-        //     watch.Elapsed.TotalSeconds);
+        Log.Logger.Information("Method {method}. Elapsed: {elapsed} sec",
+            nameof(GetDocumentAsync),
+            watch.Elapsed.TotalSeconds);
 
         return document;
     }
