@@ -10,13 +10,13 @@ Log.Logger = new LoggerConfiguration()
 var watch = System.Diagnostics.Stopwatch.StartNew();
 
 await new Scraper2("https://rutracker.org/forum/index.php?c=33")
-    .FollowLinks("#cf-33>tbody>tr>td:nth-child(2)>h4>a")
+    .FollowLinks("#cf-33 .forumlink>a")
     .FollowLinks(".forumlink>a")
-    .FollowLinks(".torTopic.bold.tt-text")
+    .FollowLinks("a.torTopic")
     .Paginate(".pg")
     .WithScheme(new WebEl[] {
         new("title", "title"),
-        new("name", ".post_body>span:nth-of-type(1)"),
+        new("name", ".post_body>span"),
     })
     .To("output.json")
     .Run();
