@@ -13,9 +13,6 @@
     <None Remove="Microsoft.Playwright" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="AngleSharp.Css" Version="0.16.4" />
-    <PackageReference Include="AngleSharp.Io" Version="0.16.0" />
-    <PackageReference Include="AngleSharp.Js" Version="0.15.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="AngleSharp" Version="0.16.1" />
     <PackageReference Include="Polly" Version="7.2.3" />

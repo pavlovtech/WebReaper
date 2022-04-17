@@ -225,7 +225,7 @@ public class Scraper
         return outputResult.ToArray();
     }
 
-    protected async Task<IDocument[]> DownloadTargetPages(List<string> links)
+    protected async ValueTask<IDocument[]> DownloadTargetPages(List<string> links)
     {
         var watch = System.Diagnostics.Stopwatch.StartNew();
 
