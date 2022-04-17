@@ -99,6 +99,9 @@ public class Scraper2
         resultBuilder.AppendJoin("," + Environment.NewLine, result.Select(r =>
         {
             var result = GetJson(r);
+            if(string.IsNullOrEmpty(result["title"].ToString())) {
+                Log.Logger.Warning("Shit {0}, {1},\n {2}", r.Url, r.Title, r.ToHtml());
+            }
             return JsonConvert.SerializeObject(result);
         }));
 
@@ -159,7 +162,7 @@ public class Scraper2
 
         Log.Logger.Information("Started downloading {count} pages", linksToTargetPages.Count());
 
-        var docs = await DownloadTargetPages(linksToTargetPages);
+        var docs = await DownloadTargetPages(linksToTargetPages.Take(2000));
 
         return docs;
     }
@@ -278,10 +281,19 @@ public class Scraper2
     {
         var watch = System.Diagnostics.Stopwatch.StartNew();
 
-        var config = Configuration.Default.WithDefaultLoader();
+       // We require a custom configuration with JavaScript, CSS and the default loader
+            var config = Configuration.Default
+                                      .WithJs()
+                                      .WithCss()
+                                      .WithDefaultLoader();
+
+
+
         var context = BrowsingContext.New(config);
 
         var document = await context.OpenAsync(url);
+
+        await document.WaitForReadyAsync();
 
         watch.Stop();
 
