@@ -172,7 +172,7 @@ public class Scraper2
         return obj;
     }
 
-    protected async Task<HtmlDocument[]> CrawlAsync(string url)
+    protected async Task<IEnumerable<HtmlDocument>> CrawlAsync(string url)
     {
         var linksToTargetPages = await GetLinksToTargetPages(url);
 
@@ -187,7 +187,7 @@ public class Scraper2
     {
         IEnumerable<string> currentLinks = new List<string>(links);
 
-        var paginatedPages = Array.Empty<HtmlDocument>();
+        var paginatedPages = Enumerable.Empty<HtmlDocument>();
         var visitedPaginatedPages = new HashSet<string>();
 
         for (int i = 0; i < linkPathSelectors.Count; i++)
@@ -251,21 +251,21 @@ public class Scraper2
         return targetLinks;
     }
 
-    private IEnumerable<string> GetLinksFromPages(HtmlDocument[] paginatedPages, string selector)
+    private IEnumerable<string> GetLinksFromPages(IEnumerable<HtmlDocument> paginatedPages, string selector)
     {
         return paginatedPages.Select(document =>
                         document.DocumentNode.QuerySelectorAll(selector)
-                                .Select(e => baseUrl + e.GetAttributeValue("href", null))
+                                .Select(e => baseUrl + HtmlEntity.DeEntitize(e.GetAttributeValue("href", null)))
                                 .Distinct()
                                 .ToList())
                         .SelectMany(p => p);
     }
 
-    private void AddTargetLinks(HtmlDocument[] paginatedPages, HashSet<string> targetLinks)
+    private void AddTargetLinks(IEnumerable<HtmlDocument> paginatedPages, HashSet<string> targetLinks)
     {
         var newLinks = paginatedPages.Select(document =>
                         document.DocumentNode.QuerySelectorAll(linkPathSelectors.Last())
-                                .Select(e => baseUrl + e.GetAttributeValue("href", null))
+                                .Select(e => baseUrl + HtmlEntity.DeEntitize(e.GetAttributeValue("href", null)))
                                 .Distinct()
                                 .ToList())
                         .SelectMany(p => p);
@@ -273,7 +273,7 @@ public class Scraper2
         targetLinks.UnionWith(newLinks);
     }
 
-    protected async Task<HtmlDocument[]> DownloadTargetPages(IEnumerable<string> links)
+    protected async Task<IEnumerable<HtmlDocument>> DownloadTargetPages(IEnumerable<string> links)
     {
         var watch = System.Diagnostics.Stopwatch.StartNew();
 
@@ -311,19 +311,13 @@ public class Scraper2
     protected async Task<HtmlDocument> GetDocumentAsync(string url)
     {
         var watch = System.Diagnostics.Stopwatch.StartNew();
-
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
-        var page = await httpClient.GetStringAsync(url);
-
         var htmlDoc = new HtmlDocument();
-        htmlDoc.LoadHtml(page);
-
+        htmlDoc.Load(await httpClient.GetStreamAsync(url), System.Text.Encoding.GetEncoding(1251));
         watch.Stop();
-
-        Log.Logger.Information("Method {method}. Elapsed: {elapsed} sec",
-            nameof(GetDocumentAsync),
-            watch.Elapsed.TotalSeconds);
+        // Log.Logger.Information("Method {method}. Elapsed: {elapsed} sec",
+        //     nameof(GetDocumentAsync),
+        //     watch.Elapsed.TotalSeconds);
 
         return htmlDoc;
     }
