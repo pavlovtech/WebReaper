@@ -1,4 +1,4 @@
-namespace WebReaper;
+﻿namespace WebReaper.Domain;
 
 public enum JsonType
 {

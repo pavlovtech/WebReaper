@@ -3,7 +3,6 @@ using System.Net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Linq;
-using Serilog;
 using System.Text;
 using RestSharp;
 using HtmlAgilityPack;
@@ -101,9 +100,9 @@ public class Scraper2
     {
         var result = await CrawlAsync(startUrl);
 
-        Log.Logger.Information("Got {count} pages", result.Count());
+        //Log.Logger.Information("Got {count} pages", result.Count());
 
-        Log.Logger.Information("Saving results");
+        //Log.Logger.Information("Saving results");
 
         File.Delete(filePath);
 
@@ -116,7 +115,7 @@ public class Scraper2
             var result = GetJson(r);
             if (string.IsNullOrEmpty(result["title"].ToString()))
             {
-                Log.Logger.Error("Shit {0}, {1},\n {2}", r.DocumentNode.QuerySelector("title").InnerText, r.DocumentNode.InnerHtml);
+                //Log.Logger.Error("Shit {0}, {1},\n {2}", r.DocumentNode.QuerySelector("title").InnerText, r.DocumentNode.InnerHtml);
                 return r.DocumentNode.InnerHtml;
             }
             return JsonConvert.SerializeObject(result);
@@ -126,7 +125,7 @@ public class Scraper2
         await File.AppendAllTextAsync(filePath, resultBuilder.ToString());
         await File.AppendAllTextAsync(filePath, "]" + Environment.NewLine);
 
-        Log.Logger.Information("Done");
+        //Log.Logger.Information("Done");
     }
 
     private JObject GetJson(HtmlDocument doc)
@@ -177,7 +176,7 @@ public class Scraper2
     {
         var linksToTargetPages = await GetLinksToTargetPages(url);
 
-        Log.Logger.Information("Started downloading {count} pages", linksToTargetPages.Count());
+        //Log.Logger.Information("Started downloading {count} pages", linksToTargetPages.Count());
 
         var docs = await DownloadTargetPages(linksToTargetPages);
 
@@ -193,9 +192,9 @@ public class Scraper2
 
         for (int i = 0; i < linkPathSelectors.Count; i++)
         {
-            Log.Logger.Information("Collecting links with selector {selector} on level {level}",
-                linkPathSelectors[i],
-                i);
+            // Log.Logger.Information("Collecting links with selector {selector} on level {level}",
+            //     linkPathSelectors[i],
+            //     i);
 
             var pageTasks = currentLinks.Select(link => GetDocumentAsync(link));
             var pages = await Task.WhenAll(pageTasks);
@@ -215,7 +214,7 @@ public class Scraper2
             return currentLinks;
         }
 
-        Log.Logger.Information("Processing pagination");
+        //Log.Logger.Information("Processing pagination");
 
         IEnumerable<string> linksToPaginatedPages = GetLinksFromPages(paginatedPages, paginationSelector);
 
@@ -230,7 +229,7 @@ public class Scraper2
                 break;
             }
 
-            Log.Logger.Information("Downloading {count} paginated pages", linksToPaginatedPages.Count());
+            //Log.Logger.Information("Downloading {count} paginated pages", linksToPaginatedPages.Count());
 
             var paginatedPagesTasks = linksToPaginatedPages
                 .Select(link => GetDocumentAsync(link));
@@ -278,20 +277,20 @@ public class Scraper2
     {
         var watch = System.Diagnostics.Stopwatch.StartNew();
 
-        Log.Logger.Information("Downloading {count} target pages", links.Count());
+        //Log.Logger.Information("Downloading {count} target pages", links.Count());
 
         var tasks = links.Select(link => GetDocumentAsync(link));
 
         var result = await Task.WhenAll(tasks);
 
-        Log.Logger.Information("Finished downloading {count} target pages", result.Count());
+        //Log.Logger.Information("Finished downloading {count} target pages", result.Count());
 
         watch.Stop();
 
-        Log.Logger.Information("Method {method}. Docs count: {count}. Elapsed: {elapsed} sec",
-            nameof(DownloadTargetPages),
-            result.Count(),
-            watch.Elapsed.TotalSeconds);
+        // Log.Logger.Information("Method {method}. Docs count: {count}. Elapsed: {elapsed} sec",
+        //     nameof(DownloadTargetPages),
+        //     result.Count(),
+        //     watch.Elapsed.TotalSeconds);
 
         return result;
     }

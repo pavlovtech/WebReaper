@@ -1,14 +1,12 @@
-using System.Collections.Immutable;
-using System.Net;
+﻿using System.Net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Linq;
-using Serilog;
 using System.Text;
 using HtmlAgilityPack;
 using Fizzler.Systems.HtmlAgilityPack;
 using System.Net.Security;
 using WebReaper.Domain;
+using WebReaper.Queue;
 
 namespace WebReaper;
 
@@ -16,7 +14,7 @@ namespace WebReaper;
 // puppeter
 public class Scraper
 {
-    protected List<string> linkPathSelectors = new();
+    protected LinkedList<string> linkPathSelectors = new();
     protected int limit = int.MaxValue;
     private string filePath = "output.json";
     private string startUrl;
@@ -60,7 +58,7 @@ public class Scraper
 
     public Scraper FollowLinks(string linkSelector)
     {
-        linkPathSelectors.Add(linkSelector);
+        linkPathSelectors.AddLast(linkSelector);
         return this;
     }
 
@@ -105,9 +103,14 @@ public class Scraper
         return this;
     }
 
+    IJobQueue jobQueue = new JobQueue();
+
     public async Task Run()
     {
-        
+        jobQueue.Add(new Job(baseUrl, startUrl, linkPathSelectors.First, paginationSelector, 0));
+
+        var spider = new Spider.Spider(jobQueue);
+        await spider.Crawl();
     }
 
     private JObject GetJson(HtmlDocument doc)

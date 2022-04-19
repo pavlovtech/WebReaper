@@ -1,5 +1,7 @@
 using WebReaper.Domain;
 
+namespace WebReaper.Extensions;
+
 public static class JobExtensions
 {
     public static PageType GetPageType(this Job job) {

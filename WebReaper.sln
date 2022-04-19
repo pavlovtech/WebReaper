@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebReaper", "WebReaper\WebR
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebReaper.Tests", "WebReaper.Tests\WebReaper.Tests.csproj", "{6A3C1998-9015-4AC8-8701-FBD2E2210EB1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScraperWorkerService", "ScraperWorkerService\ScraperWorkerService.csproj", "{A9715581-1978-419A-A35E-66AC2A8A9D03}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{6A3C1998-9015-4AC8-8701-FBD2E2210EB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A3C1998-9015-4AC8-8701-FBD2E2210EB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A3C1998-9015-4AC8-8701-FBD2E2210EB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9715581-1978-419A-A35E-66AC2A8A9D03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9715581-1978-419A-A35E-66AC2A8A9D03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9715581-1978-419A-A35E-66AC2A8A9D03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9715581-1978-419A-A35E-66AC2A8A9D03}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

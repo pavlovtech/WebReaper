@@ -1,9 +1,8 @@
-namespace WebReaper.Domain
+namespace WebReaper.Domain;
+
+public enum PageType
 {
-    public enum PageType
-    {
-        TransitPage = 0,
-        PageWithPagination = 1,
-        TargetPage = 2
-    }
+    TransitPage = 0,
+    PageWithPagination = 1,
+    TargetPage = 2
 }

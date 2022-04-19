@@ -5,18 +5,18 @@ using WebReaper.Domain;
 
 namespace WebReaper.Queue;
 
-public class PubSubPriorityQueue
+public class ProducerConsumerQueue
     : IProducerConsumerCollection<Job>
 {
     // Used for enforcing thread-safety
     private object _lockObject = new object();
 
-    public PubSubPriorityQueue() => JobQueue = new(1000);
+    public ProducerConsumerQueue() => JobQueue = new(1000);
 
-    public PubSubPriorityQueue(IEnumerable<(Job, int)> collection) =>
+    public ProducerConsumerQueue(IEnumerable<(Job, int)> collection) =>
         JobQueue = new(collection);
 
-    public PubSubPriorityQueue(params (Job, int)[] collection) =>
+    public ProducerConsumerQueue(params (Job, int)[] collection) =>
         JobQueue = new PriorityQueue<Job, int>(collection);
 
     protected PriorityQueue<Job, int> JobQueue { get; set; }

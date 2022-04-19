@@ -5,7 +5,7 @@ namespace WebReaper.Queue;
 
 public class JobQueue : IJobQueue
 {
-    protected BlockingCollection<Job> jobs = new(new PubSubPriorityQueue());
+    protected BlockingCollection<Job> jobs = new(new ProducerConsumerQueue());
 
     public void Add(Job job)
     {

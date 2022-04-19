@@ -3,11 +3,18 @@ using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
 using Microsoft.Extensions.Logging;
 using WebReaper.Domain;
-using WebReaper.Infra;
 using WebReaper.Queue;
+using WebReaper.Extensions;
+
+namespace WebReaper.Spider;
 
 public class Spider
 {
+    public Spider(IJobQueue jobsQueue)
+    {
+        this.jobsQueue = jobsQueue;
+
+    }
     protected IJobQueue jobsQueue { get; }
 
     private ILogger<Spider> _logger;
@@ -36,55 +43,63 @@ public class Spider
     public async Task Crawl()
     {
         foreach (var job in jobsQueue.GetJobs())
+            await Handle(job);
+    }
+
+    protected async Task Handle(Job job)
+    {
+        using var _ = _logger.Measure();
+        
+        var doc = await GetDocumentAsync(job.Url);
+
+        if (job.GetPageType() == PageType.TargetPage)
         {
-            var doc = await GetDocumentAsync(job.Url);
+            // TODO: save to file or something
+            _logger.LogInformation("target page: {page}", doc.DocumentNode.InnerHtml);
+            return;
+        }
 
-            if(job.GetPageType() == PageType.TargetPage) {
-                // TODO: save to file or something
-                _logger.LogInformation("target page: {page}", doc.DocumentNode.InnerHtml);
-                continue;
-            }
+        IEnumerable<string> links = Enumerable.Empty<string>();
 
-            IEnumerable<string> links = Enumerable.Empty<string>();
+        if (job.GetPageType() == PageType.PageWithPagination)
+        {
+            links = GetLinksFromPage(doc, job.BaseUrl, job.PaginationSelector);
+        }
+        else if (job.GetPageType() == PageType.TransitPage)
+        {
+            var selector = job.LinkPathSelector?.Value;
+            links = GetLinksFromPage(doc, job.BaseUrl, selector);
+        }
 
-            if(job.GetPageType() == PageType.PageWithPagination) {
-                links = GetLinksFromPage(doc, job.BaseUrl, job.PaginationSelector);
-            }
-            else if(job.GetPageType() == PageType.TransitPage)
-            {
-                var selector = job.LinkPathSelector?.Value;
-                links = GetLinksFromPage(doc, job.BaseUrl, selector);
-            }
-
-            foreach (var link in links)
-            {            
-                jobsQueue.Add(new Job(
-                        job.BaseUrl,
-                        link,
-                        job.LinkPathSelector.Next,
-                        job.PaginationSelector,
-                        job.Priority + 1));
-            }
+        foreach (var link in links)
+        {
+            jobsQueue.Add(new Job(
+                    job.BaseUrl,
+                    link,
+                    job.LinkPathSelector.Next,
+                    job.PaginationSelector,
+                    job.Priority + 1));
         }
     }
 
-    protected static async Task<HtmlDocument> GetDocumentAsync(string url)
+    protected async Task<HtmlDocument> GetDocumentAsync(string url)
     {
-        static async Task<HtmlDocument> GetDocumentInternalAsync(string url)
-        {
-            var htmlDoc = new HtmlDocument();
-            var html = await httpClient.GetStringAsync(url);
-            htmlDoc.LoadHtml(html);
-            return htmlDoc;
-        }
+        using var _ = _logger.Measure();
 
-        return await Executor.Run(async () => await GetDocumentInternalAsync(url));
+        var htmlDoc = new HtmlDocument();
+        var html = await httpClient.GetStringAsync(url);
+        htmlDoc.LoadHtml(html);
+        return htmlDoc;
     }
 
-    private IEnumerable<string> GetLinksFromPage(HtmlDocument document, string baseUrl, string selector)
+    private IEnumerable<string> GetLinksFromPage(
+        HtmlDocument document,
+        string baseUrl,
+        string selector)
     {
-        return document
-            .DocumentNode
+        using var _ = _logger.Measure();
+
+        return document.DocumentNode
             .QuerySelectorAll(selector)
             .Select(e => baseUrl + HtmlEntity.DeEntitize(e.GetAttributeValue("href", null)))
             .Distinct();

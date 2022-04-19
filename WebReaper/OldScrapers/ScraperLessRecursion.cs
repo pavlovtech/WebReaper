@@ -5,7 +5,6 @@ using AngleSharp.Dom;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Linq;
-using Serilog;
 using WebReaper.Domain;
 
 namespace WebReaper.OldScrapers;
@@ -86,15 +85,15 @@ public class ScraperLessRecursion
     {
         var result = await GetTargetPages(startUrl, linkPathSelectors.First);
 
-        Log.Logger.Information("Crawled {count} pages", visited.Count);
+        // Log.Logger.Information("Crawled {count} pages", visited.Count);
 
-        Log.Logger.Information("Getting target pages");
+        // Log.Logger.Information("Getting target pages");
 
         var pages = await Task.WhenAll(result.Select(r => GetDocument(r)));
 
-        Log.Logger.Information("Crawled {count} pages", visited.Count);
+        // Log.Logger.Information("Crawled {count} pages", visited.Count);
 
-        Log.Logger.Information("Saving results");
+        // Log.Logger.Information("Saving results");
 
         File.Delete(filePath);
 
@@ -108,7 +107,7 @@ public class ScraperLessRecursion
         await File.AppendAllTextAsync(filePath, txtResults);
         await File.AppendAllTextAsync(filePath, "]" + Environment.NewLine);
 
-        Log.Logger.Information("Done");
+        // Log.Logger.Information("Done");
     }
 
     private JObject GetJson(IDocument doc) {
@@ -156,22 +155,22 @@ public class ScraperLessRecursion
 
     private async Task<IEnumerable<string>> GetTargetPages(string url, LinkedListNode<string> selector)
     {
-        Log.Logger.Information("Visiting {url} with selector {selector}", url, selector.Value);
+        // Log.Logger.Information("Visiting {url} with selector {selector}", url, selector.Value);
 
         if (visited.Contains(url))
         {
-            Log.Logger.Warning("Already visited {url} with selector {selector}", url, selector.Value);
+            // Log.Logger.Warning("Already visited {url} with selector {selector}", url, selector.Value);
             return Enumerable.Empty<string>();
         }
 
         if (visited.Count >= limit)
         {
-            Log.Logger.Warning("Reached the limit {limit}", limit);
+            // Log.Logger.Warning("Reached the limit {limit}", limit);
             return Array.Empty<string>();
         }
 
         ImmutableInterlocked.Update(ref visited, old => old.Add(url));
-        Log.Logger.Information("Visited {count} links", visited.Count);
+        // Log.Logger.Information("Visited {count} links", visited.Count);
 
         IDocument document = await GetDocument(url);
 
@@ -183,7 +182,7 @@ public class ScraperLessRecursion
 
         if (selector.Next == null)
         {
-            Log.Logger.Information("Reached page with target links {url}", url);
+            // Log.Logger.Information("Reached page with target links {url}", url);
             //IDocument[] result = await DownloadTargetPages(links);
 
             if (paginationSelector != null)
@@ -230,7 +229,7 @@ public class ScraperLessRecursion
     {
         var watch = System.Diagnostics.Stopwatch.StartNew();
 
-        Log.Logger.Information("Downloading {count} target pages", links.Count);
+        // Log.Logger.Information("Downloading {count} target pages", links.Count);
 
         var notVisitedLinks = links.Where(link => !visited.Contains(link));
 
@@ -242,14 +241,14 @@ public class ScraperLessRecursion
         }
 
         var result = await Task.WhenAll(tasks);
-        Log.Logger.Information("Finished downloading {count} target pages", result.Count());
+        // Log.Logger.Information("Finished downloading {count} target pages", result.Count());
 
         watch.Stop();
 
-        Log.Logger.Information("Method {method}. Docs count: {count}. Elapsed: {elapsed} sec",
-            nameof(DownloadTargetPages),
-            result.Count(),
-            watch.Elapsed.TotalSeconds);
+        // Log.Logger.Information("Method {method}. Docs count: {count}. Elapsed: {elapsed} sec",
+            // nameof(DownloadTargetPages),
+            // result.Count(),
+            // watch.Elapsed.TotalSeconds);
 
         return result;
     }
@@ -265,9 +264,9 @@ public class ScraperLessRecursion
         
         watch.Stop();
 
-        Log.Logger.Information("Method {method}. Elapsed: {elapsed} sec",
-            nameof(GetDocument),
-            watch.Elapsed.TotalSeconds);
+        // Log.Logger.Information("Method {method}. Elapsed: {elapsed} sec",
+            // nameof(GetDocument),
+            // watch.Elapsed.TotalSeconds);
 
         return document;
     }

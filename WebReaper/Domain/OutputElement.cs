@@ -2,7 +2,6 @@ namespace WebReaper.Domain;
 
 public class WebEl
 {
-
     public WebEl[]? Children { get; set; }
 
     public string Field { get; set; }
