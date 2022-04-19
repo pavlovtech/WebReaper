@@ -43,7 +43,7 @@ public class Spider
 
     protected async Task Handle(Job job)
     {
-        using var _ = _logger.Measure();
+        using var _ = _logger.LogMethodDuration();
         
         var doc = await GetDocumentAsync(job.Url);
 
@@ -74,7 +74,7 @@ public class Spider
             jobsQueue.Add(new Job(
                     job.BaseUrl,
                     link,
-                    job.LinkPathSelector.Next, // fix
+                    job.LinkPathSelector.Next, //fix
                     job.PaginationSelector,
                     job.Priority + 1)); // fix
         }
@@ -82,7 +82,7 @@ public class Spider
 
     protected async Task<HtmlDocument> GetDocumentAsync(string url)
     {
-        using var _ = _logger.Measure();
+        using var _ = _logger.LogMethodDuration();
 
         var htmlDoc = new HtmlDocument();
         var html = await httpClient.GetStringAsync(url);
@@ -95,7 +95,7 @@ public class Spider
         string baseUrl,
         string selector)
     {
-        using var _ = _logger.Measure();
+        using var _ = _logger.LogMethodDuration();
 
         return document.DocumentNode
             .QuerySelectorAll(selector)
