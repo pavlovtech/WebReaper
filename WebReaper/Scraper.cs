@@ -7,6 +7,7 @@ using Fizzler.Systems.HtmlAgilityPack;
 using System.Net.Security;
 using WebReaper.Domain;
 using WebReaper.Queue;
+using Microsoft.Extensions.Logging;
 
 namespace WebReaper;
 
@@ -25,7 +26,7 @@ public class Scraper
 
     protected string baseUrl;
 
-    protected HttpClient httpClient = new (new SocketsHttpHandler()
+    protected HttpClient httpClient = new(new SocketsHttpHandler()
     {
         MaxConnectionsPerServer = 100,
         SslOptions = new SslClientAuthenticationOptions
@@ -35,15 +36,19 @@ public class Scraper
         },
         PooledConnectionIdleTimeout = TimeSpan.FromMinutes(10),
         PooledConnectionLifetime = Timeout.InfiniteTimeSpan
-    }) {
+    })
+    {
         Timeout = TimeSpan.FromMinutes(10)
     };
 
-    public Scraper(string startUrl)
+    private readonly ILogger _logger;
+
+    public Scraper(string startUrl, ILogger logger)
     {
+        _logger = logger;
         ServicePointManager.DefaultConnectionLimit = int.MaxValue;
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-        
+
         ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
 
         this.startUrl = startUrl;
@@ -109,7 +114,7 @@ public class Scraper
     {
         jobQueue.Add(new Job(baseUrl, startUrl, linkPathSelectors.First, paginationSelector, 0));
 
-        var spider = new Spider.Spider(jobQueue);
+        var spider = new Spider.Spider(jobQueue, _logger);
         await spider.Crawl();
     }
 

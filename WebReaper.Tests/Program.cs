@@ -10,7 +10,7 @@ Log.Logger = new LoggerConfiguration()
 
 var watch = System.Diagnostics.Stopwatch.StartNew();
 
-await new Scraper("https://rutracker.org/forum/index.php?c=33")
+await new Scraper("https://rutracker.org/forum/index.php?c=33", null)
     .FollowLinks("#cf-33 .forumlink>a")
     .FollowLinks(".forumlink>a")
     .FollowLinks("a.torTopic")

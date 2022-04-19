@@ -12,7 +12,7 @@ public class Worker : BackgroundService
     {
         _logger = logger;
 
-        scraper = new Scraper("https://rutracker.org/forum/index.php?c=33")
+        scraper = new Scraper("https://rutracker.org/forum/index.php?c=33", _logger)
             .FollowLinks("#cf-33 .forumlink>a")
             .FollowLinks(".forumlink>a")
             .FollowLinks("a.torTopic")

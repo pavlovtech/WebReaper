@@ -10,14 +10,9 @@ namespace WebReaper.Spider;
 
 public class Spider
 {
-    public Spider(IJobQueue jobsQueue)
-    {
-        this.jobsQueue = jobsQueue;
-
-    }
     protected IJobQueue jobsQueue { get; }
 
-    private ILogger<Spider> _logger;
+    private ILogger _logger;
 
     protected static HttpClient httpClient = new HttpClient(new SocketsHttpHandler()
     {
@@ -34,7 +29,7 @@ public class Spider
         Timeout = TimeSpan.FromMinutes(10)
     };
 
-    public Spider(IJobQueue jobs, ILogger<Spider> logger)
+    public Spider(IJobQueue jobs, ILogger logger)
     {
         jobsQueue = jobs;
         _logger = logger;
@@ -55,7 +50,7 @@ public class Spider
         if (job.GetPageType() == PageType.TargetPage)
         {
             // TODO: save to file or something
-            _logger.LogInformation("target page: {page}", doc.DocumentNode.InnerHtml);
+            _logger.LogInformation("target page: {page}", doc.DocumentNode.QuerySelector("title").InnerText);
             return;
         }
 
@@ -64,6 +59,9 @@ public class Spider
         if (job.GetPageType() == PageType.PageWithPagination)
         {
             links = GetLinksFromPage(doc, job.BaseUrl, job.PaginationSelector);
+
+            var selector = job.LinkPathSelector?.Value;
+            links = links.Concat(GetLinksFromPage(doc, job.BaseUrl, selector));
         }
         else if (job.GetPageType() == PageType.TransitPage)
         {
@@ -76,9 +74,9 @@ public class Spider
             jobsQueue.Add(new Job(
                     job.BaseUrl,
                     link,
-                    job.LinkPathSelector.Next,
+                    job.LinkPathSelector.Next, // fix
                     job.PaginationSelector,
-                    job.Priority + 1));
+                    job.Priority + 1)); // fix
         }
     }
 

@@ -7,22 +7,22 @@ namespace WebReaper.Extensions;
 
 public static class LoggerExtensions
 {
-    public static IDisposable Measure<T>(
-        this ILogger<T> logger,
+    public static IDisposable Measure(
+        this ILogger logger,
         [CallerMemberName] string callerName = "",
         [CallerFilePathAttribute] string filePath = "",
         [CallerLineNumber] int sourceLineNumber = 0) 
     {
-        return new AutoTracker<T>(logger, callerName, filePath, sourceLineNumber);
+        return new AutoTracker(logger, callerName, filePath, sourceLineNumber);
     }
 }
 
-public class AutoTracker<T> : IDisposable
+public class AutoTracker : IDisposable
 {
     private string callerName = "";
     private string filePath = "";
     private readonly int sourceLineNumber;
-    private ILogger<T> _logger;
+    private ILogger _logger;
 
     private static ConcurrentDictionary<string, int> _methodCounters = new();
     private static ConcurrentDictionary<string, long> _methodTotalDuration = new();
@@ -30,7 +30,7 @@ public class AutoTracker<T> : IDisposable
     Stopwatch watch = new Stopwatch();
 
     public AutoTracker(
-        ILogger<T> logger,
+        ILogger logger,
         [CallerMemberName] string callerName = "",
         [CallerFilePathAttribute] string filePath = "",
         [CallerLineNumber] int sourceLineNumber = 0)
@@ -52,14 +52,15 @@ public class AutoTracker<T> : IDisposable
     public void Dispose()
     {
         watch.Stop();
+
+        _methodTotalDuration.AddOrUpdate(callerName,
+           (key) => watch.ElapsedMilliseconds,
+           (key, value) => value + watch.ElapsedMilliseconds);
+
         _logger.LogInformation("Finished executing {method}. Duration: {elapsed} ms. Total duration of all invocations: {total}. Total count of invocations: {invocationsCount}",
                 callerName,
                 watch.ElapsedMilliseconds,
                 _methodTotalDuration[callerName],
                 _methodCounters[callerName]);
-
-        _methodTotalDuration.AddOrUpdate(callerName,
-           (key) => watch.ElapsedMilliseconds,
-           (key, value) => value + watch.ElapsedMilliseconds);
     }
 }
