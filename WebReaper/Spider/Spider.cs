@@ -27,7 +27,7 @@ public class Spider
         PooledConnectionLifetime = Timeout.InfiniteTimeSpan
     })
     {
-        Timeout = TimeSpan.FromMinutes(2)
+        //Timeout = TimeSpan.FromMinutes(2)
     };
 
     public Spider(IJobQueue jobs, ILogger logger)
