@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using WebReaper.Domain;
 using WebReaper.Queue;
 using WebReaper.Extensions;
+using System.Diagnostics;
 
 namespace WebReaper.Spider;
 
@@ -22,11 +23,11 @@ public class Spider
             // Leave certs unvalidated for debugging
             RemoteCertificateValidationCallback = delegate { return true; },
         },
-        PooledConnectionIdleTimeout = TimeSpan.FromMinutes(10),
+        PooledConnectionIdleTimeout = TimeSpan.FromMinutes(2),
         PooledConnectionLifetime = Timeout.InfiniteTimeSpan
     })
     {
-        Timeout = TimeSpan.FromMinutes(10)
+        Timeout = TimeSpan.FromMinutes(2)
     };
 
     public Spider(IJobQueue jobs, ILogger logger)
@@ -37,46 +38,130 @@ public class Spider
 
     public async Task Crawl()
     {
-        foreach (var job in jobsQueue.GetJobs())
-            await Handle(job);
+        Stopwatch watch = new Stopwatch();
+        watch.Start();
+
+        foreach (var job in jobsQueue.Get())
+        {
+            try
+            {
+                await Handle(job);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred when scraping {url}", job.Url);
+
+                // return job back to the queue
+                jobsQueue.Add(job);
+            }
+
+            if(jobsQueue.Count == 0) {
+                watch.Stop();
+                _logger.LogInformation("Finished in {time} min", watch.Elapsed.Minutes);
+            }
+        }
     }
 
     protected async Task Handle(Job job)
     {
+        if(job.Url == "https://rutracker.org/forum/viewforum.php?f=396" ||
+        job.Url == "https://rutracker.org/forum/viewforum.php?f=2322" ||
+        job.Url == "https://rutracker.org/forum/viewforum.php?f=1993" ||
+        job.Url == "https://rutracker.org/forum/viewforum.php?f=2167" ||
+        job.Url == "https://rutracker.org/forum/viewforum.php?f=2321") {
+            return;
+        }
+
         using var _ = _logger.LogMethodDuration();
         
         var doc = await GetDocumentAsync(job.Url);
 
-        if (job.GetPageType() == PageType.TargetPage)
+        if (job.type == PageType.TargetPage)
         {
+            _logger.LogInvocationCount("Handle on target page");
             // TODO: save to file or something
             _logger.LogInformation("target page: {page}", doc.DocumentNode.QuerySelector("title").InnerText);
             return;
         }
 
-        IEnumerable<string> links = Enumerable.Empty<string>();
+        int selectorIndex = 0;
 
-        if (job.GetPageType() == PageType.PageWithPagination)
-        {
-            links = GetLinksFromPage(doc, job.BaseUrl, job.PaginationSelector);
+        if(job.DepthLevel < job.LinkPathSelectors.Length) {
+            selectorIndex = job.DepthLevel;
 
-            var selector = job.LinkPathSelector?.Value;
-            links = links.Concat(GetLinksFromPage(doc, job.BaseUrl, selector));
-        }
-        else if (job.GetPageType() == PageType.TransitPage)
-        {
-            var selector = job.LinkPathSelector?.Value;
-            links = GetLinksFromPage(doc, job.BaseUrl, selector);
+        } else {
+            selectorIndex = job.LinkPathSelectors.Length-1;
         }
 
+        var selector = job.LinkPathSelectors[selectorIndex];
+
+        var links = GetLinksFromPage(doc, job.BaseUrl, selector);
+
+        PageType nextPageType = PageType.Unknown;
+        if(selectorIndex == job.LinkPathSelectors.Length-1) {
+            nextPageType = PageType.TargetPage;
+        } else if(selectorIndex < job.LinkPathSelectors.Length) {
+            nextPageType = PageType.TransitPage;
+        }
+
+        int nextPagePriority = -selectorIndex - 1; 
+
+        AddToQueue(
+                nextPageType,
+                job.BaseUrl,
+                job.PaginationSelector,
+                nextPagePriority,
+                job.DepthLevel+1,
+                job.LinkPathSelectors,
+                links);
+
+        if(nextPageType == PageType.TargetPage && job.PaginationSelector != null) {
+            var linksToPaginatedPages = GetLinksFromPage(doc, job.BaseUrl, job.PaginationSelector);
+
+            AddToQueue(
+                PageType.PageWithPagination,
+                job.BaseUrl,
+                job.PaginationSelector,
+                job.Priority,
+                job.DepthLevel+1,
+                job.LinkPathSelectors,
+                linksToPaginatedPages);
+        }
+
+        if(job.type == PageType.PageWithPagination) {
+            var linksToPaginatedPages = GetLinksFromPage(doc, job.BaseUrl, job.PaginationSelector);
+
+            AddToQueue(
+                PageType.PageWithPagination,
+                job.BaseUrl,
+                job.PaginationSelector,
+                job.Priority,
+                job.DepthLevel+1,
+                job.LinkPathSelectors,
+                linksToPaginatedPages);
+        }
+    }
+
+    private void AddToQueue(
+        PageType type,
+        string baseUrl,
+        string paginationSelector,
+        int priority,
+        int depthLevel,
+        string[] linkPathSelectors,
+        IEnumerable<string> links)
+    {
         foreach (var link in links)
         {
             jobsQueue.Add(new Job(
-                    job.BaseUrl,
+                    baseUrl,
                     link,
-                    job.LinkPathSelector.Next, //fix
-                    job.PaginationSelector,
-                    job.Priority + 1)); // fix
+                    linkPathSelectors,
+                    //job.LinkPathSelector.Next, //fix
+                    paginationSelector,
+                    type,
+                    depthLevel,
+                    priority)); // fix
         }
     }
 
@@ -95,8 +180,6 @@ public class Spider
         string baseUrl,
         string selector)
     {
-        using var _ = _logger.LogMethodDuration();
-
         return document.DocumentNode
             .QuerySelectorAll(selector)
             .Select(e => baseUrl + HtmlEntity.DeEntitize(e.GetAttributeValue("href", null)))

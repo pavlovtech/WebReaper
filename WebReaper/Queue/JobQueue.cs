@@ -14,7 +14,9 @@ public class JobQueue : IJobQueue
         jobs.Add(job);
     }
 
+    public int Count => jobs.Count;
+
     public void CompleteAdding() => jobs.CompleteAdding();
 
-    public IEnumerable<Job> GetJobs() => jobs.GetConsumingEnumerable();
+    public IEnumerable<Job> Get() => jobs.GetConsumingEnumerable();
 }

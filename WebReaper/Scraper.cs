@@ -15,7 +15,7 @@ namespace WebReaper;
 // puppeter
 public class Scraper
 {
-    protected LinkedList<string> linkPathSelectors = new();
+    protected List<string> linkPathSelectors = new();
     protected int limit = int.MaxValue;
     private string filePath = "output.json";
     private string startUrl;
@@ -63,7 +63,7 @@ public class Scraper
 
     public Scraper FollowLinks(string linkSelector)
     {
-        linkPathSelectors.AddLast(linkSelector);
+        linkPathSelectors.Add(linkSelector);
         return this;
     }
 
@@ -112,10 +112,20 @@ public class Scraper
 
     public async Task Run()
     {
-        jobQueue.Add(new Job(baseUrl, startUrl, linkPathSelectors.First, paginationSelector, 0));
+        jobQueue.Add(new Job(baseUrl,
+            startUrl,
+            linkPathSelectors.ToArray(),
+            paginationSelector,
+            DepthLevel: 0,
+            Priority: 0));
 
         var spider = new Spider.Spider(jobQueue, _logger);
-        await spider.Crawl();
+        var s1 = spider.Crawl();
+        var s2 = spider.Crawl();
+        var s3 = spider.Crawl();
+        var s4 = spider.Crawl();
+
+        await Task.WhenAll(s1,s2,s3,s4);
     }
 
     private JObject GetJson(HtmlDocument doc)

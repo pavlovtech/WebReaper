@@ -36,8 +36,6 @@ public class Timer : IDisposable
     {
         _logger = logger;
 
-        _logger.LogInformation("Started executing {method}.", callerName);
-
         watch.Start();
 
         this.callerName = callerName;
@@ -47,7 +45,7 @@ public class Timer : IDisposable
     {
         watch.Stop();
 
-        _logger.LogInformation("Finished executing {method}. Duration: {elapsed} ms",
+        _logger.LogInformation("{method} finished in {elapsed} ms",
                 callerName,
                 watch.ElapsedMilliseconds);
     }

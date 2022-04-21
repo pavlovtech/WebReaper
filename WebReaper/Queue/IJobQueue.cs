@@ -6,5 +6,7 @@ public interface IJobQueue
 {
     void Add(Job job);
     void CompleteAdding();
-    IEnumerable<Job> GetJobs();
+    IEnumerable<Job> Get();
+
+    int Count { get; }
 }
