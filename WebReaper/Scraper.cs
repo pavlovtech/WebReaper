@@ -126,8 +126,10 @@ public class Scraper
         var s4 = spider.Crawl();
         var s5 = spider.Crawl();
         var s6 = spider.Crawl();
+        var s7 = spider.Crawl();
+        var s8 = spider.Crawl();
 
-        await Task.WhenAll(s1,s2,s3,s4,s5,s6);
+        await Task.WhenAll(s1,s2,s3,s4,s5,s6, s7, s8);
     }
 
     private JObject GetJson(HtmlDocument doc)

@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using System.Net.Security;
 using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
@@ -13,9 +14,11 @@ public class Spider
 {
     protected IJobQueue jobsQueue { get; }
 
+    protected ImmutableHashSet<string> visitedUrls = ImmutableHashSet.Create<string>();
+
     private ILogger _logger;
 
-    protected static HttpClient httpClient = new HttpClient(new SocketsHttpHandler()
+    protected static HttpClient httpClient = new(new SocketsHttpHandler()
     {
         MaxConnectionsPerServer = 100,
         SslOptions = new SslClientAuthenticationOptions
@@ -46,6 +49,8 @@ public class Spider
             try
             {
                 await Handle(job);
+
+                ImmutableInterlocked.Update(ref visitedUrls, old => old.Add(job.Url));
             }
             catch (Exception ex)
             {
@@ -151,7 +156,9 @@ public class Spider
         string[] linkPathSelectors,
         IEnumerable<string> links)
     {
-        foreach (var link in links)
+        var newLinks = links.Except(visitedUrls);
+
+        foreach (var link in newLinks)
         {
             jobsQueue.Add(new Job(
                     baseUrl,
