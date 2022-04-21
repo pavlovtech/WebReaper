@@ -7,6 +7,7 @@ using WebReaper.Domain;
 using WebReaper.Queue;
 using WebReaper.Extensions;
 using System.Diagnostics;
+using System.Collections.Concurrent;
 
 namespace WebReaper.Spider;
 
@@ -14,7 +15,7 @@ public class Spider
 {
     protected IJobQueue jobsQueue { get; }
 
-    protected ImmutableHashSet<string> visitedUrls = ImmutableHashSet.Create<string>();
+    protected ConcurrentDictionary<string, byte> visitedUrls = new ConcurrentDictionary<string, byte>();
 
     private ILogger _logger;
 
@@ -50,7 +51,7 @@ public class Spider
             {
                 await Handle(job);
 
-                ImmutableInterlocked.Update(ref visitedUrls, old => old.Add(job.Url));
+                visitedUrls.TryAdd(job.Url, 0);
             }
             catch (Exception ex)
             {
@@ -156,7 +157,7 @@ public class Spider
         string[] linkPathSelectors,
         IEnumerable<string> links)
     {
-        var newLinks = links.Except(visitedUrls);
+        var newLinks = links.Except(visitedUrls.Keys);
 
         foreach (var link in newLinks)
         {
