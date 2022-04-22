@@ -37,38 +37,47 @@ public class Scraper : IScraper
 
     protected string baseUrl;
 
-    protected HttpClient httpClient = new(new SocketsHttpHandler()
-    {
-        MaxConnectionsPerServer = 100,
-        SslOptions = new SslClientAuthenticationOptions
-        {
-            // Leave certs unvalidated for debugging
-            RemoteCertificateValidationCallback = delegate { return true; },
-        },
-        PooledConnectionIdleTimeout = TimeSpan.FromMinutes(10),
-        PooledConnectionLifetime = Timeout.InfiniteTimeSpan
-    })
-    {
-        Timeout = TimeSpan.FromMinutes(10)
-    };
-    private readonly IJobQueueReader jobQueueReader;
+    protected HttpMessageHandler HttpHandler;
 
-    private readonly IJobQueueWriter jobQueueWriter;
+    protected HttpClient HttpClient;
 
-    private readonly ILogger _logger;
+    protected readonly IJobQueueReader JobQueueReader;
+
+    protected readonly IJobQueueWriter JobQueueWriter;
+
+    protected ILogger Logger;
 
     public Scraper(ILogger logger)
     {
-        _logger = logger;
+        InitHttpClient();
+
+        Logger = logger;
 
         ServicePointManager.DefaultConnectionLimit = int.MaxValue;
-        
-        jobQueueReader = new JobQueueReader(jobs);
-        jobQueueWriter = new JobQueueWriter(jobs);
-        
+
+        JobQueueReader = new JobQueueReader(jobs);
+        JobQueueWriter = new JobQueueWriter(jobs);
+
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
         ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+    }
+
+    private void InitHttpClient()
+    {
+        this.HttpHandler = new SocketsHttpHandler()
+        {
+            MaxConnectionsPerServer = 100,
+            SslOptions = new SslClientAuthenticationOptions
+            {
+                // Leave certs unvalidated for debugging
+                RemoteCertificateValidationCallback = delegate { return true; },
+            },
+            PooledConnectionIdleTimeout = TimeSpan.FromMinutes(10),
+            PooledConnectionLifetime = Timeout.InfiniteTimeSpan
+        };
+
+        this.HttpClient = new HttpClient(HttpHandler);
     }
 
     public IScraper WithStartUrl(string startUrl)
@@ -205,7 +214,7 @@ public class Scraper : IScraper
         var watch = System.Diagnostics.Stopwatch.StartNew();
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         var htmlDoc = new HtmlDocument();
-        htmlDoc.Load(await httpClient.GetStreamAsync(url), Encoding.GetEncoding(1251));
+        htmlDoc.LoadHtml(await HttpClient.GetStringAsync(url));
         watch.Stop();
         // Log.Logger.Information("Method {method}. Elapsed: {elapsed} sec",
         //     nameof(GetDocumentAsync),
