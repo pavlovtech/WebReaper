@@ -149,14 +149,14 @@ public class Scraper : IScraper
 
     public async Task Run()
     {
-        jobQueueWriter.Write(new Job(baseUrl,
+        JobQueueWriter.Write(new Job(baseUrl,
             startUrl,
             linkPathSelectors.ToArray(),
             paginationSelector,
             DepthLevel: 0,
             Priority: 0));
 
-        var spider = new WebReaper.Spider.Concrete.Spider(jobQueueReader, jobQueueWriter, _logger);
+        var spider = new WebReaper.Spider.Concrete.Spider(JobQueueReader, JobQueueWriter, Logger);
 
         var spiderTasks = Enumerable
             .Range(0, spidersCount)

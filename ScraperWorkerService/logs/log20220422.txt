@@ -801,3 +801,676 @@ System.NullReferenceException: Object reference not set to an instance of an obj
 2022-04-22 19:30:25.389 +03:00 [INF] Handle on target page was called 89 times
 2022-04-22 19:30:25.389 +03:00 [INF] target page: Бушков Александр - Остров кошмаров 03, Корона и плаха [Сергей Уделов, 2021, 128 kbps, MP3] :: RuTracker.org
 2022-04-22 19:30:25.389 +03:00 [INF] Handle finished in 152 ms
+2022-04-22 19:44:09.733 +03:00 [INF] GetDocumentAsync finished in 171 ms
+2022-04-22 19:44:09.830 +03:00 [INF] Handle finished in 273 ms
+2022-04-22 19:44:09.870 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: nodename nor servname provided, or not known (rutracker.org:443)
+ ---> System.Net.Sockets.SocketException (0xFFFDFFFF): nodename nor servname provided, or not known
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|277_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(HttpRequestMessage request)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Concrete.Spider.GetDocumentAsync(String url) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 188
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 82
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 55
+2022-04-22 19:44:09.967 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-22 19:44:09.967 +03:00 [INF] Hosting environment: Development
+2022-04-22 19:44:09.967 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-22 19:44:10.002 +03:00 [INF] GetDocumentAsync finished in 64 ms
+2022-04-22 19:44:10.039 +03:00 [INF] Handle finished in 102 ms
+2022-04-22 19:44:10.111 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: nodename nor servname provided, or not known (rutracker.org:443)
+ ---> System.Net.Sockets.SocketException (0xFFFDFFFF): nodename nor servname provided, or not known
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|277_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(HttpRequestMessage request)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Concrete.Spider.GetDocumentAsync(String url) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 188
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 82
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 55
+2022-04-22 19:44:10.218 +03:00 [INF] GetDocumentAsync finished in 80 ms
+2022-04-22 19:44:10.253 +03:00 [INF] Handle finished in 115 ms
+2022-04-22 19:44:10.293 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: nodename nor servname provided, or not known (rutracker.org:443)
+ ---> System.Net.Sockets.SocketException (0xFFFDFFFF): nodename nor servname provided, or not known
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|277_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(HttpRequestMessage request)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Concrete.Spider.GetDocumentAsync(String url) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 188
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 82
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 55
+2022-04-22 19:44:10.334 +03:00 [INF] GetDocumentAsync finished in 37 ms
+2022-04-22 19:44:10.372 +03:00 [INF] Handle finished in 75 ms
+2022-04-22 19:44:10.414 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: nodename nor servname provided, or not known (rutracker.org:443)
+ ---> System.Net.Sockets.SocketException (0xFFFDFFFF): nodename nor servname provided, or not known
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|277_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(HttpRequestMessage request)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Concrete.Spider.GetDocumentAsync(String url) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 188
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 82
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 55
+2022-04-22 19:44:10.522 +03:00 [INF] GetDocumentAsync finished in 106 ms
+2022-04-22 19:44:10.557 +03:00 [INF] Handle finished in 140 ms
+2022-04-22 19:44:10.598 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: nodename nor servname provided, or not known (rutracker.org:443)
+ ---> System.Net.Sockets.SocketException (0xFFFDFFFF): nodename nor servname provided, or not known
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|277_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(HttpRequestMessage request)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Concrete.Spider.GetDocumentAsync(String url) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 188
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 82
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 55
+2022-04-22 19:44:10.636 +03:00 [INF] GetDocumentAsync finished in 36 ms
+2022-04-22 19:44:10.672 +03:00 [INF] Handle finished in 72 ms
+2022-04-22 19:44:10.711 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: nodename nor servname provided, or not known (rutracker.org:443)
+ ---> System.Net.Sockets.SocketException (0xFFFDFFFF): nodename nor servname provided, or not known
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|277_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(HttpRequestMessage request)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Concrete.Spider.GetDocumentAsync(String url) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 188
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 82
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 55
+2022-04-22 19:44:10.782 +03:00 [INF] GetDocumentAsync finished in 69 ms
+2022-04-22 19:44:10.816 +03:00 [INF] Handle finished in 103 ms
+2022-04-22 19:44:10.861 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: nodename nor servname provided, or not known (rutracker.org:443)
+ ---> System.Net.Sockets.SocketException (0xFFFDFFFF): nodename nor servname provided, or not known
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|277_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(HttpRequestMessage request)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Concrete.Spider.GetDocumentAsync(String url) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 188
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 82
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 55
+2022-04-22 19:44:10.932 +03:00 [INF] GetDocumentAsync finished in 69 ms
+2022-04-22 19:44:10.968 +03:00 [INF] Handle finished in 105 ms
+2022-04-22 19:44:11.009 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: nodename nor servname provided, or not known (rutracker.org:443)
+ ---> System.Net.Sockets.SocketException (0xFFFDFFFF): nodename nor servname provided, or not known
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|277_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(HttpRequestMessage request)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Concrete.Spider.GetDocumentAsync(String url) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 188
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 82
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 55
+2022-04-22 19:44:11.086 +03:00 [INF] GetDocumentAsync finished in 75 ms
+2022-04-22 19:44:11.122 +03:00 [INF] Handle finished in 111 ms
+2022-04-22 19:44:11.160 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: nodename nor servname provided, or not known (rutracker.org:443)
+ ---> System.Net.Sockets.SocketException (0xFFFDFFFF): nodename nor servname provided, or not known
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|277_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(HttpRequestMessage request)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Concrete.Spider.GetDocumentAsync(String url) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 188
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 82
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 55
+2022-04-22 19:44:11.249 +03:00 [INF] GetDocumentAsync finished in 87 ms
+2022-04-22 19:44:11.284 +03:00 [INF] Handle finished in 122 ms
+2022-04-22 19:44:11.327 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: nodename nor servname provided, or not known (rutracker.org:443)
+ ---> System.Net.Sockets.SocketException (0xFFFDFFFF): nodename nor servname provided, or not known
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|277_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(HttpRequestMessage request)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Concrete.Spider.GetDocumentAsync(String url) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 188
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 82
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 55
+2022-04-22 19:44:11.396 +03:00 [INF] GetDocumentAsync finished in 67 ms
+2022-04-22 19:44:11.442 +03:00 [INF] Handle finished in 112 ms
+2022-04-22 19:44:11.491 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: nodename nor servname provided, or not known (rutracker.org:443)
+ ---> System.Net.Sockets.SocketException (0xFFFDFFFF): nodename nor servname provided, or not known
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|277_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(HttpRequestMessage request)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Concrete.Spider.GetDocumentAsync(String url) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 188
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 82
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 55
+2022-04-22 19:44:11.604 +03:00 [INF] GetDocumentAsync finished in 111 ms
+2022-04-22 19:44:11.638 +03:00 [INF] Handle finished in 145 ms
+2022-04-22 19:44:11.679 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: nodename nor servname provided, or not known (rutracker.org:443)
+ ---> System.Net.Sockets.SocketException (0xFFFDFFFF): nodename nor servname provided, or not known
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|277_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(HttpRequestMessage request)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Concrete.Spider.GetDocumentAsync(String url) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 188
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 82
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 55
+2022-04-22 19:44:11.758 +03:00 [INF] GetDocumentAsync finished in 77 ms
+2022-04-22 19:44:11.797 +03:00 [INF] Handle finished in 116 ms
+2022-04-22 19:44:11.839 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: nodename nor servname provided, or not known (rutracker.org:443)
+ ---> System.Net.Sockets.SocketException (0xFFFDFFFF): nodename nor servname provided, or not known
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|277_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(HttpRequestMessage request)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Concrete.Spider.GetDocumentAsync(String url) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 188
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 82
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 55
+2022-04-22 19:44:11.882 +03:00 [INF] GetDocumentAsync finished in 41 ms
+2022-04-22 19:44:11.927 +03:00 [INF] Handle finished in 86 ms
+2022-04-22 19:44:11.970 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: nodename nor servname provided, or not known (rutracker.org:443)
+ ---> System.Net.Sockets.SocketException (0xFFFDFFFF): nodename nor servname provided, or not known
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|277_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(HttpRequestMessage request)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Concrete.Spider.GetDocumentAsync(String url) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 188
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 82
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 55
+2022-04-22 19:44:12.047 +03:00 [INF] GetDocumentAsync finished in 75 ms
+2022-04-22 19:44:12.085 +03:00 [INF] Handle finished in 113 ms
+2022-04-22 19:44:12.131 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: nodename nor servname provided, or not known (rutracker.org:443)
+ ---> System.Net.Sockets.SocketException (0xFFFDFFFF): nodename nor servname provided, or not known
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|277_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(HttpRequestMessage request)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Concrete.Spider.GetDocumentAsync(String url) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 188
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 82
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 55
+2022-04-22 19:44:12.215 +03:00 [INF] GetDocumentAsync finished in 82 ms
+2022-04-22 19:44:12.263 +03:00 [INF] Handle finished in 129 ms
+2022-04-22 19:44:12.308 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: nodename nor servname provided, or not known (rutracker.org:443)
+ ---> System.Net.Sockets.SocketException (0xFFFDFFFF): nodename nor servname provided, or not known
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|277_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(HttpRequestMessage request)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Concrete.Spider.GetDocumentAsync(String url) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 188
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 82
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 55
+2022-04-22 19:44:12.371 +03:00 [INF] GetDocumentAsync finished in 61 ms
+2022-04-22 19:44:12.408 +03:00 [INF] Handle finished in 98 ms
+2022-04-22 19:44:12.454 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: nodename nor servname provided, or not known (rutracker.org:443)
+ ---> System.Net.Sockets.SocketException (0xFFFDFFFF): nodename nor servname provided, or not known
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|277_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(HttpRequestMessage request)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Concrete.Spider.GetDocumentAsync(String url) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 188
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 82
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 55
+2022-04-22 19:44:12.508 +03:00 [INF] GetDocumentAsync finished in 52 ms
+2022-04-22 19:44:12.552 +03:00 [INF] Handle finished in 95 ms
+2022-04-22 19:44:12.600 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: nodename nor servname provided, or not known (rutracker.org:443)
+ ---> System.Net.Sockets.SocketException (0xFFFDFFFF): nodename nor servname provided, or not known
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|277_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(HttpRequestMessage request)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Concrete.Spider.GetDocumentAsync(String url) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 188
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 82
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 55
+2022-04-22 19:44:12.686 +03:00 [INF] GetDocumentAsync finished in 84 ms
+2022-04-22 19:44:12.726 +03:00 [INF] Handle finished in 123 ms
+2022-04-22 19:44:12.777 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: nodename nor servname provided, or not known (rutracker.org:443)
+ ---> System.Net.Sockets.SocketException (0xFFFDFFFF): nodename nor servname provided, or not known
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|277_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(HttpRequestMessage request)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Concrete.Spider.GetDocumentAsync(String url) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 188
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 82
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 55
+2022-04-22 19:44:12.852 +03:00 [INF] GetDocumentAsync finished in 73 ms
+2022-04-22 19:44:12.892 +03:00 [INF] Handle finished in 112 ms
+2022-04-22 19:44:12.937 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: nodename nor servname provided, or not known (rutracker.org:443)
+ ---> System.Net.Sockets.SocketException (0xFFFDFFFF): nodename nor servname provided, or not known
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|277_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(HttpRequestMessage request)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Concrete.Spider.GetDocumentAsync(String url) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 188
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 82
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 55
+2022-04-22 19:44:13.004 +03:00 [INF] GetDocumentAsync finished in 64 ms
+2022-04-22 19:44:13.048 +03:00 [INF] Handle finished in 108 ms
+2022-04-22 19:44:13.098 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: nodename nor servname provided, or not known (rutracker.org:443)
+ ---> System.Net.Sockets.SocketException (0xFFFDFFFF): nodename nor servname provided, or not known
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|277_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(HttpRequestMessage request)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Concrete.Spider.GetDocumentAsync(String url) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 188
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 82
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 55
+2022-04-22 19:44:13.161 +03:00 [INF] GetDocumentAsync finished in 61 ms
+2022-04-22 19:45:10.607 +03:00 [INF] GetDocumentAsync finished in 499 ms
+2022-04-22 19:45:10.790 +03:00 [INF] Handle finished in 664 ms
+2022-04-22 19:45:10.794 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-22 19:45:10.794 +03:00 [INF] Hosting environment: Development
+2022-04-22 19:45:10.795 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-22 19:45:10.947 +03:00 [INF] GetDocumentAsync finished in 202 ms
+2022-04-22 19:45:10.955 +03:00 [INF] Handle finished in 210 ms
+2022-04-22 19:45:11.019 +03:00 [INF] GetDocumentAsync finished in 224 ms
+2022-04-22 19:45:11.020 +03:00 [INF] Handle finished in 225 ms
+2022-04-22 19:45:11.060 +03:00 [INF] GetDocumentAsync finished in 104 ms
+2022-04-22 19:45:11.061 +03:00 [INF] Handle finished in 105 ms
+2022-04-22 19:45:11.316 +03:00 [INF] GetDocumentAsync finished in 296 ms
+2022-04-22 19:45:11.328 +03:00 [INF] Handle finished in 308 ms
+2022-04-22 19:45:11.449 +03:00 [INF] GetDocumentAsync finished in 120 ms
+2022-04-22 19:45:11.453 +03:00 [INF] Handle on target page was called 1 times
+2022-04-22 19:45:11.455 +03:00 [INF] target page: Сергей Довлатов - Сергей Довлатов - чемодан. Читает Валентин Гафт. [Валентин Гафт, 128 kbps] :: RuTracker.org
+2022-04-22 19:45:11.455 +03:00 [INF] Handle finished in 126 ms
+2022-04-22 19:45:11.588 +03:00 [INF] GetDocumentAsync finished in 132 ms
+2022-04-22 19:45:11.591 +03:00 [INF] Handle on target page was called 2 times
+2022-04-22 19:45:11.591 +03:00 [INF] target page: Адамович Алесь - Каратели [С. Чонишвили, Е. Прохоров, А. Фирстов, А. Фирстов, А. Хореняк, А. Давыдова, Е. Карпов, А. Прозоровский, Н. Зеленый, С. Буров, И. Кузьмин, В. Куприяшин и другие, 2017 г., 320 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:11.591 +03:00 [INF] Handle finished in 135 ms
+2022-04-22 19:45:11.599 +03:00 [INF] GetDocumentAsync finished in 536 ms
+2022-04-22 19:45:11.611 +03:00 [INF] Handle finished in 547 ms
+2022-04-22 19:45:11.708 +03:00 [INF] GetDocumentAsync finished in 116 ms
+2022-04-22 19:45:11.708 +03:00 [INF] Handle on target page was called 3 times
+2022-04-22 19:45:11.708 +03:00 [INF] target page: Куликова Галина - «Секретарша на батарейках» [Артисты театров, 128 kbps] :: RuTracker.org
+2022-04-22 19:45:11.709 +03:00 [INF] Handle finished in 116 ms
+2022-04-22 19:45:11.714 +03:00 [INF] GetDocumentAsync finished in 102 ms
+2022-04-22 19:45:11.714 +03:00 [INF] Handle on target page was called 4 times
+2022-04-22 19:45:11.714 +03:00 [INF] target page: Островский Александр - Доходное место [Ветров В., Ясулович И., Джабраилова М., Лизенгевич И., Лумпова Н. и др., 2016, 192 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:11.714 +03:00 [INF] Handle finished in 103 ms
+2022-04-22 19:45:11.837 +03:00 [INF] GetDocumentAsync finished in 122 ms
+2022-04-22 19:45:11.846 +03:00 [INF] Handle on target page was called 5 times
+2022-04-22 19:45:11.846 +03:00 [INF] target page: Малышева Анна, Ковалев Анатолий - Авантюристка. Отверженная невеста [Галина Чигинская, 2013 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:11.846 +03:00 [INF] Handle finished in 131 ms
+2022-04-22 19:45:11.845 +03:00 [INF] GetDocumentAsync finished in 135 ms
+2022-04-22 19:45:11.938 +03:00 [INF] Handle on target page was called 6 times
+2022-04-22 19:45:11.938 +03:00 [INF] target page: Островский Александр - Волки и овцы [Пашенная В., Ильинский И., Зеркалова Д. и др., 1949, 128 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:11.938 +03:00 [INF] Handle finished in 228 ms
+2022-04-22 19:45:12.049 +03:00 [INF] GetDocumentAsync finished in 110 ms
+2022-04-22 19:45:12.049 +03:00 [INF] Handle on target page was called 7 times
+2022-04-22 19:45:12.049 +03:00 [INF] target page: Пальм Карл Магнус. Яркий свет, чёрные тени. Подлинная история группы АББА - [BIGBAG (ЛИ), 2018 год, 256 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:12.049 +03:00 [INF] Handle finished in 110 ms
+2022-04-22 19:45:12.129 +03:00 [INF] GetDocumentAsync finished in 281 ms
+2022-04-22 19:45:12.129 +03:00 [INF] Handle on target page was called 8 times
+2022-04-22 19:45:12.129 +03:00 [INF] target page: Гаспарян Армен - Крах Великой империи [Армен Гаспарян, 2016, 128 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:12.129 +03:00 [INF] Handle finished in 281 ms
+2022-04-22 19:45:12.164 +03:00 [INF] GetDocumentAsync finished in 115 ms
+2022-04-22 19:45:12.165 +03:00 [INF] Handle on target page was called 9 times
+2022-04-22 19:45:12.165 +03:00 [INF] target page: Гече Густав - Библейские истории [Герасимов Вячеслав, 2012 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:12.165 +03:00 [INF] Handle finished in 115 ms
+2022-04-22 19:45:12.246 +03:00 [INF] GetDocumentAsync finished in 117 ms
+2022-04-22 19:45:12.247 +03:00 [INF] Handle on target page was called 10 times
+2022-04-22 19:45:12.247 +03:00 [INF] target page: В. Гиляровский - Москва и москвичи [Михаил Козаков, Артём Карапетян, 128 кбит/с, MP3] :: RuTracker.org
+2022-04-22 19:45:12.247 +03:00 [INF] Handle finished in 117 ms
+2022-04-22 19:45:12.278 +03:00 [INF] GetDocumentAsync finished in 112 ms
+2022-04-22 19:45:12.278 +03:00 [INF] Handle on target page was called 11 times
+2022-04-22 19:45:12.278 +03:00 [INF] target page: Бодрийяр Жан - Общество потребления [Константин Корольков, 2020, 128 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:12.278 +03:00 [INF] Handle finished in 113 ms
+2022-04-22 19:45:12.551 +03:00 [INF] GetDocumentAsync finished in 273 ms
+2022-04-22 19:45:12.552 +03:00 [INF] Handle on target page was called 12 times
+2022-04-22 19:45:12.552 +03:00 [INF] target page: Ленин (Ульянов) Владимир - В.И.Ленин Избранные произведения в 4-х томах. (аудиокнига) читает [Прудовский И. Сушков В., 2014 г., 48 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:12.552 +03:00 [INF] Handle finished in 273 ms
+2022-04-22 19:45:12.703 +03:00 [INF] GetDocumentAsync finished in 150 ms
+2022-04-22 19:45:12.703 +03:00 [INF] Handle on target page was called 13 times
+2022-04-22 19:45:12.703 +03:00 [INF] target page: Рассел Бертран - Брак и мораль [Юрий Беляев, 2020, 64 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:12.703 +03:00 [INF] Handle finished in 151 ms
+2022-04-22 19:45:12.737 +03:00 [INF] GetDocumentAsync finished in 489 ms
+2022-04-22 19:45:12.737 +03:00 [INF] Handle on target page was called 14 times
+2022-04-22 19:45:12.738 +03:00 [INF] target page: Суворов Виктор - Беру свои слова обратно [Игорь Калмыков, 2011 г., 128, MP3] :: RuTracker.org
+2022-04-22 19:45:12.738 +03:00 [INF] Handle finished in 490 ms
+2022-04-22 19:45:12.842 +03:00 [INF] GetDocumentAsync finished in 104 ms
+2022-04-22 19:45:12.842 +03:00 [INF] Handle on target page was called 15 times
+2022-04-22 19:45:12.843 +03:00 [INF] target page: фон Клаузевиц Карл - О войне [Станислав Федосов, 2007 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:12.843 +03:00 [INF] Handle finished in 104 ms
+2022-04-22 19:45:12.877 +03:00 [INF] GetDocumentAsync finished in 173 ms
+2022-04-22 19:45:12.877 +03:00 [INF] Handle on target page was called 16 times
+2022-04-22 19:45:12.878 +03:00 [INF] target page: Н. В. Герасименко - Батько Махно. Мемуары белогвардейца [Алексей Борзунов, 2007, 128 кбит/с, MP3] :: RuTracker.org
+2022-04-22 19:45:12.878 +03:00 [INF] Handle finished in 173 ms
+2022-04-22 19:45:12.991 +03:00 [INF] GetDocumentAsync finished in 113 ms
+2022-04-22 19:45:12.991 +03:00 [INF] Handle on target page was called 17 times
+2022-04-22 19:45:12.991 +03:00 [INF] target page: Гюго Виктор - Девяносто третий год [Терновский Евгений, 2015 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:12.991 +03:00 [INF] Handle finished in 113 ms
+2022-04-22 19:45:13.131 +03:00 [INF] GetDocumentAsync finished in 139 ms
+2022-04-22 19:45:13.131 +03:00 [INF] Handle on target page was called 18 times
+2022-04-22 19:45:13.131 +03:00 [INF] target page: Яковлев Александр - Цель жизни. Записки авиаконструктора [Игорь Мурашко, 2010 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:13.131 +03:00 [INF] Handle finished in 139 ms
+2022-04-22 19:45:13.161 +03:00 [INF] GetDocumentAsync finished in 317 ms
+2022-04-22 19:45:13.161 +03:00 [INF] Handle on target page was called 19 times
+2022-04-22 19:45:13.161 +03:00 [INF] target page: Мухин Юрий - Убийство Сталина и Берия [Терновский, 2009, 96 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:13.161 +03:00 [INF] Handle finished in 318 ms
+2022-04-22 19:45:13.252 +03:00 [INF] GetDocumentAsync finished in 121 ms
+2022-04-22 19:45:13.253 +03:00 [INF] Handle on target page was called 20 times
+2022-04-22 19:45:13.253 +03:00 [INF] target page: Пикуль Валентин – Пером и шпагой [Владимир Самойлов, 2011, 128 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:13.253 +03:00 [INF] Handle finished in 121 ms
+2022-04-22 19:45:13.263 +03:00 [INF] GetDocumentAsync finished in 101 ms
+2022-04-22 19:45:13.263 +03:00 [INF] Handle on target page was called 21 times
+2022-04-22 19:45:13.263 +03:00 [INF] target page: Эйдельман Натан - Грань веков [Иванова Маргарита, 2015 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:13.263 +03:00 [INF] Handle finished in 101 ms
+2022-04-22 19:45:13.382 +03:00 [INF] GetDocumentAsync finished in 129 ms
+2022-04-22 19:45:13.382 +03:00 [INF] Handle on target page was called 22 times
+2022-04-22 19:45:13.382 +03:00 [INF] GetDocumentAsync finished in 119 ms
+2022-04-22 19:45:13.382 +03:00 [INF] target page: Вершигора Пётр - Люди с чистой совестью [Юрова Лариса, 2014 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:13.382 +03:00 [INF] Handle on target page was called 23 times
+2022-04-22 19:45:13.382 +03:00 [INF] Handle finished in 129 ms
+2022-04-22 19:45:13.383 +03:00 [INF] target page: Якубович Николай – Первый реактивный бомбардировщик Ил-28. Атомный «мясник» Сталина [Решетников Владислав, 2020, 112 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:13.383 +03:00 [INF] Handle finished in 119 ms
+2022-04-22 19:45:13.487 +03:00 [INF] GetDocumentAsync finished in 104 ms
+2022-04-22 19:45:13.487 +03:00 [INF] Handle on target page was called 24 times
+2022-04-22 19:45:13.487 +03:00 [INF] target page: Бушков Александр - Остров кошмаров 05, Копья и пулеметы [Уделов Сергей, 2021, 128 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:13.488 +03:00 [INF] Handle finished in 104 ms
+2022-04-22 19:45:13.519 +03:00 [INF] GetDocumentAsync finished in 136 ms
+2022-04-22 19:45:13.519 +03:00 [INF] Handle on target page was called 25 times
+2022-04-22 19:45:13.520 +03:00 [INF] target page: Першанин Владимир - Штурмовая рота 1, Командир штрафной роты [Максим Коробицын, 2019, 128 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:13.520 +03:00 [INF] Handle finished in 136 ms
+2022-04-22 19:45:13.612 +03:00 [INF] GetDocumentAsync finished in 124 ms
+2022-04-22 19:45:13.612 +03:00 [INF] Handle on target page was called 26 times
+2022-04-22 19:45:13.612 +03:00 [INF] target page: Эрлих Генрих - Они сражались за Гитлера 2, Адский штрафбат [Дмитрий Филимонов (Мимон), (ЛИ), 2014 г., 192 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:13.612 +03:00 [INF] Handle finished in 124 ms
+2022-04-22 19:45:13.627 +03:00 [INF] GetDocumentAsync finished in 107 ms
+2022-04-22 19:45:13.628 +03:00 [INF] Handle on target page was called 27 times
+2022-04-22 19:45:13.628 +03:00 [INF] target page: Бушков Александр - Остров кошмаров 04, Томагавки и алмазы [Уделов Сергей, 2021, 128 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:13.628 +03:00 [INF] Handle finished in 107 ms
+2022-04-22 19:45:13.717 +03:00 [INF] GetDocumentAsync finished in 104 ms
+2022-04-22 19:45:13.717 +03:00 [INF] Handle on target page was called 28 times
+2022-04-22 19:45:13.717 +03:00 [INF] target page: Бушков Александр – Остров кошмаров 01, Топоры и стрелы [Бабков Виктор, 2019, 56 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:13.717 +03:00 [INF] Handle finished in 105 ms
+2022-04-22 19:45:13.728 +03:00 [INF] GetDocumentAsync finished in 100 ms
+2022-04-22 19:45:13.728 +03:00 [INF] Handle on target page was called 29 times
+2022-04-22 19:45:13.729 +03:00 [INF] target page: Бушков Александр – Остров кошмаров 02, Паруса и пушки [Игнатьев Дмитрий a.k.a. digig, 2019, 48 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:13.729 +03:00 [INF] Handle finished in 100 ms
+2022-04-22 19:45:13.838 +03:00 [INF] GetDocumentAsync finished in 120 ms
+2022-04-22 19:45:13.838 +03:00 [INF] Handle on target page was called 30 times
+2022-04-22 19:45:13.838 +03:00 [INF] target page: Бушков Александр - Остров кошмаров 03, Корона и плаха [Сергей Уделов, 2021, 128 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:13.838 +03:00 [INF] Handle finished in 120 ms
+2022-04-22 19:45:13.839 +03:00 [INF] GetDocumentAsync finished in 110 ms
+2022-04-22 19:45:13.840 +03:00 [INF] Handle on target page was called 31 times
+2022-04-22 19:45:13.840 +03:00 [INF] target page: Солженицын А.И. - &quot;Красное колесо. Узел 1. Август четырнадцатого&quot; [Герасимов В., 32 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:13.862 +03:00 [INF] Handle finished in 133 ms
+2022-04-22 19:45:13.969 +03:00 [INF] GetDocumentAsync finished in 106 ms
+2022-04-22 19:45:13.969 +03:00 [INF] Handle on target page was called 32 times
+2022-04-22 19:45:13.969 +03:00 [INF] target page: Эйдельман Натан - Последний летописец, или Две жизни Николая Карамзина [Леонов Андрей, 2018, 128 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:13.969 +03:00 [INF] Handle finished in 106 ms
+2022-04-22 19:45:14.034 +03:00 [INF] GetDocumentAsync finished in 195 ms
+2022-04-22 19:45:14.034 +03:00 [INF] Handle on target page was called 33 times
+2022-04-22 19:45:14.034 +03:00 [INF] target page: Толстая Татьяна - Кысь [Алексей Дубровский, 2001 г., 192 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:14.034 +03:00 [INF] Handle finished in 195 ms
+2022-04-22 19:45:14.082 +03:00 [INF] GetDocumentAsync finished in 111 ms
+2022-04-22 19:45:14.082 +03:00 [INF] Handle on target page was called 34 times
+2022-04-22 19:45:14.082 +03:00 [INF] target page: Айриш Уильям - Острый сюжет - Окно во двор [Катин-Ярцев Ю., Горобец Ю., Коршунов В. и др., 2017, 128 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:14.082 +03:00 [INF] Handle finished in 112 ms
+2022-04-22 19:45:14.146 +03:00 [INF] GetDocumentAsync finished in 112 ms
+2022-04-22 19:45:14.146 +03:00 [INF] Handle on target page was called 35 times
+2022-04-22 19:45:14.147 +03:00 [INF] target page: Беляев Александр - Властелин мира [Костолевский И., Ташков А., Пинскер М., Демонт К., Левашёв В. и др. 2012 г., 160 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:14.147 +03:00 [INF] Handle finished in 112 ms
+2022-04-22 19:45:14.197 +03:00 [INF] GetDocumentAsync finished in 115 ms
+2022-04-22 19:45:14.197 +03:00 [INF] Handle on target page was called 36 times
+2022-04-22 19:45:14.197 +03:00 [INF] target page: Уилки Коллинз - ЛУННЫЙ КАМЕНЬ [Автор перевода Мариэтта Шагинян, 2009, 192 kbps] :: RuTracker.org
+2022-04-22 19:45:14.198 +03:00 [INF] Handle finished in 115 ms
+2022-04-22 19:45:14.286 +03:00 [INF] GetDocumentAsync finished in 139 ms
+2022-04-22 19:45:14.287 +03:00 [INF] Handle on target page was called 37 times
+2022-04-22 19:45:14.287 +03:00 [INF] target page: Малышева Анна, Ковалев Анатолий - Авантюристка. Потерявшая сердце [Галина Чигинская, 2013 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:14.287 +03:00 [INF] Handle finished in 139 ms
+2022-04-22 19:45:14.310 +03:00 [INF] GetDocumentAsync finished in 112 ms
+2022-04-22 19:45:14.310 +03:00 [INF] Handle on target page was called 38 times
+2022-04-22 19:45:14.310 +03:00 [INF] target page: Васильев Борис - Олексины 05.2, Дом, который построил дед. [Заборовский Юрий, 2013 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:14.311 +03:00 [INF] Handle finished in 112 ms
+2022-04-22 19:45:14.411 +03:00 [INF] GetDocumentAsync finished in 124 ms
+2022-04-22 19:45:14.411 +03:00 [INF] Handle on target page was called 39 times
+2022-04-22 19:45:14.411 +03:00 [INF] target page: Васильев Борис - Олексины 05.1, Дом, который построил дед [Иванова Маргарита, 2011 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:14.411 +03:00 [INF] Handle finished in 124 ms
+2022-04-22 19:45:14.555 +03:00 [INF] GetDocumentAsync finished in 143 ms
+2022-04-22 19:45:14.555 +03:00 [INF] Handle on target page was called 40 times
+2022-04-22 19:45:14.555 +03:00 [INF] target page: Васильев Борис - Олексины 01, Картежник и бретёр, игрок и дуэлянт [Герасимов Вячеслав, 2013 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:14.555 +03:00 [INF] Handle finished in 143 ms
+2022-04-22 19:45:14.668 +03:00 [INF] GetDocumentAsync finished in 112 ms
+2022-04-22 19:45:14.668 +03:00 [INF] Handle on target page was called 41 times
+2022-04-22 19:45:14.668 +03:00 [INF] target page: Попов Валерий – Культовый Питер [Ионкина Евгения, 2018, 96 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:14.668 +03:00 [INF] Handle finished in 113 ms
+2022-04-22 19:45:14.816 +03:00 [INF] GetDocumentAsync finished in 504 ms
+2022-04-22 19:45:14.816 +03:00 [INF] Handle on target page was called 42 times
+2022-04-22 19:45:14.816 +03:00 [INF] target page: Васильев Борис - Олексины 03, Утоли моя печали [Герасимов Вячеслав, 2013 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:14.816 +03:00 [INF] Handle finished in 504 ms
+2022-04-22 19:45:14.845 +03:00 [INF] GetDocumentAsync finished in 177 ms
+2022-04-22 19:45:14.845 +03:00 [INF] Handle on target page was called 43 times
+2022-04-22 19:45:14.845 +03:00 [INF] target page: Хинштейн Александр - &quot;Березовский &amp; Абрамович. Олигархи с большой дороги&quot; [Илья Минский(ЛИ), 2013 г., 128kbps 44kHz, MP3] :: RuTracker.org
+2022-04-22 19:45:14.845 +03:00 [INF] Handle finished in 177 ms
+2022-04-22 19:45:14.938 +03:00 [INF] GetDocumentAsync finished in 121 ms
+2022-04-22 19:45:14.938 +03:00 [INF] Handle on target page was called 44 times
+2022-04-22 19:45:14.938 +03:00 [INF] target page: Пантелеев Леонид - В осажденном городе [Александр Бордуков, 2011 г., 192 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:14.938 +03:00 [INF] Handle finished in 121 ms
+2022-04-22 19:45:14.961 +03:00 [INF] GetDocumentAsync finished in 115 ms
+2022-04-22 19:45:14.961 +03:00 [INF] Handle on target page was called 45 times
+2022-04-22 19:45:14.961 +03:00 [INF] target page: Батуман Элиф – Бесы. Приключения русской литературы и людей, которые ее читают [Ломыкина Наталья, 2018, 128 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:14.961 +03:00 [INF] Handle finished in 115 ms
+2022-04-22 19:45:15.091 +03:00 [INF] GetDocumentAsync finished in 129 ms
+2022-04-22 19:45:15.091 +03:00 [INF] Handle on target page was called 46 times
+2022-04-22 19:45:15.091 +03:00 [INF] target page: Виктор Суворов - Контроль [Александр Андриенко, Наталья Рычкова, 2008, 128 кбит/с, MP3] :: RuTracker.org
+2022-04-22 19:45:15.091 +03:00 [INF] Handle finished in 129 ms
+2022-04-22 19:45:15.113 +03:00 [INF] GetDocumentAsync finished in 175 ms
+2022-04-22 19:45:15.114 +03:00 [INF] Handle on target page was called 47 times
+2022-04-22 19:45:15.114 +03:00 [INF] target page: Пикуль Валентин - Десять сюжетов [Самойлов Владимир, 2013, 96 kbps, MP3] :: RuTracker.org
+2022-04-22 19:45:15.114 +03:00 [INF] Handle finished in 175 ms
+2022-04-22 19:45:15.216 +03:00 [INF] GetDocumentAsync finished in 124 ms
+2022-04-22 19:45:15.216 +03:00 [INF] Handle on target page was called 48 times
+2022-04-22 19:45:15.216 +03:00 [INF] target page: Суворов Виктор - Убить чужим ножом [И.Калмыков,(ЛИ) 2011 г., 128, MP3] :: RuTracker.org
+2022-04-22 19:45:15.216 +03:00 [INF] Handle finished in 124 ms
