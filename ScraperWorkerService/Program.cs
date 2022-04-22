@@ -1,5 +1,7 @@
 ﻿using ScraperWorkerService;
 using Serilog;
+using WebReaper.Scraper.Abstract;
+using WebReaper.Scraper.Concrete;
 
 Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Information()

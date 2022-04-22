@@ -7,22 +7,30 @@ using System.Net.Security;
 using WebReaper.Domain;
 using Microsoft.Extensions.Logging;
 using WebReaper.Queue.Abstract;
+using WebReaper.Scraper.Abstract;
 using WebReaper.Queue.Concrete;
-using WebReaper.Spider.Concrete;
+using System.Collections.Concurrent;
 
 namespace WebReaper.Scraper.Concrete;
 
 // anglesharpjs
 // puppeter
-public class Scraper
+public class Scraper : IScraper
 {
     protected List<string> linkPathSelectors = new();
     protected int limit = int.MaxValue;
+
+    protected BlockingCollection<Job> jobs = new(new ProducerConsumerPriorityQueue());
+
     private string filePath = "output.json";
     private string startUrl;
+
     private WebEl[]? schema;
+
     private string? paginationSelector;
+
     private WebProxy proxy;
+
     private WebProxy[] proxies;
 
     private int spidersCount = 1;
@@ -43,17 +51,28 @@ public class Scraper
     {
         Timeout = TimeSpan.FromMinutes(10)
     };
+    private readonly IJobQueueReader jobQueueReader;
+
+    private readonly IJobQueueWriter jobQueueWriter;
 
     private readonly ILogger _logger;
 
-    public Scraper(string startUrl, ILogger logger)
+    public Scraper(ILogger logger)
     {
         _logger = logger;
+
         ServicePointManager.DefaultConnectionLimit = int.MaxValue;
+        
+        jobQueueReader = new JobQueueReader(jobs);
+        jobQueueWriter = new JobQueueWriter(jobs);
+        
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
         ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+    }
 
+    public IScraper WithStartUrl(string startUrl)
+    {
         this.startUrl = startUrl;
 
         var startUri = new Uri(startUrl);
@@ -62,73 +81,73 @@ public class Scraper
         var segments = startUri.Segments;
 
         this.baseUrl = baseUrl + string.Join(string.Empty, segments.SkipLast(1));
+
+        return this;
     }
 
-    public Scraper FollowLinks(string linkSelector)
+    public IScraper FollowLinks(string linkSelector)
     {
         linkPathSelectors.Add(linkSelector);
         return this;
     }
 
-    public Scraper WithScheme(WebEl[] schema)
+    public IScraper WithScheme(WebEl[] schema)
     {
         this.schema = schema;
         return this;
     }
 
-    public Scraper WithSpiders(int spiderCount)
+    public IScraper WithSpiders(int spiderCount)
     {
         spidersCount = spiderCount;
         return this;
     }
 
-    public Scraper Limit(int limit)
+    public IScraper Limit(int limit)
     {
         this.limit = limit;
         return this;
     }
 
-    public Scraper WithProxy(WebProxy proxy)
+    public IScraper WithProxy(WebProxy proxy)
     {
         this.proxy = proxy;
         return this;
     }
 
-    public Scraper WithProxy(WebProxy[] proxies)
+    public IScraper WithProxy(WebProxy[] proxies)
     {
         this.proxies = proxies;
         return this;
     }
 
-    public Scraper WithPuppeter(WebProxy[] proxies)
+    public IScraper WithPuppeter(WebProxy[] proxies)
     {
         return this;
     }
 
-    public Scraper To(string filePath)
+    public IScraper To(string filePath)
     {
         this.filePath = filePath;
         return this;
     }
 
-    public Scraper Paginate(string paginationSelector)
+    public IScraper Paginate(string paginationSelector)
     {
         this.paginationSelector = paginationSelector;
         return this;
     }
 
-    IJobQueue jobQueue = new JobQueue();
-
     public async Task Run()
     {
-        jobQueue.Add(new Job(baseUrl,
+        jobQueueWriter.Write(new Job(baseUrl,
             startUrl,
             linkPathSelectors.ToArray(),
             paginationSelector,
             DepthLevel: 0,
             Priority: 0));
 
-        var spider = new WebReaper.Spider.Concrete.Spider(jobQueue, _logger);
+        var spider = new WebReaper.Spider.Concrete.Spider(jobQueueReader, jobQueueWriter, _logger);
 
         var spiderTasks = Enumerable
             .Range(0, spidersCount)

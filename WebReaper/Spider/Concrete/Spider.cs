@@ -7,15 +7,15 @@ using WebReaper.Extensions;
 using System.Diagnostics;
 using System.Collections.Concurrent;
 using WebReaper.Queue.Abstract;
+using WebReaper.Spider.Abastract;
 
 namespace WebReaper.Spider.Concrete;
 
-public class Spider
+public class Spider : ISpider
 {
-    protected IJobQueue jobsQueue { get; }
-
     protected ConcurrentDictionary<string, byte> visitedUrls = new ConcurrentDictionary<string, byte>();
-
+    private readonly IJobQueueReader jobQueueReader;
+    private readonly IJobQueueWriter jobQueueWriter;
     private ILogger _logger;
 
     protected static HttpClient httpClient = new(new SocketsHttpHandler()
@@ -33,9 +33,13 @@ public class Spider
         //Timeout = TimeSpan.FromMinutes(2)
     };
 
-    public Spider(IJobQueue jobs, ILogger logger)
+    public Spider(
+        IJobQueueReader jobQueueReader,
+        IJobQueueWriter jobQueueWriter,
+        ILogger logger)
     {
-        jobsQueue = jobs;
+        this.jobQueueReader = jobQueueReader;
+        this.jobQueueWriter = jobQueueWriter;
         _logger = logger;
     }
 
@@ -44,7 +48,7 @@ public class Spider
         Stopwatch watch = new Stopwatch();
         watch.Start();
 
-        foreach (var job in jobsQueue.Get())
+        foreach (var job in jobQueueReader.Read())
         {
             try
             {
@@ -55,7 +59,7 @@ public class Spider
                 _logger.LogError(ex, "Error occurred when scraping {url}", job.Url);
 
                 // return job back to the queue
-                jobsQueue.Add(job);
+                jobQueueWriter.Write(job);
             }
         }
     }
@@ -64,16 +68,17 @@ public class Spider
     {
         visitedUrls.TryAdd(job.Url, 0);
 
-        if(job.Url == "https://rutracker.org/forum/viewforum.php?f=396" ||
+        if (job.Url == "https://rutracker.org/forum/viewforum.php?f=396" ||
         job.Url == "https://rutracker.org/forum/viewforum.php?f=2322" ||
         job.Url == "https://rutracker.org/forum/viewforum.php?f=1993" ||
         job.Url == "https://rutracker.org/forum/viewforum.php?f=2167" ||
-        job.Url == "https://rutracker.org/forum/viewforum.php?f=2321") {
+        job.Url == "https://rutracker.org/forum/viewforum.php?f=2321")
+        {
             return;
         }
 
         using var _ = _logger.LogMethodDuration();
-        
+
         var doc = await GetDocumentAsync(job.Url);
 
         if (job.type == PageType.TargetPage)
@@ -86,11 +91,14 @@ public class Spider
 
         int selectorIndex = 0;
 
-        if(job.DepthLevel < job.LinkPathSelectors.Length) {
+        if (job.DepthLevel < job.LinkPathSelectors.Length)
+        {
             selectorIndex = job.DepthLevel;
 
-        } else {
-            selectorIndex = job.LinkPathSelectors.Length-1;
+        }
+        else
+        {
+            selectorIndex = job.LinkPathSelectors.Length - 1;
         }
 
         var selector = job.LinkPathSelectors[selectorIndex];
@@ -98,24 +106,28 @@ public class Spider
         var links = GetLinksFromPage(doc, job.BaseUrl, selector);
 
         PageType nextPageType = PageType.Unknown;
-        if(selectorIndex == job.LinkPathSelectors.Length-1) {
+        if (selectorIndex == job.LinkPathSelectors.Length - 1)
+        {
             nextPageType = PageType.TargetPage;
-        } else if(selectorIndex < job.LinkPathSelectors.Length) {
+        }
+        else if (selectorIndex < job.LinkPathSelectors.Length)
+        {
             nextPageType = PageType.TransitPage;
         }
 
-        int nextPagePriority = -selectorIndex - 1; 
+        int nextPagePriority = -selectorIndex - 1;
 
         AddToQueue(
                 nextPageType,
                 job.BaseUrl,
                 job.PaginationSelector,
                 nextPagePriority,
-                job.DepthLevel+1,
+                job.DepthLevel + 1,
                 job.LinkPathSelectors,
                 links);
 
-        if(nextPageType == PageType.TargetPage && job.PaginationSelector != null) {
+        if (nextPageType == PageType.TargetPage && job.PaginationSelector != null)
+        {
             var linksToPaginatedPages = GetLinksFromPage(doc, job.BaseUrl, job.PaginationSelector);
 
             AddToQueue(
@@ -123,12 +135,13 @@ public class Spider
                 job.BaseUrl,
                 job.PaginationSelector,
                 job.Priority,
-                job.DepthLevel+1,
+                job.DepthLevel + 1,
                 job.LinkPathSelectors,
                 linksToPaginatedPages);
         }
 
-        if(job.type == PageType.PageWithPagination) {
+        if (job.type == PageType.PageWithPagination)
+        {
             var linksToPaginatedPages = GetLinksFromPage(doc, job.BaseUrl, job.PaginationSelector);
 
             AddToQueue(
@@ -136,7 +149,7 @@ public class Spider
                 job.BaseUrl,
                 job.PaginationSelector,
                 job.Priority,
-                job.DepthLevel+1,
+                job.DepthLevel + 1,
                 job.LinkPathSelectors,
                 linksToPaginatedPages);
         }
@@ -155,7 +168,7 @@ public class Spider
 
         foreach (var link in newLinks)
         {
-            jobsQueue.Add(new Job(
+            jobQueueWriter.Write(new Job(
                     baseUrl,
                     link,
                     linkPathSelectors,

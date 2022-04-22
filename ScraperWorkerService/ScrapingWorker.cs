@@ -1,4 +1,5 @@
 ﻿using WebReaper.Domain;
+using WebReaper.Scraper.Abstract;
 using WebReaper.Scraper.Concrete;
 
 namespace ScraperWorkerService;
@@ -6,13 +7,14 @@ namespace ScraperWorkerService;
 public class ScrapingWorker : BackgroundService
 {
     private readonly ILogger<ScrapingWorker> _logger;
-    private readonly Scraper scraper;
 
+    private IScraper scraper;
     public ScrapingWorker(ILogger<ScrapingWorker> logger)
     {
         _logger = logger;
 
-        scraper = new Scraper("https://rutracker.org/forum/index.php?c=33", _logger)
+        scraper = new Scraper(logger)
+            .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
             .FollowLinks("#cf-33 .forumlink>a")
             .FollowLinks(".forumlink>a")
             .FollowLinks("a.torTopic")
