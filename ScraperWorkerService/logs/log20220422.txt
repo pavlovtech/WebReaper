@@ -1,0 +1,107 @@
+2022-04-22 13:08:17.782 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-22 13:08:17.881 +03:00 [INF] Hosting environment: Development
+2022-04-22 13:08:17.883 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-22 13:08:18.212 +03:00 [INF] GetDocumentAsync finished in 571 ms
+2022-04-22 13:08:18.271 +03:00 [INF] Handle finished in 631 ms
+2022-04-22 13:08:18.414 +03:00 [INF] GetDocumentAsync finished in 140 ms
+2022-04-22 13:08:18.416 +03:00 [INF] Handle finished in 142 ms
+2022-04-22 13:08:18.515 +03:00 [INF] GetDocumentAsync finished in 98 ms
+2022-04-22 13:08:18.516 +03:00 [INF] Handle finished in 99 ms
+2022-04-22 13:08:18.728 +03:00 [INF] GetDocumentAsync finished in 211 ms
+2022-04-22 13:08:18.733 +03:00 [INF] Handle finished in 217 ms
+2022-04-22 13:08:18.839 +03:00 [INF] GetDocumentAsync finished in 105 ms
+2022-04-22 13:08:18.844 +03:00 [INF] Handle on target page was called 1 times
+2022-04-22 13:08:18.846 +03:00 [INF] target page: Бергман Ингмар - Исповедальные беседы [И. Пегова, И. Костолевский, И. Шибанов, А. Суворов, А. Ровенских, Ю. Силаева, П. Медведева, 2013 г., 192 kbps, MP3] :: RuTracker.org
+2022-04-22 13:08:18.846 +03:00 [INF] Handle finished in 112 ms
+2022-04-22 13:08:18.951 +03:00 [INF] GetDocumentAsync finished in 104 ms
+2022-04-22 13:08:18.954 +03:00 [INF] Handle on target page was called 2 times
+2022-04-22 13:08:18.954 +03:00 [INF] target page: Симонов Константин - История одной любви [Невзоров Б., Васильева Т., Хохряков В. и др., 1979, 128 kbps, MP3] :: RuTracker.org
+2022-04-22 13:08:18.954 +03:00 [INF] Handle finished in 107 ms
+2022-04-22 13:08:19.073 +03:00 [INF] GetDocumentAsync finished in 118 ms
+2022-04-22 13:08:19.073 +03:00 [INF] Handle on target page was called 3 times
+2022-04-22 13:08:19.073 +03:00 [INF] target page: Л.Н.Толстой - Семейное счастье [Читает Анна Каменкова, 2007, 128 kbps] :: RuTracker.org
+2022-04-22 13:08:19.073 +03:00 [INF] Handle finished in 118 ms
+2022-04-22 13:08:19.180 +03:00 [INF] GetDocumentAsync finished in 105 ms
+2022-04-22 13:08:19.180 +03:00 [INF] Handle on target page was called 4 times
+2022-04-22 13:08:19.180 +03:00 [INF] target page: Грибоедов Александр Сергеевич - Горе от ума [Казаков М., Алферова К., Уварова Н. и др., 2010 г., 192, MP3] :: RuTracker.org
+2022-04-22 13:08:19.180 +03:00 [INF] Handle finished in 105 ms
+2022-04-22 13:08:19.280 +03:00 [INF] GetDocumentAsync finished in 99 ms
+2022-04-22 13:08:19.280 +03:00 [INF] Handle on target page was called 5 times
+2022-04-22 13:08:19.280 +03:00 [INF] target page: Москвина Татьяна - Па-де-де [Письмиченко С., Цветкова И., Лыков А. и др., 2006, 64 kbps, MP3] :: RuTracker.org
+2022-04-22 13:08:19.280 +03:00 [INF] Handle finished in 99 ms
+2022-04-22 13:08:19.390 +03:00 [INF] GetDocumentAsync finished in 109 ms
+2022-04-22 13:08:19.390 +03:00 [INF] Handle on target page was called 6 times
+2022-04-22 13:08:19.390 +03:00 [INF] target page: Верн Жюль – Путешествие к центру земли [Валентин ГАФТ и Алексей ВЕСЕЛКИН, 2008, 256 kbps, MP3] :: RuTracker.org
+2022-04-22 13:08:19.390 +03:00 [INF] Handle finished in 109 ms
+2022-04-22 13:08:19.525 +03:00 [INF] GetDocumentAsync finished in 134 ms
+2022-04-22 13:08:19.525 +03:00 [INF] Handle on target page was called 7 times
+2022-04-22 13:08:19.526 +03:00 [INF] target page: Театр у микрофона 7 :: RuTracker.org
+2022-04-22 13:08:19.526 +03:00 [INF] Handle finished in 135 ms
+2022-04-22 13:08:19.628 +03:00 [INF] GetDocumentAsync finished in 101 ms
+2022-04-22 13:08:19.628 +03:00 [INF] Handle on target page was called 8 times
+2022-04-22 13:08:19.628 +03:00 [INF] target page: Театр у микрофона 6 :: RuTracker.org
+2022-04-22 13:08:19.628 +03:00 [INF] Handle finished in 102 ms
+2022-04-22 13:08:19.726 +03:00 [INF] GetDocumentAsync finished in 97 ms
+2022-04-22 13:08:19.726 +03:00 [INF] Handle on target page was called 9 times
+2022-04-22 13:08:19.726 +03:00 [INF] target page: Лукьяненко Сергей - Дозоры 1, Ночной Дозор [Сумрак Production, (ЛИ), 2022, 128 kbps, MP3] :: RuTracker.org
+2022-04-22 13:08:19.726 +03:00 [INF] Handle finished in 98 ms
+2022-04-22 13:08:19.857 +03:00 [INF] GetDocumentAsync finished in 130 ms
+2022-04-22 13:08:19.857 +03:00 [INF] Handle on target page was called 10 times
+2022-04-22 13:08:19.857 +03:00 [INF] target page: Театр у микрофона 5 :: RuTracker.org
+2022-04-22 13:08:19.857 +03:00 [INF] Handle finished in 131 ms
+2022-04-22 13:08:19.973 +03:00 [INF] GetDocumentAsync finished in 116 ms
+2022-04-22 13:08:19.973 +03:00 [INF] Handle on target page was called 11 times
+2022-04-22 13:08:19.974 +03:00 [INF] target page: Театр у микрофона 3 :: RuTracker.org
+2022-04-22 13:08:19.974 +03:00 [INF] Handle finished in 116 ms
+2022-04-22 13:08:20.085 +03:00 [INF] GetDocumentAsync finished in 111 ms
+2022-04-22 13:08:20.085 +03:00 [INF] Handle on target page was called 12 times
+2022-04-22 13:08:20.085 +03:00 [INF] target page: Театр у микрофона 2 :: RuTracker.org
+2022-04-22 13:08:20.085 +03:00 [INF] Handle finished in 111 ms
+2022-04-22 13:08:20.195 +03:00 [INF] GetDocumentAsync finished in 109 ms
+2022-04-22 13:08:20.195 +03:00 [INF] Handle on target page was called 13 times
+2022-04-22 13:08:20.196 +03:00 [INF] target page: Сборник - Вечер короткого юмористического рассказа [Антоник В., Казаков С., Федосов С., Шиляев Д. и др., 2017, 128,160 kbps, MP3] :: RuTracker.org
+2022-04-22 13:08:20.196 +03:00 [INF] Handle finished in 110 ms
+2022-04-22 13:08:20.302 +03:00 [INF] GetDocumentAsync finished in 105 ms
+2022-04-22 13:08:20.302 +03:00 [INF] Handle on target page was called 14 times
+2022-04-22 13:08:20.302 +03:00 [INF] target page: Лондон Джек - 7 рассказов в аудиоспектаклях [Владимир Еремин, Юрий Васильев, Виктор Раков,Петр Иващенко, Елена Ласкавая, Дарья Одинокина, Алексей Рымов, 2014 г., 160 kbps, MP3] :: RuTracker.org
+2022-04-22 13:08:20.302 +03:00 [INF] Handle finished in 106 ms
+2022-04-22 13:08:20.414 +03:00 [INF] GetDocumentAsync finished in 112 ms
+2022-04-22 13:08:20.415 +03:00 [INF] Handle on target page was called 15 times
+2022-04-22 13:08:20.415 +03:00 [INF] target page: Лермонтов М.Ю. - Театр у микрофона - Михаил Лермонтов в исполнении мастеров художественного слова. [группа исполнителей, 2009, 192 Kbps] :: RuTracker.org
+2022-04-22 13:08:20.415 +03:00 [INF] Handle finished in 112 ms
+2022-04-22 13:08:20.531 +03:00 [INF] GetDocumentAsync finished in 116 ms
+2022-04-22 13:08:20.531 +03:00 [INF] Handle on target page was called 16 times
+2022-04-22 13:08:20.531 +03:00 [INF] target page: Чапек Карел - Рассказы [Александр Лыков, Сергей Дрейден, 2011 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-22 13:08:20.531 +03:00 [INF] Handle finished in 116 ms
+2022-04-22 13:08:20.654 +03:00 [INF] GetDocumentAsync finished in 122 ms
+2022-04-22 13:08:20.654 +03:00 [INF] Handle on target page was called 17 times
+2022-04-22 13:08:20.654 +03:00 [INF] target page: Стругацкие - Трудно быть богом (радиоспектакль) [Светлана Сорокина и др., 2000, 128 kbps] :: RuTracker.org
+2022-04-22 13:08:20.654 +03:00 [INF] Handle finished in 122 ms
+2022-04-22 13:08:20.767 +03:00 [INF] GetDocumentAsync finished in 113 ms
+2022-04-22 13:08:20.767 +03:00 [INF] Handle on target page was called 18 times
+2022-04-22 13:08:20.767 +03:00 [INF] target page: Станислав Лем - Солярис [Джигарханян Филиппенко и др., 2007, 192 кб/с] :: RuTracker.org
+2022-04-22 13:08:20.767 +03:00 [INF] Handle finished in 113 ms
+2022-04-22 13:08:20.874 +03:00 [INF] GetDocumentAsync finished in 106 ms
+2022-04-22 13:08:20.874 +03:00 [INF] Handle on target page was called 19 times
+2022-04-22 13:08:20.874 +03:00 [INF] target page: И.Ильф, Е.Петров - &quot;12 Стульев&quot; [Е.Весник, О.Басилашвили, Ю.Яковлев, Е.Евстигнеев и др., 192 кбит/с] :: RuTracker.org
+2022-04-22 13:08:20.874 +03:00 [INF] Handle finished in 107 ms
+2022-04-22 13:08:21.007 +03:00 [INF] GetDocumentAsync finished in 132 ms
+2022-04-22 13:08:21.008 +03:00 [INF] Handle on target page was called 20 times
+2022-04-22 13:08:21.008 +03:00 [INF] target page: &quot;Золотой теленок&quot; -- И.Ильф, Е.Петров [Е.Весник, О.Басилашвили, В.Невинный, С.Самодур, Б.Иванов и др., 192 кбит/с] :: RuTracker.org
+2022-04-22 13:08:21.008 +03:00 [INF] Handle finished in 133 ms
+2022-04-22 13:08:21.138 +03:00 [INF] GetDocumentAsync finished in 130 ms
+2022-04-22 13:08:21.139 +03:00 [INF] Handle on target page was called 21 times
+2022-04-22 13:08:21.139 +03:00 [INF] target page: М.А. Булгаков Мастер и Маргарита ( Черкасов, Жаров, Демидова и др, 112 кбит/с) :: RuTracker.org
+2022-04-22 13:08:21.139 +03:00 [INF] Handle finished in 130 ms
+2022-04-22 13:08:21.308 +03:00 [INF] GetDocumentAsync finished in 169 ms
+2022-04-22 13:08:21.309 +03:00 [INF] Handle on target page was called 22 times
+2022-04-22 13:08:21.309 +03:00 [INF] target page: Леонид Филатов - Леонид Филатов &quot;Самые смешные сказки&quot; [Л.Филатов, Т.Пельтцер, Е.Евстигнеев, В.Абдулов, С.Садальский, С.Безруков, В.Гафт и др., 2006, VBR 128-192 kbps] :: RuTracker.org
+2022-04-22 13:08:21.309 +03:00 [INF] Handle finished in 169 ms
+2022-04-22 13:08:21.491 +03:00 [INF] GetDocumentAsync finished in 182 ms
+2022-04-22 13:08:21.491 +03:00 [INF] Handle on target page was called 23 times
+2022-04-22 13:08:21.491 +03:00 [INF] target page: Стругацкие А. и Б. - Отель «У погибшего альпиниста» [В. Ветров, В. Гафт, А. Вилькин и др., 2007 г., 192 kbps, MP3] :: RuTracker.org
+2022-04-22 13:08:21.491 +03:00 [INF] Handle finished in 182 ms
+2022-04-22 13:08:21.601 +03:00 [INF] GetDocumentAsync finished in 109 ms
+2022-04-22 13:08:21.601 +03:00 [INF] Handle on target page was called 24 times
+2022-04-22 13:08:21.601 +03:00 [INF] target page: Сказ про Федота-стрельца, удалого молодца [Леонид Филатов, 1988 г., 128, MP3] :: RuTracker.org
+2022-04-22 13:08:21.601 +03:00 [INF] Handle finished in 109 ms

@@ -10,7 +10,7 @@ Log.Logger = new LoggerConfiguration()
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
-        services.AddHostedService<Worker>();
+        services.AddHostedService<ScrapingWorker>();
     })
     .UseSerilog()
     .Build();
