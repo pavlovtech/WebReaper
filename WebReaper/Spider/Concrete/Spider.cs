@@ -8,14 +8,19 @@ using System.Diagnostics;
 using System.Collections.Concurrent;
 using WebReaper.Queue.Abstract;
 using WebReaper.Spider.Abastract;
+using System.Net;
+using System.Text;
 
 namespace WebReaper.Spider.Concrete;
 
 public class Spider : ISpider
 {
-    protected ConcurrentDictionary<string, byte> visitedUrls = new ConcurrentDictionary<string, byte>();
+    protected ConcurrentDictionary<string, byte> visitedUrls = new();
+
     private readonly IJobQueueReader jobQueueReader;
+
     private readonly IJobQueueWriter jobQueueWriter;
+
     private ILogger _logger;
 
     protected static HttpClient httpClient = new(new SocketsHttpHandler()
@@ -38,6 +43,10 @@ public class Spider : ISpider
         IJobQueueWriter jobQueueWriter,
         ILogger logger)
     {
+        ServicePointManager.DefaultConnectionLimit = int.MaxValue;
+        ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+        
         this.jobQueueReader = jobQueueReader;
         this.jobQueueWriter = jobQueueWriter;
         _logger = logger;
@@ -94,7 +103,6 @@ public class Spider : ISpider
         if (job.DepthLevel < job.LinkPathSelectors.Length)
         {
             selectorIndex = job.DepthLevel;
-
         }
         else
         {

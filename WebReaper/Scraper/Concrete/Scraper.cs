@@ -1,9 +1,7 @@
 ﻿using System.Net;
 using Newtonsoft.Json.Linq;
-using System.Text;
 using HtmlAgilityPack;
 using Fizzler.Systems.HtmlAgilityPack;
-using System.Net.Security;
 using WebReaper.Domain;
 using Microsoft.Extensions.Logging;
 using WebReaper.Queue.Abstract;
@@ -37,10 +35,6 @@ public class Scraper : IScraper
 
     protected string baseUrl = "";
 
-    protected HttpMessageHandler? HttpHandler;
-
-    protected HttpClient? HttpClient;
-
     protected readonly IJobQueueReader JobQueueReader;
 
     protected readonly IJobQueueWriter JobQueueWriter;
@@ -49,35 +43,10 @@ public class Scraper : IScraper
 
     public Scraper(ILogger logger)
     {
-        InitHttpClient();
-
-        Logger = logger;
-
-        ServicePointManager.DefaultConnectionLimit = int.MaxValue;
+        Logger = logger; 
 
         JobQueueReader = new JobQueueReader(jobs);
         JobQueueWriter = new JobQueueWriter(jobs);
-
-        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
-        ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
-    }
-
-    private void InitHttpClient()
-    {
-        this.HttpHandler = new SocketsHttpHandler()
-        {
-            MaxConnectionsPerServer = 100,
-            SslOptions = new SslClientAuthenticationOptions
-            {
-                // Leave certs unvalidated for debugging
-                RemoteCertificateValidationCallback = delegate { return true; },
-            },
-            PooledConnectionIdleTimeout = TimeSpan.FromMinutes(10),
-            PooledConnectionLifetime = Timeout.InfiniteTimeSpan
-        };
-
-        this.HttpClient = new HttpClient(HttpHandler);
     }
 
     public IScraper WithStartUrl(string startUrl)
@@ -213,19 +182,5 @@ public class Scraper : IScraper
         }
 
         return obj;
-    }
-
-    protected async Task<HtmlDocument> GetDocumentAsync(string url)
-    {
-        var watch = System.Diagnostics.Stopwatch.StartNew();
-        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-        var htmlDoc = new HtmlDocument();
-        htmlDoc.LoadHtml(await HttpClient.GetStringAsync(url));
-        watch.Stop();
-        // Log.Logger.Information("Method {method}. Elapsed: {elapsed} sec",
-        //     nameof(GetDocumentAsync),
-        //     watch.Elapsed.TotalSeconds);
-
-        return htmlDoc;
     }
 }
