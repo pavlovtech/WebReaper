@@ -16,5 +16,5 @@ public interface IScraper
     IScraper WithProxy(WebProxy[] proxies);
     IScraper WithPuppeter(WebProxy[] proxies);
     IScraper WithScheme(WebEl[] schema);
-    IScraper WithSpiders(int spiderCount);
+    IScraper WithParallelismDegree(int parallelismDegree);
 }
