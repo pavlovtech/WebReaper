@@ -23,6 +23,8 @@ public class Spider : ISpider
 
     private ILogger _logger;
 
+    private string[] urlBlackList = Array.Empty<string>();
+
     protected static HttpClient httpClient = new(new SocketsHttpHandler()
     {
         MaxConnectionsPerServer = 100,
@@ -52,6 +54,12 @@ public class Spider : ISpider
         _logger = logger;
     }
 
+    public ISpider IgnoreUrls(params string[] urlBlackList)
+    {
+        this.urlBlackList = urlBlackList;
+        return this;
+    }
+
     public async Task Crawl()
     {
         Stopwatch watch = new Stopwatch();
@@ -75,16 +83,9 @@ public class Spider : ISpider
 
     protected async Task Handle(Job job)
     {
-        visitedUrls.TryAdd(job.Url, 0);
+        if (urlBlackList.Contains(job.Url)) return;
 
-        if (job.Url == "https://rutracker.org/forum/viewforum.php?f=396" ||
-        job.Url == "https://rutracker.org/forum/viewforum.php?f=2322" ||
-        job.Url == "https://rutracker.org/forum/viewforum.php?f=1993" ||
-        job.Url == "https://rutracker.org/forum/viewforum.php?f=2167" ||
-        job.Url == "https://rutracker.org/forum/viewforum.php?f=2321")
-        {
-            return;
-        }
+        visitedUrls.TryAdd(job.Url, 0);
 
         using var _ = _logger.LogMethodDuration();
 

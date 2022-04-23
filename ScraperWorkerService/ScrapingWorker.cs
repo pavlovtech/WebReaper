@@ -13,6 +13,14 @@ public class ScrapingWorker : BackgroundService
     {
         _logger = logger;
 
+        var blackList = new string[] {
+            "https://rutracker.org/forum/viewforum.php?f=396",
+            "https://rutracker.org/forum/viewforum.php?f=2322",
+            "https://rutracker.org/forum/viewforum.php?f=1993",
+            "https://rutracker.org/forum/viewforum.php?f=2167",
+            "https://rutracker.org/forum/viewforum.php?f=2321"
+        };
+
         scraper = new Scraper(logger)
             .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
             .FollowLinks("#cf-33 .forumlink>a")
@@ -23,6 +31,7 @@ public class ScrapingWorker : BackgroundService
                 new("title", "title"),
                 new("name", ".post_body>span"),
             })
+            .IgnoreUrls(blackList)
             .WithSpiders(4)
             .To("output.json");
     }

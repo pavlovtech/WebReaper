@@ -8,6 +8,7 @@ public interface IScraper
     IScraper WithStartUrl(string startUrl);
     IScraper FollowLinks(string linkSelector, SelectorType selectorType = SelectorType.Css);
     IScraper Limit(int limit);
+    IScraper IgnoreUrls(params string[] urls);
     IScraper Paginate(string paginationSelector);
     Task Run();
     IScraper To(string filePath);

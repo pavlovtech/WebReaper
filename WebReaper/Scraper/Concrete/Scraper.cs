@@ -38,6 +38,7 @@ public class Scraper : IScraper
     protected readonly IJobQueueWriter JobQueueWriter;
 
     protected ILogger Logger;
+    private string[] urlBlackList;
 
     public Scraper(ILogger logger)
     {
@@ -79,6 +80,12 @@ public class Scraper : IScraper
                 PageType = PageType.PageWithPagination
             };
 
+        return this;
+    }
+
+    public IScraper IgnoreUrls(params string[] urls)
+    {
+        this.urlBlackList = urls;
         return this;
     }
 
@@ -135,7 +142,8 @@ public class Scraper : IScraper
             DepthLevel: 0,
             Priority: 0));
 
-        var spider = new WebReaper.Spider.Concrete.Spider(JobQueueReader, JobQueueWriter, Logger);
+        var spider = new WebReaper.Spider.Concrete.Spider(JobQueueReader, JobQueueWriter, Logger)
+            .IgnoreUrls(this.urlBlackList);
 
         var spiderTasks = Enumerable
             .Range(0, spidersCount)
