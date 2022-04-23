@@ -15,7 +15,7 @@ namespace WebReaper.Scraper.Concrete;
 // puppeter
 public class Scraper : IScraper
 {
-    protected List<string> linkPathSelectors = new();
+    protected List<LinkPathSelector> linkPathSelectors = new();
     protected int limit = int.MaxValue;
 
     protected BlockingCollection<Job> jobs = new(new ProducerConsumerPriorityQueue());
@@ -24,8 +24,6 @@ public class Scraper : IScraper
     private string? startUrl;
 
     private WebEl[]? schema = Array.Empty<WebEl>();
-
-    private string? paginationSelector;
 
     private WebProxy? proxy;
 
@@ -43,7 +41,7 @@ public class Scraper : IScraper
 
     public Scraper(ILogger logger)
     {
-        Logger = logger; 
+        Logger = logger;
 
         JobQueueReader = new JobQueueReader(jobs);
         JobQueueWriter = new JobQueueWriter(jobs);
@@ -67,7 +65,20 @@ public class Scraper : IScraper
         string linkSelector,
         SelectorType selectorType = SelectorType.Css)
     {
-        linkPathSelectors.Add(linkSelector);
+        linkPathSelectors.Add(new(linkSelector));
+        return this;
+    }
+
+    public IScraper Paginate(string paginationSelector)
+    {
+
+        linkPathSelectors[^1] =
+            linkPathSelectors.Last() with
+            {
+                PaginationSelector = paginationSelector,
+                PageType = PageType.PageWithPagination
+            };
+
         return this;
     }
 
@@ -112,12 +123,6 @@ public class Scraper : IScraper
         return this;
     }
 
-    public IScraper Paginate(string paginationSelector)
-    {
-        this.paginationSelector = paginationSelector;
-        return this;
-    }
-
     public async Task Run()
     {
         ArgumentNullException.ThrowIfNull(startUrl);
@@ -127,7 +132,6 @@ public class Scraper : IScraper
             baseUrl,
             startUrl,
             linkPathSelectors.ToArray(),
-            paginationSelector,
             DepthLevel: 0,
             Priority: 0));
 

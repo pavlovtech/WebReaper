@@ -46,7 +46,7 @@ public class Spider : ISpider
         ServicePointManager.DefaultConnectionLimit = int.MaxValue;
         ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-        
+
         this.jobQueueReader = jobQueueReader;
         this.jobQueueWriter = jobQueueWriter;
         _logger = logger;
@@ -109,9 +109,9 @@ public class Spider : ISpider
             selectorIndex = job.LinkPathSelectors.Length - 1;
         }
 
-        var selector = job.LinkPathSelectors[selectorIndex];
+        var linkPath = job.LinkPathSelectors[selectorIndex];
 
-        var links = GetLinksFromPage(doc, job.BaseUrl, selector);
+        var links = GetLinksFromPage(doc, job.BaseUrl, linkPath.Selector);
 
         PageType nextPageType = PageType.Unknown;
         if (selectorIndex == job.LinkPathSelectors.Length - 1)
@@ -128,20 +128,18 @@ public class Spider : ISpider
         AddToQueue(
                 nextPageType,
                 job.BaseUrl,
-                job.PaginationSelector,
                 nextPagePriority,
                 job.DepthLevel + 1,
                 job.LinkPathSelectors,
                 links);
 
-        if (nextPageType == PageType.TargetPage && job.PaginationSelector != null)
+        if (nextPageType == PageType.TargetPage && job.LinkPathSelectors[selectorIndex].PaginationSelector != null)
         {
-            var linksToPaginatedPages = GetLinksFromPage(doc, job.BaseUrl, job.PaginationSelector);
+            var linksToPaginatedPages = GetLinksFromPage(doc, job.BaseUrl, job.LinkPathSelectors[selectorIndex].PaginationSelector);
 
             AddToQueue(
                 PageType.PageWithPagination,
                 job.BaseUrl,
-                job.PaginationSelector,
                 job.Priority,
                 job.DepthLevel + 1,
                 job.LinkPathSelectors,
@@ -150,12 +148,14 @@ public class Spider : ISpider
 
         if (job.type == PageType.PageWithPagination)
         {
-            var linksToPaginatedPages = GetLinksFromPage(doc, job.BaseUrl, job.PaginationSelector);
+            var linksToPaginatedPages = GetLinksFromPage(
+            doc,
+            job.BaseUrl,
+            job.LinkPathSelectors[selectorIndex].PaginationSelector);
 
             AddToQueue(
                 PageType.PageWithPagination,
                 job.BaseUrl,
-                job.PaginationSelector,
                 job.Priority,
                 job.DepthLevel + 1,
                 job.LinkPathSelectors,
@@ -166,10 +166,9 @@ public class Spider : ISpider
     private void AddToQueue(
         PageType type,
         string baseUrl,
-        string paginationSelector,
         int priority,
         int depthLevel,
-        string[] linkPathSelectors,
+        LinkPathSelector[] linkPathSelectors,
         IEnumerable<string> links)
     {
         var newLinks = links.Except(visitedUrls.Keys);
@@ -180,11 +179,9 @@ public class Spider : ISpider
                     baseUrl,
                     link,
                     linkPathSelectors,
-                    //job.LinkPathSelector.Next, //fix
-                    paginationSelector,
                     type,
                     depthLevel,
-                    priority)); // fix
+                    priority));
         }
     }
 

@@ -3,8 +3,7 @@ namespace WebReaper.Domain;
 public record Job(
     string BaseUrl,
     string Url,
-    string[] LinkPathSelectors,
-    string? PaginationSelector,
+    LinkPathSelector[] LinkPathSelectors,
     PageType type = PageType.TransitPage,
     int DepthLevel = 0,
     int Priority = 0);

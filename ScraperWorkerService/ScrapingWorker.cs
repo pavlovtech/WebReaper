@@ -23,7 +23,7 @@ public class ScrapingWorker : BackgroundService
                 new("title", "title"),
                 new("name", ".post_body>span"),
             })
-            .WithSpiders(2)
+            .WithSpiders(4)
             .To("output.json");
     }
 

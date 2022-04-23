@@ -1,0 +1,1508 @@
+2022-04-23 04:30:40.130 +03:00 [INF] GetDocumentAsync finished in 4499 ms
+2022-04-23 04:30:40.242 +03:00 [INF] Handle finished in 4625 ms
+2022-04-23 04:30:40.244 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-23 04:30:40.268 +03:00 [INF] Hosting environment: Development
+2022-04-23 04:30:40.270 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-23 04:30:40.399 +03:00 [INF] GetDocumentAsync finished in 158 ms
+2022-04-23 04:30:40.401 +03:00 [INF] Handle finished in 160 ms
+2022-04-23 04:30:40.449 +03:00 [INF] GetDocumentAsync finished in 206 ms
+2022-04-23 04:30:40.450 +03:00 [INF] Handle finished in 207 ms
+2022-04-23 04:30:40.504 +03:00 [INF] GetDocumentAsync finished in 103 ms
+2022-04-23 04:30:40.505 +03:00 [INF] Handle finished in 104 ms
+2022-04-23 04:30:40.675 +03:00 [INF] GetDocumentAsync finished in 170 ms
+2022-04-23 04:30:40.680 +03:00 [INF] Handle finished in 175 ms
+2022-04-23 04:30:40.749 +03:00 [INF] GetDocumentAsync finished in 298 ms
+2022-04-23 04:30:40.755 +03:00 [INF] Handle finished in 304 ms
+2022-04-23 04:30:40.791 +03:00 [INF] GetDocumentAsync finished in 110 ms
+2022-04-23 04:30:40.794 +03:00 [INF] Handle on target page was called 1 times
+2022-04-23 04:30:40.796 +03:00 [INF] target page: Сексуальный миф Третьего Рейха [Харитонов Александр, (ЛИ), 2022, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:40.796 +03:00 [INF] Handle finished in 115 ms
+2022-04-23 04:30:40.880 +03:00 [INF] GetDocumentAsync finished in 122 ms
+2022-04-23 04:30:40.882 +03:00 [INF] Handle on target page was called 2 times
+2022-04-23 04:30:40.882 +03:00 [INF] target page: Н.Гейнце - (собр.соч.Т 7) В тине адвокатуры, Судные дни Великого Новгорода, Власть женщины, Рассказы [Илья Прудовский, 128Kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:40.883 +03:00 [INF] Handle finished in 125 ms
+2022-04-23 04:30:40.897 +03:00 [INF] GetDocumentAsync finished in 100 ms
+2022-04-23 04:30:40.897 +03:00 [INF] Handle on target page was called 3 times
+2022-04-23 04:30:40.897 +03:00 [INF] target page: Кропоткин Пётр - Памятники исторической мысли. Великая Французская Революция 1789-1793 [Харитонов Александр, (ЛИ), 2020, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:40.897 +03:00 [INF] Handle finished in 100 ms
+2022-04-23 04:30:40.977 +03:00 [INF] GetDocumentAsync finished in 94 ms
+2022-04-23 04:30:40.977 +03:00 [INF] Handle on target page was called 4 times
+2022-04-23 04:30:40.977 +03:00 [INF] target page: Кузьмищев Владимир - Царство сынов Солнца [Козий Николай, 2009, 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:40.977 +03:00 [INF] Handle finished in 94 ms
+2022-04-23 04:30:41.013 +03:00 [INF] GetDocumentAsync finished in 115 ms
+2022-04-23 04:30:41.013 +03:00 [INF] Handle on target page was called 5 times
+2022-04-23 04:30:41.013 +03:00 [INF] target page: Гарсиа Маркес Габриэль - Осень патриарха (страницы романа) - Коллекция радиоспектаклей Диск 46 [Табаков Олег, 2011 г., 192 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:41.013 +03:00 [INF] Handle finished in 115 ms
+2022-04-23 04:30:41.124 +03:00 [INF] GetDocumentAsync finished in 110 ms
+2022-04-23 04:30:41.124 +03:00 [INF] Handle on target page was called 6 times
+2022-04-23 04:30:41.124 +03:00 [INF] target page: Шварц Евгений - Дракон [Васильев А., Красавин А., Михалевкина Т. и др., 2019 г., 160 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:41.124 +03:00 [INF] Handle finished in 111 ms
+2022-04-23 04:30:41.127 +03:00 [INF] GetDocumentAsync finished in 149 ms
+2022-04-23 04:30:41.127 +03:00 [INF] Handle on target page was called 7 times
+2022-04-23 04:30:41.127 +03:00 [INF] target page: И.-В. фон Гете - Фауст [Г. Бортников, М. Козаков, А. Леонтьев и др., 1985] :: RuTracker.org
+2022-04-23 04:30:41.127 +03:00 [INF] Handle finished in 150 ms
+2022-04-23 04:30:41.228 +03:00 [INF] GetDocumentAsync finished in 103 ms
+2022-04-23 04:30:41.228 +03:00 [INF] Handle on target page was called 8 times
+2022-04-23 04:30:41.228 +03:00 [INF] target page: Чехов А. П. - Рассказы. Том 1. (1880-1885) Собрание сочинений в 8-ми томах в исп. великих артистов сцены [В. Муравьев, А. Грибов, В. Невинный, А. Парра и др., 2010, VBR 192-320 kbps] :: RuTracker.org
+2022-04-23 04:30:41.228 +03:00 [INF] Handle finished in 103 ms
+2022-04-23 04:30:41.266 +03:00 [INF] GetDocumentAsync finished in 138 ms
+2022-04-23 04:30:41.266 +03:00 [INF] Handle on target page was called 9 times
+2022-04-23 04:30:41.266 +03:00 [INF] target page: Чехов А. П. - Рассказы. Том 3. (1885-1886) Собрание сочинений в 8-ми томах в исп. великих артистов. (mobile) [Р. Плятт, В. Попов, А. Грибов, О. Абдулов и др., 2010, 32 kbps] :: RuTracker.org
+2022-04-23 04:30:41.266 +03:00 [INF] Handle finished in 138 ms
+2022-04-23 04:30:41.327 +03:00 [INF] GetDocumentAsync finished in 98 ms
+2022-04-23 04:30:41.327 +03:00 [INF] Handle on target page was called 10 times
+2022-04-23 04:30:41.327 +03:00 [INF] target page: Н.В. Гоголь, А.П. Чехов Николай - Великие исполнители 27, Гоголь, Чехов - Великие исполнители 27 [Сергей Никоненко, 2012, 192 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:41.327 +03:00 [INF] Handle finished in 98 ms
+2022-04-23 04:30:41.363 +03:00 [INF] GetDocumentAsync finished in 96 ms
+2022-04-23 04:30:41.363 +03:00 [INF] Handle on target page was called 11 times
+2022-04-23 04:30:41.363 +03:00 [INF] target page: В.Шекспир, Г.Флобер Вильям - Великие исполнители 28, В.Шекспир, Г.Флобер - Великие исполнители 28 [Алиса Коонен, 2012, 192 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:41.363 +03:00 [INF] Handle finished in 97 ms
+2022-04-23 04:30:41.424 +03:00 [INF] GetDocumentAsync finished in 96 ms
+2022-04-23 04:30:41.424 +03:00 [INF] Handle on target page was called 12 times
+2022-04-23 04:30:41.424 +03:00 [INF] target page: Мамин-Сибиряк Дмитрий - Приваловские миллионы [Кабатченко В., Бардин С., Розанова К. и др., 1954, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:41.424 +03:00 [INF] Handle finished in 96 ms
+2022-04-23 04:30:41.464 +03:00 [INF] GetDocumentAsync finished in 100 ms
+2022-04-23 04:30:41.464 +03:00 [INF] Handle on target page was called 13 times
+2022-04-23 04:30:41.464 +03:00 [INF] target page: В.В. Маяковский, А.С. Пушкин, А.А. Блок Владимир - Великие исполнители 29, Великие исполнители [Игорь Кваша, 2012, 192 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:41.464 +03:00 [INF] Handle finished in 101 ms
+2022-04-23 04:30:41.527 +03:00 [INF] GetDocumentAsync finished in 102 ms
+2022-04-23 04:30:41.527 +03:00 [INF] Handle on target page was called 14 times
+2022-04-23 04:30:41.527 +03:00 [INF] target page: Чехов Антон &quot;Архиерей&quot; - Великие исполнители 30, [Олег Табаков, 2012, 192 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:41.527 +03:00 [INF] Handle finished in 102 ms
+2022-04-23 04:30:41.565 +03:00 [INF] GetDocumentAsync finished in 100 ms
+2022-04-23 04:30:41.565 +03:00 [INF] Handle on target page was called 15 times
+2022-04-23 04:30:41.565 +03:00 [INF] target page: Айтматов Чингиз - И дольше века длится день... [В.Зозулин, А.Меньщиков, М.Ульянов, А.Парфаньяк и др., 1989 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:41.565 +03:00 [INF] Handle finished in 100 ms
+2022-04-23 04:30:41.625 +03:00 [INF] GetDocumentAsync finished in 98 ms
+2022-04-23 04:30:41.626 +03:00 [INF] Handle on target page was called 16 times
+2022-04-23 04:30:41.626 +03:00 [INF] target page: Айтматов Чингиз - Верблюжий глаз [Табаков О., Фролов Г., Козырева Е. и др., 2014, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:41.626 +03:00 [INF] Handle finished in 98 ms
+2022-04-23 04:30:41.666 +03:00 [INF] GetDocumentAsync finished in 101 ms
+2022-04-23 04:30:41.667 +03:00 [INF] Handle on target page was called 17 times
+2022-04-23 04:30:41.667 +03:00 [INF] target page: Дьярфаш М. - Проснись и пой [Ширвиндт Александр, Менглет Георгий, Пельтцер Татьяна, Архипова Нина, Галкин Борис и др., 2007] :: RuTracker.org
+2022-04-23 04:30:41.667 +03:00 [INF] Handle finished in 101 ms
+2022-04-23 04:30:41.725 +03:00 [INF] GetDocumentAsync finished in 98 ms
+2022-04-23 04:30:41.725 +03:00 [INF] Handle on target page was called 18 times
+2022-04-23 04:30:41.725 +03:00 [INF] target page: Алексей Николаевич Толстой - Хождение по мукам. &quot;Сестры&quot;. [Артисты московских театров, 2007] :: RuTracker.org
+2022-04-23 04:30:41.725 +03:00 [INF] Handle finished in 98 ms
+2022-04-23 04:30:41.765 +03:00 [INF] GetDocumentAsync finished in 97 ms
+2022-04-23 04:30:41.765 +03:00 [INF] Handle on target page was called 19 times
+2022-04-23 04:30:41.765 +03:00 [INF] target page: Алексей Николаевич Толстой - Хождение по мукам. &quot;Восемнадцатый год&quot;. [Артисты московских театров, 2007] :: RuTracker.org
+2022-04-23 04:30:41.765 +03:00 [INF] Handle finished in 97 ms
+2022-04-23 04:30:41.837 +03:00 [INF] GetDocumentAsync finished in 112 ms
+2022-04-23 04:30:41.837 +03:00 [INF] Handle on target page was called 20 times
+2022-04-23 04:30:41.837 +03:00 [INF] target page: Гомер - - Одиссея [Кочарян Сурен Акимович, 2012 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:41.837 +03:00 [INF] Handle finished in 112 ms
+2022-04-23 04:30:41.862 +03:00 [INF] GetDocumentAsync finished in 97 ms
+2022-04-23 04:30:41.862 +03:00 [INF] Handle on target page was called 21 times
+2022-04-23 04:30:41.862 +03:00 [INF] target page: Альтов Генрих: Конец острова «Сломанная челюсть» («Скучный капитан») (1963) [Виталий Доронин, Анатолий Адоскин, Николай Бурляев, Леонид Губанов, Николай Пажитнов, 128 kbps, MP3] (2020, ГТРФ, WEB / Digital Release) (Полная версия) :: RuTracker.org
+2022-04-23 04:30:41.862 +03:00 [INF] Handle finished in 97 ms
+2022-04-23 04:30:41.934 +03:00 [INF] GetDocumentAsync finished in 96 ms
+2022-04-23 04:30:41.934 +03:00 [INF] Handle on target page was called 22 times
+2022-04-23 04:30:41.935 +03:00 [INF] target page: Островский Александр - Горячее сердце [О.Чуваева, М.Глузский, В.Сергачёв, Л.Полякова, Л.Титова, А.Ташков, А.Клюквин, Е.Весник, И.Охлупин, С.Гармаш, И.Тарханов, Ю.Черкасов, 1995, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:41.935 +03:00 [INF] Handle finished in 97 ms
+2022-04-23 04:30:41.974 +03:00 [INF] GetDocumentAsync finished in 111 ms
+2022-04-23 04:30:41.974 +03:00 [INF] Handle on target page was called 23 times
+2022-04-23 04:30:41.974 +03:00 [INF] target page: У.Шекспир - &quot;Гамлет&quot; [Театр им. В.Маяковского, Е.Самойлов, Л.Свердлин, Г.Анисимова, 1959] :: RuTracker.org
+2022-04-23 04:30:41.974 +03:00 [INF] Handle finished in 111 ms
+2022-04-23 04:30:42.072 +03:00 [INF] GetDocumentAsync finished in 97 ms
+2022-04-23 04:30:42.072 +03:00 [INF] Handle on target page was called 24 times
+2022-04-23 04:30:42.073 +03:00 [INF] target page: Грин Александр: Бегущая по волнам [М.Козаков,С.Юрский,Е.Райкина,З.Гердт,Г.Менглет,А.Каменкова и др 1980 / 2007, 128 kbps, MP3] [«Мелодия»] :: RuTracker.org
+2022-04-23 04:30:42.073 +03:00 [INF] Handle finished in 98 ms
+2022-04-23 04:30:42.170 +03:00 [INF] GetDocumentAsync finished in 97 ms
+2022-04-23 04:30:42.170 +03:00 [INF] Handle on target page was called 25 times
+2022-04-23 04:30:42.170 +03:00 [INF] target page: Хармс Даниил: Случаи [Сергей Юрский, Зиновий Гердт, 1987, 128 kbps, MP3] [«Мелодия», WEB / Digital Release] :: RuTracker.org
+2022-04-23 04:30:42.170 +03:00 [INF] Handle finished in 97 ms
+2022-04-23 04:30:42.243 +03:00 [INF] GetDocumentAsync finished in 308 ms
+2022-04-23 04:30:42.243 +03:00 [INF] Handle on target page was called 26 times
+2022-04-23 04:30:42.243 +03:00 [INF] target page: Тендряков Владимир - Ночь после выпуска [Фоменко Николай, 2016 г., 192 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:42.243 +03:00 [INF] Handle finished in 308 ms
+2022-04-23 04:30:42.269 +03:00 [INF] GetDocumentAsync finished in 98 ms
+2022-04-23 04:30:42.269 +03:00 [INF] Handle on target page was called 27 times
+2022-04-23 04:30:42.269 +03:00 [INF] target page: Чехов Антон - Дуэль [Яковлев Ю., Борисов О., Плотников Б. и др., 1984, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:42.269 +03:00 [INF] Handle finished in 98 ms
+2022-04-23 04:30:42.344 +03:00 [INF] GetDocumentAsync finished in 100 ms
+2022-04-23 04:30:42.344 +03:00 [INF] Handle on target page was called 28 times
+2022-04-23 04:30:42.344 +03:00 [INF] target page: Чехов Антон Павлович - Дуэль [Леонид Кулагин, Юрий Васильев, Александр Резалин и др. 2009 г., 256 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:42.344 +03:00 [INF] Handle finished in 100 ms
+2022-04-23 04:30:42.379 +03:00 [INF] GetDocumentAsync finished in 110 ms
+2022-04-23 04:30:42.380 +03:00 [INF] Handle on target page was called 29 times
+2022-04-23 04:30:42.380 +03:00 [INF] target page: Генри Грэм Грин - Тихий американец [МХАТ им. Горького] :: RuTracker.org
+2022-04-23 04:30:42.380 +03:00 [INF] Handle finished in 110 ms
+2022-04-23 04:30:42.487 +03:00 [INF] GetDocumentAsync finished in 107 ms
+2022-04-23 04:30:42.487 +03:00 [INF] Handle on target page was called 30 times
+2022-04-23 04:30:42.487 +03:00 [INF] target page: Аркадий Кошко - Король сыска [Лев Дуров, 2000, 160 kbps] :: RuTracker.org
+2022-04-23 04:30:42.487 +03:00 [INF] Handle finished in 107 ms
+2022-04-23 04:30:42.589 +03:00 [INF] GetDocumentAsync finished in 101 ms
+2022-04-23 04:30:42.589 +03:00 [INF] Handle on target page was called 31 times
+2022-04-23 04:30:42.589 +03:00 [INF] target page: Френсис Скотт Фицджеральд - «Великий Гэтсби» на &quot;Радио Россия. Культура&quot; [Кирилл Пирогов, Игорь Гордин, Егор Бероев, Мадлен Джабраилова, Ксения Алферова, Лев Дуров и др., 2009, 128 kbps] :: RuTracker.org
+2022-04-23 04:30:42.589 +03:00 [INF] Handle finished in 101 ms
+2022-04-23 04:30:42.650 +03:00 [INF] GetDocumentAsync finished in 305 ms
+2022-04-23 04:30:42.650 +03:00 [INF] Handle on target page was called 32 times
+2022-04-23 04:30:42.650 +03:00 [INF] target page: Алексей Николаевич Толстой - Гиперболоид инженера Гарина [Сергей Чонишвили,Мадлен Джабраилова,Алексей Колубков,Игорь Гордин,Андрей Данилюк и др., 2008, 192 kbps] :: RuTracker.org
+2022-04-23 04:30:42.650 +03:00 [INF] Handle finished in 305 ms
+2022-04-23 04:30:42.723 +03:00 [INF] GetDocumentAsync finished in 133 ms
+2022-04-23 04:30:42.723 +03:00 [INF] Handle on target page was called 33 times
+2022-04-23 04:30:42.723 +03:00 [INF] target page: Медведев Рой - О Сталине и сталинизме [Виктор Ткаченко, 2013 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:42.723 +03:00 [INF] Handle finished in 133 ms
+2022-04-23 04:30:42.756 +03:00 [INF] GetDocumentAsync finished in 105 ms
+2022-04-23 04:30:42.756 +03:00 [INF] Handle on target page was called 34 times
+2022-04-23 04:30:42.756 +03:00 [INF] target page: Рой Медведев - Они окружали Сталина [Николай Козий, 2010, 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:42.756 +03:00 [INF] Handle finished in 105 ms
+2022-04-23 04:30:42.831 +03:00 [INF] GetDocumentAsync finished in 108 ms
+2022-04-23 04:30:42.832 +03:00 [INF] Handle on target page was called 35 times
+2022-04-23 04:30:42.832 +03:00 [INF] target page: Уильям Шекспир - Комедия ошибок ; Бесплодные усилия любви [Вячеслав Невинный, Иннокентий Смоткуновский, Олег Борисов, Генадий Бортников, Ада Роговцева и др., 2006, 192 kbps] :: RuTracker.org
+2022-04-23 04:30:42.832 +03:00 [INF] Handle finished in 109 ms
+2022-04-23 04:30:42.924 +03:00 [INF] GetDocumentAsync finished in 168 ms
+2022-04-23 04:30:42.925 +03:00 [INF] Handle on target page was called 36 times
+2022-04-23 04:30:42.925 +03:00 [INF] target page: А.Дж.Тойнби - Цивилизация перед судом истории [В.Герасимов, 2007, 128 кбит/с, MP3] :: RuTracker.org
+2022-04-23 04:30:42.925 +03:00 [INF] Handle finished in 168 ms
+2022-04-23 04:30:42.933 +03:00 [INF] GetDocumentAsync finished in 101 ms
+2022-04-23 04:30:42.933 +03:00 [INF] Handle on target page was called 37 times
+2022-04-23 04:30:42.933 +03:00 [INF] target page: Бондарев Юрий - Последние залпы [А. Бордуков, А. Ташков, М. Джабраилова, И. Исаев, С. Казаков, В. Левашёв и др., 2014 г., 192 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:42.933 +03:00 [INF] Handle finished in 101 ms
+2022-04-23 04:30:43.028 +03:00 [INF] GetDocumentAsync finished in 103 ms
+2022-04-23 04:30:43.028 +03:00 [INF] Handle on target page was called 38 times
+2022-04-23 04:30:43.028 +03:00 [INF] target page: Дик Фрэнсис - Фаворит [О. Борисов, Г. Богачев, Н. Мартон и др., 1981, 128 kbps] :: RuTracker.org
+2022-04-23 04:30:43.029 +03:00 [INF] Handle finished in 103 ms
+2022-04-23 04:30:43.086 +03:00 [INF] GetDocumentAsync finished in 152 ms
+2022-04-23 04:30:43.086 +03:00 [INF] Handle on target page was called 39 times
+2022-04-23 04:30:43.086 +03:00 [INF] target page: Жванецкий Михаил, Ширвиндт Александр и др. - Путёвка в Новый Год [Николай Караченцов,Александр Ширвиндт, Аркадий Райкин и др. 1987, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:43.086 +03:00 [INF] Handle finished in 152 ms
+2022-04-23 04:30:43.121 +03:00 [INF] GetDocumentAsync finished in 91 ms
+2022-04-23 04:30:43.121 +03:00 [INF] Handle on target page was called 40 times
+2022-04-23 04:30:43.121 +03:00 [INF] target page: Скотт Вальтер - Айвенго, 1968 [Плятт,Леонов,Менглет,Стриженов,Аугшкап,Весник,Гунченко,Евстигнеев,Охлупин,Погоржельский,Ларионов,Кенигсон,Цейц,Папанов,Кторов,Горохов,Рудная 2006,40 kbps,MP3] :: RuTracker.org
+2022-04-23 04:30:43.121 +03:00 [INF] Handle finished in 92 ms
+2022-04-23 04:30:43.191 +03:00 [INF] GetDocumentAsync finished in 104 ms
+2022-04-23 04:30:43.191 +03:00 [INF] Handle on target page was called 41 times
+2022-04-23 04:30:43.191 +03:00 [INF] target page: Легенды и мифы древнего мира 5-8, Легенды Древней Индии. Священные знания [Головатая Л., Контрерас Х., Черкасов С., 2009, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:43.191 +03:00 [INF] Handle finished in 105 ms
+2022-04-23 04:30:43.219 +03:00 [INF] GetDocumentAsync finished in 98 ms
+2022-04-23 04:30:43.219 +03:00 [INF] Handle on target page was called 42 times
+2022-04-23 04:30:43.219 +03:00 [INF] target page: Рак Иван - Легенды и мифы древнего мира 1-4, Легенды Древнего Египта [Головатая Л., Контрерас Х., Черкасов С., 2009, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:43.220 +03:00 [INF] Handle finished in 98 ms
+2022-04-23 04:30:43.306 +03:00 [INF] GetDocumentAsync finished in 114 ms
+2022-04-23 04:30:43.306 +03:00 [INF] Handle on target page was called 43 times
+2022-04-23 04:30:43.306 +03:00 [INF] target page: Оноре де Бальзак - Шагреневая кожа [Радиоспектакль. От автора - Василий Бочкарев. В ролях - Любовь Германова, Анна Каменкова, Леонид Кулагин и др. 2010, 128 kbps] :: RuTracker.org
+2022-04-23 04:30:43.306 +03:00 [INF] Handle finished in 114 ms
+2022-04-23 04:30:43.493 +03:00 [INF] GetDocumentAsync finished in 272 ms
+2022-04-23 04:30:43.493 +03:00 [INF] Handle on target page was called 44 times
+2022-04-23 04:30:43.493 +03:00 [INF] target page: Грэм Грин - Комедианты [Постановка Эмиля Верника. В ролях: Олег Борисов, Олег Табаков, Рогволд Суховерко, Анатолий Адоскин, Армен Джигарханян, Наталья Вилькина, 1990, 128 kbps] :: RuTracker.org
+2022-04-23 04:30:43.493 +03:00 [INF] Handle finished in 273 ms
+2022-04-23 04:30:45.373 +03:00 [INF] GetDocumentAsync finished in 2066 ms
+2022-04-23 04:30:45.373 +03:00 [INF] Handle on target page was called 45 times
+2022-04-23 04:30:45.373 +03:00 [INF] target page: Лермонтов Михаил - Маскарад [Мордвинов Н., Смышляева Л., Плятт Р. и др., 2012 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:45.373 +03:00 [INF] Handle finished in 2067 ms
+2022-04-23 04:30:45.571 +03:00 [INF] GetDocumentAsync finished in 2077 ms
+2022-04-23 04:30:45.571 +03:00 [INF] Handle on target page was called 46 times
+2022-04-23 04:30:45.571 +03:00 [INF] target page: Лермонтов Михаил - Герой нашего времени. Маскарад [Герасимов Вячеслав, Заборовский Юрий, 2008 г., 160 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:45.571 +03:00 [INF] Handle finished in 2078 ms
+2022-04-23 04:30:46.662 +03:00 [INF] GetDocumentAsync finished in 1289 ms
+2022-04-23 04:30:46.662 +03:00 [INF] Handle on target page was called 47 times
+2022-04-23 04:30:46.662 +03:00 [INF] target page: Симонов Константин - История одной любви [Невзоров Б., Васильева Т., Хохряков В. и др., 1979, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:46.663 +03:00 [INF] Handle finished in 1289 ms
+2022-04-23 04:30:46.920 +03:00 [INF] GetDocumentAsync finished in 1348 ms
+2022-04-23 04:30:46.920 +03:00 [INF] Handle on target page was called 48 times
+2022-04-23 04:30:46.920 +03:00 [INF] target page: А.П.Чехов - Антология рассказов (тома 1) [Плятт, Раневская, Абдулов, Толубеев и др., 128 кбит/с] :: RuTracker.org
+2022-04-23 04:30:46.920 +03:00 [INF] Handle finished in 1349 ms
+2022-04-23 04:30:47.681 +03:00 [INF] GetDocumentAsync finished in 1018 ms
+2022-04-23 04:30:47.681 +03:00 [INF] Handle on target page was called 49 times
+2022-04-23 04:30:47.681 +03:00 [INF] target page: Рыбаков Анатолий - Бронзовая птица [реж. Н.Александрович, акт. О.Анофриев, Р.Быков, С. Бубнов и др., 1958 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:47.681 +03:00 [INF] Handle finished in 1018 ms
+2022-04-23 04:30:47.710 +03:00 [INF] GetDocumentAsync finished in 789 ms
+2022-04-23 04:30:47.710 +03:00 [INF] Handle on target page was called 50 times
+2022-04-23 04:30:47.710 +03:00 [INF] target page: Чехов А.П. - Вишневый сад [О. Книппер-Чехова, А. Степанова, Л. Коренева, В. Ершов, С. Блинников, В. Орлов и др., 1949 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:47.710 +03:00 [INF] Handle finished in 789 ms
+2022-04-23 04:30:48.252 +03:00 [INF] GetDocumentAsync finished in 541 ms
+2022-04-23 04:30:48.252 +03:00 [INF] Handle on target page was called 51 times
+2022-04-23 04:30:48.252 +03:00 [INF] target page: Бердяев Николай - Судьба России [Самойлов Владимир, 2006 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:48.252 +03:00 [INF] Handle finished in 542 ms
+2022-04-23 04:30:48.253 +03:00 [INF] GetDocumentAsync finished in 572 ms
+2022-04-23 04:30:48.254 +03:00 [INF] Handle on target page was called 52 times
+2022-04-23 04:30:48.254 +03:00 [INF] target page: Чехов Антон Павлович - Вишневый сад [Т. Еремеева, Е. Цыплакова, Л. Пирогова, Н. Анненков, В. Коршунов, и др. 2007 г., 256 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:48.255 +03:00 [INF] Handle finished in 573 ms
+2022-04-23 04:30:48.911 +03:00 [INF] GetDocumentAsync finished in 658 ms
+2022-04-23 04:30:48.911 +03:00 [INF] Handle on target page was called 53 times
+2022-04-23 04:30:48.911 +03:00 [INF] target page: Сергей Лукьяненко - Фантастическая проза Сергея Лукьяненко [Л.Ярмольник, В.Левашов, А.Яновская, К.Радциг, А.Быков, 2006, 144-160 kbps] :: RuTracker.org
+2022-04-23 04:30:48.911 +03:00 [INF] Handle finished in 658 ms
+2022-04-23 04:30:49.505 +03:00 [INF] GetDocumentAsync finished in 593 ms
+2022-04-23 04:30:49.505 +03:00 [INF] Handle on target page was called 54 times
+2022-04-23 04:30:49.505 +03:00 [INF] target page: Бергман Ингмар - Исповедальные беседы [И. Пегова, И. Костолевский, И. Шибанов, А. Суворов, А. Ровенских, Ю. Силаева, П. Медведева, 2013 г., 192 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:49.505 +03:00 [INF] Handle finished in 593 ms
+2022-04-23 04:30:49.505 +03:00 [INF] GetDocumentAsync finished in 1250 ms
+2022-04-23 04:30:49.505 +03:00 [INF] Handle on target page was called 55 times
+2022-04-23 04:30:49.505 +03:00 [INF] target page: Шекспир Уильям - Макбет [Евгений Матвеев, Борис Телегин, Юрий Колычев, Михаил Царев, Елена Гоголева, и др., 2009, 192 kbps] :: RuTracker.org
+2022-04-23 04:30:49.505 +03:00 [INF] Handle finished in 1250 ms
+2022-04-23 04:30:50.294 +03:00 [INF] GetDocumentAsync finished in 789 ms
+2022-04-23 04:30:50.294 +03:00 [INF] Handle on target page was called 56 times
+2022-04-23 04:30:50.295 +03:00 [INF] target page: Сергей Довлатов - Сергей Довлатов - чемодан. Читает Валентин Гафт. [Валентин Гафт, 128 kbps] :: RuTracker.org
+2022-04-23 04:30:50.295 +03:00 [INF] Handle finished in 789 ms
+2022-04-23 04:30:50.324 +03:00 [INF] GetDocumentAsync finished in 818 ms
+2022-04-23 04:30:50.324 +03:00 [INF] Handle on target page was called 57 times
+2022-04-23 04:30:50.325 +03:00 [INF] target page: М.А. Булгаков Мастер и Маргарита ( Черкасов, Жаров, Демидова и др, 112 кбит/с) :: RuTracker.org
+2022-04-23 04:30:50.325 +03:00 [INF] Handle finished in 818 ms
+2022-04-23 04:30:50.743 +03:00 [INF] GetDocumentAsync finished in 418 ms
+2022-04-23 04:30:50.743 +03:00 [INF] Handle on target page was called 58 times
+2022-04-23 04:30:50.743 +03:00 [INF] target page: Бельский Максим - Неизвестный Фридрих Великий [Харитонов Александр, (ЛИ), 2020, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:50.743 +03:00 [INF] Handle finished in 418 ms
+2022-04-23 04:30:50.793 +03:00 [INF] GetDocumentAsync finished in 498 ms
+2022-04-23 04:30:50.793 +03:00 [INF] Handle on target page was called 59 times
+2022-04-23 04:30:50.793 +03:00 [INF] target page: Бине Лоран - HHhH [Сергей Дадыко, 2019, 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:50.793 +03:00 [INF] Handle finished in 498 ms
+2022-04-23 04:30:51.163 +03:00 [INF] GetDocumentAsync finished in 419 ms
+2022-04-23 04:30:51.163 +03:00 [INF] Handle on target page was called 60 times
+2022-04-23 04:30:51.163 +03:00 [INF] target page: Ефремов Иван - Таис Афинская [Ерисанова Ирина, 2013 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:51.163 +03:00 [INF] Handle finished in 419 ms
+2022-04-23 04:30:51.591 +03:00 [INF] GetDocumentAsync finished in 797 ms
+2022-04-23 04:30:51.591 +03:00 [INF] Handle on target page was called 61 times
+2022-04-23 04:30:51.591 +03:00 [INF] target page: Ефремов Иван - Таис Афинская [Кузьмина Светлана, 2009 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:51.591 +03:00 [INF] Handle finished in 798 ms
+2022-04-23 04:30:51.641 +03:00 [INF] GetDocumentAsync finished in 478 ms
+2022-04-23 04:30:51.641 +03:00 [INF] Handle on target page was called 62 times
+2022-04-23 04:30:51.641 +03:00 [INF] target page: Малышева Анна, Ковалев Анатолий - Авантюристка. Отверженная невеста [Галина Чигинская, 2013 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:51.641 +03:00 [INF] Handle finished in 478 ms
+2022-04-23 04:30:52.015 +03:00 [INF] GetDocumentAsync finished in 423 ms
+2022-04-23 04:30:52.015 +03:00 [INF] Handle on target page was called 63 times
+2022-04-23 04:30:52.015 +03:00 [INF] target page: Малышева Анна, Ковалев Анатолий - Авантюристка. Потерявшая сердце [Галина Чигинская, 2013 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:52.016 +03:00 [INF] Handle finished in 424 ms
+2022-04-23 04:30:52.091 +03:00 [INF] GetDocumentAsync finished in 449 ms
+2022-04-23 04:30:52.091 +03:00 [INF] Handle on target page was called 64 times
+2022-04-23 04:30:52.091 +03:00 [INF] target page: Васильев Борис - Олексины 05.2, Дом, который построил дед. [Заборовский Юрий, 2013 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:52.091 +03:00 [INF] Handle finished in 449 ms
+2022-04-23 04:30:52.310 +03:00 [INF] GetDocumentAsync finished in 294 ms
+2022-04-23 04:30:52.310 +03:00 [INF] Handle on target page was called 65 times
+2022-04-23 04:30:52.310 +03:00 [INF] target page: Васильев Борис - Олексины 05.1, Дом, который построил дед [Иванова Маргарита, 2011 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:52.310 +03:00 [INF] Handle finished in 294 ms
+2022-04-23 04:30:52.831 +03:00 [INF] GetDocumentAsync finished in 740 ms
+2022-04-23 04:30:52.831 +03:00 [INF] Handle on target page was called 66 times
+2022-04-23 04:30:52.831 +03:00 [INF] target page: Васильев Борис - Олексины 03, Утоли моя печали [Герасимов Вячеслав, 2013 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:52.831 +03:00 [INF] Handle finished in 740 ms
+2022-04-23 04:30:53.713 +03:00 [INF] GetDocumentAsync finished in 1402 ms
+2022-04-23 04:30:53.713 +03:00 [INF] Handle on target page was called 67 times
+2022-04-23 04:30:53.713 +03:00 [INF] target page: Васильев Борис - Олексины 01, Картежник и бретёр, игрок и дуэлянт [Герасимов Вячеслав, 2013 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:53.713 +03:00 [INF] Handle finished in 1402 ms
+2022-04-23 04:30:53.718 +03:00 [INF] GetDocumentAsync finished in 886 ms
+2022-04-23 04:30:53.718 +03:00 [INF] Handle on target page was called 68 times
+2022-04-23 04:30:53.718 +03:00 [INF] target page: Задорнов Николай - Амур-Батюшка [Иванова Маргарита, 2013 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:53.718 +03:00 [INF] Handle finished in 886 ms
+2022-04-23 04:30:54.349 +03:00 [INF] GetDocumentAsync finished in 630 ms
+2022-04-23 04:30:54.349 +03:00 [INF] Handle on target page was called 69 times
+2022-04-23 04:30:54.349 +03:00 [INF] target page: Пантелеев Леонид - В осажденном городе [Александр Бордуков, 2011 г., 192 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:54.349 +03:00 [INF] Handle finished in 630 ms
+2022-04-23 04:30:54.383 +03:00 [INF] GetDocumentAsync finished in 669 ms
+2022-04-23 04:30:54.383 +03:00 [INF] Handle on target page was called 70 times
+2022-04-23 04:30:54.383 +03:00 [INF] target page: Хинштейн Александр - &quot;Березовский &amp; Абрамович. Олигархи с большой дороги&quot; [Илья Минский(ЛИ), 2013 г., 128kbps 44kHz, MP3] :: RuTracker.org
+2022-04-23 04:30:54.383 +03:00 [INF] Handle finished in 669 ms
+2022-04-23 04:30:54.469 +03:00 [INF] GetDocumentAsync finished in 120 ms
+2022-04-23 04:30:54.470 +03:00 [INF] Handle on target page was called 71 times
+2022-04-23 04:30:54.470 +03:00 [INF] target page: Батуман Элиф – Бесы. Приключения русской литературы и людей, которые ее читают [Ломыкина Наталья, 2018, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:54.470 +03:00 [INF] Handle finished in 120 ms
+2022-04-23 04:30:54.492 +03:00 [INF] GetDocumentAsync finished in 108 ms
+2022-04-23 04:30:54.492 +03:00 [INF] Handle on target page was called 72 times
+2022-04-23 04:30:54.492 +03:00 [INF] target page: Пикуль Валентин - Десять сюжетов [Самойлов Владимир, 2013, 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:54.492 +03:00 [INF] Handle finished in 109 ms
+2022-04-23 04:30:55.080 +03:00 [INF] GetDocumentAsync finished in 587 ms
+2022-04-23 04:30:55.080 +03:00 [INF] Handle on target page was called 73 times
+2022-04-23 04:30:55.080 +03:00 [INF] target page: Суворов Виктор - Убить чужим ножом [И.Калмыков,(ЛИ) 2011 г., 128, MP3] :: RuTracker.org
+2022-04-23 04:30:55.080 +03:00 [INF] Handle finished in 587 ms
+2022-04-23 04:30:55.255 +03:00 [INF] GetDocumentAsync finished in 785 ms
+2022-04-23 04:30:55.255 +03:00 [INF] Handle on target page was called 74 times
+2022-04-23 04:30:55.255 +03:00 [INF] target page: Виктор Суворов - Контроль [Александр Андриенко, Наталья Рычкова, 2008, 128 кбит/с, MP3] :: RuTracker.org
+2022-04-23 04:30:55.255 +03:00 [INF] Handle finished in 785 ms
+2022-04-23 04:30:55.903 +03:00 [INF] GetDocumentAsync finished in 647 ms
+2022-04-23 04:30:55.903 +03:00 [INF] Handle on target page was called 75 times
+2022-04-23 04:30:55.903 +03:00 [INF] target page: Гаспаров Михаил - Занимательная Греция [Ирина Ерисанова, 2004 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:55.903 +03:00 [INF] Handle finished in 647 ms
+2022-04-23 04:30:55.934 +03:00 [INF] GetDocumentAsync finished in 854 ms
+2022-04-23 04:30:55.935 +03:00 [INF] Handle on target page was called 76 times
+2022-04-23 04:30:55.935 +03:00 [INF] target page: Акунин Борис – История Российского государства 6, Евразийская империя. Эпоха цариц [Александр Клюквин, 2018, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:55.935 +03:00 [INF] Handle finished in 854 ms
+2022-04-23 04:30:56.456 +03:00 [INF] GetDocumentAsync finished in 521 ms
+2022-04-23 04:30:56.456 +03:00 [INF] Handle on target page was called 77 times
+2022-04-23 04:30:56.465 +03:00 [INF] target page: Головнин Василий - Записки флота капитана Головнина о приключениях его в плену у японцев [Владимир Антоник, 2012 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:56.465 +03:00 [INF] Handle finished in 530 ms
+2022-04-23 04:30:56.467 +03:00 [INF] GetDocumentAsync finished in 564 ms
+2022-04-23 04:30:56.467 +03:00 [INF] Handle on target page was called 78 times
+2022-04-23 04:30:56.467 +03:00 [INF] target page: Солонин Марк - Как Советский Союз победил в войне [Юрий Белик, 2021, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:56.467 +03:00 [INF] Handle finished in 564 ms
+2022-04-23 04:30:57.137 +03:00 [INF] GetDocumentAsync finished in 669 ms
+2022-04-23 04:30:57.137 +03:00 [INF] Handle on target page was called 79 times
+2022-04-23 04:30:57.137 +03:00 [INF] target page: Лотман Юрий - Беседы о русской культуре [Терновский Евгений, 2015 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:57.137 +03:00 [INF] Handle finished in 669 ms
+2022-04-23 04:30:57.151 +03:00 [INF] GetDocumentAsync finished in 686 ms
+2022-04-23 04:30:57.151 +03:00 [INF] Handle on target page was called 80 times
+2022-04-23 04:30:57.151 +03:00 [INF] target page: Судоплатов Павел - Разведка и Кремль. Записки нежелательного свидетеля [Оборотов Юрий, 2011 г., 96 kbps 44 khz, MP3] :: RuTracker.org
+2022-04-23 04:30:57.152 +03:00 [INF] Handle finished in 686 ms
+2022-04-23 04:30:58.391 +03:00 [INF] GetDocumentAsync finished in 1253 ms
+2022-04-23 04:30:58.392 +03:00 [INF] Handle on target page was called 81 times
+2022-04-23 04:30:58.392 +03:00 [INF] target page: Ле Гофф Жак; Трюон Николя - История тела в Средние века [Росляков Михаил, 2021, 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:58.392 +03:00 [INF] Handle finished in 1254 ms
+2022-04-23 04:30:58.472 +03:00 [INF] GetDocumentAsync finished in 1320 ms
+2022-04-23 04:30:58.473 +03:00 [INF] Handle on target page was called 82 times
+2022-04-23 04:30:58.473 +03:00 [INF] target page: Веселый Артем - Россия, кровью умытая [Мурашко Игорь, 2009, 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:58.473 +03:00 [INF] Handle finished in 1321 ms
+2022-04-23 04:30:59.629 +03:00 [INF] GetDocumentAsync finished in 1236 ms
+2022-04-23 04:30:59.629 +03:00 [INF] Handle on target page was called 83 times
+2022-04-23 04:30:59.629 +03:00 [INF] target page: Скрынников Р. Г. - Ермак [Раскатова С., 2006, 48 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:59.629 +03:00 [INF] Handle finished in 1237 ms
+2022-04-23 04:30:59.686 +03:00 [INF] GetDocumentAsync finished in 1213 ms
+2022-04-23 04:30:59.686 +03:00 [INF] Handle on target page was called 84 times
+2022-04-23 04:30:59.686 +03:00 [INF] target page: Веденеев Василий - Бальзам Авиценны [Кирсанов Сергей, 2013 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:30:59.686 +03:00 [INF] Handle finished in 1213 ms
+2022-04-23 04:31:01.162 +03:00 [INF] GetDocumentAsync finished in 1533 ms
+2022-04-23 04:31:01.162 +03:00 [INF] Handle on target page was called 85 times
+2022-04-23 04:31:01.162 +03:00 [INF] target page: Данилевский Григорий - На Индию при Петре первом. 1717-1721 годы [Прудовский Илья, 2016 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:01.162 +03:00 [INF] Handle finished in 1533 ms
+2022-04-23 04:31:01.200 +03:00 [INF] GetDocumentAsync finished in 1513 ms
+2022-04-23 04:31:01.200 +03:00 [INF] Handle on target page was called 86 times
+2022-04-23 04:31:01.200 +03:00 [INF] target page: Мухин Юрий - Афганский фронт СССР [Сергей Дмитриев (ЛИ), 2014, 192 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:01.200 +03:00 [INF] Handle finished in 1513 ms
+2022-04-23 04:31:02.224 +03:00 [INF] GetDocumentAsync finished in 1061 ms
+2022-04-23 04:31:02.224 +03:00 [INF] Handle on target page was called 87 times
+2022-04-23 04:31:02.224 +03:00 [INF] target page: Пыхалов Игорь - Великая оболганная война [Владимир Липатов, 2022, 320 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:02.224 +03:00 [INF] Handle finished in 1061 ms
+2022-04-23 04:31:02.659 +03:00 [INF] GetDocumentAsync finished in 1458 ms
+2022-04-23 04:31:02.659 +03:00 [INF] Handle on target page was called 88 times
+2022-04-23 04:31:02.659 +03:00 [INF] target page: Карпов Владимир - Генералиссимус [Аксентюк Валентин, 2013 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:02.659 +03:00 [INF] Handle finished in 1458 ms
+2022-04-23 04:31:03.496 +03:00 [INF] GetDocumentAsync finished in 1272 ms
+2022-04-23 04:31:03.496 +03:00 [INF] Handle on target page was called 89 times
+2022-04-23 04:31:03.496 +03:00 [INF] target page: Глинка Владислав - Судьба дворцового гренадера [Лебедева Валерия, 2013 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:03.496 +03:00 [INF] Handle finished in 1272 ms
+2022-04-23 04:31:05.150 +03:00 [INF] GetDocumentAsync finished in 2490 ms
+2022-04-23 04:31:05.150 +03:00 [INF] Handle on target page was called 90 times
+2022-04-23 04:31:05.150 +03:00 [INF] target page: Гуттман Мэтт - Мальчики в пещере [Олег Булдаков, 2019, 56 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:05.150 +03:00 [INF] Handle finished in 2491 ms
+2022-04-23 04:31:05.210 +03:00 [INF] GetDocumentAsync finished in 1713 ms
+2022-04-23 04:31:05.210 +03:00 [INF] Handle on target page was called 91 times
+2022-04-23 04:31:05.210 +03:00 [INF] target page: Прудникова Елена - Ленин - Сталин. Технология невозможного [Харитонов Александр, (ЛИ), 2021, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:05.210 +03:00 [INF] Handle finished in 1713 ms
+2022-04-23 04:31:06.050 +03:00 [INF] GetDocumentAsync finished in 900 ms
+2022-04-23 04:31:06.050 +03:00 [INF] Handle on target page was called 92 times
+2022-04-23 04:31:06.050 +03:00 [INF] target page: Попов Валерий – Культовый Питер [Ионкина Евгения, 2018, 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:06.050 +03:00 [INF] Handle finished in 900 ms
+2022-04-23 04:31:06.200 +03:00 [INF] GetDocumentAsync finished in 989 ms
+2022-04-23 04:31:06.200 +03:00 [INF] Handle on target page was called 93 times
+2022-04-23 04:31:06.200 +03:00 [INF] target page: Корнфорт Морис - Диалектический материализм [Нафранович Сергей, Падалко Антон, (ЛИ), 2019, 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:06.200 +03:00 [INF] Handle finished in 990 ms
+2022-04-23 04:31:06.285 +03:00 [INF] GetDocumentAsync finished in 234 ms
+2022-04-23 04:31:06.285 +03:00 [INF] Handle on target page was called 94 times
+2022-04-23 04:31:06.285 +03:00 [INF] target page: Олесь Бузина - Союз плуга и трезуба. Как придумали Украину [Лунный ДЕВ, (ЛИ), 2017, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:06.285 +03:00 [INF] Handle finished in 234 ms
+2022-04-23 04:31:06.369 +03:00 [INF] GetDocumentAsync finished in 169 ms
+2022-04-23 04:31:06.369 +03:00 [INF] Handle on target page was called 95 times
+2022-04-23 04:31:06.370 +03:00 [INF] target page: Адамович Алесь - Каратели (Радость ножа, или жизнеописания гипербореев)[Мороз Виктор, 2014 г.,128 kbps, 44 kHz, Mono, MP3] :: RuTracker.org
+2022-04-23 04:31:06.370 +03:00 [INF] Handle finished in 169 ms
+2022-04-23 04:31:06.828 +03:00 [INF] GetDocumentAsync finished in 542 ms
+2022-04-23 04:31:06.828 +03:00 [INF] Handle on target page was called 96 times
+2022-04-23 04:31:06.828 +03:00 [INF] target page: Суворов Виктор - Ледокол 01, Ледокол. Кто начал Вторую мировую войну? [Сушков Владимир, 2013 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:06.828 +03:00 [INF] Handle finished in 543 ms
+2022-04-23 04:31:07.328 +03:00 [INF] GetDocumentAsync finished in 957 ms
+2022-04-23 04:31:07.328 +03:00 [INF] Handle on target page was called 97 times
+2022-04-23 04:31:07.328 +03:00 [INF] target page: А.П.Чехов - &quot;Чайка&quot; [2006] :: RuTracker.org
+2022-04-23 04:31:07.328 +03:00 [INF] Handle finished in 958 ms
+2022-04-23 04:31:08.309 +03:00 [INF] GetDocumentAsync finished in 1480 ms
+2022-04-23 04:31:08.309 +03:00 [INF] Handle on target page was called 98 times
+2022-04-23 04:31:08.309 +03:00 [INF] target page: Памятники литературы Древней Руси [Илья Прудовский, 32 кбит/с, MP3] :: RuTracker.org
+2022-04-23 04:31:08.309 +03:00 [INF] Handle finished in 1480 ms
+2022-04-23 04:31:08.608 +03:00 [INF] GetDocumentAsync finished in 1280 ms
+2022-04-23 04:31:08.608 +03:00 [INF] Handle on target page was called 99 times
+2022-04-23 04:31:08.609 +03:00 [INF] target page: Виктор Суворов - Аудиокнига. Виктор Суворов &quot;Ледокол&quot; [Виктор Суворов, 192 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:08.609 +03:00 [INF] Handle finished in 1280 ms
+2022-04-23 04:31:09.468 +03:00 [INF] GetDocumentAsync finished in 1158 ms
+2022-04-23 04:31:09.468 +03:00 [INF] Handle on target page was called 100 times
+2022-04-23 04:31:09.468 +03:00 [INF] target page: Друзь Александр – Петербург. Пешком по городу [Друзь Александр, 2018, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:09.468 +03:00 [INF] Handle finished in 1159 ms
+2022-04-23 04:31:09.972 +03:00 [INF] GetDocumentAsync finished in 1363 ms
+2022-04-23 04:31:09.973 +03:00 [INF] GetDocumentAsync finished in 504 ms
+2022-04-23 04:31:09.983 +03:00 [INF] Handle finished in 514 ms
+2022-04-23 04:31:10.031 +03:00 [INF] Handle finished in 1397 ms
+2022-04-23 04:31:11.192 +03:00 [INF] GetDocumentAsync finished in 1208 ms
+2022-04-23 04:31:11.192 +03:00 [INF] Handle on target page was called 101 times
+2022-04-23 04:31:11.192 +03:00 [INF] target page: Усов Вячеслав - Цари и скитальцы [Ерисанова Ирина, 2008 г., 112 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:11.192 +03:00 [INF] Handle finished in 1209 ms
+2022-04-23 04:31:11.247 +03:00 [INF] GetDocumentAsync finished in 1216 ms
+2022-04-23 04:31:11.247 +03:00 [INF] Handle on target page was called 102 times
+2022-04-23 04:31:11.248 +03:00 [INF] target page: Новак-Езёраньский Ян - Восточные размышления [Ильин Р., (ЛИ), 2018, 320 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:11.248 +03:00 [INF] Handle finished in 1216 ms
+2022-04-23 04:31:12.424 +03:00 [INF] GetDocumentAsync finished in 1231 ms
+2022-04-23 04:31:12.424 +03:00 [INF] Handle on target page was called 103 times
+2022-04-23 04:31:12.424 +03:00 [INF] target page: Николай Козлов - Священная война [Иоанн Николаев, 2010, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:12.424 +03:00 [INF] Handle finished in 1231 ms
+2022-04-23 04:31:12.499 +03:00 [INF] GetDocumentAsync finished in 1250 ms
+2022-04-23 04:31:12.499 +03:00 [INF] Handle on target page was called 104 times
+2022-04-23 04:31:12.499 +03:00 [INF] target page: Каку Мичио – Физика невозможного [Росляков Михаил, 2017, 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:12.499 +03:00 [INF] Handle finished in 1251 ms
+2022-04-23 04:31:13.479 +03:00 [INF] GetDocumentAsync finished in 1055 ms
+2022-04-23 04:31:13.479 +03:00 [INF] Handle on target page was called 105 times
+2022-04-23 04:31:13.479 +03:00 [INF] target page: Каку Митио - Гиперпространство [Росляков Михаил, 2016 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:13.479 +03:00 [INF] Handle finished in 1055 ms
+2022-04-23 04:31:13.700 +03:00 [INF] GetDocumentAsync finished in 1201 ms
+2022-04-23 04:31:13.701 +03:00 [INF] Handle on target page was called 106 times
+2022-04-23 04:31:13.701 +03:00 [INF] target page: Караславов Слав - Ниспровержение величия [Ерисанова Ирина, 2011г.; MP3, 128 kbps, 44 kHz, Mono] :: RuTracker.org
+2022-04-23 04:31:13.701 +03:00 [INF] Handle finished in 1201 ms
+2022-04-23 04:31:13.701 +03:00 [INF] GetDocumentAsync finished in 221 ms
+2022-04-23 04:31:13.701 +03:00 [INF] Handle on target page was called 107 times
+2022-04-23 04:31:13.701 +03:00 [INF] target page: Саган Карл Эдвард - Космос: Эволюция Вселенной, жизни и цивилизации [Росляков Михаил, 2021, 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:13.701 +03:00 [INF] Handle finished in 221 ms
+2022-04-23 04:31:14.028 +03:00 [INF] GetDocumentAsync finished in 327 ms
+2022-04-23 04:31:14.028 +03:00 [INF] Handle on target page was called 108 times
+2022-04-23 04:31:14.028 +03:00 [INF] target page: Воскобойников Олег - Средневековье крупным планом [Вадим Пугачев, 2019, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:14.028 +03:00 [INF] Handle finished in 327 ms
+2022-04-23 04:31:14.320 +03:00 [INF] GetDocumentAsync finished in 618 ms
+2022-04-23 04:31:14.320 +03:00 [INF] Handle on target page was called 109 times
+2022-04-23 04:31:14.320 +03:00 [INF] target page: Мэнсон Марк - Тонкое искусство пофигизма: Парадоксальный способ жить счастливо [Алекс Лайт, 2018, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:14.320 +03:00 [INF] Handle finished in 618 ms
+2022-04-23 04:31:15.018 +03:00 [INF] GetDocumentAsync finished in 989 ms
+2022-04-23 04:31:15.018 +03:00 [INF] Handle on target page was called 110 times
+2022-04-23 04:31:15.018 +03:00 [INF] GetDocumentAsync finished in 697 ms
+2022-04-23 04:31:15.018 +03:00 [INF] target page: Курпатов Андрей - Красная таблетка. Посмотри правде в глаза [Александр Федоров, 2018, 58 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:15.018 +03:00 [INF] Handle on target page was called 111 times
+2022-04-23 04:31:15.018 +03:00 [INF] Handle finished in 989 ms
+2022-04-23 04:31:15.018 +03:00 [INF] target page: Грэм Бенджамин - Разумный инвестор [BIGBAG, (ЛИ), 2020, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:15.018 +03:00 [INF] Handle finished in 697 ms
+2022-04-23 04:31:17.037 +03:00 [INF] GetDocumentAsync finished in 2019 ms
+2022-04-23 04:31:17.038 +03:00 [INF] Handle on target page was called 112 times
+2022-04-23 04:31:17.038 +03:00 [INF] target page: Перлмуттер Дэвид, Лоберг Кристин - Кишечник и мозг. Как кишечные бактерии исцеляют и защищают ваш мозг [Алексей Данков, 2021, 56 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:17.038 +03:00 [INF] Handle finished in 2019 ms
+2022-04-23 04:31:17.067 +03:00 [INF] GetDocumentAsync finished in 2048 ms
+2022-04-23 04:31:17.067 +03:00 [INF] Handle on target page was called 113 times
+2022-04-23 04:31:17.067 +03:00 [INF] target page: Кирьянов Олег – Южная Корея [Дмитрий Бужинский, 2017, 64 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:17.067 +03:00 [INF] Handle finished in 2049 ms
+2022-04-23 04:31:17.348 +03:00 [INF] GetDocumentAsync finished in 310 ms
+2022-04-23 04:31:17.348 +03:00 [INF] Handle on target page was called 114 times
+2022-04-23 04:31:17.348 +03:00 [INF] target page: Фромм Эрих - Искусство любить [Станислав Концевич, 2015 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:17.348 +03:00 [INF] Handle finished in 310 ms
+2022-04-23 04:31:17.370 +03:00 [INF] GetDocumentAsync finished in 303 ms
+2022-04-23 04:31:17.371 +03:00 [INF] Handle on target page was called 115 times
+2022-04-23 04:31:17.371 +03:00 [INF] target page: Фромм Эрих - Искусство любить [Терновский Евгений, 2015 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:17.371 +03:00 [INF] Handle finished in 303 ms
+2022-04-23 04:31:17.535 +03:00 [INF] GetDocumentAsync finished in 186 ms
+2022-04-23 04:31:17.535 +03:00 [INF] Handle on target page was called 116 times
+2022-04-23 04:31:17.535 +03:00 [INF] target page: Поварнин Сергей - Как читать книги. [Эволюция (ЛИ), 2020, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:17.535 +03:00 [INF] Handle finished in 187 ms
+2022-04-23 04:31:17.581 +03:00 [INF] GetDocumentAsync finished in 209 ms
+2022-04-23 04:31:17.582 +03:00 [INF] Handle on target page was called 117 times
+2022-04-23 04:31:17.582 +03:00 [INF] target page: Фромм Эрих - Бегство от свободы [Ерисанова Ирина, 2007 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:17.582 +03:00 [INF] Handle finished in 211 ms
+2022-04-23 04:31:18.673 +03:00 [INF] GetDocumentAsync finished in 1137 ms
+2022-04-23 04:31:18.673 +03:00 [INF] Handle on target page was called 118 times
+2022-04-23 04:31:18.673 +03:00 [INF] target page: Фромм Эрих - Человек для самого себя [Прудовский Илья, 2007 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:18.673 +03:00 [INF] Handle finished in 1137 ms
+2022-04-23 04:31:18.805 +03:00 [INF] GetDocumentAsync finished in 1223 ms
+2022-04-23 04:31:18.805 +03:00 [INF] Handle on target page was called 119 times
+2022-04-23 04:31:18.805 +03:00 [INF] target page: Каку Мичио – Будущее разума [Росляков Михаил, 2017, 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:18.805 +03:00 [INF] Handle finished in 1223 ms
+2022-04-23 04:31:19.488 +03:00 [INF] GetDocumentAsync finished in 814 ms
+2022-04-23 04:31:19.488 +03:00 [INF] Handle on target page was called 120 times
+2022-04-23 04:31:19.488 +03:00 [INF] target page: Семаго Леонид - Золотая флейта. Рассказы натуралиста [Иванова Маргарита, 2014 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:19.488 +03:00 [INF] Handle finished in 814 ms
+2022-04-23 04:31:19.492 +03:00 [INF] GetDocumentAsync finished in 686 ms
+2022-04-23 04:31:19.492 +03:00 [INF] Handle on target page was called 121 times
+2022-04-23 04:31:19.492 +03:00 [INF] target page: Лектор д.филос.н. А. А. Хлевов - Средневековая история. 1 CD [2008, 128 kbps] :: RuTracker.org
+2022-04-23 04:31:19.492 +03:00 [INF] Handle finished in 686 ms
+2022-04-23 04:31:47.318 +03:00 [INF] GetDocumentAsync finished in 454 ms
+2022-04-23 04:31:47.409 +03:00 [INF] Handle finished in 557 ms
+2022-04-23 04:31:47.451 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-23 04:31:47.451 +03:00 [INF] Hosting environment: Development
+2022-04-23 04:31:47.451 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-23 04:31:47.560 +03:00 [INF] GetDocumentAsync finished in 152 ms
+2022-04-23 04:31:47.562 +03:00 [INF] Handle finished in 154 ms
+2022-04-23 04:31:47.650 +03:00 [INF] GetDocumentAsync finished in 240 ms
+2022-04-23 04:31:47.651 +03:00 [INF] Handle finished in 241 ms
+2022-04-23 04:31:47.652 +03:00 [INF] GetDocumentAsync finished in 241 ms
+2022-04-23 04:31:47.653 +03:00 [INF] Handle finished in 243 ms
+2022-04-23 04:31:47.715 +03:00 [INF] GetDocumentAsync finished in 303 ms
+2022-04-23 04:31:47.716 +03:00 [INF] Handle finished in 304 ms
+2022-04-23 04:31:47.739 +03:00 [INF] GetDocumentAsync finished in 176 ms
+2022-04-23 04:31:47.740 +03:00 [INF] Handle finished in 177 ms
+2022-04-23 04:31:47.903 +03:00 [INF] GetDocumentAsync finished in 252 ms
+2022-04-23 04:31:47.952 +03:00 [INF] Handle finished in 301 ms
+2022-04-23 04:31:48.004 +03:00 [INF] GetDocumentAsync finished in 350 ms
+2022-04-23 04:31:48.010 +03:00 [INF] Handle finished in 356 ms
+2022-04-23 04:31:48.147 +03:00 [INF] GetDocumentAsync finished in 136 ms
+2022-04-23 04:31:48.150 +03:00 [INF] Handle on target page was called 1 times
+2022-04-23 04:31:48.151 +03:00 [INF] GetDocumentAsync finished in 198 ms
+2022-04-23 04:31:48.152 +03:00 [INF] target page: Шекспир Уильям - Макбет [Евгений Матвеев, Борис Телегин, Юрий Колычев, Михаил Царев, Елена Гоголева, и др., 2009, 192 kbps] :: RuTracker.org
+2022-04-23 04:31:48.152 +03:00 [INF] Handle finished in 141 ms
+2022-04-23 04:31:48.154 +03:00 [INF] Handle on target page was called 2 times
+2022-04-23 04:31:48.179 +03:00 [INF] target page: М.А. Булгаков Мастер и Маргарита ( Черкасов, Жаров, Демидова и др, 112 кбит/с) :: RuTracker.org
+2022-04-23 04:31:48.180 +03:00 [INF] Handle finished in 226 ms
+2022-04-23 04:31:48.348 +03:00 [INF] GetDocumentAsync finished in 195 ms
+2022-04-23 04:31:48.348 +03:00 [INF] Handle on target page was called 3 times
+2022-04-23 04:31:48.348 +03:00 [INF] target page: Сергей Лукьяненко - Фантастическая проза Сергея Лукьяненко [Л.Ярмольник, В.Левашов, А.Яновская, К.Радциг, А.Быков, 2006, 144-160 kbps] :: RuTracker.org
+2022-04-23 04:31:48.348 +03:00 [INF] Handle finished in 195 ms
+2022-04-23 04:31:48.348 +03:00 [INF] GetDocumentAsync finished in 167 ms
+2022-04-23 04:31:48.349 +03:00 [INF] Handle on target page was called 4 times
+2022-04-23 04:31:48.375 +03:00 [INF] target page: А.П.Чехов - &quot;Чайка&quot; [2006] :: RuTracker.org
+2022-04-23 04:31:48.392 +03:00 [INF] Handle finished in 211 ms
+2022-04-23 04:31:48.443 +03:00 [INF] GetDocumentAsync finished in 727 ms
+2022-04-23 04:31:48.452 +03:00 [INF] GetDocumentAsync finished in 709 ms
+2022-04-23 04:31:48.452 +03:00 [INF] GetDocumentAsync finished in 104 ms
+2022-04-23 04:31:48.452 +03:00 [INF] Handle on target page was called 5 times
+2022-04-23 04:31:48.452 +03:00 [INF] target page: Кузьмищев Владимир - Царство сынов Солнца [Козий Николай, 2009, 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:48.453 +03:00 [INF] Handle finished in 104 ms
+2022-04-23 04:31:48.456 +03:00 [INF] Handle finished in 739 ms
+2022-04-23 04:31:48.472 +03:00 [INF] Handle finished in 729 ms
+2022-04-23 04:31:48.553 +03:00 [INF] GetDocumentAsync finished in 100 ms
+2022-04-23 04:31:48.553 +03:00 [INF] Handle on target page was called 6 times
+2022-04-23 04:31:48.553 +03:00 [INF] target page: Рой Медведев - Они окружали Сталина [Николай Козий, 2010, 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:48.553 +03:00 [INF] Handle finished in 100 ms
+2022-04-23 04:31:48.582 +03:00 [INF] GetDocumentAsync finished in 110 ms
+2022-04-23 04:31:48.582 +03:00 [INF] Handle on target page was called 7 times
+2022-04-23 04:31:48.582 +03:00 [INF] target page: Виногродский Бронислав - Искусство игры с миром. Смысл победы в победе над смыслами [Игорь Князев, 2016, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:48.583 +03:00 [INF] Handle finished in 110 ms
+2022-04-23 04:31:48.591 +03:00 [INF] GetDocumentAsync finished in 198 ms
+2022-04-23 04:31:48.591 +03:00 [INF] Handle on target page was called 8 times
+2022-04-23 04:31:48.591 +03:00 [INF] target page: Медведев Рой - О Сталине и сталинизме [Виктор Ткаченко, 2013 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:48.591 +03:00 [INF] Handle finished in 198 ms
+2022-04-23 04:31:48.645 +03:00 [INF] GetDocumentAsync finished in 189 ms
+2022-04-23 04:31:48.645 +03:00 [INF] Handle on target page was called 9 times
+2022-04-23 04:31:48.645 +03:00 [INF] target page: А.Дж.Тойнби - Цивилизация перед судом истории [В.Герасимов, 2007, 128 кбит/с, MP3] :: RuTracker.org
+2022-04-23 04:31:48.645 +03:00 [INF] Handle finished in 189 ms
+2022-04-23 04:31:48.651 +03:00 [INF] GetDocumentAsync finished in 97 ms
+2022-04-23 04:31:48.651 +03:00 [INF] Handle on target page was called 10 times
+2022-04-23 04:31:48.651 +03:00 [INF] target page: Бердяев Николай - Судьба России [Самойлов Владимир, 2006 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:48.651 +03:00 [INF] Handle finished in 97 ms
+2022-04-23 04:31:48.721 +03:00 [INF] GetDocumentAsync finished in 138 ms
+2022-04-23 04:31:48.721 +03:00 [INF] Handle on target page was called 11 times
+2022-04-23 04:31:48.721 +03:00 [INF] target page: Бине Лоран - HHhH [Сергей Дадыко, 2019, 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:48.721 +03:00 [INF] Handle finished in 138 ms
+2022-04-23 04:31:48.818 +03:00 [INF] GetDocumentAsync finished in 226 ms
+2022-04-23 04:31:48.818 +03:00 [INF] Handle on target page was called 12 times
+2022-04-23 04:31:48.845 +03:00 [INF] target page: Бельский Максим - Неизвестный Фридрих Великий [Харитонов Александр, (ЛИ), 2020, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:48.845 +03:00 [INF] Handle finished in 254 ms
+2022-04-23 04:31:48.942 +03:00 [INF] GetDocumentAsync finished in 290 ms
+2022-04-23 04:31:48.942 +03:00 [INF] GetDocumentAsync finished in 220 ms
+2022-04-23 04:31:48.942 +03:00 [INF] Handle on target page was called 13 times
+2022-04-23 04:31:48.942 +03:00 [INF] Handle on target page was called 14 times
+2022-04-23 04:31:48.942 +03:00 [INF] target page: Ефремов Иван - Таис Афинская [Кузьмина Светлана, 2009 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:48.942 +03:00 [INF] target page: Вадим Зеланд, Чед Сарно - Живая кухня. Трансёрфинг обновления [Михаил Черняк, 2011 г., 80 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:48.942 +03:00 [INF] Handle finished in 291 ms
+2022-04-23 04:31:48.942 +03:00 [INF] Handle finished in 220 ms
+2022-04-23 04:31:49.015 +03:00 [INF] GetDocumentAsync finished in 369 ms
+2022-04-23 04:31:49.017 +03:00 [INF] Handle on target page was called 15 times
+2022-04-23 04:31:49.018 +03:00 [INF] target page: Ефремов Иван - Таис Афинская [Ерисанова Ирина, 2013 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:49.066 +03:00 [INF] Handle finished in 420 ms
+2022-04-23 04:31:49.234 +03:00 [INF] GetDocumentAsync finished in 291 ms
+2022-04-23 04:31:49.234 +03:00 [INF] Handle on target page was called 16 times
+2022-04-23 04:31:49.235 +03:00 [INF] target page: Толстой Лев - О жизни [Юрий Белик, 2021, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:49.235 +03:00 [INF] Handle finished in 292 ms
+2022-04-23 04:31:49.288 +03:00 [INF] GetDocumentAsync finished in 441 ms
+2022-04-23 04:31:49.288 +03:00 [INF] Handle on target page was called 17 times
+2022-04-23 04:31:49.309 +03:00 [INF] target page: Бах Ричард Дэвис - Иллюзии II. Приключения одного ученика, который учеником быть не хотел [Вероника Обоянка, (ЛИ), 2015 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:49.309 +03:00 [INF] Handle finished in 463 ms
+2022-04-23 04:31:49.380 +03:00 [INF] GetDocumentAsync finished in 437 ms
+2022-04-23 04:31:49.380 +03:00 [INF] Handle on target page was called 18 times
+2022-04-23 04:31:49.380 +03:00 [INF] target page: Кастанеда Карлос - Колесо Времени [Аксентюк Валентин, 2013 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:49.381 +03:00 [INF] Handle finished in 438 ms
+2022-04-23 04:31:49.381 +03:00 [INF] GetDocumentAsync finished in 314 ms
+2022-04-23 04:31:49.381 +03:00 [INF] Handle on target page was called 19 times
+2022-04-23 04:31:49.383 +03:00 [INF] target page: Зеланд Вадим - Трансерфинг реальности 7. Форум сновидений [Черняк Михаил, 2007 г., 160 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:49.384 +03:00 [INF] Handle finished in 317 ms
+2022-04-23 04:31:49.557 +03:00 [INF] GetDocumentAsync finished in 247 ms
+2022-04-23 04:31:49.557 +03:00 [INF] GetDocumentAsync finished in 322 ms
+2022-04-23 04:31:49.557 +03:00 [INF] Handle on target page was called 20 times
+2022-04-23 04:31:49.557 +03:00 [INF] GetDocumentAsync finished in 173 ms
+2022-04-23 04:31:49.557 +03:00 [INF] Handle on target page was called 21 times
+2022-04-23 04:31:49.557 +03:00 [INF] Handle on target page was called 22 times
+2022-04-23 04:31:49.557 +03:00 [INF] target page: Сборник - В помощь ищущему (Советы Мастеров, Притчи) [Nikosho, (ЛИ), 2015 г., 256 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:49.557 +03:00 [INF] target page: [Живая Этика] Рерих Николай - Агни-Йога [Савицкий Николай, 2006, 32 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:49.557 +03:00 [INF] Handle finished in 173 ms
+2022-04-23 04:31:49.557 +03:00 [INF] target page: Байрон Кейти - Мне нужна твоя любовь - а так ли это? [Nikosho, (ЛИ), 2014 г., 256 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:49.557 +03:00 [INF] Handle finished in 322 ms
+2022-04-23 04:31:49.558 +03:00 [INF] Handle finished in 248 ms
+2022-04-23 04:31:49.583 +03:00 [INF] GetDocumentAsync finished in 202 ms
+2022-04-23 04:31:49.584 +03:00 [INF] Handle on target page was called 23 times
+2022-04-23 04:31:49.587 +03:00 [INF] target page: Байрон Кейти - У радости тысяча имен [Nikosho, (ЛИ), 2014 г., 256 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:49.588 +03:00 [INF] Handle finished in 207 ms
+2022-04-23 04:31:49.720 +03:00 [INF] GetDocumentAsync finished in 162 ms
+2022-04-23 04:31:49.720 +03:00 [INF] GetDocumentAsync finished in 137 ms
+2022-04-23 04:31:49.721 +03:00 [INF] Handle on target page was called 24 times
+2022-04-23 04:31:49.721 +03:00 [INF] Handle on target page was called 25 times
+2022-04-23 04:31:49.721 +03:00 [INF] target page: Рерих Николай - Адамант, Держава Рериха, Обитель света [BIGBAG, (ЛИ), 2014 г., 64 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:49.721 +03:00 [INF] target page: Рерих Николай - Нерушимое [Егорова Екатерина, 2014 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:49.721 +03:00 [INF] Handle finished in 162 ms
+2022-04-23 04:31:49.721 +03:00 [INF] GetDocumentAsync finished in 163 ms
+2022-04-23 04:31:49.721 +03:00 [INF] Handle finished in 137 ms
+2022-04-23 04:31:49.721 +03:00 [INF] Handle on target page was called 26 times
+2022-04-23 04:31:49.722 +03:00 [INF] target page: Задорнов Николай - Амур-Батюшка [Иванова Маргарита, 2013 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:49.722 +03:00 [INF] Handle finished in 164 ms
+2022-04-23 04:31:49.807 +03:00 [INF] GetDocumentAsync finished in 217 ms
+2022-04-23 04:31:49.807 +03:00 [INF] Handle on target page was called 27 times
+2022-04-23 04:31:49.807 +03:00 [INF] target page: Александр Невзоров - Уроки Атеизма (бонусный CD к одноименной книге, все 43 урока) [Александр Невзоров, 2015 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:49.807 +03:00 [INF] Handle finished in 218 ms
+2022-04-23 04:31:49.856 +03:00 [INF] GetDocumentAsync finished in 133 ms
+2022-04-23 04:31:49.856 +03:00 [INF] Handle on target page was called 28 times
+2022-04-23 04:31:49.857 +03:00 [INF] target page: Гунаратана Бханте Хенепола - Медитация на восприятии. Десять целительных практик для развития внимательности [Nikosho, (ЛИ), 2016, 248-251 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:49.857 +03:00 [INF] Handle finished in 134 ms
+2022-04-23 04:31:49.867 +03:00 [INF] GetDocumentAsync finished in 145 ms
+2022-04-23 04:31:49.867 +03:00 [INF] Handle on target page was called 29 times
+2022-04-23 04:31:49.867 +03:00 [INF] target page: Гаспаров Михаил - Занимательная Греция [Ирина Ерисанова, 2004 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:49.867 +03:00 [INF] Handle finished in 146 ms
+2022-04-23 04:31:49.930 +03:00 [INF] GetDocumentAsync finished in 208 ms
+2022-04-23 04:31:49.930 +03:00 [INF] Handle on target page was called 30 times
+2022-04-23 04:31:49.930 +03:00 [INF] target page: Эстер и Джерри Хикс - Удивительная сила эмоций. Следуйте за своими чувствами. (The Astonishing Power of Emotions) [Вадим Прохоров, 2010 г., 224-256kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:49.930 +03:00 [INF] Handle finished in 208 ms
+2022-04-23 04:31:49.941 +03:00 [INF] GetDocumentAsync finished in 134 ms
+2022-04-23 04:31:49.941 +03:00 [INF] Handle on target page was called 31 times
+2022-04-23 04:31:49.942 +03:00 [INF] target page: Гунаратана Бханте Хенепола - Восемь внимательных шагов к счастью. Следуя по стопам Будды [Nikosho, (ЛИ), 2016, 256-274 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:49.942 +03:00 [INF] Handle finished in 134 ms
+2022-04-23 04:31:50.420 +03:00 [INF] GetDocumentAsync finished in 562 ms
+2022-04-23 04:31:50.420 +03:00 [INF] Handle on target page was called 32 times
+2022-04-23 04:31:50.420 +03:00 [INF] target page: Брахм Аджан - Осознанность, блаженство и за их пределами. Руководство для практикующих медитацию [Nikosho (ЛИ), (ЛИ), 2016 г., 256 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:50.420 +03:00 [INF] Handle finished in 563 ms
+2022-04-23 04:31:50.753 +03:00 [INF] GetDocumentAsync finished in 886 ms
+2022-04-23 04:31:50.754 +03:00 [INF] Handle on target page was called 33 times
+2022-04-23 04:31:50.754 +03:00 [INF] target page: Дэн Миллмэн - Путь мирного воина [Алексей Шульгин., 2016, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:50.754 +03:00 [INF] Handle finished in 886 ms
+2022-04-23 04:31:50.837 +03:00 [INF] GetDocumentAsync finished in 906 ms
+2022-04-23 04:31:50.837 +03:00 [INF] Handle on target page was called 34 times
+2022-04-23 04:31:50.837 +03:00 [INF] target page: «Веда Пушпанджали» Бхагаван Шри Сатья Саи Баба / Ведические гимны на русском языке :: RuTracker.org
+2022-04-23 04:31:50.837 +03:00 [INF] Handle finished in 907 ms
+2022-04-23 04:31:51.124 +03:00 [INF] GetDocumentAsync finished in 703 ms
+2022-04-23 04:31:51.124 +03:00 [INF] Handle on target page was called 35 times
+2022-04-23 04:31:51.124 +03:00 [INF] target page: Фосдик Зинаида - Мои Учителя [BIGBAG, (ЛИ), 2016 г., 192 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:51.124 +03:00 [INF] Handle finished in 703 ms
+2022-04-23 04:31:51.164 +03:00 [INF] GetDocumentAsync finished in 1221 ms
+2022-04-23 04:31:51.164 +03:00 [INF] Handle on target page was called 36 times
+2022-04-23 04:31:51.164 +03:00 [INF] target page: Алексей Похабов - Обучение магии. ARCANUM [2016, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:51.164 +03:00 [INF] Handle finished in 1222 ms
+2022-04-23 04:31:51.560 +03:00 [INF] GetDocumentAsync finished in 806 ms
+2022-04-23 04:31:51.560 +03:00 [INF] Handle on target page was called 37 times
+2022-04-23 04:31:51.560 +03:00 [INF] target page: Робертс Джейн - Говорит Сет. Вечная реальность души [Сергей Горин, 2021, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:51.560 +03:00 [INF] Handle finished in 806 ms
+2022-04-23 04:31:51.608 +03:00 [INF] GetDocumentAsync finished in 771 ms
+2022-04-23 04:31:51.608 +03:00 [INF] Handle on target page was called 38 times
+2022-04-23 04:31:51.608 +03:00 [INF] target page: Робертс Джейн - Природа личной реальности [Сергей Горин, (ЛИ), 2016 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:51.608 +03:00 [INF] Handle finished in 771 ms
+2022-04-23 04:31:51.900 +03:00 [INF] GetDocumentAsync finished in 339 ms
+2022-04-23 04:31:51.900 +03:00 [INF] Handle on target page was called 39 times
+2022-04-23 04:31:51.900 +03:00 [INF] GetDocumentAsync finished in 735 ms
+2022-04-23 04:31:51.900 +03:00 [INF] target page: Тит Нат Хан - Тишина. Спокойствие в мире, полном шума [Nikosho (ЛИ), 2018, 44 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:51.900 +03:00 [INF] Handle on target page was called 40 times
+2022-04-23 04:31:51.900 +03:00 [INF] target page: Питерсон Джордан - 12 правил жизни. Противоядие от хаоса [Александр Карлов, 2018, 80 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:51.900 +03:00 [INF] Handle finished in 339 ms
+2022-04-23 04:31:51.900 +03:00 [INF] Handle finished in 735 ms
+2022-04-23 04:31:52.019 +03:00 [INF] GetDocumentAsync finished in 410 ms
+2022-04-23 04:31:52.019 +03:00 [INF] Handle on target page was called 41 times
+2022-04-23 04:31:52.019 +03:00 [INF] target page: Крок Дмитрий - Фрискайтинг. Книга первая. Возвращение к свободе [Воротилин Олег, (ЛИ), 2022, 192 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:52.019 +03:00 [INF] Handle finished in 410 ms
+2022-04-23 04:31:52.070 +03:00 [INF] GetDocumentAsync finished in 945 ms
+2022-04-23 04:31:52.070 +03:00 [INF] Handle on target page was called 42 times
+2022-04-23 04:31:52.070 +03:00 [INF] target page: Робертс Джейн - Материалы Сета, 2014 г., MP3 (Горин Сергей) :: RuTracker.org
+2022-04-23 04:31:52.070 +03:00 [INF] Handle finished in 946 ms
+2022-04-23 04:31:52.874 +03:00 [INF] GetDocumentAsync finished in 973 ms
+2022-04-23 04:31:52.874 +03:00 [INF] Handle on target page was called 43 times
+2022-04-23 04:31:52.874 +03:00 [INF] target page: Орлов Михаил - История сношений человека с дьяволом [Вячеслав Герасимов, 2010 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:52.874 +03:00 [INF] Handle finished in 974 ms
+2022-04-23 04:31:52.874 +03:00 [INF] GetDocumentAsync finished in 974 ms
+2022-04-23 04:31:52.874 +03:00 [INF] Handle on target page was called 44 times
+2022-04-23 04:31:52.875 +03:00 [INF] target page: Лотман Юрий - Беседы о русской культуре [Терновский Евгений, 2015 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:52.875 +03:00 [INF] Handle finished in 974 ms
+2022-04-23 04:31:53.144 +03:00 [INF] GetDocumentAsync finished in 1124 ms
+2022-04-23 04:31:53.144 +03:00 [INF] Handle on target page was called 45 times
+2022-04-23 04:31:53.145 +03:00 [INF] target page: Виногродский Бронислав - Мудрость правителя на пути долголетия [Игорь Князев, 2017, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:53.145 +03:00 [INF] Handle finished in 1125 ms
+2022-04-23 04:31:53.257 +03:00 [INF] GetDocumentAsync finished in 1186 ms
+2022-04-23 04:31:53.257 +03:00 [INF] Handle on target page was called 46 times
+2022-04-23 04:31:53.257 +03:00 [INF] target page: Даттатрея - Трипура-рахасья или Мистерия за пределами Троицы [Максим и Анна Котенко, (ЛИ), 2017, 320 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:53.257 +03:00 [INF] Handle finished in 1186 ms
+2022-04-23 04:31:53.391 +03:00 [INF] GetDocumentAsync finished in 246 ms
+2022-04-23 04:31:53.391 +03:00 [INF] Handle on target page was called 47 times
+2022-04-23 04:31:53.392 +03:00 [INF] target page: Ксендзюк А.П. - Пороги сновидений (Владемир Дергач, 2019, 256kbps, MP3) :: RuTracker.org
+2022-04-23 04:31:53.392 +03:00 [INF] Handle finished in 246 ms
+2022-04-23 04:31:53.504 +03:00 [INF] GetDocumentAsync finished in 247 ms
+2022-04-23 04:31:53.504 +03:00 [INF] Handle on target page was called 48 times
+2022-04-23 04:31:53.505 +03:00 [INF] target page: Ксендзюк Алексей - Осознанные сновидения и внетелесный опыт [Владемир Дергач, (ЛИ), 2019, 256 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:53.505 +03:00 [INF] Handle finished in 247 ms
+2022-04-23 04:31:53.566 +03:00 [INF] GetDocumentAsync finished in 692 ms
+2022-04-23 04:31:53.566 +03:00 [INF] Handle on target page was called 49 times
+2022-04-23 04:31:53.566 +03:00 [INF] target page: Нисаргадатта Махарадж - Я есть То [Nikosho (ЛИ), 2012 г., VBR V0, MP3] :: RuTracker.org
+2022-04-23 04:31:53.566 +03:00 [INF] Handle finished in 692 ms
+2022-04-23 04:31:53.698 +03:00 [INF] GetDocumentAsync finished in 306 ms
+2022-04-23 04:31:53.699 +03:00 [INF] Handle on target page was called 50 times
+2022-04-23 04:31:53.699 +03:00 [INF] target page: ЙОГ РАМАЧАРАКА - За пределами жизни и смерти [Татьяна Орбу, 2004, 320] :: RuTracker.org
+2022-04-23 04:31:53.699 +03:00 [INF] Handle finished in 307 ms
+2022-04-23 04:31:53.711 +03:00 [INF] GetDocumentAsync finished in 206 ms
+2022-04-23 04:31:53.711 +03:00 [INF] Handle on target page was called 51 times
+2022-04-23 04:31:53.711 +03:00 [INF] target page: Монро Роберт - Далёкие путешествия. Окончательное путешествие [Logik1977, 2010 г., 64 / 128kbps 44,1kHz Mono, MP3] :: RuTracker.org
+2022-04-23 04:31:53.711 +03:00 [INF] Handle finished in 206 ms
+2022-04-23 04:31:53.787 +03:00 [INF] GetDocumentAsync finished in 220 ms
+2022-04-23 04:31:53.787 +03:00 [INF] Handle on target page was called 52 times
+2022-04-23 04:31:53.787 +03:00 [INF] target page: Михаил Радуга - Школа внетелесных путешествий. Практический учебник [Сергей Щербаков, 2009, 128 kbps] :: RuTracker.org
+2022-04-23 04:31:53.787 +03:00 [INF] Handle finished in 220 ms
+2022-04-23 04:31:53.896 +03:00 [INF] GetDocumentAsync finished in 108 ms
+2022-04-23 04:31:53.896 +03:00 [INF] Handle on target page was called 53 times
+2022-04-23 04:31:53.896 +03:00 [INF] target page: Ледбитер Чарльз - Астральный план. Ментальный план. [Жанна Жиглинская, (ЛИ), 2018, 256 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:53.896 +03:00 [INF] Handle finished in 108 ms
+2022-04-23 04:31:54.013 +03:00 [INF] GetDocumentAsync finished in 301 ms
+2022-04-23 04:31:54.013 +03:00 [INF] Handle on target page was called 54 times
+2022-04-23 04:31:54.013 +03:00 [INF] target page: Радуга Михаил - «Параллельная реальность вне тела» [Дубина Александр, 2005] :: RuTracker.org
+2022-04-23 04:31:54.013 +03:00 [INF] Handle finished in 301 ms
+2022-04-23 04:31:54.082 +03:00 [INF] GetDocumentAsync finished in 383 ms
+2022-04-23 04:31:54.082 +03:00 [INF] Handle on target page was called 55 times
+2022-04-23 04:31:54.082 +03:00 [INF] target page: Михаил Радуга - Школа внетелесных путешествий. Личные опыты [Сергей Щербаков, 2009, 128] :: RuTracker.org
+2022-04-23 04:31:54.082 +03:00 [INF] Handle finished in 383 ms
+2022-04-23 04:31:54.228 +03:00 [INF] GetDocumentAsync finished in 331 ms
+2022-04-23 04:31:54.228 +03:00 [INF] Handle on target page was called 56 times
+2022-04-23 04:31:54.228 +03:00 [INF] target page: Жемчужины мудрости - Ледбитер Ч. У. - Ясновидение [Орбу Т. А., 2007, 128 kbps] :: RuTracker.org
+2022-04-23 04:31:54.228 +03:00 [INF] Handle finished in 332 ms
+2022-04-23 04:31:54.255 +03:00 [INF] GetDocumentAsync finished in 1379 ms
+2022-04-23 04:31:54.255 +03:00 [INF] Handle on target page was called 57 times
+2022-04-23 04:31:54.255 +03:00 [INF] target page: Зеланд Вадим - Трансерфинг реальности. I-V ступени [Михаил Черняк, 2006, 160 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:54.255 +03:00 [INF] Handle finished in 1380 ms
+2022-04-23 04:31:55.923 +03:00 [INF] GetDocumentAsync finished in 1910 ms
+2022-04-23 04:31:55.923 +03:00 [INF] Handle on target page was called 58 times
+2022-04-23 04:31:55.923 +03:00 [INF] target page: Жемчужины мудрости - Ледбитер Ч. У. - Основы теософии. Сны. Эзотерическое исследование [Орбу Т. А., 2007, 128 kbps] :: RuTracker.org
+2022-04-23 04:31:55.923 +03:00 [INF] Handle finished in 1910 ms
+2022-04-23 04:31:55.948 +03:00 [INF] GetDocumentAsync finished in 1866 ms
+2022-04-23 04:31:55.948 +03:00 [INF] Handle on target page was called 59 times
+2022-04-23 04:31:55.949 +03:00 [INF] target page: Аврелий Марк - Наедине с собой. Размышления [Прудовский Илья, 2010, 192 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:55.949 +03:00 [INF] Handle finished in 1866 ms
+2022-04-23 04:31:56.521 +03:00 [INF] GetDocumentAsync finished in 2266 ms
+2022-04-23 04:31:56.522 +03:00 [INF] Handle on target page was called 60 times
+2022-04-23 04:31:56.522 +03:00 [INF] target page: Люфт Андре - Свойства психической энергии [BIGBAG, (ЛИ), 2021, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:56.522 +03:00 [INF] Handle finished in 2266 ms
+2022-04-23 04:31:57.060 +03:00 [INF] GetDocumentAsync finished in 2831 ms
+2022-04-23 04:31:57.060 +03:00 [INF] Handle on target page was called 61 times
+2022-04-23 04:31:57.060 +03:00 [INF] target page: Чехов Антон Павлович - Вишневый сад [Т. Еремеева, Е. Цыплакова, Л. Пирогова, Н. Анненков, В. Коршунов, и др. 2007 г., 256 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:57.060 +03:00 [INF] Handle finished in 2831 ms
+2022-04-23 04:31:57.738 +03:00 [INF] GetDocumentAsync finished in 1814 ms
+2022-04-23 04:31:57.738 +03:00 [INF] Handle on target page was called 62 times
+2022-04-23 04:31:57.739 +03:00 [INF] target page: Антарова Конкордия - Беседы Учителя. Как прожить свой серый день [BIGBAG, (ЛИ), 2021, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:57.739 +03:00 [INF] Handle finished in 1815 ms
+2022-04-23 04:31:58.093 +03:00 [INF] GetDocumentAsync finished in 2144 ms
+2022-04-23 04:31:58.093 +03:00 [INF] Handle on target page was called 63 times
+2022-04-23 04:31:58.093 +03:00 [INF] target page: Что НЕ является аудиокнигой :: RuTracker.org
+2022-04-23 04:31:58.093 +03:00 [INF] Handle finished in 2144 ms
+2022-04-23 04:31:58.116 +03:00 [INF] GetDocumentAsync finished in 1056 ms
+2022-04-23 04:31:58.118 +03:00 [INF] Handle on target page was called 64 times
+2022-04-23 04:31:58.144 +03:00 [INF] target page: Данилевский Григорий - На Индию при Петре первом. 1717-1721 годы [Прудовский Илья, 2016 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:58.144 +03:00 [INF] Handle finished in 1084 ms
+2022-04-23 04:31:58.149 +03:00 [INF] GetDocumentAsync finished in 1626 ms
+2022-04-23 04:31:58.149 +03:00 [INF] Handle on target page was called 65 times
+2022-04-23 04:31:58.149 +03:00 [INF] target page: Веденеев Василий - Бальзам Авиценны [Кирсанов Сергей, 2013 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:58.149 +03:00 [INF] Handle finished in 1627 ms
+2022-04-23 04:31:59.591 +03:00 [INF] GetDocumentAsync finished in 1852 ms
+2022-04-23 04:31:59.591 +03:00 [INF] Handle on target page was called 66 times
+2022-04-23 04:31:59.591 +03:00 [INF] target page: Пыхалов Игорь - Великая оболганная война [Владимир Липатов, 2022, 320 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:59.591 +03:00 [INF] Handle finished in 1852 ms
+2022-04-23 04:31:59.675 +03:00 [INF] GetDocumentAsync finished in 1581 ms
+2022-04-23 04:31:59.675 +03:00 [INF] Handle on target page was called 67 times
+2022-04-23 04:31:59.676 +03:00 [INF] GetDocumentAsync finished in 1531 ms
+2022-04-23 04:31:59.676 +03:00 [INF] target page: Скрынников Р. Г. - Ермак [Раскатова С., 2006, 48 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:59.676 +03:00 [INF] Handle on target page was called 68 times
+2022-04-23 04:31:59.676 +03:00 [INF] Handle finished in 1582 ms
+2022-04-23 04:31:59.676 +03:00 [INF] target page: Чехов А.П. - Вишневый сад [О. Книппер-Чехова, А. Степанова, Л. Коренева, В. Ершов, С. Блинников, В. Орлов и др., 1949 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:59.676 +03:00 [INF] Handle finished in 1531 ms
+2022-04-23 04:31:59.676 +03:00 [INF] GetDocumentAsync finished in 1527 ms
+2022-04-23 04:31:59.676 +03:00 [INF] Handle on target page was called 69 times
+2022-04-23 04:31:59.676 +03:00 [INF] target page: Веселый Артем - Россия, кровью умытая [Мурашко Игорь, 2009, 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:31:59.676 +03:00 [INF] Handle finished in 1527 ms
+2022-04-23 04:32:01.469 +03:00 [INF] GetDocumentAsync finished in 1791 ms
+2022-04-23 04:32:01.469 +03:00 [INF] Handle on target page was called 70 times
+2022-04-23 04:32:01.469 +03:00 [INF] target page: Вечер в 2217 году. Русская фантастика конца 19 - начала 20 века [Наталья Литвинова, 128] :: RuTracker.org
+2022-04-23 04:32:01.469 +03:00 [INF] Handle finished in 1792 ms
+2022-04-23 04:32:01.644 +03:00 [INF] GetDocumentAsync finished in 2052 ms
+2022-04-23 04:32:01.644 +03:00 [INF] Handle on target page was called 71 times
+2022-04-23 04:32:01.644 +03:00 [INF] target page: Том Шарп - Уилт непредсказуемый [И.Прудовский, 128 кбит/с] :: RuTracker.org
+2022-04-23 04:32:01.644 +03:00 [INF] Handle finished in 2052 ms
+2022-04-23 04:32:01.678 +03:00 [INF] GetDocumentAsync finished in 2002 ms
+2022-04-23 04:32:01.678 +03:00 [INF] Handle on target page was called 72 times
+2022-04-23 04:32:01.678 +03:00 [INF] target page: Оруэлл Джордж - 1984 [Козий Николай, 2010 г., 96 kbps, MP3] ВНИМАНИЕ! Книга не полностью. :: RuTracker.org
+2022-04-23 04:32:01.678 +03:00 [INF] Handle finished in 2002 ms
+2022-04-23 04:32:01.708 +03:00 [INF] GetDocumentAsync finished in 2032 ms
+2022-04-23 04:32:01.708 +03:00 [INF] Handle on target page was called 73 times
+2022-04-23 04:32:01.708 +03:00 [INF] target page: Л.Н. Толстой - Воскресение [Сергей Смирнов, 2006, 128 kbps] :: RuTracker.org
+2022-04-23 04:32:01.708 +03:00 [INF] Handle finished in 2032 ms
+2022-04-23 04:32:03.414 +03:00 [INF] GetDocumentAsync finished in 1735 ms
+2022-04-23 04:32:03.414 +03:00 [INF] Handle on target page was called 74 times
+2022-04-23 04:32:03.414 +03:00 [INF] target page: Ле Гофф Жак; Трюон Николя - История тела в Средние века [Росляков Михаил, 2021, 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:03.414 +03:00 [INF] Handle finished in 1735 ms
+2022-04-23 04:32:03.415 +03:00 [INF] GetDocumentAsync finished in 1706 ms
+2022-04-23 04:32:03.415 +03:00 [INF] Handle on target page was called 75 times
+2022-04-23 04:32:03.422 +03:00 [INF] target page: Маринина Александра - Стечение обстоятельств [Заборовский Юрий, 2002, 128 kbps] :: RuTracker.org
+2022-04-23 04:32:03.444 +03:00 [INF] Handle finished in 1736 ms
+2022-04-23 04:32:03.465 +03:00 [INF] GetDocumentAsync finished in 1821 ms
+2022-04-23 04:32:03.465 +03:00 [INF] GetDocumentAsync finished in 1996 ms
+2022-04-23 04:32:03.465 +03:00 [INF] Handle on target page was called 76 times
+2022-04-23 04:32:03.466 +03:00 [INF] Handle on target page was called 77 times
+2022-04-23 04:32:03.466 +03:00 [INF] target page: Цормудян Сурен - Последняя тщетность ( 1-10гл из ?? ) [Андрей Кравец, 2016 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:03.466 +03:00 [INF] target page: Кара-Мурза Сергей Георгиевич - Советская цивилизация. От начала до наших дней [Олег Култаев, (ЛИ), 2014 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:03.466 +03:00 [INF] Handle finished in 1821 ms
+2022-04-23 04:32:03.466 +03:00 [INF] Handle finished in 1996 ms
+2022-04-23 04:32:05.017 +03:00 [INF] GetDocumentAsync finished in 1551 ms
+2022-04-23 04:32:05.017 +03:00 [INF] Handle on target page was called 78 times
+2022-04-23 04:32:05.017 +03:00 [INF] target page: Вульфсон Г. - Беседы о великих композиторах [Неизвестен, 2000 г., 128, MP3] :: RuTracker.org
+2022-04-23 04:32:05.017 +03:00 [INF] Handle finished in 1551 ms
+2022-04-23 04:32:05.077 +03:00 [INF] GetDocumentAsync finished in 1631 ms
+2022-04-23 04:32:05.099 +03:00 [INF] Handle on target page was called 79 times
+2022-04-23 04:32:05.121 +03:00 [INF] target page: Альберт Санчес Пиньоль - В пьянящей тишине [И.Ерисанова, 128 кбит/сек] :: RuTracker.org
+2022-04-23 04:32:05.121 +03:00 [INF] Handle finished in 1676 ms
+2022-04-23 04:32:05.166 +03:00 [INF] GetDocumentAsync finished in 1700 ms
+2022-04-23 04:32:05.166 +03:00 [INF] Handle on target page was called 80 times
+2022-04-23 04:32:05.166 +03:00 [INF] target page: Саблина Нина Павловна - Толкования на псалмы. Цикл уроков церковно-славянского языка &quot;Поэтика Псалтири&quot; [Саблина Нина Павловна, 2005 г., 56 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:05.166 +03:00 [INF] Handle finished in 1700 ms
+2022-04-23 04:32:05.548 +03:00 [INF] GetDocumentAsync finished in 2133 ms
+2022-04-23 04:32:05.548 +03:00 [INF] Handle on target page was called 81 times
+2022-04-23 04:32:05.548 +03:00 [INF] target page: Корнев Павел - Сборник &quot;Межсезонье&quot; - &quot;Приграничье&quot; (озвучено 3 из 5) [Бояров Евгений (ЛИ), 2012 г., 192 Kbps, MP3] НЕ ОКОНЧЕНО и не обновляется с 06-Фев-13 :: RuTracker.org
+2022-04-23 04:32:05.548 +03:00 [INF] Handle finished in 2133 ms
+2022-04-23 04:32:05.656 +03:00 [INF] GetDocumentAsync finished in 490 ms
+2022-04-23 04:32:05.656 +03:00 [INF] Handle on target page was called 82 times
+2022-04-23 04:32:05.656 +03:00 [INF] target page: Васильев В.В. - Философия сознания [Васильев В.В., 2008, lossless] :: RuTracker.org
+2022-04-23 04:32:05.657 +03:00 [INF] Handle finished in 490 ms
+2022-04-23 04:32:05.790 +03:00 [INF] GetDocumentAsync finished in 669 ms
+2022-04-23 04:32:05.790 +03:00 [INF] Handle on target page was called 83 times
+2022-04-23 04:32:05.790 +03:00 [INF] GetDocumentAsync finished in 773 ms
+2022-04-23 04:32:05.790 +03:00 [INF] target page: Джеймс Хэрриот - Среди йоркширских холмов [Татьяна Телегина, 2010, 24] :: RuTracker.org
+2022-04-23 04:32:05.790 +03:00 [INF] Handle on target page was called 84 times
+2022-04-23 04:32:05.791 +03:00 [INF] Handle finished in 669 ms
+2022-04-23 04:32:05.791 +03:00 [INF] target page: Роальд Даль - Дорога в небеса. Рассказы [Ю. Яковлев, Е. Германова, А. Кузнецов и др., 2006, 160 kbps] :: RuTracker.org
+2022-04-23 04:32:05.791 +03:00 [INF] Handle finished in 773 ms
+2022-04-23 04:32:05.985 +03:00 [INF] GetDocumentAsync finished in 436 ms
+2022-04-23 04:32:05.985 +03:00 [INF] Handle on target page was called 85 times
+2022-04-23 04:32:05.985 +03:00 [INF] target page: Александрова Наталья - Соколиная охота [Ничик Людмила, 24] :: RuTracker.org
+2022-04-23 04:32:05.985 +03:00 [INF] Handle finished in 436 ms
+2022-04-23 04:32:06.829 +03:00 [INF] GetDocumentAsync finished in 844 ms
+2022-04-23 04:32:06.830 +03:00 [INF] Handle on target page was called 86 times
+2022-04-23 04:32:06.830 +03:00 [INF] target page: Громов Александр - Крылья черепахи [В. Герасимов, 2002, 128 kbps] :: RuTracker.org
+2022-04-23 04:32:06.830 +03:00 [INF] Handle finished in 844 ms
+2022-04-23 04:32:06.913 +03:00 [INF] GetDocumentAsync finished in 1256 ms
+2022-04-23 04:32:06.913 +03:00 [INF] Handle on target page was called 87 times
+2022-04-23 04:32:06.913 +03:00 [INF] target page: Мещеринов Пётр - Лекции по истории европейской музыки [Пётр Мещеринов, 2011 г., 192, MP3] :: RuTracker.org
+2022-04-23 04:32:06.913 +03:00 [INF] Handle finished in 1256 ms
+2022-04-23 04:32:08.546 +03:00 [INF] GetDocumentAsync finished in 1632 ms
+2022-04-23 04:32:08.546 +03:00 [INF] Handle on target page was called 88 times
+2022-04-23 04:32:08.547 +03:00 [INF] target page: Динаполи Владислав - Как отвечать на вопросы кандидатов. млм продажи маркетинг [2010, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:08.547 +03:00 [INF] Handle finished in 1633 ms
+2022-04-23 04:32:09.833 +03:00 [INF] GetDocumentAsync finished in 4042 ms
+2022-04-23 04:32:09.833 +03:00 [INF] Handle on target page was called 89 times
+2022-04-23 04:32:09.833 +03:00 [INF] target page: Карпов Владимир - Генералиссимус [Аксентюк Валентин, 2013 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:09.833 +03:00 [INF] Handle finished in 4042 ms
+2022-04-23 04:32:10.912 +03:00 [INF] GetDocumentAsync finished in 2365 ms
+2022-04-23 04:32:10.912 +03:00 [INF] Handle on target page was called 90 times
+2022-04-23 04:32:10.912 +03:00 [INF] target page: Судоплатов Павел - Разведка и Кремль. Записки нежелательного свидетеля [Оборотов Юрий, 2011 г., 96 kbps 44 khz, MP3] :: RuTracker.org
+2022-04-23 04:32:10.912 +03:00 [INF] Handle finished in 2365 ms
+2022-04-23 04:32:11.752 +03:00 [INF] GetDocumentAsync finished in 840 ms
+2022-04-23 04:32:11.752 +03:00 [INF] Handle on target page was called 91 times
+2022-04-23 04:32:11.753 +03:00 [INF] target page: Спир Стивен - Догнать зайца. Как лидеры рынка выигрывают в конкурентной борьбе... [Неизвестен, 2009 г., 128 Кбит/с, 44.1 кГц, MP3] :: RuTracker.org
+2022-04-23 04:32:11.753 +03:00 [INF] Handle finished in 840 ms
+2022-04-23 04:32:12.531 +03:00 [INF] GetDocumentAsync finished in 778 ms
+2022-04-23 04:32:12.532 +03:00 [INF] Handle on target page was called 92 times
+2022-04-23 04:32:12.532 +03:00 [INF] target page: [Радиопостановки] Театр у микрофона (143 альбома) [Табаков О., Калягин А. и др. 2017-2018, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:12.532 +03:00 [INF] Handle finished in 779 ms
+2022-04-23 04:32:12.976 +03:00 [INF] GetDocumentAsync finished in 443 ms
+2022-04-23 04:32:12.976 +03:00 [INF] Handle on target page was called 93 times
+2022-04-23 04:32:12.976 +03:00 [INF] target page: Успенский Михаил - Там, где нас нет [Юрий Заборовский, 2002, 128 кбит/сек] :: RuTracker.org
+2022-04-23 04:32:12.976 +03:00 [INF] Handle finished in 444 ms
+2022-04-23 04:32:13.413 +03:00 [INF] GetDocumentAsync finished in 436 ms
+2022-04-23 04:32:13.413 +03:00 [INF] Handle on target page was called 94 times
+2022-04-23 04:32:13.413 +03:00 [INF] target page: Ионина Надежда - Сто великих узников [Игорь Мурашко, 24, MP3] :: RuTracker.org
+2022-04-23 04:32:13.413 +03:00 [INF] Handle finished in 437 ms
+2022-04-23 04:32:15.261 +03:00 [INF] GetDocumentAsync finished in 1847 ms
+2022-04-23 04:32:15.261 +03:00 [INF] Handle on target page was called 95 times
+2022-04-23 04:32:15.261 +03:00 [INF] target page: Тихонов Сергей - Тайна Зелёного слоника [Николай Кобзев (ЛИ), 2016 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:15.261 +03:00 [INF] Handle finished in 1848 ms
+2022-04-23 04:32:16.615 +03:00 [INF] GetDocumentAsync finished in 1353 ms
+2022-04-23 04:32:16.615 +03:00 [INF] Handle on target page was called 96 times
+2022-04-23 04:32:16.615 +03:00 [INF] target page: Ролдугина Софья - Кофейные истории: 1 - Кофе с перцем и солью, 2 - Кофе для истинной леди [Ведьма, (ЛИ), 2015 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:16.615 +03:00 [INF] Handle finished in 1354 ms
+2022-04-23 04:32:16.903 +03:00 [INF] GetDocumentAsync finished in 287 ms
+2022-04-23 04:32:16.903 +03:00 [INF] Handle on target page was called 97 times
+2022-04-23 04:32:16.903 +03:00 [INF] target page: Иванченко Б.В - Мерчендайзинг. Искусство продавать [Неизвестно, 2008 г., 128, MP3] :: RuTracker.org
+2022-04-23 04:32:16.903 +03:00 [INF] Handle finished in 288 ms
+2022-04-23 04:32:17.168 +03:00 [INF] GetDocumentAsync finished in 264 ms
+2022-04-23 04:32:17.168 +03:00 [INF] Handle on target page was called 98 times
+2022-04-23 04:32:17.168 +03:00 [INF] target page: Холт Виктория -Властелин замка [Лебедева, 128 kbps] :: RuTracker.org
+2022-04-23 04:32:17.168 +03:00 [INF] Handle finished in 264 ms
+2022-04-23 04:32:17.264 +03:00 [INF] GetDocumentAsync finished in 95 ms
+2022-04-23 04:32:17.264 +03:00 [INF] Handle on target page was called 99 times
+2022-04-23 04:32:17.264 +03:00 [INF] target page: Карпов Владимир - &quot;Генералиссимус&quot; [Вячеслав Манылов, 32 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:17.264 +03:00 [INF] Handle finished in 96 ms
+2022-04-23 04:32:17.422 +03:00 [INF] GetDocumentAsync finished in 157 ms
+2022-04-23 04:32:17.422 +03:00 [INF] Handle on target page was called 100 times
+2022-04-23 04:32:17.422 +03:00 [INF] target page: Войскунский Евгений, Лукодьянов Исай - Незаконная планета (03 из 06) [Gel2323 (ЛИ), 2016 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:17.422 +03:00 [INF] Handle finished in 158 ms
+2022-04-23 04:32:17.658 +03:00 [INF] GetDocumentAsync finished in 235 ms
+2022-04-23 04:32:17.658 +03:00 [INF] Handle on target page was called 101 times
+2022-04-23 04:32:17.658 +03:00 [INF] target page: Дик, Филип Киндред - Убик (Главы: 1-9 из 17) [Ноби(ЛИ), 2012 г., 128, MP3] :: RuTracker.org
+2022-04-23 04:32:17.658 +03:00 [INF] Handle finished in 235 ms
+2022-04-23 04:32:17.765 +03:00 [INF] GetDocumentAsync finished in 107 ms
+2022-04-23 04:32:17.765 +03:00 [INF] Handle on target page was called 102 times
+2022-04-23 04:32:17.765 +03:00 [INF] target page: Надеждин Александр - Ахиллесова пята [Герасимов Вячеслав, 2009, 128 kbps] :: RuTracker.org
+2022-04-23 04:32:17.766 +03:00 [INF] Handle finished in 107 ms
+2022-04-23 04:32:17.862 +03:00 [INF] GetDocumentAsync finished in 96 ms
+2022-04-23 04:32:17.862 +03:00 [INF] Handle on target page was called 103 times
+2022-04-23 04:32:17.862 +03:00 [INF] target page: Фукуяма Френсис - Сильное государство. Управление и мировой порядок в XXI веке [Николай Базаев (ЛИ), 2006 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:17.862 +03:00 [INF] Handle finished in 96 ms
+2022-04-23 04:32:17.961 +03:00 [INF] GetDocumentAsync finished in 98 ms
+2022-04-23 04:32:17.961 +03:00 [INF] Handle on target page was called 104 times
+2022-04-23 04:32:17.961 +03:00 [INF] target page: Эмилио Сальгари - Черный корсар [В.Герасимов, 2008, 96 kbps] :: RuTracker.org
+2022-04-23 04:32:17.961 +03:00 [INF] Handle finished in 98 ms
+2022-04-23 04:32:18.057 +03:00 [INF] GetDocumentAsync finished in 95 ms
+2022-04-23 04:32:18.057 +03:00 [INF] Handle on target page was called 105 times
+2022-04-23 04:32:18.057 +03:00 [INF] target page: Рыбаков Анатолий - Бронзовая птица [реж. Н.Александрович, акт. О.Анофриев, Р.Быков, С. Бубнов и др., 1958 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:18.057 +03:00 [INF] Handle finished in 95 ms
+2022-04-23 04:32:20.225 +03:00 [INF] GetDocumentAsync finished in 2168 ms
+2022-04-23 04:32:20.225 +03:00 [INF] Handle on target page was called 106 times
+2022-04-23 04:32:20.225 +03:00 [INF] target page: Сказки с оркестром. Аудиоверсия [Ч. Хаматова, М. Александрова, О. Табаков, Д. Назаров, С. Безруков, С. Гармаш, М. Ефремов, Г. Хазанов, Е. Добровольская, Ю. Стоянов, П. Любимцев и др., 2007-2014 гг., 128-320 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:20.225 +03:00 [INF] Handle finished in 2168 ms
+2022-04-23 04:32:21.437 +03:00 [INF] GetDocumentAsync finished in 1211 ms
+2022-04-23 04:32:21.437 +03:00 [INF] Handle on target page was called 107 times
+2022-04-23 04:32:21.437 +03:00 [INF] target page: Шамшурин Валерий - Кузьма Минин. Жребий Кузьмы Минина [Герасимов В, 2010 г., 128, MP3] :: RuTracker.org
+2022-04-23 04:32:21.438 +03:00 [INF] Handle finished in 1212 ms
+2022-04-23 04:32:21.496 +03:00 [INF] GetDocumentAsync finished in 14666 ms
+2022-04-23 04:32:21.496 +03:00 [INF] Handle on target page was called 108 times
+2022-04-23 04:32:21.496 +03:00 [INF] target page: Лукины Евгений и Любовь - В стране восходящего солнца (рассказы) [Юрий Заборовский, 2002, 160 kbps] :: RuTracker.org
+2022-04-23 04:32:21.496 +03:00 [INF] Handle finished in 14666 ms
+2022-04-23 04:32:21.541 +03:00 [INF] GetDocumentAsync finished in 103 ms
+2022-04-23 04:32:21.541 +03:00 [INF] Handle on target page was called 109 times
+2022-04-23 04:32:21.541 +03:00 [INF] target page: Анхель де Куатье - Золотое сечение [Панкратова, 32] :: RuTracker.org
+2022-04-23 04:32:21.541 +03:00 [INF] Handle finished in 103 ms
+2022-04-23 04:32:21.683 +03:00 [INF] GetDocumentAsync finished in 11849 ms
+2022-04-23 04:32:21.683 +03:00 [INF] Handle on target page was called 110 times
+2022-04-23 04:32:21.683 +03:00 [INF] target page: Малышева Анна, Ковалев Анатолий - Авантюристка. Потерявшая имя [Галина Чигинская, 2013 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:21.683 +03:00 [INF] Handle finished in 11850 ms
+2022-04-23 04:32:21.715 +03:00 [INF] GetDocumentAsync finished in 15924 ms
+2022-04-23 04:32:21.715 +03:00 [INF] Handle on target page was called 111 times
+2022-04-23 04:32:21.715 +03:00 [INF] target page: Василий Аксенов - В поисках грустного беби [Игорь Мушкатин, 128] :: RuTracker.org
+2022-04-23 04:32:21.715 +03:00 [INF] Handle finished in 15924 ms
+2022-04-23 04:32:21.760 +03:00 [INF] GetDocumentAsync finished in 218 ms
+2022-04-23 04:32:21.760 +03:00 [INF] Handle on target page was called 112 times
+2022-04-23 04:32:21.760 +03:00 [INF] target page: де Коленкур Арман - Поход Наполеона в Россию [Василий Савинов, 2011 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:21.760 +03:00 [INF] Handle finished in 219 ms
+2022-04-23 04:32:21.976 +03:00 [INF] GetDocumentAsync finished in 260 ms
+2022-04-23 04:32:21.976 +03:00 [INF] Handle on target page was called 113 times
+2022-04-23 04:32:21.976 +03:00 [INF] target page: Суворов Виктор - Сборник произведений [В.Клугман, В.Суворов, В.Герасимов, М.Радик, Е.Самоедов, А.Андриенко, Н.Рычкова, 2001, 2005, 1995, 2008, 1998,2008,2008, 32kb/s, MP3] :: RuTracker.org
+2022-04-23 04:32:21.976 +03:00 [INF] Handle finished in 260 ms
+2022-04-23 04:32:22.099 +03:00 [INF] GetDocumentAsync finished in 602 ms
+2022-04-23 04:32:22.099 +03:00 [INF] Handle on target page was called 114 times
+2022-04-23 04:32:22.099 +03:00 [INF] target page: Ларни Мартти - Прекрасная свинарка [Ольга Вяликова, предисловие - Владимир Самойлов, 2004 г., 128, MP3] :: RuTracker.org
+2022-04-23 04:32:22.099 +03:00 [INF] Handle finished in 602 ms
+2022-04-23 04:32:22.142 +03:00 [INF] GetDocumentAsync finished in 165 ms
+2022-04-23 04:32:22.142 +03:00 [INF] Handle on target page was called 115 times
+2022-04-23 04:32:22.142 +03:00 [INF] target page: Учители. Мыслители. Пророки. (76 эпизодов из 250+) [дикторы Радио России, актёры театров, 2011-2013, MP3, 64 kbps] :: RuTracker.org
+2022-04-23 04:32:22.143 +03:00 [INF] Handle finished in 166 ms
+2022-04-23 04:32:22.937 +03:00 [INF] GetDocumentAsync finished in 838 ms
+2022-04-23 04:32:22.937 +03:00 [INF] Handle on target page was called 116 times
+2022-04-23 04:32:22.937 +03:00 [INF] target page: Коллектив авторов под ред. Е.А. Суханова - Гражданское право Том 1 [(ЛИ), 2010 г., 320 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:22.937 +03:00 [INF] Handle finished in 838 ms
+2022-04-23 04:32:22.990 +03:00 [INF] GetDocumentAsync finished in 847 ms
+2022-04-23 04:32:22.991 +03:00 [INF] Handle on target page was called 117 times
+2022-04-23 04:32:22.991 +03:00 [INF] target page: О разделе &quot;Некондиционные раздачи&quot;. :: RuTracker.org
+2022-04-23 04:32:22.991 +03:00 [INF] Handle finished in 847 ms
+2022-04-23 04:32:24.005 +03:00 [INF] GetDocumentAsync finished in 1068 ms
+2022-04-23 04:32:24.005 +03:00 [INF] Handle on target page was called 118 times
+2022-04-23 04:32:24.014 +03:00 [INF] target page: Малышева Анна, Ковалев Анатолий - Авантюристка. Отверженная невеста [Галина Чигинская, 2013 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:24.014 +03:00 [INF] GetDocumentAsync finished in 1023 ms
+2022-04-23 04:32:24.014 +03:00 [INF] Handle on target page was called 119 times
+2022-04-23 04:32:24.014 +03:00 [INF] Handle finished in 1077 ms
+2022-04-23 04:32:24.015 +03:00 [INF] target page: Малышева Анна, Ковалев Анатолий - Авантюристка. Потерявшая сердце [Галина Чигинская, 2013 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:24.015 +03:00 [INF] Handle finished in 1024 ms
+2022-04-23 04:32:24.129 +03:00 [INF] GetDocumentAsync finished in 114 ms
+2022-04-23 04:32:24.130 +03:00 [INF] Handle on target page was called 120 times
+2022-04-23 04:32:24.130 +03:00 [INF] target page: Васильев Борис - Олексины 05.1, Дом, который построил дед [Иванова Маргарита, 2011 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:24.130 +03:00 [INF] Handle finished in 114 ms
+2022-04-23 04:32:24.253 +03:00 [INF] GetDocumentAsync finished in 238 ms
+2022-04-23 04:32:24.253 +03:00 [INF] Handle on target page was called 121 times
+2022-04-23 04:32:24.260 +03:00 [INF] target page: Васильев Борис - Олексины 05.2, Дом, который построил дед. [Заборовский Юрий, 2013 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:24.260 +03:00 [INF] Handle finished in 245 ms
+2022-04-23 04:32:24.262 +03:00 [INF] GetDocumentAsync finished in 132 ms
+2022-04-23 04:32:24.262 +03:00 [INF] Handle on target page was called 122 times
+2022-04-23 04:32:24.262 +03:00 [INF] target page: Головнин Василий - Записки флота капитана Головнина о приключениях его в плену у японцев [Владимир Антоник, 2012 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:24.262 +03:00 [INF] Handle finished in 132 ms
+2022-04-23 04:32:24.373 +03:00 [INF] GetDocumentAsync finished in 110 ms
+2022-04-23 04:32:24.373 +03:00 [INF] Handle on target page was called 123 times
+2022-04-23 04:32:24.373 +03:00 [INF] target page: Попов Валерий – Культовый Питер [Ионкина Евгения, 2018, 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:24.373 +03:00 [INF] Handle finished in 110 ms
+2022-04-23 04:32:24.510 +03:00 [INF] GetDocumentAsync finished in 250 ms
+2022-04-23 04:32:24.511 +03:00 [INF] Handle on target page was called 124 times
+2022-04-23 04:32:24.511 +03:00 [INF] target page: Васильев Борис - Олексины 01, Картежник и бретёр, игрок и дуэлянт [Герасимов Вячеслав, 2013 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:24.511 +03:00 [INF] Handle finished in 250 ms
+2022-04-23 04:32:24.550 +03:00 [INF] GetDocumentAsync finished in 176 ms
+2022-04-23 04:32:24.550 +03:00 [INF] Handle on target page was called 125 times
+2022-04-23 04:32:24.550 +03:00 [INF] target page: Хинштейн Александр - &quot;Березовский &amp; Абрамович. Олигархи с большой дороги&quot; [Илья Минский(ЛИ), 2013 г., 128kbps 44kHz, MP3] :: RuTracker.org
+2022-04-23 04:32:24.550 +03:00 [INF] Handle finished in 176 ms
+2022-04-23 04:32:24.660 +03:00 [INF] GetDocumentAsync finished in 109 ms
+2022-04-23 04:32:24.660 +03:00 [INF] Handle on target page was called 126 times
+2022-04-23 04:32:24.660 +03:00 [INF] target page: Батуман Элиф – Бесы. Приключения русской литературы и людей, которые ее читают [Ломыкина Наталья, 2018, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:24.660 +03:00 [INF] Handle finished in 109 ms
+2022-04-23 04:32:24.727 +03:00 [INF] GetDocumentAsync finished in 216 ms
+2022-04-23 04:32:24.727 +03:00 [INF] Handle on target page was called 127 times
+2022-04-23 04:32:24.727 +03:00 [INF] target page: Пантелеев Леонид - В осажденном городе [Александр Бордуков, 2011 г., 192 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:24.727 +03:00 [INF] Handle finished in 216 ms
+2022-04-23 04:32:24.765 +03:00 [INF] GetDocumentAsync finished in 104 ms
+2022-04-23 04:32:24.765 +03:00 [INF] Handle on target page was called 128 times
+2022-04-23 04:32:24.765 +03:00 [INF] target page: Пикуль Валентин - Десять сюжетов [Самойлов Владимир, 2013, 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:24.765 +03:00 [INF] Handle finished in 104 ms
+2022-04-23 04:32:24.877 +03:00 [INF] GetDocumentAsync finished in 111 ms
+2022-04-23 04:32:24.877 +03:00 [INF] Handle on target page was called 129 times
+2022-04-23 04:32:24.877 +03:00 [INF] target page: Суворов Виктор - Убить чужим ножом [И.Калмыков,(ЛИ) 2011 г., 128, MP3] :: RuTracker.org
+2022-04-23 04:32:24.877 +03:00 [INF] Handle finished in 112 ms
+2022-04-23 04:32:25.107 +03:00 [INF] GetDocumentAsync finished in 230 ms
+2022-04-23 04:32:25.107 +03:00 [INF] Handle on target page was called 130 times
+2022-04-23 04:32:25.107 +03:00 [INF] target page: Солонин Марк - Как Советский Союз победил в войне [Юрий Белик, 2021, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:25.107 +03:00 [INF] Handle finished in 230 ms
+2022-04-23 04:32:25.120 +03:00 [INF] GetDocumentAsync finished in 392 ms
+2022-04-23 04:32:25.120 +03:00 [INF] Handle on target page was called 131 times
+2022-04-23 04:32:25.120 +03:00 [INF] target page: Виктор Суворов - Контроль [Александр Андриенко, Наталья Рычкова, 2008, 128 кбит/с, MP3] :: RuTracker.org
+2022-04-23 04:32:25.120 +03:00 [INF] Handle finished in 393 ms
+2022-04-23 04:32:25.240 +03:00 [INF] GetDocumentAsync finished in 132 ms
+2022-04-23 04:32:25.240 +03:00 [INF] Handle on target page was called 132 times
+2022-04-23 04:32:25.240 +03:00 [INF] target page: Глинка Владислав - Судьба дворцового гренадера [Лебедева Валерия, 2013 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:25.240 +03:00 [INF] Handle finished in 132 ms
+2022-04-23 04:32:25.306 +03:00 [INF] GetDocumentAsync finished in 186 ms
+2022-04-23 04:32:25.306 +03:00 [INF] Handle on target page was called 133 times
+2022-04-23 04:32:25.306 +03:00 [INF] target page: Акунин Борис – История Российского государства 6, Евразийская империя. Эпоха цариц [Александр Клюквин, 2018, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:25.307 +03:00 [INF] Handle finished in 186 ms
+2022-04-23 04:32:25.401 +03:00 [INF] GetDocumentAsync finished in 94 ms
+2022-04-23 04:32:25.401 +03:00 [INF] Handle on target page was called 134 times
+2022-04-23 04:32:25.401 +03:00 [INF] target page: Симонов Константин - История одной любви [Невзоров Б., Васильева Т., Хохряков В. и др., 1979, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:25.402 +03:00 [INF] Handle finished in 94 ms
+2022-04-23 04:32:25.462 +03:00 [INF] GetDocumentAsync finished in 222 ms
+2022-04-23 04:32:25.463 +03:00 [INF] Handle on target page was called 135 times
+2022-04-23 04:32:25.463 +03:00 [INF] target page: А.П.Чехов - Антология рассказов (тома 1) [Плятт, Раневская, Абдулов, Толубеев и др., 128 кбит/с] :: RuTracker.org
+2022-04-23 04:32:25.463 +03:00 [INF] Handle finished in 222 ms
+2022-04-23 04:32:25.508 +03:00 [INF] GetDocumentAsync finished in 106 ms
+2022-04-23 04:32:25.508 +03:00 [INF] Handle on target page was called 136 times
+2022-04-23 04:32:25.508 +03:00 [INF] target page: Лермонтов Михаил - Герой нашего времени. Маскарад [Герасимов Вячеслав, Заборовский Юрий, 2008 г., 160 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:25.508 +03:00 [INF] Handle finished in 106 ms
+2022-04-23 04:32:25.589 +03:00 [INF] GetDocumentAsync finished in 126 ms
+2022-04-23 04:32:25.589 +03:00 [INF] Handle on target page was called 137 times
+2022-04-23 04:32:25.589 +03:00 [INF] target page: Васильев Борис - Олексины 03, Утоли моя печали [Герасимов Вячеслав, 2013 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:25.589 +03:00 [INF] Handle finished in 126 ms
+2022-04-23 04:32:25.637 +03:00 [INF] GetDocumentAsync finished in 128 ms
+2022-04-23 04:32:25.637 +03:00 [INF] Handle on target page was called 138 times
+2022-04-23 04:32:25.637 +03:00 [INF] target page: Лермонтов Михаил - Маскарад [Мордвинов Н., Смышляева Л., Плятт Р. и др., 2012 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:25.637 +03:00 [INF] Handle finished in 129 ms
+2022-04-23 04:32:25.743 +03:00 [INF] GetDocumentAsync finished in 105 ms
+2022-04-23 04:32:25.743 +03:00 [INF] Handle on target page was called 139 times
+2022-04-23 04:32:25.743 +03:00 [INF] target page: Оноре де Бальзак - Шагреневая кожа [Радиоспектакль. От автора - Василий Бочкарев. В ролях - Любовь Германова, Анна Каменкова, Леонид Кулагин и др. 2010, 128 kbps] :: RuTracker.org
+2022-04-23 04:32:25.743 +03:00 [INF] Handle finished in 106 ms
+2022-04-23 04:32:25.784 +03:00 [INF] GetDocumentAsync finished in 195 ms
+2022-04-23 04:32:25.785 +03:00 [INF] Handle on target page was called 140 times
+2022-04-23 04:32:25.785 +03:00 [INF] target page: Грэм Грин - Комедианты [Постановка Эмиля Верника. В ролях: Олег Борисов, Олег Табаков, Рогволд Суховерко, Анатолий Адоскин, Армен Джигарханян, Наталья Вилькина, 1990, 128 kbps] :: RuTracker.org
+2022-04-23 04:32:25.785 +03:00 [INF] Handle finished in 195 ms
+2022-04-23 04:32:26.296 +03:00 [INF] GetDocumentAsync finished in 552 ms
+2022-04-23 04:32:26.296 +03:00 [INF] Handle on target page was called 141 times
+2022-04-23 04:32:26.296 +03:00 [INF] target page: Рак Иван - Легенды и мифы древнего мира 1-4, Легенды Древнего Египта [Головатая Л., Контрерас Х., Черкасов С., 2009, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:26.296 +03:00 [INF] Handle finished in 552 ms
+2022-04-23 04:32:26.413 +03:00 [INF] GetDocumentAsync finished in 628 ms
+2022-04-23 04:32:26.413 +03:00 [INF] Handle on target page was called 142 times
+2022-04-23 04:32:26.413 +03:00 [INF] target page: Николай Носов - Рассказы [Л.Дуров, В.Невинный, Л.Чурсина, Б.Плотников, И.Потоцкая и др., 2007, 64 kbps] :: RuTracker.org
+2022-04-23 04:32:26.413 +03:00 [INF] Handle finished in 628 ms
+2022-04-23 04:32:26.480 +03:00 [INF] GetDocumentAsync finished in 184 ms
+2022-04-23 04:32:26.481 +03:00 [INF] Handle on target page was called 143 times
+2022-04-23 04:32:26.481 +03:00 [INF] target page: Легенды и мифы древнего мира 5-8, Легенды Древней Индии. Священные знания [Головатая Л., Контрерас Х., Черкасов С., 2009, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:26.481 +03:00 [INF] Handle finished in 184 ms
+2022-04-23 04:32:26.544 +03:00 [INF] GetDocumentAsync finished in 130 ms
+2022-04-23 04:32:26.544 +03:00 [INF] Handle on target page was called 144 times
+2022-04-23 04:32:26.544 +03:00 [INF] target page: Скотт Вальтер - Айвенго, 1968 [Плятт,Леонов,Менглет,Стриженов,Аугшкап,Весник,Гунченко,Евстигнеев,Охлупин,Погоржельский,Ларионов,Кенигсон,Цейц,Папанов,Кторов,Горохов,Рудная 2006,40 kbps,MP3] :: RuTracker.org
+2022-04-23 04:32:26.544 +03:00 [INF] Handle finished in 130 ms
+2022-04-23 04:32:26.712 +03:00 [INF] GetDocumentAsync finished in 230 ms
+2022-04-23 04:32:26.712 +03:00 [INF] Handle on target page was called 145 times
+2022-04-23 04:32:26.712 +03:00 [INF] target page: Жванецкий Михаил, Ширвиндт Александр и др. - Путёвка в Новый Год [Николай Караченцов,Александр Ширвиндт, Аркадий Райкин и др. 1987, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:26.712 +03:00 [INF] Handle finished in 230 ms
+2022-04-23 04:32:26.742 +03:00 [INF] GetDocumentAsync finished in 197 ms
+2022-04-23 04:32:26.742 +03:00 [INF] Handle on target page was called 146 times
+2022-04-23 04:32:26.742 +03:00 [INF] target page: Дик Фрэнсис - Фаворит [О. Борисов, Г. Богачев, Н. Мартон и др., 1981, 128 kbps] :: RuTracker.org
+2022-04-23 04:32:26.743 +03:00 [INF] Handle finished in 198 ms
+2022-04-23 04:32:26.910 +03:00 [INF] GetDocumentAsync finished in 198 ms
+2022-04-23 04:32:26.910 +03:00 [INF] Handle on target page was called 147 times
+2022-04-23 04:32:26.911 +03:00 [INF] target page: Бондарев Юрий - Последние залпы [А. Бордуков, А. Ташков, М. Джабраилова, И. Исаев, С. Казаков, В. Левашёв и др., 2014 г., 192 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:26.911 +03:00 [INF] Handle finished in 198 ms
+2022-04-23 04:32:26.920 +03:00 [INF] GetDocumentAsync finished in 177 ms
+2022-04-23 04:32:26.920 +03:00 [INF] Handle on target page was called 148 times
+2022-04-23 04:32:26.920 +03:00 [INF] target page: Маринина Александра - Убийца поневоле [Герасимов Вячеслав, 2002, 160 kbps] :: RuTracker.org
+2022-04-23 04:32:26.920 +03:00 [INF] Handle finished in 177 ms
+2022-04-23 04:32:27.007 +03:00 [INF] GetDocumentAsync finished in 96 ms
+2022-04-23 04:32:27.007 +03:00 [INF] Handle on target page was called 149 times
+2022-04-23 04:32:27.007 +03:00 [INF] target page: Байгушев Александр - Хазары [Ткаченко Виктор, 2009, 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:27.007 +03:00 [INF] Handle finished in 96 ms
+2022-04-23 04:32:27.053 +03:00 [INF] GetDocumentAsync finished in 132 ms
+2022-04-23 04:32:27.053 +03:00 [INF] Handle on target page was called 150 times
+2022-04-23 04:32:27.053 +03:00 [INF] target page: Гарсиа Маркес Габриэль - Осень патриарха (страницы романа) - Коллекция радиоспектаклей Диск 46 [Табаков Олег, 2011 г., 192 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:27.053 +03:00 [INF] Handle finished in 133 ms
+2022-04-23 04:32:27.114 +03:00 [INF] GetDocumentAsync finished in 107 ms
+2022-04-23 04:32:27.115 +03:00 [INF] Handle on target page was called 151 times
+2022-04-23 04:32:27.115 +03:00 [INF] target page: И.-В. фон Гете - Фауст [Г. Бортников, М. Козаков, А. Леонтьев и др., 1985] :: RuTracker.org
+2022-04-23 04:32:27.115 +03:00 [INF] Handle finished in 107 ms
+2022-04-23 04:32:27.184 +03:00 [INF] GetDocumentAsync finished in 130 ms
+2022-04-23 04:32:27.184 +03:00 [INF] Handle on target page was called 152 times
+2022-04-23 04:32:27.184 +03:00 [INF] target page: Шварц Евгений - Дракон [Васильев А., Красавин А., Михалевкина Т. и др., 2019 г., 160 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:27.184 +03:00 [INF] Handle finished in 130 ms
+2022-04-23 04:32:27.220 +03:00 [INF] GetDocumentAsync finished in 104 ms
+2022-04-23 04:32:27.220 +03:00 [INF] Handle on target page was called 153 times
+2022-04-23 04:32:27.220 +03:00 [INF] target page: Дюма Александр - Виконт де Бражелон, или Десять лет спустя [Николай Козий, 2010, 96] :: RuTracker.org
+2022-04-23 04:32:27.220 +03:00 [INF] Handle finished in 105 ms
+2022-04-23 04:32:27.348 +03:00 [INF] GetDocumentAsync finished in 163 ms
+2022-04-23 04:32:27.348 +03:00 [INF] Handle on target page was called 154 times
+2022-04-23 04:32:27.348 +03:00 [INF] GetDocumentAsync finished in 128 ms
+2022-04-23 04:32:27.348 +03:00 [INF] target page: Гомер - - Одиссея [Кочарян Сурен Акимович, 2012 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:27.349 +03:00 [INF] Handle on target page was called 155 times
+2022-04-23 04:32:27.349 +03:00 [INF] Handle finished in 164 ms
+2022-04-23 04:32:27.349 +03:00 [INF] target page: Кропоткин Пётр - Памятники исторической мысли. Великая Французская Революция 1789-1793 [Харитонов Александр, (ЛИ), 2020, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:27.349 +03:00 [INF] Handle finished in 128 ms
+2022-04-23 04:32:27.449 +03:00 [INF] GetDocumentAsync finished in 100 ms
+2022-04-23 04:32:27.449 +03:00 [INF] Handle on target page was called 156 times
+2022-04-23 04:32:27.449 +03:00 [INF] target page: Друзь Александр – Петербург. Пешком по городу [Друзь Александр, 2018, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:27.449 +03:00 [INF] Handle finished in 100 ms
+2022-04-23 04:32:27.470 +03:00 [INF] GetDocumentAsync finished in 121 ms
+2022-04-23 04:32:27.470 +03:00 [INF] Handle on target page was called 157 times
+2022-04-23 04:32:27.470 +03:00 [INF] target page: Н.Гейнце - (собр.соч.Т 7) В тине адвокатуры, Судные дни Великого Новгорода, Власть женщины, Рассказы [Илья Прудовский, 128Kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:27.471 +03:00 [INF] Handle finished in 121 ms
+2022-04-23 04:32:27.560 +03:00 [INF] GetDocumentAsync finished in 110 ms
+2022-04-23 04:32:27.560 +03:00 [INF] Handle on target page was called 158 times
+2022-04-23 04:32:27.560 +03:00 [INF] target page: Виктор Суворов - Аудиокнига. Виктор Суворов &quot;Ледокол&quot; [Виктор Суворов, 192 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:27.560 +03:00 [INF] Handle finished in 110 ms
+2022-04-23 04:32:27.592 +03:00 [INF] GetDocumentAsync finished in 121 ms
+2022-04-23 04:32:27.592 +03:00 [INF] Handle on target page was called 159 times
+2022-04-23 04:32:27.592 +03:00 [INF] target page: Памятники литературы Древней Руси [Илья Прудовский, 32 кбит/с, MP3] :: RuTracker.org
+2022-04-23 04:32:27.592 +03:00 [INF] Handle finished in 121 ms
+2022-04-23 04:32:27.678 +03:00 [INF] GetDocumentAsync finished in 118 ms
+2022-04-23 04:32:27.678 +03:00 [INF] Handle on target page was called 160 times
+2022-04-23 04:32:27.679 +03:00 [INF] target page: Суворов Виктор - Ледокол 01, Ледокол. Кто начал Вторую мировую войну? [Сушков Владимир, 2013 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:27.679 +03:00 [INF] Handle finished in 118 ms
+2022-04-23 04:32:27.745 +03:00 [INF] GetDocumentAsync finished in 152 ms
+2022-04-23 04:32:27.745 +03:00 [INF] Handle on target page was called 161 times
+2022-04-23 04:32:27.745 +03:00 [INF] target page: Адамович Алесь - Каратели (Радость ножа, или жизнеописания гипербореев)[Мороз Виктор, 2014 г.,128 kbps, 44 kHz, Mono, MP3] :: RuTracker.org
+2022-04-23 04:32:27.745 +03:00 [INF] Handle finished in 152 ms
+2022-04-23 04:32:27.774 +03:00 [INF] GetDocumentAsync finished in 94 ms
+2022-04-23 04:32:27.774 +03:00 [INF] Handle on target page was called 162 times
+2022-04-23 04:32:27.774 +03:00 [INF] target page: Чехов Антон Павлович - Дуэль [Леонид Кулагин, Юрий Васильев, Александр Резалин и др. 2009 г., 256 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:27.774 +03:00 [INF] Handle finished in 95 ms
+2022-04-23 04:32:27.853 +03:00 [INF] GetDocumentAsync finished in 107 ms
+2022-04-23 04:32:27.853 +03:00 [INF] Handle on target page was called 163 times
+2022-04-23 04:32:27.853 +03:00 [INF] target page: Корнфорт Морис - Диалектический материализм [Нафранович Сергей, Падалко Антон, (ЛИ), 2019, 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:27.853 +03:00 [INF] Handle finished in 108 ms
+2022-04-23 04:32:27.962 +03:00 [INF] GetDocumentAsync finished in 109 ms
+2022-04-23 04:32:27.963 +03:00 [INF] Handle on target page was called 164 times
+2022-04-23 04:32:27.963 +03:00 [INF] target page: Гуттман Мэтт - Мальчики в пещере [Олег Булдаков, 2019, 56 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:27.963 +03:00 [INF] Handle finished in 109 ms
+2022-04-23 04:32:28.004 +03:00 [INF] GetDocumentAsync finished in 6320 ms
+2022-04-23 04:32:28.004 +03:00 [INF] Handle on target page was called 165 times
+2022-04-23 04:32:28.004 +03:00 [INF] target page: Фрэнсис Дик - Испытай себя [Заборовский Юрий, 2009, 128 kbps] :: RuTracker.org
+2022-04-23 04:32:28.004 +03:00 [INF] Handle finished in 6320 ms
+2022-04-23 04:32:28.056 +03:00 [INF] GetDocumentAsync finished in 282 ms
+2022-04-23 04:32:28.056 +03:00 [INF] Handle on target page was called 166 times
+2022-04-23 04:32:28.056 +03:00 [INF] target page: Прудникова Елена - Ленин - Сталин. Технология невозможного [Харитонов Александр, (ЛИ), 2021, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:28.056 +03:00 [INF] Handle finished in 282 ms
+2022-04-23 04:32:28.145 +03:00 [INF] GetDocumentAsync finished in 140 ms
+2022-04-23 04:32:28.145 +03:00 [INF] Handle on target page was called 167 times
+2022-04-23 04:32:28.146 +03:00 [INF] target page: Алексей Николаевич Толстой - Гиперболоид инженера Гарина [Сергей Чонишвили,Мадлен Джабраилова,Алексей Колубков,Игорь Гордин,Андрей Данилюк и др., 2008, 192 kbps] :: RuTracker.org
+2022-04-23 04:32:28.146 +03:00 [INF] Handle finished in 141 ms
+2022-04-23 04:32:28.203 +03:00 [INF] GetDocumentAsync finished in 146 ms
+2022-04-23 04:32:28.203 +03:00 [INF] Handle on target page was called 168 times
+2022-04-23 04:32:28.203 +03:00 [INF] target page: ОШО Бхагван Шри Раджниш - Жизнь, любовь, смех [Олег Воротилин, (ЛИ), 2020 г., 192 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:28.203 +03:00 [INF] Handle finished in 146 ms
+2022-04-23 04:32:28.263 +03:00 [INF] GetDocumentAsync finished in 117 ms
+2022-04-23 04:32:28.263 +03:00 [INF] Handle on target page was called 169 times
+2022-04-23 04:32:28.263 +03:00 [INF] target page: Аркадий Кошко - Король сыска [Лев Дуров, 2000, 160 kbps] :: RuTracker.org
+2022-04-23 04:32:28.263 +03:00 [INF] Handle finished in 117 ms
+2022-04-23 04:32:28.324 +03:00 [INF] GetDocumentAsync finished in 121 ms
+2022-04-23 04:32:28.324 +03:00 [INF] Handle on target page was called 170 times
+2022-04-23 04:32:28.324 +03:00 [INF] target page: Френсис Скотт Фицджеральд - «Великий Гэтсби» на &quot;Радио Россия. Культура&quot; [Кирилл Пирогов, Игорь Гордин, Егор Бероев, Мадлен Джабраилова, Ксения Алферова, Лев Дуров и др., 2009, 128 kbps] :: RuTracker.org
+2022-04-23 04:32:28.325 +03:00 [INF] Handle finished in 121 ms
+2022-04-23 04:32:28.377 +03:00 [INF] GetDocumentAsync finished in 114 ms
+2022-04-23 04:32:28.378 +03:00 [INF] Handle on target page was called 171 times
+2022-04-23 04:32:28.378 +03:00 [INF] target page: Чехов Антон - Дуэль [Яковлев Ю., Борисов О., Плотников Б. и др., 1984, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:28.378 +03:00 [INF] Handle finished in 114 ms
+2022-04-23 04:32:28.440 +03:00 [INF] GetDocumentAsync finished in 115 ms
+2022-04-23 04:32:28.440 +03:00 [INF] Handle on target page was called 172 times
+2022-04-23 04:32:28.440 +03:00 [INF] target page: Чехов А. П. - Рассказы. Том 1. (1880-1885) Собрание сочинений в 8-ми томах в исп. великих артистов сцены [В. Муравьев, А. Грибов, В. Невинный, А. Парра и др., 2010, VBR 192-320 kbps] :: RuTracker.org
+2022-04-23 04:32:28.440 +03:00 [INF] Handle finished in 115 ms
+2022-04-23 04:32:28.502 +03:00 [INF] GetDocumentAsync finished in 124 ms
+2022-04-23 04:32:28.503 +03:00 [INF] Handle on target page was called 173 times
+2022-04-23 04:32:28.503 +03:00 [INF] target page: Чехов А. П. - Рассказы. Том 3. (1885-1886) Собрание сочинений в 8-ми томах в исп. великих артистов. (mobile) [Р. Плятт, В. Попов, А. Грибов, О. Абдулов и др., 2010, 32 kbps] :: RuTracker.org
+2022-04-23 04:32:28.503 +03:00 [INF] Handle finished in 124 ms
+2022-04-23 04:32:28.555 +03:00 [INF] GetDocumentAsync finished in 114 ms
+2022-04-23 04:32:28.555 +03:00 [INF] Handle on target page was called 174 times
+2022-04-23 04:32:28.555 +03:00 [INF] target page: Хармс Даниил: Случаи [Сергей Юрский, Зиновий Гердт, 1987, 128 kbps, MP3] [«Мелодия», WEB / Digital Release] :: RuTracker.org
+2022-04-23 04:32:28.555 +03:00 [INF] Handle finished in 114 ms
+2022-04-23 04:32:28.595 +03:00 [INF] GetDocumentAsync finished in 92 ms
+2022-04-23 04:32:28.595 +03:00 [INF] Handle on target page was called 175 times
+2022-04-23 04:32:28.595 +03:00 [INF] target page: В.Шекспир, Г.Флобер Вильям - Великие исполнители 28, В.Шекспир, Г.Флобер - Великие исполнители 28 [Алиса Коонен, 2012, 192 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:28.595 +03:00 [INF] Handle finished in 92 ms
+2022-04-23 04:32:28.664 +03:00 [INF] GetDocumentAsync finished in 109 ms
+2022-04-23 04:32:28.664 +03:00 [INF] Handle on target page was called 176 times
+2022-04-23 04:32:28.664 +03:00 [INF] target page: Мамин-Сибиряк Дмитрий - Приваловские миллионы [Кабатченко В., Бардин С., Розанова К. и др., 1954, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:28.664 +03:00 [INF] Handle finished in 109 ms
+2022-04-23 04:32:28.690 +03:00 [INF] GetDocumentAsync finished in 94 ms
+2022-04-23 04:32:28.690 +03:00 [INF] Handle on target page was called 177 times
+2022-04-23 04:32:28.690 +03:00 [INF] target page: В.В. Маяковский, А.С. Пушкин, А.А. Блок Владимир - Великие исполнители 29, Великие исполнители [Игорь Кваша, 2012, 192 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:28.690 +03:00 [INF] Handle finished in 94 ms
+2022-04-23 04:32:28.772 +03:00 [INF] GetDocumentAsync finished in 107 ms
+2022-04-23 04:32:28.772 +03:00 [INF] Handle on target page was called 178 times
+2022-04-23 04:32:28.772 +03:00 [INF] target page: Рерих Николай - Шамбала. Легенды и сказки [Савицкий Николай, 2006, 192 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:28.772 +03:00 [INF] Handle finished in 107 ms
+2022-04-23 04:32:28.809 +03:00 [INF] GetDocumentAsync finished in 118 ms
+2022-04-23 04:32:28.809 +03:00 [INF] Handle on target page was called 179 times
+2022-04-23 04:32:28.809 +03:00 [INF] target page: Айтматов Чингиз - И дольше века длится день... [В.Зозулин, А.Меньщиков, М.Ульянов, А.Парфаньяк и др., 1989 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:28.809 +03:00 [INF] Handle finished in 119 ms
+2022-04-23 04:32:28.823 +03:00 [INF] GetDocumentAsync finished in 859 ms
+2022-04-23 04:32:28.823 +03:00 [INF] Handle on target page was called 180 times
+2022-04-23 04:32:28.823 +03:00 [INF] target page: Генри Грэм Грин - Тихий американец [МХАТ им. Горького] :: RuTracker.org
+2022-04-23 04:32:28.823 +03:00 [INF] Handle finished in 859 ms
+2022-04-23 04:32:28.893 +03:00 [INF] GetDocumentAsync finished in 121 ms
+2022-04-23 04:32:28.893 +03:00 [INF] Handle on target page was called 181 times
+2022-04-23 04:32:28.894 +03:00 [INF] target page: Айтматов Чингиз - Верблюжий глаз [Табаков О., Фролов Г., Козырева Е. и др., 2014, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:28.894 +03:00 [INF] Handle finished in 121 ms
+2022-04-23 04:32:28.921 +03:00 [INF] GetDocumentAsync finished in 111 ms
+2022-04-23 04:32:28.921 +03:00 [INF] Handle on target page was called 182 times
+2022-04-23 04:32:28.921 +03:00 [INF] target page: Дьярфаш М. - Проснись и пой [Ширвиндт Александр, Менглет Георгий, Пельтцер Татьяна, Архипова Нина, Галкин Борис и др., 2007] :: RuTracker.org
+2022-04-23 04:32:28.921 +03:00 [INF] Handle finished in 111 ms
+2022-04-23 04:32:29.001 +03:00 [INF] GetDocumentAsync finished in 107 ms
+2022-04-23 04:32:29.001 +03:00 [INF] Handle on target page was called 183 times
+2022-04-23 04:32:29.001 +03:00 [INF] target page: Алексей Николаевич Толстой - Хождение по мукам. &quot;Восемнадцатый год&quot;. [Артисты московских театров, 2007] :: RuTracker.org
+2022-04-23 04:32:29.001 +03:00 [INF] Handle finished in 107 ms
+2022-04-23 04:32:29.034 +03:00 [INF] GetDocumentAsync finished in 112 ms
+2022-04-23 04:32:29.034 +03:00 [INF] Handle on target page was called 184 times
+2022-04-23 04:32:29.040 +03:00 [INF] target page: Уильям Шекспир - Комедия ошибок ; Бесплодные усилия любви [Вячеслав Невинный, Иннокентий Смоткуновский, Олег Борисов, Генадий Бортников, Ада Роговцева и др., 2006, 192 kbps] :: RuTracker.org
+2022-04-23 04:32:29.040 +03:00 [INF] Handle finished in 118 ms
+2022-04-23 04:32:29.183 +03:00 [INF] GetDocumentAsync finished in 360 ms
+2022-04-23 04:32:29.183 +03:00 [INF] Handle on target page was called 185 times
+2022-04-23 04:32:29.183 +03:00 [INF] GetDocumentAsync finished in 181 ms
+2022-04-23 04:32:29.183 +03:00 [INF] target page: Грин Александр: Бегущая по волнам [М.Козаков,С.Юрский,Е.Райкина,З.Гердт,Г.Менглет,А.Каменкова и др 1980 / 2007, 128 kbps, MP3] [«Мелодия»] :: RuTracker.org
+2022-04-23 04:32:29.183 +03:00 [INF] Handle on target page was called 186 times
+2022-04-23 04:32:29.183 +03:00 [INF] Handle finished in 360 ms
+2022-04-23 04:32:29.184 +03:00 [INF] target page: Рерих Николай - Держава света. Священный дозор [Заборовский Юрий, 2017, 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:29.184 +03:00 [INF] Handle finished in 182 ms
+2022-04-23 04:32:29.269 +03:00 [INF] GetDocumentAsync finished in 229 ms
+2022-04-23 04:32:29.269 +03:00 [INF] Handle on target page was called 187 times
+2022-04-23 04:32:29.269 +03:00 [INF] target page: Кастанеда Карлос - 11 книг (32 kbit) :: RuTracker.org
+2022-04-23 04:32:29.270 +03:00 [INF] Handle finished in 229 ms
+2022-04-23 04:32:29.297 +03:00 [INF] GetDocumentAsync finished in 112 ms
+2022-04-23 04:32:29.297 +03:00 [INF] Handle on target page was called 188 times
+2022-04-23 04:32:29.297 +03:00 [INF] target page: Тендряков Владимир - Ночь после выпуска [Фоменко Николай, 2016 г., 192 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:29.297 +03:00 [INF] Handle finished in 113 ms
+2022-04-23 04:32:29.389 +03:00 [INF] GetDocumentAsync finished in 205 ms
+2022-04-23 04:32:29.389 +03:00 [INF] Handle on target page was called 189 times
+2022-04-23 04:32:29.389 +03:00 [INF] target page: У.Шекспир - &quot;Гамлет&quot; [Театр им. В.Маяковского, Е.Самойлов, Л.Свердлин, Г.Анисимова, 1959] :: RuTracker.org
+2022-04-23 04:32:29.389 +03:00 [INF] Handle finished in 205 ms
+2022-04-23 04:32:29.416 +03:00 [INF] GetDocumentAsync finished in 146 ms
+2022-04-23 04:32:29.417 +03:00 [INF] Handle on target page was called 190 times
+2022-04-23 04:32:29.417 +03:00 [INF] target page: Островский Александр - Горячее сердце [О.Чуваева, М.Глузский, В.Сергачёв, Л.Полякова, Л.Титова, А.Ташков, А.Клюквин, Е.Весник, И.Охлупин, С.Гармаш, И.Тарханов, Ю.Черкасов, 1995, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:29.417 +03:00 [INF] Handle finished in 147 ms
+2022-04-23 04:32:29.438 +03:00 [INF] GetDocumentAsync finished in 141 ms
+2022-04-23 04:32:29.439 +03:00 [INF] Handle on target page was called 191 times
+2022-04-23 04:32:29.440 +03:00 [INF] target page: Альтов Генрих: Конец острова «Сломанная челюсть» («Скучный капитан») (1963) [Виталий Доронин, Анатолий Адоскин, Николай Бурляев, Леонид Губанов, Николай Пажитнов, 128 kbps, MP3] (2020, ГТРФ, WEB / Digital Release) (Полная версия) :: RuTracker.org
+2022-04-23 04:32:29.463 +03:00 [INF] Handle finished in 166 ms
+2022-04-23 04:32:29.499 +03:00 [INF] GetDocumentAsync finished in 109 ms
+2022-04-23 04:32:29.499 +03:00 [INF] Handle on target page was called 192 times
+2022-04-23 04:32:29.499 +03:00 [INF] target page: Алексей Николаевич Толстой - Хождение по мукам. &quot;Сестры&quot;. [Артисты московских театров, 2007] :: RuTracker.org
+2022-04-23 04:32:29.499 +03:00 [INF] Handle finished in 109 ms
+2022-04-23 04:32:29.541 +03:00 [INF] GetDocumentAsync finished in 124 ms
+2022-04-23 04:32:29.541 +03:00 [INF] Handle on target page was called 193 times
+2022-04-23 04:32:29.541 +03:00 [INF] target page: Чехов Антон &quot;Архиерей&quot; - Великие исполнители 30, [Олег Табаков, 2012, 192 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:29.541 +03:00 [INF] Handle finished in 124 ms
+2022-04-23 04:32:29.620 +03:00 [INF] GetDocumentAsync finished in 156 ms
+2022-04-23 04:32:29.620 +03:00 [INF] Handle on target page was called 194 times
+2022-04-23 04:32:29.620 +03:00 [INF] target page: Н.В. Гоголь, А.П. Чехов Николай - Великие исполнители 27, Гоголь, Чехов - Великие исполнители 27 [Сергей Никоненко, 2012, 192 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:29.620 +03:00 [INF] Handle finished in 156 ms
+2022-04-23 04:32:29.715 +03:00 [INF] GetDocumentAsync finished in 216 ms
+2022-04-23 04:32:29.715 +03:00 [INF] Handle on target page was called 195 times
+2022-04-23 04:32:29.715 +03:00 [INF] target page: Сергей Довлатов - Сергей Довлатов - чемодан. Читает Валентин Гафт. [Валентин Гафт, 128 kbps] :: RuTracker.org
+2022-04-23 04:32:29.716 +03:00 [INF] Handle finished in 216 ms
+2022-04-23 04:32:29.818 +03:00 [INF] GetDocumentAsync finished in 198 ms
+2022-04-23 04:32:29.819 +03:00 [INF] Handle on target page was called 196 times
+2022-04-23 04:32:29.819 +03:00 [INF] target page: Мухин Юрий - Афганский фронт СССР [Сергей Дмитриев (ЛИ), 2014, 192 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:29.819 +03:00 [INF] Handle finished in 198 ms
+2022-04-23 04:32:29.897 +03:00 [INF] GetDocumentAsync finished in 355 ms
+2022-04-23 04:32:29.897 +03:00 [INF] Handle on target page was called 197 times
+2022-04-23 04:32:29.897 +03:00 [INF] target page: Сексуальный миф Третьего Рейха [Харитонов Александр, (ЛИ), 2022, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:29.897 +03:00 [INF] Handle finished in 355 ms
+2022-04-23 04:32:30.031 +03:00 [INF] GetDocumentAsync finished in 211 ms
+2022-04-23 04:32:30.031 +03:00 [INF] Handle on target page was called 198 times
+2022-04-23 04:32:30.031 +03:00 [INF] target page: Бергман Ингмар - Исповедальные беседы [И. Пегова, И. Костолевский, И. Шибанов, А. Суворов, А. Ровенских, Ю. Силаева, П. Медведева, 2013 г., 192 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:30.031 +03:00 [INF] Handle finished in 212 ms
+2022-04-23 04:32:30.098 +03:00 [INF] GetDocumentAsync finished in 382 ms
+2022-04-23 04:32:30.098 +03:00 [INF] Handle on target page was called 199 times
+2022-04-23 04:32:30.098 +03:00 [INF] target page: Олесь Бузина - Союз плуга и трезуба. Как придумали Украину [Лунный ДЕВ, (ЛИ), 2017, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:30.098 +03:00 [INF] Handle finished in 382 ms
+2022-04-23 04:32:30.164 +03:00 [INF] GetDocumentAsync finished in 266 ms
+2022-04-23 04:32:30.171 +03:00 [INF] Handle finished in 274 ms
+2022-04-23 04:32:30.337 +03:00 [INF] GetDocumentAsync finished in 239 ms
+2022-04-23 04:32:30.341 +03:00 [INF] Handle finished in 243 ms
+2022-04-23 04:32:30.410 +03:00 [INF] GetDocumentAsync finished in 238 ms
+2022-04-23 04:32:30.410 +03:00 [INF] Handle on target page was called 200 times
+2022-04-23 04:32:30.410 +03:00 [INF] target page: Гаспарян Армен - Крах Великой империи [Армен Гаспарян, 2016, 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:30.410 +03:00 [INF] Handle finished in 238 ms
+2022-04-23 04:32:30.518 +03:00 [INF] GetDocumentAsync finished in 176 ms
+2022-04-23 04:32:30.518 +03:00 [INF] Handle on target page was called 201 times
+2022-04-23 04:32:30.518 +03:00 [INF] target page: Гордон Ной - Коул 01, Лекарь. Ученик Авиценны [Князев Игорь, 2016 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:30.518 +03:00 [INF] Handle finished in 176 ms
+2022-04-23 04:32:30.579 +03:00 [INF] GetDocumentAsync finished in 547 ms
+2022-04-23 04:32:30.585 +03:00 [INF] Handle finished in 553 ms
+2022-04-23 04:32:30.633 +03:00 [INF] GetDocumentAsync finished in 222 ms
+2022-04-23 04:32:30.633 +03:00 [INF] Handle on target page was called 202 times
+2022-04-23 04:32:30.633 +03:00 [INF] target page: Бунич Игорь - Операция 'Гроза', или 'Ошибка в третьем знаке'. Книга 2 [Мурашко Игорь, 2010 г., 96 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:30.633 +03:00 [INF] Handle finished in 222 ms
+2022-04-23 04:32:30.666 +03:00 [INF] GetDocumentAsync finished in 147 ms
+2022-04-23 04:32:30.666 +03:00 [INF] Handle on target page was called 203 times
+2022-04-23 04:32:30.666 +03:00 [INF] target page: Александр Шевченко - Александр Шевченко Проповеди [Александр Шевченко, 64 kbps] :: RuTracker.org
+2022-04-23 04:32:30.666 +03:00 [INF] Handle finished in 148 ms
+2022-04-23 04:32:30.707 +03:00 [INF] GetDocumentAsync finished in 121 ms
+2022-04-23 04:32:30.707 +03:00 [INF] Handle on target page was called 204 times
+2022-04-23 04:32:30.707 +03:00 [INF] target page: Вадим Петрович Кузнецов - Верный Богу и Его Царю. Равноапостольный Макарий [Вадим Петрович Кузнецов и православное братство во имя Святого Царя-Мученика Николая Второго, 2007, 128 kbps] :: RuTracker.org
+2022-04-23 04:32:30.707 +03:00 [INF] Handle finished in 122 ms
+2022-04-23 04:32:30.743 +03:00 [INF] GetDocumentAsync finished in 110 ms
+2022-04-23 04:32:30.743 +03:00 [INF] Handle on target page was called 205 times
+2022-04-23 04:32:30.743 +03:00 [INF] target page: Неизвестно - Житие Иосифа Прекрасного. Житие святого пророка Моисея Боговидца [Неизвестно, 2008 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:30.743 +03:00 [INF] Handle finished in 110 ms
+2022-04-23 04:32:30.786 +03:00 [INF] GetDocumentAsync finished in 119 ms
+2022-04-23 04:32:30.786 +03:00 [INF] Handle on target page was called 206 times
+2022-04-23 04:32:30.786 +03:00 [INF] target page: [литературные чтения] Ахматова Анна - &quot;О Муза плача...&quot; Поэтический портрет Анны Ахматовой [Тамара Давыдова, 1981 г., lossless, FLAC] :: RuTracker.org
+2022-04-23 04:32:30.787 +03:00 [INF] Handle finished in 120 ms
+2022-04-23 04:32:30.838 +03:00 [INF] GetDocumentAsync finished in 130 ms
+2022-04-23 04:32:30.838 +03:00 [INF] Handle on target page was called 207 times
+2022-04-23 04:32:30.838 +03:00 [INF] target page: Математический Анализ - Дифференциальное Исчисления Функций Одной Переменной [2010, 48 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:30.838 +03:00 [INF] Handle finished in 130 ms
+2022-04-23 04:32:30.909 +03:00 [INF] GetDocumentAsync finished in 165 ms
+2022-04-23 04:32:30.909 +03:00 [INF] Handle on target page was called 208 times
+2022-04-23 04:32:30.909 +03:00 [INF] target page: Рамануджа - Занятие по самовспоминанию [он же, 2010, 192 kbps] :: RuTracker.org
+2022-04-23 04:32:30.909 +03:00 [INF] Handle finished in 166 ms
+2022-04-23 04:32:30.959 +03:00 [INF] GetDocumentAsync finished in 172 ms
+2022-04-23 04:32:30.959 +03:00 [INF] Handle on target page was called 209 times
+2022-04-23 04:32:30.959 +03:00 [INF] target page: Автор Автор - Защитники Земли русской. Исторические портреты [С.Жирнов, Г.Фролов, Л.Долгорукова, А.Назарова, 2001 г., 320, MP3] :: RuTracker.org
+2022-04-23 04:32:30.959 +03:00 [INF] Handle finished in 172 ms
+2022-04-23 04:32:31.052 +03:00 [INF] GetDocumentAsync finished in 213 ms
+2022-04-23 04:32:31.052 +03:00 [INF] Handle on target page was called 210 times
+2022-04-23 04:32:31.052 +03:00 [INF] target page: Мартин Джордж - Песнь льда и пламени 5, Танец с драконами (000 - 010 из 071)[Ольга (ЛИ), 2013 г., 192 kbps, MP3] (НЕ ОКОНЧЕНО И НЕ ОБНОВЛЯЕТСЯ С 16.11.2013) :: RuTracker.org
+2022-04-23 04:32:31.052 +03:00 [INF] Handle finished in 213 ms
+2022-04-23 04:32:31.222 +03:00 [INF] GetDocumentAsync finished in 169 ms
+2022-04-23 04:32:31.222 +03:00 [INF] Handle on target page was called 211 times
+2022-04-23 04:32:31.222 +03:00 [INF] target page: Александра Соколова - Царский каприз [Н.Савицкий, 128, MP3] :: RuTracker.org
+2022-04-23 04:32:31.222 +03:00 [INF] Handle finished in 169 ms
+2022-04-23 04:32:31.257 +03:00 [INF] GetDocumentAsync finished in 297 ms
+2022-04-23 04:32:31.257 +03:00 [INF] Handle on target page was called 212 times
+2022-04-23 04:32:31.257 +03:00 [INF] target page: Камал - Свами Йога Камал - Сатсанги, цикл из 11 бесед [Камал, 2009 г., 192 kb/s, MP3] :: RuTracker.org
+2022-04-23 04:32:31.257 +03:00 [INF] Handle finished in 297 ms
+2022-04-23 04:32:31.304 +03:00 [INF] GetDocumentAsync finished in 394 ms
+2022-04-23 04:32:31.304 +03:00 [INF] Handle on target page was called 213 times
+2022-04-23 04:32:31.304 +03:00 [INF] target page: Уробучи Ген - Fate/Zero / Судьба/Ноль 1, Тайна Четвёртой Войны за Святой Грааль (только пролог из 18-ти глав) [Adrenalin28, (ЛИ), 2014 г., 128 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:31.304 +03:00 [INF] Handle finished in 394 ms
+2022-04-23 04:32:31.482 +03:00 [INF] GetDocumentAsync finished in 225 ms
+2022-04-23 04:32:31.483 +03:00 [INF] Handle on target page was called 214 times
+2022-04-23 04:32:31.483 +03:00 [INF] GetDocumentAsync finished in 178 ms
+2022-04-23 04:32:31.483 +03:00 [INF] target page: Старков Артём - Metal War Online 1, Пушкарь [Артём Старков, (ЛИ), 2014 г., 256 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:31.483 +03:00 [INF] Handle on target page was called 215 times
+2022-04-23 04:32:31.483 +03:00 [INF] Handle finished in 225 ms
+2022-04-23 04:32:31.483 +03:00 [INF] target page: Ошо - Заратустра. Бог, который может танцевать [неизвестно] :: RuTracker.org
+2022-04-23 04:32:31.483 +03:00 [INF] Handle finished in 178 ms
+2022-04-23 04:32:31.534 +03:00 [INF] GetDocumentAsync finished in 311 ms
+2022-04-23 04:32:31.534 +03:00 [INF] Handle on target page was called 216 times
+2022-04-23 04:32:31.534 +03:00 [INF] target page: Японские Городовые 2 [2009-2011, 84-128 CBR] :: RuTracker.org
+2022-04-23 04:32:31.534 +03:00 [INF] Handle finished in 311 ms
+2022-04-23 04:32:31.626 +03:00 [INF] GetDocumentAsync finished in 142 ms
+2022-04-23 04:32:31.626 +03:00 [INF] Handle on target page was called 217 times
+2022-04-23 04:32:31.626 +03:00 [INF] target page: Прокофьев А.В. - Современная теория справедливости [Прокофьев А.В., 2007, lossless] :: RuTracker.org
+2022-04-23 04:32:31.626 +03:00 [INF] Handle finished in 143 ms
+2022-04-23 04:32:31.726 +03:00 [INF] GetDocumentAsync finished in 191 ms
+2022-04-23 04:32:31.726 +03:00 [INF] Handle on target page was called 218 times
+2022-04-23 04:32:31.726 +03:00 [INF] target page: Барри Джеймс - Питер Пэн [Герасимов В, 2010 г., 128, MP3] :: RuTracker.org
+2022-04-23 04:32:31.726 +03:00 [INF] Handle finished in 191 ms
+2022-04-23 04:32:31.738 +03:00 [INF] GetDocumentAsync finished in 255 ms
+2022-04-23 04:32:31.738 +03:00 [INF] Handle on target page was called 219 times
+2022-04-23 04:32:31.739 +03:00 [INF] target page: Теодор Драйзер - Американская трагедия [Е.Лебедева, 2007, 128 kbps] :: RuTracker.org
+2022-04-23 04:32:31.739 +03:00 [INF] Handle finished in 255 ms
+2022-04-23 04:32:31.797 +03:00 [INF] GetDocumentAsync finished in 170 ms
+2022-04-23 04:32:31.797 +03:00 [INF] Handle on target page was called 220 times
+2022-04-23 04:32:31.797 +03:00 [INF] target page: Домашний уют. Введение в мир внутренней полноты. (Харе Кришна!) :: RuTracker.org
+2022-04-23 04:32:31.797 +03:00 [INF] Handle finished in 170 ms
+2022-04-23 04:32:31.860 +03:00 [INF] GetDocumentAsync finished in 133 ms
+2022-04-23 04:32:31.860 +03:00 [INF] Handle on target page was called 221 times
+2022-04-23 04:32:31.860 +03:00 [INF] target page: Звуковой журнал Вокруг света вып. 6 [Лина Мозырь, 24] :: RuTracker.org
+2022-04-23 04:32:31.860 +03:00 [INF] Handle finished in 134 ms
+2022-04-23 04:32:31.943 +03:00 [INF] GetDocumentAsync finished in 203 ms
+2022-04-23 04:32:31.943 +03:00 [INF] Handle on target page was called 222 times
+2022-04-23 04:32:31.943 +03:00 [INF] target page: Вихрев Федор - &quot;Веду бой!&quot; 2012: Вторая Великая Отечественная (1-20 глава из 50) [Святослав (ЛИ), 2011 г., 128 кб\с, MP3] ВНИМАНИЕ! Раздача неокончена и не обновляется с 26 октября 2011 года! :: RuTracker.org
+2022-04-23 04:32:31.943 +03:00 [INF] Handle finished in 204 ms
+2022-04-23 04:32:31.975 +03:00 [INF] GetDocumentAsync finished in 114 ms
+2022-04-23 04:32:31.975 +03:00 [INF] Handle on target page was called 223 times
+2022-04-23 04:32:31.975 +03:00 [INF] target page: Елена Уайт - События последних дней [Г.Самсонова, Н.Метлов, 2009, 128 kbps] :: RuTracker.org
+2022-04-23 04:32:31.975 +03:00 [INF] Handle finished in 115 ms
+2022-04-23 04:32:32.034 +03:00 [INF] GetDocumentAsync finished in 237 ms
+2022-04-23 04:32:32.034 +03:00 [INF] Handle on target page was called 224 times
+2022-04-23 04:32:32.034 +03:00 [INF] target page: Лекции Абу Ханифа и Абу Дауда [Абу Ханиф, Абу Дауд, 2013 г., 32~128kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:32.034 +03:00 [INF] Handle finished in 237 ms
+2022-04-23 04:32:32.136 +03:00 [INF] GetDocumentAsync finished in 193 ms
+2022-04-23 04:32:32.136 +03:00 [INF] Handle on target page was called 225 times
+2022-04-23 04:32:32.136 +03:00 [INF] GetDocumentAsync finished in 101 ms
+2022-04-23 04:32:32.136 +03:00 [INF] target page: Абнетт Ден - Warhammer 40000. Эйзенхорн и Рейвенор. Книга 1. Инквизитор Ордо Ксенос (2 главы из 26) [Риулт, (ЛИ), 2015 г., 320 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:32.137 +03:00 [INF] Handle on target page was called 226 times
+2022-04-23 04:32:32.137 +03:00 [INF] Handle finished in 193 ms
+2022-04-23 04:32:32.137 +03:00 [INF] target page: Карл Ренц - Встречи с Карлом Ренцом (Karl Renz) в Москве, май 2007 года. [Карл Ренц, 2007] :: RuTracker.org
+2022-04-23 04:32:32.137 +03:00 [INF] Handle finished in 102 ms
+2022-04-23 04:32:32.167 +03:00 [INF] GetDocumentAsync finished in 191 ms
+2022-04-23 04:32:32.167 +03:00 [INF] Handle on target page was called 227 times
+2022-04-23 04:32:32.167 +03:00 [INF] target page: Кабаков Александр - Сборник рассказов: Маршрутка [Станислав Войнич, 2013 г., 128 kbps, MP3] НЕ ОКОНЧЕНО и не обновляется с 11-Май-13 :: RuTracker.org
+2022-04-23 04:32:32.167 +03:00 [INF] Handle finished in 191 ms
+2022-04-23 04:32:32.257 +03:00 [INF] GetDocumentAsync finished in 119 ms
+2022-04-23 04:32:32.257 +03:00 [INF] Handle on target page was called 228 times
+2022-04-23 04:32:32.257 +03:00 [INF] target page: Ионина Надежда - Сто великих сокровищ [Андрей Вильколек, 24kb/s, MP3] :: RuTracker.org
+2022-04-23 04:32:32.257 +03:00 [INF] Handle finished in 119 ms
+2022-04-23 04:32:32.309 +03:00 [INF] GetDocumentAsync finished in 172 ms
+2022-04-23 04:32:32.310 +03:00 [INF] Handle on target page was called 229 times
+2022-04-23 04:32:32.310 +03:00 [INF] target page: Неизвестные годы Иисуса - серия аудиокниг &quot;Откровение&quot; [Микаэл Ханьян, 2007, 192 kbps] :: RuTracker.org
+2022-04-23 04:32:32.310 +03:00 [INF] Handle finished in 173 ms
+2022-04-23 04:32:32.356 +03:00 [INF] GetDocumentAsync finished in 188 ms
+2022-04-23 04:32:32.356 +03:00 [INF] Handle on target page was called 230 times
+2022-04-23 04:32:32.356 +03:00 [INF] target page: Ирвинг Джон - Отель Нью-Гэмпшир [Ирина Ерисанова, 2010, 32 кбит/с] :: RuTracker.org
+2022-04-23 04:32:32.356 +03:00 [INF] Handle finished in 188 ms
+2022-04-23 04:32:32.399 +03:00 [INF] GetDocumentAsync finished in 142 ms
+2022-04-23 04:32:32.399 +03:00 [INF] Handle on target page was called 231 times
+2022-04-23 04:32:32.399 +03:00 [INF] target page: Кочелаева Наталья - Невеста без места [Воробьева Ирина, 2009, 128 kbps] :: RuTracker.org
+2022-04-23 04:32:32.399 +03:00 [INF] Handle finished in 142 ms
+2022-04-23 04:32:32.461 +03:00 [INF] GetDocumentAsync finished in 105 ms
+2022-04-23 04:32:32.461 +03:00 [INF] Handle on target page was called 232 times
+2022-04-23 04:32:32.462 +03:00 [INF] target page: Наживин Иван - Иудей [Савицкий Н, 2010 г., 128, MP3] :: RuTracker.org
+2022-04-23 04:32:32.462 +03:00 [INF] Handle finished in 105 ms
+2022-04-23 04:32:32.537 +03:00 [INF] GetDocumentAsync finished in 137 ms
+2022-04-23 04:32:32.537 +03:00 [INF] Handle on target page was called 233 times
+2022-04-23 04:32:32.537 +03:00 [INF] target page: Пивоварова Ольга - Познавательные стихи для детей (Раздача пополняется путем добавления новых файлов) [Пивоварова Ольга, (ЛИ), 2011 г., 182, MP3] :: RuTracker.org
+2022-04-23 04:32:32.537 +03:00 [INF] Handle finished in 137 ms
+2022-04-23 04:32:32.585 +03:00 [INF] GetDocumentAsync finished in 123 ms
+2022-04-23 04:32:32.585 +03:00 [INF] Handle on target page was called 234 times
+2022-04-23 04:32:32.585 +03:00 [INF] target page: Мэри Стюарт - Полеты над землей [Лина Музырь, 24] :: RuTracker.org
+2022-04-23 04:32:32.585 +03:00 [INF] Handle finished in 123 ms
+2022-04-23 04:32:32.670 +03:00 [INF] GetDocumentAsync finished in 132 ms
+2022-04-23 04:32:32.670 +03:00 [INF] Handle on target page was called 235 times
+2022-04-23 04:32:32.670 +03:00 [INF] target page: Человек рассказывает о своём посмертном опыте, описание мытарств, ад, рай (Встреча с Вечностью) аудиодорожка [2007, 96 kbps] :: RuTracker.org
+2022-04-23 04:32:32.670 +03:00 [INF] Handle finished in 133 ms
+2022-04-23 04:32:32.748 +03:00 [INF] GetDocumentAsync finished in 161 ms
+2022-04-23 04:32:32.748 +03:00 [INF] Handle on target page was called 236 times
+2022-04-23 04:32:32.748 +03:00 [INF] target page: Деймон Найт - Кукловод [MostFilm (ЛИ), 2014 г., 128 Kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:32.748 +03:00 [INF] Handle finished in 162 ms
+2022-04-23 04:32:32.795 +03:00 [INF] GetDocumentAsync finished in 124 ms
+2022-04-23 04:32:32.795 +03:00 [INF] Handle on target page was called 237 times
+2022-04-23 04:32:32.795 +03:00 [INF] target page: Марио Зиммель - Ушли клоуны, пришли слезы… [Валентина Дуб, 96] :: RuTracker.org
+2022-04-23 04:32:32.795 +03:00 [INF] Handle finished in 125 ms
+2022-04-23 04:32:32.862 +03:00 [INF] GetDocumentAsync finished in 551 ms
+2022-04-23 04:32:32.862 +03:00 [INF] Handle on target page was called 238 times
+2022-04-23 04:32:32.862 +03:00 [INF] target page: Дом хлеба (2006 - 2009)(Аудио проповеди)(Александр Шевченко) [2006, Проповеди, MP3] :: RuTracker.org
+2022-04-23 04:32:32.862 +03:00 [INF] Handle finished in 551 ms
+2022-04-23 04:32:32.882 +03:00 [INF] GetDocumentAsync finished in 134 ms
+2022-04-23 04:32:32.883 +03:00 [INF] Handle on target page was called 239 times
+2022-04-23 04:32:32.883 +03:00 [INF] target page: Байгушев Александр - Хазары кн1 и кн2 [Ткаченко Виктор, 2009, 32 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:32.883 +03:00 [INF] Handle finished in 134 ms
+2022-04-23 04:32:32.909 +03:00 [INF] GetDocumentAsync finished in 114 ms
+2022-04-23 04:32:32.909 +03:00 [INF] Handle on target page was called 240 times
+2022-04-23 04:32:32.910 +03:00 [INF] target page: Семеник Дмитрий - Гадания и привороты: рецепт несчастья [Дмитрий Чурсин (ЛИ), 2013 г., 128kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:32.910 +03:00 [INF] Handle finished in 114 ms
+2022-04-23 04:32:32.987 +03:00 [INF] GetDocumentAsync finished in 124 ms
+2022-04-23 04:32:32.987 +03:00 [INF] Handle on target page was called 241 times
+2022-04-23 04:32:32.988 +03:00 [INF] target page: Ефимов Игорь Седьмая жена (Музырь Лина) [24] :: RuTracker.org
+2022-04-23 04:32:32.988 +03:00 [INF] Handle finished in 125 ms
+2022-04-23 04:32:33.011 +03:00 [INF] GetDocumentAsync finished in 128 ms
+2022-04-23 04:32:33.011 +03:00 [INF] Handle on target page was called 242 times
+2022-04-23 04:32:33.011 +03:00 [INF] target page: Карамзин Николай Михайлович - История государства Российского (4 тома из 12) [Валерий Феодосов, (ЛИ), 2014 г., 64 kbps, MP3] :: RuTracker.org
+2022-04-23 04:32:33.011 +03:00 [INF] Handle finished in 128 ms
+2022-04-23 04:32:33.024 +03:00 [INF] GetDocumentAsync finished in 114 ms
+2022-04-23 04:32:33.025 +03:00 [INF] Handle on target page was called 243 times
+2022-04-23 04:32:33.025 +03:00 [INF] target page: 12 Апостолов - серия аудиокниг &quot;Откровение&quot; [Микаэл Ханьян, 2007, 192 kbps] :: RuTracker.org
+2022-04-23 04:32:33.025 +03:00 [INF] Handle finished in 114 ms
+2022-04-23 04:32:33.087 +03:00 [INF] GetDocumentAsync finished in 99 ms
+2022-04-23 04:32:33.087 +03:00 [INF] Handle on target page was called 244 times
+2022-04-23 04:32:33.087 +03:00 [INF] target page: Беседы Свами Самдарши (линия Ошо) [Свами Самдарши, 2006-2007] :: RuTracker.org
+2022-04-23 04:32:33.087 +03:00 [INF] Handle finished in 99 ms
