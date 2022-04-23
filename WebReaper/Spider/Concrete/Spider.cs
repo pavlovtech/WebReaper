@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using System.Net.Security;
 using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
@@ -87,102 +88,40 @@ public class Spider : ISpider
 
         visitedUrls.TryAdd(job.Url, 0);
 
-        using var _ = _logger.LogMethodDuration();
-
         var doc = await GetDocumentAsync(job.Url);
 
-        if (job.type == PageType.TargetPage)
+        if (job.PageType == PageType.TargetPage)
         {
             _logger.LogInvocationCount("Handle on target page");
             // TODO: save to file or something
             _logger.LogInformation("target page: {page}", doc.DocumentNode.QuerySelector("title").InnerText);
             return;
         }
+        
+        var newLinkPathSelectors = job.LinkPathSelectors.Dequeue(out var currentSelector);
 
-        int selectorIndex = 0;
+        var links = GetLinksFromPage(doc, job.BaseUrl, currentSelector.Selector);
+        AddToQueue(job.BaseUrl, newLinkPathSelectors, links, job.DepthLevel + 1);
 
-        if (job.DepthLevel < job.LinkPathSelectors.Length)
+        if (job.PageType == PageType.PageWithPagination) 
         {
-            selectorIndex = job.DepthLevel;
-        }
-        else
-        {
-            selectorIndex = job.LinkPathSelectors.Length - 1;
-        }
-
-        var linkPath = job.LinkPathSelectors[selectorIndex];
-
-        var links = GetLinksFromPage(doc, job.BaseUrl, linkPath.Selector);
-
-        PageType nextPageType = PageType.Unknown;
-        if (selectorIndex == job.LinkPathSelectors.Length - 1)
-        {
-            nextPageType = PageType.TargetPage;
-        }
-        else if (selectorIndex < job.LinkPathSelectors.Length)
-        {
-            nextPageType = PageType.TransitPage;
-        }
-
-        int nextPagePriority = -selectorIndex - 1;
-
-        AddToQueue(
-                nextPageType,
-                job.BaseUrl,
-                nextPagePriority,
-                job.DepthLevel + 1,
-                job.LinkPathSelectors,
-                links);
-
-        if (nextPageType == PageType.TargetPage && job.LinkPathSelectors[selectorIndex].PaginationSelector != null)
-        {
-            var linksToPaginatedPages = GetLinksFromPage(doc, job.BaseUrl, job.LinkPathSelectors[selectorIndex].PaginationSelector);
-
-            AddToQueue(
-                PageType.PageWithPagination,
-                job.BaseUrl,
-                job.Priority,
-                job.DepthLevel + 1,
-                job.LinkPathSelectors,
-                linksToPaginatedPages);
-        }
-
-        if (job.type == PageType.PageWithPagination)
-        {
-            var linksToPaginatedPages = GetLinksFromPage(
-            doc,
-            job.BaseUrl,
-            job.LinkPathSelectors[selectorIndex].PaginationSelector);
-
-            AddToQueue(
-                PageType.PageWithPagination,
-                job.BaseUrl,
-                job.Priority,
-                job.DepthLevel + 1,
-                job.LinkPathSelectors,
-                linksToPaginatedPages);
+            var linksToPaginatedPages = GetLinksFromPage(doc, job.BaseUrl, currentSelector.PaginationSelector);
+            AddToQueue(job.BaseUrl, job.LinkPathSelectors, linksToPaginatedPages, job.DepthLevel + 1);
         }
     }
 
     private void AddToQueue(
-        PageType type,
         string baseUrl,
-        int priority,
-        int depthLevel,
-        LinkPathSelector[] linkPathSelectors,
-        IEnumerable<string> links)
+        ImmutableQueue<LinkPathSelector> selectors,
+        IEnumerable<string> links,
+        int depthLevel)
     {
         var newLinks = links.Except(visitedUrls.Keys);
 
         foreach (var link in newLinks)
         {
-            jobQueueWriter.Write(new Job(
-                    baseUrl,
-                    link,
-                    linkPathSelectors,
-                    type,
-                    depthLevel,
-                    priority));
+            var newJob = new Job(baseUrl, link, selectors, depthLevel);
+            jobQueueWriter.Write(newJob);
         }
     }
 
