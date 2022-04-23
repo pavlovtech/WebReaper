@@ -8,6 +8,7 @@ using WebReaper.Queue.Abstract;
 using WebReaper.Scraper.Abstract;
 using WebReaper.Queue.Concrete;
 using System.Collections.Concurrent;
+using System.Collections.Immutable;
 
 namespace WebReaper.Scraper.Concrete;
 
@@ -29,7 +30,7 @@ public class Scraper : IScraper
 
     private WebProxy[] proxies = Array.Empty<WebProxy>();
 
-    private int spidersCount = 1;
+    private int parallelismDegree = 1;
 
     protected string baseUrl = "";
 
@@ -39,6 +40,8 @@ public class Scraper : IScraper
 
     protected ILogger Logger;
     private string[] urlBlackList;
+
+    public int ParallelismDegree { get; private set; }
 
     public Scraper(ILogger logger)
     {
@@ -72,12 +75,10 @@ public class Scraper : IScraper
 
     public IScraper Paginate(string paginationSelector)
     {
-
         linkPathSelectors[^1] =
             linkPathSelectors.Last() with
             {
                 PaginationSelector = paginationSelector,
-                PageType = PageType.PageWithPagination
             };
 
         return this;
@@ -95,9 +96,9 @@ public class Scraper : IScraper
         return this;
     }
 
-    public IScraper WithSpiders(int spiderCount)
+    public IScraper WithParallelismDegree(int parallelismDegree)
     {
-        spidersCount = spiderCount;
+        this.ParallelismDegree = parallelismDegree;
         return this;
     }
 
@@ -138,15 +139,14 @@ public class Scraper : IScraper
         JobQueueWriter.Write(new Job(
             baseUrl,
             startUrl,
-            linkPathSelectors.ToArray(),
-            DepthLevel: 0,
-            Priority: 0));
+            ImmutableQueue.Create<LinkPathSelector>(linkPathSelectors.ToArray()),
+            DepthLevel: 0));
 
         var spider = new WebReaper.Spider.Concrete.Spider(JobQueueReader, JobQueueWriter, Logger)
             .IgnoreUrls(this.urlBlackList);
 
         var spiderTasks = Enumerable
-            .Range(0, spidersCount)
+            .Range(0, parallelismDegree)
             .Select(_ => spider.Crawl());
 
         await Task.WhenAll(spiderTasks);

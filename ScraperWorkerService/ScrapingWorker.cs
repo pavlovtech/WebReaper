@@ -32,7 +32,7 @@ public class ScrapingWorker : BackgroundService
                 new("name", ".post_body>span"),
             })
             .IgnoreUrls(blackList)
-            .WithParallelismDegree(4)
+            .WithParallelismDegree(1)
             .To("output.json");
     }
 

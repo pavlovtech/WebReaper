@@ -2145,3 +2145,554 @@
 2022-04-23 05:00:05.350 +03:00 [INF] Handle on target page was called 154 times
 2022-04-23 05:00:05.350 +03:00 [INF] target page: Ионина Надежда - Сто великих узников [Игорь Мурашко, 24, MP3] :: RuTracker.org
 2022-04-23 05:00:05.350 +03:00 [INF] Handle finished in 125 ms
+2022-04-23 14:17:43.560 +03:00 [INF] GetDocumentAsync finished in 611 ms
+2022-04-23 14:17:43.863 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-23 14:17:43.863 +03:00 [INF] Hosting environment: Development
+2022-04-23 14:17:43.864 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-23 14:17:43.916 +03:00 [INF] GetDocumentAsync finished in 242 ms
+2022-04-23 14:17:43.936 +03:00 [INF] GetDocumentAsync finished in 259 ms
+2022-04-23 14:17:44.129 +03:00 [INF] GetDocumentAsync finished in 450 ms
+2022-04-23 14:17:44.129 +03:00 [INF] GetDocumentAsync finished in 452 ms
+2022-04-23 14:17:44.129 +03:00 [INF] GetDocumentAsync finished in 191 ms
+2022-04-23 14:17:44.130 +03:00 [INF] GetDocumentAsync finished in 211 ms
+2022-04-23 14:17:44.445 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewforum.php?f=2389
+System.InvalidOperationException: Queue empty.
+   at System.Collections.Generic.Queue`1.ThrowForEmptyQueue()
+   at System.Collections.Generic.Queue`1.Dequeue()
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 100
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 72
+2022-04-23 14:17:44.428 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewforum.php?f=2324
+System.InvalidOperationException: Queue empty.
+   at System.Collections.Generic.Queue`1.ThrowForEmptyQueue()
+   at System.Collections.Generic.Queue`1.Dequeue()
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 100
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 72
+2022-04-23 14:17:44.496 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewforum.php?f=2327
+System.InvalidOperationException: Queue empty.
+   at System.Collections.Generic.Queue`1.ThrowForEmptyQueue()
+   at System.Collections.Generic.Queue`1.Dequeue()
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 100
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 72
+2022-04-23 14:17:44.428 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewforum.php?f=2328
+System.InvalidOperationException: Queue empty.
+   at System.Collections.Generic.Queue`1.ThrowForEmptyQueue()
+   at System.Collections.Generic.Queue`1.Dequeue()
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 100
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 72
+2022-04-23 14:17:44.736 +03:00 [INF] GetDocumentAsync finished in 180 ms
+2022-04-23 14:17:44.737 +03:00 [INF] GetDocumentAsync finished in 180 ms
+2022-04-23 14:17:44.843 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewforum.php?f=2389
+System.InvalidOperationException: Queue empty.
+   at System.Collections.Generic.Queue`1.ThrowForEmptyQueue()
+   at System.Collections.Generic.Queue`1.Dequeue()
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 100
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 72
+2022-04-23 14:17:44.985 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewforum.php?f=2324
+System.InvalidOperationException: Queue empty.
+   at System.Collections.Generic.Queue`1.ThrowForEmptyQueue()
+   at System.Collections.Generic.Queue`1.Dequeue()
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 100
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 72
+2022-04-23 14:17:45.016 +03:00 [INF] GetDocumentAsync finished in 367 ms
+2022-04-23 14:17:45.068 +03:00 [INF] GetDocumentAsync finished in 467 ms
+2022-04-23 14:17:45.133 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewforum.php?f=2328
+System.InvalidOperationException: Queue empty.
+   at System.Collections.Generic.Queue`1.ThrowForEmptyQueue()
+   at System.Collections.Generic.Queue`1.Dequeue()
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 100
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 72
+2022-04-23 14:17:45.307 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewforum.php?f=2327
+System.InvalidOperationException: Queue empty.
+   at System.Collections.Generic.Queue`1.ThrowForEmptyQueue()
+   at System.Collections.Generic.Queue`1.Dequeue()
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 100
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 72
+2022-04-23 14:17:45.378 +03:00 [INF] GetDocumentAsync finished in 392 ms
+2022-04-23 14:17:45.499 +03:00 [INF] GetDocumentAsync finished in 488 ms
+2022-04-23 14:17:45.499 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewforum.php?f=2324
+System.InvalidOperationException: Queue empty.
+   at System.Collections.Generic.Queue`1.ThrowForEmptyQueue()
+   at System.Collections.Generic.Queue`1.Dequeue()
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 100
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 72
+2022-04-23 14:17:45.593 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewforum.php?f=2389
+System.InvalidOperationException: Queue empty.
+   at System.Collections.Generic.Queue`1.ThrowForEmptyQueue()
+   at System.Collections.Generic.Queue`1.Dequeue()
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 100
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 72
+2022-04-23 14:17:45.663 +03:00 [INF] GetDocumentAsync finished in 355 ms
+2022-04-23 14:17:45.776 +03:00 [INF] GetDocumentAsync finished in 468 ms
+2022-04-23 14:17:45.776 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewforum.php?f=2328
+System.InvalidOperationException: Queue empty.
+   at System.Collections.Generic.Queue`1.ThrowForEmptyQueue()
+   at System.Collections.Generic.Queue`1.Dequeue()
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 100
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 72
+2022-04-23 14:17:45.912 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewforum.php?f=2327
+System.InvalidOperationException: Queue empty.
+   at System.Collections.Generic.Queue`1.ThrowForEmptyQueue()
+   at System.Collections.Generic.Queue`1.Dequeue()
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 100
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 72
+2022-04-23 14:17:45.941 +03:00 [INF] GetDocumentAsync finished in 347 ms
+2022-04-23 14:17:45.941 +03:00 [INF] GetDocumentAsync finished in 346 ms
+2022-04-23 14:17:46.102 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewforum.php?f=2324
+System.InvalidOperationException: Queue empty.
+   at System.Collections.Generic.Queue`1.ThrowForEmptyQueue()
+   at System.Collections.Generic.Queue`1.Dequeue()
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 100
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 72
+2022-04-23 14:17:46.102 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewforum.php?f=2389
+System.InvalidOperationException: Queue empty.
+   at System.Collections.Generic.Queue`1.ThrowForEmptyQueue()
+   at System.Collections.Generic.Queue`1.Dequeue()
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 100
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 72
+2022-04-23 14:17:46.190 +03:00 [INF] GetDocumentAsync finished in 278 ms
+2022-04-23 14:17:46.332 +03:00 [INF] GetDocumentAsync finished in 419 ms
+2022-04-23 14:17:46.332 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewforum.php?f=2328
+System.InvalidOperationException: Queue empty.
+   at System.Collections.Generic.Queue`1.ThrowForEmptyQueue()
+   at System.Collections.Generic.Queue`1.Dequeue()
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 100
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 72
+2022-04-23 14:17:46.402 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewforum.php?f=2327
+System.InvalidOperationException: Queue empty.
+   at System.Collections.Generic.Queue`1.ThrowForEmptyQueue()
+   at System.Collections.Generic.Queue`1.Dequeue()
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 100
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 72
+2022-04-23 14:17:46.426 +03:00 [INF] GetDocumentAsync finished in 301 ms
+2022-04-23 14:17:46.597 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewforum.php?f=2324
+System.InvalidOperationException: Queue empty.
+   at System.Collections.Generic.Queue`1.ThrowForEmptyQueue()
+   at System.Collections.Generic.Queue`1.Dequeue()
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 100
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 72
+2022-04-23 14:17:46.598 +03:00 [INF] GetDocumentAsync finished in 494 ms
+2022-04-23 14:17:46.791 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewforum.php?f=2389
+System.InvalidOperationException: Queue empty.
+   at System.Collections.Generic.Queue`1.ThrowForEmptyQueue()
+   at System.Collections.Generic.Queue`1.Dequeue()
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 100
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 72
+2022-04-23 14:17:46.954 +03:00 [INF] GetDocumentAsync finished in 572 ms
+2022-04-23 14:17:47.138 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewforum.php?f=2328
+System.InvalidOperationException: Queue empty.
+   at System.Collections.Generic.Queue`1.ThrowForEmptyQueue()
+   at System.Collections.Generic.Queue`1.Dequeue()
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 100
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 72
+2022-04-23 14:17:47.274 +03:00 [INF] GetDocumentAsync finished in 675 ms
+2022-04-23 14:17:47.274 +03:00 [INF] GetDocumentAsync finished in 869 ms
+2022-04-23 14:17:47.468 +03:00 [INF] GetDocumentAsync finished in 675 ms
+2022-04-23 14:17:47.467 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewforum.php?f=2324
+System.InvalidOperationException: Queue empty.
+   at System.Collections.Generic.Queue`1.ThrowForEmptyQueue()
+   at System.Collections.Generic.Queue`1.Dequeue()
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 100
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 72
+2022-04-23 14:17:47.467 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewforum.php?f=2327
+System.InvalidOperationException: Queue empty.
+   at System.Collections.Generic.Queue`1.ThrowForEmptyQueue()
+   at System.Collections.Generic.Queue`1.Dequeue()
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 100
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 72
+2022-04-23 14:17:47.610 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewforum.php?f=2389
+System.InvalidOperationException: Queue empty.
+   at System.Collections.Generic.Queue`1.ThrowForEmptyQueue()
+   at System.Collections.Generic.Queue`1.Dequeue()
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 100
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 72
+2022-04-23 14:17:47.706 +03:00 [INF] GetDocumentAsync finished in 567 ms
+2022-04-23 14:17:47.824 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewforum.php?f=2328
+System.InvalidOperationException: Queue empty.
+   at System.Collections.Generic.Queue`1.ThrowForEmptyQueue()
+   at System.Collections.Generic.Queue`1.Dequeue()
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 100
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 72
+2022-04-23 14:17:47.946 +03:00 [INF] GetDocumentAsync finished in 412 ms
+2022-04-23 14:17:47.947 +03:00 [INF] GetDocumentAsync finished in 241 ms
+2022-04-23 14:17:48.172 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewforum.php?f=2324
+System.InvalidOperationException: Queue empty.
+   at System.Collections.Generic.Queue`1.ThrowForEmptyQueue()
+   at System.Collections.Generic.Queue`1.Dequeue()
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 100
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 72
+2022-04-23 14:17:48.268 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewforum.php?f=2389
+System.InvalidOperationException: Queue empty.
+   at System.Collections.Generic.Queue`1.ThrowForEmptyQueue()
+   at System.Collections.Generic.Queue`1.Dequeue()
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 100
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 72
+2022-04-23 14:17:48.269 +03:00 [INF] GetDocumentAsync finished in 632 ms
+2022-04-23 14:17:48.269 +03:00 [INF] GetDocumentAsync finished in 444 ms
+2022-04-23 14:17:48.403 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewforum.php?f=2327
+System.InvalidOperationException: Queue empty.
+   at System.Collections.Generic.Queue`1.ThrowForEmptyQueue()
+   at System.Collections.Generic.Queue`1.Dequeue()
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 100
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 72
+2022-04-23 14:17:48.439 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewforum.php?f=2328
+System.InvalidOperationException: Queue empty.
+   at System.Collections.Generic.Queue`1.ThrowForEmptyQueue()
+   at System.Collections.Generic.Queue`1.Dequeue()
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 100
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 72
+2022-04-23 14:17:48.564 +03:00 [INF] GetDocumentAsync finished in 271 ms
+2022-04-23 14:17:48.681 +03:00 [INF] GetDocumentAsync finished in 412 ms
+2022-04-23 14:17:48.681 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewforum.php?f=2389
+System.InvalidOperationException: Queue empty.
+   at System.Collections.Generic.Queue`1.ThrowForEmptyQueue()
+   at System.Collections.Generic.Queue`1.Dequeue()
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 100
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 72
+2022-04-23 14:17:48.703 +03:00 [INF] GetDocumentAsync finished in 263 ms
+2022-04-23 14:17:48.849 +03:00 [INF] GetDocumentAsync finished in 409 ms
+2022-04-23 14:17:48.822 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewforum.php?f=2324
+System.InvalidOperationException: Queue empty.
+   at System.Collections.Generic.Queue`1.ThrowForEmptyQueue()
+   at System.Collections.Generic.Queue`1.Dequeue()
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 100
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 72
+2022-04-23 14:17:48.918 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewforum.php?f=2328
+System.InvalidOperationException: Queue empty.
+   at System.Collections.Generic.Queue`1.ThrowForEmptyQueue()
+   at System.Collections.Generic.Queue`1.Dequeue()
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 100
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 72
+2022-04-23 14:17:49.021 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewforum.php?f=2327
+System.InvalidOperationException: Queue empty.
+   at System.Collections.Generic.Queue`1.ThrowForEmptyQueue()
+   at System.Collections.Generic.Queue`1.Dequeue()
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 100
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 72
+2022-04-23 14:20:29.332 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-23 14:20:29.524 +03:00 [INF] Hosting environment: Development
+2022-04-23 14:20:29.526 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-23 14:20:29.865 +03:00 [INF] GetDocumentAsync finished in 709 ms
+2022-04-23 14:22:00.971 +03:00 [INF] GetDocumentAsync finished in 230 ms
+2022-04-23 14:22:41.644 +03:00 [INF] GetDocumentAsync finished in 140 ms
+2022-04-23 14:25:11.172 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-23 14:25:11.238 +03:00 [INF] Hosting environment: Development
+2022-04-23 14:25:11.239 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-23 14:25:11.679 +03:00 [INF] GetDocumentAsync finished in 695 ms
+2022-04-23 14:25:11.966 +03:00 [INF] GetDocumentAsync finished in 232 ms
+2022-04-23 14:25:12.307 +03:00 [INF] GetDocumentAsync finished in 337 ms
+2022-04-23 14:25:12.421 +03:00 [INF] GetDocumentAsync finished in 112 ms
+2022-04-23 14:25:12.583 +03:00 [INF] GetDocumentAsync finished in 161 ms
+2022-04-23 14:25:12.689 +03:00 [INF] GetDocumentAsync finished in 99 ms
+2022-04-23 14:25:12.694 +03:00 [INF] Handle on target page was called 1 times
+2022-04-23 14:25:12.697 +03:00 [INF] target page: Сборник - История любви [corsair13, Elance, Eugnik, IraLexa, Lenya, Light, Mones Fits, Mozly, myjjjuk, sabotazhnick, ukrezi, Александр Синица, Андрейко, Анклав, Дрыжак, Злата Зачитайко, Ирина Жагорина, Семён Янишевский, (ЛИ), 2013 г., 192 kbps, MP3] :: RuTracker.org
+2022-04-23 14:25:12.811 +03:00 [INF] GetDocumentAsync finished in 113 ms
+2022-04-23 14:25:12.815 +03:00 [INF] Handle on target page was called 2 times
+2022-04-23 14:25:12.815 +03:00 [INF] target page: Сборник рассказов мировой литературы - 10 лучших рассказов: Чехов Антон, По Эдгар Алан, Лондон Джек, Селинджер Джером, Бунин Иван, Генри О., Кортасар Хулио, Борхес Хорхе Луис, Хемингуэй Эрнест, [Анна Самойлова (ЛИ), 2012 г., 64, MP3] :: RuTracker.org
+2022-04-23 14:25:12.936 +03:00 [INF] GetDocumentAsync finished in 120 ms
+2022-04-23 14:25:13.211 +03:00 [INF] GetDocumentAsync finished in 273 ms
+2022-04-23 14:25:13.332 +03:00 [INF] GetDocumentAsync finished in 119 ms
+2022-04-23 14:25:13.333 +03:00 [INF] Handle on target page was called 3 times
+2022-04-23 14:25:13.333 +03:00 [INF] target page: Новые раздачи МДС :: RuTracker.org
+2022-04-23 14:26:00.937 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-23 14:26:01.015 +03:00 [INF] Hosting environment: Development
+2022-04-23 14:26:01.017 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-23 14:26:01.247 +03:00 [INF] GetDocumentAsync finished in 476 ms
+2022-04-23 14:27:32.692 +03:00 [INF] GetDocumentAsync finished in 215 ms
+2022-04-23 18:55:14.864 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-23 18:55:14.926 +03:00 [INF] Hosting environment: Development
+2022-04-23 18:55:14.928 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-23 18:55:38.602 +03:00 [INF] GetDocumentAsync finished in 23843 ms
+2022-04-23 18:55:39.277 +03:00 [INF] GetDocumentAsync finished in 614 ms
+2022-04-23 18:55:39.924 +03:00 [INF] GetDocumentAsync finished in 644 ms
+2022-04-23 18:55:40.192 +03:00 [INF] GetDocumentAsync finished in 267 ms
+2022-04-23 18:55:40.475 +03:00 [INF] GetDocumentAsync finished in 281 ms
+2022-04-23 18:55:40.788 +03:00 [INF] GetDocumentAsync finished in 312 ms
+2022-04-23 18:55:41.190 +03:00 [INF] GetDocumentAsync finished in 395 ms
+2022-04-23 18:55:41.529 +03:00 [INF] GetDocumentAsync finished in 338 ms
+2022-04-23 18:55:41.809 +03:00 [INF] GetDocumentAsync finished in 278 ms
+2022-04-23 18:55:42.002 +03:00 [INF] GetDocumentAsync finished in 191 ms
+2022-04-23 18:56:31.742 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-23 18:56:31.795 +03:00 [INF] Hosting environment: Development
+2022-04-23 18:56:31.796 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-23 18:56:32.473 +03:00 [INF] GetDocumentAsync finished in 867 ms
+2022-04-23 18:56:32.926 +03:00 [INF] GetDocumentAsync finished in 405 ms
+2022-04-23 18:56:33.243 +03:00 [INF] GetDocumentAsync finished in 314 ms
+2022-04-23 18:56:33.447 +03:00 [INF] GetDocumentAsync finished in 203 ms
+2022-04-23 18:56:33.715 +03:00 [INF] GetDocumentAsync finished in 267 ms
+2022-04-23 18:56:34.007 +03:00 [INF] GetDocumentAsync finished in 290 ms
+2022-04-23 18:56:34.205 +03:00 [INF] GetDocumentAsync finished in 192 ms
+2022-04-23 18:56:34.398 +03:00 [INF] GetDocumentAsync finished in 191 ms
+2022-04-23 18:56:34.609 +03:00 [INF] GetDocumentAsync finished in 210 ms
+2022-04-23 18:56:35.044 +03:00 [INF] GetDocumentAsync finished in 434 ms
+2022-04-23 19:28:43.901 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-23 19:28:43.957 +03:00 [INF] Hosting environment: Development
+2022-04-23 19:28:43.958 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-23 19:29:14.026 +03:00 [INF] GetDocumentAsync finished in 30267 ms
+2022-04-23 19:29:14.104 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: nodename nor servname provided, or not known (rutracker.org:443)
+ ---> System.Net.Sockets.SocketException (0xFFFDFFFF): nodename nor servname provided, or not known
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|277_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(HttpRequestMessage request)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Concrete.Spider.GetDocumentAsync(String url) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 137
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 91
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 73
+2022-04-23 19:29:44.214 +03:00 [INF] GetDocumentAsync finished in 30049 ms
+2022-04-23 19:29:44.287 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: nodename nor servname provided, or not known (rutracker.org:443)
+ ---> System.Net.Sockets.SocketException (0xFFFDFFFF): nodename nor servname provided, or not known
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|277_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(HttpRequestMessage request)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Concrete.Spider.GetDocumentAsync(String url) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 137
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 91
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 73
+2022-04-23 19:29:59.151 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-23 19:29:59.204 +03:00 [INF] Hosting environment: Development
+2022-04-23 19:29:59.205 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-23 19:30:29.238 +03:00 [INF] GetDocumentAsync finished in 30184 ms
+2022-04-23 19:30:29.318 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: nodename nor servname provided, or not known (rutracker.org:443)
+ ---> System.Net.Sockets.SocketException (0xFFFDFFFF): nodename nor servname provided, or not known
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|277_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(HttpRequestMessage request)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Concrete.Spider.GetDocumentAsync(String url) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 137
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 91
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 73
+2022-04-23 19:30:44.761 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-23 19:30:44.817 +03:00 [INF] Hosting environment: Development
+2022-04-23 19:30:44.818 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-23 19:40:36.465 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-23 19:40:36.518 +03:00 [INF] Hosting environment: Development
+2022-04-23 19:40:36.519 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-23 21:35:13.406 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-23 21:35:13.459 +03:00 [INF] Hosting environment: Development
+2022-04-23 21:35:13.461 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-23 21:35:16.317 +03:00 [INF] GetDocumentAsync finished in 3011 ms
+2022-04-23 21:35:16.542 +03:00 [INF] GetDocumentAsync finished in 173 ms
+2022-04-23 21:35:16.696 +03:00 [INF] GetDocumentAsync finished in 151 ms
+2022-04-23 21:35:16.941 +03:00 [INF] GetDocumentAsync finished in 244 ms
+2022-04-23 21:35:17.438 +03:00 [INF] GetDocumentAsync finished in 494 ms
+2022-04-23 21:35:17.679 +03:00 [INF] GetDocumentAsync finished in 238 ms
+2022-04-23 21:35:17.824 +03:00 [INF] GetDocumentAsync finished in 142 ms
+2022-04-23 21:35:18.094 +03:00 [INF] GetDocumentAsync finished in 268 ms
+2022-04-23 21:35:18.358 +03:00 [INF] GetDocumentAsync finished in 262 ms
+2022-04-23 21:35:18.659 +03:00 [INF] GetDocumentAsync finished in 287 ms
+2022-04-23 21:35:18.900 +03:00 [INF] GetDocumentAsync finished in 238 ms
+2022-04-23 21:35:19.049 +03:00 [INF] GetDocumentAsync finished in 147 ms
+2022-04-23 21:35:19.305 +03:00 [INF] GetDocumentAsync finished in 255 ms
+2022-04-23 21:35:19.477 +03:00 [INF] GetDocumentAsync finished in 169 ms
+2022-04-23 21:35:19.952 +03:00 [INF] GetDocumentAsync finished in 472 ms
+2022-04-23 21:35:20.194 +03:00 [INF] GetDocumentAsync finished in 239 ms
+2022-04-23 21:35:20.445 +03:00 [INF] GetDocumentAsync finished in 249 ms
+2022-04-23 21:35:20.651 +03:00 [INF] GetDocumentAsync finished in 203 ms
+2022-04-23 21:35:20.911 +03:00 [INF] GetDocumentAsync finished in 250 ms
+2022-04-23 21:35:21.203 +03:00 [INF] GetDocumentAsync finished in 290 ms
+2022-04-23 21:35:21.373 +03:00 [INF] GetDocumentAsync finished in 161 ms
+2022-04-23 21:35:21.697 +03:00 [INF] GetDocumentAsync finished in 322 ms
+2022-04-23 21:35:21.960 +03:00 [INF] GetDocumentAsync finished in 260 ms
+2022-04-23 21:35:22.228 +03:00 [INF] GetDocumentAsync finished in 266 ms
+2022-04-23 21:35:22.678 +03:00 [INF] GetDocumentAsync finished in 447 ms
+2022-04-23 21:35:22.814 +03:00 [INF] GetDocumentAsync finished in 133 ms
+2022-04-23 21:35:23.072 +03:00 [INF] GetDocumentAsync finished in 257 ms
+2022-04-23 21:35:23.319 +03:00 [INF] GetDocumentAsync finished in 238 ms
+2022-04-23 21:35:23.882 +03:00 [INF] GetDocumentAsync finished in 560 ms
+2022-04-23 21:35:24.135 +03:00 [INF] GetDocumentAsync finished in 244 ms
+2022-04-23 21:35:24.380 +03:00 [INF] GetDocumentAsync finished in 242 ms
+2022-04-23 21:35:25.227 +03:00 [INF] GetDocumentAsync finished in 838 ms
+2022-04-23 21:35:53.455 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-23 21:35:53.535 +03:00 [INF] Hosting environment: Development
+2022-04-23 21:35:53.537 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-23 21:35:53.995 +03:00 [INF] GetDocumentAsync finished in 795 ms
+2022-04-23 21:36:20.753 +03:00 [INF] GetDocumentAsync finished in 220 ms
+2022-04-23 21:36:40.826 +03:00 [INF] GetDocumentAsync finished in 370 ms
+2022-04-23 21:36:49.350 +03:00 [INF] GetDocumentAsync finished in 290 ms
+2022-04-23 21:36:56.915 +03:00 [INF] GetDocumentAsync finished in 286 ms
+2022-04-23 21:37:05.277 +03:00 [INF] GetDocumentAsync finished in 276 ms
+2022-04-23 21:39:23.039 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-23 21:39:23.131 +03:00 [INF] Hosting environment: Development
+2022-04-23 21:39:23.133 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-23 21:39:23.843 +03:00 [INF] GetDocumentAsync finished in 1030 ms
+2022-04-23 21:41:21.889 +03:00 [INF] GetDocumentAsync finished in 153 ms
+2022-04-23 21:41:23.875 +03:00 [INF] GetDocumentAsync finished in 148 ms
+2022-04-23 21:41:24.760 +03:00 [INF] GetDocumentAsync finished in 234 ms
+2022-04-23 21:41:25.565 +03:00 [INF] GetDocumentAsync finished in 282 ms
+2022-04-23 21:41:26.786 +03:00 [INF] GetDocumentAsync finished in 303 ms
+2022-04-23 21:41:27.432 +03:00 [INF] GetDocumentAsync finished in 144 ms
+2022-04-23 21:41:28.214 +03:00 [INF] GetDocumentAsync finished in 254 ms
+2022-04-23 21:41:28.850 +03:00 [INF] GetDocumentAsync finished in 240 ms
+2022-04-23 21:41:57.291 +03:00 [INF] GetDocumentAsync finished in 267 ms
+2022-04-23 21:41:58.586 +03:00 [INF] GetDocumentAsync finished in 285 ms
+2022-04-23 21:41:59.432 +03:00 [INF] GetDocumentAsync finished in 139 ms
+2022-04-23 21:42:19.282 +03:00 [INF] GetDocumentAsync finished in 258 ms
+2022-04-23 21:53:55.777 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-23 21:53:55.850 +03:00 [INF] Hosting environment: Development
+2022-04-23 21:53:55.852 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-23 21:53:56.157 +03:00 [INF] GetDocumentAsync finished in 509 ms
+2022-04-23 21:54:14.238 +03:00 [INF] GetDocumentAsync finished in 380 ms
+2022-04-23 21:54:15.286 +03:00 [INF] GetDocumentAsync finished in 168 ms
+2022-04-23 21:54:18.435 +03:00 [INF] GetDocumentAsync finished in 294 ms
+2022-04-23 21:54:18.696 +03:00 [INF] GetDocumentAsync finished in 258 ms
+2022-04-23 21:54:18.973 +03:00 [INF] GetDocumentAsync finished in 274 ms
+2022-04-23 21:54:19.113 +03:00 [INF] GetDocumentAsync finished in 136 ms
+2022-04-23 21:54:19.364 +03:00 [INF] GetDocumentAsync finished in 251 ms
+2022-04-23 21:54:19.637 +03:00 [INF] GetDocumentAsync finished in 270 ms
+2022-04-23 21:54:19.830 +03:00 [INF] GetDocumentAsync finished in 182 ms
+2022-04-23 21:54:20.063 +03:00 [INF] GetDocumentAsync finished in 230 ms
+2022-04-23 21:54:20.190 +03:00 [INF] GetDocumentAsync finished in 124 ms
+2022-04-23 21:54:20.424 +03:00 [INF] GetDocumentAsync finished in 231 ms
+2022-04-23 21:54:20.608 +03:00 [INF] GetDocumentAsync finished in 180 ms
+2022-04-23 21:54:20.841 +03:00 [INF] GetDocumentAsync finished in 230 ms
+2022-04-23 21:54:21.063 +03:00 [INF] GetDocumentAsync finished in 219 ms
+2022-04-23 21:54:21.325 +03:00 [INF] GetDocumentAsync finished in 259 ms
+2022-04-23 21:54:21.511 +03:00 [INF] GetDocumentAsync finished in 184 ms
+2022-04-23 21:54:21.771 +03:00 [INF] GetDocumentAsync finished in 248 ms
+2022-04-23 21:54:22.044 +03:00 [INF] GetDocumentAsync finished in 270 ms
+2022-04-23 21:54:22.174 +03:00 [INF] GetDocumentAsync finished in 120 ms
+2022-04-23 21:54:22.451 +03:00 [INF] GetDocumentAsync finished in 275 ms
+2022-04-23 21:54:22.668 +03:00 [INF] GetDocumentAsync finished in 214 ms
+2022-04-23 21:54:22.843 +03:00 [INF] GetDocumentAsync finished in 172 ms
+2022-04-23 21:54:23.029 +03:00 [INF] GetDocumentAsync finished in 182 ms
+2022-04-23 21:54:23.154 +03:00 [INF] GetDocumentAsync finished in 122 ms
+2022-04-23 21:54:23.400 +03:00 [INF] GetDocumentAsync finished in 245 ms
+2022-04-23 21:54:23.639 +03:00 [INF] GetDocumentAsync finished in 229 ms
+2022-04-23 21:54:23.815 +03:00 [INF] GetDocumentAsync finished in 173 ms
+2022-04-23 21:54:24.002 +03:00 [INF] GetDocumentAsync finished in 178 ms
+2022-04-23 21:54:24.171 +03:00 [INF] GetDocumentAsync finished in 166 ms
+2022-04-23 21:54:24.363 +03:00 [INF] GetDocumentAsync finished in 184 ms
+2022-04-23 22:04:01.305 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-23 22:04:01.365 +03:00 [INF] Hosting environment: Development
+2022-04-23 22:04:01.367 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-23 22:04:01.826 +03:00 [INF] GetDocumentAsync finished in 667 ms
+2022-04-23 22:04:03.349 +03:00 [INF] GetDocumentAsync finished in 317 ms
+2022-04-23 22:04:08.644 +03:00 [INF] GetDocumentAsync finished in 142 ms
+2022-04-23 22:04:09.417 +03:00 [INF] GetDocumentAsync finished in 358 ms
+2022-04-23 22:04:10.443 +03:00 [INF] GetDocumentAsync finished in 247 ms
+2022-04-23 22:04:11.394 +03:00 [INF] GetDocumentAsync finished in 255 ms
+2022-04-23 22:04:12.147 +03:00 [INF] GetDocumentAsync finished in 116 ms
+2022-04-23 22:04:13.122 +03:00 [INF] GetDocumentAsync finished in 296 ms
+2022-04-23 22:04:17.722 +03:00 [INF] GetDocumentAsync finished in 4007 ms
+2022-04-23 22:04:19.733 +03:00 [INF] GetDocumentAsync finished in 253 ms
+2022-04-23 22:04:21.152 +03:00 [INF] GetDocumentAsync finished in 328 ms
+2022-04-23 22:04:22.048 +03:00 [INF] GetDocumentAsync finished in 164 ms
+2022-04-23 22:04:22.973 +03:00 [INF] GetDocumentAsync finished in 277 ms
+2022-04-23 22:04:23.977 +03:00 [INF] GetDocumentAsync finished in 208 ms
+2022-04-23 22:04:25.055 +03:00 [INF] GetDocumentAsync finished in 245 ms
+2022-04-23 22:04:25.975 +03:00 [INF] GetDocumentAsync finished in 255 ms
+2022-04-23 22:04:26.865 +03:00 [INF] GetDocumentAsync finished in 247 ms
+2022-04-23 22:04:27.713 +03:00 [INF] GetDocumentAsync finished in 202 ms
+2022-04-23 22:04:28.720 +03:00 [INF] GetDocumentAsync finished in 363 ms
+2022-04-23 22:04:29.634 +03:00 [INF] GetDocumentAsync finished in 279 ms
+2022-04-23 22:04:30.559 +03:00 [INF] GetDocumentAsync finished in 179 ms
+2022-04-23 22:05:05.238 +03:00 [INF] GetDocumentAsync finished in 256 ms
+2022-04-23 22:05:49.636 +03:00 [INF] GetDocumentAsync finished in 218 ms
+2022-04-23 22:25:12.680 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-23 22:25:12.738 +03:00 [INF] Hosting environment: Development
+2022-04-23 22:25:12.739 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-23 22:25:13.200 +03:00 [INF] GetDocumentAsync finished in 722 ms
+2022-04-23 22:25:13.638 +03:00 [INF] GetDocumentAsync finished in 277 ms
+2022-04-23 22:25:13.750 +03:00 [INF] GetDocumentAsync finished in 109 ms
+2022-04-23 22:25:13.859 +03:00 [INF] GetDocumentAsync finished in 108 ms
+2022-04-23 22:25:13.977 +03:00 [INF] GetDocumentAsync finished in 116 ms
+2022-04-23 22:25:14.103 +03:00 [INF] GetDocumentAsync finished in 125 ms
+2022-04-23 22:31:37.429 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-23 22:31:37.500 +03:00 [INF] Hosting environment: Development
+2022-04-23 22:31:37.501 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-23 22:31:37.805 +03:00 [INF] GetDocumentAsync finished in 492 ms
+2022-04-23 22:31:38.126 +03:00 [INF] GetDocumentAsync finished in 274 ms
+2022-04-23 22:31:38.233 +03:00 [INF] GetDocumentAsync finished in 105 ms
+2022-04-23 22:31:38.378 +03:00 [INF] GetDocumentAsync finished in 143 ms
+2022-04-23 22:31:38.488 +03:00 [INF] GetDocumentAsync finished in 109 ms
+2022-04-23 22:31:38.606 +03:00 [INF] GetDocumentAsync finished in 117 ms
+2022-04-23 22:31:38.754 +03:00 [INF] GetDocumentAsync finished in 145 ms
+2022-04-23 22:31:38.871 +03:00 [INF] GetDocumentAsync finished in 116 ms
+2022-04-23 22:31:38.986 +03:00 [INF] GetDocumentAsync finished in 113 ms
+2022-04-23 22:31:39.100 +03:00 [INF] GetDocumentAsync finished in 113 ms
+2022-04-23 23:08:19.754 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-23 23:08:19.821 +03:00 [INF] Hosting environment: Development
+2022-04-23 23:08:19.822 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-23 23:08:20.160 +03:00 [INF] GetDocumentAsync finished in 519 ms
+2022-04-23 23:08:20.412 +03:00 [INF] GetDocumentAsync finished in 196 ms
+2022-04-23 23:08:20.532 +03:00 [INF] GetDocumentAsync finished in 116 ms
+2022-04-23 23:08:20.661 +03:00 [INF] GetDocumentAsync finished in 128 ms
+2022-04-23 23:08:20.795 +03:00 [INF] GetDocumentAsync finished in 133 ms
+2022-04-23 23:08:20.907 +03:00 [INF] GetDocumentAsync finished in 111 ms
+2022-04-23 23:08:21.018 +03:00 [INF] GetDocumentAsync finished in 107 ms
+2022-04-23 23:08:21.131 +03:00 [INF] GetDocumentAsync finished in 111 ms
+2022-04-23 23:08:21.244 +03:00 [INF] GetDocumentAsync finished in 112 ms
+2022-04-23 23:08:21.358 +03:00 [INF] GetDocumentAsync finished in 113 ms
+2022-04-23 23:09:36.768 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-23 23:09:36.871 +03:00 [INF] Hosting environment: Development
+2022-04-23 23:09:36.873 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-23 23:09:37.193 +03:00 [INF] GetDocumentAsync finished in 530 ms
+2022-04-23 23:09:41.792 +03:00 [INF] GetDocumentAsync finished in 175 ms
+2022-04-23 23:09:57.015 +03:00 [INF] GetDocumentAsync finished in 160 ms
+2022-04-23 23:10:13.690 +03:00 [INF] GetDocumentAsync finished in 107 ms
+2022-04-23 23:10:23.739 +03:00 [INF] GetDocumentAsync finished in 145 ms
+2022-04-23 23:10:34.936 +03:00 [INF] GetDocumentAsync finished in 149 ms
+2022-04-23 23:49:28.983 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-23 23:49:29.052 +03:00 [INF] Hosting environment: Development
+2022-04-23 23:49:29.054 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-23 23:49:29.355 +03:00 [INF] GetDocumentAsync finished in 479 ms
+2022-04-23 23:49:34.228 +03:00 [INF] GetDocumentAsync finished in 194 ms
+2022-04-23 23:49:35.169 +03:00 [INF] GetDocumentAsync finished in 114 ms
+2022-04-23 23:49:36.081 +03:00 [INF] GetDocumentAsync finished in 153 ms
+2022-04-23 23:49:36.836 +03:00 [INF] GetDocumentAsync finished in 143 ms
+2022-04-23 23:49:37.624 +03:00 [INF] GetDocumentAsync finished in 138 ms
+2022-04-23 23:49:38.311 +03:00 [INF] GetDocumentAsync finished in 99 ms
+2022-04-23 23:49:39.347 +03:00 [INF] GetDocumentAsync finished in 103 ms
+2022-04-23 23:49:40.624 +03:00 [INF] GetDocumentAsync finished in 113 ms
+2022-04-23 23:49:41.494 +03:00 [INF] GetDocumentAsync finished in 108 ms
+2022-04-23 23:51:51.855 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-23 23:51:51.922 +03:00 [INF] Hosting environment: Development
+2022-04-23 23:51:51.923 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-23 23:51:52.226 +03:00 [INF] GetDocumentAsync finished in 469 ms
+2022-04-23 23:51:56.856 +03:00 [INF] GetDocumentAsync finished in 253 ms
+2022-04-23 23:51:58.014 +03:00 [INF] GetDocumentAsync finished in 128 ms
+2022-04-23 23:51:58.832 +03:00 [INF] GetDocumentAsync finished in 126 ms
+2022-04-23 23:51:59.811 +03:00 [INF] GetDocumentAsync finished in 111 ms
+2022-04-23 23:52:00.530 +03:00 [INF] GetDocumentAsync finished in 114 ms
+2022-04-23 23:52:01.245 +03:00 [INF] GetDocumentAsync finished in 118 ms
+2022-04-23 23:56:02.897 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-23 23:56:02.965 +03:00 [INF] Hosting environment: Development
+2022-04-23 23:56:02.970 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-23 23:56:03.252 +03:00 [INF] GetDocumentAsync finished in 453 ms
+2022-04-23 23:56:19.479 +03:00 [INF] GetDocumentAsync finished in 289 ms
+2022-04-23 23:56:21.377 +03:00 [INF] GetDocumentAsync finished in 146 ms
+2022-04-23 23:56:22.332 +03:00 [INF] GetDocumentAsync finished in 104 ms
+2022-04-23 23:56:23.158 +03:00 [INF] GetDocumentAsync finished in 115 ms
+2022-04-23 23:56:23.942 +03:00 [INF] GetDocumentAsync finished in 118 ms
