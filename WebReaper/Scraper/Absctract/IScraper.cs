@@ -6,7 +6,7 @@ namespace WebReaper.Scraper.Abstract;
 public interface IScraper
 {
     IScraper WithStartUrl(string startUrl);
-    IScraper FollowLinks(string linkSelector);
+    IScraper FollowLinks(string linkSelector, SelectorType selectorType = SelectorType.Css);
     IScraper Limit(int limit);
     IScraper Paginate(string paginationSelector);
     Task Run();

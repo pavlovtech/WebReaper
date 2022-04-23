@@ -5,13 +5,11 @@ namespace WebReaper.Infra;
 
 public class Executor
 {
-    protected static AsyncRetryPolicy asyncPolicy;
-    protected static RetryPolicy policy;
+    protected static AsyncRetryPolicy asyncPolicy = Policy.Handle<Exception>().RetryAsync(3);
+    protected static RetryPolicy policy = Policy.Handle<Exception>().Retry(3);
 
     public Executor()
     {
-        asyncPolicy = Policy.Handle<Exception>().RetryAsync(3);
-        policy = Policy.Handle<Exception>().Retry(3);
     }
 
     public static async Task<T> Retry<T>(Func<Task<T>> func) =>

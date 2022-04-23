@@ -23,23 +23,23 @@ public class Scraper : IScraper
     protected BlockingCollection<Job> jobs = new(new ProducerConsumerPriorityQueue());
 
     private string filePath = "output.json";
-    private string startUrl;
+    private string? startUrl;
 
-    private WebEl[]? schema;
+    private WebEl[]? schema = Array.Empty<WebEl>();
 
     private string? paginationSelector;
 
-    private WebProxy proxy;
+    private WebProxy? proxy;
 
-    private WebProxy[] proxies;
+    private WebProxy[] proxies = Array.Empty<WebProxy>();
 
     private int spidersCount = 1;
 
-    protected string baseUrl;
+    protected string baseUrl = "";
 
-    protected HttpMessageHandler HttpHandler;
+    protected HttpMessageHandler? HttpHandler;
 
-    protected HttpClient HttpClient;
+    protected HttpClient? HttpClient;
 
     protected readonly IJobQueueReader JobQueueReader;
 
@@ -94,7 +94,9 @@ public class Scraper : IScraper
         return this;
     }
 
-    public IScraper FollowLinks(string linkSelector)
+    public IScraper FollowLinks(
+        string linkSelector,
+        SelectorType selectorType = SelectorType.Css)
     {
         linkPathSelectors.Add(linkSelector);
         return this;
@@ -149,7 +151,11 @@ public class Scraper : IScraper
 
     public async Task Run()
     {
-        JobQueueWriter.Write(new Job(baseUrl,
+        ArgumentNullException.ThrowIfNull(startUrl);
+        ArgumentNullException.ThrowIfNull(baseUrl);
+
+        JobQueueWriter.Write(new Job(
+            baseUrl,
             startUrl,
             linkPathSelectors.ToArray(),
             paginationSelector,
