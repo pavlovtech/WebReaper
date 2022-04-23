@@ -1,9 +1,10 @@
+using System.Collections.Immutable;
 namespace WebReaper.Domain;
 
 public record Job(
     string BaseUrl,
     string Url,
-    Queue<LinkPathSelector> LinkPathSelectors,
+    ImmutableQueue<LinkPathSelector> LinkPathSelectors,
     int DepthLevel = 0) {
         public PageType PageType { get {
             if(!LinkPathSelectors.Any()) {
@@ -12,7 +13,7 @@ public record Job(
 
             var currentSelector = LinkPathSelectors.Peek();
 
-            if(LinkPathSelectors.Count == 1 &&
+            if(LinkPathSelectors.Count() == 1 &&
                 currentSelector.PaginationSelector != null) {
                 return PageType.PageWithPagination;
             }
