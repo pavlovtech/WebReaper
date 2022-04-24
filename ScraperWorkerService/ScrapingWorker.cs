@@ -33,8 +33,8 @@ public class ScrapingWorker : BackgroundService
             })
             .WithParallelismDegree(10)
             .Limit(50)
-            .WriteTo(new FileSink("result.json"))
-            .WriteTo(new ConsoleSink());
+            .WriteTo.Console()
+            .WriteTo.File("result.json");
     }
 
     protected CookieContainer Auth() {

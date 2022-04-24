@@ -17,7 +17,7 @@ namespace WebReaper.Scraper.Concrete;
 // puppeter
 public class Scraper : IScraper
 {
-    public List<IScraperSink> Sinks { get; set; } = new(); 
+    public List<IScraperSink> Sinks { get; protected set; } = new(); 
 
     protected List<LinkPathSelector> linkPathSelectors = new();
     
@@ -117,9 +117,12 @@ public class Scraper : IScraper
         return this;
     }
 
-    public IScraper WriteTo(IScraperSink sink)
+    public ScraperSinkConfig WriteTo => new ScraperSinkConfig(this);
+
+    public IScraper AddSink(IScraperSink sink)
     {
-        Sinks.Add(sink);
+        this.Sinks.Add(sink);
+
         return this;
     }
 

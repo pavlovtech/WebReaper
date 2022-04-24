@@ -1,5 +1,6 @@
 using System.Net;
 using WebReaper.Domain;
+using WebReaper.Scraper.Concrete;
 using WebReaper.Sinks.Absctract;
 
 namespace WebReaper.Scraper.Abstract;
@@ -8,7 +9,8 @@ public interface IScraper
 {
     IScraper WithStartUrl(string startUrl);
     IScraper FollowLinks(string linkSelector, SelectorType selectorType = SelectorType.Css);
-    IScraper WriteTo(IScraperSink sink);
+    ScraperSinkConfig WriteTo { get; }
+    IScraper AddSink(IScraperSink sink);
     IScraper Limit(int limit);
     IScraper IgnoreUrls(params string[] urls);
     IScraper Paginate(string paginationSelector);
