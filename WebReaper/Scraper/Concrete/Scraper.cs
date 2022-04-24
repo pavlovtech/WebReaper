@@ -185,7 +185,8 @@ public class Scraper : IScraper
             JobQueueWriter,
             httpClient.Value,
             Logger)
-            .IgnoreUrls(this.urlBlackList);
+            .IgnoreUrls(this.urlBlackList)
+            .Limit(limit);
 
         var spiderTasks = Enumerable
             .Range(0, parallelismDegree)

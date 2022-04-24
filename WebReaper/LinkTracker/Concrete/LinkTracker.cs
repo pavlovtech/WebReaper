@@ -22,6 +22,15 @@ public class LinkTracker : ILinkTracker
         }
     }
 
-    public IEnumerable<string> GetVisitedLinks(string siteUrl) =>
-        visitedUrlsPerSite[siteUrl];
+    public IEnumerable<string> GetVisitedLinks(string siteUrl)
+    {
+        var successful = visitedUrlsPerSite.TryGetValue(siteUrl, out var result);
+
+        if(!successful)
+        {
+            return Enumerable.Empty<string>();
+        }
+
+        return result!;
+    }
 }

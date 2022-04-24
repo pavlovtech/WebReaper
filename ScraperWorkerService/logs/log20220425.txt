@@ -67,3 +67,1069 @@
 2022-04-25 00:41:33.453 +03:00 [INF] Handle on target page was called 18 times
 2022-04-25 00:41:34.565 +03:00 [INF] Handle on target page was called 19 times
 2022-04-25 00:41:35.471 +03:00 [INF] Handle on target page was called 20 times
+2022-04-25 00:47:08.652 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:08.769 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:08.810 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:08.853 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:08.901 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:08.968 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:09.013 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:09.054 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:09.098 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:09.141 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:09.183 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:09.232 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:09.277 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:09.318 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:09.408 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:09.554 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:09.618 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:09.668 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:09.716 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:09.768 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:09.816 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:09.914 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:09.961 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:10.003 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:10.069 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:10.111 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:10.150 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:10.190 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:10.230 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:10.269 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:10.310 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:10.351 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:10.426 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:10.467 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:10.510 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:10.553 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:10.595 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:10.637 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:10.678 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:10.721 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:10.764 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:10.807 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:10.849 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:10.890 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:10.931 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:10.972 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:11.014 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:11.054 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:11.096 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:11.137 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:11.177 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:11.217 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:11.257 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:11.298 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:11.339 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:11.379 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:11.419 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:11.459 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:11.502 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:11.541 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:11.582 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:11.623 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:11.663 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:11.704 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:11.744 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:11.785 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:11.826 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:11.866 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:11.907 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:11.947 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:11.988 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:12.028 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:12.069 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:12.110 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:12.151 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:12.192 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:12.231 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:12.272 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:12.312 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:12.352 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:12.393 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:12.433 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:12.474 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:12.514 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:12.555 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:12.595 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:12.636 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:12.677 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:12.716 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:12.757 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:12.799 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:12.840 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:12.882 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:12.922 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:12.962 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:13.004 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:13.048 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:13.092 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:13.131 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:13.172 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:13.213 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:13.253 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:13.293 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:13.332 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:13.372 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:13.417 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:13.457 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:13.499 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:13.539 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:13.580 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:13.620 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:13.661 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:13.701 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:13.743 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:13.784 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:13.826 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:13.867 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:13.908 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:13.949 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:13.991 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:14.032 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:14.072 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:14.114 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:14.154 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:14.195 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:14.237 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:14.278 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:14.320 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:14.363 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:14.404 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:14.447 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:14.488 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:14.530 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:14.571 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:14.613 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:14.654 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:14.696 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:14.737 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:14.776 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:14.817 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:14.859 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:14.903 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:14.944 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:14.984 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:47:15.025 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=438
+System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.to/forum/' was not present in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.ThrowKeyNotFoundException(TKey key)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   at WebReaper.LinkTracker.Concrete.LinkTracker.GetVisitedLinks(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/Concrete/LinkTracker.cs:line 26
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 96
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 80
+2022-04-25 00:53:02.558 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-25 00:53:02.608 +03:00 [INF] Hosting environment: Development
+2022-04-25 00:53:02.610 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-25 00:53:07.137 +03:00 [INF] Handle on target page was called 1 times
+2022-04-25 00:53:08.190 +03:00 [INF] Handle on target page was called 2 times
+2022-04-25 00:53:09.094 +03:00 [INF] Handle on target page was called 3 times
+2022-04-25 00:53:10.133 +03:00 [INF] Handle on target page was called 4 times
+2022-04-25 00:53:11.100 +03:00 [INF] Handle on target page was called 5 times
+2022-04-25 00:53:12.089 +03:00 [INF] Handle on target page was called 6 times
+2022-04-25 00:53:13.114 +03:00 [INF] Handle on target page was called 7 times
+2022-04-25 00:53:14.083 +03:00 [INF] Handle on target page was called 8 times
+2022-04-25 00:53:15.149 +03:00 [INF] Handle on target page was called 9 times
+2022-04-25 00:53:16.106 +03:00 [INF] Handle on target page was called 10 times
+2022-04-25 00:53:17.097 +03:00 [INF] Handle on target page was called 11 times
+2022-04-25 00:53:18.105 +03:00 [INF] Handle on target page was called 12 times
+2022-04-25 00:53:19.101 +03:00 [INF] Handle on target page was called 13 times
+2022-04-25 00:53:20.161 +03:00 [INF] Handle on target page was called 14 times
+2022-04-25 00:53:21.136 +03:00 [INF] Handle on target page was called 15 times
+2022-04-25 00:53:22.174 +03:00 [INF] Handle on target page was called 16 times
+2022-04-25 00:53:23.097 +03:00 [INF] Handle on target page was called 17 times
+2022-04-25 00:53:24.087 +03:00 [INF] Handle on target page was called 18 times
+2022-04-25 00:53:25.096 +03:00 [INF] Handle on target page was called 19 times
+2022-04-25 00:53:26.099 +03:00 [INF] Handle on target page was called 20 times
+2022-04-25 00:53:27.139 +03:00 [INF] Handle on target page was called 21 times
+2022-04-25 00:53:28.092 +03:00 [INF] Handle on target page was called 22 times
+2022-04-25 00:53:29.125 +03:00 [INF] Handle on target page was called 23 times
+2022-04-25 00:53:30.102 +03:00 [INF] Handle on target page was called 24 times
+2022-04-25 00:53:31.083 +03:00 [INF] Handle on target page was called 25 times
+2022-04-25 00:53:32.134 +03:00 [INF] Handle on target page was called 26 times
+2022-04-25 00:53:33.108 +03:00 [INF] Handle on target page was called 27 times
+2022-04-25 00:53:34.093 +03:00 [INF] Handle on target page was called 28 times
+2022-04-25 00:53:35.126 +03:00 [INF] Handle on target page was called 29 times
+2022-04-25 00:53:36.158 +03:00 [INF] Handle on target page was called 30 times
+2022-04-25 00:53:37.109 +03:00 [INF] Handle on target page was called 31 times
+2022-04-25 00:53:38.129 +03:00 [INF] Handle on target page was called 32 times
+2022-04-25 00:53:39.106 +03:00 [INF] Handle on target page was called 33 times
+2022-04-25 00:53:40.113 +03:00 [INF] Handle on target page was called 34 times
+2022-04-25 00:53:41.102 +03:00 [INF] Handle on target page was called 35 times
+2022-04-25 00:53:42.104 +03:00 [INF] Handle on target page was called 36 times
+2022-04-25 00:53:43.140 +03:00 [INF] Handle on target page was called 37 times
+2022-04-25 00:53:44.083 +03:00 [INF] Handle on target page was called 38 times
+2022-04-25 00:53:45.147 +03:00 [INF] Handle on target page was called 39 times
+2022-04-25 00:53:46.153 +03:00 [INF] Handle on target page was called 40 times
+2022-04-25 00:53:47.140 +03:00 [INF] Handle on target page was called 41 times
+2022-04-25 00:53:49.498 +03:00 [INF] Handle on target page was called 42 times
+2022-04-25 00:53:49.693 +03:00 [INF] Handle on target page was called 43 times
+2022-04-25 00:53:51.591 +03:00 [INF] Handle on target page was called 44 times
+2022-04-25 00:53:52.223 +03:00 [INF] Handle on target page was called 45 times
+2022-04-25 00:53:52.803 +03:00 [INF] Handle on target page was called 46 times
+2022-04-25 00:53:53.865 +03:00 [INF] Handle on target page was called 47 times
+2022-04-25 00:53:54.875 +03:00 [INF] Handle on target page was called 48 times

@@ -31,6 +31,7 @@ public class ScrapingWorker : BackgroundService
                 new("torrentLink", "a[href*='download.php?']", ContentType.Url)
             })
             .WithParallelismDegree(10)
+            .Limit(50)
             .WriteTo(new FileSink("result.json"))
             .WriteTo(new ConsoleSink());
     }

@@ -15,7 +15,7 @@ using WebReaper.Scraper.Absctract;
 namespace WebReaper.Spider.Concrete;
 
 public class Spider : ISpider
-{    
+{
     private readonly ILinkParser linkParser;
     private readonly IContentParser contentParser;
     private readonly ILinkTracker linkTracker;
@@ -26,6 +26,8 @@ public class Spider : ISpider
     private ILogger _logger;
 
     private string[] urlBlackList = Array.Empty<string>();
+
+    private int limit = int.MaxValue;
 
     public List<IScraperSink> Sinks { get; set; }
 
@@ -58,6 +60,13 @@ public class Spider : ISpider
         this.urlBlackList = urlBlackList;
         return this;
     }
+    
+    public ISpider Limit(int limit)
+    {
+        this.limit = limit;
+        return this;
+    }
+
 
     public async Task Crawl()
     {
@@ -84,6 +93,11 @@ public class Spider : ISpider
     {
         if (urlBlackList.Contains(job.Url)) return;
 
+        if (linkTracker.GetVisitedLinks(job.BaseUrl).Count() >= limit)
+        {
+            return;
+        }
+
         linkTracker.AddVisitedLink(job.BaseUrl, job.Url);
 
         var doc = await httpClient.GetStringAsync(job.Url);
@@ -103,7 +117,7 @@ public class Spider : ISpider
             //_logger.LogInformation("target page: {page}", doc.DocumentNode.QuerySelector("title").InnerText);
             return;
         }
-        
+
         var newLinkPathSelectors = job.LinkPathSelectors.Dequeue(out var currentSelector);
 
         var links = linkParser.GetLinks(doc, currentSelector.Selector)
@@ -112,13 +126,13 @@ public class Spider : ISpider
 
         AddToQueue(job.schema, job.BaseUrl, newLinkPathSelectors, links, job.DepthLevel + 1);
 
-        if (job.PageType == PageType.PageWithPagination) 
+        if (job.PageType == PageType.PageWithPagination)
         {
             var linksToPaginatedPages = linkParser.GetLinks(doc, currentSelector.PaginationSelector)
                 .Select(link => job.BaseUrl + link)
                 .Except(linkTracker.GetVisitedLinks(job.BaseUrl));
 
-            if(!linksToPaginatedPages.Any())
+            if (!linksToPaginatedPages.Any())
             {
                 _logger.LogInformation("No pages with pagination found with selector {selector} on {url}", currentSelector.PaginationSelector, job.Url);
             }
