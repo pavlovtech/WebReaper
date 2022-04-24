@@ -1,0 +1,69 @@
+2022-04-25 00:36:40.749 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-25 00:36:40.794 +03:00 [INF] Hosting environment: Development
+2022-04-25 00:36:40.795 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-25 00:36:43.272 +03:00 [INF] Handle on target page was called 1 times
+2022-04-25 00:36:50.973 +03:00 [INF] Handle on target page was called 2 times
+2022-04-25 00:36:52.923 +03:00 [INF] Handle on target page was called 3 times
+2022-04-25 00:36:59.402 +03:00 [INF] Handle on target page was called 4 times
+2022-04-25 00:37:00.674 +03:00 [INF] Handle on target page was called 5 times
+2022-04-25 00:37:02.504 +03:00 [INF] Handle on target page was called 6 times
+2022-04-25 00:37:11.325 +03:00 [INF] Handle on target page was called 7 times
+2022-04-25 00:37:14.046 +03:00 [INF] Handle on target page was called 8 times
+2022-04-25 00:38:08.092 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-25 00:38:08.134 +03:00 [INF] Hosting environment: Development
+2022-04-25 00:38:08.135 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-25 00:38:11.615 +03:00 [INF] Handle on target page was called 1 times
+2022-04-25 00:38:16.326 +03:00 [INF] Handle on target page was called 2 times
+2022-04-25 00:38:17.359 +03:00 [INF] Handle on target page was called 3 times
+2022-04-25 00:38:18.317 +03:00 [INF] Handle on target page was called 4 times
+2022-04-25 00:38:19.237 +03:00 [INF] Handle on target page was called 5 times
+2022-04-25 00:38:20.375 +03:00 [INF] Handle on target page was called 6 times
+2022-04-25 00:38:21.254 +03:00 [INF] Handle on target page was called 7 times
+2022-04-25 00:38:22.403 +03:00 [INF] Handle on target page was called 8 times
+2022-04-25 00:38:24.019 +03:00 [INF] Handle on target page was called 9 times
+2022-04-25 00:38:24.278 +03:00 [INF] Handle on target page was called 10 times
+2022-04-25 00:38:25.355 +03:00 [INF] Handle on target page was called 11 times
+2022-04-25 00:38:26.518 +03:00 [INF] Handle on target page was called 12 times
+2022-04-25 00:38:27.266 +03:00 [INF] Handle on target page was called 13 times
+2022-04-25 00:38:28.247 +03:00 [INF] Handle on target page was called 14 times
+2022-04-25 00:38:29.235 +03:00 [INF] Handle on target page was called 15 times
+2022-04-25 00:38:30.308 +03:00 [INF] Handle on target page was called 16 times
+2022-04-25 00:38:31.236 +03:00 [INF] Handle on target page was called 17 times
+2022-04-25 00:38:32.231 +03:00 [INF] Handle on target page was called 18 times
+2022-04-25 00:38:33.260 +03:00 [INF] Handle on target page was called 19 times
+2022-04-25 00:38:34.291 +03:00 [INF] Handle on target page was called 20 times
+2022-04-25 00:38:35.228 +03:00 [INF] Handle on target page was called 21 times
+2022-04-25 00:38:36.236 +03:00 [INF] Handle on target page was called 22 times
+2022-04-25 00:38:37.275 +03:00 [INF] Handle on target page was called 23 times
+2022-04-25 00:38:38.259 +03:00 [INF] Handle on target page was called 24 times
+2022-04-25 00:38:39.228 +03:00 [INF] Handle on target page was called 25 times
+2022-04-25 00:38:40.249 +03:00 [INF] Handle on target page was called 26 times
+2022-04-25 00:38:41.220 +03:00 [INF] Handle on target page was called 27 times
+2022-04-25 00:38:42.253 +03:00 [INF] Handle on target page was called 28 times
+2022-04-25 00:38:43.268 +03:00 [INF] Handle on target page was called 29 times
+2022-04-25 00:38:44.266 +03:00 [INF] Handle on target page was called 30 times
+2022-04-25 00:38:45.286 +03:00 [INF] Handle on target page was called 31 times
+2022-04-25 00:38:46.271 +03:00 [INF] Handle on target page was called 32 times
+2022-04-25 00:41:12.908 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-25 00:41:12.949 +03:00 [INF] Hosting environment: Development
+2022-04-25 00:41:12.950 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-25 00:41:15.542 +03:00 [INF] Handle on target page was called 1 times
+2022-04-25 00:41:17.813 +03:00 [INF] Handle on target page was called 2 times
+2022-04-25 00:41:19.228 +03:00 [INF] Handle on target page was called 3 times
+2022-04-25 00:41:19.692 +03:00 [INF] Handle on target page was called 4 times
+2022-04-25 00:41:20.505 +03:00 [INF] Handle on target page was called 5 times
+2022-04-25 00:41:21.458 +03:00 [INF] Handle on target page was called 6 times
+2022-04-25 00:41:22.488 +03:00 [INF] Handle on target page was called 7 times
+2022-04-25 00:41:23.477 +03:00 [INF] Handle on target page was called 8 times
+2022-04-25 00:41:24.475 +03:00 [INF] Handle on target page was called 9 times
+2022-04-25 00:41:25.661 +03:00 [INF] Handle on target page was called 10 times
+2022-04-25 00:41:26.483 +03:00 [INF] Handle on target page was called 11 times
+2022-04-25 00:41:27.547 +03:00 [INF] Handle on target page was called 12 times
+2022-04-25 00:41:28.464 +03:00 [INF] Handle on target page was called 13 times
+2022-04-25 00:41:29.480 +03:00 [INF] Handle on target page was called 14 times
+2022-04-25 00:41:30.630 +03:00 [INF] Handle on target page was called 15 times
+2022-04-25 00:41:31.451 +03:00 [INF] Handle on target page was called 16 times
+2022-04-25 00:41:32.457 +03:00 [INF] Handle on target page was called 17 times
+2022-04-25 00:41:33.453 +03:00 [INF] Handle on target page was called 18 times
+2022-04-25 00:41:34.565 +03:00 [INF] Handle on target page was called 19 times
+2022-04-25 00:41:35.471 +03:00 [INF] Handle on target page was called 20 times

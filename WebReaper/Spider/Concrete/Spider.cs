@@ -10,6 +10,7 @@ using WebReaper.Spider.Abastract;
 using System.Net;
 using System.Text;
 using WebReaper.LinkTracker.Abstract;
+using WebReaper.Scraper.Absctract;
 
 namespace WebReaper.Spider.Concrete;
 
@@ -26,7 +27,10 @@ public class Spider : ISpider
 
     private string[] urlBlackList = Array.Empty<string>();
 
+    public List<IScraperSink> Sinks { get; set; }
+
     public Spider(
+        List<IScraperSink> sinks,
         ILinkParser linkParser,
         IContentParser contentParser,
         ILinkTracker linkTracker,
@@ -38,7 +42,7 @@ public class Spider : ISpider
         ServicePointManager.DefaultConnectionLimit = int.MaxValue;
         ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
+        Sinks = sinks;
         this.linkParser = linkParser;
         this.contentParser = contentParser;
         this.linkTracker = linkTracker;
@@ -88,9 +92,13 @@ public class Spider : ISpider
         {
             _logger.LogInvocationCount("Handle on target page");
             // TODO: save to file or something
-            var contetnt = contentParser.Parse(doc, job.schema);
+            var result = contentParser.Parse(doc, job.schema);
 
-            _logger.LogInformation("Parsed page: {page}", contetnt.ToString());
+            var sinkTasks = Sinks.Select(sink => sink.Emit(result));
+
+            await Task.WhenAll(sinkTasks);
+
+            //_logger.LogInformation("Parsed page: {page}", contetnt.ToString());
 
             //_logger.LogInformation("target page: {page}", doc.DocumentNode.QuerySelector("title").InnerText);
             return;

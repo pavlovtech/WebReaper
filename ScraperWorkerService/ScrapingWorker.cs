@@ -30,8 +30,9 @@ public class ScrapingWorker : BackgroundService
                 new("torrentSize", "td.genmed>span"),
                 new("torrentLink", "a[href*='download.php?']", ContentType.Url)
             })
-            .WithParallelismDegree(1)
-            .To("output.json");
+            .WithParallelismDegree(10)
+            .WriteTo(new FileSink("result.json"))
+            .WriteTo(new ConsoleSink());
     }
 
     protected CookieContainer Auth() {

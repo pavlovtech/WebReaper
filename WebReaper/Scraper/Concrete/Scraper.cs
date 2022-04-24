@@ -1,7 +1,4 @@
 ﻿using System.Net;
-using Newtonsoft.Json.Linq;
-using HtmlAgilityPack;
-using Fizzler.Systems.HtmlAgilityPack;
 using WebReaper.Domain;
 using Microsoft.Extensions.Logging;
 using WebReaper.Queue.Abstract;
@@ -12,7 +9,7 @@ using System.Collections.Immutable;
 using WebReaper.Parser.Concrete;
 using System.Net.Security;
 using WebReaper.LinkTracker.Abstract;
-using WebReaper.LinkTracker.Concrete;
+using WebReaper.Scraper.Absctract;
 
 namespace WebReaper.Scraper.Concrete;
 
@@ -20,12 +17,14 @@ namespace WebReaper.Scraper.Concrete;
 // puppeter
 public class Scraper : IScraper
 {
+    public List<IScraperSink> Sinks { get; set; } = new(); 
+
     protected List<LinkPathSelector> linkPathSelectors = new();
+    
     protected int limit = int.MaxValue;
 
     protected BlockingCollection<Job> jobs = new(new ProducerConsumerPriorityQueue());
 
-    private string filePath = "output.json";
     private string? startUrl;
 
     private SchemaElement[]? schema = Array.Empty<SchemaElement>();
@@ -118,6 +117,12 @@ public class Scraper : IScraper
         return this;
     }
 
+    public IScraper WriteTo(IScraperSink sink)
+    {
+        Sinks.Add(sink);
+        return this;
+    }
+
     public IScraper IgnoreUrls(params string[] urls)
     {
         this.urlBlackList = urls;
@@ -159,12 +164,6 @@ public class Scraper : IScraper
         return this;
     }
 
-    public IScraper To(string filePath)
-    {
-        this.filePath = filePath;
-        return this;
-    }
-
     public async Task Run()
     {
         ArgumentNullException.ThrowIfNull(startUrl);
@@ -178,6 +177,7 @@ public class Scraper : IScraper
             DepthLevel: 0));
 
         var spider = new WebReaper.Spider.Concrete.Spider(
+            Sinks,
             LinkParser,
             ContentParser,
             SiteLinkTracker,
