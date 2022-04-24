@@ -172,19 +172,19 @@ public class Scraper : IScraper
     {
         switch (item.Type)
         {
-            case DataType.String:
+            case ContentType.String:
                 obj[item.Field] = doc.DocumentNode.QuerySelector(item.Selector).InnerText;
                 break;
-            case DataType.Number:
+            case ContentType.Number:
                 obj[item.Field] = double.Parse(doc.DocumentNode.QuerySelector(item.Selector).InnerText);
                 break;
-            case DataType.Boolean:
+            case ContentType.Boolean:
                 obj[item.Field] = bool.Parse(doc.DocumentNode.QuerySelector(item.Selector).InnerText);
                 break;
-            case DataType.Image:
+            case ContentType.Image:
                 obj[item.Field] = doc.DocumentNode.QuerySelector(item.Selector).GetAttributeValue("src", "");
                 break;
-            case DataType.Html:
+            case ContentType.Html:
                 obj[item.Field] = doc.DocumentNode.QuerySelector(item.Selector).InnerHtml;
                 break;
                 // case JsonType.Array: 

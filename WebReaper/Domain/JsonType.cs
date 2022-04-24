@@ -1,11 +1,12 @@
 ﻿namespace WebReaper.Domain;
 
-public enum DataType
+public enum ContentType
 {
     String,
     Number,
     Boolean,
     Array,
     Html,
-    Image
+    Image,
+    PageUrl
 }

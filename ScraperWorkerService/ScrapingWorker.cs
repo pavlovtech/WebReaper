@@ -28,8 +28,17 @@ public class ScrapingWorker : BackgroundService
             .FollowLinks("a.torTopic")
             .Paginate(".pg")
             .WithScheme(new SchemaElement[] {
-                new("title", "title"),
-                new("name", ".post_body>span"),
+                new("OriginUrl", ContentType.PageUrl),
+                new("coverImageUrl", ".postImg", ContentType.Image),
+                new("name", "#topic-title"),
+                new("category", ".t-breadcrumb-top>a:nth-child(3)"),
+                new("subcategory", ".t-breadcrumb-top>a:nth-child(4)"),
+                new("torrentSize", "div.attach_link.guest>ul>li:nth-child(2)"),
+                new("TorrentLink", ".magnet-link"),
+                //new("Seeds", ".post_body>span"),
+                //new("Leeches", ".post_body>span"),
+                //new("Downloads", ".post_body>span"),
+                //new("Replays", ".post_body>span")
             })
             .IgnoreUrls(blackList)
             .WithParallelismDegree(1)
