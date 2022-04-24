@@ -8,5 +8,5 @@ public enum ContentType
     Array,
     Html,
     Image,
-    PageUrl
+    Url
 }

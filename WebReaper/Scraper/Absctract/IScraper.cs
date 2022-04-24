@@ -17,4 +17,5 @@ public interface IScraper
     IScraper WithPuppeter(WebProxy[] proxies);
     IScraper WithScheme(SchemaElement[] schema);
     IScraper WithParallelismDegree(int parallelismDegree);
+    IScraper Authorize(Func<CookieContainer> authorize);
 }

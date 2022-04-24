@@ -9,42 +9,30 @@ using WebReaper.Queue.Abstract;
 using WebReaper.Spider.Abastract;
 using System.Net;
 using System.Text;
+using WebReaper.LinkTracker.Abstract;
 
 namespace WebReaper.Spider.Concrete;
 
 public class Spider : ISpider
-{
-    protected ConcurrentDictionary<string, byte> visitedUrls = new();
-    
+{    
     private readonly ILinkParser linkParser;
-
+    private readonly IContentParser contentParser;
+    private readonly ILinkTracker linkTracker;
     private readonly IJobQueueReader jobQueueReader;
 
     private readonly IJobQueueWriter jobQueueWriter;
-
+    private readonly HttpClient httpClient;
     private ILogger _logger;
 
     private string[] urlBlackList = Array.Empty<string>();
 
-    protected static HttpClient httpClient = new(new SocketsHttpHandler()
-    {
-        MaxConnectionsPerServer = 100,
-        SslOptions = new SslClientAuthenticationOptions
-        {
-            // Leave certs unvalidated for debugging
-            RemoteCertificateValidationCallback = delegate { return true; },
-        },
-        PooledConnectionIdleTimeout = TimeSpan.FromMinutes(2),
-        PooledConnectionLifetime = Timeout.InfiniteTimeSpan
-    })
-    {
-        //Timeout = TimeSpan.FromMinutes(2)
-    };
-
     public Spider(
         ILinkParser linkParser,
+        IContentParser contentParser,
+        ILinkTracker linkTracker,
         IJobQueueReader jobQueueReader,
         IJobQueueWriter jobQueueWriter,
+        HttpClient httpClient,
         ILogger logger)
     {
         ServicePointManager.DefaultConnectionLimit = int.MaxValue;
@@ -52,8 +40,12 @@ public class Spider : ISpider
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
         this.linkParser = linkParser;
+        this.contentParser = contentParser;
+        this.linkTracker = linkTracker;
         this.jobQueueReader = jobQueueReader;
         this.jobQueueWriter = jobQueueWriter;
+        this.httpClient = httpClient;
+
         _logger = logger;
     }
 
@@ -88,7 +80,7 @@ public class Spider : ISpider
     {
         if (urlBlackList.Contains(job.Url)) return;
 
-        visitedUrls.TryAdd(job.Url, 0);
+        linkTracker.AddVisitedLink(job.BaseUrl, job.Url);
 
         var doc = await httpClient.GetStringAsync(job.Url);
 
@@ -96,6 +88,10 @@ public class Spider : ISpider
         {
             _logger.LogInvocationCount("Handle on target page");
             // TODO: save to file or something
+            var contetnt = contentParser.Parse(doc, job.schema);
+
+            _logger.LogInformation("Parsed page: {page}", contetnt.ToString());
+
             //_logger.LogInformation("target page: {page}", doc.DocumentNode.QuerySelector("title").InnerText);
             return;
         }
@@ -103,30 +99,36 @@ public class Spider : ISpider
         var newLinkPathSelectors = job.LinkPathSelectors.Dequeue(out var currentSelector);
 
         var links = linkParser.GetLinks(doc, currentSelector.Selector)
-            .Select(link => job.BaseUrl + link);
+            .Select(link => job.BaseUrl + link)
+            .Except(linkTracker.GetVisitedLinks(job.BaseUrl));
 
-        AddToQueue(job.BaseUrl, newLinkPathSelectors, links, job.DepthLevel + 1);
+        AddToQueue(job.schema, job.BaseUrl, newLinkPathSelectors, links, job.DepthLevel + 1);
 
         if (job.PageType == PageType.PageWithPagination) 
         {
             var linksToPaginatedPages = linkParser.GetLinks(doc, currentSelector.PaginationSelector)
-                .Select(link => job.BaseUrl + link);
+                .Select(link => job.BaseUrl + link)
+                .Except(linkTracker.GetVisitedLinks(job.BaseUrl));
 
-            AddToQueue(job.BaseUrl, job.LinkPathSelectors, linksToPaginatedPages, job.DepthLevel + 1);
+            if(!linksToPaginatedPages.Any())
+            {
+                _logger.LogInformation("No pages with pagination found with selector {selector} on {url}", currentSelector.PaginationSelector, job.Url);
+            }
+
+            AddToQueue(job.schema, job.BaseUrl, job.LinkPathSelectors, linksToPaginatedPages, job.DepthLevel + 1);
         }
     }
 
     private void AddToQueue(
+        SchemaElement[] schema,
         string baseUrl,
         ImmutableQueue<LinkPathSelector> selectors,
         IEnumerable<string> links,
         int depthLevel)
     {
-        var newLinks = links.Except(visitedUrls.Keys);
-
-        foreach (var link in newLinks)
+        foreach (var link in links)
         {
-            var newJob = new Job(baseUrl, link, selectors, depthLevel);
+            var newJob = new Job(schema, baseUrl, link, selectors, depthLevel);
             jobQueueWriter.Write(newJob);
         }
     }

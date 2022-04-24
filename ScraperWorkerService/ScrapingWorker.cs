@@ -1,4 +1,7 @@
-﻿using WebReaper.Domain;
+﻿using System.Net;
+using Fizzler.Systems.HtmlAgilityPack;
+using HtmlAgilityPack;
+using WebReaper.Domain;
 using WebReaper.Scraper.Abstract;
 using WebReaper.Scraper.Concrete;
 
@@ -13,36 +16,52 @@ public class ScrapingWorker : BackgroundService
     {
         _logger = logger;
 
-        var blackList = new string[] {
-            "https://rutracker.org/forum/viewforum.php?f=396",
-            "https://rutracker.org/forum/viewforum.php?f=2322",
-            "https://rutracker.org/forum/viewforum.php?f=1993",
-            "https://rutracker.org/forum/viewforum.php?f=2167",
-            "https://rutracker.org/forum/viewforum.php?f=2321"
-        };
-
         scraper = new Scraper(logger)
-            .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
-            .FollowLinks("#cf-33 .forumlink>a")
-            .FollowLinks(".forumlink>a")
-            .FollowLinks("a.torTopic")
-            .Paginate(".pg")
+            .WithStartUrl("https://nnmclub.to/forum/viewforum.php?f=438")
+            .Authorize(() => Auth())
+            .FollowLinks("h2>a.forumlink")
+            .FollowLinks("a.topictitle")
+            .Paginate("td>span.nav>a[href*='start=']")
             .WithScheme(new SchemaElement[] {
-                new("OriginUrl", ContentType.PageUrl),
                 new("coverImageUrl", ".postImg", ContentType.Image),
-                new("name", "#topic-title"),
-                new("category", ".t-breadcrumb-top>a:nth-child(3)"),
-                new("subcategory", ".t-breadcrumb-top>a:nth-child(4)"),
-                new("torrentSize", "div.attach_link.guest>ul>li:nth-child(2)"),
-                new("TorrentLink", ".magnet-link"),
-                //new("Seeds", ".post_body>span"),
-                //new("Leeches", ".post_body>span"),
-                //new("Downloads", ".post_body>span"),
-                //new("Replays", ".post_body>span")
+                new("name", "div.postbody>span"),
+                new("category", "td:nth-child(2)>span>a:nth-child(2)"),
+                new("subcategory", "td:nth-child(2)>span>a:nth-child(3)"),
+                new("torrentSize", "td.genmed>span"),
+                new("torrentLink", "a[href*='download.php?']", ContentType.Url)
             })
-            .IgnoreUrls(blackList)
             .WithParallelismDegree(1)
             .To("output.json");
+    }
+
+    protected CookieContainer Auth() {
+        CookieContainer cookies = new CookieContainer();
+
+        var web = new HtmlWeb();
+        var doc = web.Load("https://nnmclub.to/forum/login.php");
+        var code = doc.DocumentNode.QuerySelector("input[type=hidden][name=code]").GetAttributeValue("value", "");
+
+        HttpClientHandler handler = new HttpClientHandler();
+        handler.CookieContainer = cookies;
+
+        var httpClient = new HttpClient(handler);
+
+        var formContent = new FormUrlEncodedContent(new[]
+        {
+            new KeyValuePair<string, string>("username", "gif0"), 
+            new KeyValuePair<string, string>("password", "111111"),
+            new KeyValuePair<string, string>("autologin", "on"),
+            new KeyValuePair<string, string>("redirect", ""),
+            new KeyValuePair<string, string>("code", code),
+            new KeyValuePair<string, string>("login", "Вход") 
+        });
+
+        var resp = httpClient
+            .PostAsync("https://nnmclub.to/forum/login.php", formContent)
+            .GetAwaiter()
+            .GetResult();
+
+        return cookies;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)

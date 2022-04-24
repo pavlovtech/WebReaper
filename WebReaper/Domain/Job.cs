@@ -2,6 +2,7 @@ using System.Collections.Immutable;
 namespace WebReaper.Domain;
 
 public record Job(
+    SchemaElement[] schema,
     string BaseUrl,
     string Url,
     ImmutableQueue<LinkPathSelector> LinkPathSelectors,

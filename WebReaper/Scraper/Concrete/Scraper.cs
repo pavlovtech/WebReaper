@@ -10,6 +10,9 @@ using WebReaper.Queue.Concrete;
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using WebReaper.Parser.Concrete;
+using System.Net.Security;
+using WebReaper.LinkTracker.Abstract;
+using WebReaper.LinkTracker.Concrete;
 
 namespace WebReaper.Scraper.Concrete;
 
@@ -43,7 +46,25 @@ public class Scraper : IScraper
 
     protected ILinkParser LinkParser = new LinkParserByCssSelector();
 
-    protected string[] urlBlackList;
+    protected ILinkTracker SiteLinkTracker = new WebReaper.LinkTracker.Concrete.LinkTracker();
+
+    protected IContentParser ContentParser = new ContentParser();
+
+    protected static SocketsHttpHandler httpHandler = new SocketsHttpHandler()
+    {
+        MaxConnectionsPerServer = 100,
+        SslOptions = new SslClientAuthenticationOptions
+        {
+            // Leave certs unvalidated for debugging
+            RemoteCertificateValidationCallback = delegate { return true; },
+        },
+        PooledConnectionIdleTimeout = TimeSpan.FromMinutes(2),
+        PooledConnectionLifetime = Timeout.InfiniteTimeSpan
+    };
+
+    protected Lazy<HttpClient> httpClient = new Lazy<HttpClient>(() => new HttpClient(httpHandler));
+
+    protected string[] urlBlackList = Array.Empty<string>();
 
     protected int ParallelismDegree { get; private set; }
 
@@ -65,6 +86,15 @@ public class Scraper : IScraper
         var segments = startUri.Segments;
 
         this.baseUrl = baseUrl + string.Join(string.Empty, segments.SkipLast(1));
+
+        return this;
+    }
+
+    public IScraper Authorize(Func<CookieContainer> authorize)
+    {
+        var CookieContainer = authorize();
+
+        httpHandler.CookieContainer = CookieContainer;
 
         return this;
     }
@@ -141,12 +171,20 @@ public class Scraper : IScraper
         ArgumentNullException.ThrowIfNull(baseUrl);
 
         JobQueueWriter.Write(new Job(
+            schema,
             baseUrl,
             startUrl,
             ImmutableQueue.Create<LinkPathSelector>(linkPathSelectors.ToArray()),
             DepthLevel: 0));
 
-        var spider = new WebReaper.Spider.Concrete.Spider(LinkParser, JobQueueReader, JobQueueWriter, Logger)
+        var spider = new WebReaper.Spider.Concrete.Spider(
+            LinkParser,
+            ContentParser,
+            SiteLinkTracker,
+            JobQueueReader,
+            JobQueueWriter,
+            httpClient.Value,
+            Logger)
             .IgnoreUrls(this.urlBlackList);
 
         var spiderTasks = Enumerable
@@ -154,49 +192,5 @@ public class Scraper : IScraper
             .Select(_ => spider.Crawl());
 
         await Task.WhenAll(spiderTasks);
-    }
-
-    private JObject GetJson(HtmlDocument doc)
-    {
-        var output = new JObject();
-
-        foreach (var item in schema)
-        {
-            var result = FillOutput(output, doc, item);
-        }
-
-        return output;
-    }
-
-    private JObject FillOutput(JObject obj, HtmlDocument doc, SchemaElement item)
-    {
-        switch (item.Type)
-        {
-            case ContentType.String:
-                obj[item.Field] = doc.DocumentNode.QuerySelector(item.Selector).InnerText;
-                break;
-            case ContentType.Number:
-                obj[item.Field] = double.Parse(doc.DocumentNode.QuerySelector(item.Selector).InnerText);
-                break;
-            case ContentType.Boolean:
-                obj[item.Field] = bool.Parse(doc.DocumentNode.QuerySelector(item.Selector).InnerText);
-                break;
-            case ContentType.Image:
-                obj[item.Field] = doc.DocumentNode.QuerySelector(item.Selector).GetAttributeValue("src", "");
-                break;
-            case ContentType.Html:
-                obj[item.Field] = doc.DocumentNode.QuerySelector(item.Selector).InnerHtml;
-                break;
-                // case JsonType.Array: 
-                //     var arr = new JArray();
-                //     obj[item.Field] = arr;
-                //     foreach(var el in item.Children) {
-                //         var result = FillOutput(doc, el);
-                //         arr.Add(result);
-                //     }
-                //     break;
-        }
-
-        return obj;
     }
 }
