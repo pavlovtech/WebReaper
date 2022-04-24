@@ -9,7 +9,7 @@ using System.Collections.Immutable;
 using WebReaper.Parser.Concrete;
 using System.Net.Security;
 using WebReaper.LinkTracker.Abstract;
-using WebReaper.Scraper.Absctract;
+using WebReaper.Sinks.Absctract;
 
 namespace WebReaper.Scraper.Concrete;
 

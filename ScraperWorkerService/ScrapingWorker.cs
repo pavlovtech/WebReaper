@@ -4,6 +4,7 @@ using HtmlAgilityPack;
 using WebReaper.Domain;
 using WebReaper.Scraper.Abstract;
 using WebReaper.Scraper.Concrete;
+using WebReaper.Sinks.Concrete;
 
 namespace ScraperWorkerService;
 

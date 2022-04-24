@@ -1133,3 +1133,15 @@ System.Collections.Generic.KeyNotFoundException: The given key 'https://nnmclub.
 2022-04-25 00:53:52.803 +03:00 [INF] Handle on target page was called 46 times
 2022-04-25 00:53:53.865 +03:00 [INF] Handle on target page was called 47 times
 2022-04-25 00:53:54.875 +03:00 [INF] Handle on target page was called 48 times
+2022-04-25 01:02:40.277 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-25 01:02:40.327 +03:00 [INF] Hosting environment: Development
+2022-04-25 01:02:40.328 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-25 01:02:43.386 +03:00 [INF] Handle on target page was called 1 times
+2022-04-25 01:02:43.916 +03:00 [INF] Handle on target page was called 2 times
+2022-04-25 01:02:44.862 +03:00 [INF] Handle on target page was called 3 times
+2022-04-25 01:02:45.884 +03:00 [INF] Handle on target page was called 4 times
+2022-04-25 01:02:46.849 +03:00 [INF] Handle on target page was called 5 times
+2022-04-25 01:02:47.848 +03:00 [INF] Handle on target page was called 6 times
+2022-04-25 01:02:48.982 +03:00 [INF] Handle on target page was called 7 times
+2022-04-25 01:02:49.845 +03:00 [INF] Handle on target page was called 8 times
+2022-04-25 01:02:50.864 +03:00 [INF] Handle on target page was called 9 times

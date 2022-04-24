@@ -1,8 +1,8 @@
 using System.Collections.Concurrent;
 using Newtonsoft.Json.Linq;
-using WebReaper.Scraper.Absctract;
+using WebReaper.Sinks.Absctract;
 
-namespace WebReaper.Scraper.Concrete
+namespace WebReaper.Sinks.Concrete
 {
     public class FileSink : IScraperSink
     {

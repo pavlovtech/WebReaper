@@ -4,13 +4,12 @@ using Microsoft.Extensions.Logging;
 using WebReaper.Domain;
 using WebReaper.Extensions;
 using System.Diagnostics;
-using System.Collections.Concurrent;
 using WebReaper.Queue.Abstract;
 using WebReaper.Spider.Abastract;
 using System.Net;
 using System.Text;
 using WebReaper.LinkTracker.Abstract;
-using WebReaper.Scraper.Absctract;
+using WebReaper.Sinks.Absctract;
 
 namespace WebReaper.Spider.Concrete;
 
@@ -95,6 +94,7 @@ public class Spider : ISpider
 
         if (linkTracker.GetVisitedLinks(job.BaseUrl).Count() >= limit)
         {
+            jobQueueWriter.CompleteAdding();
             return;
         }
 
