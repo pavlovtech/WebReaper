@@ -1,6 +1,6 @@
 ﻿namespace WebReaper.Domain;
 
-public enum JsonType
+public enum DataType
 {
     String,
     Number,

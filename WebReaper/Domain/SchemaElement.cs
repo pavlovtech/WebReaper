@@ -1,19 +1,19 @@
 namespace WebReaper.Domain;
 
-public class WebEl
+public class SchemaElement
 {
-    public WebEl[]? Children { get; set; }
+    public SchemaElement[]? Children { get; set; }
 
     public string Field { get; set; }
 
     public string? Selector { get; set; }
 
-    public JsonType? Type { get; set; }
+    public DataType? Type { get; set; }
 
-    public WebEl(
+    public SchemaElement(
         string field,
         string selector,
-        JsonType type = JsonType.String,
+        DataType type = DataType.String,
         string[]? excludeSelectors = null)
     {
         Field = field;
@@ -21,12 +21,12 @@ public class WebEl
         Type = type;
     }
 
-    public WebEl(
+    public SchemaElement(
         string field,
-        params WebEl[] children)
+        params SchemaElement[] children)
     {
         Field = field;
         Children = children;
-        Type = JsonType.Array;
+        Type = DataType.Array;
     }
 }

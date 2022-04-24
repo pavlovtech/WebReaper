@@ -9,6 +9,7 @@ using WebReaper.Scraper.Abstract;
 using WebReaper.Queue.Concrete;
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
+using WebReaper.Parser.Concrete;
 
 namespace WebReaper.Scraper.Concrete;
 
@@ -24,7 +25,7 @@ public class Scraper : IScraper
     private string filePath = "output.json";
     private string? startUrl;
 
-    private WebEl[]? schema = Array.Empty<WebEl>();
+    private SchemaElement[]? schema = Array.Empty<SchemaElement>();
 
     private WebProxy? proxy;
 
@@ -39,9 +40,12 @@ public class Scraper : IScraper
     protected readonly IJobQueueWriter JobQueueWriter;
 
     protected ILogger Logger;
-    private string[] urlBlackList;
 
-    public int ParallelismDegree { get; private set; }
+    protected ILinkParser LinkParser = new LinkParserByCssSelector();
+
+    protected string[] urlBlackList;
+
+    protected int ParallelismDegree { get; private set; }
 
     public Scraper(ILogger logger)
     {
@@ -90,7 +94,7 @@ public class Scraper : IScraper
         return this;
     }
 
-    public IScraper WithScheme(WebEl[] schema)
+    public IScraper WithScheme(SchemaElement[] schema)
     {
         this.schema = schema;
         return this;
@@ -142,7 +146,7 @@ public class Scraper : IScraper
             ImmutableQueue.Create<LinkPathSelector>(linkPathSelectors.ToArray()),
             DepthLevel: 0));
 
-        var spider = new WebReaper.Spider.Concrete.Spider(JobQueueReader, JobQueueWriter, Logger)
+        var spider = new WebReaper.Spider.Concrete.Spider(LinkParser, JobQueueReader, JobQueueWriter, Logger)
             .IgnoreUrls(this.urlBlackList);
 
         var spiderTasks = Enumerable
@@ -164,23 +168,23 @@ public class Scraper : IScraper
         return output;
     }
 
-    private JObject FillOutput(JObject obj, HtmlDocument doc, WebEl item)
+    private JObject FillOutput(JObject obj, HtmlDocument doc, SchemaElement item)
     {
         switch (item.Type)
         {
-            case JsonType.String:
+            case DataType.String:
                 obj[item.Field] = doc.DocumentNode.QuerySelector(item.Selector).InnerText;
                 break;
-            case JsonType.Number:
+            case DataType.Number:
                 obj[item.Field] = double.Parse(doc.DocumentNode.QuerySelector(item.Selector).InnerText);
                 break;
-            case JsonType.Boolean:
+            case DataType.Boolean:
                 obj[item.Field] = bool.Parse(doc.DocumentNode.QuerySelector(item.Selector).InnerText);
                 break;
-            case JsonType.Image:
+            case DataType.Image:
                 obj[item.Field] = doc.DocumentNode.QuerySelector(item.Selector).GetAttributeValue("src", "");
                 break;
-            case JsonType.Html:
+            case DataType.Html:
                 obj[item.Field] = doc.DocumentNode.QuerySelector(item.Selector).InnerHtml;
                 break;
                 // case JsonType.Array: 

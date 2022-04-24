@@ -27,7 +27,7 @@ public class ScrapingWorker : BackgroundService
             .FollowLinks(".forumlink>a")
             .FollowLinks("a.torTopic")
             .Paginate(".pg")
-            .WithScheme(new WebEl[] {
+            .WithScheme(new SchemaElement[] {
                 new("title", "title"),
                 new("name", ".post_body>span"),
             })

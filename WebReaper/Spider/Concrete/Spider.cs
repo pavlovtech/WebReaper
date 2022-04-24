@@ -1,7 +1,5 @@
 using System.Collections.Immutable;
 using System.Net.Security;
-using Fizzler.Systems.HtmlAgilityPack;
-using HtmlAgilityPack;
 using Microsoft.Extensions.Logging;
 using WebReaper.Domain;
 using WebReaper.Extensions;
@@ -17,6 +15,8 @@ namespace WebReaper.Spider.Concrete;
 public class Spider : ISpider
 {
     protected ConcurrentDictionary<string, byte> visitedUrls = new();
+    
+    private readonly ILinkParser linkParser;
 
     private readonly IJobQueueReader jobQueueReader;
 
@@ -42,6 +42,7 @@ public class Spider : ISpider
     };
 
     public Spider(
+        ILinkParser linkParser,
         IJobQueueReader jobQueueReader,
         IJobQueueWriter jobQueueWriter,
         ILogger logger)
@@ -50,6 +51,7 @@ public class Spider : ISpider
         ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
+        this.linkParser = linkParser;
         this.jobQueueReader = jobQueueReader;
         this.jobQueueWriter = jobQueueWriter;
         _logger = logger;
@@ -88,24 +90,28 @@ public class Spider : ISpider
 
         visitedUrls.TryAdd(job.Url, 0);
 
-        var doc = await GetDocumentAsync(job.Url);
+        var doc = await httpClient.GetStringAsync(job.Url);
 
         if (job.PageType == PageType.TargetPage)
         {
             _logger.LogInvocationCount("Handle on target page");
             // TODO: save to file or something
-            _logger.LogInformation("target page: {page}", doc.DocumentNode.QuerySelector("title").InnerText);
+            //_logger.LogInformation("target page: {page}", doc.DocumentNode.QuerySelector("title").InnerText);
             return;
         }
         
         var newLinkPathSelectors = job.LinkPathSelectors.Dequeue(out var currentSelector);
 
-        var links = GetLinksFromPage(doc, job.BaseUrl, currentSelector.Selector);
+        var links = linkParser.GetLinks(doc, currentSelector.Selector)
+            .Select(link => job.BaseUrl + link);
+
         AddToQueue(job.BaseUrl, newLinkPathSelectors, links, job.DepthLevel + 1);
 
         if (job.PageType == PageType.PageWithPagination) 
         {
-            var linksToPaginatedPages = GetLinksFromPage(doc, job.BaseUrl, currentSelector.PaginationSelector);
+            var linksToPaginatedPages = linkParser.GetLinks(doc, currentSelector.PaginationSelector)
+                .Select(link => job.BaseUrl + link);
+
             AddToQueue(job.BaseUrl, job.LinkPathSelectors, linksToPaginatedPages, job.DepthLevel + 1);
         }
     }
@@ -123,26 +129,5 @@ public class Spider : ISpider
             var newJob = new Job(baseUrl, link, selectors, depthLevel);
             jobQueueWriter.Write(newJob);
         }
-    }
-
-    protected async Task<HtmlDocument> GetDocumentAsync(string url)
-    {
-        using var _ = _logger.LogMethodDuration();
-
-        var htmlDoc = new HtmlDocument();
-        var html = await httpClient.GetStringAsync(url);
-        htmlDoc.LoadHtml(html);
-        return htmlDoc;
-    }
-
-    private IEnumerable<string> GetLinksFromPage(
-        HtmlDocument document,
-        string baseUrl,
-        string selector)
-    {
-        return document.DocumentNode
-            .QuerySelectorAll(selector)
-            .Select(e => baseUrl + HtmlEntity.DeEntitize(e.GetAttributeValue("href", null)))
-            .Distinct();
     }
 }
