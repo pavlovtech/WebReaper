@@ -7,21 +7,13 @@ namespace WebReaper.Scraper.Concrete
     {
         public IScraper Scraper { get; }
 
-        public ScraperSinkConfig(IScraper scraper)
-        {
+        public ScraperSinkConfig(IScraper scraper) =>
             this.Scraper = scraper;
 
-        }
-        public IScraper Console()
-        {
+        public IScraper Console() =>
             Scraper.AddSink(new ConsoleSink());
-            return Scraper;
-        }
 
-        public IScraper File(string filePath)
-        {
+        public IScraper File(string filePath) =>
             Scraper.AddSink(new FileSink(filePath));
-            return Scraper;
-        }
     }
 }
