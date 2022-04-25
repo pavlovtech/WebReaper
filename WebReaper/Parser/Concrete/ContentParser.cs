@@ -34,10 +34,14 @@ namespace WebReaper.Parser.Concrete
 
         private JObject FillOutput(JObject result, HtmlDocument doc, SchemaElement item)
         {
-            var node = QuerySelector(doc, item.Selector);
+            HtmlNode? node = null;
 
-            if(node == null) {
-                throw new Exception($"No element found that matche the selector {item.Selector}.");
+            if(item.Type != ContentType.Nested) {
+                node = QuerySelector(doc, item.Selector);
+
+                if(node == null) {
+                    throw new Exception($"No element found that matche the selector {item.Selector}.");
+                }
             }
 
             bool ok = false;
@@ -106,14 +110,15 @@ namespace WebReaper.Parser.Concrete
                         throw new Exception($"No href attribute found in {node}.");
                     }
                     break;
-                    // case JsonType.Array: 
-                    //     var arr = new JArray();
-                    //     obj[item.Field] = arr;
-                    //     foreach(var el in item.Children) {
-                    //         var result = FillOutput(doc, el);
-                    //         arr.Add(result);
-                    //     }
-                    //     break;
+                case ContentType.Nested: 
+                    var obj = new JObject();
+                    
+
+                    foreach(var el in item.Children) {
+                        var child = FillOutput(obj, doc, el);
+                    }
+                    result[item.Field] = obj;
+                    break;
             }
 
             return result;

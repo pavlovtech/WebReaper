@@ -5,7 +5,7 @@ public enum ContentType
     String,
     Number,
     Boolean,
-    Array,
+    Nested,
     Html,
     Image,
     Url

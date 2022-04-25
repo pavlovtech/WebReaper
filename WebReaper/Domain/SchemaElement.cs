@@ -34,6 +34,6 @@ public class SchemaElement
     {
         Field = field;
         Children = children;
-        Type = ContentType.Array;
+        Type = ContentType.Nested;
     }
 }

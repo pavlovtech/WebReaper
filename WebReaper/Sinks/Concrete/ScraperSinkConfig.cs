@@ -13,7 +13,10 @@ namespace WebReaper.Scraper.Concrete
         public IScraper Console() =>
             Scraper.AddSink(new ConsoleSink());
 
-        public IScraper File(string filePath) =>
-            Scraper.AddSink(new FileSink(filePath));
+        public IScraper JsonFile(string filePath) =>
+            Scraper.AddSink(new JsonFileSink(filePath));
+
+        public IScraper CsvFile(string filePath) =>
+            Scraper.AddSink(new CsvFileSink(filePath));
     }
 }

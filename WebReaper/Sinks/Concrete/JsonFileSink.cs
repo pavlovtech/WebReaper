@@ -4,7 +4,7 @@ using WebReaper.Sinks.Absctract;
 
 namespace WebReaper.Sinks.Concrete
 {
-    public class FileSink : IScraperSink
+    public class JsonFileSink : IScraperSink
     {
         private readonly string filePath;
         
@@ -12,7 +12,7 @@ namespace WebReaper.Sinks.Concrete
 
         private bool isInitialized = false;
 
-        public FileSink(string filePath)
+        public JsonFileSink(string filePath)
         {
             this.filePath = filePath;
         }
