@@ -25,17 +25,8 @@ public class ScrapingWorker : BackgroundService
             .WithScheme(new SchemaElement[] {
                 new("coverImageUrl", ".postImg") { Type = ContentType.Image },
                 new("name", "div.postbody>span"),
-                new("categorization",
-                    new("category", "td:nth-child(2)>span>a:nth-child(2)"),
-                    new("category", "td:nth-child(2)>span>a:nth-child(2)"),
-                    new("subcategory", "td:nth-child(2)>span>a:nth-child(3)"),
-                    new("genre",
-                        new("category", "td:nth-child(2)>span>a:nth-child(2)"),
-                        new("subcategory", "td:nth-child(2)>span>a:nth-child(3)"),
-                        new("subcategory", "td:nth-child(2)>span>a:nth-child(3)"),
-                        new("subcategory", "td:nth-child(2)>span>a:nth-child(3)")
-                    )
-                ),
+                new("category", "td:nth-child(2)>span>a:nth-child(2)"),
+                new("subcategory", "td:nth-child(2)>span>a:nth-child(3)"),
                 new("torrentSize", "td.genmed>span"),
                 new("torrentLink", "a[href*='download.php?']") { Type = ContentType.Url }
             })
