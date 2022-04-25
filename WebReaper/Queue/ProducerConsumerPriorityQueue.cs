@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using WebReaper.Domain;
 
-namespace WebReaper.Queue.Concrete;
+namespace WebReaper.Queue;
 
 public class ProducerConsumerPriorityQueue
     : IProducerConsumerCollection<Job>

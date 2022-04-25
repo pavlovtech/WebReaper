@@ -1,7 +1,7 @@
 using Newtonsoft.Json.Linq;
-using WebReaper.Sinks.Absctract;
+using WebReaper.Absctracts.Sinks;
 
-namespace WebReaper.Sinks.Concrete;
+namespace WebReaper.Sinks;
 
 public class ConsoleSink : IScraperSink
 {

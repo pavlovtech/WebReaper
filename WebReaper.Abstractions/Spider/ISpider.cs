@@ -1,4 +1,4 @@
-namespace WebReaper.Spider.Abastract;
+namespace WebReaper.Abastracts.Spider;
 
 public interface ISpider
 {

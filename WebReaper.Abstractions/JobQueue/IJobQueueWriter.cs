@@ -1,10 +1,8 @@
 using WebReaper.Domain;
+namespace WebReaper.Abstractions.JobQueue;
 
-namespace WebReaper.Queue.Abstract
+public interface IJobQueueWriter
 {
-    public interface IJobQueueWriter
-    {
-        void Write(Job job);
-        void CompleteAdding();
-    }
+    void Write(Job job);
+    void CompleteAdding();
 }

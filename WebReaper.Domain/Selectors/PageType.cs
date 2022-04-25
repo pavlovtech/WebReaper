@@ -1,4 +1,4 @@
-namespace WebReaper.Domain;
+namespace WebReaper.Domain.Selectors;
 
 public enum PageType
 {

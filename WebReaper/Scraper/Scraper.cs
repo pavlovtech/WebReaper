@@ -1,18 +1,22 @@
 ﻿using System.Net;
 using WebReaper.Domain;
 using Microsoft.Extensions.Logging;
-using WebReaper.Queue.Abstract;
-using WebReaper.Scraper.Abstract;
-using WebReaper.Queue.Concrete;
+using WebReaper.Abstractions.Scraper;
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
-using WebReaper.Parser.Concrete;
 using System.Net.Security;
+using WebReaper.Domain.Selectors;
+using WebReaper.Absctracts.Sinks;
+using WebReaper.Abastracts.Spider;
+using WebReaper.Domain.Schema;
+using WebReaper.Abstractions.Parsers;
 using WebReaper.LinkTracker.Abstract;
-using WebReaper.Sinks.Absctract;
-using WebReaper.Spider.Abastract;
+using WebReaper.Abstractions.JobQueue;
+using WebReaper.Parser;
+using WebReaper.Queue;
+using WebReaper.Sinks;
 
-namespace WebReaper.Scraper.Concrete;
+namespace WebReaper.Scraper;
 
 // anglesharpjs
 // puppeter
@@ -121,8 +125,6 @@ public class Scraper : IScraper
         return this;
     }
 
-    public ScraperSinkConfig WriteTo => new ScraperSinkConfig(this);
-
     public IScraper AddSink(IScraperSink sink)
     {
         this.Sinks.Add(sink);
@@ -187,12 +189,21 @@ public class Scraper : IScraper
         await Task.WhenAll(spiderTasks);
     }
 
+    public IScraper WriteToConsole() =>
+        this.AddSink(new ConsoleSink());
+
+    public IScraper WriteToJsonFile(string filePath) =>
+        this.AddSink(new JsonFileSink(filePath));
+
+    public IScraper WriteToCsvFile(string filePath) =>
+        this.AddSink(new CsvFileSink(filePath));
+
     public IScraper Build()
     {
         ArgumentNullException.ThrowIfNull(startUrl);
         ArgumentNullException.ThrowIfNull(schema);
 
-        spider = new WebReaper.Spider.Concrete.Spider(
+        spider = new WebReaper.Spider.Spider(
             Sinks,
             LinkParser,
             ContentParser,

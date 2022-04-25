@@ -1,8 +1,8 @@
 using System.Collections.Concurrent;
+using WebReaper.Abstractions.JobQueue;
 using WebReaper.Domain;
-using WebReaper.Queue.Abstract;
 
-namespace WebReaper.Queue.Concrete;
+namespace WebReaper.Queue;
 
 public class JobQueueWriter : IJobQueueWriter
 {

@@ -1,9 +1,9 @@
 ﻿using System.Net;
 using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
-using WebReaper.Domain;
-using WebReaper.Scraper.Abstract;
-using WebReaper.Scraper.Concrete;
+using WebReaper.Abstractions.Scraper;
+using WebReaper.Domain.Schema;
+using WebReaper.Scraper;
 
 namespace ScraperWorkerService;
 
@@ -31,8 +31,8 @@ public class ScrapingWorker : BackgroundService
                 new("coverImageUrl", ".postImg") { ContentType = ContentType.Image },
             })
             .WithParallelismDegree(10)
-            .WriteTo.JsonFile("result.json")
-            .WriteTo.CsvFile("result.csv")
+            .WriteToJsonFile("result.json")
+            .WriteToCsvFile("result.csv")
             .Build();
     }
 

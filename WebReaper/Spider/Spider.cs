@@ -3,14 +3,17 @@ using Microsoft.Extensions.Logging;
 using WebReaper.Domain;
 using WebReaper.Extensions;
 using System.Diagnostics;
-using WebReaper.Queue.Abstract;
-using WebReaper.Spider.Abastract;
 using System.Net;
 using System.Text;
 using WebReaper.LinkTracker.Abstract;
-using WebReaper.Sinks.Absctract;
+using WebReaper.Abastracts.Spider;
+using WebReaper.Abstractions.Parsers;
+using WebReaper.Absctracts.Sinks;
+using WebReaper.Domain.Schema;
+using WebReaper.Domain.Selectors;
+using WebReaper.Abstractions.JobQueue;
 
-namespace WebReaper.Spider.Concrete;
+namespace WebReaper.Spider;
 
 public class Spider : ISpider
 {
@@ -58,7 +61,7 @@ public class Spider : ISpider
         this.urlBlackList = urlBlackList;
         return this;
     }
-    
+
     public ISpider Limit(int limit)
     {
         this.limit = limit;

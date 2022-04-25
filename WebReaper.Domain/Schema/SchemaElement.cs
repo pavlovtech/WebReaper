@@ -1,4 +1,6 @@
-namespace WebReaper.Domain;
+using WebReaper.Domain.Selectors;
+
+namespace WebReaper.Domain.Schema;
 
 public record SchemaElement
 {
@@ -10,7 +12,7 @@ public record SchemaElement
 
     public SelectorType SelectorType { get; init; } = SelectorType.Css;
 
-    public ContentType? ContentType { get; init; } = Domain.ContentType.String;
+    public ContentType? ContentType { get; init; } = WebReaper.Domain.Schema.ContentType.String;
 
     public SchemaElement(
         string field,
@@ -26,6 +28,6 @@ public record SchemaElement
     {
         Field = field;
         Children = children;
-        ContentType = Domain.ContentType.Nested;
+        ContentType = WebReaper.Domain.Schema.ContentType.Nested;
     }
 }

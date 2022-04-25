@@ -1,4 +1,7 @@
 using System.Collections.Immutable;
+using WebReaper.Domain.Schema;
+using WebReaper.Domain.Selectors;
+
 namespace WebReaper.Domain;
 
 public record Job(

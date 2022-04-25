@@ -1,15 +1,16 @@
 using System.Net;
-using WebReaper.Domain;
-using WebReaper.Scraper;
-using WebReaper.Sinks.Absctract;
+using WebReaper.Absctracts.Sinks;
+using WebReaper.Domain.Schema;
+using WebReaper.Domain.Selectors;
 
-namespace WebReaper.Scraper.Abstract;
+namespace WebReaper.Abstractions.Scraper;
 
 public interface IScraper
 {
     IScraper WithStartUrl(string startUrl);
     IScraper FollowLinks(string linkSelector, SelectorType selectorType = SelectorType.Css, PageType pageType = PageType.Static);
-    ScraperSinkConfig WriteTo { get; }
+    IScraper WriteToJsonFile(string filePath);
+    IScraper WriteToCsvFile(string filePath);
     IScraper AddSink(IScraperSink sink);
     IScraper Limit(int limit);
     IScraper IgnoreUrls(params string[] urls);

@@ -1,9 +1,10 @@
 using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
 using Newtonsoft.Json.Linq;
-using WebReaper.Domain;
+using WebReaper.Abstractions.Parsers;
+using WebReaper.Domain.Schema;
 
-namespace WebReaper.Parser.Concrete
+namespace WebReaper.Parser
 {
     public class ContentParser : IContentParser
     {
