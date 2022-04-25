@@ -2551,3 +2551,11 @@ System.ArgumentException: An item with the same key has already been added. Key:
 2022-04-25 18:52:45.960 +03:00 [INF] Handle on target page was called 32 times
 2022-04-25 18:52:46.890 +03:00 [INF] Handle on target page was called 33 times
 2022-04-25 18:52:47.736 +03:00 [INF] Handle on target page was called 34 times
+2022-04-25 19:07:55.872 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-25 19:07:55.919 +03:00 [INF] Hosting environment: Development
+2022-04-25 19:07:55.920 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-25 19:07:59.318 +03:00 [INF] Handle on target page was called 1 times
+2022-04-25 19:08:01.040 +03:00 [INF] Handle on target page was called 2 times
+2022-04-25 19:08:01.235 +03:00 [INF] Handle on target page was called 3 times
+2022-04-25 19:08:02.456 +03:00 [INF] Handle on target page was called 4 times
+2022-04-25 19:08:03.341 +03:00 [INF] Handle on target page was called 5 times
