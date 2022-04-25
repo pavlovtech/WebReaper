@@ -10,7 +10,7 @@ public record SchemaElement
 
     public SelectorType SelectorType { get; init; } = SelectorType.Css;
 
-    public ContentType? Type { get; init; } = ContentType.String;
+    public ContentType? ContentType { get; init; } = Domain.ContentType.String;
 
     public SchemaElement(
         string field,
@@ -26,6 +26,6 @@ public record SchemaElement
     {
         Field = field;
         Children = children;
-        Type = ContentType.Nested;
+        ContentType = Domain.ContentType.Nested;
     }
 }

@@ -101,7 +101,7 @@ public class Spider : ISpider
 
         var doc = await httpClient.GetStringAsync(job.Url);
 
-        if (job.PageType == PageType.TargetPage)
+        if (job.PageCategory == PageCategory.TargetPage)
         {
             _logger.LogInvocationCount("Handle on target page");
             var result = contentParser.Parse(doc, job.schema);
@@ -120,8 +120,10 @@ public class Spider : ISpider
 
         AddToQueue(job.schema, job.BaseUrl, newLinkPathSelectors, links, job.DepthLevel + 1);
 
-        if (job.PageType == PageType.PageWithPagination)
+        if (job.PageCategory == PageCategory.PageWithPagination)
         {
+            ArgumentNullException.ThrowIfNull(currentSelector.PaginationSelector);
+
             var linksToPaginatedPages = linkParser.GetLinks(doc, currentSelector.PaginationSelector)
                 .Select(link => job.BaseUrl + link)
                 .Except(linkTracker.GetVisitedLinks(job.BaseUrl));

@@ -103,9 +103,10 @@ public class Scraper : IScraper
 
     public IScraper FollowLinks(
         string linkSelector,
-        SelectorType selectorType = SelectorType.Css)
+        SelectorType selectorType = SelectorType.Css,
+        PageType pageType = PageType.Static)
     {
-        linkPathSelectors.Add(new(linkSelector));
+        linkPathSelectors.Add(new(linkSelector, SelectorType: selectorType, PageType: pageType));
         return this;
     }
 
@@ -173,9 +174,9 @@ public class Scraper : IScraper
     public async Task Run()
     {
         JobQueueWriter.Write(new Job(
-            schema,
+            schema!,
             baseUrl,
-            startUrl,
+            startUrl!,
             ImmutableQueue.Create<LinkPathSelector>(linkPathSelectors.ToArray()),
             DepthLevel: 0));
 

@@ -36,7 +36,9 @@ namespace WebReaper.Parser.Concrete
         {
             HtmlNode? node = null;
 
-            if(item.Type != ContentType.Nested) {
+            if(item.ContentType != ContentType.Nested) {
+                ArgumentNullException.ThrowIfNull(item.Selector);
+
                 node = QuerySelector(doc, item.Selector);
 
                 if(node == null) {
@@ -46,7 +48,7 @@ namespace WebReaper.Parser.Concrete
 
             bool ok = false;
 
-            switch (item.Type)
+            switch (item.ContentType)
             {
                 case ContentType.String:
                     var str = node?.InnerText;
@@ -111,9 +113,13 @@ namespace WebReaper.Parser.Concrete
                     }
                     break;
                 case ContentType.Nested: 
+
+                    if(item.Children == null) {
+                        throw new Exception("ContentType is incorrect, node has no children");
+                    }
+
                     var obj = new JObject();
                     
-
                     foreach(var el in item.Children) {
                         var child = FillOutput(obj, doc, el);
                     }

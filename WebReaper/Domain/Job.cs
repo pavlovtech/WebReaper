@@ -7,26 +7,27 @@ public record Job(
     string Url,
     ImmutableQueue<LinkPathSelector> LinkPathSelectors,
     int DepthLevel = 0) {
-        public PageType PageType { get {
+        public PageCategory PageCategory { get {
             if(!LinkPathSelectors.Any()) {
-                return PageType.TargetPage;
+                return PageCategory.TargetPage;
             }
 
             var currentSelector = LinkPathSelectors.Peek();
 
             if(LinkPathSelectors.Count() == 1 &&
                 currentSelector.PaginationSelector != null) {
-                return PageType.PageWithPagination;
+                return PageCategory.PageWithPagination;
             }
 
-            return PageType.TransitPage;
+            return PageCategory.TransitPage;
         }}
 
-        public int Priority => PageType switch
+        public int Priority => PageCategory switch
         {
-            PageType.TargetPage => -int.MaxValue,
-            PageType.PageWithPagination => -DepthLevel * (int)PageType.PageWithPagination,
-            PageType.TransitPage => -DepthLevel * (int)PageType.TransitPage,
-            PageType.Unknown => 1,
+            PageCategory.TargetPage => -int.MaxValue,
+            PageCategory.PageWithPagination => -DepthLevel * (int)PageCategory.PageWithPagination,
+            PageCategory.TransitPage => -DepthLevel * (int)PageCategory.TransitPage,
+            PageCategory.Unknown => 0,
+            _ => int.MaxValue
         };
     };

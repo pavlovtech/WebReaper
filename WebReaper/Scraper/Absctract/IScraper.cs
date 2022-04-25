@@ -8,7 +8,7 @@ namespace WebReaper.Scraper.Abstract;
 public interface IScraper
 {
     IScraper WithStartUrl(string startUrl);
-    IScraper FollowLinks(string linkSelector, SelectorType selectorType = SelectorType.Css);
+    IScraper FollowLinks(string linkSelector, SelectorType selectorType = SelectorType.Css, PageType pageType = PageType.Static);
     ScraperSinkConfig WriteTo { get; }
     IScraper AddSink(IScraperSink sink);
     IScraper Limit(int limit);

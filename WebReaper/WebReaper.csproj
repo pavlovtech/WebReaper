@@ -8,9 +8,6 @@
 
   <ItemGroup>
     <None Remove="Newtonsoft.Json" />
-    <None Remove="AngleSharp" />
-    <None Remove="RestSharp" />
-    <None Remove="Microsoft.Playwright" />
     <None Remove="Fizzler.Systems.HtmlAgilityPack" />
     <None Remove="Microsoft.Extensions.Logging.Abstractions" />
   </ItemGroup>

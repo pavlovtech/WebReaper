@@ -27,8 +27,8 @@ public class ScrapingWorker : BackgroundService
                 new("category", "td:nth-child(2)>span>a:nth-child(2)"),
                 new("subcategory", "td:nth-child(2)>span>a:nth-child(3)"),
                 new("torrentSize", "td.genmed>span"),
-                new("torrentLink", "a[href*='download.php?']") { Type = ContentType.Url },
-                new("coverImageUrl", ".postImg") { Type = ContentType.Image },
+                new("torrentLink", "a[href*='download.php?']") { ContentType = ContentType.Url },
+                new("coverImageUrl", ".postImg") { ContentType = ContentType.Image },
             })
             .WithParallelismDegree(10)
             .WriteTo.JsonFile("result.json")
@@ -48,14 +48,14 @@ public class ScrapingWorker : BackgroundService
 
         var httpClient = new HttpClient(handler);
 
-        var formContent = new FormUrlEncodedContent(new[]
+        var formContent = new FormUrlEncodedContent(new KeyValuePair<string, string>[]
         {
-            new KeyValuePair<string, string>("username", "gif0"), 
-            new KeyValuePair<string, string>("password", "111111"),
-            new KeyValuePair<string, string>("autologin", "on"),
-            new KeyValuePair<string, string>("redirect", ""),
-            new KeyValuePair<string, string>("code", code),
-            new KeyValuePair<string, string>("login", "Вход") 
+            new("username", "gif0"), 
+            new("password", "111111"),
+            new("autologin", "on"),
+            new("redirect", ""),
+            new("code", code),
+            new("login", "Вход") 
         });
 
         var resp = httpClient
