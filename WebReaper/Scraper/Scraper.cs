@@ -212,8 +212,8 @@ public class Scraper : IScraper
             JobQueueWriter,
             httpClient.Value,
             Logger)
-            .IgnoreUrls(this.urlBlackList)
-            .Limit(limit);
+        .IgnoreUrls(this.urlBlackList)
+        .Limit(limit);
 
         return this;
     }
