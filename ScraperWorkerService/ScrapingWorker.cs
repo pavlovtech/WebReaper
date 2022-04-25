@@ -4,7 +4,6 @@ using HtmlAgilityPack;
 using WebReaper.Domain;
 using WebReaper.Scraper.Abstract;
 using WebReaper.Scraper.Concrete;
-using WebReaper.Sinks.Concrete;
 
 namespace ScraperWorkerService;
 
@@ -32,9 +31,9 @@ public class ScrapingWorker : BackgroundService
                 new("torrentLink", "a[href*='download.php?']", ContentType.Url)
             })
             .WithParallelismDegree(10)
-            .Limit(50)
             .WriteTo.Console()
-            .WriteTo.File("result.json");
+            .WriteTo.File("result.json")
+            .Build();
     }
 
     protected CookieContainer Auth() {

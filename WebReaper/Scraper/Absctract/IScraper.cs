@@ -14,6 +14,7 @@ public interface IScraper
     IScraper Limit(int limit);
     IScraper IgnoreUrls(params string[] urls);
     IScraper Paginate(string paginationSelector);
+    IScraper Build();
     Task Run();
     IScraper WithProxy(WebProxy proxy);
     IScraper WithProxy(WebProxy[] proxies);

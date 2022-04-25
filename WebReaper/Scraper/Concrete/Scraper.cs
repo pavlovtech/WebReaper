@@ -10,6 +10,7 @@ using WebReaper.Parser.Concrete;
 using System.Net.Security;
 using WebReaper.LinkTracker.Abstract;
 using WebReaper.Sinks.Absctract;
+using WebReaper.Spider.Abastract;
 
 namespace WebReaper.Scraper.Concrete;
 
@@ -26,6 +27,8 @@ public class Scraper : IScraper
     protected BlockingCollection<Job> jobs = new(new ProducerConsumerPriorityQueue());
 
     private string? startUrl;
+    
+    private ISpider spider;
 
     private SchemaElement[]? schema = Array.Empty<SchemaElement>();
 
@@ -169,9 +172,6 @@ public class Scraper : IScraper
 
     public async Task Run()
     {
-        ArgumentNullException.ThrowIfNull(startUrl);
-        ArgumentNullException.ThrowIfNull(baseUrl);
-
         JobQueueWriter.Write(new Job(
             schema,
             baseUrl,
@@ -179,7 +179,19 @@ public class Scraper : IScraper
             ImmutableQueue.Create<LinkPathSelector>(linkPathSelectors.ToArray()),
             DepthLevel: 0));
 
-        var spider = new WebReaper.Spider.Concrete.Spider(
+        var spiderTasks = Enumerable
+            .Range(0, parallelismDegree)
+            .Select(_ => spider.Crawl());
+
+        await Task.WhenAll(spiderTasks);
+    }
+
+    public IScraper Build()
+    {
+        ArgumentNullException.ThrowIfNull(startUrl);
+        ArgumentNullException.ThrowIfNull(schema);
+
+        spider = new WebReaper.Spider.Concrete.Spider(
             Sinks,
             LinkParser,
             ContentParser,
@@ -191,10 +203,6 @@ public class Scraper : IScraper
             .IgnoreUrls(this.urlBlackList)
             .Limit(limit);
 
-        var spiderTasks = Enumerable
-            .Range(0, parallelismDegree)
-            .Select(_ => spider.Crawl());
-
-        await Task.WhenAll(spiderTasks);
+        return this;
     }
 }
