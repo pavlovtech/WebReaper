@@ -37,14 +37,15 @@ public class ScrapingWorker : BackgroundService
     }
 
     protected CookieContainer Auth() {
-        CookieContainer cookies = new CookieContainer();
+        CookieContainer cookies = new();
 
         var web = new HtmlWeb();
         var doc = web.Load("https://nnmclub.to/forum/login.php");
         var code = doc.DocumentNode.QuerySelector("input[type=hidden][name=code]").GetAttributeValue("value", "");
 
-        HttpClientHandler handler = new HttpClientHandler();
-        handler.CookieContainer = cookies;
+        HttpClientHandler handler = new() {
+            CookieContainer = cookies
+        };
 
         var httpClient = new HttpClient(handler);
 

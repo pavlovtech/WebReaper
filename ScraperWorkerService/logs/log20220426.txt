@@ -1,0 +1,12 @@
+2022-04-26 00:10:30.249 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-26 00:10:30.293 +03:00 [INF] Hosting environment: Development
+2022-04-26 00:10:30.294 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-26 00:10:39.585 +03:00 [INF] Handle on target page was called 1 times
+2022-04-26 00:10:41.266 +03:00 [INF] Handle on target page was called 2 times
+2022-04-26 00:10:41.504 +03:00 [INF] Handle on target page was called 3 times
+2022-04-26 00:10:42.689 +03:00 [INF] Handle on target page was called 4 times
+2022-04-26 00:10:43.481 +03:00 [INF] Handle on target page was called 5 times
+2022-04-26 00:10:44.499 +03:00 [INF] Handle on target page was called 6 times
+2022-04-26 00:10:45.523 +03:00 [INF] Handle on target page was called 7 times
+2022-04-26 00:10:46.485 +03:00 [INF] Handle on target page was called 8 times
+2022-04-26 00:10:47.532 +03:00 [INF] Handle on target page was called 9 times
