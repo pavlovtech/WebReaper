@@ -8,6 +8,8 @@ namespace WebReaper.Queue.Concrete;
 public class ProducerConsumerPriorityQueue
     : IProducerConsumerCollection<Job>
 {
+    protected PriorityQueue<Job, int> JobQueue { get; set; }
+
     // Used for enforcing thread-safety
     private object _lockObject = new object();
 
@@ -18,8 +20,6 @@ public class ProducerConsumerPriorityQueue
 
     public ProducerConsumerPriorityQueue(params (Job, int)[] collection) =>
         JobQueue = new PriorityQueue<Job, int>(collection);
-
-    protected PriorityQueue<Job, int> JobQueue { get; set; }
 
     public int Count => JobQueue.Count;
 

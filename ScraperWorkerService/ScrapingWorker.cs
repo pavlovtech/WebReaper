@@ -23,12 +23,12 @@ public class ScrapingWorker : BackgroundService
             .FollowLinks("a.topictitle")
             .Paginate("td>span.nav>a[href*='start=']")
             .WithScheme(new SchemaElement[] {
-                new("coverImageUrl", ".postImg") { Type = ContentType.Image },
-                new("name", "div.postbody>span"),
+                new("name","div.postbody>span"),
                 new("category", "td:nth-child(2)>span>a:nth-child(2)"),
                 new("subcategory", "td:nth-child(2)>span>a:nth-child(3)"),
                 new("torrentSize", "td.genmed>span"),
-                new("torrentLink", "a[href*='download.php?']") { Type = ContentType.Url }
+                new("torrentLink", "a[href*='download.php?']") { Type = ContentType.Url },
+                new("coverImageUrl", ".postImg") { Type = ContentType.Image },
             })
             .WithParallelismDegree(10)
             .WriteTo.JsonFile("result.json")

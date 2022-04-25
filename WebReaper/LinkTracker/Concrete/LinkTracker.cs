@@ -13,7 +13,9 @@ public class LinkTracker : ILinkTracker
 
         if(alreadyExists)
         {
-            visitedSiteUrls!.Add(visitedLink);
+            if(!visitedSiteUrls!.Contains(visitedLink)) {
+                visitedSiteUrls!.Add(visitedLink);
+            }
         } else {
             visitedUrlsPerSite.TryAdd(siteUrl, new ConcurrentBag<string> 
             {
@@ -26,11 +28,6 @@ public class LinkTracker : ILinkTracker
     {
         var successful = visitedUrlsPerSite.TryGetValue(siteUrl, out var result);
 
-        if(!successful)
-        {
-            return Enumerable.Empty<string>();
-        }
-
-        return result!;
+        return successful ? result! : Enumerable.Empty<string>();
     }
 }
