@@ -1,6 +1,7 @@
 namespace WebReaper.Domain;
 
-public class SchemaElement
+
+public record SchemaElement
 {
     public SchemaElement[]? Children { get; set; }
 

@@ -28,11 +28,9 @@ namespace WebReaper.Sinks.Concrete
                 var flattened = scrapedData
                     .Descendants()
                     .OfType<JValue>()
-                    .ToDictionary(jv => jv.Path.Remove(0, jv.Path.IndexOf(".")+1), jv => jv.ToString());
+                    .Select(jv => jv.Path.Remove(0, jv.Path.LastIndexOf(".")+1));
 
-                var fields = flattened.Keys;
-
-                var header = string.Join(",", fields) + Environment.NewLine;
+                var header = string.Join(",", flattened) + Environment.NewLine;
                 
                 await File.AppendAllTextAsync(filePath, header);
                 _ = Handle();
