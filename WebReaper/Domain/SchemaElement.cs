@@ -22,14 +22,6 @@ public class SchemaElement
 
     public SchemaElement(
         string field,
-        ContentType type = ContentType.String)
-    {
-        Field = field;
-        Type = type;
-    }
-
-    public SchemaElement(
-        string field,
         params SchemaElement[] children)
     {
         Field = field;

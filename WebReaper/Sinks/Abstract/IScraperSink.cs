@@ -4,6 +4,6 @@ namespace WebReaper.Sinks.Absctract
 {
     public interface IScraperSink
     {
-         public Task Emit(JObject scrapedData);
+        public Task Emit(JObject scrapedData);
     }
 }

@@ -46,7 +46,7 @@ namespace WebReaper.Sinks.Concrete
                 var flattened = entry
                     .Descendants()
                     .OfType<JValue>()
-                    .Select(p => $"\"{p.Value.ToString()}\"");
+                    .Select(p => $"\"{p.Value.ToString().Replace("\"", "\"\"")}\"");
 
                 var csvLine = string.Join(",", flattened);
 
