@@ -1,5 +1,4 @@
 using System.Collections.Immutable;
-using System.Net.Security;
 using Microsoft.Extensions.Logging;
 using WebReaper.Domain;
 using WebReaper.Extensions;
@@ -19,7 +18,6 @@ public class Spider : ISpider
     private readonly IContentParser contentParser;
     private readonly ILinkTracker linkTracker;
     private readonly IJobQueueReader jobQueueReader;
-
     private readonly IJobQueueWriter jobQueueWriter;
     private readonly HttpClient httpClient;
     private ILogger _logger;
@@ -43,6 +41,7 @@ public class Spider : ISpider
         ServicePointManager.DefaultConnectionLimit = int.MaxValue;
         ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+        
         Sinks = sinks;
         this.linkParser = linkParser;
         this.contentParser = contentParser;
@@ -110,10 +109,6 @@ public class Spider : ISpider
             var sinkTasks = Sinks.Select(sink => sink.Emit(result));
 
             await Task.WhenAll(sinkTasks);
-
-            //_logger.LogInformation("Parsed page: {page}", contetnt.ToString());
-
-            //_logger.LogInformation("target page: {page}", doc.DocumentNode.QuerySelector("title").InnerText);
             return;
         }
 
