@@ -1318,3 +1318,65 @@ System.NullReferenceException: Object reference not set to an instance of an obj
 2022-04-25 10:30:55.819 +03:00 [INF] Handle on target page was called 46 times
 2022-04-25 10:30:56.878 +03:00 [INF] Handle on target page was called 47 times
 2022-04-25 10:30:57.799 +03:00 [INF] Handle on target page was called 48 times
+2022-04-25 14:57:22.406 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-25 14:57:22.452 +03:00 [INF] Hosting environment: Development
+2022-04-25 14:57:22.453 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-25 14:57:35.964 +03:00 [INF] Handle on target page was called 1 times
+2022-04-25 14:57:36.091 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=199912
+System.Exception: Cannot find image link in <var class="postImg postImgAligned img-right" title="https://nnmclub.ch/forum/image.php?link=https://a.radikal.ru/a20/1812/71/645c73ad83d2.jpg">&#10;</var>.
+   at WebReaper.Parser.Concrete.ContentParser.FillOutput(JObject result, HtmlDocument doc, SchemaElement item) in /Users/alex/Development/WebReaper/WebReaper/Parser/Concrete/ContentParser.cs:line 84
+   at WebReaper.Parser.Concrete.ContentParser.GetJson(HtmlDocument doc, SchemaElement[] schema) in /Users/alex/Development/WebReaper/WebReaper/Parser/Concrete/ContentParser.cs:line 24
+   at WebReaper.Parser.Concrete.ContentParser.Parse(String html, SchemaElement[] schema) in /Users/alex/Development/WebReaper/WebReaper/Parser/Concrete/ContentParser.cs:line 15
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 107
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 78
+2022-04-25 14:57:36.565 +03:00 [INF] Handle on target page was called 2 times
+2022-04-25 14:57:36.636 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=118592
+System.Exception: Cannot find image link in <var class="postImg postImgAligned img-right" title="https://nnmclub.ch/forum/image.php?link=https://d.radikal.ru/d34/2105/61/55160f1d736e.jpg">&#10;</var>.
+   at WebReaper.Parser.Concrete.ContentParser.FillOutput(JObject result, HtmlDocument doc, SchemaElement item) in /Users/alex/Development/WebReaper/WebReaper/Parser/Concrete/ContentParser.cs:line 84
+   at WebReaper.Parser.Concrete.ContentParser.GetJson(HtmlDocument doc, SchemaElement[] schema) in /Users/alex/Development/WebReaper/WebReaper/Parser/Concrete/ContentParser.cs:line 24
+   at WebReaper.Parser.Concrete.ContentParser.Parse(String html, SchemaElement[] schema) in /Users/alex/Development/WebReaper/WebReaper/Parser/Concrete/ContentParser.cs:line 15
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 107
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 78
+2022-04-25 14:57:37.361 +03:00 [INF] Handle on target page was called 3 times
+2022-04-25 14:57:37.431 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=199912
+System.Exception: Cannot find image link in <var class="postImg postImgAligned img-right" title="https://nnmclub.ch/forum/image.php?link=https://a.radikal.ru/a20/1812/71/645c73ad83d2.jpg">&#10;</var>.
+   at WebReaper.Parser.Concrete.ContentParser.FillOutput(JObject result, HtmlDocument doc, SchemaElement item) in /Users/alex/Development/WebReaper/WebReaper/Parser/Concrete/ContentParser.cs:line 84
+   at WebReaper.Parser.Concrete.ContentParser.GetJson(HtmlDocument doc, SchemaElement[] schema) in /Users/alex/Development/WebReaper/WebReaper/Parser/Concrete/ContentParser.cs:line 24
+   at WebReaper.Parser.Concrete.ContentParser.Parse(String html, SchemaElement[] schema) in /Users/alex/Development/WebReaper/WebReaper/Parser/Concrete/ContentParser.cs:line 15
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 107
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 78
+2022-04-25 14:57:38.313 +03:00 [INF] Handle on target page was called 4 times
+2022-04-25 14:57:38.399 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=118592
+System.Exception: Cannot find image link in <var class="postImg postImgAligned img-right" title="https://nnmclub.ch/forum/image.php?link=https://d.radikal.ru/d34/2105/61/55160f1d736e.jpg">&#10;</var>.
+   at WebReaper.Parser.Concrete.ContentParser.FillOutput(JObject result, HtmlDocument doc, SchemaElement item) in /Users/alex/Development/WebReaper/WebReaper/Parser/Concrete/ContentParser.cs:line 84
+   at WebReaper.Parser.Concrete.ContentParser.GetJson(HtmlDocument doc, SchemaElement[] schema) in /Users/alex/Development/WebReaper/WebReaper/Parser/Concrete/ContentParser.cs:line 24
+   at WebReaper.Parser.Concrete.ContentParser.Parse(String html, SchemaElement[] schema) in /Users/alex/Development/WebReaper/WebReaper/Parser/Concrete/ContentParser.cs:line 15
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 107
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 78
+2022-04-25 14:57:39.310 +03:00 [INF] Handle on target page was called 5 times
+2022-04-25 14:57:39.389 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=199912
+System.Exception: Cannot find image link in <var class="postImg postImgAligned img-right" title="https://nnmclub.ch/forum/image.php?link=https://a.radikal.ru/a20/1812/71/645c73ad83d2.jpg">&#10;</var>.
+   at WebReaper.Parser.Concrete.ContentParser.FillOutput(JObject result, HtmlDocument doc, SchemaElement item) in /Users/alex/Development/WebReaper/WebReaper/Parser/Concrete/ContentParser.cs:line 84
+   at WebReaper.Parser.Concrete.ContentParser.GetJson(HtmlDocument doc, SchemaElement[] schema) in /Users/alex/Development/WebReaper/WebReaper/Parser/Concrete/ContentParser.cs:line 24
+   at WebReaper.Parser.Concrete.ContentParser.Parse(String html, SchemaElement[] schema) in /Users/alex/Development/WebReaper/WebReaper/Parser/Concrete/ContentParser.cs:line 15
+   at WebReaper.Spider.Concrete.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 107
+   at WebReaper.Spider.Concrete.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Concrete/Spider.cs:line 78
+2022-04-25 14:58:36.140 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-25 14:58:36.179 +03:00 [INF] Hosting environment: Development
+2022-04-25 14:58:36.181 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-25 14:58:38.726 +03:00 [INF] Handle on target page was called 1 times
+2022-04-25 14:58:39.730 +03:00 [INF] Handle on target page was called 2 times
+2022-04-25 14:58:40.695 +03:00 [INF] Handle on target page was called 3 times
+2022-04-25 14:58:41.721 +03:00 [INF] Handle on target page was called 4 times
+2022-04-25 14:58:43.034 +03:00 [INF] Handle on target page was called 5 times
+2022-04-25 14:58:43.725 +03:00 [INF] Handle on target page was called 6 times
+2022-04-25 14:58:44.716 +03:00 [INF] Handle on target page was called 7 times
+2022-04-25 14:58:45.728 +03:00 [INF] Handle on target page was called 8 times
+2022-04-25 14:58:46.713 +03:00 [INF] Handle on target page was called 9 times
+2022-04-25 14:58:47.705 +03:00 [INF] Handle on target page was called 10 times
+2022-04-25 14:58:48.691 +03:00 [INF] Handle on target page was called 11 times
+2022-04-25 14:58:49.696 +03:00 [INF] Handle on target page was called 12 times
+2022-04-25 14:58:50.708 +03:00 [INF] Handle on target page was called 13 times
+2022-04-25 14:58:51.723 +03:00 [INF] Handle on target page was called 14 times
+2022-04-25 14:58:52.689 +03:00 [INF] Handle on target page was called 15 times
+2022-04-25 14:58:53.702 +03:00 [INF] Handle on target page was called 16 times
