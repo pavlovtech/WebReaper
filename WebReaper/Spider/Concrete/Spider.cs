@@ -105,7 +105,6 @@ public class Spider : ISpider
         if (job.PageType == PageType.TargetPage)
         {
             _logger.LogInvocationCount("Handle on target page");
-            // TODO: save to file or something
             var result = contentParser.Parse(doc, job.schema);
 
             var sinkTasks = Sinks.Select(sink => sink.Emit(result));
