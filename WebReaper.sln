@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 25.0.1700.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebReaper", "WebReaper\WebReaper.csproj", "{72A004F0-3B30-4149-B33F-8C8220135A8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebReaper", "WebReaper\WebReaper.csproj", "{72A004F0-3B30-4149-B33F-8C8220135A8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebReaper.Tests", "WebReaper.Tests\WebReaper.Tests.csproj", "{6A3C1998-9015-4AC8-8701-FBD2E2210EB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScraperWorkerService", "ScraperWorkerService\ScraperWorkerService.csproj", "{A9715581-1978-419A-A35E-66AC2A8A9D03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScraperWorkerService", "ScraperWorkerService\ScraperWorkerService.csproj", "{A9715581-1978-419A-A35E-66AC2A8A9D03}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebReaper.Abstractions", "WebReaper.Abstractions\WebReaper.Abstractions.csproj", "{A7D15B7F-5102-4215-9A86-06F5C635B964}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebReaper.Domain", "WebReaper.Domain\WebReaper.Domain.csproj", "{9265842B-9D15-4B6C-99AE-8416F6B72035}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +21,18 @@ Global
 		{72A004F0-3B30-4149-B33F-8C8220135A8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72A004F0-3B30-4149-B33F-8C8220135A8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72A004F0-3B30-4149-B33F-8C8220135A8B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6A3C1998-9015-4AC8-8701-FBD2E2210EB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6A3C1998-9015-4AC8-8701-FBD2E2210EB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6A3C1998-9015-4AC8-8701-FBD2E2210EB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6A3C1998-9015-4AC8-8701-FBD2E2210EB1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A9715581-1978-419A-A35E-66AC2A8A9D03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A9715581-1978-419A-A35E-66AC2A8A9D03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9715581-1978-419A-A35E-66AC2A8A9D03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9715581-1978-419A-A35E-66AC2A8A9D03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7D15B7F-5102-4215-9A86-06F5C635B964}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7D15B7F-5102-4215-9A86-06F5C635B964}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7D15B7F-5102-4215-9A86-06F5C635B964}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7D15B7F-5102-4215-9A86-06F5C635B964}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9265842B-9D15-4B6C-99AE-8416F6B72035}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9265842B-9D15-4B6C-99AE-8416F6B72035}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9265842B-9D15-4B6C-99AE-8416F6B72035}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9265842B-9D15-4B6C-99AE-8416F6B72035}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,6 +1,6 @@
 using System.Net;
 using WebReaper.Domain;
-using WebReaper.Scraper.Concrete;
+using WebReaper.Scraper;
 using WebReaper.Sinks.Absctract;
 
 namespace WebReaper.Scraper.Abstract;
