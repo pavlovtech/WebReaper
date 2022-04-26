@@ -1,6 +1,5 @@
+using WebReaper.Domain.Schema;
 using WebReaper.Domain.Selectors;
-
-namespace WebReaper.Domain.Schema;
 
 public record SchemaElement
 {
