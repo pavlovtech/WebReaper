@@ -11,7 +11,7 @@ public record SchemaElement
     public Func<string, string> Transform { get; init; } = p => p;
     public SelectorType SelectorType { get; init; } = SelectorType.Css;
 
-    public ContentType? ContentType { get; init; } = WebReaper.Domain.Schema.ContentType.Text;
+    public ElementType? ElementType { get; init; } = WebReaper.Domain.Schema.ElementType.Text;
 
     public SchemaElement(
         string field,
@@ -36,6 +36,6 @@ public record SchemaElement
     {
         Field = field;
         Children = children;
-        ContentType = WebReaper.Domain.Schema.ContentType.Nested;
+        ElementType = WebReaper.Domain.Schema.ElementType.Nested;
     }
 }

@@ -40,8 +40,6 @@ public class Scraper : IScraper
 
     private WebProxy[] proxies = Array.Empty<WebProxy>();
 
-    private int parallelismDegree = 1;
-
     protected string baseUrl = "";
 
     protected readonly IJobQueueReader JobQueueReader;
@@ -72,7 +70,7 @@ public class Scraper : IScraper
 
     protected string[] urlBlackList = Array.Empty<string>();
 
-    protected int ParallelismDegree { get; private set; }
+    protected int ParallelismDegree { get; private set; } = 1;
 
     public Scraper(ILogger logger)
     {
@@ -183,7 +181,7 @@ public class Scraper : IScraper
             DepthLevel: 0));
 
         var spiderTasks = Enumerable
-            .Range(0, parallelismDegree)
+            .Range(0, ParallelismDegree)
             .Select(_ => spider.Crawl());
 
         await Task.WhenAll(spiderTasks);

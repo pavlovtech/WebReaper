@@ -1,6 +1,6 @@
 ﻿namespace WebReaper.Domain.Schema;
 
-public enum ContentType
+public enum ElementType
 {
     Text,
     Html,

@@ -1,0 +1,575 @@
+2022-04-27 00:45:54.071 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-27 00:45:54.128 +03:00 [INF] Hosting environment: Development
+2022-04-27 00:45:54.130 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-27 00:45:56.481 +03:00 [INF] Handle on target page was called 1 times
+2022-04-27 00:46:53.091 +03:00 [INF] Handle on target page was called 2 times
+2022-04-27 00:46:53.322 +03:00 [INF] Handle on target page was called 3 times
+2022-04-27 00:46:54.319 +03:00 [INF] Handle on target page was called 4 times
+2022-04-27 00:46:55.292 +03:00 [INF] Handle on target page was called 5 times
+2022-04-27 00:46:56.296 +03:00 [INF] Handle on target page was called 6 times
+2022-04-27 00:46:57.344 +03:00 [INF] Handle on target page was called 7 times
+2022-04-27 00:46:58.305 +03:00 [INF] Handle on target page was called 8 times
+2022-04-27 00:46:59.308 +03:00 [INF] Handle on target page was called 9 times
+2022-04-27 00:47:00.300 +03:00 [INF] Handle on target page was called 10 times
+2022-04-27 00:47:01.280 +03:00 [INF] Handle on target page was called 11 times
+2022-04-27 00:47:02.308 +03:00 [INF] Handle on target page was called 12 times
+2022-04-27 00:47:03.294 +03:00 [INF] Handle on target page was called 13 times
+2022-04-27 00:48:35.475 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=895
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 103
+   at WebReaper.Spider.Spider.Crawl(Int32 id) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 79
+2022-04-27 00:48:35.475 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=471
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 103
+   at WebReaper.Spider.Spider.Crawl(Int32 id) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 79
+2022-04-27 00:48:35.475 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=472
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 103
+   at WebReaper.Spider.Spider.Crawl(Int32 id) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 79
+2022-04-27 00:48:35.705 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=471
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 103
+   at WebReaper.Spider.Spider.Crawl(Int32 id) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 79
+2022-04-27 00:48:35.795 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=472
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 103
+   at WebReaper.Spider.Spider.Crawl(Int32 id) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 79
+2022-04-27 00:48:36.050 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=471
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 103
+   at WebReaper.Spider.Spider.Crawl(Int32 id) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 79
+2022-04-27 00:48:36.143 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=472
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 103
+   at WebReaper.Spider.Spider.Crawl(Int32 id) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 79
+2022-04-27 00:48:36.340 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=471
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 103
+   at WebReaper.Spider.Spider.Crawl(Int32 id) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 79
+2022-04-27 00:48:36.485 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=472
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 103
+   at WebReaper.Spider.Spider.Crawl(Int32 id) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 79
+2022-04-27 00:48:36.670 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=472
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 103
+   at WebReaper.Spider.Spider.Crawl(Int32 id) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 79
+2022-04-27 00:48:37.123 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=118592
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 103
+   at WebReaper.Spider.Spider.Crawl(Int32 id) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 79
+2022-04-27 00:48:37.123 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=98814
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 103
+   at WebReaper.Spider.Spider.Crawl(Int32 id) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 79
+2022-04-27 00:48:37.430 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=11263
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 103
+   at WebReaper.Spider.Spider.Crawl(Int32 id) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 79
+2022-04-27 00:48:37.386 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=199912
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 103
+   at WebReaper.Spider.Spider.Crawl(Int32 id) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 79
+2022-04-27 00:48:37.429 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=120660
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 103
+   at WebReaper.Spider.Spider.Crawl(Int32 id) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 79
+2022-04-27 00:48:37.891 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1488505
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 103
+   at WebReaper.Spider.Spider.Crawl(Int32 id) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 79
+2022-04-27 00:48:37.820 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1495529
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 103
+   at WebReaper.Spider.Spider.Crawl(Int32 id) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 79
+2022-04-27 00:48:37.776 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1512084
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 103
+   at WebReaper.Spider.Spider.Crawl(Int32 id) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 79
+2022-04-27 00:48:37.922 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=11263
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 103
+   at WebReaper.Spider.Spider.Crawl(Int32 id) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 79
+2022-04-27 00:48:37.922 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=118592
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 103
+   at WebReaper.Spider.Spider.Crawl(Int32 id) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 79
+2022-04-27 00:48:39.161 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=52420
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 103
+   at WebReaper.Spider.Spider.Crawl(Int32 id) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 79
+2022-04-27 00:48:39.326 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=119280
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 103
+   at WebReaper.Spider.Spider.Crawl(Int32 id) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 79
+2022-04-27 00:48:39.339 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1490881
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 103
+   at WebReaper.Spider.Spider.Crawl(Int32 id) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 79
+2022-04-27 00:48:39.515 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=199912
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 103
+   at WebReaper.Spider.Spider.Crawl(Int32 id) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 79
+2022-04-27 00:48:39.578 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1488505
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 103
+   at WebReaper.Spider.Spider.Crawl(Int32 id) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 79
+2022-04-27 00:50:45.725 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=895
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:50:45.725 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=472
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:50:45.725 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=471
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:50:45.978 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=471
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:50:46.074 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=472
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:50:55.561 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-27 00:50:55.561 +03:00 [INF] Hosting environment: Development
+2022-04-27 00:50:55.562 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-27 00:50:55.560 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=472
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:50:55.560 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewforum.php?f=471
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:50:59.984 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=149826
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:00.151 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1530135
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:00.376 +03:00 [INF] Handle on target page was called 1 times
+2022-04-27 00:51:00.379 +03:00 [INF] Handle on target page was called 2 times
+2022-04-27 00:51:00.379 +03:00 [INF] Handle on target page was called 3 times
+2022-04-27 00:51:00.781 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1479566
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:00.876 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1516519
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:01.119 +03:00 [INF] Handle on target page was called 4 times
+2022-04-27 00:51:01.159 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1479566
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:01.277 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1516519
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:01.491 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1409931
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:01.661 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1523790
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:01.732 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1479566
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:01.733 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1516519
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:01.787 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1543471
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:01.864 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1443155
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:02.082 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1409931
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:02.082 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1523790
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:02.082 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1516519
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:02.098 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1479566
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:02.098 +03:00 [INF] Handle on target page was called 5 times
+2022-04-27 00:51:02.300 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1543471
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:02.361 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1409931
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:02.417 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1523790
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:02.478 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1516519
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:02.597 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1479566
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:02.716 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1543471
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:02.762 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1409931
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:02.793 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1523790
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:03.082 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1516519
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:03.262 +03:00 [INF] Handle on target page was called 6 times
+2022-04-27 00:51:03.262 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1543471
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:03.447 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1090296
+System.Exception: No element found that matche the selector td.genmed>span.
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, SchemaElement item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 46
+   at WebReaper.Parser.ContentParser.GetJson(HtmlDocument doc, SchemaElement[] schema) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 25
+   at WebReaper.Parser.ContentParser.Parse(String html, SchemaElement[] schema) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 16
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:03.468 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1409931
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:03.556 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1523790
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:03.669 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1516519
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:03.772 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1409931
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:03.917 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1543471
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:03.900 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1090296
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:04.106 +03:00 [INF] Handle on target page was called 7 times
+2022-04-27 00:51:04.055 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1516519
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:04.255 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1543471
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:04.375 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1090296
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:04.255 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1409931
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:04.643 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1543183
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:04.796 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1543471
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:04.796 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1516519
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:04.915 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1090296
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:05.082 +03:00 [INF] Handle on target page was called 8 times
+2022-04-27 00:51:05.185 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1543183
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:05.374 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1434736
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:05.390 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1090296
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:05.374 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1516519
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:05.456 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1543471
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:05.595 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1542967
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:05.759 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1434736
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:05.759 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1543183
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:05.823 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1090296
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:05.885 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1516519
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:06.345 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1434736
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:06.345 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1543183
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:06.345 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1090296
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:06.406 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1543471
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:06.406 +03:00 [INF] Handle on target page was called 9 times
+2022-04-27 00:51:06.621 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1434736
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:06.705 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1516519
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:06.705 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1543183
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-04-27 00:51:06.769 +03:00 [ERR] Error occurred when scraping https://nnmclub.to/forum/viewtopic.php?t=1090296
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Temporarily Unavailable).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 100
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76

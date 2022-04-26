@@ -27,8 +27,8 @@ public class ScrapingWorker : BackgroundService
                 new("category", "td:nth-child(2)>span>a:nth-child(2)"),
                 new("subcategory", "td:nth-child(2)>span>a:nth-child(3)"),
                 new("torrentSize", "td.genmed>span"),
-                new("torrentLink", "a[href*='download.php?']") { ContentType = ContentType.Url },
-                new("coverImageUrl", ".postImg") { ContentType = ContentType.Image },
+                new("torrentLink", "a[href*='download.php?']") { ElementType = ElementType.Url },
+                new("coverImageUrl", ".postImg") { ElementType = ElementType.Image },
             })
             .WithParallelismDegree(10)
             .WriteToJsonFile("result.json")

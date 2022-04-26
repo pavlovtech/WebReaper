@@ -37,7 +37,7 @@ namespace WebReaper.Parser
         {
             HtmlNode? node = null;
 
-            if(item.ContentType != ContentType.Nested) {
+            if(item.ElementType != ElementType.Nested) {
                 ArgumentNullException.ThrowIfNull(item.Selector);
 
                 node = QuerySelector(doc, item.Selector);
@@ -49,9 +49,9 @@ namespace WebReaper.Parser
 
             bool ok = false;
 
-            switch (item.ContentType)
+            switch (item.ElementType)
             {
-                case ContentType.Text:
+                case ElementType.Text:
                     var str = node?.InnerText;
 
                     ok = !string.IsNullOrWhiteSpace(str);
@@ -62,7 +62,7 @@ namespace WebReaper.Parser
                         throw new Exception($"Cannot find image link in {node?.OuterHtml}.");
                     }
                     break;
-                case ContentType.Image:
+                case ElementType.Image:
                     var value = node?.GetAttributeValue("title", "");
 
                     ok = !string.IsNullOrWhiteSpace(value);
@@ -73,7 +73,7 @@ namespace WebReaper.Parser
                         throw new Exception($"Cannot find image link in {node?.OuterHtml}.");
                     }
                     break;
-                case ContentType.Html:
+                case ElementType.Html:
                     var html = node?.InnerHtml;
 
                     ok = !string.IsNullOrWhiteSpace(html);
@@ -84,7 +84,7 @@ namespace WebReaper.Parser
                         throw new Exception($"No html found in convert {html}.");
                     }
                     break;
-                case ContentType.Url:
+                case ElementType.Url:
                     var url = node?.GetAttributeValue("href", "");
 
                     ok = !string.IsNullOrWhiteSpace(url);
@@ -95,10 +95,10 @@ namespace WebReaper.Parser
                         throw new Exception($"No href attribute found in {node}.");
                     }
                     break;
-                case ContentType.Nested: 
+                case ElementType.Nested: 
 
                     if(item.Children == null) {
-                        throw new Exception("ContentType is incorrect, node has no children");
+                        throw new Exception("ContentType is incorrect, node has no children.");
                     }
 
                     var obj = new JObject();
