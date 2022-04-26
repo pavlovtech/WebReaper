@@ -10,19 +10,13 @@ public record Job(
     ImmutableQueue<LinkPathSelector> LinkPathSelectors,
     int DepthLevel = 0)
 {
-    public PageCategory PageCategory { get {
-        if(!LinkPathSelectors.Any()) {
-            return PageCategory.TargetPage;
-        }
-
-        var withPagination = LinkPathSelectors.Peek().HasPagination;
-
-        if(LinkPathSelectors.Count() == 1 && withPagination) {
-            return PageCategory.PageWithPagination;
-        }
-
-        return PageCategory.TransitPage;
-    }}
+    public PageCategory PageCategory => 
+        (LinkPathSelectors.Count(), LinkPathSelectors.FirstOrDefault()?.HasPagination) switch
+        {
+            (0, _) => PageCategory.TargetPage,
+            (1, true) => PageCategory.PageWithPagination,
+            _ => PageCategory.TransitPage
+        };
 
     public int Priority => PageCategory switch
     {

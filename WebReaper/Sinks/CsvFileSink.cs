@@ -37,7 +37,7 @@ namespace WebReaper.Sinks
             }
         }
 
-        protected async ValueTask Handle()
+        protected async Task Handle()
         {
             foreach(var entry in entries.GetConsumingEnumerable()) {
 
