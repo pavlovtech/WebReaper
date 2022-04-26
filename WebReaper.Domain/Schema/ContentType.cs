@@ -2,11 +2,9 @@
 
 public enum ContentType
 {
-    String,
-    Number,
-    Boolean,
-    Nested,
+    Text,
     Html,
     Image,
-    Url
+    Url,
+    Nested,
 }

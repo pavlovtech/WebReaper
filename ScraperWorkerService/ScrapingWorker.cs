@@ -23,7 +23,7 @@ public class ScrapingWorker : BackgroundService
             .FollowLinks("a.topictitle")
             .Paginate("td>span.nav>a[href*='start=']")
             .WithScheme(new SchemaElement[] {
-                new("name","div.postbody>span"),
+                new("name","div.postbody>span", content => content.Trim()),
                 new("category", "td:nth-child(2)>span>a:nth-child(2)"),
                 new("subcategory", "td:nth-child(2)>span>a:nth-child(3)"),
                 new("torrentSize", "td.genmed>span"),

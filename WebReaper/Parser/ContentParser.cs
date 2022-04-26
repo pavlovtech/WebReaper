@@ -51,33 +51,15 @@ namespace WebReaper.Parser
 
             switch (item.ContentType)
             {
-                case ContentType.String:
+                case ContentType.Text:
                     var str = node?.InnerText;
 
                     ok = !string.IsNullOrWhiteSpace(str);
 
                     if(ok) {
-                        result[item.Field] = str;
+                        result[item.Field] = item.Transform(str);
                     } else {
                         throw new Exception($"Cannot find image link in {node?.OuterHtml}.");
-                    }
-                    break;
-                case ContentType.Number:
-                    ok = int.TryParse(node?.InnerText, out int parsedInt);
-
-                    if(ok) {
-                        result[item.Field] = parsedInt;
-                    } else {
-                        throw new Exception($"Cannot convert {node?.InnerText} to the integer type.");
-                    }
-                    break;
-                case ContentType.Boolean:
-                    ok = bool.TryParse(node?.InnerText, out bool parsedBool);
-
-                    if(ok) {
-                        result[item.Field] = parsedBool;
-                    } else {
-                        throw new Exception($"Cannot convert {node?.InnerText} to the integer type.");
                     }
                     break;
                 case ContentType.Image:
@@ -86,7 +68,7 @@ namespace WebReaper.Parser
                     ok = !string.IsNullOrWhiteSpace(value);
 
                     if(ok) {
-                        result[item.Field] = value;
+                        result[item.Field] = item.Transform(value);
                     } else {
                         throw new Exception($"Cannot find image link in {node?.OuterHtml}.");
                     }
@@ -97,7 +79,7 @@ namespace WebReaper.Parser
                     ok = !string.IsNullOrWhiteSpace(html);
 
                     if(ok) {
-                        result[item.Field] = html;
+                        result[item.Field] = item.Transform(html);
                     } else {
                         throw new Exception($"No html found in convert {html}.");
                     }
@@ -108,7 +90,7 @@ namespace WebReaper.Parser
                     ok = !string.IsNullOrWhiteSpace(url);
 
                     if(ok) {
-                        result[item.Field] = url;
+                        result[item.Field] = item.Transform(url);
                     } else {
                         throw new Exception($"No href attribute found in {node}.");
                     }

@@ -8,10 +8,19 @@ public record SchemaElement
     public string Field { get; set; }
 
     public string? Selector { get; set; }
-
+    public Func<string, string> Transform { get; init; } = p => p;
     public SelectorType SelectorType { get; init; } = SelectorType.Css;
 
-    public ContentType? ContentType { get; init; } = WebReaper.Domain.Schema.ContentType.String;
+    public ContentType? ContentType { get; init; } = WebReaper.Domain.Schema.ContentType.Text;
+
+    public SchemaElement(
+        string field,
+        string selector,
+        Func<string, string> transform):
+    this(field, selector)
+    {
+        Transform = transform;
+    }
 
     public SchemaElement(
         string field,
