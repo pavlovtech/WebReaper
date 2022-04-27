@@ -10,6 +10,7 @@ using WebReaper.Abstractions.Parsers;
 using WebReaper.Absctracts.Sinks;
 using WebReaper.Domain.Selectors;
 using WebReaper.Abstractions.JobQueue;
+using WebReaper.Domain.Schema;
 
 namespace WebReaper.Spider;
 

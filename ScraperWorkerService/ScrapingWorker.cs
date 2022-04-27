@@ -3,6 +3,7 @@ using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
 using WebReaper.Abstractions.Scraper;
 using WebReaper.Domain.Schema;
+using WebReaper.Schema;
 using WebReaper.Scraper;
 
 namespace ScraperWorkerService;
@@ -23,12 +24,12 @@ public class ScrapingWorker : BackgroundService
             .FollowLinks("a.topictitle")
             .Paginate("td>span.nav>a[href*='start=']")
             .WithScheme(new SchemaElement[] {
-                new("name","div.postbody>span", content => content.Trim()),
-                new("category", "td:nth-child(2)>span>a:nth-child(2)"),
-                new("subcategory", "td:nth-child(2)>span>a:nth-child(3)"),
-                new("torrentSize", "td.genmed>span"),
-                new("torrentLink", "a[href*='download.php?']") { ElementType = ElementType.Url },
-                new("coverImageUrl", ".postImg") { ElementType = ElementType.Image },
+                new TextSchemaElement("name","div.postbody>span"),
+                new TextSchemaElement("category", "td:nth-child(2)>span>a:nth-child(2)"),
+                new TextSchemaElement("subcategory", "td:nth-child(2)>span>a:nth-child(3)"),
+                new TextSchemaElement("torrentSize", "td.genmed>span"),
+                new UrlSchemaElement("torrentLink", "a[href*='download.php?']"),
+                new ImageSchemaElement("coverImageUrl", ".postImg")
             })
             .WithParallelismDegree(10)
             .WriteToJsonFile("result.json")

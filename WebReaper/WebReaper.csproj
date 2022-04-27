@@ -11,17 +11,12 @@
     <None Remove="Fizzler.Systems.HtmlAgilityPack" />
     <None Remove="Microsoft.Extensions.Logging.Abstractions" />
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="AngleSharp.Css" Version="0.16.4" />
-    <PackageReference Include="AngleSharp.Io" Version="0.16.0" />
-    <PackageReference Include="AngleSharp.Js" Version="0.15.0" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.42" />
+  <ItemGroup>    
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="AngleSharp" Version="0.16.1" />
     <PackageReference Include="Polly" Version="7.2.3" />
     <PackageReference Include="System.Linq.Async" Version="6.0.1" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="6.0.0" />
-     <PackageReference Include="restsharp" Version="107.3.0" />
      <PackageReference Include="Fizzler.Systems.HtmlAgilityPack" Version="1.2.1" />
      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
   </ItemGroup>
