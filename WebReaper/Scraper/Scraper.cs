@@ -18,8 +18,6 @@ using WebReaper.Domain.Parsing;
 
 namespace WebReaper.Scraper;
 
-// anglesharpjs
-// puppeter
 public class Scraper : IScraper
 {
     public List<IScraperSink> Sinks { get; protected set; } = new(); 
@@ -107,10 +105,9 @@ public class Scraper : IScraper
 
     public IScraper FollowLinks(
         string linkSelector,
-        SelectorType selectorType = SelectorType.Css,
-        PageType pageType = PageType.Static)
+        SelectorType selectorType = SelectorType.Css)
     {
-        linkPathSelectors.Add(new(linkSelector, SelectorType: selectorType, PageType: pageType));
+        linkPathSelectors.Add(new(linkSelector, SelectorType: selectorType));
         return this;
     }
 

@@ -8,7 +8,7 @@ namespace WebReaper.Abstractions.Scraper;
 public interface IScraper
 {
     IScraper WithStartUrl(string startUrl);
-    IScraper FollowLinks(string linkSelector, SelectorType selectorType = SelectorType.Css, PageType pageType = PageType.Static);
+    IScraper FollowLinks(string linkSelector, SelectorType selectorType = SelectorType.Css);
     IScraper WriteToJsonFile(string filePath);
     IScraper WriteToCsvFile(string filePath);
     IScraper AddSink(IScraperSink sink);
