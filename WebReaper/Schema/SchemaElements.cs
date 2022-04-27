@@ -5,16 +5,8 @@ using WebReaper.Domain.Selectors;
 
 namespace WebReaper.Schema;
 
-public abstract record DomSchemaElement(string Field, string Selector, SelectorType SelectorType = SelectorType.Css):
-    SchemaElement(Field, Selector, SelectorType){
-    protected HtmlNode QuerySelector(HtmlDocument doc, string selector)
-    {
-        return doc.DocumentNode.QuerySelector(selector);
-    }
-} 
-
-public record TextSchemaElement(string Field, string Selector, SelectorType SelectorType = SelectorType.Css)
-    : DomSchemaElement(Field, Selector, SelectorType)
+public record Text(string Field, string Selector, SelectorType SelectorType = SelectorType.Css)
+    : SchemaElement(Field, Selector, SelectorType)
 {
     public override string GetData(HtmlDocument doc)
     {
@@ -31,8 +23,8 @@ public record TextSchemaElement(string Field, string Selector, SelectorType Sele
     }
 }
 
-public record ImageSchemaElement(string Field, string Selector, SelectorType SelectorType = SelectorType.Css)
-    : DomSchemaElement(Field, Selector, SelectorType)
+public record Image(string Field, string Selector, SelectorType SelectorType = SelectorType.Css)
+    : SchemaElement(Field, Selector, SelectorType)
 {
     public override string GetData(HtmlDocument doc)
     {
@@ -48,8 +40,8 @@ public record ImageSchemaElement(string Field, string Selector, SelectorType Sel
     }
 }
 
-public record UrlSchemaElement(string Field, string Selector, SelectorType SelectorType = SelectorType.Css)
-    : DomSchemaElement(Field, Selector, SelectorType)
+public record Url(string Field, string Selector, SelectorType SelectorType = SelectorType.Css)
+    : SchemaElement(Field, Selector, SelectorType)
 {
     public override string GetData(HtmlDocument doc)
     {
@@ -66,8 +58,8 @@ public record UrlSchemaElement(string Field, string Selector, SelectorType Selec
 }
 
 
-public record HtmlSchemaElement(string Field, string Selector, SelectorType SelectorType = SelectorType.Css)
-    : DomSchemaElement(Field, Selector, SelectorType)
+public record Html(string Field, string Selector, SelectorType SelectorType = SelectorType.Css)
+    : SchemaElement(Field, Selector, SelectorType)
 {
     public override string GetData(HtmlDocument doc)
     {

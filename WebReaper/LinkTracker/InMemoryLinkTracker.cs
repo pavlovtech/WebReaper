@@ -3,7 +3,7 @@ using WebReaper.LinkTracker.Abstract;
 
 namespace WebReaper.LinkTracker.Concrete;
 
-public class LinkTracker : ILinkTracker
+public class InMemoryLinkTracker : ILinkTracker
 {
     protected ConcurrentDictionary<string, ConcurrentBag<string>> visitedUrlsPerSite = new();
 

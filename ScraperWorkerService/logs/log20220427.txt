@@ -1014,3 +1014,15 @@ System.Net.Http.HttpRequestException: Response status code does not indicate suc
    at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
    at WebReaper.Spider.Spider.Handle(Job job) in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 101
    at WebReaper.Spider.Spider.Crawl() in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 77
+2022-04-27 17:27:37.121 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-27 17:27:37.216 +03:00 [INF] Hosting environment: Development
+2022-04-27 17:27:37.218 +03:00 [INF] Content root path: C:\Projects\WebReaper\ScraperWorkerService
+2022-04-27 17:30:31.175 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-27 17:30:31.264 +03:00 [INF] Hosting environment: Development
+2022-04-27 17:30:31.265 +03:00 [INF] Content root path: C:\Projects\WebReaper\ScraperWorkerService
+2022-04-27 17:31:57.195 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-27 17:31:57.291 +03:00 [INF] Hosting environment: Development
+2022-04-27 17:31:57.292 +03:00 [INF] Content root path: C:\Projects\WebReaper\ScraperWorkerService
+2022-04-27 17:34:51.385 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-27 17:34:51.479 +03:00 [INF] Hosting environment: Development
+2022-04-27 17:34:51.480 +03:00 [INF] Content root path: C:\Projects\WebReaper\ScraperWorkerService

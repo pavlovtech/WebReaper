@@ -50,7 +50,7 @@ public class Scraper : IScraper
 
     protected ILinkParser LinkParser = new LinkParserByCssSelector();
 
-    protected ILinkTracker SiteLinkTracker = new WebReaper.LinkTracker.Concrete.LinkTracker();
+    protected ILinkTracker SiteLinkTracker = new WebReaper.LinkTracker.Concrete.InMemoryLinkTracker();
 
     protected IContentParser ContentParser = new ContentParser();
 

@@ -17,55 +17,33 @@ public class ScrapingWorker : BackgroundService
     {
         _logger = logger;
 
+        var blackList = new string[] {
+            "https://rutracker.org/forum/viewforum.php?f=396",
+            "https://rutracker.org/forum/viewforum.php?f=2322",
+            "https://rutracker.org/forum/viewforum.php?f=1993",
+            "https://rutracker.org/forum/viewforum.php?f=2167",
+            "https://rutracker.org/forum/viewforum.php?f=2321"
+        };
+
         scraper = new Scraper(logger)
-            .WithStartUrl("https://nnmclub.to/forum/viewforum.php?f=438")
-            .Authorize(() => Auth())
-            .FollowLinks("h2>a.forumlink")
-            .FollowLinks("a.topictitle")
-            .Paginate("td>span.nav>a[href*='start=']")
+            .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
+            .IgnoreUrls(blackList)
+            .FollowLinks("#cf-33 .forumlink>a")
+            .FollowLinks(".forumlink>a")
+            .FollowLinks("a.torTopic")
+            .Paginate(".pg")
             .WithScheme(new SchemaElement[] {
-                new TextSchemaElement("name","div.postbody>span"),
-                new TextSchemaElement("category", "td:nth-child(2)>span>a:nth-child(2)"),
-                new TextSchemaElement("subcategory", "td:nth-child(2)>span>a:nth-child(3)"),
-                new TextSchemaElement("torrentSize", "td.genmed>span"),
-                new UrlSchemaElement("torrentLink", "a[href*='download.php?']"),
-                new ImageSchemaElement("coverImageUrl", ".postImg")
+                //new ImageSchemaElement("coverImageUrl", ".postImg"),
+                new("name", "#topic-title"),
+                new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
+                new("subcategory", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(5)"),
+                new("torrentSize", "div.attach_link.guest>ul>li:nth-child(2)"),
+                new Url("torrentLink", ".magnet-link")
             })
-            .WithParallelismDegree(10)
+            .WithParallelismDegree(1)
             .WriteToJsonFile("result.json")
             .WriteToCsvFile("result.csv")
             .Build();
-    }
-
-    protected CookieContainer Auth() {
-        CookieContainer cookies = new();
-
-        var web = new HtmlWeb();
-        var doc = web.Load("https://nnmclub.to/forum/login.php");
-        var code = doc.DocumentNode.QuerySelector("input[type=hidden][name=code]").GetAttributeValue("value", "");
-
-        HttpClientHandler handler = new() {
-            CookieContainer = cookies
-        };
-
-        var httpClient = new HttpClient(handler);
-
-        var formContent = new FormUrlEncodedContent(new KeyValuePair<string, string>[]
-        {
-            new("username", "gif0"), 
-            new("password", "111111"),
-            new("autologin", "on"),
-            new("redirect", ""),
-            new("code", code),
-            new("login", "Вход") 
-        });
-
-        var resp = httpClient
-            .PostAsync("https://nnmclub.to/forum/login.php", formContent)
-            .GetAwaiter()
-            .GetResult();
-
-        return cookies;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
