@@ -1,4 +1,4 @@
-﻿namespace WebReaper.Domain.Schema;
+﻿namespace WebReaper.Domain.Parsing;
 
 public enum ElementType
 {

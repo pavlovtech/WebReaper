@@ -3804,3 +3804,366 @@ System.Exception: Cannot find element by selector $div.attach_link.guest>ul>li:n
 2022-04-27 18:20:02.951 +03:00 [INF] Handle on target page was called 111 times
 2022-04-27 18:20:02.952 +03:00 [INF] Handle on target page was called 112 times
 2022-04-27 18:20:02.956 +03:00 [INF] Handle on target page was called 113 times
+2022-04-27 21:33:28.192 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-27 21:33:28.395 +03:00 [INF] Hosting environment: Development
+2022-04-27 21:33:28.397 +03:00 [INF] Content root path: C:\Projects\WebReaper\ScraperWorkerService
+2022-04-27 21:33:29.570 +03:00 [INF] Handle on target page was called 1 times
+2022-04-27 21:33:29.931 +03:00 [INF] Handle on target page was called 2 times
+2022-04-27 21:33:30.019 +03:00 [INF] Handle on target page was called 3 times
+2022-04-27 21:33:30.133 +03:00 [INF] Handle on target page was called 4 times
+2022-04-27 21:33:30.240 +03:00 [INF] Handle on target page was called 5 times
+2022-04-27 21:33:30.342 +03:00 [INF] Handle on target page was called 6 times
+2022-04-27 21:33:30.433 +03:00 [INF] Handle on target page was called 7 times
+2022-04-27 21:33:30.533 +03:00 [INF] Handle on target page was called 8 times
+2022-04-27 21:33:30.627 +03:00 [INF] Handle on target page was called 9 times
+2022-04-27 21:33:30.725 +03:00 [INF] Handle on target page was called 10 times
+2022-04-27 21:33:30.818 +03:00 [INF] Handle on target page was called 11 times
+2022-04-27 21:33:30.902 +03:00 [INF] Handle on target page was called 12 times
+2022-04-27 21:33:30.995 +03:00 [INF] Handle on target page was called 13 times
+2022-04-27 21:33:31.087 +03:00 [INF] Handle on target page was called 14 times
+2022-04-27 21:33:31.187 +03:00 [INF] Handle on target page was called 15 times
+2022-04-27 21:33:31.284 +03:00 [INF] Handle on target page was called 16 times
+2022-04-27 21:33:31.379 +03:00 [INF] Handle on target page was called 17 times
+2022-04-27 21:33:31.490 +03:00 [INF] Handle on target page was called 18 times
+2022-04-27 21:33:31.582 +03:00 [INF] Handle on target page was called 19 times
+2022-04-27 21:33:31.682 +03:00 [INF] Handle on target page was called 20 times
+2022-04-27 21:33:31.769 +03:00 [INF] Handle on target page was called 21 times
+2022-04-27 21:33:31.858 +03:00 [INF] Handle on target page was called 22 times
+2022-04-27 21:33:31.951 +03:00 [INF] Handle on target page was called 23 times
+2022-04-27 21:33:32.044 +03:00 [INF] Handle on target page was called 24 times
+2022-04-27 21:33:32.135 +03:00 [INF] Handle on target page was called 25 times
+2022-04-27 21:33:32.302 +03:00 [INF] Handle on target page was called 26 times
+2022-04-27 21:33:32.394 +03:00 [INF] Handle on target page was called 27 times
+2022-04-27 21:33:32.515 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewtopic.php?t=1497122
+System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 41
+   at WebReaper.Parser.ContentParser.GetJson(HtmlDocument doc, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 24
+   at WebReaper.Parser.ContentParser.Parse(String html, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 15
+   at WebReaper.Spider.Spider.Handle(Job job) in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 106
+   at WebReaper.Spider.Spider.Crawl() in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 77
+2022-04-27 21:33:32.700 +03:00 [INF] Handle on target page was called 28 times
+2022-04-27 21:33:32.805 +03:00 [INF] Handle on target page was called 29 times
+2022-04-27 21:33:32.871 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewtopic.php?t=1497122
+System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 41
+   at WebReaper.Parser.ContentParser.GetJson(HtmlDocument doc, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 24
+   at WebReaper.Parser.ContentParser.Parse(String html, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 15
+   at WebReaper.Spider.Spider.Handle(Job job) in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 106
+   at WebReaper.Spider.Spider.Crawl() in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 77
+2022-04-27 21:33:32.955 +03:00 [INF] Handle on target page was called 30 times
+2022-04-27 21:33:33.048 +03:00 [INF] Handle on target page was called 31 times
+2022-04-27 21:33:33.128 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewtopic.php?t=1497122
+System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 41
+   at WebReaper.Parser.ContentParser.GetJson(HtmlDocument doc, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 24
+   at WebReaper.Parser.ContentParser.Parse(String html, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 15
+   at WebReaper.Spider.Spider.Handle(Job job) in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 106
+   at WebReaper.Spider.Spider.Crawl() in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 77
+2022-04-27 21:33:33.221 +03:00 [INF] Handle on target page was called 32 times
+2022-04-27 21:33:33.319 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewtopic.php?t=1621787
+System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 41
+   at WebReaper.Parser.ContentParser.GetJson(HtmlDocument doc, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 24
+   at WebReaper.Parser.ContentParser.Parse(String html, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 15
+   at WebReaper.Spider.Spider.Handle(Job job) in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 106
+   at WebReaper.Spider.Spider.Crawl() in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 77
+2022-04-27 21:33:33.413 +03:00 [INF] Handle on target page was called 33 times
+2022-04-27 21:33:33.495 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewtopic.php?t=1497122
+System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 41
+   at WebReaper.Parser.ContentParser.GetJson(HtmlDocument doc, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 24
+   at WebReaper.Parser.ContentParser.Parse(String html, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 15
+   at WebReaper.Spider.Spider.Handle(Job job) in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 106
+   at WebReaper.Spider.Spider.Crawl() in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 77
+2022-04-27 21:33:33.987 +03:00 [INF] Handle on target page was called 34 times
+2022-04-27 21:33:34.066 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewtopic.php?t=1621787
+System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 41
+   at WebReaper.Parser.ContentParser.GetJson(HtmlDocument doc, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 24
+   at WebReaper.Parser.ContentParser.Parse(String html, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 15
+   at WebReaper.Spider.Spider.Handle(Job job) in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 106
+   at WebReaper.Spider.Spider.Crawl() in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 77
+2022-04-27 21:33:34.182 +03:00 [INF] Handle on target page was called 35 times
+2022-04-27 21:33:34.265 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewtopic.php?t=1497122
+System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 41
+   at WebReaper.Parser.ContentParser.GetJson(HtmlDocument doc, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 24
+   at WebReaper.Parser.ContentParser.Parse(String html, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 15
+   at WebReaper.Spider.Spider.Handle(Job job) in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 106
+   at WebReaper.Spider.Spider.Crawl() in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 77
+2022-04-27 21:33:34.428 +03:00 [INF] Handle on target page was called 36 times
+2022-04-27 21:33:34.512 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewtopic.php?t=1621787
+System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 41
+   at WebReaper.Parser.ContentParser.GetJson(HtmlDocument doc, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 24
+   at WebReaper.Parser.ContentParser.Parse(String html, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 15
+   at WebReaper.Spider.Spider.Handle(Job job) in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 106
+   at WebReaper.Spider.Spider.Crawl() in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 77
+2022-04-27 21:33:34.629 +03:00 [INF] Handle on target page was called 37 times
+2022-04-27 21:33:34.714 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewtopic.php?t=1497122
+System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 41
+   at WebReaper.Parser.ContentParser.GetJson(HtmlDocument doc, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 24
+   at WebReaper.Parser.ContentParser.Parse(String html, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 15
+   at WebReaper.Spider.Spider.Handle(Job job) in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 106
+   at WebReaper.Spider.Spider.Crawl() in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 77
+2022-04-27 21:33:34.805 +03:00 [INF] Handle on target page was called 38 times
+2022-04-27 21:33:34.887 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewtopic.php?t=1621787
+System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 41
+   at WebReaper.Parser.ContentParser.GetJson(HtmlDocument doc, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 24
+   at WebReaper.Parser.ContentParser.Parse(String html, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 15
+   at WebReaper.Spider.Spider.Handle(Job job) in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 106
+   at WebReaper.Spider.Spider.Crawl() in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 77
+2022-04-27 21:33:34.976 +03:00 [INF] Handle on target page was called 39 times
+2022-04-27 21:33:35.055 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewtopic.php?t=1497122
+System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 41
+   at WebReaper.Parser.ContentParser.GetJson(HtmlDocument doc, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 24
+   at WebReaper.Parser.ContentParser.Parse(String html, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 15
+   at WebReaper.Spider.Spider.Handle(Job job) in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 106
+   at WebReaper.Spider.Spider.Crawl() in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 77
+2022-04-27 21:33:35.231 +03:00 [INF] Handle on target page was called 40 times
+2022-04-27 21:33:35.314 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewtopic.php?t=1621787
+System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 41
+   at WebReaper.Parser.ContentParser.GetJson(HtmlDocument doc, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 24
+   at WebReaper.Parser.ContentParser.Parse(String html, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 15
+   at WebReaper.Spider.Spider.Handle(Job job) in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 106
+   at WebReaper.Spider.Spider.Crawl() in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 77
+2022-04-27 21:33:35.441 +03:00 [INF] Handle on target page was called 41 times
+2022-04-27 21:33:35.522 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewtopic.php?t=1497122
+System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 41
+   at WebReaper.Parser.ContentParser.GetJson(HtmlDocument doc, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 24
+   at WebReaper.Parser.ContentParser.Parse(String html, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 15
+   at WebReaper.Spider.Spider.Handle(Job job) in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 106
+   at WebReaper.Spider.Spider.Crawl() in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 77
+2022-04-27 21:33:35.614 +03:00 [INF] Handle on target page was called 42 times
+2022-04-27 21:33:35.696 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewtopic.php?t=1621787
+System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 41
+   at WebReaper.Parser.ContentParser.GetJson(HtmlDocument doc, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 24
+   at WebReaper.Parser.ContentParser.Parse(String html, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 15
+   at WebReaper.Spider.Spider.Handle(Job job) in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 106
+   at WebReaper.Spider.Spider.Crawl() in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 77
+2022-04-27 21:33:36.076 +03:00 [INF] Handle on target page was called 43 times
+2022-04-27 21:33:36.159 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewtopic.php?t=1497122
+System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 41
+   at WebReaper.Parser.ContentParser.GetJson(HtmlDocument doc, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 24
+   at WebReaper.Parser.ContentParser.Parse(String html, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 15
+   at WebReaper.Spider.Spider.Handle(Job job) in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 106
+   at WebReaper.Spider.Spider.Crawl() in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 77
+2022-04-27 21:33:36.264 +03:00 [INF] Handle on target page was called 44 times
+2022-04-27 21:33:36.344 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewtopic.php?t=1621787
+System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 41
+   at WebReaper.Parser.ContentParser.GetJson(HtmlDocument doc, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 24
+   at WebReaper.Parser.ContentParser.Parse(String html, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 15
+   at WebReaper.Spider.Spider.Handle(Job job) in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 106
+   at WebReaper.Spider.Spider.Crawl() in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 77
+2022-04-27 21:33:36.467 +03:00 [INF] Handle on target page was called 45 times
+2022-04-27 21:33:36.551 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewtopic.php?t=1497122
+System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 41
+   at WebReaper.Parser.ContentParser.GetJson(HtmlDocument doc, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 24
+   at WebReaper.Parser.ContentParser.Parse(String html, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 15
+   at WebReaper.Spider.Spider.Handle(Job job) in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 106
+   at WebReaper.Spider.Spider.Crawl() in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 77
+2022-04-27 21:33:36.639 +03:00 [INF] Handle on target page was called 46 times
+2022-04-27 21:33:36.724 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewtopic.php?t=1621787
+System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 41
+   at WebReaper.Parser.ContentParser.GetJson(HtmlDocument doc, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 24
+   at WebReaper.Parser.ContentParser.Parse(String html, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 15
+   at WebReaper.Spider.Spider.Handle(Job job) in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 106
+   at WebReaper.Spider.Spider.Crawl() in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 77
+2022-04-27 21:33:36.830 +03:00 [INF] Handle on target page was called 47 times
+2022-04-27 21:33:36.910 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewtopic.php?t=1497122
+System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 41
+   at WebReaper.Parser.ContentParser.GetJson(HtmlDocument doc, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 24
+   at WebReaper.Parser.ContentParser.Parse(String html, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 15
+   at WebReaper.Spider.Spider.Handle(Job job) in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 106
+   at WebReaper.Spider.Spider.Crawl() in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 77
+2022-04-27 21:33:37.005 +03:00 [INF] Handle on target page was called 48 times
+2022-04-27 21:33:37.085 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewtopic.php?t=1621787
+System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 41
+   at WebReaper.Parser.ContentParser.GetJson(HtmlDocument doc, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 24
+   at WebReaper.Parser.ContentParser.Parse(String html, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 15
+   at WebReaper.Spider.Spider.Handle(Job job) in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 106
+   at WebReaper.Spider.Spider.Crawl() in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 77
+2022-04-27 21:33:37.265 +03:00 [INF] Handle on target page was called 49 times
+2022-04-27 21:33:37.344 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewtopic.php?t=1497122
+System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 41
+   at WebReaper.Parser.ContentParser.GetJson(HtmlDocument doc, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 24
+   at WebReaper.Parser.ContentParser.Parse(String html, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 15
+   at WebReaper.Spider.Spider.Handle(Job job) in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 106
+   at WebReaper.Spider.Spider.Crawl() in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 77
+2022-04-27 21:33:37.436 +03:00 [INF] Handle on target page was called 50 times
+2022-04-27 21:33:37.520 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewtopic.php?t=1621787
+System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 41
+   at WebReaper.Parser.ContentParser.GetJson(HtmlDocument doc, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 24
+   at WebReaper.Parser.ContentParser.Parse(String html, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 15
+   at WebReaper.Spider.Spider.Handle(Job job) in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 106
+   at WebReaper.Spider.Spider.Crawl() in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 77
+2022-04-27 21:33:37.608 +03:00 [INF] Handle on target page was called 51 times
+2022-04-27 21:33:37.691 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewtopic.php?t=1497122
+System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 41
+   at WebReaper.Parser.ContentParser.GetJson(HtmlDocument doc, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 24
+   at WebReaper.Parser.ContentParser.Parse(String html, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 15
+   at WebReaper.Spider.Spider.Handle(Job job) in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 106
+   at WebReaper.Spider.Spider.Crawl() in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 77
+2022-04-27 21:33:37.784 +03:00 [INF] Handle on target page was called 52 times
+2022-04-27 21:33:37.866 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewtopic.php?t=1621787
+System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 41
+   at WebReaper.Parser.ContentParser.GetJson(HtmlDocument doc, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 24
+   at WebReaper.Parser.ContentParser.Parse(String html, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 15
+   at WebReaper.Spider.Spider.Handle(Job job) in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 106
+   at WebReaper.Spider.Spider.Crawl() in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 77
+2022-04-27 21:33:37.961 +03:00 [INF] Handle on target page was called 53 times
+2022-04-27 21:33:38.039 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewtopic.php?t=1497122
+System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 41
+   at WebReaper.Parser.ContentParser.GetJson(HtmlDocument doc, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 24
+   at WebReaper.Parser.ContentParser.Parse(String html, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 15
+   at WebReaper.Spider.Spider.Handle(Job job) in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 106
+   at WebReaper.Spider.Spider.Crawl() in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 77
+2022-04-27 21:33:38.130 +03:00 [INF] Handle on target page was called 54 times
+2022-04-27 21:33:38.212 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewtopic.php?t=1621787
+System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 41
+   at WebReaper.Parser.ContentParser.GetJson(HtmlDocument doc, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 24
+   at WebReaper.Parser.ContentParser.Parse(String html, Schema schema) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 15
+   at WebReaper.Spider.Spider.Handle(Job job) in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 106
+   at WebReaper.Spider.Spider.Crawl() in C:\Projects\WebReaper\WebReaper\Spider\Spider.cs:line 77
+2022-04-27 21:50:16.944 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-27 21:50:17.016 +03:00 [INF] Hosting environment: Development
+2022-04-27 21:50:17.018 +03:00 [INF] Content root path: C:\Projects\WebReaper\ScraperWorkerService
+2022-04-27 21:50:18.113 +03:00 [INF] Handle on target page was called 1 times
+2022-04-27 21:50:18.337 +03:00 [INF] Handle on target page was called 2 times
+2022-04-27 21:50:18.477 +03:00 [INF] Handle on target page was called 3 times
+2022-04-27 21:50:18.674 +03:00 [INF] Handle on target page was called 4 times
+2022-04-27 21:50:18.802 +03:00 [INF] Handle on target page was called 5 times
+2022-04-27 21:50:18.924 +03:00 [INF] Handle on target page was called 6 times
+2022-04-27 21:50:19.039 +03:00 [INF] Handle on target page was called 7 times
+2022-04-27 21:50:19.158 +03:00 [INF] Handle on target page was called 8 times
+2022-04-27 21:50:19.286 +03:00 [INF] Handle on target page was called 9 times
+2022-04-27 21:50:19.412 +03:00 [INF] Handle on target page was called 10 times
+2022-04-27 21:50:19.540 +03:00 [INF] Handle on target page was called 11 times
+2022-04-27 21:50:19.674 +03:00 [INF] Handle on target page was called 12 times
+2022-04-27 21:50:19.802 +03:00 [INF] Handle on target page was called 13 times
+2022-04-27 21:50:19.917 +03:00 [INF] Handle on target page was called 14 times
+2022-04-27 21:50:20.038 +03:00 [INF] Handle on target page was called 15 times
+2022-04-27 21:50:20.165 +03:00 [INF] Handle on target page was called 16 times
+2022-04-27 21:50:20.299 +03:00 [INF] Handle on target page was called 17 times
+2022-04-27 21:50:20.402 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 57
+2022-04-27 21:50:20.524 +03:00 [INF] Handle on target page was called 18 times
+2022-04-27 21:50:20.646 +03:00 [INF] Handle on target page was called 19 times
+2022-04-27 21:50:20.764 +03:00 [INF] Handle on target page was called 20 times
+2022-04-27 21:50:20.803 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 57
+2022-04-27 21:50:20.928 +03:00 [INF] Handle on target page was called 21 times
+2022-04-27 21:50:21.069 +03:00 [INF] Handle on target page was called 22 times
+2022-04-27 21:50:21.359 +03:00 [INF] Handle on target page was called 23 times
+2022-04-27 21:50:21.481 +03:00 [INF] Handle on target page was called 24 times
+2022-04-27 21:50:21.645 +03:00 [INF] Handle on target page was called 25 times
+2022-04-27 21:50:21.830 +03:00 [INF] Handle on target page was called 26 times
+2022-04-27 21:50:21.964 +03:00 [INF] Handle on target page was called 27 times
+2022-04-27 21:50:22.092 +03:00 [INF] Handle on target page was called 28 times
+2022-04-27 21:50:22.490 +03:00 [INF] Handle on target page was called 29 times
+2022-04-27 21:50:22.626 +03:00 [INF] Handle on target page was called 30 times
+2022-04-27 21:50:22.850 +03:00 [INF] Handle on target page was called 31 times
+2022-04-27 21:50:22.996 +03:00 [INF] Handle on target page was called 32 times
+2022-04-27 21:50:23.120 +03:00 [INF] Handle on target page was called 33 times
+2022-04-27 21:50:23.253 +03:00 [INF] Handle on target page was called 34 times
+2022-04-27 21:50:23.290 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 57
+2022-04-27 21:50:23.408 +03:00 [INF] Handle on target page was called 35 times
+2022-04-27 21:50:23.543 +03:00 [INF] Handle on target page was called 36 times
+2022-04-27 21:50:23.670 +03:00 [INF] Handle on target page was called 37 times
+2022-04-27 21:50:23.786 +03:00 [INF] Handle on target page was called 38 times
+2022-04-27 21:50:23.944 +03:00 [INF] Handle on target page was called 39 times
+2022-04-27 21:50:24.074 +03:00 [INF] Handle on target page was called 40 times
+2022-04-27 21:50:24.199 +03:00 [INF] Handle on target page was called 41 times
+2022-04-27 21:50:24.316 +03:00 [INF] Handle on target page was called 42 times
+2022-04-27 21:50:24.442 +03:00 [INF] Handle on target page was called 43 times
+2022-04-27 21:50:24.556 +03:00 [INF] Handle on target page was called 44 times
+2022-04-27 21:50:24.681 +03:00 [INF] Handle on target page was called 45 times
+2022-04-27 21:50:24.811 +03:00 [INF] Handle on target page was called 46 times
+2022-04-27 21:50:24.957 +03:00 [INF] Handle on target page was called 47 times
+2022-04-27 21:50:25.074 +03:00 [INF] Handle on target page was called 48 times
+2022-04-27 21:50:25.202 +03:00 [INF] Handle on target page was called 49 times
+2022-04-27 21:50:25.317 +03:00 [INF] Handle on target page was called 50 times
+2022-04-27 21:50:25.660 +03:00 [INF] Handle on target page was called 51 times
+2022-04-27 21:50:25.785 +03:00 [INF] Handle on target page was called 52 times
+2022-04-27 21:50:25.920 +03:00 [INF] Handle on target page was called 53 times
+2022-04-27 21:50:26.057 +03:00 [INF] Handle on target page was called 54 times
+2022-04-27 21:50:26.182 +03:00 [INF] Handle on target page was called 55 times
+2022-04-27 21:50:26.296 +03:00 [INF] Handle on target page was called 56 times
+2022-04-27 21:50:26.337 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 57
+2022-04-27 21:50:26.454 +03:00 [INF] Handle on target page was called 57 times
+2022-04-27 21:50:26.493 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 57
+2022-04-27 21:50:26.612 +03:00 [INF] Handle on target page was called 58 times
+2022-04-27 21:50:26.739 +03:00 [INF] Handle on target page was called 59 times
+2022-04-27 21:50:26.856 +03:00 [INF] Handle on target page was called 60 times
+2022-04-27 21:50:26.981 +03:00 [INF] Handle on target page was called 61 times
+2022-04-27 21:50:27.096 +03:00 [INF] Handle on target page was called 62 times
+2022-04-27 21:50:27.220 +03:00 [INF] Handle on target page was called 63 times
+2022-04-27 21:50:27.345 +03:00 [INF] Handle on target page was called 64 times
+2022-04-27 21:50:27.469 +03:00 [INF] Handle on target page was called 65 times
+2022-04-27 21:50:27.585 +03:00 [INF] Handle on target page was called 66 times
+2022-04-27 21:50:27.716 +03:00 [INF] Handle on target page was called 67 times
+2022-04-27 21:50:27.955 +03:00 [INF] Handle on target page was called 68 times
+2022-04-27 21:50:28.094 +03:00 [INF] Handle on target page was called 69 times
+2022-04-27 21:50:28.216 +03:00 [INF] Handle on target page was called 70 times
+2022-04-27 21:50:28.347 +03:00 [INF] Handle on target page was called 71 times
+2022-04-27 21:50:28.483 +03:00 [INF] Handle on target page was called 72 times
+2022-04-27 21:50:28.601 +03:00 [INF] Handle on target page was called 73 times
+2022-04-27 21:50:28.740 +03:00 [INF] Handle on target page was called 74 times
+2022-04-27 21:50:29.007 +03:00 [INF] Handle on target page was called 75 times
+2022-04-27 21:50:29.127 +03:00 [INF] Handle on target page was called 76 times
+2022-04-27 21:50:29.261 +03:00 [INF] Handle on target page was called 77 times
+2022-04-27 21:50:29.381 +03:00 [INF] Handle on target page was called 78 times
+2022-04-27 21:50:29.491 +03:00 [INF] Handle on target page was called 79 times
+2022-04-27 21:50:29.623 +03:00 [INF] Handle on target page was called 80 times

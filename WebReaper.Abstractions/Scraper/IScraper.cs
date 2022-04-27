@@ -1,6 +1,6 @@
 using System.Net;
 using WebReaper.Absctracts.Sinks;
-using WebReaper.Domain.Schema;
+using WebReaper.Domain.Parsing;
 using WebReaper.Domain.Selectors;
 
 namespace WebReaper.Abstractions.Scraper;
@@ -20,7 +20,7 @@ public interface IScraper
     IScraper WithProxy(WebProxy proxy);
     IScraper WithProxy(WebProxy[] proxies);
     IScraper WithPuppeter(WebProxy[] proxies);
-    IScraper WithScheme(SchemaElement[] schema);
+    IScraper WithScheme(Schema schema);
     IScraper WithParallelismDegree(int parallelismDegree);
     IScraper Authorize(Func<CookieContainer> authorize);
 }

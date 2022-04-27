@@ -1,13 +1,22 @@
 using HtmlAgilityPack;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using WebReaper.Abstractions.Parsers;
-using WebReaper.Domain.Schema;
+using WebReaper.Domain.Parsing;
 
 namespace WebReaper.Parser
 {
     public class ContentParser : IContentParser
     {
-        public JObject Parse(string html, SchemaElement[] schema)
+        protected ILogger Logger { get; }
+
+        public ContentParser(ILogger logger)
+        {
+            this.Logger = logger;
+
+        }
+
+        public JObject Parse(string html, Schema schema)
         {
             var doc = new HtmlDocument();
             doc.LoadHtml(html);
@@ -15,33 +24,42 @@ namespace WebReaper.Parser
             return GetJson(doc, schema);
         }
 
-        private JObject GetJson(HtmlDocument doc, SchemaElement[] schema)
+        private JObject GetJson(HtmlDocument doc, Schema schema)
         {
-            var output = new JObject();
+            JObject output = new JObject();
 
             foreach (var item in schema)
             {
-                var result = FillOutput(output, doc, item);
+                FillOutput(output, doc, item);
             }
 
             return output;
         }
 
-        private JObject FillOutput(JObject result, HtmlDocument doc, SchemaElement item)
+        private void FillOutput(JObject result, HtmlDocument doc, Schema item)
         {
-            if (item is CompositeSchemaElement composite) {
+            if (item.IsComposite)
+            {
                 var obj = new JObject();
-                    
-                foreach(var el in composite.Children) {
-                   var child = FillOutput(result, doc, el);
-                }
-                result[item.Field] = obj;
-               
-            } else {
-                 result[item.Field] = item.GetData(doc);
-            }
 
-            return result;
+                foreach (var el in item)
+                {
+                    FillOutput(result, doc, el);
+                }
+
+                result[item.Field] = obj;
+                
+                return;
+            }
+           
+            try
+            {
+                result[item.Field] = item.GetData(doc);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+            }
         }
     }
 }

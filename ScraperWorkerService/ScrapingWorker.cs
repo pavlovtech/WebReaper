@@ -2,8 +2,8 @@
 using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
 using WebReaper.Abstractions.Scraper;
-using WebReaper.Domain.Schema;
-using WebReaper.Schema;
+using WebReaper.Domain.Parsing;
+using WebReaper.Parsing;
 using WebReaper.Scraper;
 
 namespace ScraperWorkerService;
@@ -32,13 +32,17 @@ public class ScrapingWorker : BackgroundService
             .FollowLinks(".forumlink>a")
             .FollowLinks("a.torTopic")
             .Paginate(".pg")
-            .WithScheme(new SchemaElement[] {
-                //new ImageSchemaElement("coverImageUrl", ".postImg"),
+            .WithScheme(new Schema {
                 new("name", "#topic-title"),
+                new("nested") {
+                    new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
+                    new("subcategory", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(5)")
+                },
                 new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
                 new("subcategory", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(5)"),
                 new("torrentSize", "div.attach_link.guest>ul>li:nth-child(2)"),
-                new Url("torrentLink", ".magnet-link")
+                new Url("torrentLink", ".magnet-link"),
+                new Image("coverImageUrl", ".postImg")
             })
             .WithParallelismDegree(1)
             .WriteToJsonFile("result.json")

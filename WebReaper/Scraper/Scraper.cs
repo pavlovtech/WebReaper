@@ -8,13 +8,13 @@ using System.Net.Security;
 using WebReaper.Domain.Selectors;
 using WebReaper.Absctracts.Sinks;
 using WebReaper.Abastracts.Spider;
-using WebReaper.Domain.Schema;
 using WebReaper.Abstractions.Parsers;
 using WebReaper.LinkTracker.Abstract;
 using WebReaper.Abstractions.JobQueue;
 using WebReaper.Parser;
 using WebReaper.Queue;
 using WebReaper.Sinks;
+using WebReaper.Domain.Parsing;
 
 namespace WebReaper.Scraper;
 
@@ -34,7 +34,7 @@ public class Scraper : IScraper
     
     private ISpider spider;
 
-    private SchemaElement[]? schema = Array.Empty<SchemaElement>();
+    private Schema? schema;
 
     private WebProxy? proxy;
 
@@ -52,7 +52,7 @@ public class Scraper : IScraper
 
     protected ILinkTracker SiteLinkTracker = new WebReaper.LinkTracker.Concrete.InMemoryLinkTracker();
 
-    protected IContentParser ContentParser = new ContentParser();
+    protected readonly IContentParser ContentParser;
 
     protected static SocketsHttpHandler httpHandler = new SocketsHttpHandler()
     {
@@ -75,6 +75,8 @@ public class Scraper : IScraper
     public Scraper(ILogger logger)
     {
         Logger = logger;
+
+        ContentParser = new ContentParser(logger);
 
         JobQueueReader = new JobQueueReader(jobs);
         JobQueueWriter = new JobQueueWriter(jobs);
@@ -136,7 +138,7 @@ public class Scraper : IScraper
         return this;
     }
 
-    public IScraper WithScheme(SchemaElement[] schema)
+    public IScraper WithScheme(Schema schema)
     {
         this.schema = schema;
         return this;

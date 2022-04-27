@@ -1,11 +1,11 @@
 using System.Collections.Immutable;
-using WebReaper.Domain.Schema;
+using WebReaper.Domain.Parsing;
 using WebReaper.Domain.Selectors;
 
 namespace WebReaper.Domain;
 
 public record Job(
-    SchemaElement[] schema,
+    Schema schema,
     string BaseUrl,
     string Url,
     ImmutableQueue<LinkPathSelector> LinkPathSelectors,
