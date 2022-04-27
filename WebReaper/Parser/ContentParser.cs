@@ -28,7 +28,7 @@ namespace WebReaper.Parser
         {
             JObject output = new JObject();
 
-            foreach (var item in schema)
+            foreach (var item in schema.Children)
             {
                 FillOutput(output, doc, item);
             }
@@ -42,13 +42,13 @@ namespace WebReaper.Parser
             {
                 var obj = new JObject();
 
-                foreach (var el in item)
+                foreach (var el in item.Children)
                 {
-                    FillOutput(result, doc, el);
+                    FillOutput(obj, doc, el);
                 }
 
                 result[item.Field] = obj;
-                
+
                 return;
             }
            

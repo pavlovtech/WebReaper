@@ -11,7 +11,7 @@ public record Schema(
     SelectorType SelectorType = SelectorType.Css)
     : IEnumerable<Schema>
 {
-    protected List<Schema> Children = new List<Schema>();
+    public readonly List<Schema> Children = new List<Schema>();
 
     public bool IsComposite => Children.Any();
 

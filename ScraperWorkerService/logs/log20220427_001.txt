@@ -4167,3 +4167,98 @@ System.Exception: Cannot find image link by selector .postImg in .
 2022-04-27 21:50:29.381 +03:00 [INF] Handle on target page was called 78 times
 2022-04-27 21:50:29.491 +03:00 [INF] Handle on target page was called 79 times
 2022-04-27 21:50:29.623 +03:00 [INF] Handle on target page was called 80 times
+2022-04-27 22:11:51.342 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-27 22:11:51.396 +03:00 [INF] Hosting environment: Development
+2022-04-27 22:11:51.398 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-27 22:11:52.654 +03:00 [INF] Handle on target page was called 1 times
+2022-04-27 22:11:52.862 +03:00 [INF] Handle on target page was called 2 times
+2022-04-27 22:11:53.078 +03:00 [INF] Handle on target page was called 3 times
+2022-04-27 22:11:53.290 +03:00 [INF] Handle on target page was called 4 times
+2022-04-27 22:11:53.457 +03:00 [INF] Handle on target page was called 5 times
+2022-04-27 22:11:53.640 +03:00 [INF] Handle on target page was called 6 times
+2022-04-27 22:11:53.782 +03:00 [INF] Handle on target page was called 7 times
+2022-04-27 22:11:53.933 +03:00 [INF] Handle on target page was called 8 times
+2022-04-27 22:11:54.080 +03:00 [INF] Handle on target page was called 9 times
+2022-04-27 22:11:54.469 +03:00 [INF] Handle on target page was called 10 times
+2022-04-27 22:11:54.598 +03:00 [INF] Handle on target page was called 11 times
+2022-04-27 22:11:54.794 +03:00 [INF] Handle on target page was called 12 times
+2022-04-27 22:13:35.997 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-27 22:13:36.072 +03:00 [INF] Hosting environment: Development
+2022-04-27 22:13:36.073 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-27 22:13:37.206 +03:00 [INF] Handle on target page was called 1 times
+2022-04-27 22:13:37.389 +03:00 [INF] Handle on target page was called 2 times
+2022-04-27 22:13:37.528 +03:00 [INF] Handle on target page was called 3 times
+2022-04-27 22:13:37.676 +03:00 [INF] Handle on target page was called 4 times
+2022-04-27 22:13:37.830 +03:00 [INF] Handle on target page was called 5 times
+2022-04-27 22:13:37.970 +03:00 [INF] Handle on target page was called 6 times
+2022-04-27 22:13:38.135 +03:00 [INF] Handle on target page was called 7 times
+2022-04-27 22:13:38.279 +03:00 [INF] Handle on target page was called 8 times
+2022-04-27 22:13:38.414 +03:00 [INF] Handle on target page was called 9 times
+2022-04-27 22:13:38.544 +03:00 [INF] Handle on target page was called 10 times
+2022-04-27 22:13:38.676 +03:00 [INF] Handle on target page was called 11 times
+2022-04-27 22:13:39.002 +03:00 [INF] Handle on target page was called 12 times
+2022-04-27 22:13:39.163 +03:00 [INF] Handle on target page was called 13 times
+2022-04-27 22:13:39.304 +03:00 [INF] Handle on target page was called 14 times
+2022-04-27 22:13:39.438 +03:00 [INF] Handle on target page was called 15 times
+2022-04-27 22:13:39.645 +03:00 [INF] Handle on target page was called 16 times
+2022-04-27 22:13:39.790 +03:00 [INF] Handle on target page was called 17 times
+2022-04-27 22:13:39.929 +03:00 [INF] Handle on target page was called 18 times
+2022-04-27 22:15:32.501 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-27 22:15:32.573 +03:00 [INF] Hosting environment: Development
+2022-04-27 22:15:32.574 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-27 22:15:33.669 +03:00 [INF] Handle on target page was called 1 times
+2022-04-27 22:18:51.970 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-27 22:18:52.023 +03:00 [INF] Hosting environment: Development
+2022-04-27 22:18:52.024 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-27 22:18:53.368 +03:00 [INF] Handle on target page was called 1 times
+2022-04-27 22:18:57.909 +03:00 [INF] Handle on target page was called 2 times
+2022-04-27 22:19:00.401 +03:00 [INF] Handle on target page was called 3 times
+2022-04-27 22:19:06.165 +03:00 [INF] Handle on target page was called 4 times
+2022-04-27 22:19:20.485 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-27 22:19:20.557 +03:00 [INF] Hosting environment: Development
+2022-04-27 22:19:20.559 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-27 22:19:22.029 +03:00 [INF] Handle on target page was called 1 times
+2022-04-27 22:19:53.751 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-27 22:19:53.820 +03:00 [INF] Hosting environment: Development
+2022-04-27 22:19:53.821 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-27 22:19:54.909 +03:00 [INF] Handle on target page was called 1 times
+2022-04-27 22:24:33.019 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-27 22:24:33.082 +03:00 [INF] Hosting environment: Development
+2022-04-27 22:24:33.084 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-27 22:24:34.136 +03:00 [INF] Handle on target page was called 1 times
+2022-04-27 22:30:38.668 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-27 22:30:38.740 +03:00 [INF] Hosting environment: Development
+2022-04-27 22:30:38.742 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-27 22:30:39.986 +03:00 [INF] Handle on target page was called 1 times
+2022-04-27 22:30:44.845 +03:00 [INF] Handle on target page was called 2 times
+2022-04-27 22:30:47.675 +03:00 [INF] Handle on target page was called 3 times
+2022-04-27 22:31:13.476 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-27 22:31:13.552 +03:00 [INF] Hosting environment: Development
+2022-04-27 22:31:13.553 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-27 22:31:14.848 +03:00 [INF] Handle on target page was called 1 times
+2022-04-27 22:31:24.618 +03:00 [INF] Handle on target page was called 2 times
+2022-04-27 22:31:25.552 +03:00 [INF] Handle on target page was called 3 times
+2022-04-27 22:31:28.761 +03:00 [INF] Handle on target page was called 4 times
+2022-04-27 22:31:28.913 +03:00 [INF] Handle on target page was called 5 times
+2022-04-27 22:31:29.032 +03:00 [INF] Handle on target page was called 6 times
+2022-04-27 22:31:29.154 +03:00 [INF] Handle on target page was called 7 times
+2022-04-27 22:31:29.359 +03:00 [INF] Handle on target page was called 8 times
+2022-04-27 22:31:29.465 +03:00 [INF] Handle on target page was called 9 times
+2022-04-27 22:31:29.578 +03:00 [INF] Handle on target page was called 10 times
+2022-04-27 22:31:29.686 +03:00 [INF] Handle on target page was called 11 times
+2022-04-27 22:31:29.808 +03:00 [INF] Handle on target page was called 12 times
+2022-04-27 22:31:29.890 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 57
+2022-04-27 22:31:30.000 +03:00 [INF] Handle on target page was called 13 times
+2022-04-27 22:31:30.118 +03:00 [INF] Handle on target page was called 14 times
+2022-04-27 22:31:30.269 +03:00 [INF] Handle on target page was called 15 times
+2022-04-27 22:31:30.387 +03:00 [INF] Handle on target page was called 16 times
+2022-04-27 22:31:30.500 +03:00 [INF] Handle on target page was called 17 times
+2022-04-27 22:31:30.638 +03:00 [INF] Handle on target page was called 18 times
+2022-04-27 22:31:30.774 +03:00 [INF] Handle on target page was called 19 times
+2022-04-27 22:31:30.916 +03:00 [INF] Handle on target page was called 20 times
+2022-04-27 22:31:31.030 +03:00 [INF] Handle on target page was called 21 times
+2022-04-27 22:31:31.145 +03:00 [INF] Handle on target page was called 22 times
+2022-04-27 22:31:31.265 +03:00 [INF] Handle on target page was called 23 times
+2022-04-27 22:31:31.412 +03:00 [INF] Handle on target page was called 24 times
