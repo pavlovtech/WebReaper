@@ -114,14 +114,9 @@ public class Scraper : IScraper
         return this;
     }
 
-    public IScraper Paginate(string paginationSelector)
+    public IScraper FollowLinks(string linkSelector, string paginationSelector, SelectorType selectorType = SelectorType.Css, PageType pageType = PageType.Static)
     {
-        linkPathSelectors[^1] =
-            linkPathSelectors.Last() with
-            {
-                PaginationSelector = paginationSelector,
-            };
-
+        linkPathSelectors.Add(new(linkSelector, SelectorType: selectorType, PageType: pageType));
         return this;
     }
 
