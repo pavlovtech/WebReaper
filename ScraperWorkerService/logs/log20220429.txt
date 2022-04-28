@@ -1,0 +1,54 @@
+2022-04-29 01:28:34.053 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-29 01:28:34.111 +03:00 [INF] Hosting environment: Development
+2022-04-29 01:28:34.112 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-04-29 01:28:35.250 +03:00 [INF] Handle on target page was called 1 times
+2022-04-29 01:28:35.461 +03:00 [INF] Handle on target page was called 2 times
+2022-04-29 01:28:35.598 +03:00 [INF] Handle on target page was called 3 times
+2022-04-29 01:28:35.737 +03:00 [INF] Handle on target page was called 4 times
+2022-04-29 01:28:35.873 +03:00 [INF] Handle on target page was called 5 times
+2022-04-29 01:28:36.056 +03:00 [INF] Handle on target page was called 6 times
+2022-04-29 01:28:36.204 +03:00 [INF] Handle on target page was called 7 times
+2022-04-29 01:28:36.313 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 58
+2022-04-29 01:28:36.419 +03:00 [INF] Handle on target page was called 8 times
+2022-04-29 01:28:36.582 +03:00 [INF] Handle on target page was called 9 times
+2022-04-29 01:28:36.728 +03:00 [INF] Handle on target page was called 10 times
+2022-04-29 01:28:36.853 +03:00 [INF] Handle on target page was called 11 times
+2022-04-29 01:28:36.995 +03:00 [INF] Handle on target page was called 12 times
+2022-04-29 01:28:37.203 +03:00 [INF] Handle on target page was called 13 times
+2022-04-29 01:28:37.344 +03:00 [INF] Handle on target page was called 14 times
+2022-04-29 01:28:37.486 +03:00 [INF] Handle on target page was called 15 times
+2022-04-29 01:28:37.622 +03:00 [INF] Handle on target page was called 16 times
+2022-04-29 01:28:37.739 +03:00 [INF] Handle on target page was called 17 times
+2022-04-29 01:28:37.843 +03:00 [INF] Handle on target page was called 18 times
+2022-04-29 01:28:37.945 +03:00 [INF] Handle on target page was called 19 times
+2022-04-29 01:28:38.152 +03:00 [INF] Handle on target page was called 20 times
+2022-04-29 01:28:38.258 +03:00 [INF] Handle on target page was called 21 times
+2022-04-29 01:28:38.381 +03:00 [INF] Handle on target page was called 22 times
+2022-04-29 01:28:38.586 +03:00 [INF] Handle on target page was called 23 times
+2022-04-29 01:28:38.729 +03:00 [INF] Handle on target page was called 24 times
+2022-04-29 01:28:38.843 +03:00 [INF] Handle on target page was called 25 times
+2022-04-29 01:28:38.953 +03:00 [INF] Handle on target page was called 26 times
+2022-04-29 01:28:39.065 +03:00 [INF] Handle on target page was called 27 times
+2022-04-29 01:28:39.221 +03:00 [INF] Handle on target page was called 28 times
+2022-04-29 01:28:39.350 +03:00 [INF] Handle on target page was called 29 times
+2022-04-29 01:28:39.470 +03:00 [INF] Handle on target page was called 30 times
+2022-04-29 01:28:39.516 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 58
+2022-04-29 01:28:39.665 +03:00 [INF] Handle on target page was called 31 times
+2022-04-29 01:28:39.808 +03:00 [INF] Handle on target page was called 32 times
+2022-04-29 01:28:39.919 +03:00 [INF] Handle on target page was called 33 times
+2022-04-29 01:28:40.032 +03:00 [INF] Handle on target page was called 34 times
+2022-04-29 01:28:40.248 +03:00 [INF] Handle on target page was called 35 times
+2022-04-29 01:28:40.354 +03:00 [INF] Handle on target page was called 36 times
+2022-04-29 01:28:40.484 +03:00 [INF] Handle on target page was called 37 times
+2022-04-29 01:28:40.586 +03:00 [INF] Handle on target page was called 38 times
+2022-04-29 01:28:40.719 +03:00 [INF] Handle on target page was called 39 times
+2022-04-29 01:28:40.932 +03:00 [INF] Handle on target page was called 40 times
+2022-04-29 01:28:41.292 +03:00 [INF] Handle on target page was called 41 times
+2022-04-29 01:28:41.325 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 58
+2022-04-29 01:28:41.540 +03:00 [INF] Handle on target page was called 42 times

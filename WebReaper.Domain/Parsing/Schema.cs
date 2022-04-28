@@ -5,10 +5,21 @@ using WebReaper.Domain.Selectors;
 
 namespace WebReaper.Domain.Parsing;
 
+public enum DataType
+{
+    Integer,
+    Float,
+    Boolean,
+    String,
+    DataTime,
+    Object
+}
+
 public record Schema(
     string? Field = null,
     string? Selector = null,
-    SelectorType SelectorType = SelectorType.Css)
+    SelectorType SelectorType = SelectorType.Css,
+    DataType? Type = null)
     : IEnumerable<Schema>
 {
     public readonly List<Schema> Children = new List<Schema>();

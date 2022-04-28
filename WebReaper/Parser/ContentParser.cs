@@ -54,7 +54,32 @@ namespace WebReaper.Parser
            
             try
             {
-                result[item.Field] = item.GetData(doc);
+                //result[item.Field] = item.GetData(doc);
+                var data = item.GetData(doc);
+
+                if (item.Type == null) {
+                    result[item.Field] = data;
+                    return;
+                }
+
+                switch(item.Type)
+                {
+                    case DataType.Integer:
+                        result[item.Field] = int.Parse(data);
+                        break;
+                    case DataType.Boolean:
+                        result[item.Field] = bool.Parse(data);
+                        break;
+                    case DataType.DataTime:
+                        result[item.Field] = DateTime.Parse(data);
+                        break;
+                    case DataType.String:
+                        result[item.Field] = data;
+                        break;
+                    case DataType.Float:
+                        result[item.Field] = float.Parse(data);
+                        break;
+                }
             }
             catch (Exception ex)
             {
