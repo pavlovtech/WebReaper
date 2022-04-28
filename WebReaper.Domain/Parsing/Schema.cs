@@ -34,15 +34,7 @@ public record Schema(
         return content;
     }
 
-    public IEnumerator<Schema> GetEnumerator()
-    {
-        foreach(var child in Children) {
-            yield return child;
-        }
-    }
+    public IEnumerator<Schema> GetEnumerator() => Children.GetEnumerator();
 
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }
