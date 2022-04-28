@@ -20,14 +20,9 @@ public record Schema(
         Children.Add(element);
     }
 
-    protected HtmlNode QuerySelector(HtmlDocument doc, string selector)
-    {
-        return doc.DocumentNode.QuerySelector(selector);
-    }
-
     public virtual string GetData(HtmlDocument doc)
     {
-        var node = QuerySelector(doc, Selector);
+        var node = doc.DocumentNode.QuerySelector(Selector);
 
         var content = node?.InnerText;
 

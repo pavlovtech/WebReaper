@@ -1,3 +1,4 @@
+using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
 using WebReaper.Domain.Parsing;
 using WebReaper.Domain.Selectors;
@@ -9,7 +10,7 @@ public record Url(string Field, string Selector, SelectorType SelectorType = Sel
 {
     public override string GetData(HtmlDocument doc)
     {
-        var node = QuerySelector(doc, Selector!);
+        var node = doc.DocumentNode.QuerySelector(Selector);
 
         var content = node?.GetAttributeValue("href", "");
 

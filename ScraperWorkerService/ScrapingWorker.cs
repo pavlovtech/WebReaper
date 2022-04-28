@@ -1,7 +1,4 @@
-﻿using System.Net;
-using Fizzler.Systems.HtmlAgilityPack;
-using HtmlAgilityPack;
-using WebReaper.Abstractions.Scraper;
+﻿using WebReaper.Abstractions.Scraper;
 using WebReaper.Domain.Parsing;
 using WebReaper.Parsing;
 using WebReaper.Scraper;
