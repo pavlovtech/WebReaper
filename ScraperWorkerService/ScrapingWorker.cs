@@ -27,8 +27,7 @@ public class ScrapingWorker : BackgroundService
             .IgnoreUrls(blackList)
             .FollowLinks("#cf-33 .forumlink>a")
             .FollowLinks(".forumlink>a")
-            .FollowLinks("a.torTopic")
-            .Paginate(".pg")
+            .FollowLinks("a.torTopic", ".pg")
             .WithScheme(new Schema {
                 new("name", "#topic-title"),
                 new("nested") {
