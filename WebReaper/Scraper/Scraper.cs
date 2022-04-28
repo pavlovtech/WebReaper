@@ -168,11 +168,6 @@ public class Scraper : IScraper
         return this;
     }
 
-    public IScraper WithPuppeter(WebProxy[] proxies)
-    {
-        return this;
-    }
-
     public async Task Run()
     {
         JobQueueWriter.Write(new Job(

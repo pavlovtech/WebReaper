@@ -17,9 +17,7 @@ public interface IScraper
     IScraper Paginate(string paginationSelector);
     IScraper Build();
     Task Run();
-    IScraper WithProxy(WebProxy proxy);
-    IScraper WithProxy(WebProxy[] proxies);
-    IScraper WithPuppeter(WebProxy[] proxies);
+    IScraper WithProxy(params WebProxy[] proxies);
     IScraper WithScheme(Schema schema);
     IScraper WithParallelismDegree(int parallelismDegree);
     IScraper Authorize(Func<CookieContainer> authorize);
