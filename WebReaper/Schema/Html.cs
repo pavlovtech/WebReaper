@@ -1,3 +1,4 @@
+using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
 using WebReaper.Domain.Parsing;
 using WebReaper.Domain.Selectors;
@@ -9,12 +10,12 @@ public record Html(string Field, string Selector, SelectorType SelectorType = Se
 {
     public override string GetData(HtmlDocument doc)
     {
-        var node = QuerySelector(doc, Selector);
+        var node = doc.DocumentNode.QuerySelector(Selector);
 
         var content = node?.InnerHtml;
 
         if(string.IsNullOrWhiteSpace(content)) {
-            throw new Exception($"No html found in convert {content}.");
+            throw new Exception($"No html found by selector {Selector} in {node?.OuterHtml}.");
         }
 
         return content;

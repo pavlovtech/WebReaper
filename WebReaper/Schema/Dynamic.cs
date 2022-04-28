@@ -1,3 +1,4 @@
+using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
 using WebReaper.Domain.Parsing;
 using WebReaper.Domain.Selectors;
@@ -12,5 +13,5 @@ public record Dynamic(
     : Schema(Field, Selector, SelectorType)
 {
     public override string GetData(HtmlDocument doc) =>
-        Transform(QuerySelector(doc, Selector));
+        Transform(doc.DocumentNode.QuerySelector(Selector));
 }

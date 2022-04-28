@@ -1,4 +1,5 @@
 
+using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
 using WebReaper.Domain.Parsing;
 using WebReaper.Domain.Selectors;
@@ -10,7 +11,7 @@ public record Image(string Field, string Selector, SelectorType SelectorType = S
 {
     public override string GetData(HtmlDocument doc)
     {
-        var node = QuerySelector(doc, Selector);
+        var node = doc.DocumentNode.QuerySelector(Selector);
 
         var content = node?.GetAttributeValue("title", "");
 
