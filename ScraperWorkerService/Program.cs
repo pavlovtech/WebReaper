@@ -19,7 +19,7 @@ try
 {
     await host.RunAsync();
 }
-catch(Exception ex)
+catch (Exception ex)
 {
     Log.Fatal(ex, "There was a problem starting this service");
     return;
