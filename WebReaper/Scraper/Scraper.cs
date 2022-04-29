@@ -15,6 +15,7 @@ using WebReaper.Parser;
 using WebReaper.Queue;
 using WebReaper.Sinks;
 using WebReaper.Domain.Parsing;
+using WebReaper.LinkTracker.Concrete;
 
 namespace WebReaper.Scraper;
 
@@ -50,11 +51,11 @@ public class Scraper : IScraper
 
     protected ILinkParser LinkParser = new LinkParserByCssSelector();
 
-    protected ILinkTracker SiteLinkTracker = new WebReaper.LinkTracker.Concrete.InMemoryLinkTracker();
+    protected ILinkTracker SiteLinkTracker = new InMemoryLinkTracker();
 
     protected readonly IContentParser ContentParser;
 
-    protected static SocketsHttpHandler httpHandler = new SocketsHttpHandler()
+    protected static SocketsHttpHandler httpHandler = new()
     {
         MaxConnectionsPerServer = 100,
         SslOptions = new SslClientAuthenticationOptions
@@ -66,7 +67,7 @@ public class Scraper : IScraper
         PooledConnectionLifetime = Timeout.InfiniteTimeSpan
     };
 
-    protected Lazy<HttpClient> httpClient = new Lazy<HttpClient>(() => new HttpClient(httpHandler));
+    protected Lazy<HttpClient> httpClient = new(() => new(httpHandler));
 
     protected string[] urlBlackList = Array.Empty<string>();
 
@@ -179,14 +180,11 @@ public class Scraper : IScraper
         await Task.WhenAll(spiderTasks);
     }
 
-    public IScraper WriteToConsole() =>
-        this.AddSink(new ConsoleSink());
+    public IScraper WriteToConsole() => this.AddSink(new ConsoleSink());
 
-    public IScraper WriteToJsonFile(string filePath) =>
-        this.AddSink(new JsonFileSink(filePath));
+    public IScraper WriteToJsonFile(string filePath) => this.AddSink(new JsonFileSink(filePath));
 
-    public IScraper WriteToCsvFile(string filePath) =>
-        this.AddSink(new CsvFileSink(filePath));
+    public IScraper WriteToCsvFile(string filePath) => this.AddSink(new CsvFileSink(filePath));
 
     public IScraper Build()
     {
