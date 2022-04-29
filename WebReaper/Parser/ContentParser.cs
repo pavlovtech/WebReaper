@@ -10,11 +10,7 @@ namespace WebReaper.Parser
     {
         protected ILogger Logger { get; }
 
-        public ContentParser(ILogger logger)
-        {
-            this.Logger = logger;
-
-        }
+        public ContentParser(ILogger logger) => this.Logger = logger;
 
         public JObject Parse(string html, Schema schema)
         {
@@ -51,14 +47,14 @@ namespace WebReaper.Parser
 
                 return;
             }
-           
+
             try
             {
-                //result[item.Field] = item.GetData(doc);
                 var data = item.GetData(doc);
 
                 if (item.Type == null) {
                     result[item.Field] = data;
+
                     return;
                 }
 

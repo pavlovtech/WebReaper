@@ -5,16 +5,6 @@ using WebReaper.Domain.Selectors;
 
 namespace WebReaper.Domain.Parsing;
 
-public enum DataType
-{
-    Integer,
-    Float,
-    Boolean,
-    String,
-    DataTime,
-    Object
-}
-
 public record Schema(
     string? Field = null,
     string? Selector = null,
@@ -27,9 +17,7 @@ public record Schema(
     public bool IsComposite => Children.Any();
 
 
-    public virtual void Add(Schema element) {
-        Children.Add(element);
-    }
+    public virtual void Add(Schema element) => Children.Add(element);
 
     public virtual string GetData(HtmlDocument doc)
     {
