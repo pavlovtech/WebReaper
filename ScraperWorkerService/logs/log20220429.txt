@@ -52,3 +52,1188 @@
    at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
    at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 58
 2022-04-29 01:28:41.540 +03:00 [INF] Handle on target page was called 42 times
+2022-04-29 09:53:08.040 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-29 09:53:08.248 +03:00 [INF] Hosting environment: Development
+2022-04-29 09:53:08.249 +03:00 [INF] Content root path: C:\Projects\WebReaper\ScraperWorkerService
+2022-04-29 09:53:09.397 +03:00 [INF] Handle on target page was called 1 times
+2022-04-29 09:53:09.541 +03:00 [INF] Handle on target page was called 2 times
+2022-04-29 09:53:09.632 +03:00 [INF] Handle on target page was called 3 times
+2022-04-29 09:53:09.725 +03:00 [INF] Handle on target page was called 4 times
+2022-04-29 09:53:09.818 +03:00 [INF] Handle on target page was called 5 times
+2022-04-29 09:53:09.915 +03:00 [INF] Handle on target page was called 6 times
+2022-04-29 09:53:10.014 +03:00 [INF] Handle on target page was called 7 times
+2022-04-29 09:53:10.110 +03:00 [INF] Handle on target page was called 8 times
+2022-04-29 09:53:10.217 +03:00 [INF] Handle on target page was called 9 times
+2022-04-29 09:53:10.317 +03:00 [INF] Handle on target page was called 10 times
+2022-04-29 09:53:10.408 +03:00 [INF] Handle on target page was called 11 times
+2022-04-29 09:53:10.499 +03:00 [INF] Handle on target page was called 12 times
+2022-04-29 09:53:10.606 +03:00 [INF] Handle on target page was called 13 times
+2022-04-29 09:53:10.691 +03:00 [INF] Handle on target page was called 14 times
+2022-04-29 09:53:10.778 +03:00 [INF] Handle on target page was called 15 times
+2022-04-29 09:53:10.869 +03:00 [INF] Handle on target page was called 16 times
+2022-04-29 09:53:10.966 +03:00 [INF] Handle on target page was called 17 times
+2022-04-29 09:53:11.057 +03:00 [INF] Handle on target page was called 18 times
+2022-04-29 09:53:11.145 +03:00 [INF] Handle on target page was called 19 times
+2022-04-29 09:53:11.232 +03:00 [INF] Handle on target page was called 20 times
+2022-04-29 09:53:11.329 +03:00 [INF] Handle on target page was called 21 times
+2022-04-29 09:53:11.425 +03:00 [INF] Handle on target page was called 22 times
+2022-04-29 09:53:11.518 +03:00 [INF] Handle on target page was called 23 times
+2022-04-29 09:53:11.723 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 09:53:11.815 +03:00 [INF] Handle on target page was called 24 times
+2022-04-29 09:53:11.904 +03:00 [INF] Handle on target page was called 25 times
+2022-04-29 09:53:11.990 +03:00 [INF] Handle on target page was called 26 times
+2022-04-29 09:53:12.079 +03:00 [INF] Handle on target page was called 27 times
+2022-04-29 09:53:12.172 +03:00 [INF] Handle on target page was called 28 times
+2022-04-29 09:53:12.257 +03:00 [INF] Handle on target page was called 29 times
+2022-04-29 09:53:12.344 +03:00 [INF] Handle on target page was called 30 times
+2022-04-29 09:53:12.447 +03:00 [INF] Handle on target page was called 31 times
+2022-04-29 09:53:12.560 +03:00 [INF] Handle on target page was called 32 times
+2022-04-29 09:53:12.603 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 09:53:12.688 +03:00 [INF] Handle on target page was called 33 times
+2022-04-29 09:53:12.787 +03:00 [INF] Handle on target page was called 34 times
+2022-04-29 09:53:12.877 +03:00 [INF] Handle on target page was called 35 times
+2022-04-29 09:53:12.965 +03:00 [INF] Handle on target page was called 36 times
+2022-04-29 09:53:13.057 +03:00 [INF] Handle on target page was called 37 times
+2022-04-29 09:53:13.155 +03:00 [INF] Handle on target page was called 38 times
+2022-04-29 09:53:13.249 +03:00 [INF] Handle on target page was called 39 times
+2022-04-29 09:53:13.305 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 09:53:13.683 +03:00 [INF] Handle on target page was called 40 times
+2022-04-29 09:53:13.771 +03:00 [INF] Handle on target page was called 41 times
+2022-04-29 09:53:13.865 +03:00 [INF] Handle on target page was called 42 times
+2022-04-29 09:53:13.981 +03:00 [INF] Handle on target page was called 43 times
+2022-04-29 09:53:14.074 +03:00 [INF] Handle on target page was called 44 times
+2022-04-29 09:53:14.165 +03:00 [INF] Handle on target page was called 45 times
+2022-04-29 09:53:14.254 +03:00 [INF] Handle on target page was called 46 times
+2022-04-29 09:53:14.363 +03:00 [INF] Handle on target page was called 47 times
+2022-04-29 09:53:14.462 +03:00 [INF] Handle on target page was called 48 times
+2022-04-29 09:53:14.551 +03:00 [INF] Handle on target page was called 49 times
+2022-04-29 09:53:14.639 +03:00 [INF] Handle on target page was called 50 times
+2022-04-29 09:53:14.853 +03:00 [INF] Handle on target page was called 51 times
+2022-04-29 09:53:41.056 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-29 09:53:41.148 +03:00 [INF] Hosting environment: Development
+2022-04-29 09:53:41.149 +03:00 [INF] Content root path: C:\Projects\WebReaper\ScraperWorkerService
+2022-04-29 09:53:41.999 +03:00 [INF] Handle on target page was called 1 times
+2022-04-29 09:54:56.536 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-29 09:54:56.627 +03:00 [INF] Hosting environment: Development
+2022-04-29 09:54:56.628 +03:00 [INF] Content root path: C:\Projects\WebReaper\ScraperWorkerService
+2022-04-29 09:54:57.879 +03:00 [INF] Handle on target page was called 1 times
+2022-04-29 10:01:17.609 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-29 10:01:17.703 +03:00 [INF] Hosting environment: Development
+2022-04-29 10:01:17.705 +03:00 [INF] Content root path: C:\Projects\WebReaper\ScraperWorkerService
+2022-04-29 10:01:18.503 +03:00 [INF] Handle on target page was called 1 times
+2022-04-29 10:01:29.184 +03:00 [INF] Handle on target page was called 2 times
+2022-04-29 10:01:35.712 +03:00 [INF] Handle on target page was called 3 times
+2022-04-29 10:03:41.906 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-29 10:03:42.003 +03:00 [INF] Hosting environment: Development
+2022-04-29 10:03:42.005 +03:00 [INF] Content root path: C:\Projects\WebReaper\ScraperWorkerService
+2022-04-29 10:03:43.354 +03:00 [INF] Handle on target page was called 1 times
+2022-04-29 10:03:43.620 +03:00 [INF] Handle on target page was called 2 times
+2022-04-29 10:03:43.778 +03:00 [INF] Handle on target page was called 3 times
+2022-04-29 10:03:43.873 +03:00 [INF] Handle on target page was called 4 times
+2022-04-29 10:03:43.963 +03:00 [INF] Handle on target page was called 5 times
+2022-04-29 10:03:44.063 +03:00 [INF] Handle on target page was called 6 times
+2022-04-29 10:03:44.219 +03:00 [INF] Handle on target page was called 7 times
+2022-04-29 10:03:44.311 +03:00 [INF] Handle on target page was called 8 times
+2022-04-29 10:03:44.410 +03:00 [INF] Handle on target page was called 9 times
+2022-04-29 10:03:44.502 +03:00 [INF] Handle on target page was called 10 times
+2022-04-29 10:03:44.920 +03:00 [INF] Handle on target page was called 11 times
+2022-04-29 10:03:45.007 +03:00 [INF] Handle on target page was called 12 times
+2022-04-29 10:03:45.103 +03:00 [INF] Handle on target page was called 13 times
+2022-04-29 10:03:45.190 +03:00 [INF] Handle on target page was called 14 times
+2022-04-29 10:03:45.351 +03:00 [INF] Handle on target page was called 15 times
+2022-04-29 10:03:45.906 +03:00 [INF] Handle on target page was called 16 times
+2022-04-29 10:03:45.996 +03:00 [INF] Handle on target page was called 17 times
+2022-04-29 10:03:46.084 +03:00 [INF] Handle on target page was called 18 times
+2022-04-29 10:03:46.244 +03:00 [INF] Handle on target page was called 19 times
+2022-04-29 10:03:46.432 +03:00 [INF] Handle on target page was called 20 times
+2022-04-29 10:03:46.519 +03:00 [INF] Handle on target page was called 21 times
+2022-04-29 10:03:46.607 +03:00 [INF] Handle on target page was called 22 times
+2022-04-29 10:03:46.763 +03:00 [INF] Handle on target page was called 23 times
+2022-04-29 10:03:46.879 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:03:46.969 +03:00 [INF] Handle on target page was called 24 times
+2022-04-29 10:03:47.070 +03:00 [INF] Handle on target page was called 25 times
+2022-04-29 10:03:47.179 +03:00 [INF] Handle on target page was called 26 times
+2022-04-29 10:03:47.334 +03:00 [INF] Handle on target page was called 27 times
+2022-04-29 10:03:47.420 +03:00 [INF] Handle on target page was called 28 times
+2022-04-29 10:03:48.570 +03:00 [INF] Handle on target page was called 29 times
+2022-04-29 10:03:48.655 +03:00 [INF] Handle on target page was called 30 times
+2022-04-29 10:03:48.749 +03:00 [INF] Handle on target page was called 31 times
+2022-04-29 10:03:48.847 +03:00 [INF] Handle on target page was called 32 times
+2022-04-29 10:03:48.886 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:03:49.105 +03:00 [INF] Handle on target page was called 33 times
+2022-04-29 10:03:49.199 +03:00 [INF] Handle on target page was called 34 times
+2022-04-29 10:03:49.293 +03:00 [INF] Handle on target page was called 35 times
+2022-04-29 10:03:49.446 +03:00 [INF] Handle on target page was called 36 times
+2022-04-29 10:03:49.608 +03:00 [INF] Handle on target page was called 37 times
+2022-04-29 10:03:49.777 +03:00 [INF] Handle on target page was called 38 times
+2022-04-29 10:03:50.000 +03:00 [INF] Handle on target page was called 39 times
+2022-04-29 10:03:50.047 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:03:50.207 +03:00 [INF] Handle on target page was called 40 times
+2022-04-29 10:03:50.307 +03:00 [INF] Handle on target page was called 41 times
+2022-04-29 10:03:50.471 +03:00 [INF] Handle on target page was called 42 times
+2022-04-29 10:03:50.632 +03:00 [INF] Handle on target page was called 43 times
+2022-04-29 10:03:50.729 +03:00 [INF] Handle on target page was called 44 times
+2022-04-29 10:03:50.881 +03:00 [INF] Handle on target page was called 45 times
+2022-04-29 10:03:50.971 +03:00 [INF] Handle on target page was called 46 times
+2022-04-29 10:03:51.074 +03:00 [INF] Handle on target page was called 47 times
+2022-04-29 10:03:51.165 +03:00 [INF] Handle on target page was called 48 times
+2022-04-29 10:03:51.256 +03:00 [INF] Handle on target page was called 49 times
+2022-04-29 10:04:50.153 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-29 10:04:50.245 +03:00 [INF] Hosting environment: Development
+2022-04-29 10:04:50.247 +03:00 [INF] Content root path: C:\Projects\WebReaper\ScraperWorkerService
+2022-04-29 10:04:50.959 +03:00 [INF] Handle on target page was called 1 times
+2022-04-29 10:04:51.137 +03:00 [INF] Handle on target page was called 2 times
+2022-04-29 10:04:51.229 +03:00 [INF] Handle on target page was called 3 times
+2022-04-29 10:04:51.361 +03:00 [INF] Handle on target page was called 4 times
+2022-04-29 10:04:51.461 +03:00 [INF] Handle on target page was called 5 times
+2022-04-29 10:04:51.559 +03:00 [INF] Handle on target page was called 6 times
+2022-04-29 10:04:51.656 +03:00 [INF] Handle on target page was called 7 times
+2022-04-29 10:04:51.751 +03:00 [INF] Handle on target page was called 8 times
+2022-04-29 10:04:51.848 +03:00 [INF] Handle on target page was called 9 times
+2022-04-29 10:04:51.937 +03:00 [INF] Handle on target page was called 10 times
+2022-04-29 10:04:52.040 +03:00 [INF] Handle on target page was called 11 times
+2022-04-29 10:04:52.126 +03:00 [INF] Handle on target page was called 12 times
+2022-04-29 10:04:52.218 +03:00 [INF] Handle on target page was called 13 times
+2022-04-29 10:04:52.314 +03:00 [INF] Handle on target page was called 14 times
+2022-04-29 10:04:52.413 +03:00 [INF] Handle on target page was called 15 times
+2022-04-29 10:04:52.518 +03:00 [INF] Handle on target page was called 16 times
+2022-04-29 10:04:52.729 +03:00 [INF] Handle on target page was called 17 times
+2022-04-29 10:04:53.031 +03:00 [INF] Handle on target page was called 18 times
+2022-04-29 10:04:53.275 +03:00 [INF] Handle on target page was called 19 times
+2022-04-29 10:04:53.375 +03:00 [INF] Handle on target page was called 20 times
+2022-04-29 10:04:53.467 +03:00 [INF] Handle on target page was called 21 times
+2022-04-29 10:04:53.560 +03:00 [INF] Handle on target page was called 22 times
+2022-04-29 10:04:53.651 +03:00 [INF] Handle on target page was called 23 times
+2022-04-29 10:04:53.778 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:04:53.866 +03:00 [INF] Handle on target page was called 24 times
+2022-04-29 10:04:53.976 +03:00 [INF] Handle on target page was called 25 times
+2022-04-29 10:04:54.079 +03:00 [INF] Handle on target page was called 26 times
+2022-04-29 10:04:54.177 +03:00 [INF] Handle on target page was called 27 times
+2022-04-29 10:04:54.267 +03:00 [INF] Handle on target page was called 28 times
+2022-04-29 10:04:54.371 +03:00 [INF] Handle on target page was called 29 times
+2022-04-29 10:04:54.460 +03:00 [INF] Handle on target page was called 30 times
+2022-04-29 10:04:54.547 +03:00 [INF] Handle on target page was called 31 times
+2022-04-29 10:04:54.633 +03:00 [INF] Handle on target page was called 32 times
+2022-04-29 10:04:54.676 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:04:54.765 +03:00 [INF] Handle on target page was called 33 times
+2022-04-29 10:04:54.853 +03:00 [INF] Handle on target page was called 34 times
+2022-04-29 10:04:54.949 +03:00 [INF] Handle on target page was called 35 times
+2022-04-29 10:04:55.040 +03:00 [INF] Handle on target page was called 36 times
+2022-04-29 10:04:55.136 +03:00 [INF] Handle on target page was called 37 times
+2022-04-29 10:04:55.239 +03:00 [INF] Handle on target page was called 38 times
+2022-04-29 10:04:55.335 +03:00 [INF] Handle on target page was called 39 times
+2022-04-29 10:04:55.383 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:04:55.545 +03:00 [INF] Handle on target page was called 40 times
+2022-04-29 10:04:55.640 +03:00 [INF] Handle on target page was called 41 times
+2022-04-29 10:04:55.801 +03:00 [INF] Handle on target page was called 42 times
+2022-04-29 10:04:55.903 +03:00 [INF] Handle on target page was called 43 times
+2022-04-29 10:04:55.991 +03:00 [INF] Handle on target page was called 44 times
+2022-04-29 10:04:56.077 +03:00 [INF] Handle on target page was called 45 times
+2022-04-29 10:04:56.166 +03:00 [INF] Handle on target page was called 46 times
+2022-04-29 10:04:56.271 +03:00 [INF] Handle on target page was called 47 times
+2022-04-29 10:04:56.355 +03:00 [INF] Handle on target page was called 48 times
+2022-04-29 10:04:56.456 +03:00 [INF] Handle on target page was called 49 times
+2022-04-29 10:04:56.544 +03:00 [INF] Handle on target page was called 50 times
+2022-04-29 10:04:56.809 +03:00 [INF] Handle on target page was called 51 times
+2022-04-29 10:04:56.912 +03:00 [INF] Handle on target page was called 52 times
+2022-04-29 10:04:57.071 +03:00 [INF] Handle on target page was called 53 times
+2022-04-29 10:04:57.164 +03:00 [INF] Handle on target page was called 54 times
+2022-04-29 10:04:57.258 +03:00 [INF] Handle on target page was called 55 times
+2022-04-29 10:04:57.359 +03:00 [INF] Handle on target page was called 56 times
+2022-04-29 10:04:57.451 +03:00 [INF] Handle on target page was called 57 times
+2022-04-29 10:04:57.612 +03:00 [INF] Handle on target page was called 58 times
+2022-04-29 10:04:57.779 +03:00 [INF] Handle on target page was called 59 times
+2022-04-29 10:04:57.874 +03:00 [INF] Handle on target page was called 60 times
+2022-04-29 10:04:57.960 +03:00 [INF] Handle on target page was called 61 times
+2022-04-29 10:04:58.083 +03:00 [INF] Handle on target page was called 62 times
+2022-04-29 10:04:58.171 +03:00 [INF] Handle on target page was called 63 times
+2022-04-29 10:04:58.329 +03:00 [INF] Handle on target page was called 64 times
+2022-04-29 10:04:58.416 +03:00 [INF] Handle on target page was called 65 times
+2022-04-29 10:04:58.503 +03:00 [INF] Handle on target page was called 66 times
+2022-04-29 10:04:58.588 +03:00 [INF] Handle on target page was called 67 times
+2022-04-29 10:04:58.674 +03:00 [INF] Handle on target page was called 68 times
+2022-04-29 10:04:58.774 +03:00 [INF] Handle on target page was called 69 times
+2022-04-29 10:04:58.870 +03:00 [INF] Handle on target page was called 70 times
+2022-04-29 10:04:58.975 +03:00 [INF] Handle on target page was called 71 times
+2022-04-29 10:04:59.099 +03:00 [INF] Handle on target page was called 72 times
+2022-04-29 10:04:59.189 +03:00 [INF] Handle on target page was called 73 times
+2022-04-29 10:04:59.280 +03:00 [INF] Handle on target page was called 74 times
+2022-04-29 10:04:59.384 +03:00 [INF] Handle on target page was called 75 times
+2022-04-29 10:04:59.545 +03:00 [INF] Handle on target page was called 76 times
+2022-04-29 10:04:59.716 +03:00 [INF] Handle on target page was called 77 times
+2022-04-29 10:04:59.885 +03:00 [INF] Handle on target page was called 78 times
+2022-04-29 10:05:00.052 +03:00 [INF] Handle on target page was called 79 times
+2022-04-29 10:05:00.217 +03:00 [INF] Handle on target page was called 80 times
+2022-04-29 10:05:00.313 +03:00 [INF] Handle on target page was called 81 times
+2022-04-29 10:05:00.484 +03:00 [INF] Handle on target page was called 82 times
+2022-04-29 10:05:00.655 +03:00 [INF] Handle on target page was called 83 times
+2022-04-29 10:05:00.764 +03:00 [INF] Handle on target page was called 84 times
+2022-04-29 10:05:00.857 +03:00 [INF] Handle on target page was called 85 times
+2022-04-29 10:05:01.035 +03:00 [INF] Handle on target page was called 86 times
+2022-04-29 10:05:01.195 +03:00 [INF] Handle on target page was called 87 times
+2022-04-29 10:05:01.304 +03:00 [INF] Handle on target page was called 88 times
+2022-04-29 10:05:01.391 +03:00 [INF] Handle on target page was called 89 times
+2022-04-29 10:05:01.489 +03:00 [INF] Handle on target page was called 90 times
+2022-04-29 10:05:01.585 +03:00 [INF] Handle on target page was called 91 times
+2022-04-29 10:05:01.680 +03:00 [INF] Handle on target page was called 92 times
+2022-04-29 10:05:01.775 +03:00 [INF] Handle on target page was called 93 times
+2022-04-29 10:05:01.874 +03:00 [INF] Handle on target page was called 94 times
+2022-04-29 10:05:01.969 +03:00 [INF] Handle on target page was called 95 times
+2022-04-29 10:05:02.059 +03:00 [INF] Handle on target page was called 96 times
+2022-04-29 10:05:02.147 +03:00 [INF] Handle on target page was called 97 times
+2022-04-29 10:05:02.235 +03:00 [INF] Handle on target page was called 98 times
+2022-04-29 10:05:02.325 +03:00 [INF] Handle on target page was called 99 times
+2022-04-29 10:05:02.431 +03:00 [INF] Handle on target page was called 100 times
+2022-04-29 10:05:02.632 +03:00 [INF] Handle on target page was called 101 times
+2022-04-29 10:05:02.674 +03:00 [ERR] System.Exception: Cannot find element by selector $div.attach_link.guest>ul>li:nth-child(2).
+   at WebReaper.Domain.Parsing.Schema.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper.Domain\Parsing\Schema.cs:line 29
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:05:02.714 +03:00 [ERR] System.Exception: No href attribute found by selector .magnet-link in .
+   at WebReaper.Parsing.Url.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Url.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:05:02.871 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:05:02.975 +03:00 [INF] Handle on target page was called 102 times
+2022-04-29 10:05:03.065 +03:00 [INF] Handle on target page was called 103 times
+2022-04-29 10:05:03.155 +03:00 [INF] Handle on target page was called 104 times
+2022-04-29 10:05:03.246 +03:00 [INF] Handle on target page was called 105 times
+2022-04-29 10:05:03.342 +03:00 [INF] Handle on target page was called 106 times
+2022-04-29 10:05:03.433 +03:00 [INF] Handle on target page was called 107 times
+2022-04-29 10:05:03.527 +03:00 [INF] Handle on target page was called 108 times
+2022-04-29 10:05:03.689 +03:00 [INF] Handle on target page was called 109 times
+2022-04-29 10:05:03.791 +03:00 [INF] Handle on target page was called 110 times
+2022-04-29 10:05:03.886 +03:00 [INF] Handle on target page was called 111 times
+2022-04-29 10:05:03.979 +03:00 [INF] Handle on target page was called 112 times
+2022-04-29 10:05:04.070 +03:00 [INF] Handle on target page was called 113 times
+2022-04-29 10:05:04.158 +03:00 [INF] Handle on target page was called 114 times
+2022-04-29 10:05:04.242 +03:00 [INF] Handle on target page was called 115 times
+2022-04-29 10:05:04.328 +03:00 [INF] Handle on target page was called 116 times
+2022-04-29 10:05:04.416 +03:00 [INF] Handle on target page was called 117 times
+2022-04-29 10:05:04.516 +03:00 [INF] Handle on target page was called 118 times
+2022-04-29 10:05:04.613 +03:00 [INF] Handle on target page was called 119 times
+2022-04-29 10:05:04.701 +03:00 [INF] Handle on target page was called 120 times
+2022-04-29 10:05:04.793 +03:00 [INF] Handle on target page was called 121 times
+2022-04-29 10:05:04.885 +03:00 [INF] Handle on target page was called 122 times
+2022-04-29 10:05:04.968 +03:00 [INF] Handle on target page was called 123 times
+2022-04-29 10:05:05.054 +03:00 [INF] Handle on target page was called 124 times
+2022-04-29 10:05:05.142 +03:00 [INF] Handle on target page was called 125 times
+2022-04-29 10:05:05.245 +03:00 [INF] Handle on target page was called 126 times
+2022-04-29 10:05:05.550 +03:00 [INF] Handle on target page was called 127 times
+2022-04-29 10:05:05.646 +03:00 [INF] Handle on target page was called 128 times
+2022-04-29 10:05:05.742 +03:00 [INF] Handle on target page was called 129 times
+2022-04-29 10:05:05.828 +03:00 [INF] Handle on target page was called 130 times
+2022-04-29 10:05:05.929 +03:00 [INF] Handle on target page was called 131 times
+2022-04-29 10:05:06.031 +03:00 [INF] Handle on target page was called 132 times
+2022-04-29 10:05:06.135 +03:00 [INF] Handle on target page was called 133 times
+2022-04-29 10:05:06.287 +03:00 [INF] Handle on target page was called 134 times
+2022-04-29 10:05:06.383 +03:00 [INF] Handle on target page was called 135 times
+2022-04-29 10:05:06.476 +03:00 [INF] Handle on target page was called 136 times
+2022-04-29 10:05:06.569 +03:00 [INF] Handle on target page was called 137 times
+2022-04-29 10:05:06.674 +03:00 [INF] Handle on target page was called 138 times
+2022-04-29 10:05:06.790 +03:00 [INF] Handle on target page was called 139 times
+2022-04-29 10:05:06.885 +03:00 [INF] Handle on target page was called 140 times
+2022-04-29 10:05:06.996 +03:00 [INF] Handle on target page was called 141 times
+2022-04-29 10:05:07.102 +03:00 [INF] Handle on target page was called 142 times
+2022-04-29 10:05:07.207 +03:00 [INF] Handle on target page was called 143 times
+2022-04-29 10:05:07.313 +03:00 [INF] Handle on target page was called 144 times
+2022-04-29 10:05:07.405 +03:00 [INF] Handle on target page was called 145 times
+2022-04-29 10:05:07.517 +03:00 [INF] Handle on target page was called 146 times
+2022-04-29 10:05:07.739 +03:00 [INF] Handle on target page was called 147 times
+2022-04-29 10:05:07.893 +03:00 [INF] Handle on target page was called 148 times
+2022-04-29 10:05:07.984 +03:00 [INF] Handle on target page was called 149 times
+2022-04-29 10:05:08.072 +03:00 [INF] Handle on target page was called 150 times
+2022-04-29 10:05:08.441 +03:00 [INF] Handle on target page was called 151 times
+2022-04-29 10:05:08.534 +03:00 [INF] Handle on target page was called 152 times
+2022-04-29 10:05:08.697 +03:00 [INF] Handle on target page was called 153 times
+2022-04-29 10:05:08.798 +03:00 [INF] Handle on target page was called 154 times
+2022-04-29 10:05:08.957 +03:00 [INF] Handle on target page was called 155 times
+2022-04-29 10:05:09.126 +03:00 [INF] Handle on target page was called 156 times
+2022-04-29 10:05:09.219 +03:00 [INF] Handle on target page was called 157 times
+2022-04-29 10:05:09.385 +03:00 [INF] Handle on target page was called 158 times
+2022-04-29 10:05:09.544 +03:00 [INF] Handle on target page was called 159 times
+2022-04-29 10:05:09.713 +03:00 [INF] Handle on target page was called 160 times
+2022-04-29 10:05:09.891 +03:00 [INF] Handle on target page was called 161 times
+2022-04-29 10:05:10.009 +03:00 [INF] Handle on target page was called 162 times
+2022-04-29 10:05:10.113 +03:00 [INF] Handle on target page was called 163 times
+2022-04-29 10:05:10.290 +03:00 [INF] Handle on target page was called 164 times
+2022-04-29 10:05:10.393 +03:00 [INF] Handle on target page was called 165 times
+2022-04-29 10:05:10.555 +03:00 [INF] Handle on target page was called 166 times
+2022-04-29 10:05:10.732 +03:00 [INF] Handle on target page was called 167 times
+2022-04-29 10:05:10.824 +03:00 [INF] Handle on target page was called 168 times
+2022-04-29 10:05:10.912 +03:00 [INF] Handle on target page was called 169 times
+2022-04-29 10:05:11.012 +03:00 [INF] Handle on target page was called 170 times
+2022-04-29 10:05:11.100 +03:00 [INF] Handle on target page was called 171 times
+2022-04-29 10:05:11.252 +03:00 [INF] Handle on target page was called 172 times
+2022-04-29 10:05:11.343 +03:00 [INF] Handle on target page was called 173 times
+2022-04-29 10:05:11.428 +03:00 [INF] Handle on target page was called 174 times
+2022-04-29 10:05:11.527 +03:00 [INF] Handle on target page was called 175 times
+2022-04-29 10:05:11.698 +03:00 [INF] Handle on target page was called 176 times
+2022-04-29 10:05:11.794 +03:00 [INF] Handle on target page was called 177 times
+2022-04-29 10:05:11.884 +03:00 [INF] Handle on target page was called 178 times
+2022-04-29 10:05:11.976 +03:00 [INF] Handle on target page was called 179 times
+2022-04-29 10:05:12.120 +03:00 [INF] Handle on target page was called 180 times
+2022-04-29 10:05:12.211 +03:00 [INF] Handle on target page was called 181 times
+2022-04-29 10:05:12.302 +03:00 [INF] Handle on target page was called 182 times
+2022-04-29 10:05:12.484 +03:00 [INF] Handle on target page was called 183 times
+2022-04-29 10:05:12.578 +03:00 [INF] Handle on target page was called 184 times
+2022-04-29 10:05:12.674 +03:00 [INF] Handle on target page was called 185 times
+2022-04-29 10:05:12.766 +03:00 [INF] Handle on target page was called 186 times
+2022-04-29 10:05:12.903 +03:00 [INF] Handle on target page was called 187 times
+2022-04-29 10:05:12.993 +03:00 [INF] Handle on target page was called 188 times
+2022-04-29 10:05:13.084 +03:00 [INF] Handle on target page was called 189 times
+2022-04-29 10:05:13.177 +03:00 [INF] Handle on target page was called 190 times
+2022-04-29 10:05:13.264 +03:00 [INF] Handle on target page was called 191 times
+2022-04-29 10:05:13.365 +03:00 [INF] Handle on target page was called 192 times
+2022-04-29 10:05:13.468 +03:00 [INF] Handle on target page was called 193 times
+2022-04-29 10:05:13.561 +03:00 [INF] Handle on target page was called 194 times
+2022-04-29 10:05:13.672 +03:00 [INF] Handle on target page was called 195 times
+2022-04-29 10:05:13.840 +03:00 [INF] Handle on target page was called 196 times
+2022-04-29 10:05:14.001 +03:00 [INF] Handle on target page was called 197 times
+2022-04-29 10:05:14.103 +03:00 [INF] Handle on target page was called 198 times
+2022-04-29 10:05:14.191 +03:00 [INF] Handle on target page was called 199 times
+2022-04-29 10:05:14.359 +03:00 [INF] Handle on target page was called 200 times
+2022-04-29 10:05:14.635 +03:00 [INF] Handle on target page was called 201 times
+2022-04-29 10:05:14.740 +03:00 [INF] Handle on target page was called 202 times
+2022-04-29 10:05:14.832 +03:00 [INF] Handle on target page was called 203 times
+2022-04-29 10:05:14.937 +03:00 [INF] Handle on target page was called 204 times
+2022-04-29 10:05:15.028 +03:00 [INF] Handle on target page was called 205 times
+2022-04-29 10:05:15.121 +03:00 [INF] Handle on target page was called 206 times
+2022-04-29 10:05:15.238 +03:00 [INF] Handle on target page was called 207 times
+2022-04-29 10:05:15.352 +03:00 [INF] Handle on target page was called 208 times
+2022-04-29 10:05:15.451 +03:00 [INF] Handle on target page was called 209 times
+2022-04-29 10:05:15.546 +03:00 [INF] Handle on target page was called 210 times
+2022-04-29 10:05:15.650 +03:00 [INF] Handle on target page was called 211 times
+2022-04-29 10:05:15.751 +03:00 [INF] Handle on target page was called 212 times
+2022-04-29 10:05:15.841 +03:00 [INF] Handle on target page was called 213 times
+2022-04-29 10:05:15.949 +03:00 [INF] Handle on target page was called 214 times
+2022-04-29 10:05:16.046 +03:00 [INF] Handle on target page was called 215 times
+2022-04-29 10:05:16.142 +03:00 [INF] Handle on target page was called 216 times
+2022-04-29 10:05:16.255 +03:00 [INF] Handle on target page was called 217 times
+2022-04-29 10:05:16.350 +03:00 [INF] Handle on target page was called 218 times
+2022-04-29 10:05:16.444 +03:00 [INF] Handle on target page was called 219 times
+2022-04-29 10:05:16.542 +03:00 [INF] Handle on target page was called 220 times
+2022-04-29 10:05:16.705 +03:00 [INF] Handle on target page was called 221 times
+2022-04-29 10:05:16.804 +03:00 [INF] Handle on target page was called 222 times
+2022-04-29 10:05:16.899 +03:00 [INF] Handle on target page was called 223 times
+2022-04-29 10:05:16.992 +03:00 [INF] Handle on target page was called 224 times
+2022-04-29 10:05:17.108 +03:00 [INF] Handle on target page was called 225 times
+2022-04-29 10:05:17.261 +03:00 [INF] Handle on target page was called 226 times
+2022-04-29 10:05:17.555 +03:00 [INF] Handle on target page was called 227 times
+2022-04-29 10:05:17.655 +03:00 [INF] Handle on target page was called 228 times
+2022-04-29 10:05:17.742 +03:00 [INF] Handle on target page was called 229 times
+2022-04-29 10:05:17.835 +03:00 [INF] Handle on target page was called 230 times
+2022-04-29 10:05:17.940 +03:00 [INF] Handle on target page was called 231 times
+2022-04-29 10:05:18.045 +03:00 [INF] Handle on target page was called 232 times
+2022-04-29 10:05:18.140 +03:00 [INF] Handle on target page was called 233 times
+2022-04-29 10:05:18.240 +03:00 [INF] Handle on target page was called 234 times
+2022-04-29 10:05:18.334 +03:00 [INF] Handle on target page was called 235 times
+2022-04-29 10:05:18.438 +03:00 [INF] Handle on target page was called 236 times
+2022-04-29 10:05:18.526 +03:00 [INF] Handle on target page was called 237 times
+2022-04-29 10:05:18.614 +03:00 [INF] Handle on target page was called 238 times
+2022-04-29 10:05:18.709 +03:00 [INF] Handle on target page was called 239 times
+2022-04-29 10:05:18.809 +03:00 [INF] Handle on target page was called 240 times
+2022-04-29 10:05:18.906 +03:00 [INF] Handle on target page was called 241 times
+2022-04-29 10:05:19.010 +03:00 [INF] Handle on target page was called 242 times
+2022-04-29 10:05:19.102 +03:00 [INF] Handle on target page was called 243 times
+2022-04-29 10:05:19.197 +03:00 [INF] Handle on target page was called 244 times
+2022-04-29 10:05:19.334 +03:00 [INF] Handle on target page was called 245 times
+2022-04-29 10:05:19.441 +03:00 [INF] Handle on target page was called 246 times
+2022-04-29 10:05:19.545 +03:00 [INF] Handle on target page was called 247 times
+2022-04-29 10:05:19.641 +03:00 [INF] Handle on target page was called 248 times
+2022-04-29 10:05:19.741 +03:00 [INF] Handle on target page was called 249 times
+2022-04-29 10:05:19.854 +03:00 [INF] Handle on target page was called 250 times
+2022-04-29 10:05:20.075 +03:00 [INF] Handle on target page was called 251 times
+2022-04-29 10:05:20.121 +03:00 [ERR] System.Exception: Cannot find element by selector $div.attach_link.guest>ul>li:nth-child(2).
+   at WebReaper.Domain.Parsing.Schema.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper.Domain\Parsing\Schema.cs:line 29
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:05:20.164 +03:00 [ERR] System.Exception: No href attribute found by selector .magnet-link in .
+   at WebReaper.Parsing.Url.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Url.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:05:20.260 +03:00 [INF] Handle on target page was called 252 times
+2022-04-29 10:05:20.369 +03:00 [INF] Handle on target page was called 253 times
+2022-04-29 10:05:20.459 +03:00 [INF] Handle on target page was called 254 times
+2022-04-29 10:05:20.554 +03:00 [INF] Handle on target page was called 255 times
+2022-04-29 10:05:20.649 +03:00 [INF] Handle on target page was called 256 times
+2022-04-29 10:05:20.743 +03:00 [INF] Handle on target page was called 257 times
+2022-04-29 10:05:20.842 +03:00 [INF] Handle on target page was called 258 times
+2022-04-29 10:05:20.956 +03:00 [INF] Handle on target page was called 259 times
+2022-04-29 10:05:21.135 +03:00 [INF] Handle on target page was called 260 times
+2022-04-29 10:05:21.299 +03:00 [INF] Handle on target page was called 261 times
+2022-04-29 10:05:21.402 +03:00 [INF] Handle on target page was called 262 times
+2022-04-29 10:05:21.496 +03:00 [INF] Handle on target page was called 263 times
+2022-04-29 10:05:21.613 +03:00 [INF] Handle on target page was called 264 times
+2022-04-29 10:05:21.762 +03:00 [INF] Handle on target page was called 265 times
+2022-04-29 10:05:21.874 +03:00 [INF] Handle on target page was called 266 times
+2022-04-29 10:05:21.967 +03:00 [INF] Handle on target page was called 267 times
+2022-04-29 10:05:22.060 +03:00 [INF] Handle on target page was called 268 times
+2022-04-29 10:05:22.148 +03:00 [INF] Handle on target page was called 269 times
+2022-04-29 10:05:22.252 +03:00 [INF] Handle on target page was called 270 times
+2022-04-29 10:05:22.367 +03:00 [INF] Handle on target page was called 271 times
+2022-04-29 10:05:22.478 +03:00 [INF] Handle on target page was called 272 times
+2022-04-29 10:05:22.584 +03:00 [INF] Handle on target page was called 273 times
+2022-04-29 10:05:22.685 +03:00 [INF] Handle on target page was called 274 times
+2022-04-29 10:05:22.791 +03:00 [INF] Handle on target page was called 275 times
+2022-04-29 10:05:22.898 +03:00 [INF] Handle on target page was called 276 times
+2022-04-29 10:05:23.058 +03:00 [INF] Handle on target page was called 277 times
+2022-04-29 10:05:23.156 +03:00 [INF] Handle on target page was called 278 times
+2022-04-29 10:05:23.278 +03:00 [INF] Handle on target page was called 279 times
+2022-04-29 10:05:23.377 +03:00 [INF] Handle on target page was called 280 times
+2022-04-29 10:05:23.489 +03:00 [INF] Handle on target page was called 281 times
+2022-04-29 10:05:23.587 +03:00 [INF] Handle on target page was called 282 times
+2022-04-29 10:05:23.698 +03:00 [INF] Handle on target page was called 283 times
+2022-04-29 10:05:23.809 +03:00 [INF] Handle on target page was called 284 times
+2022-04-29 10:05:23.899 +03:00 [INF] Handle on target page was called 285 times
+2022-04-29 10:05:24.000 +03:00 [INF] Handle on target page was called 286 times
+2022-04-29 10:05:24.095 +03:00 [INF] Handle on target page was called 287 times
+2022-04-29 10:05:24.226 +03:00 [INF] Handle on target page was called 288 times
+2022-04-29 10:05:24.331 +03:00 [INF] Handle on target page was called 289 times
+2022-04-29 10:05:24.427 +03:00 [INF] Handle on target page was called 290 times
+2022-04-29 10:05:24.550 +03:00 [INF] Handle on target page was called 291 times
+2022-04-29 10:05:24.650 +03:00 [INF] Handle on target page was called 292 times
+2022-04-29 10:05:24.758 +03:00 [INF] Handle on target page was called 293 times
+2022-04-29 10:05:24.848 +03:00 [INF] Handle on target page was called 294 times
+2022-04-29 10:05:24.956 +03:00 [INF] Handle on target page was called 295 times
+2022-04-29 10:05:25.049 +03:00 [INF] Handle on target page was called 296 times
+2022-04-29 10:05:25.141 +03:00 [INF] Handle on target page was called 297 times
+2022-04-29 10:05:25.236 +03:00 [INF] Handle on target page was called 298 times
+2022-04-29 10:05:25.334 +03:00 [INF] Handle on target page was called 299 times
+2022-04-29 10:05:25.435 +03:00 [INF] Handle on target page was called 300 times
+2022-04-29 10:05:25.773 +03:00 [INF] Handle on target page was called 301 times
+2022-04-29 10:05:25.915 +03:00 [INF] Handle on target page was called 302 times
+2022-04-29 10:05:26.011 +03:00 [INF] Handle on target page was called 303 times
+2022-04-29 10:05:26.153 +03:00 [INF] Handle on target page was called 304 times
+2022-04-29 10:05:26.335 +03:00 [INF] Handle on target page was called 305 times
+2022-04-29 10:05:26.442 +03:00 [INF] Handle on target page was called 306 times
+2022-04-29 10:05:26.549 +03:00 [INF] Handle on target page was called 307 times
+2022-04-29 10:05:26.645 +03:00 [INF] Handle on target page was called 308 times
+2022-04-29 10:05:26.759 +03:00 [INF] Handle on target page was called 309 times
+2022-04-29 10:05:26.857 +03:00 [INF] Handle on target page was called 310 times
+2022-04-29 10:05:26.968 +03:00 [INF] Handle on target page was called 311 times
+2022-04-29 10:05:27.052 +03:00 [INF] Handle on target page was called 312 times
+2022-04-29 10:05:27.159 +03:00 [INF] Handle on target page was called 313 times
+2022-04-29 10:05:27.255 +03:00 [INF] Handle on target page was called 314 times
+2022-04-29 10:05:27.352 +03:00 [INF] Handle on target page was called 315 times
+2022-04-29 10:05:27.514 +03:00 [INF] Handle on target page was called 316 times
+2022-04-29 10:05:27.685 +03:00 [INF] Handle on target page was called 317 times
+2022-04-29 10:05:27.779 +03:00 [INF] Handle on target page was called 318 times
+2022-04-29 10:05:27.873 +03:00 [INF] Handle on target page was called 319 times
+2022-04-29 10:05:27.970 +03:00 [INF] Handle on target page was called 320 times
+2022-04-29 10:05:28.068 +03:00 [INF] Handle on target page was called 321 times
+2022-04-29 10:05:28.164 +03:00 [INF] Handle on target page was called 322 times
+2022-04-29 10:05:28.268 +03:00 [INF] Handle on target page was called 323 times
+2022-04-29 10:05:28.498 +03:00 [INF] Handle on target page was called 324 times
+2022-04-29 10:05:28.591 +03:00 [INF] Handle on target page was called 325 times
+2022-04-29 10:05:28.702 +03:00 [INF] Handle on target page was called 326 times
+2022-04-29 10:05:28.869 +03:00 [INF] Handle on target page was called 327 times
+2022-04-29 10:05:29.034 +03:00 [INF] Handle on target page was called 328 times
+2022-04-29 10:05:29.137 +03:00 [INF] Handle on target page was called 329 times
+2022-04-29 10:05:29.245 +03:00 [INF] Handle on target page was called 330 times
+2022-04-29 10:05:29.409 +03:00 [INF] Handle on target page was called 331 times
+2022-04-29 10:05:29.548 +03:00 [INF] Handle on target page was called 332 times
+2022-04-29 10:05:29.640 +03:00 [INF] Handle on target page was called 333 times
+2022-04-29 10:05:29.747 +03:00 [INF] Handle on target page was called 334 times
+2022-04-29 10:05:29.848 +03:00 [INF] Handle on target page was called 335 times
+2022-04-29 10:05:29.944 +03:00 [INF] Handle on target page was called 336 times
+2022-04-29 10:05:30.047 +03:00 [INF] Handle on target page was called 337 times
+2022-04-29 10:05:30.151 +03:00 [INF] Handle on target page was called 338 times
+2022-04-29 10:05:30.256 +03:00 [INF] Handle on target page was called 339 times
+2022-04-29 10:05:30.346 +03:00 [INF] Handle on target page was called 340 times
+2022-04-29 10:08:22.433 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-04-29 10:08:23.027 +03:00 [INF] Hosting environment: Development
+2022-04-29 10:08:23.029 +03:00 [INF] Content root path: C:\Projects\WebReaper\ScraperWorkerService
+2022-04-29 10:08:23.761 +03:00 [INF] Handle on target page was called 1 times
+2022-04-29 10:08:23.949 +03:00 [INF] Handle on target page was called 2 times
+2022-04-29 10:08:24.063 +03:00 [INF] Handle on target page was called 3 times
+2022-04-29 10:08:24.157 +03:00 [INF] Handle on target page was called 4 times
+2022-04-29 10:08:24.253 +03:00 [INF] Handle on target page was called 5 times
+2022-04-29 10:08:24.347 +03:00 [INF] Handle on target page was called 6 times
+2022-04-29 10:08:24.456 +03:00 [INF] Handle on target page was called 7 times
+2022-04-29 10:08:24.547 +03:00 [INF] Handle on target page was called 8 times
+2022-04-29 10:08:24.642 +03:00 [INF] Handle on target page was called 9 times
+2022-04-29 10:08:24.742 +03:00 [INF] Handle on target page was called 10 times
+2022-04-29 10:08:24.842 +03:00 [INF] Handle on target page was called 11 times
+2022-04-29 10:08:24.933 +03:00 [INF] Handle on target page was called 12 times
+2022-04-29 10:08:25.039 +03:00 [INF] Handle on target page was called 13 times
+2022-04-29 10:08:25.127 +03:00 [INF] Handle on target page was called 14 times
+2022-04-29 10:08:25.218 +03:00 [INF] Handle on target page was called 15 times
+2022-04-29 10:08:25.306 +03:00 [INF] Handle on target page was called 16 times
+2022-04-29 10:08:25.410 +03:00 [INF] Handle on target page was called 17 times
+2022-04-29 10:08:25.496 +03:00 [INF] Handle on target page was called 18 times
+2022-04-29 10:08:25.586 +03:00 [INF] Handle on target page was called 19 times
+2022-04-29 10:08:25.687 +03:00 [INF] Handle on target page was called 20 times
+2022-04-29 10:08:25.775 +03:00 [INF] Handle on target page was called 21 times
+2022-04-29 10:08:25.865 +03:00 [INF] Handle on target page was called 22 times
+2022-04-29 10:08:25.955 +03:00 [INF] Handle on target page was called 23 times
+2022-04-29 10:08:26.087 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:08:26.186 +03:00 [INF] Handle on target page was called 24 times
+2022-04-29 10:08:26.277 +03:00 [INF] Handle on target page was called 25 times
+2022-04-29 10:08:26.370 +03:00 [INF] Handle on target page was called 26 times
+2022-04-29 10:08:26.463 +03:00 [INF] Handle on target page was called 27 times
+2022-04-29 10:08:26.566 +03:00 [INF] Handle on target page was called 28 times
+2022-04-29 10:08:26.654 +03:00 [INF] Handle on target page was called 29 times
+2022-04-29 10:08:26.741 +03:00 [INF] Handle on target page was called 30 times
+2022-04-29 10:08:26.832 +03:00 [INF] Handle on target page was called 31 times
+2022-04-29 10:08:26.923 +03:00 [INF] Handle on target page was called 32 times
+2022-04-29 10:08:26.965 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:08:27.054 +03:00 [INF] Handle on target page was called 33 times
+2022-04-29 10:08:27.147 +03:00 [INF] Handle on target page was called 34 times
+2022-04-29 10:08:27.237 +03:00 [INF] Handle on target page was called 35 times
+2022-04-29 10:08:27.322 +03:00 [INF] Handle on target page was called 36 times
+2022-04-29 10:08:27.414 +03:00 [INF] Handle on target page was called 37 times
+2022-04-29 10:08:27.516 +03:00 [INF] Handle on target page was called 38 times
+2022-04-29 10:08:27.643 +03:00 [INF] Handle on target page was called 39 times
+2022-04-29 10:08:27.692 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:08:27.853 +03:00 [INF] Handle on target page was called 40 times
+2022-04-29 10:08:27.944 +03:00 [INF] Handle on target page was called 41 times
+2022-04-29 10:08:28.042 +03:00 [INF] Handle on target page was called 42 times
+2022-04-29 10:08:28.138 +03:00 [INF] Handle on target page was called 43 times
+2022-04-29 10:08:28.235 +03:00 [INF] Handle on target page was called 44 times
+2022-04-29 10:08:28.323 +03:00 [INF] Handle on target page was called 45 times
+2022-04-29 10:08:28.418 +03:00 [INF] Handle on target page was called 46 times
+2022-04-29 10:08:28.505 +03:00 [INF] Handle on target page was called 47 times
+2022-04-29 10:08:28.597 +03:00 [INF] Handle on target page was called 48 times
+2022-04-29 10:08:28.699 +03:00 [INF] Handle on target page was called 49 times
+2022-04-29 10:08:28.794 +03:00 [INF] Handle on target page was called 50 times
+2022-04-29 10:08:28.995 +03:00 [INF] Handle on target page was called 51 times
+2022-04-29 10:08:29.090 +03:00 [INF] Handle on target page was called 52 times
+2022-04-29 10:08:29.185 +03:00 [INF] Handle on target page was called 53 times
+2022-04-29 10:08:29.276 +03:00 [INF] Handle on target page was called 54 times
+2022-04-29 10:08:29.366 +03:00 [INF] Handle on target page was called 55 times
+2022-04-29 10:08:29.450 +03:00 [INF] Handle on target page was called 56 times
+2022-04-29 10:08:29.542 +03:00 [INF] Handle on target page was called 57 times
+2022-04-29 10:08:29.707 +03:00 [INF] Handle on target page was called 58 times
+2022-04-29 10:08:29.806 +03:00 [INF] Handle on target page was called 59 times
+2022-04-29 10:08:29.900 +03:00 [INF] Handle on target page was called 60 times
+2022-04-29 10:08:29.987 +03:00 [INF] Handle on target page was called 61 times
+2022-04-29 10:08:30.074 +03:00 [INF] Handle on target page was called 62 times
+2022-04-29 10:08:30.165 +03:00 [INF] Handle on target page was called 63 times
+2022-04-29 10:08:30.269 +03:00 [INF] Handle on target page was called 64 times
+2022-04-29 10:08:30.361 +03:00 [INF] Handle on target page was called 65 times
+2022-04-29 10:08:30.453 +03:00 [INF] Handle on target page was called 66 times
+2022-04-29 10:08:30.540 +03:00 [INF] Handle on target page was called 67 times
+2022-04-29 10:08:30.630 +03:00 [INF] Handle on target page was called 68 times
+2022-04-29 10:08:30.721 +03:00 [INF] Handle on target page was called 69 times
+2022-04-29 10:08:30.816 +03:00 [INF] Handle on target page was called 70 times
+2022-04-29 10:08:30.920 +03:00 [INF] Handle on target page was called 71 times
+2022-04-29 10:08:31.017 +03:00 [INF] Handle on target page was called 72 times
+2022-04-29 10:08:31.107 +03:00 [INF] Handle on target page was called 73 times
+2022-04-29 10:08:31.207 +03:00 [INF] Handle on target page was called 74 times
+2022-04-29 10:08:31.315 +03:00 [INF] Handle on target page was called 75 times
+2022-04-29 10:08:31.423 +03:00 [INF] Handle on target page was called 76 times
+2022-04-29 10:08:31.516 +03:00 [INF] Handle on target page was called 77 times
+2022-04-29 10:08:31.626 +03:00 [INF] Handle on target page was called 78 times
+2022-04-29 10:08:31.728 +03:00 [INF] Handle on target page was called 79 times
+2022-04-29 10:08:32.103 +03:00 [INF] Handle on target page was called 80 times
+2022-04-29 10:08:32.209 +03:00 [INF] Handle on target page was called 81 times
+2022-04-29 10:08:32.366 +03:00 [INF] Handle on target page was called 82 times
+2022-04-29 10:08:32.527 +03:00 [INF] Handle on target page was called 83 times
+2022-04-29 10:08:33.155 +03:00 [INF] Handle on target page was called 84 times
+2022-04-29 10:08:33.343 +03:00 [INF] Handle on target page was called 85 times
+2022-04-29 10:08:33.500 +03:00 [INF] Handle on target page was called 86 times
+2022-04-29 10:08:33.668 +03:00 [INF] Handle on target page was called 87 times
+2022-04-29 10:08:33.771 +03:00 [INF] Handle on target page was called 88 times
+2022-04-29 10:08:33.910 +03:00 [INF] Handle on target page was called 89 times
+2022-04-29 10:08:33.996 +03:00 [INF] Handle on target page was called 90 times
+2022-04-29 10:08:34.102 +03:00 [INF] Handle on target page was called 91 times
+2022-04-29 10:08:34.199 +03:00 [INF] Handle on target page was called 92 times
+2022-04-29 10:08:34.302 +03:00 [INF] Handle on target page was called 93 times
+2022-04-29 10:08:34.397 +03:00 [INF] Handle on target page was called 94 times
+2022-04-29 10:08:34.486 +03:00 [INF] Handle on target page was called 95 times
+2022-04-29 10:08:34.581 +03:00 [INF] Handle on target page was called 96 times
+2022-04-29 10:08:34.665 +03:00 [INF] Handle on target page was called 97 times
+2022-04-29 10:08:34.757 +03:00 [INF] Handle on target page was called 98 times
+2022-04-29 10:08:34.855 +03:00 [INF] Handle on target page was called 99 times
+2022-04-29 10:08:34.963 +03:00 [INF] Handle on target page was called 100 times
+2022-04-29 10:08:35.159 +03:00 [INF] Handle on target page was called 101 times
+2022-04-29 10:08:35.202 +03:00 [ERR] System.Exception: Cannot find element by selector $div.attach_link.guest>ul>li:nth-child(2).
+   at WebReaper.Domain.Parsing.Schema.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper.Domain\Parsing\Schema.cs:line 29
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:08:35.239 +03:00 [ERR] System.Exception: No href attribute found by selector .magnet-link in .
+   at WebReaper.Parsing.Url.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Url.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:08:35.278 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:08:35.373 +03:00 [INF] Handle on target page was called 102 times
+2022-04-29 10:08:35.464 +03:00 [INF] Handle on target page was called 103 times
+2022-04-29 10:08:35.559 +03:00 [INF] Handle on target page was called 104 times
+2022-04-29 10:08:35.656 +03:00 [INF] Handle on target page was called 105 times
+2022-04-29 10:08:35.747 +03:00 [INF] Handle on target page was called 106 times
+2022-04-29 10:08:35.835 +03:00 [INF] Handle on target page was called 107 times
+2022-04-29 10:08:35.927 +03:00 [INF] Handle on target page was called 108 times
+2022-04-29 10:08:36.082 +03:00 [INF] Handle on target page was called 109 times
+2022-04-29 10:08:36.183 +03:00 [INF] Handle on target page was called 110 times
+2022-04-29 10:08:36.274 +03:00 [INF] Handle on target page was called 111 times
+2022-04-29 10:08:36.362 +03:00 [INF] Handle on target page was called 112 times
+2022-04-29 10:08:36.453 +03:00 [INF] Handle on target page was called 113 times
+2022-04-29 10:08:36.550 +03:00 [INF] Handle on target page was called 114 times
+2022-04-29 10:08:36.665 +03:00 [INF] Handle on target page was called 115 times
+2022-04-29 10:08:36.758 +03:00 [INF] Handle on target page was called 116 times
+2022-04-29 10:08:36.849 +03:00 [INF] Handle on target page was called 117 times
+2022-04-29 10:08:36.952 +03:00 [INF] Handle on target page was called 118 times
+2022-04-29 10:08:37.048 +03:00 [INF] Handle on target page was called 119 times
+2022-04-29 10:08:37.155 +03:00 [INF] Handle on target page was called 120 times
+2022-04-29 10:08:37.246 +03:00 [INF] Handle on target page was called 121 times
+2022-04-29 10:08:37.336 +03:00 [INF] Handle on target page was called 122 times
+2022-04-29 10:08:37.437 +03:00 [INF] Handle on target page was called 123 times
+2022-04-29 10:08:37.532 +03:00 [INF] Handle on target page was called 124 times
+2022-04-29 10:08:37.619 +03:00 [INF] Handle on target page was called 125 times
+2022-04-29 10:08:37.714 +03:00 [INF] Handle on target page was called 126 times
+2022-04-29 10:08:37.822 +03:00 [INF] Handle on target page was called 127 times
+2022-04-29 10:08:37.907 +03:00 [INF] Handle on target page was called 128 times
+2022-04-29 10:08:37.995 +03:00 [INF] Handle on target page was called 129 times
+2022-04-29 10:08:38.079 +03:00 [INF] Handle on target page was called 130 times
+2022-04-29 10:08:38.163 +03:00 [INF] Handle on target page was called 131 times
+2022-04-29 10:08:38.255 +03:00 [INF] Handle on target page was called 132 times
+2022-04-29 10:08:38.342 +03:00 [INF] Handle on target page was called 133 times
+2022-04-29 10:08:38.507 +03:00 [INF] Handle on target page was called 134 times
+2022-04-29 10:08:38.597 +03:00 [INF] Handle on target page was called 135 times
+2022-04-29 10:08:38.754 +03:00 [INF] Handle on target page was called 136 times
+2022-04-29 10:08:38.852 +03:00 [INF] Handle on target page was called 137 times
+2022-04-29 10:08:38.942 +03:00 [INF] Handle on target page was called 138 times
+2022-04-29 10:08:39.030 +03:00 [INF] Handle on target page was called 139 times
+2022-04-29 10:08:39.144 +03:00 [INF] Handle on target page was called 140 times
+2022-04-29 10:08:39.233 +03:00 [INF] Handle on target page was called 141 times
+2022-04-29 10:08:39.326 +03:00 [INF] Handle on target page was called 142 times
+2022-04-29 10:08:39.424 +03:00 [INF] Handle on target page was called 143 times
+2022-04-29 10:08:39.582 +03:00 [INF] Handle on target page was called 144 times
+2022-04-29 10:08:39.685 +03:00 [INF] Handle on target page was called 145 times
+2022-04-29 10:08:39.787 +03:00 [INF] Handle on target page was called 146 times
+2022-04-29 10:08:39.955 +03:00 [INF] Handle on target page was called 147 times
+2022-04-29 10:08:40.049 +03:00 [INF] Handle on target page was called 148 times
+2022-04-29 10:08:40.144 +03:00 [INF] Handle on target page was called 149 times
+2022-04-29 10:08:40.237 +03:00 [INF] Handle on target page was called 150 times
+2022-04-29 10:08:40.610 +03:00 [INF] Handle on target page was called 151 times
+2022-04-29 10:08:40.711 +03:00 [INF] Handle on target page was called 152 times
+2022-04-29 10:08:40.878 +03:00 [INF] Handle on target page was called 153 times
+2022-04-29 10:08:40.989 +03:00 [INF] Handle on target page was called 154 times
+2022-04-29 10:08:41.155 +03:00 [INF] Handle on target page was called 155 times
+2022-04-29 10:08:41.332 +03:00 [INF] Handle on target page was called 156 times
+2022-04-29 10:08:41.420 +03:00 [INF] Handle on target page was called 157 times
+2022-04-29 10:08:41.583 +03:00 [INF] Handle on target page was called 158 times
+2022-04-29 10:08:41.745 +03:00 [INF] Handle on target page was called 159 times
+2022-04-29 10:08:41.854 +03:00 [INF] Handle on target page was called 160 times
+2022-04-29 10:08:41.953 +03:00 [INF] Handle on target page was called 161 times
+2022-04-29 10:08:42.047 +03:00 [INF] Handle on target page was called 162 times
+2022-04-29 10:08:42.170 +03:00 [INF] Handle on target page was called 163 times
+2022-04-29 10:08:42.281 +03:00 [INF] Handle on target page was called 164 times
+2022-04-29 10:08:42.377 +03:00 [INF] Handle on target page was called 165 times
+2022-04-29 10:08:42.542 +03:00 [INF] Handle on target page was called 166 times
+2022-04-29 10:08:42.653 +03:00 [INF] Handle on target page was called 167 times
+2022-04-29 10:08:42.744 +03:00 [INF] Handle on target page was called 168 times
+2022-04-29 10:08:42.840 +03:00 [INF] Handle on target page was called 169 times
+2022-04-29 10:08:42.945 +03:00 [INF] Handle on target page was called 170 times
+2022-04-29 10:08:43.041 +03:00 [INF] Handle on target page was called 171 times
+2022-04-29 10:08:43.135 +03:00 [INF] Handle on target page was called 172 times
+2022-04-29 10:08:43.229 +03:00 [INF] Handle on target page was called 173 times
+2022-04-29 10:08:43.320 +03:00 [INF] Handle on target page was called 174 times
+2022-04-29 10:08:43.410 +03:00 [INF] Handle on target page was called 175 times
+2022-04-29 10:08:43.505 +03:00 [INF] Handle on target page was called 176 times
+2022-04-29 10:08:43.601 +03:00 [INF] Handle on target page was called 177 times
+2022-04-29 10:08:43.710 +03:00 [INF] Handle on target page was called 178 times
+2022-04-29 10:08:43.805 +03:00 [INF] Handle on target page was called 179 times
+2022-04-29 10:08:43.892 +03:00 [INF] Handle on target page was called 180 times
+2022-04-29 10:08:44.041 +03:00 [INF] Handle on target page was called 181 times
+2022-04-29 10:08:44.139 +03:00 [INF] Handle on target page was called 182 times
+2022-04-29 10:08:44.233 +03:00 [INF] Handle on target page was called 183 times
+2022-04-29 10:08:44.333 +03:00 [INF] Handle on target page was called 184 times
+2022-04-29 10:08:44.421 +03:00 [INF] Handle on target page was called 185 times
+2022-04-29 10:08:44.518 +03:00 [INF] Handle on target page was called 186 times
+2022-04-29 10:08:44.610 +03:00 [INF] Handle on target page was called 187 times
+2022-04-29 10:08:44.719 +03:00 [INF] Handle on target page was called 188 times
+2022-04-29 10:08:44.818 +03:00 [INF] Handle on target page was called 189 times
+2022-04-29 10:08:44.908 +03:00 [INF] Handle on target page was called 190 times
+2022-04-29 10:08:44.995 +03:00 [INF] Handle on target page was called 191 times
+2022-04-29 10:08:45.092 +03:00 [INF] Handle on target page was called 192 times
+2022-04-29 10:08:45.185 +03:00 [INF] Handle on target page was called 193 times
+2022-04-29 10:08:45.271 +03:00 [INF] Handle on target page was called 194 times
+2022-04-29 10:08:45.373 +03:00 [INF] Handle on target page was called 195 times
+2022-04-29 10:08:45.491 +03:00 [INF] Handle on target page was called 196 times
+2022-04-29 10:08:45.581 +03:00 [INF] Handle on target page was called 197 times
+2022-04-29 10:08:45.675 +03:00 [INF] Handle on target page was called 198 times
+2022-04-29 10:08:45.762 +03:00 [INF] Handle on target page was called 199 times
+2022-04-29 10:08:45.894 +03:00 [INF] Handle on target page was called 200 times
+2022-04-29 10:08:46.113 +03:00 [INF] Handle on target page was called 201 times
+2022-04-29 10:08:46.209 +03:00 [INF] Handle on target page was called 202 times
+2022-04-29 10:08:46.295 +03:00 [INF] Handle on target page was called 203 times
+2022-04-29 10:08:46.384 +03:00 [INF] Handle on target page was called 204 times
+2022-04-29 10:08:46.492 +03:00 [INF] Handle on target page was called 205 times
+2022-04-29 10:08:46.575 +03:00 [INF] Handle on target page was called 206 times
+2022-04-29 10:08:46.671 +03:00 [INF] Handle on target page was called 207 times
+2022-04-29 10:08:46.760 +03:00 [INF] Handle on target page was called 208 times
+2022-04-29 10:08:46.857 +03:00 [INF] Handle on target page was called 209 times
+2022-04-29 10:08:47.154 +03:00 [INF] Handle on target page was called 210 times
+2022-04-29 10:08:47.260 +03:00 [INF] Handle on target page was called 211 times
+2022-04-29 10:08:47.352 +03:00 [INF] Handle on target page was called 212 times
+2022-04-29 10:08:47.440 +03:00 [INF] Handle on target page was called 213 times
+2022-04-29 10:08:47.531 +03:00 [INF] Handle on target page was called 214 times
+2022-04-29 10:08:47.625 +03:00 [INF] Handle on target page was called 215 times
+2022-04-29 10:08:47.716 +03:00 [INF] Handle on target page was called 216 times
+2022-04-29 10:08:47.808 +03:00 [INF] Handle on target page was called 217 times
+2022-04-29 10:08:47.903 +03:00 [INF] Handle on target page was called 218 times
+2022-04-29 10:08:47.998 +03:00 [INF] Handle on target page was called 219 times
+2022-04-29 10:08:48.164 +03:00 [INF] Handle on target page was called 220 times
+2022-04-29 10:08:48.347 +03:00 [INF] Handle on target page was called 221 times
+2022-04-29 10:08:48.436 +03:00 [INF] Handle on target page was called 222 times
+2022-04-29 10:08:48.528 +03:00 [INF] Handle on target page was called 223 times
+2022-04-29 10:08:48.624 +03:00 [INF] Handle on target page was called 224 times
+2022-04-29 10:08:48.717 +03:00 [INF] Handle on target page was called 225 times
+2022-04-29 10:08:48.807 +03:00 [INF] Handle on target page was called 226 times
+2022-04-29 10:08:49.034 +03:00 [INF] Handle on target page was called 227 times
+2022-04-29 10:08:49.144 +03:00 [INF] Handle on target page was called 228 times
+2022-04-29 10:08:49.242 +03:00 [INF] Handle on target page was called 229 times
+2022-04-29 10:08:49.330 +03:00 [INF] Handle on target page was called 230 times
+2022-04-29 10:08:49.425 +03:00 [INF] Handle on target page was called 231 times
+2022-04-29 10:08:49.515 +03:00 [INF] Handle on target page was called 232 times
+2022-04-29 10:08:49.605 +03:00 [INF] Handle on target page was called 233 times
+2022-04-29 10:08:49.698 +03:00 [INF] Handle on target page was called 234 times
+2022-04-29 10:08:49.783 +03:00 [INF] Handle on target page was called 235 times
+2022-04-29 10:08:49.871 +03:00 [INF] Handle on target page was called 236 times
+2022-04-29 10:08:49.965 +03:00 [INF] Handle on target page was called 237 times
+2022-04-29 10:08:50.060 +03:00 [INF] Handle on target page was called 238 times
+2022-04-29 10:08:50.234 +03:00 [INF] Handle on target page was called 239 times
+2022-04-29 10:08:50.337 +03:00 [INF] Handle on target page was called 240 times
+2022-04-29 10:08:50.434 +03:00 [INF] Handle on target page was called 241 times
+2022-04-29 10:08:50.521 +03:00 [INF] Handle on target page was called 242 times
+2022-04-29 10:08:50.614 +03:00 [INF] Handle on target page was called 243 times
+2022-04-29 10:08:50.739 +03:00 [INF] Handle on target page was called 244 times
+2022-04-29 10:08:50.825 +03:00 [INF] Handle on target page was called 245 times
+2022-04-29 10:08:50.931 +03:00 [INF] Handle on target page was called 246 times
+2022-04-29 10:08:51.098 +03:00 [INF] Handle on target page was called 247 times
+2022-04-29 10:08:51.191 +03:00 [INF] Handle on target page was called 248 times
+2022-04-29 10:08:51.280 +03:00 [INF] Handle on target page was called 249 times
+2022-04-29 10:08:51.376 +03:00 [INF] Handle on target page was called 250 times
+2022-04-29 10:08:51.705 +03:00 [INF] Handle on target page was called 251 times
+2022-04-29 10:08:51.754 +03:00 [ERR] System.Exception: Cannot find element by selector $div.attach_link.guest>ul>li:nth-child(2).
+   at WebReaper.Domain.Parsing.Schema.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper.Domain\Parsing\Schema.cs:line 29
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:08:51.797 +03:00 [ERR] System.Exception: No href attribute found by selector .magnet-link in .
+   at WebReaper.Parsing.Url.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Url.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:08:51.889 +03:00 [INF] Handle on target page was called 252 times
+2022-04-29 10:08:51.991 +03:00 [INF] Handle on target page was called 253 times
+2022-04-29 10:08:52.077 +03:00 [INF] Handle on target page was called 254 times
+2022-04-29 10:08:52.168 +03:00 [INF] Handle on target page was called 255 times
+2022-04-29 10:08:52.254 +03:00 [INF] Handle on target page was called 256 times
+2022-04-29 10:08:52.339 +03:00 [INF] Handle on target page was called 257 times
+2022-04-29 10:08:52.426 +03:00 [INF] Handle on target page was called 258 times
+2022-04-29 10:08:52.515 +03:00 [INF] Handle on target page was called 259 times
+2022-04-29 10:08:52.672 +03:00 [INF] Handle on target page was called 260 times
+2022-04-29 10:08:52.768 +03:00 [INF] Handle on target page was called 261 times
+2022-04-29 10:08:52.881 +03:00 [INF] Handle on target page was called 262 times
+2022-04-29 10:08:52.967 +03:00 [INF] Handle on target page was called 263 times
+2022-04-29 10:08:53.066 +03:00 [INF] Handle on target page was called 264 times
+2022-04-29 10:08:53.217 +03:00 [INF] Handle on target page was called 265 times
+2022-04-29 10:08:53.310 +03:00 [INF] Handle on target page was called 266 times
+2022-04-29 10:08:53.398 +03:00 [INF] Handle on target page was called 267 times
+2022-04-29 10:08:53.491 +03:00 [INF] Handle on target page was called 268 times
+2022-04-29 10:08:53.580 +03:00 [INF] Handle on target page was called 269 times
+2022-04-29 10:08:53.668 +03:00 [INF] Handle on target page was called 270 times
+2022-04-29 10:08:53.758 +03:00 [INF] Handle on target page was called 271 times
+2022-04-29 10:08:53.845 +03:00 [INF] Handle on target page was called 272 times
+2022-04-29 10:08:53.933 +03:00 [INF] Handle on target page was called 273 times
+2022-04-29 10:08:54.025 +03:00 [INF] Handle on target page was called 274 times
+2022-04-29 10:08:54.126 +03:00 [INF] Handle on target page was called 275 times
+2022-04-29 10:08:54.220 +03:00 [INF] Handle on target page was called 276 times
+2022-04-29 10:08:54.382 +03:00 [INF] Handle on target page was called 277 times
+2022-04-29 10:08:54.474 +03:00 [INF] Handle on target page was called 278 times
+2022-04-29 10:08:54.558 +03:00 [INF] Handle on target page was called 279 times
+2022-04-29 10:08:54.654 +03:00 [INF] Handle on target page was called 280 times
+2022-04-29 10:08:54.743 +03:00 [INF] Handle on target page was called 281 times
+2022-04-29 10:08:54.830 +03:00 [INF] Handle on target page was called 282 times
+2022-04-29 10:08:54.936 +03:00 [INF] Handle on target page was called 283 times
+2022-04-29 10:08:55.036 +03:00 [INF] Handle on target page was called 284 times
+2022-04-29 10:08:55.138 +03:00 [INF] Handle on target page was called 285 times
+2022-04-29 10:08:55.224 +03:00 [INF] Handle on target page was called 286 times
+2022-04-29 10:08:55.313 +03:00 [INF] Handle on target page was called 287 times
+2022-04-29 10:08:55.397 +03:00 [INF] Handle on target page was called 288 times
+2022-04-29 10:08:55.489 +03:00 [INF] Handle on target page was called 289 times
+2022-04-29 10:08:55.586 +03:00 [INF] Handle on target page was called 290 times
+2022-04-29 10:08:55.682 +03:00 [INF] Handle on target page was called 291 times
+2022-04-29 10:08:55.783 +03:00 [INF] Handle on target page was called 292 times
+2022-04-29 10:08:55.874 +03:00 [INF] Handle on target page was called 293 times
+2022-04-29 10:08:55.964 +03:00 [INF] Handle on target page was called 294 times
+2022-04-29 10:08:56.071 +03:00 [INF] Handle on target page was called 295 times
+2022-04-29 10:08:56.160 +03:00 [INF] Handle on target page was called 296 times
+2022-04-29 10:08:56.252 +03:00 [INF] Handle on target page was called 297 times
+2022-04-29 10:08:56.363 +03:00 [INF] Handle on target page was called 298 times
+2022-04-29 10:08:56.451 +03:00 [INF] Handle on target page was called 299 times
+2022-04-29 10:08:56.542 +03:00 [INF] Handle on target page was called 300 times
+2022-04-29 10:08:56.747 +03:00 [INF] Handle on target page was called 301 times
+2022-04-29 10:08:56.846 +03:00 [INF] Handle on target page was called 302 times
+2022-04-29 10:08:56.937 +03:00 [INF] Handle on target page was called 303 times
+2022-04-29 10:08:57.033 +03:00 [INF] Handle on target page was called 304 times
+2022-04-29 10:08:57.194 +03:00 [INF] Handle on target page was called 305 times
+2022-04-29 10:08:57.286 +03:00 [INF] Handle on target page was called 306 times
+2022-04-29 10:08:57.462 +03:00 [INF] Handle on target page was called 307 times
+2022-04-29 10:08:57.555 +03:00 [INF] Handle on target page was called 308 times
+2022-04-29 10:08:57.657 +03:00 [INF] Handle on target page was called 309 times
+2022-04-29 10:08:57.801 +03:00 [INF] Handle on target page was called 310 times
+2022-04-29 10:08:58.010 +03:00 [INF] Handle on target page was called 311 times
+2022-04-29 10:08:58.097 +03:00 [INF] Handle on target page was called 312 times
+2022-04-29 10:08:58.188 +03:00 [INF] Handle on target page was called 313 times
+2022-04-29 10:08:58.284 +03:00 [INF] Handle on target page was called 314 times
+2022-04-29 10:08:58.375 +03:00 [INF] Handle on target page was called 315 times
+2022-04-29 10:08:58.550 +03:00 [INF] Handle on target page was called 316 times
+2022-04-29 10:08:58.718 +03:00 [INF] Handle on target page was called 317 times
+2022-04-29 10:08:58.816 +03:00 [INF] Handle on target page was called 318 times
+2022-04-29 10:08:58.923 +03:00 [INF] Handle on target page was called 319 times
+2022-04-29 10:08:59.061 +03:00 [INF] Handle on target page was called 320 times
+2022-04-29 10:08:59.213 +03:00 [INF] Handle on target page was called 321 times
+2022-04-29 10:08:59.318 +03:00 [INF] Handle on target page was called 322 times
+2022-04-29 10:08:59.413 +03:00 [INF] Handle on target page was called 323 times
+2022-04-29 10:08:59.578 +03:00 [INF] Handle on target page was called 324 times
+2022-04-29 10:08:59.665 +03:00 [INF] Handle on target page was called 325 times
+2022-04-29 10:08:59.820 +03:00 [INF] Handle on target page was called 326 times
+2022-04-29 10:08:59.985 +03:00 [INF] Handle on target page was called 327 times
+2022-04-29 10:09:00.148 +03:00 [INF] Handle on target page was called 328 times
+2022-04-29 10:09:00.238 +03:00 [INF] Handle on target page was called 329 times
+2022-04-29 10:09:00.328 +03:00 [INF] Handle on target page was called 330 times
+2022-04-29 10:09:00.518 +03:00 [INF] Handle on target page was called 331 times
+2022-04-29 10:09:00.615 +03:00 [INF] Handle on target page was called 332 times
+2022-04-29 10:09:00.780 +03:00 [INF] Handle on target page was called 333 times
+2022-04-29 10:09:00.955 +03:00 [INF] Handle on target page was called 334 times
+2022-04-29 10:09:01.067 +03:00 [INF] Handle on target page was called 335 times
+2022-04-29 10:09:01.162 +03:00 [INF] Handle on target page was called 336 times
+2022-04-29 10:09:01.256 +03:00 [INF] Handle on target page was called 337 times
+2022-04-29 10:09:01.355 +03:00 [INF] Handle on target page was called 338 times
+2022-04-29 10:09:01.542 +03:00 [INF] Handle on target page was called 339 times
+2022-04-29 10:09:01.639 +03:00 [INF] Handle on target page was called 340 times
+2022-04-29 10:09:01.799 +03:00 [INF] Handle on target page was called 341 times
+2022-04-29 10:09:01.920 +03:00 [INF] Handle on target page was called 342 times
+2022-04-29 10:09:02.013 +03:00 [INF] Handle on target page was called 343 times
+2022-04-29 10:09:02.114 +03:00 [INF] Handle on target page was called 344 times
+2022-04-29 10:09:02.415 +03:00 [INF] Handle on target page was called 345 times
+2022-04-29 10:09:02.513 +03:00 [INF] Handle on target page was called 346 times
+2022-04-29 10:09:02.676 +03:00 [INF] Handle on target page was called 347 times
+2022-04-29 10:09:02.781 +03:00 [INF] Handle on target page was called 348 times
+2022-04-29 10:09:02.956 +03:00 [INF] Handle on target page was called 349 times
+2022-04-29 10:09:03.050 +03:00 [INF] Handle on target page was called 350 times
+2022-04-29 10:09:03.349 +03:00 [INF] Handle on target page was called 351 times
+2022-04-29 10:09:03.460 +03:00 [INF] Handle on target page was called 352 times
+2022-04-29 10:09:03.549 +03:00 [INF] Handle on target page was called 353 times
+2022-04-29 10:09:03.645 +03:00 [INF] Handle on target page was called 354 times
+2022-04-29 10:09:03.766 +03:00 [INF] Handle on target page was called 355 times
+2022-04-29 10:09:03.866 +03:00 [INF] Handle on target page was called 356 times
+2022-04-29 10:09:03.971 +03:00 [INF] Handle on target page was called 357 times
+2022-04-29 10:09:04.068 +03:00 [INF] Handle on target page was called 358 times
+2022-04-29 10:09:04.164 +03:00 [INF] Handle on target page was called 359 times
+2022-04-29 10:09:04.261 +03:00 [INF] Handle on target page was called 360 times
+2022-04-29 10:09:04.308 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:09:04.409 +03:00 [INF] Handle on target page was called 361 times
+2022-04-29 10:09:04.505 +03:00 [INF] Handle on target page was called 362 times
+2022-04-29 10:09:04.546 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:09:04.645 +03:00 [INF] Handle on target page was called 363 times
+2022-04-29 10:09:04.740 +03:00 [INF] Handle on target page was called 364 times
+2022-04-29 10:09:04.831 +03:00 [INF] Handle on target page was called 365 times
+2022-04-29 10:09:04.925 +03:00 [INF] Handle on target page was called 366 times
+2022-04-29 10:09:05.014 +03:00 [INF] Handle on target page was called 367 times
+2022-04-29 10:09:05.109 +03:00 [INF] Handle on target page was called 368 times
+2022-04-29 10:09:05.217 +03:00 [INF] Handle on target page was called 369 times
+2022-04-29 10:09:05.314 +03:00 [INF] Handle on target page was called 370 times
+2022-04-29 10:09:05.539 +03:00 [INF] Handle on target page was called 371 times
+2022-04-29 10:09:05.657 +03:00 [INF] Handle on target page was called 372 times
+2022-04-29 10:09:05.766 +03:00 [INF] Handle on target page was called 373 times
+2022-04-29 10:09:05.871 +03:00 [INF] Handle on target page was called 374 times
+2022-04-29 10:09:06.055 +03:00 [INF] Handle on target page was called 375 times
+2022-04-29 10:09:06.155 +03:00 [INF] Handle on target page was called 376 times
+2022-04-29 10:09:06.316 +03:00 [INF] Handle on target page was called 377 times
+2022-04-29 10:09:06.408 +03:00 [INF] Handle on target page was called 378 times
+2022-04-29 10:09:06.494 +03:00 [INF] Handle on target page was called 379 times
+2022-04-29 10:09:06.589 +03:00 [INF] Handle on target page was called 380 times
+2022-04-29 10:09:06.681 +03:00 [INF] Handle on target page was called 381 times
+2022-04-29 10:09:06.781 +03:00 [INF] Handle on target page was called 382 times
+2022-04-29 10:09:06.875 +03:00 [INF] Handle on target page was called 383 times
+2022-04-29 10:09:06.917 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:09:07.005 +03:00 [INF] Handle on target page was called 384 times
+2022-04-29 10:09:07.096 +03:00 [INF] Handle on target page was called 385 times
+2022-04-29 10:09:07.198 +03:00 [INF] Handle on target page was called 386 times
+2022-04-29 10:09:07.296 +03:00 [INF] Handle on target page was called 387 times
+2022-04-29 10:09:07.458 +03:00 [INF] Handle on target page was called 388 times
+2022-04-29 10:09:07.551 +03:00 [INF] Handle on target page was called 389 times
+2022-04-29 10:09:07.685 +03:00 [INF] Handle on target page was called 390 times
+2022-04-29 10:09:07.794 +03:00 [INF] Handle on target page was called 391 times
+2022-04-29 10:09:07.881 +03:00 [INF] Handle on target page was called 392 times
+2022-04-29 10:09:08.045 +03:00 [INF] Handle on target page was called 393 times
+2022-04-29 10:09:08.143 +03:00 [INF] Handle on target page was called 394 times
+2022-04-29 10:09:08.234 +03:00 [INF] Handle on target page was called 395 times
+2022-04-29 10:09:08.350 +03:00 [INF] Handle on target page was called 396 times
+2022-04-29 10:09:08.444 +03:00 [INF] Handle on target page was called 397 times
+2022-04-29 10:09:08.536 +03:00 [INF] Handle on target page was called 398 times
+2022-04-29 10:09:08.640 +03:00 [INF] Handle on target page was called 399 times
+2022-04-29 10:09:08.733 +03:00 [INF] Handle on target page was called 400 times
+2022-04-29 10:09:08.998 +03:00 [INF] Handle on target page was called 401 times
+2022-04-29 10:09:09.035 +03:00 [ERR] System.Exception: Cannot find element by selector $div.attach_link.guest>ul>li:nth-child(2).
+   at WebReaper.Domain.Parsing.Schema.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper.Domain\Parsing\Schema.cs:line 29
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:09:09.074 +03:00 [ERR] System.Exception: No href attribute found by selector .magnet-link in .
+   at WebReaper.Parsing.Url.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Url.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:09:09.115 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:09:09.210 +03:00 [INF] Handle on target page was called 402 times
+2022-04-29 10:09:09.384 +03:00 [INF] Handle on target page was called 403 times
+2022-04-29 10:09:09.500 +03:00 [INF] Handle on target page was called 404 times
+2022-04-29 10:09:09.595 +03:00 [INF] Handle on target page was called 405 times
+2022-04-29 10:09:09.687 +03:00 [INF] Handle on target page was called 406 times
+2022-04-29 10:09:09.773 +03:00 [INF] Handle on target page was called 407 times
+2022-04-29 10:09:09.877 +03:00 [INF] Handle on target page was called 408 times
+2022-04-29 10:09:10.056 +03:00 [INF] Handle on target page was called 409 times
+2022-04-29 10:09:10.152 +03:00 [INF] Handle on target page was called 410 times
+2022-04-29 10:09:10.241 +03:00 [INF] Handle on target page was called 411 times
+2022-04-29 10:09:10.331 +03:00 [INF] Handle on target page was called 412 times
+2022-04-29 10:09:10.574 +03:00 [INF] Handle on target page was called 413 times
+2022-04-29 10:09:10.685 +03:00 [INF] Handle on target page was called 414 times
+2022-04-29 10:09:10.785 +03:00 [INF] Handle on target page was called 415 times
+2022-04-29 10:09:10.885 +03:00 [INF] Handle on target page was called 416 times
+2022-04-29 10:09:10.977 +03:00 [INF] Handle on target page was called 417 times
+2022-04-29 10:09:11.069 +03:00 [INF] Handle on target page was called 418 times
+2022-04-29 10:09:11.166 +03:00 [INF] Handle on target page was called 419 times
+2022-04-29 10:09:11.256 +03:00 [INF] Handle on target page was called 420 times
+2022-04-29 10:09:11.359 +03:00 [INF] Handle on target page was called 421 times
+2022-04-29 10:09:11.399 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:09:11.496 +03:00 [INF] Handle on target page was called 422 times
+2022-04-29 10:09:11.589 +03:00 [INF] Handle on target page was called 423 times
+2022-04-29 10:09:11.701 +03:00 [INF] Handle on target page was called 424 times
+2022-04-29 10:09:11.795 +03:00 [INF] Handle on target page was called 425 times
+2022-04-29 10:09:11.833 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:09:11.922 +03:00 [INF] Handle on target page was called 426 times
+2022-04-29 10:09:11.963 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:09:12.053 +03:00 [INF] Handle on target page was called 427 times
+2022-04-29 10:09:12.142 +03:00 [INF] Handle on target page was called 428 times
+2022-04-29 10:09:12.233 +03:00 [INF] Handle on target page was called 429 times
+2022-04-29 10:09:12.321 +03:00 [INF] Handle on target page was called 430 times
+2022-04-29 10:09:12.422 +03:00 [INF] Handle on target page was called 431 times
+2022-04-29 10:09:12.510 +03:00 [INF] Handle on target page was called 432 times
+2022-04-29 10:09:12.617 +03:00 [INF] Handle on target page was called 433 times
+2022-04-29 10:09:12.710 +03:00 [INF] Handle on target page was called 434 times
+2022-04-29 10:09:12.800 +03:00 [INF] Handle on target page was called 435 times
+2022-04-29 10:09:12.907 +03:00 [INF] Handle on target page was called 436 times
+2022-04-29 10:09:12.997 +03:00 [INF] Handle on target page was called 437 times
+2022-04-29 10:09:13.181 +03:00 [INF] Handle on target page was called 438 times
+2022-04-29 10:09:13.358 +03:00 [INF] Handle on target page was called 439 times
+2022-04-29 10:09:13.457 +03:00 [INF] Handle on target page was called 440 times
+2022-04-29 10:09:13.631 +03:00 [INF] Handle on target page was called 441 times
+2022-04-29 10:09:13.732 +03:00 [INF] Handle on target page was called 442 times
+2022-04-29 10:09:13.826 +03:00 [INF] Handle on target page was called 443 times
+2022-04-29 10:09:13.960 +03:00 [INF] Handle on target page was called 444 times
+2022-04-29 10:09:14.158 +03:00 [INF] Handle on target page was called 445 times
+2022-04-29 10:09:14.255 +03:00 [INF] Handle on target page was called 446 times
+2022-04-29 10:09:14.431 +03:00 [INF] Handle on target page was called 447 times
+2022-04-29 10:09:14.524 +03:00 [INF] Handle on target page was called 448 times
+2022-04-29 10:09:14.625 +03:00 [INF] Handle on target page was called 449 times
+2022-04-29 10:09:14.736 +03:00 [INF] Handle on target page was called 450 times
+2022-04-29 10:09:14.945 +03:00 [INF] Handle on target page was called 451 times
+2022-04-29 10:09:15.032 +03:00 [INF] Handle on target page was called 452 times
+2022-04-29 10:09:15.123 +03:00 [INF] Handle on target page was called 453 times
+2022-04-29 10:09:15.215 +03:00 [INF] Handle on target page was called 454 times
+2022-04-29 10:09:15.300 +03:00 [INF] Handle on target page was called 455 times
+2022-04-29 10:09:15.395 +03:00 [INF] Handle on target page was called 456 times
+2022-04-29 10:09:15.486 +03:00 [INF] Handle on target page was called 457 times
+2022-04-29 10:09:15.581 +03:00 [INF] Handle on target page was called 458 times
+2022-04-29 10:09:15.681 +03:00 [INF] Handle on target page was called 459 times
+2022-04-29 10:09:15.772 +03:00 [INF] Handle on target page was called 460 times
+2022-04-29 10:09:15.874 +03:00 [INF] Handle on target page was called 461 times
+2022-04-29 10:09:15.982 +03:00 [INF] Handle on target page was called 462 times
+2022-04-29 10:09:16.079 +03:00 [INF] Handle on target page was called 463 times
+2022-04-29 10:09:16.176 +03:00 [INF] Handle on target page was called 464 times
+2022-04-29 10:09:16.298 +03:00 [INF] Handle on target page was called 465 times
+2022-04-29 10:09:16.603 +03:00 [INF] Handle on target page was called 466 times
+2022-04-29 10:09:16.693 +03:00 [INF] Handle on target page was called 467 times
+2022-04-29 10:09:16.788 +03:00 [INF] Handle on target page was called 468 times
+2022-04-29 10:09:16.879 +03:00 [INF] Handle on target page was called 469 times
+2022-04-29 10:09:16.969 +03:00 [INF] Handle on target page was called 470 times
+2022-04-29 10:09:17.063 +03:00 [INF] Handle on target page was called 471 times
+2022-04-29 10:09:17.157 +03:00 [INF] Handle on target page was called 472 times
+2022-04-29 10:09:17.248 +03:00 [INF] Handle on target page was called 473 times
+2022-04-29 10:09:17.343 +03:00 [INF] Handle on target page was called 474 times
+2022-04-29 10:09:17.433 +03:00 [INF] Handle on target page was called 475 times
+2022-04-29 10:09:17.572 +03:00 [INF] Handle on target page was called 476 times
+2022-04-29 10:09:17.756 +03:00 [INF] Handle on target page was called 477 times
+2022-04-29 10:09:17.851 +03:00 [INF] Handle on target page was called 478 times
+2022-04-29 10:09:17.939 +03:00 [INF] Handle on target page was called 479 times
+2022-04-29 10:09:18.043 +03:00 [INF] Handle on target page was called 480 times
+2022-04-29 10:09:18.135 +03:00 [INF] Handle on target page was called 481 times
+2022-04-29 10:09:18.223 +03:00 [INF] Handle on target page was called 482 times
+2022-04-29 10:09:18.308 +03:00 [INF] Handle on target page was called 483 times
+2022-04-29 10:09:18.408 +03:00 [INF] Handle on target page was called 484 times
+2022-04-29 10:09:18.511 +03:00 [INF] Handle on target page was called 485 times
+2022-04-29 10:09:18.599 +03:00 [INF] Handle on target page was called 486 times
+2022-04-29 10:09:18.687 +03:00 [INF] Handle on target page was called 487 times
+2022-04-29 10:09:18.773 +03:00 [INF] Handle on target page was called 488 times
+2022-04-29 10:09:18.875 +03:00 [INF] Handle on target page was called 489 times
+2022-04-29 10:09:18.963 +03:00 [INF] Handle on target page was called 490 times
+2022-04-29 10:09:19.055 +03:00 [INF] Handle on target page was called 491 times
+2022-04-29 10:09:19.146 +03:00 [INF] Handle on target page was called 492 times
+2022-04-29 10:09:19.231 +03:00 [INF] Handle on target page was called 493 times
+2022-04-29 10:09:19.320 +03:00 [INF] Handle on target page was called 494 times
+2022-04-29 10:09:19.410 +03:00 [INF] Handle on target page was called 495 times
+2022-04-29 10:09:19.508 +03:00 [INF] Handle on target page was called 496 times
+2022-04-29 10:09:19.599 +03:00 [INF] Handle on target page was called 497 times
+2022-04-29 10:09:19.690 +03:00 [INF] Handle on target page was called 498 times
+2022-04-29 10:09:19.776 +03:00 [INF] Handle on target page was called 499 times
+2022-04-29 10:09:19.881 +03:00 [INF] Handle on target page was called 500 times
+2022-04-29 10:09:20.088 +03:00 [INF] Handle on target page was called 501 times
+2022-04-29 10:09:20.126 +03:00 [ERR] System.Exception: Cannot find element by selector $div.attach_link.guest>ul>li:nth-child(2).
+   at WebReaper.Domain.Parsing.Schema.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper.Domain\Parsing\Schema.cs:line 29
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:09:20.160 +03:00 [ERR] System.Exception: No href attribute found by selector .magnet-link in .
+   at WebReaper.Parsing.Url.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Url.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:09:20.196 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:09:20.284 +03:00 [INF] Handle on target page was called 502 times
+2022-04-29 10:09:20.411 +03:00 [INF] Handle on target page was called 503 times
+2022-04-29 10:09:20.560 +03:00 [INF] Handle on target page was called 504 times
+2022-04-29 10:09:20.675 +03:00 [INF] Handle on target page was called 505 times
+2022-04-29 10:09:20.868 +03:00 [INF] Handle on target page was called 506 times
+2022-04-29 10:09:20.960 +03:00 [INF] Handle on target page was called 507 times
+2022-04-29 10:09:21.056 +03:00 [INF] Handle on target page was called 508 times
+2022-04-29 10:09:21.158 +03:00 [INF] Handle on target page was called 509 times
+2022-04-29 10:09:21.270 +03:00 [INF] Handle on target page was called 510 times
+2022-04-29 10:09:21.364 +03:00 [INF] Handle on target page was called 511 times
+2022-04-29 10:09:21.452 +03:00 [INF] Handle on target page was called 512 times
+2022-04-29 10:09:21.548 +03:00 [INF] Handle on target page was called 513 times
+2022-04-29 10:09:21.658 +03:00 [INF] Handle on target page was called 514 times
+2022-04-29 10:09:21.770 +03:00 [INF] Handle on target page was called 515 times
+2022-04-29 10:09:21.863 +03:00 [INF] Handle on target page was called 516 times
+2022-04-29 10:09:21.967 +03:00 [INF] Handle on target page was called 517 times
+2022-04-29 10:09:22.069 +03:00 [INF] Handle on target page was called 518 times
+2022-04-29 10:09:22.154 +03:00 [INF] Handle on target page was called 519 times
+2022-04-29 10:09:22.260 +03:00 [INF] Handle on target page was called 520 times
+2022-04-29 10:09:22.348 +03:00 [INF] Handle on target page was called 521 times
+2022-04-29 10:09:22.443 +03:00 [INF] Handle on target page was called 522 times
+2022-04-29 10:09:22.528 +03:00 [INF] Handle on target page was called 523 times
+2022-04-29 10:09:22.630 +03:00 [INF] Handle on target page was called 524 times
+2022-04-29 10:09:22.728 +03:00 [INF] Handle on target page was called 525 times
+2022-04-29 10:09:22.817 +03:00 [INF] Handle on target page was called 526 times
+2022-04-29 10:09:22.933 +03:00 [INF] Handle on target page was called 527 times
+2022-04-29 10:09:23.037 +03:00 [INF] Handle on target page was called 528 times
+2022-04-29 10:09:23.163 +03:00 [INF] Handle on target page was called 529 times
+2022-04-29 10:09:23.274 +03:00 [INF] Handle on target page was called 530 times
+2022-04-29 10:09:23.364 +03:00 [INF] Handle on target page was called 531 times
+2022-04-29 10:09:23.459 +03:00 [INF] Handle on target page was called 532 times
+2022-04-29 10:09:23.547 +03:00 [INF] Handle on target page was called 533 times
+2022-04-29 10:09:23.641 +03:00 [INF] Handle on target page was called 534 times
+2022-04-29 10:09:23.758 +03:00 [INF] Handle on target page was called 535 times
+2022-04-29 10:09:23.847 +03:00 [INF] Handle on target page was called 536 times
+2022-04-29 10:09:23.933 +03:00 [INF] Handle on target page was called 537 times
+2022-04-29 10:09:24.038 +03:00 [INF] Handle on target page was called 538 times
+2022-04-29 10:09:24.134 +03:00 [INF] Handle on target page was called 539 times
+2022-04-29 10:09:24.226 +03:00 [INF] Handle on target page was called 540 times
+2022-04-29 10:09:24.320 +03:00 [INF] Handle on target page was called 541 times
+2022-04-29 10:09:24.414 +03:00 [INF] Handle on target page was called 542 times
+2022-04-29 10:09:24.509 +03:00 [INF] Handle on target page was called 543 times
+2022-04-29 10:09:24.620 +03:00 [INF] Handle on target page was called 544 times
+2022-04-29 10:09:24.716 +03:00 [INF] Handle on target page was called 545 times
+2022-04-29 10:09:24.815 +03:00 [INF] Handle on target page was called 546 times
+2022-04-29 10:09:25.001 +03:00 [INF] Handle on target page was called 547 times
+2022-04-29 10:09:25.088 +03:00 [INF] Handle on target page was called 548 times
+2022-04-29 10:09:25.196 +03:00 [INF] Handle on target page was called 549 times
+2022-04-29 10:09:25.285 +03:00 [INF] Handle on target page was called 550 times
+2022-04-29 10:09:25.556 +03:00 [INF] Handle on target page was called 551 times
+2022-04-29 10:09:25.645 +03:00 [INF] Handle on target page was called 552 times
+2022-04-29 10:09:25.741 +03:00 [INF] Handle on target page was called 553 times
+2022-04-29 10:09:25.853 +03:00 [INF] Handle on target page was called 554 times
+2022-04-29 10:09:25.953 +03:00 [INF] Handle on target page was called 555 times
+2022-04-29 10:09:26.062 +03:00 [INF] Handle on target page was called 556 times
+2022-04-29 10:09:26.155 +03:00 [INF] Handle on target page was called 557 times
+2022-04-29 10:09:26.258 +03:00 [INF] Handle on target page was called 558 times
+2022-04-29 10:09:26.360 +03:00 [INF] Handle on target page was called 559 times
+2022-04-29 10:09:26.466 +03:00 [INF] Handle on target page was called 560 times
+2022-04-29 10:09:26.559 +03:00 [INF] Handle on target page was called 561 times
+2022-04-29 10:09:26.646 +03:00 [INF] Handle on target page was called 562 times
+2022-04-29 10:09:26.741 +03:00 [INF] Handle on target page was called 563 times
+2022-04-29 10:09:26.828 +03:00 [INF] Handle on target page was called 564 times
+2022-04-29 10:09:26.928 +03:00 [INF] Handle on target page was called 565 times
+2022-04-29 10:09:27.024 +03:00 [INF] Handle on target page was called 566 times
+2022-04-29 10:09:27.120 +03:00 [INF] Handle on target page was called 567 times
+2022-04-29 10:09:27.218 +03:00 [INF] Handle on target page was called 568 times
+2022-04-29 10:09:27.257 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:09:27.347 +03:00 [INF] Handle on target page was called 569 times
+2022-04-29 10:09:27.440 +03:00 [INF] Handle on target page was called 570 times
+2022-04-29 10:09:27.542 +03:00 [INF] Handle on target page was called 571 times
+2022-04-29 10:09:27.627 +03:00 [INF] Handle on target page was called 572 times
+2022-04-29 10:09:27.723 +03:00 [INF] Handle on target page was called 573 times
+2022-04-29 10:09:27.832 +03:00 [INF] Handle on target page was called 574 times
+2022-04-29 10:09:27.938 +03:00 [INF] Handle on target page was called 575 times
+2022-04-29 10:09:28.041 +03:00 [INF] Handle on target page was called 576 times
+2022-04-29 10:09:28.131 +03:00 [INF] Handle on target page was called 577 times
+2022-04-29 10:09:28.220 +03:00 [INF] Handle on target page was called 578 times
+2022-04-29 10:09:28.308 +03:00 [INF] Handle on target page was called 579 times
+2022-04-29 10:09:28.414 +03:00 [INF] Handle on target page was called 580 times
+2022-04-29 10:09:28.512 +03:00 [INF] Handle on target page was called 581 times
+2022-04-29 10:09:28.619 +03:00 [INF] Handle on target page was called 582 times
+2022-04-29 10:09:28.739 +03:00 [INF] Handle on target page was called 583 times
+2022-04-29 10:09:28.842 +03:00 [INF] Handle on target page was called 584 times
+2022-04-29 10:09:28.946 +03:00 [INF] Handle on target page was called 585 times
+2022-04-29 10:09:29.036 +03:00 [INF] Handle on target page was called 586 times
+2022-04-29 10:09:29.135 +03:00 [INF] Handle on target page was called 587 times
+2022-04-29 10:09:29.237 +03:00 [INF] Handle on target page was called 588 times
+2022-04-29 10:09:29.333 +03:00 [INF] Handle on target page was called 589 times
+2022-04-29 10:09:29.437 +03:00 [INF] Handle on target page was called 590 times
+2022-04-29 10:09:29.535 +03:00 [INF] Handle on target page was called 591 times
+2022-04-29 10:09:29.627 +03:00 [INF] Handle on target page was called 592 times
+2022-04-29 10:09:29.720 +03:00 [INF] Handle on target page was called 593 times
+2022-04-29 10:09:29.806 +03:00 [INF] Handle on target page was called 594 times
+2022-04-29 10:09:29.899 +03:00 [INF] Handle on target page was called 595 times
+2022-04-29 10:09:29.999 +03:00 [INF] Handle on target page was called 596 times
+2022-04-29 10:09:30.174 +03:00 [INF] Handle on target page was called 597 times
+2022-04-29 10:09:30.304 +03:00 [INF] Handle on target page was called 598 times
+2022-04-29 10:09:30.406 +03:00 [INF] Handle on target page was called 599 times
+2022-04-29 10:09:30.497 +03:00 [INF] Handle on target page was called 600 times
+2022-04-29 10:09:30.781 +03:00 [INF] Handle on target page was called 601 times
+2022-04-29 10:09:30.819 +03:00 [ERR] System.Exception: Cannot find element by selector $div.attach_link.guest>ul>li:nth-child(2).
+   at WebReaper.Domain.Parsing.Schema.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper.Domain\Parsing\Schema.cs:line 29
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:09:30.856 +03:00 [ERR] System.Exception: No href attribute found by selector .magnet-link in .
+   at WebReaper.Parsing.Url.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Url.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:09:30.891 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-04-29 10:09:30.975 +03:00 [INF] Handle on target page was called 602 times
+2022-04-29 10:09:31.137 +03:00 [INF] Handle on target page was called 603 times
+2022-04-29 10:09:31.223 +03:00 [INF] Handle on target page was called 604 times
+2022-04-29 10:09:31.315 +03:00 [INF] Handle on target page was called 605 times
