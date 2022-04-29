@@ -55,12 +55,10 @@ public class ProducerConsumerPriorityQueue
         }
     }
 
-    public Job[] ToArray()
-    {
-        return JobQueue.UnorderedItems
-            .Select((job, priority) => job.Element)
-            .ToArray();
-    }
+    public Job[] ToArray() => 
+        JobQueue.UnorderedItems
+        .Select((job, priority) => job.Element)
+        .ToArray();
 
     public bool TryAdd(Job item)
     {

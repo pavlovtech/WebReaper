@@ -9,17 +9,11 @@ public static class LoggerExtensions
 {
     public static IDisposable LogMethodDuration(
         this ILogger logger,
-        [CallerMemberName] string callerName = "") 
-    {
-        return new Timer(logger, callerName);
-    }
+        [CallerMemberName] string callerName = "") => new Timer(logger, callerName);
 
     public static void LogInvocationCount(
         this ILogger logger,
-        [CallerMemberName] string callerName = "") 
-    {
-        Counter.LogCount(logger, callerName);
-    }
+        [CallerMemberName] string callerName = "") => Counter.LogCount(logger, callerName);
 }
 
 public class Timer : IDisposable
@@ -28,7 +22,7 @@ public class Timer : IDisposable
     private ILogger _logger;
 
 
-    Stopwatch watch = new Stopwatch();
+    Stopwatch watch = new();
 
     public Timer(
         ILogger logger,

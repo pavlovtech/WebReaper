@@ -8,10 +8,7 @@ public class JobQueueWriter : IJobQueueWriter
 {
     private readonly BlockingCollection<Job> jobs;
 
-    public JobQueueWriter(BlockingCollection<Job> jobs)
-    {
-        this.jobs = jobs;
-    }
+    public JobQueueWriter(BlockingCollection<Job> jobs) => this.jobs = jobs;
 
     public void Write(Job job)
     {
