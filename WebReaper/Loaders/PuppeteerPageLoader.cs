@@ -14,19 +14,18 @@ public class PuppeteerPageLoader : IPageLoader
 
     public async Task<string> Load(string url)
     {
-        using (_logger.LogMethodDuration())
-        {
-            using var browserFetcher = new BrowserFetcher();
-            await browserFetcher.DownloadAsync();
-            await using var browser = await Puppeteer.LaunchAsync(
-                new LaunchOptions { Headless = true });
-            await using var page = await browser.NewPageAsync();
-            await page.GoToAsync(url, WaitUntilNavigation.DOMContentLoaded);
+        using var _ = _logger.LogMethodDuration();
 
-            //await page.WaitForNetworkIdleAsync();
+        using var browserFetcher = new BrowserFetcher();
+        await browserFetcher.DownloadAsync();
+        await using var browser = await Puppeteer.LaunchAsync(
+            new LaunchOptions { Headless = true });
+        await using var page = await browser.NewPageAsync();
+        await page.GoToAsync(url, WaitUntilNavigation.DOMContentLoaded);
 
-            var html = await page.GetContentAsync();
-            return html;
-        }
+        //await page.WaitForNetworkIdleAsync();
+
+        var html = await page.GetContentAsync();
+        return html;
     }
 }
