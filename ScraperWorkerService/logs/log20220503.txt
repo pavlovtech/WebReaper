@@ -1,0 +1,951 @@
+2022-05-03 01:30:36.000 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-03 01:30:36.060 +03:00 [INF] Hosting environment: Development
+2022-05-03 01:30:36.061 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-05-03 01:31:34.401 +03:00 [INF] Load finished in 63959 ms
+2022-05-03 01:31:34.479 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+PuppeteerSharp.NavigationException: Timeout of 30000 ms exceeded
+ ---> System.TimeoutException: Timeout of 30000 ms exceeded
+   at PuppeteerSharp.Helpers.TaskHelper.<>c__DisplayClass2_0.<WithTimeout>b__0() in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\Helpers\TaskHelper.cs:line 46
+   at PuppeteerSharp.Helpers.TaskHelper.WithTimeout(Task task, Func`1 timeoutAction, TimeSpan timeout, CancellationToken cancellationToken) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\Helpers\TaskHelper.cs:line 89
+   at PuppeteerSharp.FrameManager.NavigateFrameAsync(Frame frame, String url, NavigationOptions options) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\FrameManager.cs:line 121
+   --- End of inner exception stack trace ---
+   at PuppeteerSharp.FrameManager.NavigateFrameAsync(Frame frame, String url, NavigationOptions options) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\FrameManager.cs:line 125
+   at PuppeteerPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/PuppeteerPageLoader.cs:line 24
+   at PuppeteerPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/PuppeteerPageLoader.cs:line 29
+   at PuppeteerPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/PuppeteerPageLoader.cs:line 29
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 01:32:29.291 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-03 01:32:29.352 +03:00 [INF] Hosting environment: Development
+2022-05-03 01:32:29.353 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-05-03 01:33:02.270 +03:00 [INF] Load finished in 33116 ms
+2022-05-03 01:33:02.345 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+PuppeteerSharp.NavigationException: Timeout of 30000 ms exceeded
+ ---> System.TimeoutException: Timeout of 30000 ms exceeded
+   at PuppeteerSharp.Helpers.TaskHelper.<>c__DisplayClass2_0.<WithTimeout>b__0() in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\Helpers\TaskHelper.cs:line 46
+   at PuppeteerSharp.Helpers.TaskHelper.WithTimeout(Task task, Func`1 timeoutAction, TimeSpan timeout, CancellationToken cancellationToken) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\Helpers\TaskHelper.cs:line 89
+   at PuppeteerSharp.FrameManager.NavigateFrameAsync(Frame frame, String url, NavigationOptions options) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\FrameManager.cs:line 121
+   --- End of inner exception stack trace ---
+   at PuppeteerSharp.FrameManager.NavigateFrameAsync(Frame frame, String url, NavigationOptions options) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\FrameManager.cs:line 125
+   at PuppeteerPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/PuppeteerPageLoader.cs:line 24
+   at PuppeteerPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/PuppeteerPageLoader.cs:line 29
+   at PuppeteerPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/PuppeteerPageLoader.cs:line 29
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 01:33:34.361 +03:00 [INF] Load finished in 31958 ms
+2022-05-03 01:33:34.418 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+PuppeteerSharp.NavigationException: Timeout of 30000 ms exceeded
+ ---> System.TimeoutException: Timeout of 30000 ms exceeded
+   at PuppeteerSharp.Helpers.TaskHelper.<>c__DisplayClass2_0.<WithTimeout>b__0() in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\Helpers\TaskHelper.cs:line 46
+   at PuppeteerSharp.Helpers.TaskHelper.WithTimeout(Task task, Func`1 timeoutAction, TimeSpan timeout, CancellationToken cancellationToken) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\Helpers\TaskHelper.cs:line 89
+   at PuppeteerSharp.FrameManager.NavigateFrameAsync(Frame frame, String url, NavigationOptions options) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\FrameManager.cs:line 121
+   --- End of inner exception stack trace ---
+   at PuppeteerSharp.FrameManager.NavigateFrameAsync(Frame frame, String url, NavigationOptions options) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\FrameManager.cs:line 125
+   at PuppeteerPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/PuppeteerPageLoader.cs:line 24
+   at PuppeteerPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/PuppeteerPageLoader.cs:line 29
+   at PuppeteerPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/PuppeteerPageLoader.cs:line 29
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 01:33:38.828 +03:00 [INF] Load finished in 4409 ms
+2022-05-03 01:33:38.934 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+PuppeteerSharp.NavigationException: Navigation failed because browser has disconnected! (Target.detachedFromTarget)
+ ---> PuppeteerSharp.TargetClosedException: Navigation failed because browser has disconnected! (Target.detachedFromTarget)
+   at PuppeteerSharp.Helpers.TaskHelper.WithTimeout(Task task, Func`1 timeoutAction, TimeSpan timeout, CancellationToken cancellationToken) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\Helpers\TaskHelper.cs:line 91
+   at PuppeteerSharp.Helpers.TaskHelper.WithTimeout(Task task, Func`1 timeoutAction, TimeSpan timeout, CancellationToken cancellationToken) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\Helpers\TaskHelper.cs:line 91
+   at PuppeteerSharp.FrameManager.NavigateFrameAsync(Frame frame, String url, NavigationOptions options) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\FrameManager.cs:line 121
+   --- End of inner exception stack trace ---
+   at PuppeteerSharp.FrameManager.NavigateFrameAsync(Frame frame, String url, NavigationOptions options) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\FrameManager.cs:line 125
+   at PuppeteerPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/PuppeteerPageLoader.cs:line 24
+   at PuppeteerPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/PuppeteerPageLoader.cs:line 29
+   at PuppeteerPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/PuppeteerPageLoader.cs:line 29
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 01:35:01.736 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-03 01:35:01.807 +03:00 [INF] Hosting environment: Development
+2022-05-03 01:35:01.809 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-05-03 01:35:15.540 +03:00 [INF] Load finished in 13932 ms
+2022-05-03 01:35:26.291 +03:00 [INF] Load finished in 10650 ms
+2022-05-03 01:36:56.559 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-03 01:36:56.626 +03:00 [INF] Hosting environment: Development
+2022-05-03 01:36:56.627 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-05-03 01:36:59.527 +03:00 [INF] Load finished in 3088 ms
+2022-05-03 01:37:01.978 +03:00 [INF] Load finished in 2360 ms
+2022-05-03 01:37:04.348 +03:00 [INF] Load finished in 2321 ms
+2022-05-03 01:37:07.205 +03:00 [INF] Load finished in 2852 ms
+2022-05-03 01:37:12.011 +03:00 [INF] Load finished in 4787 ms
+2022-05-03 01:37:12.017 +03:00 [INF] Handle on target page was called 1 times
+2022-05-03 01:37:12.146 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i116.fastpic.org/big/2022/0318/c6/c5dfb145838a683c1d92b790a21994c6.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:37:14.529 +03:00 [INF] Load finished in 2362 ms
+2022-05-03 01:37:14.533 +03:00 [INF] Handle on target page was called 2 times
+2022-05-03 01:37:14.591 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i116.fastpic.org/big/2022/0124/fb/fc71bfce961c986e9ccf4f9cf6b3ecfb.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:37:16.878 +03:00 [INF] Load finished in 2286 ms
+2022-05-03 01:37:16.878 +03:00 [INF] Handle on target page was called 3 times
+2022-05-03 01:37:16.933 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i116.fastpic.org/big/2022/0307/b9/e1ef1dce8fa318c37a1870dfd23131b9.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:37:19.461 +03:00 [INF] Load finished in 2527 ms
+2022-05-03 01:37:19.461 +03:00 [INF] Handle on target page was called 4 times
+2022-05-03 01:37:19.515 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i4.fastpic.ru/big/2010/0515/fb/10d63b2ada4ef947bb82e3f0c79333fb.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:37:21.766 +03:00 [INF] Load finished in 2250 ms
+2022-05-03 01:37:21.766 +03:00 [INF] Handle on target page was called 5 times
+2022-05-03 01:37:21.812 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://s018.radikal.ru/i511/1710/36/0d15510c6919.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:37:24.254 +03:00 [INF] Load finished in 2441 ms
+2022-05-03 01:37:24.254 +03:00 [INF] Handle on target page was called 6 times
+2022-05-03 01:37:24.303 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i116.fastpic.org/big/2022/0126/8a/7b18318a8ee4efb359e102a6f474b78a.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:37:27.649 +03:00 [INF] Load finished in 3345 ms
+2022-05-03 01:37:27.650 +03:00 [INF] Handle on target page was called 7 times
+2022-05-03 01:37:27.695 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i116.fastpic.org/big/2022/0307/d0/b1269c6786109b485c51c6dc566dffd0.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:37:29.968 +03:00 [INF] Load finished in 2272 ms
+2022-05-03 01:37:29.968 +03:00 [INF] Handle on target page was called 8 times
+2022-05-03 01:37:30.021 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i042.radikal.ru/1701/d4/a91e09730a6e.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:37:32.924 +03:00 [INF] Load finished in 2902 ms
+2022-05-03 01:37:32.924 +03:00 [INF] Handle on target page was called 9 times
+2022-05-03 01:37:32.973 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i117.fastpic.org/big/2022/0429/86/e01a2d46e68b44c258b37b972c3b7a86.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:37:35.292 +03:00 [INF] Load finished in 2319 ms
+2022-05-03 01:37:35.293 +03:00 [INF] Handle on target page was called 10 times
+2022-05-03 01:37:35.346 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i117.fastpic.org/big/2022/0429/dd/8d7f942bc739b378c650645a410307dd.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:37:38.593 +03:00 [INF] Load finished in 3247 ms
+2022-05-03 01:37:38.594 +03:00 [INF] Handle on target page was called 11 times
+2022-05-03 01:37:38.647 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i80.fastpic.ru/big/2016/0413/aa/e06ab386fe22deb455aa539e34a857aa.png?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:37:41.511 +03:00 [INF] Load finished in 2863 ms
+2022-05-03 01:37:41.511 +03:00 [INF] Handle on target page was called 12 times
+2022-05-03 01:37:41.571 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg" alt="pic" src="http://i2.fastpic.ru/big/2010/0306/74/44762a05511c7d7ad1aaf36f9d1a3974.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:37:44.467 +03:00 [INF] Load finished in 2895 ms
+2022-05-03 01:37:44.467 +03:00 [INF] Handle on target page was called 13 times
+2022-05-03 01:37:44.521 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i47.fastpic.ru/big/2013/0706/64/25664b9d4d187195dad10afdae6f1764.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:37:46.789 +03:00 [INF] Load finished in 2268 ms
+2022-05-03 01:37:46.790 +03:00 [INF] Handle on target page was called 14 times
+2022-05-03 01:37:46.846 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i10.fastpic.ru/big/2010/1005/39/315883c7e3a138dd65d7c2ef5aac5439.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:37:49.277 +03:00 [INF] Load finished in 2430 ms
+2022-05-03 01:37:49.278 +03:00 [INF] Handle on target page was called 15 times
+2022-05-03 01:37:49.326 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i1.fastpic.ru/big/2010/0106/2d/b11d8764deb4638fdfe2d04303feff2d.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:37:51.556 +03:00 [INF] Load finished in 2229 ms
+2022-05-03 01:37:51.556 +03:00 [INF] Handle on target page was called 16 times
+2022-05-03 01:37:51.619 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://www.ozon.ru/multimedia/books_covers/1001238140.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:37:53.956 +03:00 [INF] Load finished in 2337 ms
+2022-05-03 01:37:53.956 +03:00 [INF] Handle on target page was called 17 times
+2022-05-03 01:37:53.998 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img src="https://static.t-ru.org/smiles/tr_oops.gif" class="postImg postImgAligned img-right" alt="!">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:37:56.339 +03:00 [INF] Load finished in 2339 ms
+2022-05-03 01:37:56.339 +03:00 [INF] Handle on target page was called 18 times
+2022-05-03 01:37:56.384 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://shop.iddk.ru/image/cdrom/65598/front.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:38:40.999 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-03 01:38:41.064 +03:00 [INF] Hosting environment: Development
+2022-05-03 01:38:41.065 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-05-03 01:38:42.757 +03:00 [INF] Load finished in 1878 ms
+2022-05-03 01:38:44.793 +03:00 [INF] Load finished in 1937 ms
+2022-05-03 01:38:46.238 +03:00 [INF] Load finished in 1422 ms
+2022-05-03 01:38:47.818 +03:00 [INF] Load finished in 1577 ms
+2022-05-03 01:38:49.370 +03:00 [INF] Load finished in 1539 ms
+2022-05-03 01:38:49.375 +03:00 [INF] Handle on target page was called 1 times
+2022-05-03 01:38:49.479 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i116.fastpic.org/big/2022/0318/c6/c5dfb145838a683c1d92b790a21994c6.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:38:50.824 +03:00 [INF] Load finished in 1327 ms
+2022-05-03 01:38:50.827 +03:00 [INF] Handle on target page was called 2 times
+2022-05-03 01:38:50.856 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i116.fastpic.org/big/2022/0124/fb/fc71bfce961c986e9ccf4f9cf6b3ecfb.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:38:52.670 +03:00 [INF] Load finished in 1812 ms
+2022-05-03 01:38:52.670 +03:00 [INF] Handle on target page was called 3 times
+2022-05-03 01:38:52.704 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i116.fastpic.org/big/2022/0307/b9/e1ef1dce8fa318c37a1870dfd23131b9.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:38:54.141 +03:00 [INF] Load finished in 1437 ms
+2022-05-03 01:38:54.141 +03:00 [INF] Handle on target page was called 4 times
+2022-05-03 01:38:54.177 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i4.fastpic.ru/big/2010/0515/fb/10d63b2ada4ef947bb82e3f0c79333fb.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:38:55.460 +03:00 [INF] Load finished in 1282 ms
+2022-05-03 01:38:55.460 +03:00 [INF] Handle on target page was called 5 times
+2022-05-03 01:38:56.811 +03:00 [INF] Load finished in 1342 ms
+2022-05-03 01:38:56.811 +03:00 [INF] Handle on target page was called 6 times
+2022-05-03 01:38:58.260 +03:00 [INF] Load finished in 1445 ms
+2022-05-03 01:38:58.260 +03:00 [INF] Handle on target page was called 7 times
+2022-05-03 01:38:58.292 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i116.fastpic.org/big/2022/0307/d0/b1269c6786109b485c51c6dc566dffd0.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:38:59.929 +03:00 [INF] Load finished in 1636 ms
+2022-05-03 01:38:59.929 +03:00 [INF] Handle on target page was called 8 times
+2022-05-03 01:39:01.218 +03:00 [INF] Load finished in 1283 ms
+2022-05-03 01:39:01.218 +03:00 [INF] Handle on target page was called 9 times
+2022-05-03 01:39:02.661 +03:00 [INF] Load finished in 1438 ms
+2022-05-03 01:39:02.661 +03:00 [INF] Handle on target page was called 10 times
+2022-05-03 01:39:02.684 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i117.fastpic.org/big/2022/0429/dd/8d7f942bc739b378c650645a410307dd.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:39:04.673 +03:00 [INF] Load finished in 1988 ms
+2022-05-03 01:39:04.674 +03:00 [INF] Handle on target page was called 11 times
+2022-05-03 01:39:06.246 +03:00 [INF] Load finished in 1569 ms
+2022-05-03 01:39:06.246 +03:00 [INF] Handle on target page was called 12 times
+2022-05-03 01:39:08.022 +03:00 [INF] Load finished in 1768 ms
+2022-05-03 01:39:08.022 +03:00 [INF] Handle on target page was called 13 times
+2022-05-03 01:39:08.051 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i47.fastpic.ru/big/2013/0706/64/25664b9d4d187195dad10afdae6f1764.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:39:09.295 +03:00 [INF] Load finished in 1243 ms
+2022-05-03 01:39:09.295 +03:00 [INF] Handle on target page was called 14 times
+2022-05-03 01:39:10.753 +03:00 [INF] Load finished in 1453 ms
+2022-05-03 01:39:10.753 +03:00 [INF] Handle on target page was called 15 times
+2022-05-03 01:39:12.020 +03:00 [INF] Load finished in 1262 ms
+2022-05-03 01:39:12.020 +03:00 [INF] Handle on target page was called 16 times
+2022-05-03 01:39:13.261 +03:00 [INF] Load finished in 1236 ms
+2022-05-03 01:39:13.262 +03:00 [INF] Handle on target page was called 17 times
+2022-05-03 01:39:14.872 +03:00 [INF] Load finished in 1605 ms
+2022-05-03 01:39:14.872 +03:00 [INF] Handle on target page was called 18 times
+2022-05-03 01:41:32.046 +03:00 [INF] Load finished in 2421 ms
+2022-05-03 01:41:34.809 +03:00 [INF] Load finished in 2615 ms
+2022-05-03 01:41:35.003 +03:00 [INF] Load finished in 2842 ms
+2022-05-03 01:41:35.197 +03:00 [INF] Load finished in 2971 ms
+2022-05-03 01:41:35.300 +03:00 [INF] Load finished in 3138 ms
+2022-05-03 01:41:35.740 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-03 01:41:35.740 +03:00 [INF] Hosting environment: Development
+2022-05-03 01:41:35.742 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-05-03 01:41:36.521 +03:00 [INF] Load finished in 4300 ms
+2022-05-03 01:41:36.556 +03:00 [INF] Load finished in 4401 ms
+2022-05-03 01:41:38.093 +03:00 [INF] Load finished in 3217 ms
+2022-05-03 01:41:39.589 +03:00 [INF] Load finished in 4712 ms
+2022-05-03 01:41:39.590 +03:00 [INF] Load finished in 4539 ms
+2022-05-03 01:41:39.590 +03:00 [INF] Load finished in 4586 ms
+2022-05-03 01:41:39.615 +03:00 [INF] Load finished in 3980 ms
+2022-05-03 01:41:39.745 +03:00 [INF] Load finished in 4469 ms
+2022-05-03 01:41:39.929 +03:00 [INF] Load finished in 2546 ms
+2022-05-03 01:41:39.954 +03:00 [INF] Load finished in 4441 ms
+2022-05-03 01:41:40.219 +03:00 [INF] Load finished in 4841 ms
+2022-05-03 01:41:40.792 +03:00 [INF] Load finished in 3864 ms
+2022-05-03 01:41:43.884 +03:00 [INF] Load finished in 3258 ms
+2022-05-03 01:41:43.922 +03:00 [INF] Load finished in 5144 ms
+2022-05-03 01:41:43.971 +03:00 [INF] Handle on target page was called 1 times
+2022-05-03 01:41:43.972 +03:00 [INF] Handle on target page was called 2 times
+2022-05-03 01:41:44.055 +03:00 [INF] Load finished in 3120 ms
+2022-05-03 01:41:44.055 +03:00 [INF] Handle on target page was called 3 times
+2022-05-03 01:41:44.624 +03:00 [INF] Load finished in 3334 ms
+2022-05-03 01:41:44.628 +03:00 [INF] Handle on target page was called 4 times
+2022-05-03 01:41:45.032 +03:00 [INF] Load finished in 4001 ms
+2022-05-03 01:41:45.044 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg" alt="pic" src="http://i3.fastpic.ru/big/2009/1023/03/c0f139de2862e7a3c41244667bae4503.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:41:45.044 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i114.fastpic.ru/big/2021/0529/c2/b4f8e0bb844e15e97b6183960bdf8ec2.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:41:45.044 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://www.yogatrain.ru/images/docsty/book_030.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:41:45.044 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i90.fastpic.ru/big/2017/0203/a6/873488f813f6f9c9953fcc8954bf85a6.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:41:45.056 +03:00 [INF] Handle on target page was called 5 times
+2022-05-03 01:41:45.057 +03:00 [INF] Load finished in 4052 ms
+2022-05-03 01:41:45.106 +03:00 [INF] Handle on target page was called 6 times
+2022-05-03 01:41:45.223 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://shop.iddk.ru/image/cdrom/65598/front.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:41:45.445 +03:00 [INF] Load finished in 4414 ms
+2022-05-03 01:41:45.456 +03:00 [INF] Handle on target page was called 7 times
+2022-05-03 01:41:45.446 +03:00 [INF] Load finished in 3116 ms
+2022-05-03 01:41:45.445 +03:00 [INF] Load finished in 4292 ms
+2022-05-03 01:41:45.533 +03:00 [INF] Handle on target page was called 8 times
+2022-05-03 01:41:45.533 +03:00 [INF] Handle on target page was called 9 times
+2022-05-03 01:41:45.846 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i061.radikal.ru/0908/83/fe69877699f0.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:41:46.225 +03:00 [INF] Load finished in 5119 ms
+2022-05-03 01:41:46.250 +03:00 [INF] Handle on target page was called 10 times
+2022-05-03 01:41:46.976 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i20.fastpic.ru/big/2011/0421/e0/65029fb6a7bb55b882c6abca413cdfe0.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:41:47.319 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://lib.aldebaran.ru/books/trepper_leopold/trepper_leopold_bolshaya_igra/cover.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:41:48.438 +03:00 [INF] Load finished in 3338 ms
+2022-05-03 01:41:48.461 +03:00 [INF] Handle on target page was called 11 times
+2022-05-03 01:41:48.477 +03:00 [INF] Load finished in 3203 ms
+2022-05-03 01:41:48.478 +03:00 [INF] Handle on target page was called 12 times
+2022-05-03 01:41:48.718 +03:00 [INF] Load finished in 3607 ms
+2022-05-03 01:41:48.743 +03:00 [INF] Handle on target page was called 13 times
+2022-05-03 01:41:48.779 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i46.fastpic.ru/big/2013/0414/03/46ca8911dfb0e0a47c5cbc5d0dee3b03.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:41:49.110 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://www.libex.ru/dimg/1a060.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:41:49.330 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:41:50.248 +03:00 [INF] Load finished in 4401 ms
+2022-05-03 01:41:50.264 +03:00 [INF] Handle on target page was called 14 times
+2022-05-03 01:41:50.260 +03:00 [INF] Load finished in 2888 ms
+2022-05-03 01:41:50.267 +03:00 [INF] Handle on target page was called 15 times
+2022-05-03 01:41:50.260 +03:00 [INF] Load finished in 4487 ms
+2022-05-03 01:41:50.248 +03:00 [INF] Load finished in 3224 ms
+2022-05-03 01:41:50.380 +03:00 [INF] Handle on target page was called 16 times
+2022-05-03 01:41:50.400 +03:00 [INF] Handle on target page was called 17 times
+2022-05-03 01:41:50.401 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:41:50.401 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i28.fastpic.ru/big/2012/0205/0b/a7d11224ba8873cd0adc4f059adb670b.png?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:41:50.966 +03:00 [INF] Load finished in 4839 ms
+2022-05-03 01:41:50.966 +03:00 [INF] Handle on target page was called 18 times
+2022-05-03 01:41:51.122 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i65.fastpic.ru/big/2015/0408/c0/ab59cda7ef43a3b45f18822f2ac2a4c0.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:41:51.214 +03:00 [INF] Load finished in 5181 ms
+2022-05-03 01:41:51.236 +03:00 [INF] Handle on target page was called 19 times
+2022-05-03 01:41:51.337 +03:00 [INF] Load finished in 5054 ms
+2022-05-03 01:41:51.338 +03:00 [INF] Handle on target page was called 20 times
+2022-05-03 01:41:51.939 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:41:51.972 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i46.fastpic.ru/big/2013/0430/a6/ce51cea62832065575c79214a9adcea6.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:41:52.145 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i98.fastpic.ru/big/2017/1116/e0/db57752dd2076fee57b62fecd8ba84e0.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:41:53.172 +03:00 [INF] Load finished in 4346 ms
+2022-05-03 01:41:53.192 +03:00 [INF] Handle on target page was called 21 times
+2022-05-03 01:41:53.198 +03:00 [INF] Load finished in 4056 ms
+2022-05-03 01:41:53.236 +03:00 [INF] Handle on target page was called 22 times
+2022-05-03 01:41:53.321 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i3.fastpic.ru/big/2009/1023/40/9e2845ed5810aef4c7b06dde635c9240.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:41:53.447 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img src="https://static.t-ru.org/smiles/tr_oops.gif" class="postImg postImgAligned img-right" alt="!">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:41:53.786 +03:00 [INF] Load finished in 3280 ms
+2022-05-03 01:41:53.786 +03:00 [INF] Handle on target page was called 23 times
+2022-05-03 01:41:53.938 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://www.ozon.ru/multimedia/books_covers/1000325988.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:41:53.946 +03:00 [INF] Load finished in 3465 ms
+2022-05-03 01:41:53.953 +03:00 [INF] Load finished in 4595 ms
+2022-05-03 01:41:53.981 +03:00 [INF] Handle on target page was called 24 times
+2022-05-03 01:41:54.014 +03:00 [INF] Handle on target page was called 25 times
+2022-05-03 01:41:54.115 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://www.ozon.ru/multimedia/books_covers/1000771295.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:41:54.575 +03:00 [INF] Load finished in 3452 ms
+2022-05-03 01:41:54.598 +03:00 [INF] Handle on target page was called 26 times
+2022-05-03 01:41:54.647 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://s54.radikal.ru/i145/1002/5a/ede94362ff78.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:41:55.421 +03:00 [INF] Load finished in 4672 ms
+2022-05-03 01:41:55.445 +03:00 [INF] Handle on target page was called 27 times
+2022-05-03 01:41:55.534 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img src="https://static.t-ru.org/smiles/tr_oops.gif" class="postImg postImgAligned img-right" alt="!">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:41:55.754 +03:00 [INF] Load finished in 3622 ms
+2022-05-03 01:41:55.779 +03:00 [INF] Handle on target page was called 28 times
+2022-05-03 01:41:55.836 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img src="https://static.t-ru.org/smiles/tr_oops.gif" class="postImg postImgAligned img-right" alt="!">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:41:56.020 +03:00 [INF] Load finished in 3874 ms
+2022-05-03 01:41:56.047 +03:00 [INF] Handle on target page was called 29 times
+2022-05-03 01:41:56.126 +03:00 [INF] Load finished in 4134 ms
+2022-05-03 01:41:56.166 +03:00 [INF] Handle on target page was called 30 times
+2022-05-03 01:41:56.850 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://www.cety.ru/images/metro2034.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:41:57.728 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i96.fastpic.ru/big/2017/0731/de/73f75d7ac8e06dd50cf9e0bbd284f5de.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:41:57.862 +03:00 [INF] Load finished in 3744 ms
+2022-05-03 01:41:57.869 +03:00 [INF] Handle on target page was called 31 times
+2022-05-03 01:41:57.862 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://g.foto.radikal.ru/0611/249d6c9009e0.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:41:57.942 +03:00 [INF] Load finished in 3989 ms
+2022-05-03 01:41:58.003 +03:00 [INF] Handle on target page was called 32 times
+2022-05-03 01:41:58.113 +03:00 [INF] Load finished in 4768 ms
+2022-05-03 01:41:58.113 +03:00 [INF] Handle on target page was called 33 times
+2022-05-03 01:41:58.268 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://www.ozon.ru/multimedia/books_covers/azimivynorbymagivolshebnyk99.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:41:59.076 +03:00 [INF] Load finished in 5603 ms
+2022-05-03 01:41:59.076 +03:00 [INF] Handle on target page was called 34 times
+2022-05-03 01:41:59.203 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i64.fastpic.ru/big/2015/0314/c2/f50837a7bff9499bf0bb65d522bd20c2.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:00.089 +03:00 [INF] Load finished in 4507 ms
+2022-05-03 01:42:00.090 +03:00 [INF] Handle on target page was called 35 times
+2022-05-03 01:42:00.090 +03:00 [INF] Load finished in 5249 ms
+2022-05-03 01:42:00.090 +03:00 [INF] Handle on target page was called 36 times
+2022-05-03 01:42:00.090 +03:00 [INF] Load finished in 4204 ms
+2022-05-03 01:42:00.090 +03:00 [INF] Handle on target page was called 37 times
+2022-05-03 01:42:00.297 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img src="https://static.t-ru.org/smiles/tr_oops.gif" class="postImg postImgAligned img-right" alt="!">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:00.318 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img src="https://static.t-ru.org/smiles/tr_oops.gif" class="postImg postImgAligned img-right" alt="!">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:00.522 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://pgbooks.ru/i/researcher25052010.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:01.418 +03:00 [INF] Load finished in 4539 ms
+2022-05-03 01:42:01.446 +03:00 [INF] Handle on target page was called 38 times
+2022-05-03 01:42:01.562 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i14.fastpic.ru/big/2010/1227/a4/f98ee8cadd40fae41f84b1fd59dfd2a4.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:01.589 +03:00 [INF] Load finished in 3675 ms
+2022-05-03 01:42:01.589 +03:00 [INF] Handle on target page was called 39 times
+2022-05-03 01:42:02.057 +03:00 [INF] Load finished in 4324 ms
+2022-05-03 01:42:02.057 +03:00 [INF] Handle on target page was called 40 times
+2022-05-03 01:42:02.089 +03:00 [INF] Load finished in 3772 ms
+2022-05-03 01:42:02.091 +03:00 [INF] Handle on target page was called 41 times
+2022-05-03 01:42:02.355 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://img11.lostpic.net/2020/10/06/55fc152d1e0b79f29bf286f4a3eaa8fc.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:02.387 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i59.fastpic.ru/big/2013/0920/28/32129246ee41557c72d060a77decc428.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:02.706 +03:00 [INF] Load finished in 3477 ms
+2022-05-03 01:42:02.707 +03:00 [INF] Handle on target page was called 42 times
+2022-05-03 01:42:02.737 +03:00 [INF] Load finished in 3353 ms
+2022-05-03 01:42:02.737 +03:00 [INF] Handle on target page was called 43 times
+2022-05-03 01:42:02.971 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i47.fastpic.ru/big/2013/0516/80/bcfd9eeefe7cc16c6502d8d3d32d2b80.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:03.221 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i67.fastpic.ru/big/2014/0726/89/9fbaaf196252774a9f7c5158f0182a89.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:04.151 +03:00 [INF] Load finished in 3785 ms
+2022-05-03 01:42:04.180 +03:00 [INF] Handle on target page was called 44 times
+2022-05-03 01:42:04.184 +03:00 [INF] Load finished in 3842 ms
+2022-05-03 01:42:04.217 +03:00 [INF] Handle on target page was called 45 times
+2022-05-03 01:42:04.407 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg" alt="pic" src="http://i7.fastpic.ru/big/2010/0618/7a/149f7631d61f622a2e054ae903ac7b7a.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:04.585 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img src="https://static.t-ru.org/smiles/tr_oops.gif" class="postImg postImgAligned img-right" alt="!">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:04.910 +03:00 [INF] Load finished in 3287 ms
+2022-05-03 01:42:04.910 +03:00 [INF] Handle on target page was called 46 times
+2022-05-03 01:42:04.995 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://www.ozon.ru/multimedia/books_covers/1000437392.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:05.068 +03:00 [INF] Load finished in 5691 ms
+2022-05-03 01:42:05.071 +03:00 [INF] Handle on target page was called 47 times
+2022-05-03 01:42:05.235 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://www.ozon.ru/multimedia/books_covers/r2861.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:05.709 +03:00 [INF] Load finished in 5158 ms
+2022-05-03 01:42:05.717 +03:00 [INF] Handle on target page was called 48 times
+2022-05-03 01:42:05.777 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i1.fastpic.ru/big/2009/1206/5c/d0e9202c603d04bf9a77f17562407c5c.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:06.207 +03:00 [INF] Load finished in 3778 ms
+2022-05-03 01:42:06.207 +03:00 [INF] Handle on target page was called 49 times
+2022-05-03 01:42:06.339 +03:00 [INF] Load finished in 4750 ms
+2022-05-03 01:42:06.389 +03:00 [INF] Handle on target page was called 50 times
+2022-05-03 01:42:06.390 +03:00 [INF] Load finished in 4003 ms
+2022-05-03 01:42:06.493 +03:00 [INF] Handle on target page was called 51 times
+2022-05-03 01:42:09.020 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://4put.ru/pictures/max/541/1662809.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:09.215 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i40.fastpic.ru/big/2012/0813/da/f4a9a811eb1b59f741ea3753734279da.png?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:09.217 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i116.fastpic.org/big/2022/0330/f1/b326e053d1736b641eb6a17a59ed4ef1.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:09.312 +03:00 [INF] Load finished in 6296 ms
+2022-05-03 01:42:09.334 +03:00 [INF] Load finished in 6111 ms
+2022-05-03 01:42:09.359 +03:00 [INF] Handle on target page was called 52 times
+2022-05-03 01:42:09.359 +03:00 [INF] Handle on target page was called 53 times
+2022-05-03 01:42:09.637 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://lib.aldebaran.ru/books/staronemeckii_yepos_/staronemeckii_yepos__pesn_o_nibelungah/cover.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:09.945 +03:00 [INF] Load finished in 5536 ms
+2022-05-03 01:42:09.945 +03:00 [INF] Handle on target page was called 54 times
+2022-05-03 01:42:09.997 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i51.fastpic.ru/big/2013/0105/90/1dc33bc3767d3e421020644807360d90.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:10.168 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i53.fastpic.ru/big/2013/0105/64/7783e7c687edb6946c05e9c373a8a264.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:11.610 +03:00 [INF] Load finished in 6613 ms
+2022-05-03 01:42:11.610 +03:00 [INF] Load finished in 2393 ms
+2022-05-03 01:42:11.611 +03:00 [INF] Handle on target page was called 55 times
+2022-05-03 01:42:11.611 +03:00 [INF] Handle on target page was called 56 times
+2022-05-03 01:42:11.633 +03:00 [INF] Load finished in 7047 ms
+2022-05-03 01:42:11.658 +03:00 [INF] Handle on target page was called 57 times
+2022-05-03 01:42:11.633 +03:00 [INF] Load finished in 2416 ms
+2022-05-03 01:42:11.715 +03:00 [INF] Handle on target page was called 58 times
+2022-05-03 01:42:11.905 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i48.fastpic.ru/big/2013/0429/cb/c01fa22a380f9ac675cbfdb7450e11cb.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:11.916 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i116.fastpic.org/big/2022/0124/fb/fc71bfce961c986e9ccf4f9cf6b3ecfb.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:12.013 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i116.fastpic.org/big/2022/0307/b9/e1ef1dce8fa318c37a1870dfd23131b9.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:12.116 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i4.fastpic.ru/big/2011/0130/4d/752a3ef3a92b01376d2e08b68f463b4d.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:12.429 +03:00 [INF] Load finished in 7155 ms
+2022-05-03 01:42:12.430 +03:00 [INF] Handle on target page was called 59 times
+2022-05-03 01:42:12.566 +03:00 [INF] Load finished in 2905 ms
+2022-05-03 01:42:12.592 +03:00 [INF] Handle on target page was called 60 times
+2022-05-03 01:42:13.407 +03:00 [INF] Load finished in 7583 ms
+2022-05-03 01:42:13.432 +03:00 [INF] Handle on target page was called 61 times
+2022-05-03 01:42:13.468 +03:00 [INF] Load finished in 4446 ms
+2022-05-03 01:42:13.468 +03:00 [INF] Handle on target page was called 62 times
+2022-05-03 01:42:13.552 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i58.fastpic.ru/big/2014/0112/60/f1dbc22a64127dcf8a90a68971de8c60.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:13.580 +03:00 [ERR] System.Exception: Cannot find element by selector $div.attach_link.guest>ul>li:nth-child(2).
+   at WebReaper.Domain.Parsing.Schema.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper.Domain/Parsing/Schema.cs:line 29
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:13.675 +03:00 [ERR] System.Exception: No href attribute found by selector .magnet-link in .
+   at WebReaper.Parsing.Url.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Url.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:13.739 +03:00 [INF] Load finished in 3634 ms
+2022-05-03 01:42:13.804 +03:00 [INF] Handle on target page was called 63 times
+2022-05-03 01:42:13.826 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:14.185 +03:00 [INF] Load finished in 4016 ms
+2022-05-03 01:42:14.186 +03:00 [INF] Handle on target page was called 64 times
+2022-05-03 01:42:14.747 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i116.fastpic.org/big/2022/0307/d0/b1269c6786109b485c51c6dc566dffd0.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:14.747 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i116.fastpic.org/big/2022/0126/8a/7b18318a8ee4efb359e102a6f474b78a.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:15.013 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i31.fastpic.ru/big/2012/0207/24/5c1dbd741ae09a0cedab144219bd5024.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:15.901 +03:00 [INF] Load finished in 3840 ms
+2022-05-03 01:42:15.930 +03:00 [INF] Handle on target page was called 65 times
+2022-05-03 01:42:16.024 +03:00 [INF] Load finished in 4086 ms
+2022-05-03 01:42:16.055 +03:00 [INF] Handle on target page was called 66 times
+2022-05-03 01:42:16.153 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i042.radikal.ru/1701/d4/a91e09730a6e.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:16.195 +03:00 [INF] Load finished in 4227 ms
+2022-05-03 01:42:16.195 +03:00 [INF] Handle on target page was called 67 times
+2022-05-03 01:42:16.365 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i117.fastpic.org/big/2022/0429/86/e01a2d46e68b44c258b37b972c3b7a86.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:17.309 +03:00 [INF] Load finished in 5158 ms
+2022-05-03 01:42:17.327 +03:00 [INF] Handle on target page was called 68 times
+2022-05-03 01:42:17.453 +03:00 [INF] Load finished in 4646 ms
+2022-05-03 01:42:17.454 +03:00 [INF] Handle on target page was called 69 times
+2022-05-03 01:42:17.828 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i114.fastpic.ru/big/2021/0525/61/e5adc02191a85390000d7a02dd789c61.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:18.068 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i80.fastpic.ru/big/2016/0413/aa/e06ab386fe22deb455aa539e34a857aa.png?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:18.147 +03:00 [INF] Load finished in 4297 ms
+2022-05-03 01:42:18.147 +03:00 [INF] Handle on target page was called 70 times
+2022-05-03 01:42:18.521 +03:00 [INF] Load finished in 3771 ms
+2022-05-03 01:42:18.527 +03:00 [INF] Handle on target page was called 71 times
+2022-05-03 01:42:18.628 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg" alt="pic" src="http://i2.fastpic.ru/big/2010/0306/74/44762a05511c7d7ad1aaf36f9d1a3974.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:18.740 +03:00 [INF] Load finished in 3991 ms
+2022-05-03 01:42:18.774 +03:00 [INF] Handle on target page was called 72 times
+2022-05-03 01:42:18.877 +03:00 [INF] Load finished in 5296 ms
+2022-05-03 01:42:18.877 +03:00 [INF] Handle on target page was called 73 times
+2022-05-03 01:42:18.985 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i47.fastpic.ru/big/2013/0706/64/25664b9d4d187195dad10afdae6f1764.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:19.090 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i1.fastpic.ru/big/2009/1225/84/87b5078342208abcebfa8629564fc784.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:19.791 +03:00 [INF] Load finished in 4776 ms
+2022-05-03 01:42:19.791 +03:00 [INF] Handle on target page was called 74 times
+2022-05-03 01:42:20.087 +03:00 [INF] Load finished in 4059 ms
+2022-05-03 01:42:20.106 +03:00 [INF] Handle on target page was called 75 times
+2022-05-03 01:42:20.136 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i3.imageban.ru/out/2021/04/29/dc1755ab8e501c848e36360e52c7cdff.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:20.197 +03:00 [INF] Load finished in 3830 ms
+2022-05-03 01:42:20.197 +03:00 [INF] Handle on target page was called 76 times
+2022-05-03 01:42:20.235 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i105.fastpic.ru/big/2018/0509/72/c5394a6194a9710b5b1030b3015fca72.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:21.455 +03:00 [INF] Load finished in 3627 ms
+2022-05-03 01:42:21.480 +03:00 [INF] Handle on target page was called 77 times
+2022-05-03 01:42:21.504 +03:00 [INF] Load finished in 5336 ms
+2022-05-03 01:42:21.504 +03:00 [INF] Handle on target page was called 78 times
+2022-05-03 01:42:21.637 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://d.radikal.ru/d33/2107/20/0b52d556fc07.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:21.638 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://s018.radikal.ru/i504/1605/af/766c6ab817e1.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:21.853 +03:00 [INF] Load finished in 3201 ms
+2022-05-03 01:42:21.853 +03:00 [INF] Handle on target page was called 79 times
+2022-05-03 01:42:22.133 +03:00 [INF] Load finished in 3986 ms
+2022-05-03 01:42:22.167 +03:00 [INF] Handle on target page was called 80 times
+2022-05-03 01:42:22.258 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://c.radikal.ru/c41/2010/71/08c87bd48579.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:22.455 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i42.fastpic.ru/big/2012/0708/47/24d5278463bc0fb59f98d5d78a03a647.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:22.500 +03:00 [INF] Load finished in 3384 ms
+2022-05-03 01:42:22.533 +03:00 [INF] Handle on target page was called 81 times
+2022-05-03 01:42:22.614 +03:00 [INF] Load finished in 3629 ms
+2022-05-03 01:42:22.638 +03:00 [INF] Handle on target page was called 82 times
+2022-05-03 01:42:22.766 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i101.fastpic.ru/big/2018/0112/5e/14783601d0fd9b4c97ef3cf69066575e.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:23.030 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i113.fastpic.ru/big/2020/0717/ac/ff8980e5c595ff6461d4eacdb3251fac.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:23.925 +03:00 [INF] Load finished in 3663 ms
+2022-05-03 01:42:23.925 +03:00 [INF] Handle on target page was called 83 times
+2022-05-03 01:42:24.137 +03:00 [INF] Load finished in 3881 ms
+2022-05-03 01:42:24.137 +03:00 [INF] Handle on target page was called 84 times
+2022-05-03 01:42:24.309 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i116.fastpic.org/big/2022/0221/eb/43dfd0ec54eefd66e57064a24fe9ddeb.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:25.052 +03:00 [INF] Load finished in 4889 ms
+2022-05-03 01:42:25.053 +03:00 [INF] Handle on target page was called 85 times
+2022-05-03 01:42:25.312 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i76.fastpic.ru/big/2016/0102/75/43cdf995255a4bf5dd7cf76dc1276e75.png?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:25.854 +03:00 [INF] Load finished in 4159 ms
+2022-05-03 01:42:25.862 +03:00 [INF] Handle on target page was called 86 times
+2022-05-03 01:42:25.895 +03:00 [INF] Load finished in 4257 ms
+2022-05-03 01:42:25.895 +03:00 [INF] Load finished in 3413 ms
+2022-05-03 01:42:25.944 +03:00 [INF] Handle on target page was called 88 times
+2022-05-03 01:42:25.917 +03:00 [INF] Handle on target page was called 87 times
+2022-05-03 01:42:25.995 +03:00 [INF] Load finished in 2962 ms
+2022-05-03 01:42:26.016 +03:00 [INF] Handle on target page was called 89 times
+2022-05-03 01:42:26.080 +03:00 [INF] Load finished in 3786 ms
+2022-05-03 01:42:26.102 +03:00 [INF] Handle on target page was called 90 times
+2022-05-03 01:42:26.103 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://www.ozon.ru/multimedia/books_covers/1000281461.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:26.133 +03:00 [INF] Load finished in 6320 ms
+2022-05-03 01:42:26.200 +03:00 [INF] Handle on target page was called 91 times
+2022-05-03 01:42:26.261 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-left" alt="pic" src="http://pustin.spb.ru/images/stories/tolstaya.png">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:26.262 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i116.fastpic.org/big/2022/0213/d4/3c6da24cf2fb9ae81eea27d4127773d4.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:26.456 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i10.fastpic.ru/big/2010/1005/39/315883c7e3a138dd65d7c2ef5aac5439.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:26.621 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i29.fastpic.ru/big/2012/0315/a8/786ee68e629d53d6ef65a10c04470da8.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:26.993 +03:00 [INF] Load finished in 4226 ms
+2022-05-03 01:42:27.017 +03:00 [INF] Handle on target page was called 92 times
+2022-05-03 01:42:27.088 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://s51.radikal.ru/i134/1007/e4/31c4f664a49a.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:27.544 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i1.fastpic.ru/big/2010/0106/2d/b11d8764deb4638fdfe2d04303feff2d.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:28.255 +03:00 [INF] Load finished in 3929 ms
+2022-05-03 01:42:28.280 +03:00 [INF] Handle on target page was called 93 times
+2022-05-03 01:42:28.502 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i31.fastpic.ru/big/2012/0204/bd/da0ed9fc5544c023103daba144dac7bd.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:28.591 +03:00 [INF] Load finished in 4645 ms
+2022-05-03 01:42:28.621 +03:00 [INF] Handle on target page was called 94 times
+2022-05-03 01:42:29.041 +03:00 [INF] Load finished in 3672 ms
+2022-05-03 01:42:29.041 +03:00 [INF] Handle on target page was called 95 times
+2022-05-03 01:42:29.271 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i111.fastpic.ru/big/2020/0123/7e/050f1cfff602cd95f52b4deaa43b9a7e.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:29.559 +03:00 [INF] Load finished in 3293 ms
+2022-05-03 01:42:29.560 +03:00 [INF] Load finished in 3392 ms
+2022-05-03 01:42:29.607 +03:00 [INF] Handle on target page was called 96 times
+2022-05-03 01:42:29.631 +03:00 [INF] Handle on target page was called 97 times
+2022-05-03 01:42:29.801 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i111.fastpic.ru/big/2020/0513/4c/16cb05e7dc1fded4cdc630665c2a0b4c.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:29.832 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i115.fastpic.org/big/2021/0907/46/792ee05ed2291babd03efd0844583746.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:30.421 +03:00 [INF] Load finished in 4155 ms
+2022-05-03 01:42:30.445 +03:00 [INF] Handle on target page was called 98 times
+2022-05-03 01:42:30.482 +03:00 [INF] Load finished in 3849 ms
+2022-05-03 01:42:30.516 +03:00 [INF] Handle on target page was called 99 times
+2022-05-03 01:42:30.583 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://www.ozon.ru/multimedia/books_covers/1001238140.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:30.626 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i105.fastpic.ru/big/2018/0724/5e/771ebdae4bf7b392a591e6a23cb74d5e.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:31.120 +03:00 [INF] Load finished in 3444 ms
+2022-05-03 01:42:31.120 +03:00 [INF] Handle on target page was called 100 times
+2022-05-03 01:42:31.306 +03:00 [INF] Load finished in 4807 ms
+2022-05-03 01:42:31.332 +03:00 [INF] Handle on target page was called 101 times
+2022-05-03 01:42:31.573 +03:00 [INF] Load finished in 4461 ms
+2022-05-03 01:42:31.573 +03:00 [INF] Handle on target page was called 102 times
+2022-05-03 01:42:31.822 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i111.fastpic.ru/big/2019/1210/7f/d2ec8ecc4a42d952fbeacb28f7418f7f.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:32.090 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img src="https://static.t-ru.org/smiles/tr_oops.gif" class="postImg postImgAligned img-right" alt="!">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:32.094 +03:00 [INF] Load finished in 3592 ms
+2022-05-03 01:42:32.095 +03:00 [INF] Handle on target page was called 103 times
+2022-05-03 01:42:32.698 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i116.fastpic.org/big/2022/0403/42/fa31e04732a210c198c5f2108d934242.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:34.060 +03:00 [INF] Load finished in 4496 ms
+2022-05-03 01:42:34.065 +03:00 [INF] Load finished in 2560 ms
+2022-05-03 01:42:34.065 +03:00 [INF] Handle on target page was called 104 times
+2022-05-03 01:42:34.075 +03:00 [INF] Load finished in 3449 ms
+2022-05-03 01:42:34.075 +03:00 [INF] Load finished in 4783 ms
+2022-05-03 01:42:34.084 +03:00 [INF] Handle on target page was called 106 times
+2022-05-03 01:42:34.083 +03:00 [INF] Handle on target page was called 105 times
+2022-05-03 01:42:34.084 +03:00 [INF] Handle on target page was called 107 times
+2022-05-03 01:42:34.431 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i59.fastpic.ru/big/2015/0416/30/dd9dc8834ab28a03a2596c92488e2230.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:34.460 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://img15.nnm.me/f/e/b/6/6/9bfd8ccbcd337aac6b70537e523.png">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:34.462 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i57.fastpic.ru/big/2014/0408/50/d96b31d47db59a51e2ab6acfcca3c750.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:34.764 +03:00 [INF] Load finished in 4931 ms
+2022-05-03 01:42:34.764 +03:00 [INF] Handle on target page was called 108 times
+2022-05-03 01:42:35.056 +03:00 [INF] Load finished in 3210 ms
+2022-05-03 01:42:35.057 +03:00 [INF] Handle on target page was called 109 times
+2022-05-03 01:42:35.081 +03:00 [INF] Load finished in 5279 ms
+2022-05-03 01:42:35.092 +03:00 [INF] Handle on target page was called 110 times
+2022-05-03 01:42:35.089 +03:00 [INF] Load finished in 4402 ms
+2022-05-03 01:42:35.175 +03:00 [INF] Handle on target page was called 111 times
+2022-05-03 01:42:35.269 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i111.fastpic.ru/big/2020/0403/cb/a921407d75ce277ef3f3611b6f9bbacb.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:35.713 +03:00 [INF] Load finished in 3620 ms
+2022-05-03 01:42:35.737 +03:00 [INF] Handle on target page was called 112 times
+2022-05-03 01:42:36.018 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i111.fastpic.ru/big/2019/1220/a2/92e8c5de3e40d8c8ca698634199120a2.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:36.019 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://s58.radikal.ru/i162/0909/eb/ce11ac0f0c99.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:36.019 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i53.fastpic.ru/big/2013/0223/db/9c81c1d2e5d8ed018af2977ba06bb5db.png?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:36.064 +03:00 [INF] Load finished in 3363 ms
+2022-05-03 01:42:36.067 +03:00 [INF] Handle on target page was called 113 times
+2022-05-03 01:42:36.710 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i104.fastpic.ru/big/2018/0514/7b/4b036b54a72cbc70a4f8e30e26b0c37b.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:37.497 +03:00 [INF] Load finished in 3403 ms
+2022-05-03 01:42:37.509 +03:00 [INF] Handle on target page was called 114 times
+2022-05-03 01:42:37.553 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://img-fotki.yandex.ru/get/4714/110047830.23/0_5e72f_cefee084_L.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:37.923 +03:00 [INF] Load finished in 3460 ms
+2022-05-03 01:42:37.933 +03:00 [INF] Handle on target page was called 115 times
+2022-05-03 01:42:37.993 +03:00 [INF] Load finished in 3508 ms
+2022-05-03 01:42:37.993 +03:00 [INF] Handle on target page was called 116 times
+2022-05-03 01:42:38.086 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i71.fastpic.ru/big/2015/0617/b2/87a5e9a6967645e4561e5710fa6876b2.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:38.145 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i25.fastpic.ru/big/2011/0802/b4/0146c99f7200a27aa9cd86ed1b6967b4.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:38.921 +03:00 [INF] Load finished in 2879 ms
+2022-05-03 01:42:38.921 +03:00 [INF] Handle on target page was called 117 times
+2022-05-03 01:42:38.998 +03:00 [INF] Load finished in 4455 ms
+2022-05-03 01:42:39.012 +03:00 [INF] Handle on target page was called 118 times
+2022-05-03 01:42:39.086 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i53.fastpic.ru/big/2013/0203/b3/80439ca8e6afc04f280029f8dc4b7bb3.jpeg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:39.555 +03:00 [INF] Load finished in 3893 ms
+2022-05-03 01:42:39.561 +03:00 [INF] Handle on target page was called 119 times
+2022-05-03 01:42:39.692 +03:00 [INF] Load finished in 3650 ms
+2022-05-03 01:42:39.713 +03:00 [INF] Handle on target page was called 120 times
+2022-05-03 01:42:40.005 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i116.fastpic.org/big/2022/0127/d9/12908e19437a664413e454e939e46fd9.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:40.446 +03:00 [INF] Load finished in 4425 ms
+2022-05-03 01:42:40.446 +03:00 [INF] Load finished in 3729 ms
+2022-05-03 01:42:40.515 +03:00 [INF] Handle on target page was called 122 times
+2022-05-03 01:42:40.492 +03:00 [INF] Handle on target page was called 121 times
+2022-05-03 01:42:40.972 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://s60.radikal.ru/i169/1109/93/6cf2a3305fc7.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:41.291 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i83.fastpic.ru/big/2016/1113/aa/726456298949a664b244e3040581c2aa.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:41.293 +03:00 [INF] Load finished in 3720 ms
+2022-05-03 01:42:41.327 +03:00 [INF] Handle on target page was called 123 times
+2022-05-03 01:42:41.601 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i1.fastpic.ru/big/2009/1224/2a/f61ba27f202f76567b59db27c801802a.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:41.917 +03:00 [INF] Load finished in 3810 ms
+2022-05-03 01:42:41.930 +03:00 [INF] Handle on target page was called 124 times
+2022-05-03 01:42:42.138 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://cv2.litres.ru/pub/c/audiokniga/cover_415/56044225-dzhon-trevin-nastavnik-uchitel-cesarevicha-alekseya-romanova-dnev-56044225.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:42.665 +03:00 [INF] Load finished in 7395 ms
+2022-05-03 01:42:42.666 +03:00 [INF] Handle on target page was called 125 times
+2022-05-03 01:42:42.838 +03:00 [INF] Load finished in 3907 ms
+2022-05-03 01:42:42.838 +03:00 [INF] Handle on target page was called 126 times
+2022-05-03 01:42:43.050 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i2.imageban.ru/out/2020/02/10/8e2e5a7b117d4882950dfb21a253e014.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:43.050 +03:00 [INF] Load finished in 3961 ms
+2022-05-03 01:42:43.057 +03:00 [INF] Handle on target page was called 127 times
+2022-05-03 01:42:43.054 +03:00 [INF] Load finished in 3048 ms
+2022-05-03 01:42:43.050 +03:00 [INF] Load finished in 4881 ms
+2022-05-03 01:42:43.065 +03:00 [INF] Handle on target page was called 128 times
+2022-05-03 01:42:43.073 +03:00 [INF] Handle on target page was called 129 times
+2022-05-03 01:42:43.319 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i30.fastpic.ru/big/2011/1129/10/dacb98c70f073c2f2ffb36ec402c7e10.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:43.523 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i109.fastpic.ru/big/2019/0526/0b/514d4fe4aea834c243b99c402d68b20b.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:43.591 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i61.fastpic.ru/big/2014/0524/50/95e69920d63d015a8126c7099bd7bd50.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:44.253 +03:00 [INF] Load finished in 3280 ms
+2022-05-03 01:42:44.285 +03:00 [INF] Handle on target page was called 130 times
+2022-05-03 01:42:44.540 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i111.fastpic.ru/big/2020/0328/cc/6132b2ba44f64b071ea45d767a39bccc.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:45.020 +03:00 [INF] Load finished in 3385 ms
+2022-05-03 01:42:45.049 +03:00 [INF] Handle on target page was called 131 times
+2022-05-03 01:42:45.049 +03:00 [INF] Load finished in 4433 ms
+2022-05-03 01:42:45.080 +03:00 [INF] Handle on target page was called 132 times
+2022-05-03 01:42:45.287 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i52.fastpic.ru/big/2013/0217/45/42ccd255f089cc1a90eb49e438d91645.png?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:46.521 +03:00 [INF] Load finished in 5201 ms
+2022-05-03 01:42:46.523 +03:00 [INF] Load finished in 3466 ms
+2022-05-03 01:42:46.568 +03:00 [INF] Handle on target page was called 133 times
+2022-05-03 01:42:46.589 +03:00 [INF] Handle on target page was called 134 times
+2022-05-03 01:42:46.589 +03:00 [INF] Load finished in 4451 ms
+2022-05-03 01:42:46.658 +03:00 [INF] Handle on target page was called 135 times
+2022-05-03 01:42:46.832 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg" alt="pic" src="http://i3.fastpic.ru/big/2009/1023/1a/f4a0101a4c3724ec4a80f749c24baa1a.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:46.889 +03:00 [INF] Load finished in 3569 ms
+2022-05-03 01:42:46.889 +03:00 [INF] Handle on target page was called 136 times
+2022-05-03 01:42:47.159 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i115.fastpic.org/big/2021/0905/d2/41c86c6869df1fc5f162f3aeba15c6d2.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:47.656 +03:00 [INF] Load finished in 3970 ms
+2022-05-03 01:42:47.688 +03:00 [INF] Handle on target page was called 137 times
+2022-05-03 01:42:47.687 +03:00 [INF] Load finished in 4102 ms
+2022-05-03 01:42:47.728 +03:00 [INF] Handle on target page was called 138 times
+2022-05-03 01:42:47.753 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i111.fastpic.ru/big/2020/0427/81/3f6c9a8a0d84433299f02a30092c4d81.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:47.808 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i57.fastpic.ru/big/2014/0122/4b/b1b927b85a832ce505ac827b5ed0684b.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:47.882 +03:00 [INF] Load finished in 4238 ms
+2022-05-03 01:42:47.896 +03:00 [INF] Handle on target page was called 139 times
+2022-05-03 01:42:48.586 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i114.fastpic.ru/big/2021/0421/fa/7533e1f3f78890e351011855f41eadfa.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:49.048 +03:00 [INF] Load finished in 3892 ms
+2022-05-03 01:42:49.079 +03:00 [INF] Handle on target page was called 140 times
+2022-05-03 01:42:49.079 +03:00 [INF] Load finished in 4537 ms
+2022-05-03 01:42:49.119 +03:00 [INF] Handle on target page was called 141 times
+2022-05-03 01:42:49.448 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i75.fastpic.ru/big/2015/1113/ea/36ccdec46a18ffc4fefc15f5a15f7eea.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:49.510 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i2.imageban.ru/out/2019/01/04/5fc1cad608aa857abfdda8c4a6ae8399.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:49.540 +03:00 [INF] Load finished in 4251 ms
+2022-05-03 01:42:49.565 +03:00 [INF] Handle on target page was called 142 times
+2022-05-03 01:42:49.870 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://www.umma.ru/shop/images/propovedi_mp3_1.gif">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:51.098 +03:00 [INF] Load finished in 4415 ms
+2022-05-03 01:42:51.098 +03:00 [INF] Handle on target page was called 143 times
+2022-05-03 01:42:51.184 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i91.fastpic.ru/big/2017/0404/3d/a08a60dc7ea7e37c06e7f122ba3bb83d.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:51.299 +03:00 [INF] Load finished in 4438 ms
+2022-05-03 01:42:51.299 +03:00 [INF] Handle on target page was called 144 times
+2022-05-03 01:42:51.361 +03:00 [INF] Load finished in 4197 ms
+2022-05-03 01:42:51.361 +03:00 [INF] Handle on target page was called 145 times
+2022-05-03 01:42:51.495 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i67.fastpic.ru/big/2015/0320/79/68a97856f91bb9923389888dac0ad479.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:51.648 +03:00 [INF] Load finished in 3061 ms
+2022-05-03 01:42:51.680 +03:00 [INF] Handle on target page was called 146 times
+2022-05-03 01:42:51.850 +03:00 [INF] Load finished in 5165 ms
+2022-05-03 01:42:51.900 +03:00 [INF] Handle on target page was called 147 times
+2022-05-03 01:42:51.900 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://www.ozon.ru/multimedia/books_covers/1000826250.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:51.983 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i115.fastpic.org/big/2021/0903/23/7ee51b3893234a727f9388c37e9f5b23.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:52.095 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i114.fastpic.ru/big/2021/0508/ff/931597f2c9bcb390b3999a02e631efff.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:52.606 +03:00 [INF] Load finished in 4827 ms
+2022-05-03 01:42:52.606 +03:00 [INF] Handle on target page was called 148 times
+2022-05-03 01:42:52.713 +03:00 [INF] Load finished in 4901 ms
+2022-05-03 01:42:52.713 +03:00 [INF] Handle on target page was called 149 times
+2022-05-03 01:42:52.740 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i112.fastpic.ru/big/2020/0516/e5/d3e2bda716ecbcdda0b197336491fae5.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:52.870 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i111.fastpic.ru/big/2020/0209/f0/3080fab967a79b19628434ab5072ebf0.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:53.600 +03:00 [INF] Load finished in 3652 ms
+2022-05-03 01:42:53.600 +03:00 [INF] Handle on target page was called 150 times
+2022-05-03 01:42:53.634 +03:00 [INF] Load finished in 4126 ms
+2022-05-03 01:42:53.656 +03:00 [INF] Handle on target page was called 151 times
+2022-05-03 01:42:53.657 +03:00 [INF] Load finished in 4032 ms
+2022-05-03 01:42:53.658 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://img-fotki.yandex.ru/get/4421/50648532.5/0_7118e_e099548c_L.jpg">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:53.720 +03:00 [INF] Handle on target page was called 152 times
+2022-05-03 01:42:53.769 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="http://i50.fastpic.ru/big/2012/1208/5c/8e0f4054c6676f4b872d23e76212665c.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:42:54.029 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i112.fastpic.ru/big/2020/0613/76/b9ef7bfea121174abee3ab2d9cc7c876.jpg?r=1">.
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53

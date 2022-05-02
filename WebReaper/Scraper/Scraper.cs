@@ -196,9 +196,10 @@ public class Scraper : IScraper
             LinkParser,
             ContentParser,
             SiteLinkTracker,
+            new HttpPageLoader(httpClient.Value),
+            new PuppeteerPageLoader(Logger),
             JobQueueReader,
             JobQueueWriter,
-            httpClient.Value,
             Logger)
         .IgnoreUrls(this.urlBlackList)
         .Limit(limit);
