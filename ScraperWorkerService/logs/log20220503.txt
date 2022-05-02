@@ -949,3 +949,190 @@ PuppeteerSharp.NavigationException: Navigation failed because browser has discon
 2022-05-03 01:42:54.029 +03:00 [ERR] System.Exception: Cannot find image link by selector .postImg in <img class="postImg postImgAligned img-right" alt="pic" src="https://i112.fastpic.ru/big/2020/0613/76/b9ef7bfea121174abee3ab2d9cc7c876.jpg?r=1">.
    at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
    at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-03 01:50:44.065 +03:00 [INF] Load finished in 620 ms
+2022-05-03 01:50:44.168 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+Microsoft.Playwright.PlaywrightException: Executable doesn't exist at /Users/alex/Library/Caches/ms-playwright/chromium-1000/chrome-mac/Chromium.app/Contents/MacOS/Chromium
+╔═════════════════════════════════════════════════════════════════════════╗
+║ Looks like Playwright Test or Playwright was just installed or updated. ║
+║ Please run the following command to download new browsers:              ║
+║                                                                         ║
+║     pwsh bin\Debug\netX\playwright.ps1 install                          ║
+║                                                                         ║
+║ <3 Playwright Team                                                      ║
+╚═════════════════════════════════════════════════════════════════════════╝
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](String guid, String method, Object args) in /_/src/Playwright/Transport/Connection.cs:line 164
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal)
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 61
+   at PlaywrightPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/PlaywrightPageLoader.cs:line 20
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 01:50:44.488 +03:00 [INF] Load finished in 316 ms
+2022-05-03 01:50:44.545 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+Microsoft.Playwright.PlaywrightException: Executable doesn't exist at /Users/alex/Library/Caches/ms-playwright/chromium-1000/chrome-mac/Chromium.app/Contents/MacOS/Chromium
+╔═════════════════════════════════════════════════════════════════════════╗
+║ Looks like Playwright Test or Playwright was just installed or updated. ║
+║ Please run the following command to download new browsers:              ║
+║                                                                         ║
+║     pwsh bin\Debug\netX\playwright.ps1 install                          ║
+║                                                                         ║
+║ <3 Playwright Team                                                      ║
+╚═════════════════════════════════════════════════════════════════════════╝
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](String guid, String method, Object args) in /_/src/Playwright/Transport/Connection.cs:line 164
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal)
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 61
+   at PlaywrightPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/PlaywrightPageLoader.cs:line 20
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 01:50:44.853 +03:00 [INF] Load finished in 307 ms
+2022-05-03 01:50:44.910 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+Microsoft.Playwright.PlaywrightException: Executable doesn't exist at /Users/alex/Library/Caches/ms-playwright/chromium-1000/chrome-mac/Chromium.app/Contents/MacOS/Chromium
+╔═════════════════════════════════════════════════════════════════════════╗
+║ Looks like Playwright Test or Playwright was just installed or updated. ║
+║ Please run the following command to download new browsers:              ║
+║                                                                         ║
+║     pwsh bin\Debug\netX\playwright.ps1 install                          ║
+║                                                                         ║
+║ <3 Playwright Team                                                      ║
+╚═════════════════════════════════════════════════════════════════════════╝
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](String guid, String method, Object args) in /_/src/Playwright/Transport/Connection.cs:line 164
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal)
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 61
+   at PlaywrightPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/PlaywrightPageLoader.cs:line 20
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 01:50:45.218 +03:00 [INF] Load finished in 306 ms
+2022-05-03 01:50:45.275 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+Microsoft.Playwright.PlaywrightException: Executable doesn't exist at /Users/alex/Library/Caches/ms-playwright/chromium-1000/chrome-mac/Chromium.app/Contents/MacOS/Chromium
+╔═════════════════════════════════════════════════════════════════════════╗
+║ Looks like Playwright Test or Playwright was just installed or updated. ║
+║ Please run the following command to download new browsers:              ║
+║                                                                         ║
+║     pwsh bin\Debug\netX\playwright.ps1 install                          ║
+║                                                                         ║
+║ <3 Playwright Team                                                      ║
+╚═════════════════════════════════════════════════════════════════════════╝
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](String guid, String method, Object args) in /_/src/Playwright/Transport/Connection.cs:line 164
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal)
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 61
+   at PlaywrightPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/PlaywrightPageLoader.cs:line 20
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 01:50:45.586 +03:00 [INF] Load finished in 310 ms
+2022-05-03 01:50:45.640 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+Microsoft.Playwright.PlaywrightException: Executable doesn't exist at /Users/alex/Library/Caches/ms-playwright/chromium-1000/chrome-mac/Chromium.app/Contents/MacOS/Chromium
+╔═════════════════════════════════════════════════════════════════════════╗
+║ Looks like Playwright Test or Playwright was just installed or updated. ║
+║ Please run the following command to download new browsers:              ║
+║                                                                         ║
+║     pwsh bin\Debug\netX\playwright.ps1 install                          ║
+║                                                                         ║
+║ <3 Playwright Team                                                      ║
+╚═════════════════════════════════════════════════════════════════════════╝
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](String guid, String method, Object args) in /_/src/Playwright/Transport/Connection.cs:line 164
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal)
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 61
+   at PlaywrightPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/PlaywrightPageLoader.cs:line 20
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 01:50:46.004 +03:00 [INF] Load finished in 363 ms
+2022-05-03 01:50:46.056 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+Microsoft.Playwright.PlaywrightException: Executable doesn't exist at /Users/alex/Library/Caches/ms-playwright/chromium-1000/chrome-mac/Chromium.app/Contents/MacOS/Chromium
+╔═════════════════════════════════════════════════════════════════════════╗
+║ Looks like Playwright Test or Playwright was just installed or updated. ║
+║ Please run the following command to download new browsers:              ║
+║                                                                         ║
+║     pwsh bin\Debug\netX\playwright.ps1 install                          ║
+║                                                                         ║
+║ <3 Playwright Team                                                      ║
+╚═════════════════════════════════════════════════════════════════════════╝
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](String guid, String method, Object args) in /_/src/Playwright/Transport/Connection.cs:line 164
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal)
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 61
+   at PlaywrightPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/PlaywrightPageLoader.cs:line 20
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 01:50:46.391 +03:00 [INF] Load finished in 333 ms
+2022-05-03 01:50:46.444 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+Microsoft.Playwright.PlaywrightException: Executable doesn't exist at /Users/alex/Library/Caches/ms-playwright/chromium-1000/chrome-mac/Chromium.app/Contents/MacOS/Chromium
+╔═════════════════════════════════════════════════════════════════════════╗
+║ Looks like Playwright Test or Playwright was just installed or updated. ║
+║ Please run the following command to download new browsers:              ║
+║                                                                         ║
+║     pwsh bin\Debug\netX\playwright.ps1 install                          ║
+║                                                                         ║
+║ <3 Playwright Team                                                      ║
+╚═════════════════════════════════════════════════════════════════════════╝
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](String guid, String method, Object args) in /_/src/Playwright/Transport/Connection.cs:line 164
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal)
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 61
+   at PlaywrightPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/PlaywrightPageLoader.cs:line 20
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 01:50:46.761 +03:00 [INF] Load finished in 316 ms
+2022-05-03 01:50:46.816 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+Microsoft.Playwright.PlaywrightException: Executable doesn't exist at /Users/alex/Library/Caches/ms-playwright/chromium-1000/chrome-mac/Chromium.app/Contents/MacOS/Chromium
+╔═════════════════════════════════════════════════════════════════════════╗
+║ Looks like Playwright Test or Playwright was just installed or updated. ║
+║ Please run the following command to download new browsers:              ║
+║                                                                         ║
+║     pwsh bin\Debug\netX\playwright.ps1 install                          ║
+║                                                                         ║
+║ <3 Playwright Team                                                      ║
+╚═════════════════════════════════════════════════════════════════════════╝
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](String guid, String method, Object args) in /_/src/Playwright/Transport/Connection.cs:line 164
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal)
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 61
+   at PlaywrightPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/PlaywrightPageLoader.cs:line 20
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 01:50:47.167 +03:00 [INF] Load finished in 350 ms
+2022-05-03 01:50:47.221 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+Microsoft.Playwright.PlaywrightException: Executable doesn't exist at /Users/alex/Library/Caches/ms-playwright/chromium-1000/chrome-mac/Chromium.app/Contents/MacOS/Chromium
+╔═════════════════════════════════════════════════════════════════════════╗
+║ Looks like Playwright Test or Playwright was just installed or updated. ║
+║ Please run the following command to download new browsers:              ║
+║                                                                         ║
+║     pwsh bin\Debug\netX\playwright.ps1 install                          ║
+║                                                                         ║
+║ <3 Playwright Team                                                      ║
+╚═════════════════════════════════════════════════════════════════════════╝
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](String guid, String method, Object args) in /_/src/Playwright/Transport/Connection.cs:line 164
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal)
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 61
+   at PlaywrightPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/PlaywrightPageLoader.cs:line 20
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 01:50:47.535 +03:00 [INF] Load finished in 313 ms
+2022-05-03 01:50:47.585 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+Microsoft.Playwright.PlaywrightException: Executable doesn't exist at /Users/alex/Library/Caches/ms-playwright/chromium-1000/chrome-mac/Chromium.app/Contents/MacOS/Chromium
+╔═════════════════════════════════════════════════════════════════════════╗
+║ Looks like Playwright Test or Playwright was just installed or updated. ║
+║ Please run the following command to download new browsers:              ║
+║                                                                         ║
+║     pwsh bin\Debug\netX\playwright.ps1 install                          ║
+║                                                                         ║
+║ <3 Playwright Team                                                      ║
+╚═════════════════════════════════════════════════════════════════════════╝
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](String guid, String method, Object args) in /_/src/Playwright/Transport/Connection.cs:line 164
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal)
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 61
+   at PlaywrightPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/PlaywrightPageLoader.cs:line 20
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 01:50:47.891 +03:00 [INF] Load finished in 305 ms
+2022-05-03 01:50:47.941 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+Microsoft.Playwright.PlaywrightException: Executable doesn't exist at /Users/alex/Library/Caches/ms-playwright/chromium-1000/chrome-mac/Chromium.app/Contents/MacOS/Chromium
+╔═════════════════════════════════════════════════════════════════════════╗
+║ Looks like Playwright Test or Playwright was just installed or updated. ║
+║ Please run the following command to download new browsers:              ║
+║                                                                         ║
+║     pwsh bin\Debug\netX\playwright.ps1 install                          ║
+║                                                                         ║
+║ <3 Playwright Team                                                      ║
+╚═════════════════════════════════════════════════════════════════════════╝
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](String guid, String method, Object args) in /_/src/Playwright/Transport/Connection.cs:line 164
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal)
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 61
+   at PlaywrightPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/PlaywrightPageLoader.cs:line 20
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
