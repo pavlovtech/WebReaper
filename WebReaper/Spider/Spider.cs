@@ -2,8 +2,6 @@ using System.Collections.Immutable;
 using Microsoft.Extensions.Logging;
 using WebReaper.Domain;
 using WebReaper.Extensions;
-using System.Net;
-using System.Text;
 using WebReaper.LinkTracker.Abstract;
 using WebReaper.Abastracts.Spider;
 using WebReaper.Abstractions.Parsers;
@@ -11,17 +9,20 @@ using WebReaper.Absctracts.Sinks;
 using WebReaper.Domain.Selectors;
 using WebReaper.Abstractions.JobQueue;
 using WebReaper.Domain.Parsing;
+using WebReaper.Abstractions.Loaders.PageLoader;
 
 namespace WebReaper.Spider;
 
 public class Spider : ISpider
 {
+    protected IPageLoader StaticPageLoader { get; init; }
+    protected IPageLoader SpaPageLoader { get; init; }
+
     protected ILinkParser LinkParser { get; init; }
     protected IContentParser ContentParser { get; init; }
     protected ILinkTracker LinkTracker { get; init; }
     protected IJobQueueReader JobQueueReader { get; init; }
     protected IJobQueueWriter JobQueueWriter { get; init; }
-    protected HttpClient HttpClient { get; init; }
     protected ILogger Logger { get; init; }
 
     protected string[] UrlBlackList { get; set; } = Array.Empty<string>();
@@ -35,22 +36,20 @@ public class Spider : ISpider
         ILinkParser linkParser,
         IContentParser contentParser,
         ILinkTracker linkTracker,
+        IPageLoader staticPageLoader,
+        IPageLoader spaPageLoader,
         IJobQueueReader jobQueueReader,
         IJobQueueWriter jobQueueWriter,
-        HttpClient httpClient,
         ILogger logger)
     {
-        ServicePointManager.DefaultConnectionLimit = int.MaxValue;
-        ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
-        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-        
         Sinks = sinks;
         LinkParser = linkParser;
         ContentParser = contentParser;
         LinkTracker = linkTracker;
+        this.StaticPageLoader = staticPageLoader;
+        this.SpaPageLoader = spaPageLoader;
         JobQueueReader = jobQueueReader;
         JobQueueWriter = jobQueueWriter;
-        HttpClient = httpClient;
 
         Logger = logger;
     }
@@ -98,7 +97,13 @@ public class Spider : ISpider
 
         LinkTracker.AddVisitedLink(job.BaseUrl, job.Url);
 
-        var doc = await HttpClient.GetStringAsync(job.Url);
+        string doc;
+
+        if (job.pageType == PageType.Static) {
+            doc = await StaticPageLoader.Load(job.Url);
+        } else {
+            doc = await SpaPageLoader.Load(job.Url);
+        }
 
         if (job.PageCategory == PageCategory.TargetPage)
         {
