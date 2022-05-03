@@ -1136,3 +1136,637 @@ Microsoft.Playwright.PlaywrightException: Executable doesn't exist at /Users/ale
    at PlaywrightPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/PlaywrightPageLoader.cs:line 20
    at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
    at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:47.083 +03:00 [INF] Load finished in 311 ms
+2022-05-03 17:44:47.210 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:47.294 +03:00 [INF] Load finished in 42 ms
+2022-05-03 17:44:47.365 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:47.405 +03:00 [INF] Load finished in 39 ms
+2022-05-03 17:44:47.490 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:47.533 +03:00 [INF] Load finished in 42 ms
+2022-05-03 17:44:47.597 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:47.639 +03:00 [INF] Load finished in 41 ms
+2022-05-03 17:44:47.701 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:47.740 +03:00 [INF] Load finished in 38 ms
+2022-05-03 17:44:47.802 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:47.843 +03:00 [INF] Load finished in 40 ms
+2022-05-03 17:44:47.937 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:47.977 +03:00 [INF] Load finished in 38 ms
+2022-05-03 17:44:48.039 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:48.079 +03:00 [INF] Load finished in 39 ms
+2022-05-03 17:44:48.141 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:48.184 +03:00 [INF] Load finished in 42 ms
+2022-05-03 17:44:48.246 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:48.390 +03:00 [INF] Load finished in 143 ms
+2022-05-03 17:44:48.490 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:48.531 +03:00 [INF] Load finished in 40 ms
+2022-05-03 17:44:48.593 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:48.634 +03:00 [INF] Load finished in 40 ms
+2022-05-03 17:44:48.696 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:48.780 +03:00 [INF] Load finished in 83 ms
+2022-05-03 17:44:48.831 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:48.876 +03:00 [INF] Load finished in 43 ms
+2022-05-03 17:44:48.940 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:48.983 +03:00 [INF] Load finished in 41 ms
+2022-05-03 17:44:49.046 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:49.131 +03:00 [INF] Load finished in 84 ms
+2022-05-03 17:44:49.197 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:49.240 +03:00 [INF] Load finished in 42 ms
+2022-05-03 17:44:49.303 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:49.343 +03:00 [INF] Load finished in 39 ms
+2022-05-03 17:44:49.405 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:49.446 +03:00 [INF] Load finished in 40 ms
+2022-05-03 17:44:49.510 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:49.552 +03:00 [INF] Load finished in 40 ms
+2022-05-03 17:44:49.616 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:49.659 +03:00 [INF] Load finished in 42 ms
+2022-05-03 17:44:49.721 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:49.764 +03:00 [INF] Load finished in 42 ms
+2022-05-03 17:44:49.826 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:49.907 +03:00 [INF] Load finished in 80 ms
+2022-05-03 17:44:49.969 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:50.008 +03:00 [INF] Load finished in 38 ms
+2022-05-03 17:44:50.067 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:50.106 +03:00 [INF] Load finished in 38 ms
+2022-05-03 17:44:50.165 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:50.206 +03:00 [INF] Load finished in 41 ms
+2022-05-03 17:44:50.268 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:50.316 +03:00 [INF] Load finished in 47 ms
+2022-05-03 17:44:50.377 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:50.417 +03:00 [INF] Load finished in 40 ms
+2022-05-03 17:44:50.474 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:50.514 +03:00 [INF] Load finished in 38 ms
+2022-05-03 17:44:50.571 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:50.611 +03:00 [INF] Load finished in 40 ms
+2022-05-03 17:44:50.666 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:50.704 +03:00 [INF] Load finished in 37 ms
+2022-05-03 17:44:50.764 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:50.818 +03:00 [INF] Load finished in 50 ms
+2022-05-03 17:44:50.876 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:44:50.924 +03:00 [INF] Load finished in 47 ms
+2022-05-03 17:44:50.980 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:31.357 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-03 17:46:31.481 +03:00 [INF] Load finished in 194 ms
+2022-05-03 17:46:31.503 +03:00 [INF] Hosting environment: Development
+2022-05-03 17:46:31.504 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-05-03 17:46:31.571 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:31.656 +03:00 [INF] Load finished in 50 ms
+2022-05-03 17:46:31.718 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:31.758 +03:00 [INF] Load finished in 39 ms
+2022-05-03 17:46:31.819 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:31.859 +03:00 [INF] Load finished in 39 ms
+2022-05-03 17:46:31.938 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:32.064 +03:00 [INF] Load finished in 125 ms
+2022-05-03 17:46:32.125 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:32.213 +03:00 [INF] Load finished in 85 ms
+2022-05-03 17:46:32.276 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:32.313 +03:00 [INF] Load finished in 37 ms
+2022-05-03 17:46:32.376 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:32.418 +03:00 [INF] Load finished in 41 ms
+2022-05-03 17:46:32.478 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:32.517 +03:00 [INF] Load finished in 37 ms
+2022-05-03 17:46:32.579 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:32.620 +03:00 [INF] Load finished in 40 ms
+2022-05-03 17:46:32.682 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:32.720 +03:00 [INF] Load finished in 37 ms
+2022-05-03 17:46:32.785 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:32.825 +03:00 [INF] Load finished in 39 ms
+2022-05-03 17:46:32.888 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:32.933 +03:00 [INF] Load finished in 44 ms
+2022-05-03 17:46:32.998 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:33.039 +03:00 [INF] Load finished in 41 ms
+2022-05-03 17:46:33.139 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:33.181 +03:00 [INF] Load finished in 42 ms
+2022-05-03 17:46:33.244 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:33.312 +03:00 [INF] Load finished in 68 ms
+2022-05-03 17:46:33.362 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:33.402 +03:00 [INF] Load finished in 38 ms
+2022-05-03 17:46:33.464 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:33.507 +03:00 [INF] Load finished in 41 ms
+2022-05-03 17:46:33.571 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:33.615 +03:00 [INF] Load finished in 42 ms
+2022-05-03 17:46:33.680 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:33.721 +03:00 [INF] Load finished in 40 ms
+2022-05-03 17:46:33.783 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:33.824 +03:00 [INF] Load finished in 40 ms
+2022-05-03 17:46:33.888 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:33.934 +03:00 [INF] Load finished in 46 ms
+2022-05-03 17:46:33.998 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:34.059 +03:00 [INF] Load finished in 60 ms
+2022-05-03 17:46:34.124 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:34.166 +03:00 [INF] Load finished in 41 ms
+2022-05-03 17:46:34.225 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:34.266 +03:00 [INF] Load finished in 40 ms
+2022-05-03 17:46:34.325 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:34.364 +03:00 [INF] Load finished in 38 ms
+2022-05-03 17:46:34.426 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:34.468 +03:00 [INF] Load finished in 40 ms
+2022-05-03 17:46:34.530 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:34.570 +03:00 [INF] Load finished in 39 ms
+2022-05-03 17:46:34.624 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:34.661 +03:00 [INF] Load finished in 37 ms
+2022-05-03 17:46:34.716 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:34.754 +03:00 [INF] Load finished in 38 ms
+2022-05-03 17:46:34.811 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:34.849 +03:00 [INF] Load finished in 37 ms
+2022-05-03 17:46:34.906 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:34.943 +03:00 [INF] Load finished in 36 ms
+2022-05-03 17:46:34.997 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:35.035 +03:00 [INF] Load finished in 34 ms
+2022-05-03 17:46:35.153 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:35.214 +03:00 [INF] Load finished in 60 ms
+2022-05-03 17:46:35.272 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:35.311 +03:00 [INF] Load finished in 38 ms
+2022-05-03 17:46:35.367 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:35.407 +03:00 [INF] Load finished in 39 ms
+2022-05-03 17:46:35.485 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:35.537 +03:00 [INF] Load finished in 51 ms
+2022-05-03 17:46:35.597 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:35.634 +03:00 [INF] Load finished in 36 ms
+2022-05-03 17:46:35.693 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:35.729 +03:00 [INF] Load finished in 36 ms
+2022-05-03 17:46:35.786 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:35.826 +03:00 [INF] Load finished in 39 ms
+2022-05-03 17:46:35.886 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:35.928 +03:00 [INF] Load finished in 42 ms
+2022-05-03 17:46:35.987 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:36.026 +03:00 [INF] Load finished in 39 ms
+2022-05-03 17:46:36.083 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:46:36.123 +03:00 [INF] Load finished in 39 ms
+2022-05-03 17:50:40.368 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-03 17:50:40.469 +03:00 [INF] Hosting environment: Development
+2022-05-03 17:50:40.471 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-05-03 17:50:50.496 +03:00 [INF] Load finished in 10218 ms
+2022-05-03 17:50:50.571 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 504 (Gateway Time-out).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76
+2022-05-03 17:51:18.737 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-03 17:51:18.814 +03:00 [INF] Hosting environment: Development
+2022-05-03 17:51:18.816 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-05-03 17:51:48.892 +03:00 [INF] Load finished in 30220 ms
+2022-05-03 17:51:48.971 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 504 (Gateway Time-out).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at WebReaper.Loaders.SplashPageLoader.Load(String url) in /Users/alex/Development/WebReaper/WebReaper/Loaders/SplashPageLoader.cs:line 28
+   at WebReaper.Spider.Spider.Handle(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 105
+   at WebReaper.Spider.Spider.Crawl() in /Users/alex/Development/WebReaper/WebReaper/Spider/Spider.cs:line 76

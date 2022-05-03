@@ -3,6 +3,8 @@ using PuppeteerSharp;
 using WebReaper.Abstractions.Loaders.PageLoader;
 using WebReaper.Extensions;
 
+namespace WebReaper.Loaders;
+
 public class PuppeteerPageLoader : IPageLoader
 {
     private ILogger _logger { get; }
