@@ -16,6 +16,7 @@ using WebReaper.Queue;
 using WebReaper.Sinks;
 using WebReaper.Domain.Parsing;
 using WebReaper.LinkTracker.Concrete;
+using WebReaper.Loaders;
 
 namespace WebReaper.Scraper;
 
@@ -196,7 +197,7 @@ public class Scraper : IScraper
             LinkParser,
             ContentParser,
             SiteLinkTracker,
-            new HttpPageLoader(httpClient.Value),
+            new HttpPageLoader(httpClient.Value, Logger),
             new PuppeteerPageLoader(Logger),
             JobQueueReader,
             JobQueueWriter,
