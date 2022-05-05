@@ -46,8 +46,8 @@ public class Spider : ISpider
         LinkParser = linkParser;
         ContentParser = contentParser;
         LinkTracker = linkTracker;
-        this.StaticPageLoader = staticPageLoader;
-        this.SpaPageLoader = spaPageLoader;
+        StaticPageLoader = staticPageLoader;
+        SpaPageLoader = spaPageLoader;
         JobQueueReader = jobQueueReader;
         JobQueueWriter = jobQueueWriter;
 
