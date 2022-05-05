@@ -17,7 +17,6 @@ public class Spider : ISpider
 {
     public IPageLoader StaticPageLoader { get; init; }
     public IPageLoader SpaPageLoader { get; init; }
-
     public ILinkParser LinkParser { get; init; }
     public IContentParser ContentParser { get; init; }
     public ILinkTracker LinkTracker { get; init; }
@@ -62,7 +61,7 @@ public class Spider : ISpider
         {
             try
             {
-                await Handle(job);
+                await HandleAsync(job);
             }
             catch (Exception ex)
             {
@@ -74,7 +73,7 @@ public class Spider : ISpider
         }
     }
 
-    protected async Task Handle(Job job)
+    protected async Task HandleAsync(Job job)
     {
         if (UrlBlackList.Contains(job.Url)) return;
 
