@@ -68,7 +68,7 @@ public class Scraper
 
     protected Lazy<HttpClient> httpClient = new(() => new(httpHandler));
 
-    protected string[] urlBlackList = Array.Empty<string>();
+    protected List<string> urlBlackList = new();
 
     protected int ParallelismDegree { get; private set; } = 1;
 
@@ -130,7 +130,7 @@ public class Scraper
 
     public Scraper IgnoreUrls(params string[] urls)
     {
-        this.urlBlackList = urls;
+        this.urlBlackList.AddRange(urls);
         return this;
     }
 
