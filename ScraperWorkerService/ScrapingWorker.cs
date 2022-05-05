@@ -1,5 +1,4 @@
-﻿using WebReaper.Abstractions.Scraper;
-using WebReaper.Domain.Parsing;
+﻿using WebReaper.Domain.Parsing;
 using WebReaper.Parsing;
 using WebReaper.Scraper;
 
@@ -9,7 +8,7 @@ public class ScrapingWorker : BackgroundService
 {
     private readonly ILogger<ScrapingWorker> _logger;
 
-    private IScraper scraper;
+    private Scraper scraper;
     public ScrapingWorker(ILogger<ScrapingWorker> logger)
     {
         _logger = logger;

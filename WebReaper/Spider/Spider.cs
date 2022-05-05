@@ -15,21 +15,22 @@ namespace WebReaper.Spider;
 
 public class Spider : ISpider
 {
-    protected IPageLoader StaticPageLoader { get; init; }
-    protected IPageLoader SpaPageLoader { get; init; }
+    public IPageLoader StaticPageLoader { get; init; }
+    public IPageLoader SpaPageLoader { get; init; }
 
-    protected ILinkParser LinkParser { get; init; }
-    protected IContentParser ContentParser { get; init; }
-    protected ILinkTracker LinkTracker { get; init; }
-    protected IJobQueueReader JobQueueReader { get; init; }
-    protected IJobQueueWriter JobQueueWriter { get; init; }
+    public ILinkParser LinkParser { get; init; }
+    public IContentParser ContentParser { get; init; }
+    public ILinkTracker LinkTracker { get; init; }
+    public IJobQueueReader JobQueueReader { get; init; }
+    public IJobQueueWriter JobQueueWriter { get; init; }
+
+    public List<string> UrlBlackList { get; set; } = new();
+
+    public int PageCrawlLimit { get; set; } = int.MaxValue;
+
+    public List<IScraperSink> Sinks { get; init; } = new();
+
     protected ILogger Logger { get; init; }
-
-    protected string[] UrlBlackList { get; set; } = Array.Empty<string>();
-
-    protected int PageCrawlLimit { get; set; } = int.MaxValue;
-
-    public List<IScraperSink> Sinks { get; set; }
 
     public Spider(
         List<IScraperSink> sinks,
@@ -54,20 +55,8 @@ public class Spider : ISpider
         Logger = logger;
     }
 
-    public ISpider IgnoreUrls(params string[] urlBlackList)
-    {
-        this.UrlBlackList = urlBlackList;
-        return this;
-    }
 
-    public ISpider Limit(int limit)
-    {
-        this.PageCrawlLimit = limit;
-        return this;
-    }
-
-
-    public async Task Crawl()
+    public async Task CrawlAsync()
     {
         foreach (var job in JobQueueReader.Read())
         {
