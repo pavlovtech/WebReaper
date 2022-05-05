@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using WebReaper.Domain;
 using Microsoft.Extensions.Logging;
-using WebReaper.Abstractions.Scraper;
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using System.Net.Security;
@@ -20,9 +19,7 @@ using WebReaper.Loaders;
 
 namespace WebReaper.Scraper;
 
-// anglesharpjs
-// puppeter
-public class Scraper : IScraper
+public class Scraper
 {
     public List<IScraperSink> Sinks { get; protected set; } = new(); 
 
@@ -84,7 +81,7 @@ public class Scraper : IScraper
         JobQueueWriter = new JobQueueWriter(jobs);
     }
 
-    public IScraper WithStartUrl(string startUrl)
+    public Scraper WithStartUrl(string startUrl)
     {
         this.startUrl = startUrl;
 
@@ -98,7 +95,7 @@ public class Scraper : IScraper
         return this;
     }
 
-    public IScraper Authorize(Func<CookieContainer> authorize)
+    public Scraper Authorize(Func<CookieContainer> authorize)
     {
         var CookieContainer = authorize();
 
@@ -107,7 +104,7 @@ public class Scraper : IScraper
         return this;
     }
 
-    public IScraper FollowLinks(
+    public Scraper FollowLinks(
         string linkSelector,
         SelectorType selectorType = SelectorType.Css,
         PageType pageType = PageType.Static)
@@ -116,50 +113,50 @@ public class Scraper : IScraper
         return this;
     }
 
-    public IScraper FollowLinks(string linkSelector, string paginationSelector, SelectorType selectorType = SelectorType.Css, PageType pageType = PageType.Static)
+    public Scraper FollowLinks(string linkSelector, string paginationSelector, SelectorType selectorType = SelectorType.Css, PageType pageType = PageType.Static)
     {
         linkPathSelectors.Add(new(linkSelector, SelectorType: selectorType, PageType: pageType));
         return this;
     }
 
-    public IScraper AddSink(IScraperSink sink)
+    public Scraper AddSink(IScraperSink sink)
     {
         this.Sinks.Add(sink);
 
         return this;
     }
 
-    public IScraper IgnoreUrls(params string[] urls)
+    public Scraper IgnoreUrls(params string[] urls)
     {
         this.urlBlackList = urls;
         return this;
     }
 
-    public IScraper WithScheme(Schema schema)
+    public Scraper WithScheme(Schema schema)
     {
         this.schema = schema;
         return this;
     }
 
-    public IScraper WithParallelismDegree(int parallelismDegree)
+    public Scraper WithParallelismDegree(int parallelismDegree)
     {
         this.ParallelismDegree = parallelismDegree;
         return this;
     }
 
-    public IScraper Limit(int limit)
+    public Scraper Limit(int limit)
     {
         this.limit = limit;
         return this;
     }
 
-    public IScraper WithProxy(WebProxy proxy)
+    public Scraper WithProxy(WebProxy proxy)
     {
         this.proxy = proxy;
         return this;
     }
 
-    public IScraper WithProxy(WebProxy[] proxies)
+    public Scraper WithProxy(WebProxy[] proxies)
     {
         this.proxies = proxies;
         return this;
@@ -176,18 +173,18 @@ public class Scraper : IScraper
 
         var spiderTasks = Enumerable
             .Range(0, ParallelismDegree)
-            .Select(_ => spider.Crawl());
+            .Select(_ => spider.CrawlAsync());
 
         await Task.WhenAll(spiderTasks);
     }
 
-    public IScraper WriteToConsole() => this.AddSink(new ConsoleSink());
+    public Scraper WriteToConsole() => this.AddSink(new ConsoleSink());
 
-    public IScraper WriteToJsonFile(string filePath) => this.AddSink(new JsonFileSink(filePath));
+    public Scraper WriteToJsonFile(string filePath) => this.AddSink(new JsonFileSink(filePath));
 
-    public IScraper WriteToCsvFile(string filePath) => this.AddSink(new CsvFileSink(filePath));
+    public Scraper WriteToCsvFile(string filePath) => this.AddSink(new CsvFileSink(filePath));
 
-    public IScraper Build()
+    public Scraper Build()
     {
         ArgumentNullException.ThrowIfNull(startUrl);
         ArgumentNullException.ThrowIfNull(schema);
@@ -201,9 +198,11 @@ public class Scraper : IScraper
             new PuppeteerPageLoader(Logger),
             JobQueueReader,
             JobQueueWriter,
-            Logger)
-        .IgnoreUrls(this.urlBlackList)
-        .Limit(limit);
+            Logger);
+        
+        spider.UrlBlackList = urlBlackList.ToList();
+
+        spider.PageCrawlLimit = limit;
 
         return this;
     }
