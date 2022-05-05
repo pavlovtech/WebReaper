@@ -16,6 +16,7 @@ using WebReaper.Sinks;
 using WebReaper.Domain.Parsing;
 using WebReaper.LinkTracker.Concrete;
 using WebReaper.Loaders;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace WebReaper.Scraper;
 
@@ -45,13 +46,13 @@ public class Scraper
 
     protected readonly IJobQueueWriter JobQueueWriter;
 
-    protected ILogger Logger;
+    protected ILogger Logger = NullLogger.Instance;
 
     protected ILinkParser LinkParser = new LinkParserByCssSelector();
 
     protected ILinkTracker SiteLinkTracker = new InMemoryLinkTracker();
 
-    protected readonly IContentParser ContentParser;
+    protected IContentParser ContentParser;
 
     protected static SocketsHttpHandler httpHandler = new()
     {
@@ -71,16 +72,17 @@ public class Scraper
 
     protected int ParallelismDegree { get; private set; } = 1;
 
-    public Scraper(ILogger logger)
+    public Scraper()
     {
-        Logger = logger;
-
-        ContentParser = new ContentParser(logger);
-
         JobQueueReader = new JobQueueReader(jobs);
         JobQueueWriter = new JobQueueWriter(jobs);
     }
 
+    public Scraper WithLogger(ILogger logger)
+    {
+        Logger = logger;
+        return this;
+    }
     public Scraper WithStartUrl(string startUrl)
     {
         this.startUrl = startUrl;
@@ -188,6 +190,8 @@ public class Scraper
     {
         ArgumentNullException.ThrowIfNull(startUrl);
         ArgumentNullException.ThrowIfNull(schema);
+
+        ContentParser = new ContentParser(Logger);
 
         spider = new WebReaper.Spider.Spider(
             Sinks,
