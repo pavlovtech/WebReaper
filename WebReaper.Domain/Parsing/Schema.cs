@@ -26,7 +26,7 @@ public record Schema(
         var content = node?.InnerText;
 
         if(string.IsNullOrWhiteSpace(content)) {
-            throw new Exception($"Cannot find element by selector ${Selector}.");
+            throw new InvalidOperationException($"Cannot find element by selector ${Selector}.");
             
         }
 

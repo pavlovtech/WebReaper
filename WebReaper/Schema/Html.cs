@@ -15,7 +15,7 @@ public record Html(string Field, string Selector, SelectorType SelectorType = Se
         var content = node?.InnerHtml;
 
         if(string.IsNullOrWhiteSpace(content)) {
-            throw new Exception($"No html found by selector {Selector} in {node?.OuterHtml}.");
+            throw new InvalidOperationException($"No html found by selector {Selector} in {node?.OuterHtml}.");
         }
 
         return content;
