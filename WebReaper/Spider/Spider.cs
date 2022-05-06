@@ -79,7 +79,7 @@ public class Spider : ISpider
             Logger.LogInvocationCount("Handle on target page");
             var result = ContentParser.Parse(doc, job.schema);
 
-            var sinkTasks = Sinks.Select(sink => sink.Emit(result));
+            var sinkTasks = Sinks.Select(sink => sink.EmitAsync(result));
 
             await Task.WhenAll(sinkTasks);
             return;

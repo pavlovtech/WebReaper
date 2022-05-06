@@ -19,7 +19,7 @@ namespace WebReaper.Sinks
             this.filePath = filePath;
         }
 
-        public async Task Emit(JObject scrapedData)
+        public async Task EmitAsync(JObject scrapedData)
         {
             entries.Add(scrapedData);
 
