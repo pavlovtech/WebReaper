@@ -6,6 +6,8 @@ namespace WebReaper.Sinks
 {
     public class CsvFileSink : IScraperSink
     {
+        private object _lock = new();
+
         private readonly string filePath;
         
         BlockingCollection<JObject> entries = new();
@@ -22,17 +24,23 @@ namespace WebReaper.Sinks
             entries.Add(scrapedData);
 
             if(!isInitialized) {
-                isInitialized = true;
-                File.Delete(filePath);
+                
+                lock (_lock)
+                {
+                    isInitialized = true;
+
+                    File.Delete(filePath);                    
+                }
 
                 var flattened = scrapedData
-                    .Descendants()
-                    .OfType<JValue>()
-                    .Select(jv => jv.Path.Remove(0, jv.Path.LastIndexOf(".")+1));
+                        .Descendants()
+                        .OfType<JValue>()
+                        .Select(jv => jv.Path.Remove(0, jv.Path.LastIndexOf(".")+1));
 
-                var header = string.Join(",", flattened) + Environment.NewLine;
-                
+                    var header = string.Join(",", flattened) + Environment.NewLine;
+
                 await File.AppendAllTextAsync(filePath, header);
+
                 _ = Handle();
             }
         }

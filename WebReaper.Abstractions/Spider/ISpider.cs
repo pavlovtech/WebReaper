@@ -2,13 +2,14 @@ using WebReaper.Absctracts.Sinks;
 using WebReaper.Abstractions.JobQueue;
 using WebReaper.Abstractions.Loaders.PageLoader;
 using WebReaper.Abstractions.Parsers;
+using WebReaper.Domain;
 using WebReaper.LinkTracker.Abstract;
 
 namespace WebReaper.Abastracts.Spider;
 
 public interface ISpider
 {
-    Task CrawlAsync();
+    Task CrawlAsync(Job job);
 
     IPageLoader StaticPageLoader { get; init; }
     

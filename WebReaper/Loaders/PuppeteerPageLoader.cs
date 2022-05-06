@@ -18,10 +18,19 @@ public class PuppeteerPageLoader : IPageLoader
     {
         using var _ = _logger.LogMethodDuration();
 
-        using var browserFetcher = new BrowserFetcher();
-        await browserFetcher.DownloadAsync();
-        await using var browser = await Puppeteer.LaunchAsync(
-            new LaunchOptions { Headless = true });
+        var browserFetcher = new BrowserFetcher(new BrowserFetcherOptions
+        {
+            Path = Path.GetTempPath()
+        });
+
+        await browserFetcher.DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
+
+        Browser browser = await Puppeteer.LaunchAsync(new LaunchOptions
+        {
+            Headless = true,
+            ExecutablePath = browserFetcher.RevisionInfo(BrowserFetcher.DefaultChromiumRevision.ToString()).ExecutablePath
+        });
+
         await using var page = await browser.NewPageAsync();
         await page.GoToAsync(url, WaitUntilNavigation.DOMContentLoaded);
 
