@@ -5,7 +5,7 @@ namespace WebReaper.Sinks;
 
 public class ConsoleSink : IScraperSink
 {
-    public Task Emit(JObject scrapedData) 
+    public Task EmitAsync(JObject scrapedData) 
     {
         Console.WriteLine($"{scrapedData.ToString()}");
         return Task.CompletedTask;

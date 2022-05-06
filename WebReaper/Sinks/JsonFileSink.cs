@@ -16,9 +16,7 @@ namespace WebReaper.Sinks
 
         public JsonFileSink(string filePath) => this.filePath = filePath;
 
-        protected ConcurrentBag<string> AllData { get; set; } = new();
-
-        public async Task Emit(JObject scrapedData)
+        public async Task EmitAsync(JObject scrapedData)
         {
             entries.Add(scrapedData);
 
@@ -29,21 +27,18 @@ namespace WebReaper.Sinks
                     isInitialized = true;
                     File.Delete(filePath);
                 
-                    _ = Handle();
+                    _ = HandleAsync();
                 }
             }
         }
 
-        public async Task Handle()
+        public async Task HandleAsync()
         {
-            foreach(var entry in entries.GetConsumingEnumerable())
-            {
-                AllData.Add(entry.ToString());
-
-                var data = string.Join($",{Environment.NewLine}", AllData);
-
-                await File.WriteAllTextAsync(filePath, $"[{Environment.NewLine}{data}{Environment.NewLine}]");
+            foreach(var entry in entries.GetConsumingEnumerable()) {
+                await File.AppendAllTextAsync(filePath, $"{entry.ToString()},{Environment.NewLine}");
             }
+
+            await File.AppendAllTextAsync(filePath, "]");
         }
     }
 }
