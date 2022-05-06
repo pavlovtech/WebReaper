@@ -19,7 +19,7 @@ public class Spider : ISpider
     public IPageLoader SpaPageLoader { get; init; }
     public ILinkParser LinkParser { get; init; }
     public IContentParser ContentParser { get; init; }
-    public ILinkTracker LinkTracker { get; init; }
+    public ICrawledLinkTracker LinkTracker { get; init; }
     public IJobQueueReader JobQueueReader { get; init; }
     public IJobQueueWriter JobQueueWriter { get; init; }
 
@@ -35,7 +35,7 @@ public class Spider : ISpider
         List<IScraperSink> sinks,
         ILinkParser linkParser,
         IContentParser contentParser,
-        ILinkTracker linkTracker,
+        ICrawledLinkTracker linkTracker,
         IPageLoader staticPageLoader,
         IPageLoader spaPageLoader,
         IJobQueueReader jobQueueReader,
@@ -58,13 +58,13 @@ public class Spider : ISpider
     {
         if (UrlBlackList.Contains(job.Url)) return;
 
-        if (LinkTracker.GetVisitedLinks(job.BaseUrl).Count() >= PageCrawlLimit)
+        if ((await LinkTracker.GetVisitedLinksAsync(job.BaseUrl)).Count() >= PageCrawlLimit)
         {
             JobQueueWriter.CompleteAdding();
             return;
         }
 
-        LinkTracker.AddVisitedLink(job.BaseUrl, job.Url);
+        await LinkTracker.AddVisitedLinkAsync(job.BaseUrl, job.Url);
 
         string doc;
 
@@ -89,7 +89,7 @@ public class Spider : ISpider
 
         var links = LinkParser.GetLinks(doc, currentSelector.Selector)
             .Select(link => job.BaseUrl + link)
-            .Except(LinkTracker.GetVisitedLinks(job.BaseUrl));
+            .Except(await LinkTracker.GetVisitedLinksAsync(job.BaseUrl));
 
         AddToQueue(job.schema, job.BaseUrl, newLinkPathSelectors, links, job.DepthLevel + 1);
 
@@ -99,7 +99,7 @@ public class Spider : ISpider
 
             var linksToPaginatedPages = LinkParser.GetLinks(doc, currentSelector.PaginationSelector)
                 .Select(link => job.BaseUrl + link)
-                .Except(LinkTracker.GetVisitedLinks(job.BaseUrl));
+                .Except(await LinkTracker.GetVisitedLinksAsync(job.BaseUrl));
 
             if (!linksToPaginatedPages.Any())
             {

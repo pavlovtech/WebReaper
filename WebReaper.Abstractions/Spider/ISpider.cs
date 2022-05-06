@@ -19,7 +19,7 @@ public interface ISpider
 
     IContentParser ContentParser { get; init; }
 
-    ILinkTracker LinkTracker { get; init; }
+    ICrawledLinkTracker LinkTracker { get; init; }
 
     IJobQueueReader JobQueueReader { get; init; }
 
