@@ -54,26 +54,7 @@ public class Spider : ISpider
         Logger = logger;
     }
 
-
-    public async Task CrawlAsync()
-    {
-        foreach (var job in JobQueueReader.Read())
-        {
-            try
-            {
-                await HandleAsync(job);
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex, "Error occurred when scraping {url}", job.Url);
-
-                // return job back to the queue
-                JobQueueWriter.Write(job);
-            }
-        }
-    }
-
-    protected async Task HandleAsync(Job job)
+    public async Task CrawlAsync(Job job)
     {
         if (UrlBlackList.Contains(job.Url)) return;
 

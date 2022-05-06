@@ -6,6 +6,8 @@ namespace WebReaper.Sinks
 {
     public class JsonFileSink : IScraperSink
     {
+        private object _lock = new();
+
         private readonly string filePath;
         
         BlockingCollection<JObject> entries = new();
@@ -14,23 +16,28 @@ namespace WebReaper.Sinks
 
         public JsonFileSink(string filePath) => this.filePath = filePath;
 
-        protected ConcurrentBag<string> AllData { get; set; } = new ConcurrentBag<string>();
+        protected ConcurrentBag<string> AllData { get; set; } = new();
 
         public async Task Emit(JObject scrapedData)
         {
             entries.Add(scrapedData);
 
-            if(!isInitialized) {
-                isInitialized = true;
-                File.Delete(filePath);
+            if(!isInitialized)
+            {
+                lock (_lock)
+                {
+                    isInitialized = true;
+                    File.Delete(filePath);
                 
-                _ = Handle();
+                    _ = Handle();
+                }
             }
         }
 
         public async Task Handle()
         {
-            foreach(var entry in entries.GetConsumingEnumerable()) {
+            foreach(var entry in entries.GetConsumingEnumerable())
+            {
                 AllData.Add(entry.ToString());
 
                 var data = string.Join($",{Environment.NewLine}", AllData);

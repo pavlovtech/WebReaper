@@ -173,11 +173,21 @@ public class Scraper
             ImmutableQueue.Create<LinkPathSelector>(linkPathSelectors.ToArray()),
             DepthLevel: 0));
 
-        var spiderTasks = Enumerable
-            .Range(0, ParallelismDegree)
-            .Select(_ => spider.CrawlAsync());
+        var options = new ParallelOptions { MaxDegreeOfParallelism = ParallelismDegree };
+        await Parallel.ForEachAsync(JobQueueReader.Read(), options, async (job, token) =>
+        {
+            try
+            {
+                await spider.CrawlAsync(job);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error occurred when scraping {url}", job.Url);
 
-        await Task.WhenAll(spiderTasks);
+                // return job back to the queue
+                JobQueueWriter.Write(job);
+            }
+        });
     }
 
     public Scraper WriteToConsole() => this.AddSink(new ConsoleSink());
