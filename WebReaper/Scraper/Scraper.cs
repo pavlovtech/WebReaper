@@ -117,7 +117,7 @@ public class Scraper
 
     public Scraper FollowLinks(string linkSelector, string paginationSelector, SelectorType selectorType = SelectorType.Css, PageType pageType = PageType.Static)
     {
-        linkPathSelectors.Add(new(linkSelector, SelectorType: selectorType, PageType: pageType));
+        linkPathSelectors.Add(new(linkSelector, paginationSelector, pageType, selectorType));
         return this;
     }
 

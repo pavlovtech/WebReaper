@@ -15,7 +15,7 @@ public record Text(string Field, string Selector, SelectorType SelectorType = Se
         var content = node?.InnerText;
 
         if(string.IsNullOrWhiteSpace(content)) {
-            throw new Exception($"Cannot find element by selector ${Selector}.");
+            throw new InvalidOperationException($"Cannot find element by selector ${Selector}.");
             
         }
 

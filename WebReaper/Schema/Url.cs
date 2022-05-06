@@ -15,7 +15,7 @@ public record Url(string Field, string Selector, SelectorType SelectorType = Sel
         var content = node?.GetAttributeValue("href", "");
 
         if(string.IsNullOrWhiteSpace(content)) {
-            throw new Exception($"No href attribute found by selector {Selector} in {node?.OuterHtml}.");
+            throw new InvalidOperationException($"No href attribute found by selector {Selector} in {node?.OuterHtml}.");
         }
 
         return content;

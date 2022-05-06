@@ -16,7 +16,7 @@ public record Image(string Field, string Selector, SelectorType SelectorType = S
         var content = node?.GetAttributeValue("title", "");
 
         if(string.IsNullOrWhiteSpace(content)) {
-            throw new Exception($"Cannot find image link by selector {Selector} in {node?.OuterHtml}.");
+            throw new InvalidOperationException($"Cannot find image link by selector {Selector} in {node?.OuterHtml}.");
         }
 
         return content;
