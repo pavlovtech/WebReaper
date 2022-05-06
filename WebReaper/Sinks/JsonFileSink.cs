@@ -16,7 +16,7 @@ namespace WebReaper.Sinks
 
         public JsonFileSink(string filePath) => this.filePath = filePath;
 
-        public async Task EmitAsync(JObject scrapedData)
+        public Task EmitAsync(JObject scrapedData)
         {
             entries.Add(scrapedData);
 
@@ -30,6 +30,8 @@ namespace WebReaper.Sinks
                     _ = HandleAsync();
                 }
             }
+
+            return Task.CompletedTask;
         }
 
         public async Task HandleAsync()

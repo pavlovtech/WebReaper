@@ -50,7 +50,7 @@ public class Scraper
 
     protected ILinkParser LinkParser = new LinkParserByCssSelector();
 
-    protected ILinkTracker SiteLinkTracker = new InMemoryLinkTracker();
+    protected ICrawledLinkTracker SiteLinkTracker = new InMemoryLinkTracker();
 
     protected IContentParser ContentParser;
 
@@ -83,6 +83,13 @@ public class Scraper
         Logger = logger;
         return this;
     }
+
+    public Scraper WithLinkTracker(ICrawledLinkTracker linkTracker)
+    {
+        SiteLinkTracker = linkTracker;
+        return this;
+    }
+
     public Scraper WithStartUrl(string startUrl)
     {
         this.startUrl = startUrl;
@@ -123,14 +130,14 @@ public class Scraper
 
     public Scraper AddSink(IScraperSink sink)
     {
-        this.Sinks.Add(sink);
+        Sinks.Add(sink);
 
         return this;
     }
 
     public Scraper IgnoreUrls(params string[] urls)
     {
-        this.urlBlackList.AddRange(urls);
+        urlBlackList.AddRange(urls);
         return this;
     }
 
@@ -142,7 +149,7 @@ public class Scraper
 
     public Scraper WithParallelismDegree(int parallelismDegree)
     {
-        this.ParallelismDegree = parallelismDegree;
+        ParallelismDegree = parallelismDegree;
         return this;
     }
 

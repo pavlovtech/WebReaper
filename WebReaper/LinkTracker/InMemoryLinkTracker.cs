@@ -3,11 +3,11 @@ using WebReaper.LinkTracker.Abstract;
 
 namespace WebReaper.LinkTracker;
 
-public class InMemoryLinkTracker : ILinkTracker
+public class InMemoryLinkTracker : ICrawledLinkTracker
 {
     protected ConcurrentDictionary<string, ConcurrentBag<string>> visitedUrlsPerSite = new();
 
-    public Task AddVisitedLink(string siteUrl, string visitedLink)
+    public Task AddVisitedLinkAsync(string siteUrl, string visitedLink)
     {
         var alreadyExists = visitedUrlsPerSite.TryGetValue(siteUrl, out var visitedSiteUrls);
 
@@ -26,7 +26,7 @@ public class InMemoryLinkTracker : ILinkTracker
         return Task.CompletedTask;
     }
 
-    public Task<IEnumerable<string>> GetVisitedLinks(string siteUrl)
+    public Task<IEnumerable<string>> GetVisitedLinksAsync(string siteUrl)
     {
         var successful = visitedUrlsPerSite.TryGetValue(siteUrl, out var result);
 
