@@ -14,7 +14,7 @@ using WebReaper.Parser;
 using WebReaper.Queue;
 using WebReaper.Sinks;
 using WebReaper.Domain.Parsing;
-using WebReaper.LinkTracker.Concrete;
+using WebReaper.LinkTracker;
 using WebReaper.Loaders;
 using Microsoft.Extensions.Logging.Abstractions;
 

@@ -2,7 +2,7 @@ namespace WebReaper.LinkTracker.Abstract
 {
     public interface ILinkTracker
     {
-        void AddVisitedLink(string siteUrl, string visitedLink);
-        IEnumerable<string> GetVisitedLinks(string siteName);
+        Task AddVisitedLink(string siteUrl, string visitedLink);
+        Task<IEnumerable<string>> GetVisitedLinks(string siteName);
     }
 }

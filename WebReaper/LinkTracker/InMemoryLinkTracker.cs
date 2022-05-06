@@ -1,13 +1,13 @@
 using System.Collections.Concurrent;
 using WebReaper.LinkTracker.Abstract;
 
-namespace WebReaper.LinkTracker.Concrete;
+namespace WebReaper.LinkTracker;
 
 public class InMemoryLinkTracker : ILinkTracker
 {
     protected ConcurrentDictionary<string, ConcurrentBag<string>> visitedUrlsPerSite = new();
 
-    public void AddVisitedLink(string siteUrl, string visitedLink)
+    public Task AddVisitedLink(string siteUrl, string visitedLink)
     {
         var alreadyExists = visitedUrlsPerSite.TryGetValue(siteUrl, out var visitedSiteUrls);
 
@@ -22,12 +22,16 @@ public class InMemoryLinkTracker : ILinkTracker
                 visitedLink
             });
         }
+
+        return Task.CompletedTask;
     }
 
-    public IEnumerable<string> GetVisitedLinks(string siteUrl)
+    public Task<IEnumerable<string>> GetVisitedLinks(string siteUrl)
     {
         var successful = visitedUrlsPerSite.TryGetValue(siteUrl, out var result);
 
-        return successful ? result! : Enumerable.Empty<string>();
+        var visited = successful ? result! : Enumerable.Empty<string>();
+
+        return Task.FromResult(visited);
     }
 }
