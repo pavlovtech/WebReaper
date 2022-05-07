@@ -17,6 +17,7 @@ using WebReaper.Domain.Parsing;
 using WebReaper.LinkTracker;
 using WebReaper.Loaders;
 using Microsoft.Extensions.Logging.Abstractions;
+using WebReaper.Queue.InMemory;
 
 namespace WebReaper.Scraper;
 
@@ -42,9 +43,9 @@ public class Scraper
 
     protected string baseUrl = "";
 
-    protected readonly IJobQueueReader JobQueueReader;
+    protected IJobQueueReader JobQueueReader;
 
-    protected readonly IJobQueueWriter JobQueueWriter;
+    protected IJobQueueWriter JobQueueWriter;
 
     protected ILogger Logger = NullLogger.Instance;
 
@@ -87,6 +88,18 @@ public class Scraper
     public Scraper WithLinkTracker(ICrawledLinkTracker linkTracker)
     {
         SiteLinkTracker = linkTracker;
+        return this;
+    }
+
+    public Scraper WithJobQueueWriter(IJobQueueWriter jobQueueWriter)
+    {
+        JobQueueWriter = jobQueueWriter;
+        return this;
+    }
+
+    public Scraper WithJobQueueReader(IJobQueueReader jobQueueReader)
+    {
+        JobQueueReader = jobQueueReader;
         return this;
     }
 
@@ -173,7 +186,7 @@ public class Scraper
 
     public async Task Run()
     {
-        JobQueueWriter.Write(new Job(
+        await JobQueueWriter.WriteAsync(new Job(
             schema!,
             baseUrl,
             startUrl!,
@@ -181,7 +194,7 @@ public class Scraper
             DepthLevel: 0));
 
         var options = new ParallelOptions { MaxDegreeOfParallelism = ParallelismDegree };
-        await Parallel.ForEachAsync(JobQueueReader.Read(), options, async (job, token) =>
+        await Parallel.ForEachAsync(JobQueueReader.ReadAsync(), options, async (job, token) =>
         {
             try
             {
@@ -192,7 +205,7 @@ public class Scraper
                 Logger.LogError(ex, "Error occurred when scraping {url}", job.Url);
 
                 // return job back to the queue
-                JobQueueWriter.Write(job);
+                await JobQueueWriter.WriteAsync(job);
             }
         });
     }

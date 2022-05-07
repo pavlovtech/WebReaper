@@ -1124,3 +1124,944 @@ System.ArgumentException: The specified endpoint is not defined (Parameter 'endp
 2022-05-07 11:39:16.433 +03:00 [INF] Handle on target page was called 155 times
 2022-05-07 11:39:16.499 +03:00 [INF] Load finished in 228 ms
 2022-05-07 11:39:16.499 +03:00 [INF] Handle on target page was called 156 times
+2022-05-07 16:11:10.278 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-07 16:11:10.338 +03:00 [INF] Hosting environment: Development
+2022-05-07 16:11:10.339 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/DistributedScraperWorkerService
+2022-05-07 16:11:10.818 +03:00 [INF] Load finished in 456 ms
+2022-05-07 16:11:11.239 +03:00 [INF] Load finished in 165 ms
+2022-05-07 16:11:11.306 +03:00 [INF] Load finished in 223 ms
+2022-05-07 16:11:11.391 +03:00 [INF] Load finished in 307 ms
+2022-05-07 16:11:11.394 +03:00 [INF] Load finished in 261 ms
+2022-05-07 16:11:11.473 +03:00 [INF] Load finished in 340 ms
+2022-05-07 16:11:11.585 +03:00 [INF] Load finished in 452 ms
+2022-05-07 16:11:11.930 +03:00 [INF] Load finished in 295 ms
+2022-05-07 16:11:11.930 +03:00 [INF] Load finished in 275 ms
+2022-05-07 16:11:11.954 +03:00 [INF] Load finished in 392 ms
+2022-05-07 16:11:12.090 +03:00 [INF] Load finished in 403 ms
+2022-05-07 16:11:12.115 +03:00 [INF] Load finished in 279 ms
+2022-05-07 16:11:12.192 +03:00 [INF] Load finished in 455 ms
+2022-05-07 16:11:12.192 +03:00 [INF] Load finished in 631 ms
+2022-05-07 16:11:12.369 +03:00 [INF] Load finished in 683 ms
+2022-05-07 16:11:12.800 +03:00 [INF] Load finished in 380 ms
+2022-05-07 16:11:12.877 +03:00 [INF] Load finished in 557 ms
+2022-05-07 16:11:13.102 +03:00 [INF] Load finished in 150 ms
+2022-05-07 16:11:13.200 +03:00 [INF] Load finished in 193 ms
+2022-05-07 16:11:13.224 +03:00 [INF] Load finished in 217 ms
+2022-05-07 16:11:13.254 +03:00 [INF] Handle on target page was called 1 times
+2022-05-07 16:11:13.297 +03:00 [INF] Handle on target page was called 2 times
+2022-05-07 16:11:13.297 +03:00 [INF] Handle on target page was called 3 times
+2022-05-07 16:11:13.347 +03:00 [INF] Load finished in 243 ms
+2022-05-07 16:11:13.347 +03:00 [INF] Handle on target page was called 4 times
+2022-05-07 16:11:13.394 +03:00 [INF] Load finished in 168 ms
+2022-05-07 16:11:13.395 +03:00 [INF] Handle on target page was called 5 times
+2022-05-07 16:11:13.530 +03:00 [INF] Load finished in 135 ms
+2022-05-07 16:11:13.530 +03:00 [INF] Handle on target page was called 6 times
+2022-05-07 16:11:13.680 +03:00 [INF] Load finished in 285 ms
+2022-05-07 16:11:13.680 +03:00 [INF] Handle on target page was called 7 times
+2022-05-07 16:11:13.738 +03:00 [INF] Load finished in 183 ms
+2022-05-07 16:11:13.738 +03:00 [INF] Handle on target page was called 8 times
+2022-05-07 16:11:14.265 +03:00 [INF] Load finished in 156 ms
+2022-05-07 16:11:14.265 +03:00 [INF] Load finished in 188 ms
+2022-05-07 16:11:14.265 +03:00 [INF] Handle on target page was called 10 times
+2022-05-07 16:11:14.265 +03:00 [INF] Load finished in 156 ms
+2022-05-07 16:11:14.265 +03:00 [INF] Load finished in 156 ms
+2022-05-07 16:11:14.265 +03:00 [INF] Handle on target page was called 11 times
+2022-05-07 16:11:14.265 +03:00 [INF] Handle on target page was called 12 times
+2022-05-07 16:11:14.265 +03:00 [INF] Handle on target page was called 9 times
+2022-05-07 16:11:14.338 +03:00 [INF] Load finished in 261 ms
+2022-05-07 16:11:14.363 +03:00 [INF] Handle on target page was called 13 times
+2022-05-07 16:11:14.462 +03:00 [INF] Load finished in 331 ms
+2022-05-07 16:11:14.462 +03:00 [INF] Handle on target page was called 14 times
+2022-05-07 16:11:14.624 +03:00 [INF] Load finished in 161 ms
+2022-05-07 16:11:14.624 +03:00 [INF] Handle on target page was called 15 times
+2022-05-07 16:11:57.891 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-07 16:11:57.941 +03:00 [INF] Hosting environment: Development
+2022-05-07 16:11:57.943 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/DistributedScraperWorkerService
+2022-05-07 16:11:58.368 +03:00 [INF] Load finished in 393 ms
+2022-05-07 16:11:58.775 +03:00 [INF] Load finished in 136 ms
+2022-05-07 16:11:58.866 +03:00 [INF] Load finished in 175 ms
+2022-05-07 16:11:58.866 +03:00 [INF] Load finished in 225 ms
+2022-05-07 16:11:58.866 +03:00 [INF] Load finished in 225 ms
+2022-05-07 16:11:58.920 +03:00 [INF] Load finished in 229 ms
+2022-05-07 16:11:58.920 +03:00 [INF] Load finished in 229 ms
+2022-05-07 16:11:59.322 +03:00 [INF] Load finished in 328 ms
+2022-05-07 16:11:59.440 +03:00 [INF] Load finished in 446 ms
+2022-05-07 16:11:59.488 +03:00 [INF] Load finished in 495 ms
+2022-05-07 16:11:59.511 +03:00 [INF] Load finished in 494 ms
+2022-05-07 16:11:59.557 +03:00 [INF] Load finished in 490 ms
+2022-05-07 16:11:59.657 +03:00 [INF] Load finished in 645 ms
+2022-05-07 16:11:59.705 +03:00 [INF] Load finished in 610 ms
+2022-05-07 16:11:59.747 +03:00 [INF] Load finished in 734 ms
+2022-05-07 16:11:59.825 +03:00 [INF] Load finished in 831 ms
+2022-05-07 16:11:59.888 +03:00 [INF] Load finished in 875 ms
+2022-05-07 16:12:00.938 +03:00 [INF] Load finished in 304 ms
+2022-05-07 16:12:00.986 +03:00 [INF] Load finished in 238 ms
+2022-05-07 16:12:01.137 +03:00 [INF] Handle on target page was called 1 times
+2022-05-07 16:12:02.764 +03:00 [INF] Handle on target page was called 2 times
+2022-05-07 16:12:02.764 +03:00 [INF] Load finished in 2039 ms
+2022-05-07 16:12:02.765 +03:00 [INF] Handle on target page was called 3 times
+2022-05-07 16:12:02.809 +03:00 [INF] Load finished in 1749 ms
+2022-05-07 16:12:02.831 +03:00 [INF] Handle on target page was called 4 times
+2022-05-07 16:12:02.923 +03:00 [INF] Load finished in 182 ms
+2022-05-07 16:12:02.947 +03:00 [INF] Handle on target page was called 5 times
+2022-05-07 16:12:02.971 +03:00 [INF] Load finished in 1834 ms
+2022-05-07 16:12:02.971 +03:00 [INF] Handle on target page was called 6 times
+2022-05-07 16:12:03.453 +03:00 [INF] Load finished in 327 ms
+2022-05-07 16:12:03.453 +03:00 [INF] Handle on target page was called 7 times
+2022-05-07 16:12:03.797 +03:00 [INF] Load finished in 317 ms
+2022-05-07 16:12:03.797 +03:00 [INF] Handle on target page was called 8 times
+2022-05-07 16:12:04.176 +03:00 [INF] Load finished in 263 ms
+2022-05-07 16:12:04.177 +03:00 [INF] Handle on target page was called 9 times
+2022-05-07 16:12:04.176 +03:00 [INF] Load finished in 263 ms
+2022-05-07 16:12:04.201 +03:00 [INF] Handle on target page was called 10 times
+2022-05-07 16:12:04.223 +03:00 [INF] Load finished in 310 ms
+2022-05-07 16:12:04.224 +03:00 [INF] Handle on target page was called 11 times
+2022-05-07 16:12:04.282 +03:00 [INF] Load finished in 369 ms
+2022-05-07 16:12:04.282 +03:00 [INF] Handle on target page was called 12 times
+2022-05-07 16:12:04.380 +03:00 [INF] Load finished in 179 ms
+2022-05-07 16:12:04.380 +03:00 [INF] Handle on target page was called 13 times
+2022-05-07 16:12:04.767 +03:00 [INF] Load finished in 197 ms
+2022-05-07 16:12:04.768 +03:00 [INF] Handle on target page was called 14 times
+2022-05-07 16:12:04.910 +03:00 [INF] Load finished in 141 ms
+2022-05-07 16:12:04.932 +03:00 [INF] Handle on target page was called 15 times
+2022-05-07 16:12:04.984 +03:00 [INF] Load finished in 277 ms
+2022-05-07 16:12:04.984 +03:00 [INF] Handle on target page was called 16 times
+2022-05-07 16:12:05.307 +03:00 [INF] Load finished in 314 ms
+2022-05-07 16:12:05.351 +03:00 [INF] Handle on target page was called 17 times
+2022-05-07 16:12:05.451 +03:00 [INF] Load finished in 169 ms
+2022-05-07 16:12:05.451 +03:00 [INF] Handle on target page was called 18 times
+2022-05-07 16:12:05.591 +03:00 [INF] Load finished in 179 ms
+2022-05-07 16:12:05.615 +03:00 [INF] Load finished in 334 ms
+2022-05-07 16:12:05.616 +03:00 [INF] Handle on target page was called 20 times
+2022-05-07 16:12:05.615 +03:00 [INF] Handle on target page was called 19 times
+2022-05-07 16:12:05.715 +03:00 [INF] Load finished in 217 ms
+2022-05-07 16:12:05.715 +03:00 [INF] Handle on target page was called 21 times
+2022-05-07 16:12:05.715 +03:00 [INF] Load finished in 217 ms
+2022-05-07 16:12:05.715 +03:00 [INF] Handle on target page was called 22 times
+2022-05-07 16:12:05.946 +03:00 [ERR] System.InvalidOperationException: Cannot find element by selector $div.attach_link.guest>ul>li:nth-child(2).
+   at WebReaper.Domain.Parsing.Schema.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper.Domain/Parsing/Schema.cs:line 29
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-07 16:12:05.946 +03:00 [ERR] System.InvalidOperationException: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-07 16:12:06.086 +03:00 [ERR] System.InvalidOperationException: No href attribute found by selector .magnet-link in .
+   at WebReaper.Parsing.Url.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Url.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-07 16:12:06.282 +03:00 [INF] Load finished in 282 ms
+2022-05-07 16:12:06.282 +03:00 [ERR] System.InvalidOperationException: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-07 16:12:06.282 +03:00 [INF] Load finished in 283 ms
+2022-05-07 16:12:06.302 +03:00 [INF] Handle on target page was called 23 times
+2022-05-07 16:12:06.304 +03:00 [INF] Handle on target page was called 24 times
+2022-05-07 16:12:06.326 +03:00 [INF] Load finished in 327 ms
+2022-05-07 16:12:06.326 +03:00 [INF] Handle on target page was called 25 times
+2022-05-07 16:12:06.369 +03:00 [INF] Load finished in 257 ms
+2022-05-07 16:12:06.369 +03:00 [INF] Handle on target page was called 26 times
+2022-05-07 16:12:06.419 +03:00 [INF] Load finished in 259 ms
+2022-05-07 16:12:06.419 +03:00 [INF] Handle on target page was called 27 times
+2022-05-07 16:12:06.519 +03:00 [INF] Load finished in 193 ms
+2022-05-07 16:12:06.568 +03:00 [INF] Handle on target page was called 28 times
+2022-05-07 16:12:06.592 +03:00 [INF] Load finished in 266 ms
+2022-05-07 16:12:06.617 +03:00 [INF] Handle on target page was called 29 times
+2022-05-07 16:12:06.930 +03:00 [INF] Load finished in 288 ms
+2022-05-07 16:12:06.951 +03:00 [INF] Handle on target page was called 30 times
+2022-05-07 16:12:06.975 +03:00 [INF] Load finished in 246 ms
+2022-05-07 16:12:06.996 +03:00 [INF] Handle on target page was called 31 times
+2022-05-07 16:12:07.402 +03:00 [INF] Load finished in 383 ms
+2022-05-07 16:12:07.452 +03:00 [INF] Handle on target page was called 32 times
+2022-05-07 16:12:07.452 +03:00 [INF] Load finished in 264 ms
+2022-05-07 16:12:07.453 +03:00 [INF] Handle on target page was called 33 times
+2022-05-07 16:12:07.745 +03:00 [INF] Load finished in 293 ms
+2022-05-07 16:12:07.746 +03:00 [INF] Handle on target page was called 34 times
+2022-05-07 16:12:07.888 +03:00 [INF] Load finished in 164 ms
+2022-05-07 16:12:07.935 +03:00 [INF] Handle on target page was called 35 times
+2022-05-07 16:12:07.935 +03:00 [INF] Load finished in 162 ms
+2022-05-07 16:12:07.935 +03:00 [INF] Handle on target page was called 36 times
+2022-05-07 16:12:07.988 +03:00 [INF] Load finished in 216 ms
+2022-05-07 16:12:08.012 +03:00 [INF] Handle on target page was called 37 times
+2022-05-07 16:12:08.012 +03:00 [INF] Load finished in 192 ms
+2022-05-07 16:12:08.013 +03:00 [INF] Handle on target page was called 38 times
+2022-05-07 16:12:08.013 +03:00 [INF] Load finished in 193 ms
+2022-05-07 16:12:08.013 +03:00 [INF] Handle on target page was called 39 times
+2022-05-07 16:12:08.044 +03:00 [INF] Load finished in 523 ms
+2022-05-07 16:12:08.044 +03:00 [INF] Handle on target page was called 40 times
+2022-05-07 16:12:08.146 +03:00 [INF] Load finished in 326 ms
+2022-05-07 16:12:08.146 +03:00 [INF] Handle on target page was called 41 times
+2022-05-07 16:12:08.245 +03:00 [INF] Load finished in 168 ms
+2022-05-07 16:12:08.268 +03:00 [INF] Handle on target page was called 42 times
+2022-05-07 16:12:08.340 +03:00 [INF] Load finished in 144 ms
+2022-05-07 16:12:08.340 +03:00 [INF] Handle on target page was called 43 times
+2022-05-07 16:12:08.361 +03:00 [INF] Load finished in 165 ms
+2022-05-07 16:12:08.383 +03:00 [INF] Handle on target page was called 44 times
+2022-05-07 16:12:08.456 +03:00 [INF] Load finished in 260 ms
+2022-05-07 16:12:08.456 +03:00 [INF] Load finished in 211 ms
+2022-05-07 16:12:08.456 +03:00 [INF] Handle on target page was called 45 times
+2022-05-07 16:12:08.457 +03:00 [INF] Handle on target page was called 46 times
+2022-05-07 16:12:08.480 +03:00 [INF] Load finished in 284 ms
+2022-05-07 16:12:08.529 +03:00 [INF] Load finished in 214 ms
+2022-05-07 16:12:08.529 +03:00 [INF] Handle on target page was called 48 times
+2022-05-07 16:12:08.529 +03:00 [INF] Load finished in 189 ms
+2022-05-07 16:12:08.578 +03:00 [INF] Handle on target page was called 49 times
+2022-05-07 16:12:08.481 +03:00 [INF] Handle on target page was called 47 times
+2022-05-07 16:12:09.085 +03:00 [INF] Load finished in 181 ms
+2022-05-07 16:12:09.085 +03:00 [INF] Handle on target page was called 50 times
+2022-05-07 16:12:09.106 +03:00 [INF] Load finished in 202 ms
+2022-05-07 16:12:09.106 +03:00 [INF] Handle on target page was called 51 times
+2022-05-07 16:12:09.217 +03:00 [INF] Load finished in 224 ms
+2022-05-07 16:12:09.238 +03:00 [INF] Load finished in 245 ms
+2022-05-07 16:12:09.238 +03:00 [INF] Handle on target page was called 52 times
+2022-05-07 16:12:09.238 +03:00 [INF] Load finished in 221 ms
+2022-05-07 16:12:09.238 +03:00 [INF] Handle on target page was called 54 times
+2022-05-07 16:12:09.238 +03:00 [INF] Handle on target page was called 53 times
+2022-05-07 16:12:09.261 +03:00 [INF] Load finished in 269 ms
+2022-05-07 16:12:09.261 +03:00 [INF] Handle on target page was called 55 times
+2022-05-07 16:12:09.238 +03:00 [INF] Load finished in 221 ms
+2022-05-07 16:12:09.262 +03:00 [INF] Handle on target page was called 56 times
+2022-05-07 16:12:09.489 +03:00 [ERR] System.InvalidOperationException: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-07 16:12:09.577 +03:00 [INF] Load finished in 522 ms
+2022-05-07 16:12:09.577 +03:00 [INF] Handle on target page was called 57 times
+2022-05-07 16:12:09.577 +03:00 [INF] Load finished in 449 ms
+2022-05-07 16:12:09.625 +03:00 [INF] Handle on target page was called 58 times
+2022-05-07 16:12:09.733 +03:00 [ERR] System.InvalidOperationException: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-07 16:12:10.107 +03:00 [INF] Load finished in 352 ms
+2022-05-07 16:12:10.132 +03:00 [INF] Handle on target page was called 59 times
+2022-05-07 16:12:10.154 +03:00 [INF] Load finished in 326 ms
+2022-05-07 16:12:10.218 +03:00 [INF] Handle on target page was called 60 times
+2022-05-07 16:12:10.241 +03:00 [INF] Load finished in 413 ms
+2022-05-07 16:12:10.241 +03:00 [INF] Handle on target page was called 61 times
+2022-05-07 16:12:10.341 +03:00 [INF] Load finished in 420 ms
+2022-05-07 16:12:10.366 +03:00 [INF] Handle on target page was called 62 times
+2022-05-07 16:12:10.563 +03:00 [INF] Load finished in 600 ms
+2022-05-07 16:12:10.657 +03:00 [INF] Handle on target page was called 63 times
+2022-05-07 16:12:10.982 +03:00 [INF] Load finished in 1200 ms
+2022-05-07 16:12:10.982 +03:00 [INF] Handle on target page was called 64 times
+2022-05-07 16:12:11.008 +03:00 [INF] Load finished in 256 ms
+2022-05-07 16:12:11.008 +03:00 [INF] Handle on target page was called 65 times
+2022-05-07 16:12:11.409 +03:00 [INF] Load finished in 254 ms
+2022-05-07 16:12:11.388 +03:00 [INF] Load finished in 174 ms
+2022-05-07 16:12:11.433 +03:00 [INF] Handle on target page was called 66 times
+2022-05-07 16:12:11.434 +03:00 [INF] Handle on target page was called 67 times
+2022-05-07 16:12:11.433 +03:00 [INF] Load finished in 403 ms
+2022-05-07 16:12:11.434 +03:00 [INF] Load finished in 220 ms
+2022-05-07 16:12:11.460 +03:00 [INF] Handle on target page was called 69 times
+2022-05-07 16:12:11.434 +03:00 [INF] Handle on target page was called 68 times
+2022-05-07 16:12:11.493 +03:00 [INF] Load finished in 181 ms
+2022-05-07 16:12:11.493 +03:00 [INF] Handle on target page was called 70 times
+2022-05-07 16:12:11.471 +03:00 [INF] Load finished in 235 ms
+2022-05-07 16:12:11.494 +03:00 [INF] Handle on target page was called 71 times
+2022-05-07 16:12:11.652 +03:00 [INF] Load finished in 438 ms
+2022-05-07 16:12:11.653 +03:00 [INF] Handle on target page was called 72 times
+2022-05-07 16:12:11.879 +03:00 [INF] Load finished in 307 ms
+2022-05-07 16:12:11.879 +03:00 [INF] Handle on target page was called 73 times
+2022-05-07 16:12:11.880 +03:00 [INF] Load finished in 181 ms
+2022-05-07 16:12:11.880 +03:00 [INF] Load finished in 181 ms
+2022-05-07 16:12:11.902 +03:00 [INF] Handle on target page was called 75 times
+2022-05-07 16:12:11.880 +03:00 [INF] Handle on target page was called 74 times
+2022-05-07 16:12:11.947 +03:00 [INF] Load finished in 226 ms
+2022-05-07 16:12:11.947 +03:00 [INF] Load finished in 248 ms
+2022-05-07 16:12:11.997 +03:00 [INF] Load finished in 201 ms
+2022-05-07 16:12:12.021 +03:00 [INF] Handle on target page was called 78 times
+2022-05-07 16:12:11.997 +03:00 [INF] Handle on target page was called 76 times
+2022-05-07 16:12:11.997 +03:00 [INF] Handle on target page was called 77 times
+2022-05-07 16:12:12.305 +03:00 [INF] Load finished in 235 ms
+2022-05-07 16:12:12.329 +03:00 [INF] Handle on target page was called 79 times
+2022-05-07 16:12:12.336 +03:00 [INF] Load finished in 226 ms
+2022-05-07 16:12:12.337 +03:00 [INF] Handle on target page was called 80 times
+2022-05-07 16:12:12.766 +03:00 [INF] Load finished in 336 ms
+2022-05-07 16:12:12.767 +03:00 [INF] Handle on target page was called 81 times
+2022-05-07 16:12:13.004 +03:00 [INF] Load finished in 384 ms
+2022-05-07 16:12:13.004 +03:00 [INF] Handle on target page was called 82 times
+2022-05-07 16:12:13.118 +03:00 [INF] Load finished in 330 ms
+2022-05-07 16:12:13.167 +03:00 [INF] Handle on target page was called 83 times
+2022-05-07 16:12:13.251 +03:00 [INF] Load finished in 344 ms
+2022-05-07 16:12:13.252 +03:00 [INF] Handle on target page was called 84 times
+2022-05-07 16:12:13.252 +03:00 [INF] Load finished in 246 ms
+2022-05-07 16:12:13.252 +03:00 [INF] Handle on target page was called 85 times
+2022-05-07 16:12:13.372 +03:00 [INF] Load finished in 365 ms
+2022-05-07 16:12:13.373 +03:00 [INF] Handle on target page was called 86 times
+2022-05-07 16:12:13.592 +03:00 [INF] Load finished in 424 ms
+2022-05-07 16:12:13.592 +03:00 [INF] Handle on target page was called 87 times
+2022-05-07 16:12:13.929 +03:00 [INF] Load finished in 440 ms
+2022-05-07 16:12:13.906 +03:00 [INF] Load finished in 313 ms
+2022-05-07 16:12:13.975 +03:00 [INF] Handle on target page was called 88 times
+2022-05-07 16:12:13.975 +03:00 [INF] Handle on target page was called 89 times
+2022-05-07 16:12:14.028 +03:00 [INF] Load finished in 266 ms
+2022-05-07 16:12:14.053 +03:00 [INF] Handle on target page was called 90 times
+2022-05-07 16:12:14.233 +03:00 [INF] Load finished in 402 ms
+2022-05-07 16:12:14.233 +03:00 [INF] Load finished in 378 ms
+2022-05-07 16:12:14.233 +03:00 [INF] Handle on target page was called 91 times
+2022-05-07 16:12:14.234 +03:00 [INF] Handle on target page was called 92 times
+2022-05-07 16:12:14.360 +03:00 [INF] Load finished in 224 ms
+2022-05-07 16:12:14.385 +03:00 [INF] Handle on target page was called 93 times
+2022-05-07 16:12:14.485 +03:00 [INF] Load finished in 203 ms
+2022-05-07 16:12:14.536 +03:00 [INF] Handle on target page was called 94 times
+2022-05-07 16:12:14.562 +03:00 [INF] Load finished in 586 ms
+2022-05-07 16:12:14.562 +03:00 [INF] Handle on target page was called 95 times
+2022-05-07 16:12:14.562 +03:00 [INF] Load finished in 255 ms
+2022-05-07 16:12:14.588 +03:00 [INF] Handle on target page was called 96 times
+2022-05-07 16:12:14.763 +03:00 [INF] Load finished in 201 ms
+2022-05-07 16:12:14.763 +03:00 [INF] Handle on target page was called 97 times
+2022-05-07 16:12:14.808 +03:00 [INF] Load finished in 129 ms
+2022-05-07 16:12:14.808 +03:00 [INF] Handle on target page was called 98 times
+2022-05-07 16:12:14.808 +03:00 [INF] Load finished in 271 ms
+2022-05-07 16:12:14.808 +03:00 [INF] Handle on target page was called 99 times
+2022-05-07 16:12:14.871 +03:00 [INF] Load finished in 192 ms
+2022-05-07 16:12:14.871 +03:00 [INF] Handle on target page was called 100 times
+2022-05-07 16:12:15.075 +03:00 [INF] Load finished in 229 ms
+2022-05-07 16:12:15.075 +03:00 [INF] Handle on target page was called 101 times
+2022-05-07 16:12:15.305 +03:00 [INF] Load finished in 335 ms
+2022-05-07 16:12:15.352 +03:00 [INF] Load finished in 268 ms
+2022-05-07 16:12:15.352 +03:00 [INF] Handle on target page was called 102 times
+2022-05-07 16:12:15.375 +03:00 [INF] Handle on target page was called 103 times
+2022-05-07 16:12:15.376 +03:00 [INF] Load finished in 193 ms
+2022-05-07 16:12:15.376 +03:00 [INF] Handle on target page was called 104 times
+2022-05-07 16:12:15.398 +03:00 [INF] Load finished in 216 ms
+2022-05-07 16:12:15.398 +03:00 [INF] Handle on target page was called 105 times
+2022-05-07 16:12:15.517 +03:00 [INF] Load finished in 238 ms
+2022-05-07 16:12:15.542 +03:00 [INF] Handle on target page was called 106 times
+2022-05-07 16:12:15.471 +03:00 [INF] Load finished in 217 ms
+2022-05-07 16:12:15.542 +03:00 [INF] Load finished in 212 ms
+2022-05-07 16:12:15.564 +03:00 [INF] Handle on target page was called 108 times
+2022-05-07 16:12:15.542 +03:00 [INF] Load finished in 213 ms
+2022-05-07 16:12:15.564 +03:00 [INF] Handle on target page was called 109 times
+2022-05-07 16:12:15.542 +03:00 [INF] Handle on target page was called 107 times
+2022-05-07 16:12:15.935 +03:00 [INF] Load finished in 371 ms
+2022-05-07 16:12:15.936 +03:00 [INF] Handle on target page was called 110 times
+2022-05-07 16:12:16.085 +03:00 [INF] Load finished in 220 ms
+2022-05-07 16:12:16.085 +03:00 [INF] Handle on target page was called 111 times
+2022-05-07 16:12:16.180 +03:00 [INF] Load finished in 185 ms
+2022-05-07 16:12:16.180 +03:00 [INF] Handle on target page was called 112 times
+2022-05-07 16:12:16.181 +03:00 [INF] Load finished in 185 ms
+2022-05-07 16:12:16.181 +03:00 [INF] Handle on target page was called 113 times
+2022-05-07 16:12:16.270 +03:00 [INF] Load finished in 253 ms
+2022-05-07 16:12:16.296 +03:00 [INF] Handle on target page was called 114 times
+2022-05-07 16:12:16.296 +03:00 [INF] Load finished in 209 ms
+2022-05-07 16:12:16.296 +03:00 [INF] Handle on target page was called 115 times
+2022-05-07 16:12:16.394 +03:00 [INF] Load finished in 308 ms
+2022-05-07 16:12:16.394 +03:00 [INF] Handle on target page was called 116 times
+2022-05-07 16:12:16.647 +03:00 [INF] Load finished in 538 ms
+2022-05-07 16:12:16.671 +03:00 [INF] Handle on target page was called 117 times
+2022-05-07 16:12:16.697 +03:00 [INF] Load finished in 610 ms
+2022-05-07 16:12:16.721 +03:00 [INF] Handle on target page was called 118 times
+2022-05-07 16:12:16.899 +03:00 [INF] Load finished in 261 ms
+2022-05-07 16:12:16.899 +03:00 [INF] Handle on target page was called 119 times
+2022-05-07 16:12:16.987 +03:00 [INF] Load finished in 195 ms
+2022-05-07 16:12:16.989 +03:00 [INF] Handle on target page was called 120 times
+2022-05-07 16:12:17.077 +03:00 [INF] Load finished in 210 ms
+2022-05-07 16:12:17.077 +03:00 [INF] Handle on target page was called 121 times
+2022-05-07 16:12:17.100 +03:00 [INF] Load finished in 262 ms
+2022-05-07 16:12:17.101 +03:00 [INF] Handle on target page was called 122 times
+2022-05-07 16:12:17.123 +03:00 [INF] Load finished in 331 ms
+2022-05-07 16:12:17.123 +03:00 [INF] Handle on target page was called 123 times
+2022-05-07 16:12:17.219 +03:00 [INF] Load finished in 426 ms
+2022-05-07 16:12:17.219 +03:00 [INF] Handle on target page was called 124 times
+2022-05-07 16:12:17.389 +03:00 [INF] Load finished in 218 ms
+2022-05-07 16:12:17.410 +03:00 [INF] Handle on target page was called 125 times
+2022-05-07 16:12:17.459 +03:00 [INF] Load finished in 184 ms
+2022-05-07 16:12:17.480 +03:00 [INF] Handle on target page was called 126 times
+2022-05-07 16:12:17.480 +03:00 [INF] Load finished in 206 ms
+2022-05-07 16:12:17.480 +03:00 [INF] Handle on target page was called 127 times
+2022-05-07 16:12:17.516 +03:00 [INF] Load finished in 242 ms
+2022-05-07 16:12:17.517 +03:00 [INF] Handle on target page was called 128 times
+2022-05-07 16:12:17.648 +03:00 [INF] Load finished in 298 ms
+2022-05-07 16:12:17.649 +03:00 [INF] Handle on target page was called 129 times
+2022-05-07 16:12:17.812 +03:00 [INF] Load finished in 213 ms
+2022-05-07 16:12:17.812 +03:00 [INF] Handle on target page was called 130 times
+2022-05-07 16:12:17.926 +03:00 [INF] Load finished in 183 ms
+2022-05-07 16:12:17.947 +03:00 [INF] Handle on target page was called 131 times
+2022-05-07 16:12:17.947 +03:00 [INF] Load finished in 204 ms
+2022-05-07 16:12:17.947 +03:00 [INF] Handle on target page was called 132 times
+2022-05-07 16:12:17.960 +03:00 [INF] Load finished in 287 ms
+2022-05-07 16:12:17.960 +03:00 [INF] Handle on target page was called 133 times
+2022-05-07 16:12:17.985 +03:00 [INF] Load finished in 242 ms
+2022-05-07 16:12:17.985 +03:00 [INF] Handle on target page was called 134 times
+2022-05-07 16:12:18.137 +03:00 [INF] Load finished in 298 ms
+2022-05-07 16:12:18.137 +03:00 [INF] Handle on target page was called 135 times
+2022-05-07 16:12:18.235 +03:00 [INF] Load finished in 422 ms
+2022-05-07 16:12:18.236 +03:00 [INF] Handle on target page was called 136 times
+2022-05-07 16:12:18.262 +03:00 [INF] Load finished in 276 ms
+2022-05-07 16:12:18.287 +03:00 [INF] Handle on target page was called 137 times
+2022-05-07 16:12:18.633 +03:00 [INF] Load finished in 294 ms
+2022-05-07 16:12:18.633 +03:00 [INF] Handle on target page was called 138 times
+2022-05-07 16:12:18.756 +03:00 [INF] Load finished in 237 ms
+2022-05-07 16:12:18.756 +03:00 [INF] Load finished in 279 ms
+2022-05-07 16:12:18.756 +03:00 [INF] Handle on target page was called 140 times
+2022-05-07 16:12:18.756 +03:00 [INF] Handle on target page was called 139 times
+2022-05-07 16:12:18.872 +03:00 [INF] Load finished in 239 ms
+2022-05-07 16:12:18.873 +03:00 [INF] Handle on target page was called 141 times
+2022-05-07 16:12:19.285 +03:00 [INF] Load finished in 333 ms
+2022-05-07 16:12:19.311 +03:00 [INF] Handle on target page was called 142 times
+2022-05-07 16:12:19.548 +03:00 [INF] Load finished in 304 ms
+2022-05-07 16:12:19.548 +03:00 [INF] Handle on target page was called 143 times
+2022-05-07 16:12:19.570 +03:00 [INF] Load finished in 327 ms
+2022-05-07 16:12:19.592 +03:00 [INF] Handle on target page was called 144 times
+2022-05-07 16:12:19.616 +03:00 [INF] Load finished in 241 ms
+2022-05-07 16:12:19.617 +03:00 [INF] Handle on target page was called 145 times
+2022-05-07 16:12:19.642 +03:00 [INF] Load finished in 241 ms
+2022-05-07 16:12:19.642 +03:00 [INF] Load finished in 216 ms
+2022-05-07 16:12:19.642 +03:00 [INF] Handle on target page was called 146 times
+2022-05-07 16:12:19.642 +03:00 [INF] Handle on target page was called 147 times
+2022-05-07 16:12:19.818 +03:00 [INF] Load finished in 176 ms
+2022-05-07 16:12:19.844 +03:00 [INF] Handle on target page was called 148 times
+2022-05-07 16:12:19.866 +03:00 [INF] Load finished in 192 ms
+2022-05-07 16:12:19.867 +03:00 [INF] Handle on target page was called 149 times
+2022-05-07 16:12:19.867 +03:00 [INF] Load finished in 441 ms
+2022-05-07 16:12:19.867 +03:00 [INF] Handle on target page was called 150 times
+2022-05-07 16:12:19.983 +03:00 [INF] Load finished in 284 ms
+2022-05-07 16:12:20.008 +03:00 [INF] Handle on target page was called 151 times
+2022-05-07 16:12:20.140 +03:00 [INF] Load finished in 205 ms
+2022-05-07 16:12:20.141 +03:00 [INF] Handle on target page was called 152 times
+2022-05-07 16:12:20.366 +03:00 [ERR] System.InvalidOperationException: Cannot find element by selector $div.attach_link.guest>ul>li:nth-child(2).
+   at WebReaper.Domain.Parsing.Schema.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper.Domain/Parsing/Schema.cs:line 29
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-07 16:12:21.651 +03:00 [ERR] System.InvalidOperationException: No href attribute found by selector .magnet-link in .
+   at WebReaper.Parsing.Url.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Url.cs:line 18
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-07 16:12:21.732 +03:00 [INF] Load finished in 1548 ms
+2022-05-07 16:12:21.733 +03:00 [INF] Handle on target page was called 153 times
+2022-05-07 16:12:21.733 +03:00 [ERR] System.InvalidOperationException: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-07 16:12:21.733 +03:00 [INF] Load finished in 1472 ms
+2022-05-07 16:12:21.734 +03:00 [INF] Handle on target page was called 154 times
+2022-05-07 16:12:21.734 +03:00 [INF] Load finished in 1369 ms
+2022-05-07 16:12:21.760 +03:00 [INF] Handle on target page was called 155 times
+2022-05-07 16:12:21.735 +03:00 [INF] Load finished in 1391 ms
+2022-05-07 16:12:21.831 +03:00 [INF] Handle on target page was called 156 times
+2022-05-07 16:12:21.861 +03:00 [INF] Load finished in 209 ms
+2022-05-07 16:12:21.861 +03:00 [INF] Handle on target page was called 157 times
+2022-05-07 16:12:21.998 +03:00 [INF] Load finished in 130 ms
+2022-05-07 16:12:22.019 +03:00 [INF] Handle on target page was called 158 times
+2022-05-07 16:12:22.086 +03:00 [INF] Load finished in 218 ms
+2022-05-07 16:12:22.087 +03:00 [INF] Handle on target page was called 159 times
+2022-05-07 16:12:22.327 +03:00 [INF] Load finished in 458 ms
+2022-05-07 16:12:22.327 +03:00 [INF] Load finished in 414 ms
+2022-05-07 16:12:22.348 +03:00 [INF] Handle on target page was called 160 times
+2022-05-07 16:12:22.370 +03:00 [INF] Handle on target page was called 161 times
+2022-05-07 16:12:22.729 +03:00 [INF] Load finished in 584 ms
+2022-05-07 16:12:22.729 +03:00 [INF] Handle on target page was called 162 times
+2022-05-07 16:12:22.751 +03:00 [INF] Load finished in 424 ms
+2022-05-07 16:12:22.801 +03:00 [INF] Handle on target page was called 163 times
+2022-05-07 16:12:22.897 +03:00 [INF] Load finished in 424 ms
+2022-05-07 16:12:22.923 +03:00 [INF] Handle on target page was called 164 times
+2022-05-07 16:12:23.290 +03:00 [INF] Load finished in 341 ms
+2022-05-07 16:12:23.335 +03:00 [INF] Handle on target page was called 165 times
+2022-05-07 16:12:23.382 +03:00 [INF] Load finished in 307 ms
+2022-05-07 16:12:23.382 +03:00 [INF] Handle on target page was called 166 times
+2022-05-07 16:12:23.697 +03:00 [INF] Load finished in 480 ms
+2022-05-07 16:12:23.698 +03:00 [INF] Handle on target page was called 167 times
+2022-05-07 16:12:23.794 +03:00 [INF] Load finished in 166 ms
+2022-05-07 16:12:23.837 +03:00 [INF] Handle on target page was called 168 times
+2022-05-07 16:12:23.908 +03:00 [INF] Load finished in 423 ms
+2022-05-07 16:12:23.909 +03:00 [INF] Handle on target page was called 169 times
+2022-05-07 16:12:23.934 +03:00 [INF] Load finished in 160 ms
+2022-05-07 16:12:23.956 +03:00 [INF] Load finished in 236 ms
+2022-05-07 16:12:23.956 +03:00 [INF] Handle on target page was called 170 times
+2022-05-07 16:12:23.956 +03:00 [INF] Handle on target page was called 171 times
+2022-05-07 16:12:24.036 +03:00 [INF] Load finished in 263 ms
+2022-05-07 16:12:24.037 +03:00 [INF] Handle on target page was called 172 times
+2022-05-07 16:12:24.072 +03:00 [INF] Load finished in 298 ms
+2022-05-07 16:12:24.093 +03:00 [INF] Handle on target page was called 173 times
+2022-05-07 16:12:24.092 +03:00 [INF] Load finished in 255 ms
+2022-05-07 16:12:24.128 +03:00 [INF] Handle on target page was called 174 times
+2022-05-07 16:12:24.168 +03:00 [ERR] System.InvalidOperationException: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-07 16:12:24.168 +03:00 [INF] Load finished in 330 ms
+2022-05-07 16:12:24.168 +03:00 [INF] Handle on target page was called 175 times
+2022-05-07 16:12:24.453 +03:00 [INF] Load finished in 189 ms
+2022-05-07 16:12:24.475 +03:00 [INF] Handle on target page was called 176 times
+2022-05-07 16:12:24.501 +03:00 [INF] Load finished in 237 ms
+2022-05-07 16:12:24.501 +03:00 [INF] Handle on target page was called 177 times
+2022-05-07 16:12:24.567 +03:00 [INF] Load finished in 203 ms
+2022-05-07 16:12:24.605 +03:00 [INF] Load finished in 241 ms
+2022-05-07 16:12:24.567 +03:00 [INF] Handle on target page was called 178 times
+2022-05-07 16:12:24.605 +03:00 [INF] Handle on target page was called 179 times
+2022-05-07 16:12:24.607 +03:00 [ERR] System.InvalidOperationException: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-07 16:12:24.705 +03:00 [INF] Load finished in 342 ms
+2022-05-07 16:12:24.706 +03:00 [INF] Handle on target page was called 180 times
+2022-05-07 16:12:24.781 +03:00 [INF] Load finished in 175 ms
+2022-05-07 16:12:24.781 +03:00 [INF] Handle on target page was called 181 times
+2022-05-07 16:12:25.157 +03:00 [INF] Load finished in 320 ms
+2022-05-07 16:12:25.179 +03:00 [INF] Handle on target page was called 182 times
+2022-05-07 16:12:25.179 +03:00 [INF] Load finished in 271 ms
+2022-05-07 16:12:25.179 +03:00 [INF] Handle on target page was called 183 times
+2022-05-07 16:12:25.278 +03:00 [INF] Load finished in 322 ms
+2022-05-07 16:12:25.303 +03:00 [INF] Handle on target page was called 184 times
+2022-05-07 16:12:25.307 +03:00 [INF] Load finished in 283 ms
+2022-05-07 16:12:25.307 +03:00 [INF] Load finished in 220 ms
+2022-05-07 16:12:25.307 +03:00 [INF] Handle on target page was called 185 times
+2022-05-07 16:12:25.307 +03:00 [INF] Handle on target page was called 186 times
+2022-05-07 16:12:25.415 +03:00 [INF] Load finished in 257 ms
+2022-05-07 16:12:25.440 +03:00 [INF] Handle on target page was called 187 times
+2022-05-07 16:12:25.595 +03:00 [INF] Load finished in 437 ms
+2022-05-07 16:12:25.595 +03:00 [INF] Handle on target page was called 188 times
+2022-05-07 16:12:25.853 +03:00 [INF] Load finished in 234 ms
+2022-05-07 16:12:25.853 +03:00 [INF] Handle on target page was called 189 times
+2022-05-07 16:12:26.051 +03:00 [INF] Load finished in 411 ms
+2022-05-07 16:12:26.075 +03:00 [INF] Handle on target page was called 190 times
+2022-05-07 16:12:26.118 +03:00 [INF] Load finished in 410 ms
+2022-05-07 16:12:26.142 +03:00 [INF] Handle on target page was called 191 times
+2022-05-07 16:12:26.142 +03:00 [INF] Load finished in 288 ms
+2022-05-07 16:12:26.142 +03:00 [INF] Handle on target page was called 192 times
+2022-05-07 16:12:26.421 +03:00 [INF] Load finished in 545 ms
+2022-05-07 16:12:26.421 +03:00 [INF] Handle on target page was called 193 times
+2022-05-07 16:12:26.462 +03:00 [INF] Load finished in 312 ms
+2022-05-07 16:12:26.486 +03:00 [INF] Handle on target page was called 194 times
+2022-05-07 16:12:26.535 +03:00 [INF] Load finished in 613 ms
+2022-05-07 16:12:26.556 +03:00 [INF] Handle on target page was called 195 times
+2022-05-07 16:12:26.556 +03:00 [INF] Load finished in 569 ms
+2022-05-07 16:12:26.557 +03:00 [INF] Handle on target page was called 196 times
+2022-05-07 16:12:26.873 +03:00 [INF] Load finished in 123 ms
+2022-05-07 16:12:26.899 +03:00 [INF] Handle on target page was called 197 times
+2022-05-07 16:12:27.017 +03:00 [INF] Load finished in 168 ms
+2022-05-07 16:12:27.028 +03:00 [INF] Load finished in 192 ms
+2022-05-07 16:12:27.018 +03:00 [INF] Load finished in 192 ms
+2022-05-07 16:12:27.028 +03:00 [INF] Load finished in 227 ms
+2022-05-07 16:12:27.029 +03:00 [INF] Handle on target page was called 201 times
+2022-05-07 16:12:27.028 +03:00 [INF] Handle on target page was called 199 times
+2022-05-07 16:12:27.028 +03:00 [INF] Load finished in 179 ms
+2022-05-07 16:12:27.093 +03:00 [INF] Load finished in 268 ms
+2022-05-07 16:12:27.028 +03:00 [INF] Handle on target page was called 200 times
+2022-05-07 16:12:27.094 +03:00 [INF] Handle on target page was called 203 times
+2022-05-07 16:12:27.028 +03:00 [INF] Handle on target page was called 198 times
+2022-05-07 16:12:27.094 +03:00 [INF] Handle on target page was called 202 times
+2022-05-07 16:12:27.120 +03:00 [INF] Load finished in 320 ms
+2022-05-07 16:12:27.120 +03:00 [INF] Handle on target page was called 204 times
+2022-05-07 16:12:27.235 +03:00 [INF] Load finished in 434 ms
+2022-05-07 16:12:27.235 +03:00 [INF] Handle on target page was called 205 times
+2022-05-07 16:12:27.365 +03:00 [INF] Load finished in 247 ms
+2022-05-07 16:12:27.386 +03:00 [INF] Handle on target page was called 206 times
+2022-05-07 16:12:27.433 +03:00 [INF] Load finished in 162 ms
+2022-05-07 16:12:27.475 +03:00 [INF] Handle on target page was called 207 times
+2022-05-07 16:12:27.563 +03:00 [INF] Load finished in 198 ms
+2022-05-07 16:12:27.563 +03:00 [INF] Handle on target page was called 208 times
+2022-05-07 16:12:27.564 +03:00 [INF] Load finished in 198 ms
+2022-05-07 16:12:27.564 +03:00 [INF] Handle on target page was called 209 times
+2022-05-07 16:12:27.563 +03:00 [INF] Load finished in 198 ms
+2022-05-07 16:12:27.572 +03:00 [INF] Handle on target page was called 210 times
+2022-05-07 16:12:27.619 +03:00 [INF] Load finished in 207 ms
+2022-05-07 16:12:27.645 +03:00 [INF] Load finished in 233 ms
+2022-05-07 16:12:27.645 +03:00 [INF] Handle on target page was called 211 times
+2022-05-07 16:12:27.671 +03:00 [INF] Handle on target page was called 212 times
+2022-05-07 16:12:27.905 +03:00 [INF] Load finished in 175 ms
+2022-05-07 16:12:27.952 +03:00 [INF] Handle on target page was called 213 times
+2022-05-07 16:12:28.042 +03:00 [INF] Load finished in 397 ms
+2022-05-07 16:12:28.065 +03:00 [INF] Handle on target page was called 214 times
+2022-05-07 16:12:28.778 +03:00 [INF] Load finished in 804 ms
+2022-05-07 16:12:28.778 +03:00 [INF] Load finished in 805 ms
+2022-05-07 16:12:28.778 +03:00 [INF] Handle on target page was called 215 times
+2022-05-07 16:12:28.778 +03:00 [INF] Handle on target page was called 216 times
+2022-05-07 16:12:28.778 +03:00 [INF] Load finished in 919 ms
+2022-05-07 16:12:28.802 +03:00 [INF] Handle on target page was called 217 times
+2022-05-07 16:12:29.154 +03:00 [INF] Load finished in 726 ms
+2022-05-07 16:12:29.154 +03:00 [INF] Load finished in 302 ms
+2022-05-07 16:12:29.154 +03:00 [INF] Handle on target page was called 218 times
+2022-05-07 16:12:29.167 +03:00 [INF] Handle on target page was called 219 times
+2022-05-07 16:12:29.233 +03:00 [INF] Load finished in 305 ms
+2022-05-07 16:12:29.279 +03:00 [INF] Handle on target page was called 220 times
+2022-05-07 16:12:29.347 +03:00 [INF] Load finished in 352 ms
+2022-05-07 16:12:29.373 +03:00 [INF] Handle on target page was called 221 times
+2022-05-07 16:12:29.602 +03:00 [INF] Load finished in 255 ms
+2022-05-07 16:12:29.645 +03:00 [INF] Handle on target page was called 222 times
+2022-05-07 16:12:29.905 +03:00 [INF] Load finished in 433 ms
+2022-05-07 16:12:29.931 +03:00 [INF] Handle on target page was called 223 times
+2022-05-07 16:12:29.991 +03:00 [ERR] System.InvalidOperationException: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-07 16:12:29.991 +03:00 [INF] Load finished in 146 ms
+2022-05-07 16:12:29.991 +03:00 [INF] Load finished in 146 ms
+2022-05-07 16:12:29.992 +03:00 [INF] Handle on target page was called 224 times
+2022-05-07 16:12:29.992 +03:00 [INF] Handle on target page was called 225 times
+2022-05-07 16:12:30.022 +03:00 [INF] Load finished in 220 ms
+2022-05-07 16:12:30.022 +03:00 [INF] Handle on target page was called 226 times
+2022-05-07 16:12:30.072 +03:00 [INF] Load finished in 270 ms
+2022-05-07 16:12:30.072 +03:00 [INF] Load finished in 227 ms
+2022-05-07 16:12:30.093 +03:00 [INF] Handle on target page was called 228 times
+2022-05-07 16:12:30.093 +03:00 [INF] Load finished in 291 ms
+2022-05-07 16:12:30.093 +03:00 [INF] Handle on target page was called 229 times
+2022-05-07 16:12:30.072 +03:00 [INF] Handle on target page was called 227 times
+2022-05-07 16:12:30.155 +03:00 [INF] Load finished in 163 ms
+2022-05-07 16:12:30.156 +03:00 [INF] Handle on target page was called 230 times
+2022-05-07 16:12:30.334 +03:00 [INF] Load finished in 488 ms
+2022-05-07 16:12:30.334 +03:00 [INF] Handle on target page was called 231 times
+2022-05-07 16:12:30.358 +03:00 [INF] Load finished in 227 ms
+2022-05-07 16:12:30.384 +03:00 [INF] Handle on target page was called 232 times
+2022-05-07 16:12:30.497 +03:00 [INF] Load finished in 163 ms
+2022-05-07 16:12:30.498 +03:00 [INF] Handle on target page was called 233 times
+2022-05-07 16:12:30.498 +03:00 [INF] Load finished in 215 ms
+2022-05-07 16:12:30.499 +03:00 [INF] Handle on target page was called 234 times
+2022-05-07 16:12:30.700 +03:00 [INF] Load finished in 294 ms
+2022-05-07 16:12:30.725 +03:00 [INF] Handle on target page was called 235 times
+2022-05-07 16:12:30.725 +03:00 [INF] Load finished in 391 ms
+2022-05-07 16:12:30.751 +03:00 [INF] Handle on target page was called 236 times
+2022-05-07 16:12:30.845 +03:00 [INF] Load finished in 216 ms
+2022-05-07 16:12:30.846 +03:00 [INF] Handle on target page was called 237 times
+2022-05-07 16:12:31.012 +03:00 [INF] Load finished in 191 ms
+2022-05-07 16:12:31.013 +03:00 [INF] Handle on target page was called 238 times
+2022-05-07 16:12:31.105 +03:00 [INF] Load finished in 283 ms
+2022-05-07 16:12:31.105 +03:00 [INF] Handle on target page was called 239 times
+2022-05-07 16:12:31.129 +03:00 [INF] Load finished in 429 ms
+2022-05-07 16:12:31.136 +03:00 [INF] Handle on target page was called 240 times
+2022-05-07 16:12:31.183 +03:00 [INF] Load finished in 362 ms
+2022-05-07 16:12:31.183 +03:00 [INF] Handle on target page was called 241 times
+2022-05-07 16:12:31.209 +03:00 [INF] Load finished in 559 ms
+2022-05-07 16:12:31.209 +03:00 [INF] Handle on target page was called 242 times
+2022-05-07 16:12:31.364 +03:00 [INF] Load finished in 417 ms
+2022-05-07 16:12:31.364 +03:00 [INF] Handle on target page was called 243 times
+2022-05-07 16:12:31.365 +03:00 [INF] Load finished in 227 ms
+2022-05-07 16:12:31.365 +03:00 [INF] Handle on target page was called 244 times
+2022-05-07 16:12:31.650 +03:00 [INF] Load finished in 184 ms
+2022-05-07 16:12:31.650 +03:00 [INF] Handle on target page was called 245 times
+2022-05-07 16:12:31.865 +03:00 [INF] Load finished in 155 ms
+2022-05-07 16:12:31.866 +03:00 [INF] Handle on target page was called 246 times
+2022-05-07 16:12:31.866 +03:00 [INF] Load finished in 156 ms
+2022-05-07 16:12:31.887 +03:00 [INF] Handle on target page was called 247 times
+2022-05-07 16:12:32.004 +03:00 [INF] Load finished in 164 ms
+2022-05-07 16:12:32.026 +03:00 [INF] Handle on target page was called 248 times
+2022-05-07 16:12:32.102 +03:00 [INF] Load finished in 144 ms
+2022-05-07 16:12:32.122 +03:00 [INF] Handle on target page was called 249 times
+2022-05-07 16:12:32.167 +03:00 [INF] Load finished in 301 ms
+2022-05-07 16:12:32.167 +03:00 [INF] Handle on target page was called 250 times
+2022-05-07 16:12:32.261 +03:00 [INF] Load finished in 180 ms
+2022-05-07 16:12:32.261 +03:00 [INF] Handle on target page was called 251 times
+2022-05-07 16:12:32.431 +03:00 [INF] Load finished in 239 ms
+2022-05-07 16:12:32.453 +03:00 [INF] Handle on target page was called 252 times
+2022-05-07 16:12:32.524 +03:00 [INF] Load finished in 214 ms
+2022-05-07 16:12:32.525 +03:00 [INF] Handle on target page was called 253 times
+2022-05-07 16:12:32.549 +03:00 [INF] Load finished in 184 ms
+2022-05-07 16:12:32.549 +03:00 [INF] Handle on target page was called 254 times
+2022-05-07 16:12:32.648 +03:00 [INF] Load finished in 338 ms
+2022-05-07 16:12:32.648 +03:00 [INF] Handle on target page was called 255 times
+2022-05-07 16:12:32.779 +03:00 [INF] Load finished in 108 ms
+2022-05-07 16:12:32.779 +03:00 [INF] Handle on target page was called 256 times
+2022-05-07 16:12:32.826 +03:00 [INF] Load finished in 461 ms
+2022-05-07 16:12:32.826 +03:00 [INF] Handle on target page was called 257 times
+2022-05-07 16:12:32.850 +03:00 [INF] Load finished in 325 ms
+2022-05-07 16:12:32.850 +03:00 [INF] Handle on target page was called 258 times
+2022-05-07 16:12:32.901 +03:00 [INF] Load finished in 376 ms
+2022-05-07 16:12:32.901 +03:00 [INF] Handle on target page was called 259 times
+2022-05-07 16:12:33.021 +03:00 [INF] Load finished in 303 ms
+2022-05-07 16:12:33.021 +03:00 [INF] Handle on target page was called 260 times
+2022-05-07 16:12:33.547 +03:00 [INF] Load finished in 829 ms
+2022-05-07 16:12:33.547 +03:00 [INF] Handle on target page was called 261 times
+2022-05-07 16:12:33.830 +03:00 [INF] Load finished in 207 ms
+2022-05-07 16:12:33.851 +03:00 [INF] Handle on target page was called 262 times
+2022-05-07 16:12:33.944 +03:00 [INF] Load finished in 448 ms
+2022-05-07 16:12:33.945 +03:00 [INF] Handle on target page was called 263 times
+2022-05-07 16:12:34.015 +03:00 [INF] Load finished in 392 ms
+2022-05-07 16:12:34.040 +03:00 [INF] Handle on target page was called 264 times
+2022-05-07 16:12:34.245 +03:00 [INF] Load finished in 170 ms
+2022-05-07 16:12:34.245 +03:00 [INF] Handle on target page was called 265 times
+2022-05-07 16:12:34.245 +03:00 [INF] Load finished in 319 ms
+2022-05-07 16:12:34.267 +03:00 [INF] Handle on target page was called 266 times
+2022-05-07 16:12:34.267 +03:00 [INF] Load finished in 192 ms
+2022-05-07 16:12:34.267 +03:00 [INF] Handle on target page was called 267 times
+2022-05-07 16:12:34.492 +03:00 [INF] Load finished in 189 ms
+2022-05-07 16:12:34.493 +03:00 [INF] Handle on target page was called 268 times
+2022-05-07 16:12:34.535 +03:00 [INF] Load finished in 337 ms
+2022-05-07 16:12:34.536 +03:00 [INF] Handle on target page was called 269 times
+2022-05-07 16:12:34.536 +03:00 [INF] Load finished in 140 ms
+2022-05-07 16:12:34.536 +03:00 [INF] Handle on target page was called 270 times
+2022-05-07 16:12:34.559 +03:00 [INF] Load finished in 361 ms
+2022-05-07 16:12:34.585 +03:00 [INF] Handle on target page was called 271 times
+2022-05-07 16:12:34.713 +03:00 [INF] Load finished in 154 ms
+2022-05-07 16:12:34.749 +03:00 [INF] Handle on target page was called 272 times
+2022-05-07 16:12:34.749 +03:00 [INF] Load finished in 256 ms
+2022-05-07 16:12:34.749 +03:00 [INF] Handle on target page was called 273 times
+2022-05-07 16:12:34.749 +03:00 [INF] Load finished in 212 ms
+2022-05-07 16:12:34.749 +03:00 [INF] Handle on target page was called 274 times
+2022-05-07 16:12:35.624 +03:00 [ERR] System.InvalidOperationException: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, Schema item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-07 16:12:35.645 +03:00 [INF] Load finished in 1152 ms
+2022-05-07 16:12:35.645 +03:00 [INF] Handle on target page was called 275 times
+2022-05-07 16:12:35.817 +03:00 [INF] Load finished in 171 ms
+2022-05-07 16:12:35.817 +03:00 [INF] Handle on target page was called 276 times
+2022-05-07 16:12:35.892 +03:00 [INF] Load finished in 150 ms
+2022-05-07 16:12:35.892 +03:00 [INF] Handle on target page was called 277 times
+2022-05-07 16:12:36.007 +03:00 [INF] Load finished in 264 ms
+2022-05-07 16:12:36.007 +03:00 [INF] Handle on target page was called 278 times
+2022-05-07 16:12:36.126 +03:00 [INF] Load finished in 337 ms
+2022-05-07 16:12:36.126 +03:00 [INF] Handle on target page was called 279 times
+2022-05-07 16:12:36.126 +03:00 [INF] Load finished in 259 ms
+2022-05-07 16:12:36.130 +03:00 [INF] Load finished in 341 ms
+2022-05-07 16:12:36.130 +03:00 [INF] Handle on target page was called 280 times
+2022-05-07 16:12:36.151 +03:00 [INF] Handle on target page was called 281 times
+2022-05-07 16:12:36.299 +03:00 [INF] Load finished in 172 ms
+2022-05-07 16:12:36.299 +03:00 [INF] Handle on target page was called 282 times
+2022-05-07 16:12:36.325 +03:00 [INF] Load finished in 198 ms
+2022-05-07 16:12:36.326 +03:00 [INF] Handle on target page was called 283 times
+2022-05-07 16:12:36.398 +03:00 [INF] Load finished in 219 ms
+2022-05-07 16:12:36.398 +03:00 [INF] Handle on target page was called 284 times
+2022-05-07 16:12:36.528 +03:00 [INF] Load finished in 227 ms
+2022-05-07 16:12:36.528 +03:00 [INF] Handle on target page was called 285 times
+2022-05-07 16:12:36.550 +03:00 [INF] Load finished in 423 ms
+2022-05-07 16:12:36.550 +03:00 [INF] Handle on target page was called 286 times
+2022-05-07 16:17:55.641 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-07 16:17:55.682 +03:00 [INF] Hosting environment: Development
+2022-05-07 16:17:55.683 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/DistributedScraperWorkerService
+2022-05-07 16:17:57.673 +03:00 [ERR] BackgroundService failed
+Newtonsoft.Json.JsonSerializationException: Cannot create and populate list type WebReaper.Domain.Parsing.Schema. Path 'schema', line 1, position 11.
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewList(JsonReader reader, JsonArrayContract contract, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateList(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, Object existingValue, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.ResolvePropertyAndCreatorValues(JsonObjectContract contract, JsonProperty containerProperty, JsonReader reader, Type objectType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObjectUsingCreatorWithParameters(JsonReader reader, JsonObjectContract contract, JsonProperty containerProperty, ObjectConstructor`1 creator, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, String id, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonSerializer.Deserialize(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
+   at WebReaper.Queue.AzureServiceBus.AzureJobQueueReader.ReadAsync()+MoveNext() in /Users/alex/Development/WebReaper/WebReaper/Queue/InMemory/AzureServiceBus/AzureJobQueueReader.cs:line 28
+   at WebReaper.Queue.AzureServiceBus.AzureJobQueueReader.ReadAsync()+MoveNext() in /Users/alex/Development/WebReaper/WebReaper/Queue/InMemory/AzureServiceBus/AzureJobQueueReader.cs:line 26
+   at WebReaper.Queue.AzureServiceBus.AzureJobQueueReader.ReadAsync()+System.Threading.Tasks.Sources.IValueTaskSource<System.Boolean>.GetResult()
+   at System.Threading.Tasks.Parallel.<>c__54`1.<<ForEachAsync>b__54_0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at WebReaper.Scraper.Scraper.Run() in /Users/alex/Development/WebReaper/WebReaper/Scraper/Scraper.cs:line 197
+   at DistributedScraperWorkerService.ScrapingWorker.ExecuteAsync(CancellationToken stoppingToken) in /Users/alex/Development/WebReaper/DistributedScraperWorkerService/ScrapingWorker.cs:line 57
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2022-05-07 16:17:57.724 +03:00 [FTL] The HostOptions.BackgroundServiceExceptionBehavior is configured to StopHost. A BackgroundService has thrown an unhandled exception, and the IHost instance is stopping. To avoid this behavior, configure this to Ignore; however the BackgroundService will not be restarted.
+Newtonsoft.Json.JsonSerializationException: Cannot create and populate list type WebReaper.Domain.Parsing.Schema. Path 'schema', line 1, position 11.
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewList(JsonReader reader, JsonArrayContract contract, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateList(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, Object existingValue, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.ResolvePropertyAndCreatorValues(JsonObjectContract contract, JsonProperty containerProperty, JsonReader reader, Type objectType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObjectUsingCreatorWithParameters(JsonReader reader, JsonObjectContract contract, JsonProperty containerProperty, ObjectConstructor`1 creator, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, String id, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonSerializer.Deserialize(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
+   at WebReaper.Queue.AzureServiceBus.AzureJobQueueReader.ReadAsync()+MoveNext() in /Users/alex/Development/WebReaper/WebReaper/Queue/InMemory/AzureServiceBus/AzureJobQueueReader.cs:line 28
+   at WebReaper.Queue.AzureServiceBus.AzureJobQueueReader.ReadAsync()+MoveNext() in /Users/alex/Development/WebReaper/WebReaper/Queue/InMemory/AzureServiceBus/AzureJobQueueReader.cs:line 26
+   at WebReaper.Queue.AzureServiceBus.AzureJobQueueReader.ReadAsync()+System.Threading.Tasks.Sources.IValueTaskSource<System.Boolean>.GetResult()
+   at System.Threading.Tasks.Parallel.<>c__54`1.<<ForEachAsync>b__54_0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at WebReaper.Scraper.Scraper.Run() in /Users/alex/Development/WebReaper/WebReaper/Scraper/Scraper.cs:line 197
+   at DistributedScraperWorkerService.ScrapingWorker.ExecuteAsync(CancellationToken stoppingToken) in /Users/alex/Development/WebReaper/DistributedScraperWorkerService/ScrapingWorker.cs:line 57
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2022-05-07 16:17:57.725 +03:00 [INF] Application is shutting down...
+2022-05-07 16:23:01.099 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-07 16:23:01.135 +03:00 [INF] Hosting environment: Development
+2022-05-07 16:23:01.137 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/DistributedScraperWorkerService
+2022-05-07 16:23:03.064 +03:00 [ERR] BackgroundService failed
+Newtonsoft.Json.JsonSerializationException: Cannot create and populate list type WebReaper.Domain.Parsing.Schema. Path 'schema', line 1, position 11.
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewList(JsonReader reader, JsonArrayContract contract, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateList(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, Object existingValue, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.ResolvePropertyAndCreatorValues(JsonObjectContract contract, JsonProperty containerProperty, JsonReader reader, Type objectType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObjectUsingCreatorWithParameters(JsonReader reader, JsonObjectContract contract, JsonProperty containerProperty, ObjectConstructor`1 creator, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, String id, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonSerializer.Deserialize(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
+   at WebReaper.Queue.AzureServiceBus.AzureJobQueueReader.ReadAsync()+MoveNext() in /Users/alex/Development/WebReaper/WebReaper/Queue/InMemory/AzureServiceBus/AzureJobQueueReader.cs:line 28
+   at WebReaper.Queue.AzureServiceBus.AzureJobQueueReader.ReadAsync()+MoveNext() in /Users/alex/Development/WebReaper/WebReaper/Queue/InMemory/AzureServiceBus/AzureJobQueueReader.cs:line 26
+   at WebReaper.Queue.AzureServiceBus.AzureJobQueueReader.ReadAsync()+System.Threading.Tasks.Sources.IValueTaskSource<System.Boolean>.GetResult()
+   at System.Threading.Tasks.Parallel.<>c__54`1.<<ForEachAsync>b__54_0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at WebReaper.Scraper.Scraper.Run() in /Users/alex/Development/WebReaper/WebReaper/Scraper/Scraper.cs:line 197
+   at DistributedScraperWorkerService.ScrapingWorker.ExecuteAsync(CancellationToken stoppingToken) in /Users/alex/Development/WebReaper/DistributedScraperWorkerService/ScrapingWorker.cs:line 57
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2022-05-07 16:23:03.111 +03:00 [FTL] The HostOptions.BackgroundServiceExceptionBehavior is configured to StopHost. A BackgroundService has thrown an unhandled exception, and the IHost instance is stopping. To avoid this behavior, configure this to Ignore; however the BackgroundService will not be restarted.
+Newtonsoft.Json.JsonSerializationException: Cannot create and populate list type WebReaper.Domain.Parsing.Schema. Path 'schema', line 1, position 11.
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewList(JsonReader reader, JsonArrayContract contract, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateList(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, Object existingValue, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.ResolvePropertyAndCreatorValues(JsonObjectContract contract, JsonProperty containerProperty, JsonReader reader, Type objectType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObjectUsingCreatorWithParameters(JsonReader reader, JsonObjectContract contract, JsonProperty containerProperty, ObjectConstructor`1 creator, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, String id, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonSerializer.Deserialize(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
+   at WebReaper.Queue.AzureServiceBus.AzureJobQueueReader.ReadAsync()+MoveNext() in /Users/alex/Development/WebReaper/WebReaper/Queue/InMemory/AzureServiceBus/AzureJobQueueReader.cs:line 28
+   at WebReaper.Queue.AzureServiceBus.AzureJobQueueReader.ReadAsync()+MoveNext() in /Users/alex/Development/WebReaper/WebReaper/Queue/InMemory/AzureServiceBus/AzureJobQueueReader.cs:line 26
+   at WebReaper.Queue.AzureServiceBus.AzureJobQueueReader.ReadAsync()+System.Threading.Tasks.Sources.IValueTaskSource<System.Boolean>.GetResult()
+   at System.Threading.Tasks.Parallel.<>c__54`1.<<ForEachAsync>b__54_0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at WebReaper.Scraper.Scraper.Run() in /Users/alex/Development/WebReaper/WebReaper/Scraper/Scraper.cs:line 197
+   at DistributedScraperWorkerService.ScrapingWorker.ExecuteAsync(CancellationToken stoppingToken) in /Users/alex/Development/WebReaper/DistributedScraperWorkerService/ScrapingWorker.cs:line 57
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2022-05-07 16:23:03.117 +03:00 [INF] Application is shutting down...
+2022-05-07 16:24:06.391 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-07 16:24:06.427 +03:00 [INF] Hosting environment: Development
+2022-05-07 16:24:06.428 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/DistributedScraperWorkerService
+2022-05-07 16:24:08.284 +03:00 [ERR] BackgroundService failed
+Newtonsoft.Json.JsonSerializationException: Cannot create and populate list type WebReaper.Domain.Parsing.Schema. Path 'schema', line 1, position 11.
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewList(JsonReader reader, JsonArrayContract contract, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateList(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, Object existingValue, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.ResolvePropertyAndCreatorValues(JsonObjectContract contract, JsonProperty containerProperty, JsonReader reader, Type objectType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObjectUsingCreatorWithParameters(JsonReader reader, JsonObjectContract contract, JsonProperty containerProperty, ObjectConstructor`1 creator, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, String id, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonSerializer.Deserialize(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
+   at WebReaper.Queue.AzureServiceBus.AzureJobQueueReader.ReadAsync()+MoveNext() in /Users/alex/Development/WebReaper/WebReaper/Queue/InMemory/AzureServiceBus/AzureJobQueueReader.cs:line 28
+   at WebReaper.Queue.AzureServiceBus.AzureJobQueueReader.ReadAsync()+MoveNext() in /Users/alex/Development/WebReaper/WebReaper/Queue/InMemory/AzureServiceBus/AzureJobQueueReader.cs:line 26
+   at WebReaper.Queue.AzureServiceBus.AzureJobQueueReader.ReadAsync()+System.Threading.Tasks.Sources.IValueTaskSource<System.Boolean>.GetResult()
+   at System.Threading.Tasks.Parallel.<>c__54`1.<<ForEachAsync>b__54_0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at WebReaper.Scraper.Scraper.Run() in /Users/alex/Development/WebReaper/WebReaper/Scraper/Scraper.cs:line 197
+   at DistributedScraperWorkerService.ScrapingWorker.ExecuteAsync(CancellationToken stoppingToken) in /Users/alex/Development/WebReaper/DistributedScraperWorkerService/ScrapingWorker.cs:line 57
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2022-05-07 16:24:08.330 +03:00 [FTL] The HostOptions.BackgroundServiceExceptionBehavior is configured to StopHost. A BackgroundService has thrown an unhandled exception, and the IHost instance is stopping. To avoid this behavior, configure this to Ignore; however the BackgroundService will not be restarted.
+Newtonsoft.Json.JsonSerializationException: Cannot create and populate list type WebReaper.Domain.Parsing.Schema. Path 'schema', line 1, position 11.
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewList(JsonReader reader, JsonArrayContract contract, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateList(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, Object existingValue, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.ResolvePropertyAndCreatorValues(JsonObjectContract contract, JsonProperty containerProperty, JsonReader reader, Type objectType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObjectUsingCreatorWithParameters(JsonReader reader, JsonObjectContract contract, JsonProperty containerProperty, ObjectConstructor`1 creator, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, String id, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonSerializer.Deserialize(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
+   at WebReaper.Queue.AzureServiceBus.AzureJobQueueReader.ReadAsync()+MoveNext() in /Users/alex/Development/WebReaper/WebReaper/Queue/InMemory/AzureServiceBus/AzureJobQueueReader.cs:line 28
+   at WebReaper.Queue.AzureServiceBus.AzureJobQueueReader.ReadAsync()+MoveNext() in /Users/alex/Development/WebReaper/WebReaper/Queue/InMemory/AzureServiceBus/AzureJobQueueReader.cs:line 26
+   at WebReaper.Queue.AzureServiceBus.AzureJobQueueReader.ReadAsync()+System.Threading.Tasks.Sources.IValueTaskSource<System.Boolean>.GetResult()
+   at System.Threading.Tasks.Parallel.<>c__54`1.<<ForEachAsync>b__54_0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at WebReaper.Scraper.Scraper.Run() in /Users/alex/Development/WebReaper/WebReaper/Scraper/Scraper.cs:line 197
+   at DistributedScraperWorkerService.ScrapingWorker.ExecuteAsync(CancellationToken stoppingToken) in /Users/alex/Development/WebReaper/DistributedScraperWorkerService/ScrapingWorker.cs:line 57
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2022-05-07 16:24:08.335 +03:00 [INF] Application is shutting down...
+2022-05-07 20:08:52.442 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-07 20:08:52.483 +03:00 [INF] Hosting environment: Development
+2022-05-07 20:08:52.484 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/DistributedScraperWorkerService
+2022-05-07 20:08:55.506 +03:00 [ERR] BackgroundService failed
+Newtonsoft.Json.JsonSerializationException: Cannot create and populate list type WebReaper.Domain.Parsing.Schema. Path 'schema', line 1, position 11.
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewList(JsonReader reader, JsonArrayContract contract, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateList(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, Object existingValue, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.ResolvePropertyAndCreatorValues(JsonObjectContract contract, JsonProperty containerProperty, JsonReader reader, Type objectType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObjectUsingCreatorWithParameters(JsonReader reader, JsonObjectContract contract, JsonProperty containerProperty, ObjectConstructor`1 creator, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, String id, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonSerializer.Deserialize(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
+   at WebReaper.Queue.AzureServiceBus.AzureJobQueueReader.ReadAsync()+MoveNext() in /Users/alex/Development/WebReaper/WebReaper/Queue/InMemory/AzureServiceBus/AzureJobQueueReader.cs:line 28
+   at WebReaper.Queue.AzureServiceBus.AzureJobQueueReader.ReadAsync()+MoveNext() in /Users/alex/Development/WebReaper/WebReaper/Queue/InMemory/AzureServiceBus/AzureJobQueueReader.cs:line 26
+   at WebReaper.Queue.AzureServiceBus.AzureJobQueueReader.ReadAsync()+System.Threading.Tasks.Sources.IValueTaskSource<System.Boolean>.GetResult()
+   at System.Threading.Tasks.Parallel.<>c__54`1.<<ForEachAsync>b__54_0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at WebReaper.Scraper.Scraper.Run() in /Users/alex/Development/WebReaper/WebReaper/Scraper/Scraper.cs:line 197
+   at DistributedScraperWorkerService.ScrapingWorker.ExecuteAsync(CancellationToken stoppingToken) in /Users/alex/Development/WebReaper/DistributedScraperWorkerService/ScrapingWorker.cs:line 57
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2022-05-07 20:08:55.571 +03:00 [FTL] The HostOptions.BackgroundServiceExceptionBehavior is configured to StopHost. A BackgroundService has thrown an unhandled exception, and the IHost instance is stopping. To avoid this behavior, configure this to Ignore; however the BackgroundService will not be restarted.
+Newtonsoft.Json.JsonSerializationException: Cannot create and populate list type WebReaper.Domain.Parsing.Schema. Path 'schema', line 1, position 11.
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewList(JsonReader reader, JsonArrayContract contract, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateList(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, Object existingValue, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.ResolvePropertyAndCreatorValues(JsonObjectContract contract, JsonProperty containerProperty, JsonReader reader, Type objectType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObjectUsingCreatorWithParameters(JsonReader reader, JsonObjectContract contract, JsonProperty containerProperty, ObjectConstructor`1 creator, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, String id, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonSerializer.Deserialize(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
+   at WebReaper.Queue.AzureServiceBus.AzureJobQueueReader.ReadAsync()+MoveNext() in /Users/alex/Development/WebReaper/WebReaper/Queue/InMemory/AzureServiceBus/AzureJobQueueReader.cs:line 28
+   at WebReaper.Queue.AzureServiceBus.AzureJobQueueReader.ReadAsync()+MoveNext() in /Users/alex/Development/WebReaper/WebReaper/Queue/InMemory/AzureServiceBus/AzureJobQueueReader.cs:line 26
+   at WebReaper.Queue.AzureServiceBus.AzureJobQueueReader.ReadAsync()+System.Threading.Tasks.Sources.IValueTaskSource<System.Boolean>.GetResult()
+   at System.Threading.Tasks.Parallel.<>c__54`1.<<ForEachAsync>b__54_0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at WebReaper.Scraper.Scraper.Run() in /Users/alex/Development/WebReaper/WebReaper/Scraper/Scraper.cs:line 197
+   at DistributedScraperWorkerService.ScrapingWorker.ExecuteAsync(CancellationToken stoppingToken) in /Users/alex/Development/WebReaper/DistributedScraperWorkerService/ScrapingWorker.cs:line 57
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2022-05-07 20:08:55.572 +03:00 [INF] Application is shutting down...
+2022-05-07 20:09:44.657 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-07 20:09:44.696 +03:00 [INF] Hosting environment: Development
+2022-05-07 20:09:44.697 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/DistributedScraperWorkerService
+2022-05-07 20:09:48.895 +03:00 [ERR] BackgroundService failed
+Newtonsoft.Json.JsonSerializationException: Cannot create and populate list type WebReaper.Domain.Parsing.Schema. Path 'schema', line 1, position 11.
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewList(JsonReader reader, JsonArrayContract contract, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateList(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, Object existingValue, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.ResolvePropertyAndCreatorValues(JsonObjectContract contract, JsonProperty containerProperty, JsonReader reader, Type objectType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObjectUsingCreatorWithParameters(JsonReader reader, JsonObjectContract contract, JsonProperty containerProperty, ObjectConstructor`1 creator, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, String id, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonSerializer.Deserialize(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
+   at WebReaper.Queue.AzureServiceBus.AzureJobQueueReader.ReadAsync()+MoveNext() in /Users/alex/Development/WebReaper/WebReaper/Queue/InMemory/AzureServiceBus/AzureJobQueueReader.cs:line 28
+   at WebReaper.Queue.AzureServiceBus.AzureJobQueueReader.ReadAsync()+MoveNext() in /Users/alex/Development/WebReaper/WebReaper/Queue/InMemory/AzureServiceBus/AzureJobQueueReader.cs:line 26
+   at WebReaper.Queue.AzureServiceBus.AzureJobQueueReader.ReadAsync()+System.Threading.Tasks.Sources.IValueTaskSource<System.Boolean>.GetResult()
+   at System.Threading.Tasks.Parallel.<>c__54`1.<<ForEachAsync>b__54_0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at WebReaper.Scraper.Scraper.Run() in /Users/alex/Development/WebReaper/WebReaper/Scraper/Scraper.cs:line 197
+   at DistributedScraperWorkerService.ScrapingWorker.ExecuteAsync(CancellationToken stoppingToken) in /Users/alex/Development/WebReaper/DistributedScraperWorkerService/ScrapingWorker.cs:line 57
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2022-05-07 20:09:48.957 +03:00 [FTL] The HostOptions.BackgroundServiceExceptionBehavior is configured to StopHost. A BackgroundService has thrown an unhandled exception, and the IHost instance is stopping. To avoid this behavior, configure this to Ignore; however the BackgroundService will not be restarted.
+Newtonsoft.Json.JsonSerializationException: Cannot create and populate list type WebReaper.Domain.Parsing.Schema. Path 'schema', line 1, position 11.
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewList(JsonReader reader, JsonArrayContract contract, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateList(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, Object existingValue, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.ResolvePropertyAndCreatorValues(JsonObjectContract contract, JsonProperty containerProperty, JsonReader reader, Type objectType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObjectUsingCreatorWithParameters(JsonReader reader, JsonObjectContract contract, JsonProperty containerProperty, ObjectConstructor`1 creator, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, String id, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonSerializer.Deserialize(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
+   at WebReaper.Queue.AzureServiceBus.AzureJobQueueReader.ReadAsync()+MoveNext() in /Users/alex/Development/WebReaper/WebReaper/Queue/InMemory/AzureServiceBus/AzureJobQueueReader.cs:line 28
+   at WebReaper.Queue.AzureServiceBus.AzureJobQueueReader.ReadAsync()+MoveNext() in /Users/alex/Development/WebReaper/WebReaper/Queue/InMemory/AzureServiceBus/AzureJobQueueReader.cs:line 26
+   at WebReaper.Queue.AzureServiceBus.AzureJobQueueReader.ReadAsync()+System.Threading.Tasks.Sources.IValueTaskSource<System.Boolean>.GetResult()
+   at System.Threading.Tasks.Parallel.<>c__54`1.<<ForEachAsync>b__54_0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at WebReaper.Scraper.Scraper.Run() in /Users/alex/Development/WebReaper/WebReaper/Scraper/Scraper.cs:line 197
+   at DistributedScraperWorkerService.ScrapingWorker.ExecuteAsync(CancellationToken stoppingToken) in /Users/alex/Development/WebReaper/DistributedScraperWorkerService/ScrapingWorker.cs:line 57
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2022-05-07 20:09:48.959 +03:00 [INF] Application is shutting down...
