@@ -5,5 +5,5 @@ namespace WebReaper.Abstractions.Parsers;
 
 public interface IContentParser
 {
-    JObject Parse(string html, Schema schema);
+    JObject Parse(string html, SchemaContainer schema);
 }

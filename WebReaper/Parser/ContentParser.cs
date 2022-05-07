@@ -12,7 +12,7 @@ namespace WebReaper.Parser
 
         public ContentParser(ILogger logger) => this.Logger = logger;
 
-        public JObject Parse(string html, Schema schema)
+        public JObject Parse(string html, SchemaContainer schema)
         {
             var doc = new HtmlDocument();
             doc.LoadHtml(html);
@@ -20,7 +20,7 @@ namespace WebReaper.Parser
             return GetJson(doc, schema);
         }
 
-        private JObject GetJson(HtmlDocument doc, Schema schema)
+        private JObject GetJson(HtmlDocument doc, SchemaContainer schema)
         {
             JObject output = new JObject();
 
@@ -34,11 +34,11 @@ namespace WebReaper.Parser
 
         private void FillOutput(JObject result, HtmlDocument doc, Schema item)
         {
-            if (item.IsComposite)
+            if (item is SchemaContainer container)
             {
                 var obj = new JObject();
 
-                foreach (var el in item.Children)
+                foreach (var el in container.Children)
                 {
                     FillOutput(obj, doc, el);
                 }

@@ -35,7 +35,7 @@ public class Scraper
     
     private ISpider spider;
 
-    private Schema? schema;
+    private SchemaContainer? schema;
 
     private WebProxy? proxy;
 
@@ -154,7 +154,7 @@ public class Scraper
         return this;
     }
 
-    public Scraper WithScheme(Schema schema)
+    public Scraper WithScheme(SchemaContainer schema)
     {
         this.schema = schema;
         return this;
