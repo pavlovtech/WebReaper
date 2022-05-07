@@ -29,14 +29,13 @@ public class ScrapingWorker : BackgroundService
             .FollowLinks(".forumlink>a")
             .FollowLinks("a.torTopic", ".pg")
             .WithScheme(new SchemaContainer {
-                Children = new List<Schema> {
-                    new("name", "#topic-title"),
-                    new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
-                    new("subcategory", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(5)"),
-                    new("torrentSize", "div.attach_link.guest>ul>li:nth-child(2)"),
-                    new Url("torrentLink", ".magnet-link"),
-                    new Image("coverImageUrl", ".postImg")
-            }})
+                new("name", "#topic-title"),
+                new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
+                new("subcategory", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(5)"),
+                new("torrentSize", "div.attach_link.guest>ul>li:nth-child(2)"),
+                new Url("torrentLink", ".magnet-link"),
+                new Image("coverImageUrl", ".postImg")
+            })
             .WithParallelismDegree(10)
             .WriteToJsonFile("result.json")
             .WriteToCsvFile("result.csv")

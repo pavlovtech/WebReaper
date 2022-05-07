@@ -33,7 +33,11 @@ public class AzureJobQueueReader : IJobQueueReader
         {
             await receiver.CompleteMessageAsync(msg);
             var stringBody = msg.Body.ToString();
-            var job = JsonConvert.DeserializeObject<Job>(stringBody);
+            var job = JsonConvert.DeserializeObject<Job>(stringBody, new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto
+            });
+
             yield return job;
         }
     }
