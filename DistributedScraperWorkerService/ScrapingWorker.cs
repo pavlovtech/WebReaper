@@ -19,6 +19,8 @@ public class ScrapingWorker : BackgroundService
             "https://rutracker.org/forum/viewforum.php?f=2321"
         };
 
+        var redisConnectionString = "redis-14134.c135.eu-central-1-1.ec2.cloud.redislabs.com:14134,allowAdmin=true,password=fFyL97L9hj3NPTsIGyPy99YgxnmoHzH4";
+
         scraper = new Scraper()
             .WithLogger(logger)
             .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
@@ -39,7 +41,7 @@ public class ScrapingWorker : BackgroundService
                 new Image("coverImageUrl", ".postImg")
             })
             .WithParallelismDegree(10)
-            .WithLinkTracker(new RedisLinkTracker("webreaper.redis.cache.windows.net:6380,password=AIWM15Q0XAKjfZYUc9ickXfwi8O3Ti9UFAzCaAnMeEc=,ssl=True,abortConnect=False"))
+            .WithLinkTracker(new RedisCrawledLinkTracker(redisConnectionString))
             .WriteToJsonFile("result.json")
             .WriteToCsvFile("result.csv")
             .Build();
