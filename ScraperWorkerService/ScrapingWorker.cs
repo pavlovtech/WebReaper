@@ -28,7 +28,7 @@ public class ScrapingWorker : BackgroundService
             .FollowLinks("#cf-33 .forumlink>a")
             .FollowLinks(".forumlink>a")
             .FollowLinks("a.torTopic", ".pg")
-            .WithScheme(new SchemaContainer {
+            .WithScheme(new Schema {
                 new("name", "#topic-title"),
                 new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
                 new("subcategory", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(5)"),

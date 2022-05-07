@@ -17,7 +17,7 @@ public class AzureJobQueueReader : IJobQueueReader
 
         receiver = client.CreateReceiver(queueName, new ServiceBusReceiverOptions()
         {
-            PrefetchCount = 0
+            PrefetchCount = 5
         });
     }
 

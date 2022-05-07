@@ -6,8 +6,8 @@ using WebReaper.Domain.Selectors;
 
 namespace WebReaper.Parsing;
 
-public record Image(string Field, string Selector, SelectorType SelectorType = SelectorType.Css)
-    : Schema(Field, Selector, SelectorType)
+public record Image(string Field, string Selector, SelectorType? SelectorType = SelectorType.Css)
+    : SchemaElement(Field, Selector, SelectorType)
 {
     public override string GetData(HtmlDocument doc)
     {
