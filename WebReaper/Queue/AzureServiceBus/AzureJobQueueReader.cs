@@ -25,6 +25,13 @@ public class AzureJobQueueReader : IJobQueueReader
     {
         await foreach (var msg in receiver.ReceiveMessagesAsync())
         {
+            Console.WriteLine("Reading");
+            await receiver.CompleteMessageAsync(msg);
+        }
+
+        await foreach (var msg in receiver.ReceiveMessagesAsync())
+        {
+            await receiver.CompleteMessageAsync(msg);
             var stringBody = msg.Body.ToString();
             var job = JsonConvert.DeserializeObject<Job>(stringBody);
             yield return job;
