@@ -2065,3 +2065,22 @@ Newtonsoft.Json.JsonSerializationException: Cannot create and populate list type
    at DistributedScraperWorkerService.ScrapingWorker.ExecuteAsync(CancellationToken stoppingToken) in /Users/alex/Development/WebReaper/DistributedScraperWorkerService/ScrapingWorker.cs:line 57
    at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
 2022-05-07 20:09:48.959 +03:00 [INF] Application is shutting down...
+2022-05-07 23:12:12.044 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-07 23:12:12.081 +03:00 [INF] Hosting environment: Development
+2022-05-07 23:12:12.082 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/DistributedScraperWorkerService
+2022-05-07 23:12:57.765 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-07 23:12:57.804 +03:00 [INF] Hosting environment: Development
+2022-05-07 23:12:57.805 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/DistributedScraperWorkerService
+2022-05-07 23:13:49.586 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-07 23:13:49.623 +03:00 [INF] Hosting environment: Development
+2022-05-07 23:13:49.624 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/DistributedScraperWorkerService
+2022-05-07 23:16:48.300 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-07 23:16:48.342 +03:00 [INF] Hosting environment: Development
+2022-05-07 23:16:48.344 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/DistributedScraperWorkerService
+2022-05-07 23:17:41.723 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-07 23:17:41.764 +03:00 [INF] Hosting environment: Development
+2022-05-07 23:17:41.766 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/DistributedScraperWorkerService
+2022-05-07 23:18:57.343 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-07 23:18:57.385 +03:00 [INF] Hosting environment: Development
+2022-05-07 23:18:57.386 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/DistributedScraperWorkerService
+2022-05-07 23:20:00.404 +03:00 [INF] Load finished in 342 ms
