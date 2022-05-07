@@ -111,7 +111,7 @@ public class Spider : ISpider
     }
 
     private async Task AddToQueueAsync(
-        Schema schema,
+        SchemaContainer schema,
         string baseUrl,
         ImmutableQueue<LinkPathSelector> selectors,
         IEnumerable<string> links,

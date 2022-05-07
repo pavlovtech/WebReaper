@@ -5,14 +5,27 @@
             // Use IntelliSense to find out which attributes exist for C# debugging
             // Use hover for the description of the existing attributes
             // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-            "name": ".NET Core Launch (console)",
+            "name": "Launch ScraperWorkerService",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/ScraperWorkerService/bin/Debug/net6.0/ScraperWorkerService.dll",
+            "program": "${workspaceFolder}/DistributedScraperWorkerService/bin/Debug/net6.0/ScraperWorkerService.dll",
             "args": [],
             "cwd": "${workspaceFolder}/ScraperWorkerService",
+            // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "Launch DistributedScraperWorkerService",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            // If you have changed target frameworks, make sure to update the program path.
+            "program": "${workspaceFolder}/DistributedScraperWorkerService/bin/Debug/net6.0/DistributedScraperWorkerService.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/DistributedScraperWorkerService",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",
             "stopAtEntry": false
