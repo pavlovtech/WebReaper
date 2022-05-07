@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
 using WebReaper.Domain.Selectors;
@@ -12,7 +12,7 @@ public record Schema(
     DataType? Type = null)
     : IEnumerable<Schema>
 {
-    public readonly List<Schema> Children = new List<Schema>();
+    public List<Schema> Children { get; set; } = new();
 
     public bool IsComposite => Children.Any();
 

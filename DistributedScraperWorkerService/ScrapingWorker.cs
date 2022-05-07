@@ -1,6 +1,7 @@
 ﻿using WebReaper.Domain.Parsing;
 using WebReaper.LinkTracker;
 using WebReaper.Parsing;
+using WebReaper.Queue.AzureServiceBus;
 using WebReaper.Scraper;
 
 namespace DistributedScraperWorkerService;
@@ -20,6 +21,8 @@ public class ScrapingWorker : BackgroundService
         };
 
         var redisConnectionString = "redis-14134.c135.eu-central-1-1.ec2.cloud.redislabs.com:14134,allowAdmin=true,password=fFyL97L9hj3NPTsIGyPy99YgxnmoHzH4";
+        var azureSBConnectionString = "Endpoint=sb://webreaper.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=mIHXjIKh6I89CHyMM2SDMr7YxvVTDFQvL+/FKlbK43g=";
+        var queue = "jobqueue";
 
         scraper = new Scraper()
             .WithLogger(logger)
@@ -42,6 +45,8 @@ public class ScrapingWorker : BackgroundService
             })
             .WithParallelismDegree(10)
             .WithLinkTracker(new RedisCrawledLinkTracker(redisConnectionString))
+            .WithJobQueueReader(new AzureJobQueueReader(azureSBConnectionString, queue))
+            .WithJobQueueWriter(new AzureJobQueueWriter(azureSBConnectionString, queue))
             .WriteToJsonFile("result.json")
             .WriteToCsvFile("result.csv")
             .Build();

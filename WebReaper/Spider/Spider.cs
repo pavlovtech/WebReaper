@@ -1,4 +1,4 @@
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 using Microsoft.Extensions.Logging;
 using WebReaper.Domain;
 using WebReaper.Extensions;
@@ -60,7 +60,7 @@ public class Spider : ISpider
 
         if ((await LinkTracker.GetVisitedLinksAsync(job.BaseUrl)).Count() >= PageCrawlLimit)
         {
-            JobQueueWriter.CompleteAdding();
+            await JobQueueWriter.CompleteAddingAsync();
             return;
         }
 
@@ -91,7 +91,7 @@ public class Spider : ISpider
             .Select(link => job.BaseUrl + link)
             .Except(await LinkTracker.GetVisitedLinksAsync(job.BaseUrl));
 
-        AddToQueue(job.schema, job.BaseUrl, newLinkPathSelectors, links, job.DepthLevel + 1);
+        await AddToQueueAsync(job.schema, job.BaseUrl, newLinkPathSelectors, links, job.DepthLevel + 1);
 
         if (job.PageCategory == PageCategory.PageWithPagination)
         {
@@ -106,11 +106,11 @@ public class Spider : ISpider
                 Logger.LogInformation("No pages with pagination found with selector {selector} on {url}", currentSelector.PaginationSelector, job.Url);
             }
 
-            AddToQueue(job.schema, job.BaseUrl, job.LinkPathSelectors, linksToPaginatedPages, job.DepthLevel + 1);
+            await AddToQueueAsync(job.schema, job.BaseUrl, job.LinkPathSelectors, linksToPaginatedPages, job.DepthLevel + 1);
         }
     }
 
-    private void AddToQueue(
+    private async Task AddToQueueAsync(
         Schema schema,
         string baseUrl,
         ImmutableQueue<LinkPathSelector> selectors,
@@ -120,7 +120,7 @@ public class Spider : ISpider
         foreach (var link in links)
         {
             var newJob = new Job(schema, baseUrl, link, selectors, depthLevel);
-            JobQueueWriter.Write(newJob);
+            await JobQueueWriter.WriteAsync(newJob);
         }
     }
 }
