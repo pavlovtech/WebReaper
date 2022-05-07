@@ -20,7 +20,11 @@ public class AzureJobQueueWriter : IJobQueueWriter, IAsyncDisposable
 
     public async Task WriteAsync(Job job)
     {
-        var json = JsonConvert.SerializeObject(job);
+        var json = JsonConvert.SerializeObject(job, Formatting.Indented, new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Auto
+        });
+
         await sender.SendMessageAsync(new ServiceBusMessage(json));
     }
 
