@@ -29,11 +29,9 @@ public record Schema(
 public record SchemaContainer(
     string? Field = null,
     SelectorType SelectorType = SelectorType.Css)
-    : Schema(Field, null, SelectorType, null), IEnumerable<Schema>
+    : Schema(Field, null, SelectorType, null)
 {
-    public List<Schema> Children { get; set; } = new();
-
-    public virtual void Add(Schema element) => Children.Add(element);
+    public List<Schema> Children { get; set; }
 
     public virtual string GetData(HtmlDocument doc)
     {
@@ -48,8 +46,4 @@ public record SchemaContainer(
 
         return content;
     }
-
-    public IEnumerator<Schema> GetEnumerator() => Children.GetEnumerator();
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

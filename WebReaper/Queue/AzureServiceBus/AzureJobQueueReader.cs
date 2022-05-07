@@ -23,11 +23,11 @@ public class AzureJobQueueReader : IJobQueueReader
 
     public async IAsyncEnumerable<Job> ReadAsync()
     {
-        await foreach (var msg in receiver.ReceiveMessagesAsync())
-        {
-            Console.WriteLine("Reading");
-            await receiver.CompleteMessageAsync(msg);
-        }
+        // await foreach (var msg in receiver.ReceiveMessagesAsync())
+        // {
+        //     Console.WriteLine("Reading");
+        //     await receiver.CompleteMessageAsync(msg);
+        // }
 
         await foreach (var msg in receiver.ReceiveMessagesAsync())
         {
