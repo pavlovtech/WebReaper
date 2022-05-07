@@ -14,12 +14,12 @@ public class RedisCrawledLinkTracker : ICrawledLinkTracker
         try
         {
             // TODO: remove this line
-            var srv = redis.GetServer("redis-14870.c135.eu-central-1-1.ec2.cloud.redislabs.com:14870");
+            var srv = redis.GetServer("redis-14134.c135.eu-central-1-1.ec2.cloud.redislabs.com:14134");
             srv.FlushDatabase();
         }
         catch (Exception ex)
         {
-
+            Console.WriteLine(ex.Message);
         }
     }
 
