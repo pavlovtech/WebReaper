@@ -5,10 +5,10 @@ using WebReaper.Domain.Selectors;
 
 namespace WebReaper.Domain.Parsing;
 
-public record Schema(
+public record SchemaElement(
     string? Field,
     string? Selector = null,
-    SelectorType SelectorType = SelectorType.Css,
+    SelectorType? SelectorType = SelectorType.Css,
     DataType? Type = null)
 {
     public virtual string GetData(HtmlDocument doc)
@@ -26,41 +26,40 @@ public record Schema(
     }
 }
 
-public record SchemaContainer(
-    string? Field = null,
-    SelectorType SelectorType = SelectorType.Css)
-    : Schema(Field, null, SelectorType, null), ICollection<Schema>
+public record Schema(string? Field = null)
+    : SchemaElement(Field, null, null, null), ICollection<SchemaElement>
 {
-    public SchemaContainer():this(null, SelectorType.Css)
+    public Schema(): this(Field: null)
     {
+
     }
 
-    public List<Schema> Children { get; set; } = new();
+    public List<SchemaElement> Children { get; set; } = new();
 
     public int Count => Children.Count;
 
     public bool IsReadOnly => false;
 
-    public virtual void Add(Schema element) => Children.Add(element);
+    public virtual void Add(SchemaElement element) => Children.Add(element);
 
     public void Clear()
     {
         Children.Clear();
     }
 
-    public bool Contains(Schema item)
+    public bool Contains(SchemaElement item)
     {
         return Children.Contains(item);
     }
 
-    public void CopyTo(Schema[] array, int arrayIndex)
+    public void CopyTo(SchemaElement[] array, int arrayIndex)
     {
         Children.ToArray().CopyTo(array, arrayIndex);
     }
 
-    public IEnumerator<Schema> GetEnumerator() => Children.GetEnumerator();
+    public IEnumerator<SchemaElement> GetEnumerator() => Children.GetEnumerator();
 
-    public bool Remove(Schema item)
+    public bool Remove(SchemaElement item)
     {
         return Children.Remove(item);
     }

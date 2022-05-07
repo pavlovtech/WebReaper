@@ -5,7 +5,7 @@ using WebReaper.Domain.Selectors;
 namespace WebReaper.Domain;
 
 public record Job(
-    SchemaContainer schema,
+    Schema schema,
     string BaseUrl,
     string Url,
     ImmutableQueue<LinkPathSelector> LinkPathSelectors,
