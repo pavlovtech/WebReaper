@@ -1,9 +1,9 @@
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using WebReaper.LinkTracker.Abstract;
 
 namespace WebReaper.LinkTracker;
 
-public class InMemoryLinkTracker : ICrawledLinkTracker
+public class InMemoryCrawledLinkTracker : ICrawledLinkTracker
 {
     protected ConcurrentDictionary<string, ConcurrentBag<string>> visitedUrlsPerSite = new();
 

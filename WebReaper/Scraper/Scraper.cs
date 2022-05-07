@@ -50,7 +50,7 @@ public class Scraper
 
     protected ILinkParser LinkParser = new LinkParserByCssSelector();
 
-    protected ICrawledLinkTracker SiteLinkTracker = new InMemoryLinkTracker();
+    protected ICrawledLinkTracker SiteLinkTracker = new InMemoryCrawledLinkTracker();
 
     protected IContentParser ContentParser;
 
@@ -177,7 +177,7 @@ public class Scraper
             schema!,
             baseUrl,
             startUrl!,
-            ImmutableQueue.Create<LinkPathSelector>(linkPathSelectors.ToArray()),
+            ImmutableQueue.Create(linkPathSelectors.ToArray()),
             DepthLevel: 0));
 
         var options = new ParallelOptions { MaxDegreeOfParallelism = ParallelismDegree };
@@ -197,11 +197,11 @@ public class Scraper
         });
     }
 
-    public Scraper WriteToConsole() => this.AddSink(new ConsoleSink());
+    public Scraper WriteToConsole() => AddSink(new ConsoleSink());
 
-    public Scraper WriteToJsonFile(string filePath) => this.AddSink(new JsonFileSink(filePath));
+    public Scraper WriteToJsonFile(string filePath) => AddSink(new JsonFileSink(filePath));
 
-    public Scraper WriteToCsvFile(string filePath) => this.AddSink(new CsvFileSink(filePath));
+    public Scraper WriteToCsvFile(string filePath) => AddSink(new CsvFileSink(filePath));
 
     public Scraper Build()
     {
@@ -210,7 +210,7 @@ public class Scraper
 
         ContentParser = new ContentParser(Logger);
 
-        spider = new WebReaper.Spider.Spider(
+        spider = new Spider.Spider(
             Sinks,
             LinkParser,
             ContentParser,
@@ -219,11 +219,12 @@ public class Scraper
             new PuppeteerPageLoader(Logger),
             JobQueueReader,
             JobQueueWriter,
-            Logger);
-        
-        spider.UrlBlackList = urlBlackList.ToList();
+            Logger)
+        {
+            UrlBlackList = urlBlackList.ToList(),
 
-        spider.PageCrawlLimit = limit;
+            PageCrawlLimit = limit
+        };
 
         return this;
     }
