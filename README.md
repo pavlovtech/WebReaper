@@ -31,12 +31,12 @@ await new Scraper()
 
 ## Features:
 
-* :zap: It's fast
-* 🗒 Easy declarative parsing:  new Schema { new("field", ".selector") };
-* :page_facing_up: Pagination support:  .FollowLinks("a", ".paginationSelector");
-* Saving data to any sinks such as file, database or API;
-* :earth_americas: Distributed crawling support: provide your implementation of IJobQueueReader, IJobQueueWriter and ICrawledLinkTracker and run your crawler on ony cloud VM, serverless function, on-prem servers, etc.
-* :octopus: Crowling and parsing Single Page Applications.
+:zap: It's fast
+🗒 Easy declarative parsing:  new Schema { new("field", ".selector") };
+:page_facing_up: Pagination support:  .FollowLinks("a", ".paginationSelector");
+Saving data to any sinks such as file, database or API;
+:earth_americas: Distributed crawling support: provide your implementation of IJobQueueReader, IJobQueueWriter and ICrawledLinkTracker and run your crawler on ony cloud VM, serverless function, on-prem servers, etc.
+:octopus: Crowling and parsing Single Page Applications.
 
 ## Coming soon:
 
