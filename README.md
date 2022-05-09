@@ -1,7 +1,7 @@
 
 # <img src="https://media.giphy.com/media/VgCDAzcKvsR6OM0uWg/giphy.gif" width="50"> WebReaper 
 
-Declarative extensible web scraper written in C# with focused web crawler, which means it visits only what you tell it to visit.
+Declarative extensible web scraper in C# with focused web crawler. Crawl any site and parse any data, save structed result to file, DB, API, etc. 
 
 :exclamation: This is work in progres! API is not stable and will change.
 
@@ -10,14 +10,14 @@ Declarative extensible web scraper written in C# with focused web crawler, which
 ```c#
 await new Scraper()
     .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
-    .FollowLinks("#cf-33 .forumlink>a")
-    .FollowLinks(".forumlink>a")
-    .FollowLinks("a.torTopic", ".pg")
+    .FollowLinks("#cf-33 .forumlink>a") // first level links
+    .FollowLinks(".forumlink>a").       // second level links
+    .FollowLinks("a.torTopic", ".pg").  // third level links to target pages
     .WithScheme(new Schema {
         new("name", "#topic-title"),
         new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
-        new Url("torrentLink", ".magnet-link"),
-        new Image("coverImageUrl", ".postImg")
+        new Url("torrentLink", ".magnet-link"), // get a link from <a> HTML tag (href attribute)
+        new Image("coverImageUrl", ".postImg")  // gets a link to the image from HTML <img> tag (src attribute)
     })
     .WriteToJsonFile("result.json")
     .Build()
