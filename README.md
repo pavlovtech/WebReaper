@@ -34,6 +34,18 @@ await new Scraper()
 * :octopus: Crowling and parsing Single Page Applications
 * 🌀 Automatic reties
 
+## Usage examples
+
+* Data mining
+* Gathering data for machine learning
+* Online price change monitoring and price comparison
+* Product review scraping (to watch the competition)
+* Gathering real estate listings
+* Tracking online presence and reputation
+* Web mashup and web data integration
+* MAP compliance
+* Lead generation
+
 ## Repository structure
 
 | Project                | Description                                                                                                                                     |
