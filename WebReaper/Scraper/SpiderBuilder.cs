@@ -1,10 +1,6 @@
 ﻿using System.Net;
-using WebReaper.Domain;
 using Microsoft.Extensions.Logging;
-using System.Collections.Concurrent;
-using System.Collections.Immutable;
 using System.Net.Security;
-using WebReaper.Domain.Selectors;
 using WebReaper.Absctracts.Sinks;
 using WebReaper.Abastracts.Spider;
 using WebReaper.Abstractions.Parsers;
