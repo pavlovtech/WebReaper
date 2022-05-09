@@ -36,13 +36,17 @@ await new Scraper()
 ## Extensibility
 
 ### Intrefaces
-* IJobQueueReader and IJobQueueWriter - interfaces for writing to and reading from job queue. By default the in-memory queue is used, but you can provider your implementation for RabbitMQ, Azure Service Bus queue, etc.
-* ICrawledLinkTracker - tracker of visited links. Default implementations is in memory tracker. You can provide your own for Redis, MongoDB, etc.
-* IPageLoader - loader that takes url and returns html of the page as a string
-* IContentParser - takes html and schema and returns Json representation (JObject).
-* ILinkParser - takes html as a string and returns page links
-* IScraperSink - represents a data store for writing the results of web scraping. Takes the JObject as parameter
-* ISpider - spider that does the crawling, parsing, and saving the data
+
+| Interface           | Description                                                                                                                                          |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| IJobQueueReader     | Reading from job queue. By default the in-memory queue is used, but you can provider your implementation for RabbitMQ, Azure Service Bus queue, etc. |
+| IJobQueueWriter     | Writing to job queue. By default the in-memory queue is used, but you can provider your implementation for RabbitMQ, Azure Service Bus queue, etc.   |
+| ICrawledLinkTracker | racker of visited links. Default implementations is in memory tracker. You can provide your own for Redis, MongoDB, etc.                             |
+| IPageLoader         | loader that takes url and returns html of the page as a string                                                                                       |
+| IContentParser      | takes html and schema and returns Json representation (JObject).                                                                                     |
+| ILinkParser         | takes html as a string and returns page links                                                                                                        |
+| IScraperSink        | represents a data store for writing the results of web scraping. Takes the JObject as parameter                                                      |
+| ISpider             | spider that does the crawling, parsing, and saving the data                                                                                          |
 
 ### Main entities
 * Job - a record that represends a job for the spider
