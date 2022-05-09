@@ -27,7 +27,7 @@ await new Scraper()
 
 ## Features:
 
-* :zap: It's extremly fast due to speed parallelism and asynchrony
+* :zap: It's extremly fast due to parallelism and asynchrony
 * 🗒 Declarative parsing with a structured scheme
 * :page_facing_up: Pagination support
 * 💾 Saving data to any sinks such as file, database or API
