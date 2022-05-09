@@ -1,6 +1,6 @@
 # WebReaper
 
-Declarative extensible web scraper written in C# with focused web crowler, which meand it visits only what you tell it to visit.
+Declarative extensible web scraper written in C# with focused web crawler, which meand it visits only what you tell it to visit.
 
 This is work in progres! API is not stable and will change.
 
