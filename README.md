@@ -33,6 +33,26 @@ await new Scraper()
 * :earth_americas: Distributed crawling support: run your crawler on ony cloud VM, serverless function, on-prem servers, etc
 * :octopus: Crowling and parsing Single Page Applications
 
+## Extensibility
+
+### Intrefaces
+* IJobQueueReader and IJobQueueWriter - interfaces for writing to and reading from job queue. By default the in-memory queue is used, but you can provider your implementation for RabbitMQ, Azure Service Bus queue, etc.
+* ICrawledLinkTracker - tracker of visited links. Default implementations is in memory tracker. You can provide your own for Redis, MongoDB, etc.
+* IPageLoader - loader that takes url and returns html of the page as a string
+* IContentParser - takes html and schema and returns Json representation (JObject).
+* ILinkParser - takes html as a string and returns page links
+* IScraperSink - represents a data store for writing the results of web scraping. Takes the JObject as parameter
+* ISpider - spider that does the crawling, parsing, and saving the data
+
+### Main entities
+* Job - a record that represends a job for the spider
+* LinkPathSelector - represents a selector for links to be crawled
+* PageCategory enum. Calculated automatically based on job's fields. Possible values:
+    * TransitPage any page on the path to target page that you want to parse
+    * PageWithPagination - page with pagination such as a catalog of goods, blog posts with pagination, etc
+    * TargetPage - page that you want to scrape and save the result
+
+
 ## Coming soon:
 
 - [ ] Proxy support
