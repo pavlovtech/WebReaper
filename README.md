@@ -1,5 +1,5 @@
 
-# ![image](https://user-images.githubusercontent.com/6662454/167390830-4b396c74-70f5-41ab-9ec5-6cef7ba802c0.png) WebReaper
+# <img src="![image](https://user-images.githubusercontent.com/6662454/167390973-dded27d3-4b60-42a9-9eb5-4984be882e19.png)"> WebReaper
 
 Declarative extensible web scraper in C# with focused web crawler. Crawl any site and parse any data, save structed result to file, DB, API, etc. 
 
