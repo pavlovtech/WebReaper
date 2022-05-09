@@ -32,6 +32,7 @@ await new Scraper()
 * 💾 Saving data to any sinks such as file, database or API
 * :earth_americas: Distributed crawling support: run your crawler on ony cloud VM, serverless function, on-prem servers, etc
 * :octopus: Crowling and parsing Single Page Applications
+* 🌀 Automatic reties
 
 ## Repository structure
 
@@ -71,8 +72,9 @@ await new Scraper()
 - [ ] Proxy support
 - [ ] Azure functions for the distributed crawling
 - [ ] Request throttling
-- [ ] Autotune for parallelism degree and throttling
+- [ ] Autotune for parallelism degree
+- [ ] Autothrottling
 - [ ] Flexible SPA manipulation
-- [ ] Ports to NoneJS and GO
+- [ ] Ports to NodeJS and Go
 
 See the [LICENSE](LICENSE.txt) file for license rights and limitations (GNU GPLv3).
