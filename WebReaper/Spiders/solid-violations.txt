@@ -1,3 +1,0 @@
-Spider reads from queue and writes to queue
-Spider extracts content
-Spider writes to sinks
