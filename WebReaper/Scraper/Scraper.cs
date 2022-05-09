@@ -18,6 +18,7 @@ using WebReaper.LinkTracker;
 using WebReaper.Loaders;
 using Microsoft.Extensions.Logging.Abstractions;
 using WebReaper.Queue.InMemory;
+using WebReaper.Spiders;
 
 namespace WebReaper.Scraper;
 
@@ -221,12 +222,10 @@ public class Scraper
         ArgumentNullException.ThrowIfNull(startUrl);
         ArgumentNullException.ThrowIfNull(schema);
 
-        ContentParser = new ContentParser(Logger);
-
-        spider = new Spider.Spider(
+        spider = new WebReaperSpider(
             Sinks,
             LinkParser,
-            ContentParser,
+            new ContentParser(Logger),
             SiteLinkTracker,
             new HttpPageLoader(httpClient.Value, Logger),
             new PuppeteerPageLoader(Logger),

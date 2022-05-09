@@ -11,9 +11,9 @@ using WebReaper.Abstractions.JobQueue;
 using WebReaper.Domain.Parsing;
 using WebReaper.Abstractions.Loaders.PageLoader;
 
-namespace WebReaper.Spider;
+namespace WebReaper.Spiders;
 
-public class Spider : ISpider
+public class WebReaperSpider : ISpider
 {
     public IPageLoader StaticPageLoader { get; init; }
     public IPageLoader SpaPageLoader { get; init; }
@@ -31,7 +31,7 @@ public class Spider : ISpider
 
     protected ILogger Logger { get; init; }
 
-    public Spider(
+    public WebReaperSpider(
         List<IScraperSink> sinks,
         ILinkParser linkParser,
         IContentParser contentParser,
