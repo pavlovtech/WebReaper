@@ -39,6 +39,7 @@ await new Scraper()
 * Data mining
 * Gathering data for machine learning
 * Online price change monitoring and price comparison
+* News aggregation
 * Product review scraping (to watch the competition)
 * Gathering real estate listings
 * Tracking online presence and reputation
