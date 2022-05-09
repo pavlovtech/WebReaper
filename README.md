@@ -9,7 +9,6 @@ Declarative extensible web scraper written in C# with focused web crawler, which
 
 ```c#
 await new Scraper()
-    .WithLogger(logger)
     .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
     .FollowLinks("#cf-33 .forumlink>a")
     .FollowLinks(".forumlink>a")
@@ -17,14 +16,10 @@ await new Scraper()
     .WithScheme(new Schema {
         new("name", "#topic-title"),
         new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
-        new("subcategory", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(5)"),
-        new("torrentSize", "div.attach_link.guest>ul>li:nth-child(2)"),
         new Url("torrentLink", ".magnet-link"),
         new Image("coverImageUrl", ".postImg")
     })
-    .WithParallelismDegree(4)
     .WriteToJsonFile("result.json")
-    .WriteToCsvFile("result.csv")
     .Build()
     .Run();
 ```
