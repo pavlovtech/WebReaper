@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebReaper.Abstractions", "W
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebReaper.Domain", "WebReaper.Domain\WebReaper.Domain.csproj", "{9265842B-9D15-4B6C-99AE-8416F6B72035}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DistributedScraperWorkerService", "DistributedScraperWorkerService\DistributedScraperWorkerService.csproj", "{99FFE504-8FF2-4102-90FC-BA8EBD5F8AAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DistributedScraperWorkerService", "DistributedScraperWorkerService\DistributedScraperWorkerService.csproj", "{99FFE504-8FF2-4102-90FC-BA8EBD5F8AAD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebReaper.AzureFunctionSpider", "WebReaper.AzureFunctionSpider\WebReaper.AzureFunctionSpider.csproj", "{ACC07D57-BEDB-40CD-96AA-D8688D7BC390}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{99FFE504-8FF2-4102-90FC-BA8EBD5F8AAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99FFE504-8FF2-4102-90FC-BA8EBD5F8AAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99FFE504-8FF2-4102-90FC-BA8EBD5F8AAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACC07D57-BEDB-40CD-96AA-D8688D7BC390}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACC07D57-BEDB-40CD-96AA-D8688D7BC390}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACC07D57-BEDB-40CD-96AA-D8688D7BC390}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACC07D57-BEDB-40CD-96AA-D8688D7BC390}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
