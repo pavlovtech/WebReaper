@@ -33,6 +33,15 @@ await new Scraper()
 * :earth_americas: Distributed crawling support: run your crawler on ony cloud VM, serverless function, on-prem servers, etc
 * :octopus: Crowling and parsing Single Page Applications
 
+## Repository structure
+
+| Project                | Description                                                                                                                                     |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| WebReaper              | Library for web scraping. It's the main project that you should use for your scraper.                                                           |
+| WebReaper.Domain       | Represents main entities such as a Job for web spiders, Schema for parsing, etc.                                                                |
+| WebReaper.Abstractions | Interfaces for extensibility if you want to swap out default implementations such as the parser, crawled link tracker, queue reader and writer. |
+| ScraperWorkerService   | Example of using WebReaper library in a Worker Service .NET project.                                                                            |
+
 ## Extensibility
 
 ### Intrefaces
