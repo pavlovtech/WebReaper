@@ -17,7 +17,7 @@ namespace WebReaper.Spider
     {
         [FunctionName("WebReaperSpiderFunc")]
         public static async Task Run([ServiceBusTrigger("jobqueue",
-            Connection = "")]string queueItem, ILogger log)
+            Connection = "webreaper_SERVICEBUS")]string queueItem, ILogger log)
         {
             log.LogInformation($"C# ServiceBus queue trigger function processed message: {queueItem}");
 
