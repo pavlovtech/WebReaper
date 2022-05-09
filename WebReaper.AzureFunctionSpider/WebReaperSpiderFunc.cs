@@ -17,7 +17,7 @@ namespace WebReaper.Spider
     {
         [FunctionName("WebReaperSpiderFunc")]
         public static async Task Run([ServiceBusTrigger("jobqueue",
-            Connection = "Endpoint=sb://webreaper.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=mIHXjIKh6I89CHyMM2SDMr7YxvVTDFQvL+/FKlbK43g=")]string queueItem, ILogger log)
+            Connection = "Endpoint=sb://webreaper.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=g0AAACe/NXS+/qWVad4KUnnw6iGECmUTJTpfFOMfjms=")]string queueItem, ILogger log)
         {
             log.LogInformation($"C# ServiceBus queue trigger function processed message: {queueItem}");
 
@@ -34,19 +34,23 @@ namespace WebReaper.Spider
                 "https://rutracker.org/forum/viewforum.php?f=2321"
             };
 
-            var redisConnectionString = "webreaper.redis.cache.windows.net:6380,password=AIWM15Q0XAKjfZYUc9ickXfwi8O3Ti9UFAzCaAnMeEc=,ssl=True,abortConnect=False";
+            var redisConnectionString = "webreaper.redis.cache.windows.net:6380,password=etUgOS0XUTTpZqNGlSlmaczrDKTeySPBWAzCaAMhsVU=,ssl=True,abortConnect=False";
 
-            var azureSBConnectionString = "Endpoint=sb://webreaper.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=mIHXjIKh6I89CHyMM2SDMr7YxvVTDFQvL+/FKlbK43g=";
+            var azureSBConnectionString = "Endpoint=sb://webreaper.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=g0AAACe/NXS+/qWVad4KUnnw6iGECmUTJTpfFOMfjms=";
 
             var spider = new SpiderBuilder()
                 .WithLinkTracker(new RedisCrawledLinkTracker(redisConnectionString))
                 .WithJobQueueReader(new AzureJobQueueReader(azureSBConnectionString, "jobqueue"))
                 .WithJobQueueWriter(new AzureJobQueueWriter(azureSBConnectionString, "jobqueue"))
                 .IgnoreUrls(blackList)
+                .WriteToCosmosDb(
+                    "https://webreaper.documents.azure.com:443/",
+                    "XkMSndeYQ1285XrVRNG7MYVg3YUw32aOPPpYyS8YDIcKa8SxMK5cqwsg069jlFW2oOdxedg92qQieZd0IO4Qtw==",
+                    "WebReaper",
+                    "Rutraker")
                 .Build();
 
             await spider.CrawlAsync(job);
-
         }
     }
 }
