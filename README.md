@@ -1,5 +1,5 @@
 
-# <img src="https://media.giphy.com/media/VgCDAzcKvsR6OM0uWg/giphy.gif" width="50"> WebReaper C# 
+# <img src="https://media.giphy.com/media/VgCDAzcKvsR6OM0uWg/giphy.gif" width="50"> WebReaper 
 
 Declarative extensible web scraper written in C# with focused web crawler, which meand it visits only what you tell it to visit.
 
