@@ -16,9 +16,10 @@ namespace WebReaper.Spider
     public static class WebReaperSpiderFunc
     {
         [FunctionName("WebReaperSpiderFunc")]
-        public static async Task Run([ServiceBusTrigger("jobqueue", Connection = "Endpoint=sb://webreaper.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=mIHXjIKh6I89CHyMM2SDMr7YxvVTDFQvL+/FKlbK43g=")]string queueItem, ILogger log)
+        public static async Task Run([ServiceBusTrigger("jobqueue",
+            Connection = "Endpoint=sb://webreaper.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=mIHXjIKh6I89CHyMM2SDMr7YxvVTDFQvL+/FKlbK43g=")]string queueItem, ILogger log)
         {
-            log.LogInformation($"C# ServiceBus queue trigger function processed message: {myQueueItem}");
+            log.LogInformation($"C# ServiceBus queue trigger function processed message: {queueItem}");
 
             var job = JsonConvert.DeserializeObject<Job>(queueItem, new JsonSerializerSettings
             {
