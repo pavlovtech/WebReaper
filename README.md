@@ -2,7 +2,7 @@
 # ![image](https://user-images.githubusercontent.com/6662454/167391357-edb02ce2-a63c-439b-be9b-69b4b4796b1c.png) WebReaper
 
 
-Declarative extensible web scraper in C# with focused web crawler. Crawl any site and parse any data, save structed result to file, DB, API, etc. 
+Declarative extensible web scraper in C# with focused web crawler. Easly crawl any web site and parse the data, save structed result to a file, DB, etc.
 
 :exclamation: This is work in progres! API is not stable and will change.
 
