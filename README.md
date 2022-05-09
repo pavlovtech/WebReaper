@@ -75,3 +75,4 @@ await new Scraper()
 - [ ] Flexible SPA manipulation
 - [ ] Ports to NoneJS and GO
 
+See the [LICENSE](LICENSE.txt) file for license rights and limitations (GNU GPLv3).
