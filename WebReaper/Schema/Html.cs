@@ -18,6 +18,6 @@ public record Html(string Field, string Selector, SelectorType? SelectorType = S
             throw new InvalidOperationException($"No html found by selector {Selector} in {node?.OuterHtml}.");
         }
 
-        return content;
+        return HtmlEntity.DeEntitize(content);
     }
 }

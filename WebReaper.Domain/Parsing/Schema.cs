@@ -22,7 +22,7 @@ public record SchemaElement(
             
         }
 
-        return content;
+        return HtmlEntity.DeEntitize(content);
     }
 }
 
