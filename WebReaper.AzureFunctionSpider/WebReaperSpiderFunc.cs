@@ -17,7 +17,7 @@ namespace WebReaper.Spider
     {
         [FunctionName("WebReaperSpiderFunc")]
         public static async Task Run([ServiceBusTrigger("jobqueue",
-            Connection = "Endpoint=sb://webreaper.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=g0AAACe/NXS+/qWVad4KUnnw6iGECmUTJTpfFOMfjms=")]string queueItem, ILogger log)
+            Connection = "")]string queueItem, ILogger log)
         {
             log.LogInformation($"C# ServiceBus queue trigger function processed message: {queueItem}");
 
