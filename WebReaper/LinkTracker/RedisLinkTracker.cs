@@ -14,7 +14,7 @@ public class RedisCrawledLinkTracker : ICrawledLinkTracker
         try
         {
             // TODO: remove this line
-            var srv = redis.GetServer("redis-14134.c135.eu-central-1-1.ec2.cloud.redislabs.com:14134");
+            var srv = redis.GetServer("webreaper.redis.cache.windows.net:6380");
             srv.FlushDatabase();
         }
         catch (Exception ex)

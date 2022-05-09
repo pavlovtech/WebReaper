@@ -50,7 +50,6 @@ public class ScrapingWorker : BackgroundService
             .Build();
 
         runner = new ScraperRunner(config, spider, logger);
-
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
