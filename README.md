@@ -1,3 +1,4 @@
+
 # WebReaper
 
 Declarative extensible web scraper written in C# with focused web crawler, which meand it visits only what you tell it to visit.
@@ -30,11 +31,12 @@ await new Scraper()
 
 ## Features:
 
-1. Easy declarative parsing, e.g. get text by the .title css selector and save it in the title field:  new Schema { new("title", ".title") }.
-2. Pagination support:  .FollowLinks("a.torTopic", ".pg") where .pg is pagination css selector.
-3. Saving data to any sinks such as file, database or API. Saving to Json and CSV file is out of the box, you can add any custom provider by implementi the IScraperSink interface.
-4. Distributed crawling support: provide your implementation of IJobQueueReader, IJobQueueWriter and ICrawledLinkTracker and run your crawler on ony cloud VM, serverless function, on-prem servers, etc.
-5. Crowling and parsing Single Page Applications.
+🚀 It's fast
+🗒 Easy declarative parsing, e.g. get text by the .title css selector and save it in the title field:  new Schema { new("title", ".title") }.
+3. Pagination support:  .FollowLinks("a.torTopic", ".pg") where .pg is pagination css selector.
+4. Saving data to any sinks such as file, database or API. Saving to Json and CSV file is out of the box, you can add any custom provider by implementi the IScraperSink interface.
+5. Distributed crawling support: provide your implementation of IJobQueueReader, IJobQueueWriter and ICrawledLinkTracker and run your crawler on ony cloud VM, serverless function, on-prem servers, etc.
+6. Crowling and parsing Single Page Applications.
 
 ## Coming soon:
 
