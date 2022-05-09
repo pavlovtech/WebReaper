@@ -18,7 +18,7 @@ await new Scraper()
         new("name", "#topic-title"),
         new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
         new Url("torrentLink", ".magnet-link"), // get a link from <a> HTML tag (href attribute)
-        new Image("coverImageUrl", ".postImg")  // gets a link to the image from HTML <img> tag (src attribute)
+        new Image("coverImageUrl", ".postImg")  // get a link to the image from HTML <img> tag (src attribute)
     })
     .WriteToJsonFile("result.json")
     .Build()
