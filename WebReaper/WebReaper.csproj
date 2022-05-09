@@ -15,12 +15,11 @@
     <None Remove="Queue\AzureServiceBus\" />
   </ItemGroup>
   <ItemGroup>    
-    <PackageReference Include="Microsoft.Playwright" Version="1.21.0" />    
+    <PackageReference Include="Azure.Cosmos" Version="4.0.0-preview3" />       
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Polly" Version="7.2.3" />
     <PackageReference Include="PuppeteerSharp" Version="7.0.0" />
     <PackageReference Include="StackExchange.Redis" Version="2.5.61" />
-    <PackageReference Include="System.Linq.Async" Version="6.0.1" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="6.0.0" />
      <PackageReference Include="Fizzler.Systems.HtmlAgilityPack" Version="1.2.1" />
      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />

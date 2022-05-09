@@ -12,7 +12,7 @@ namespace WebReaper.Sinks
         
         BlockingCollection<JObject> entries = new();
 
-        private bool isInitialized = false;
+        public bool IsInitialized { get; set; } = false;
 
         public CsvFileSink(string filePath)
         {
@@ -23,12 +23,10 @@ namespace WebReaper.Sinks
         {
             entries.Add(scrapedData);
 
-            if(!isInitialized) {
+            if(!IsInitialized) {
                 
                 lock (_lock)
                 {
-                    isInitialized = true;
-
                     File.Delete(filePath);                    
                 }
 
@@ -37,9 +35,11 @@ namespace WebReaper.Sinks
                         .OfType<JValue>()
                         .Select(jv => jv.Path.Remove(0, jv.Path.LastIndexOf(".")+1));
 
-                    var header = string.Join(",", flattened) + Environment.NewLine;
+                var header = string.Join(",", flattened) + Environment.NewLine;
 
                 await File.AppendAllTextAsync(filePath, header);
+
+                IsInitialized = true;
 
                 _ = Handle();
             }
@@ -59,5 +59,7 @@ namespace WebReaper.Sinks
                 await File.AppendAllTextAsync(filePath, $"{csvLine}{Environment.NewLine}");
             }
         }
+
+        public Task InitAsync() => Task.CompletedTask;
     }
 }
