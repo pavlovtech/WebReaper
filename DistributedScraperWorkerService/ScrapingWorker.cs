@@ -39,7 +39,7 @@ public class ScrapingWorker : BackgroundService
                 new Url("torrentLink", ".magnet-link"),
                 new Image("coverImageUrl", ".postImg")
             })
-            .WithParallelismDegree(10)
+            .WithParallelismDegree(4)
             .WithLinkTracker(new RedisCrawledLinkTracker(redisConnectionString))
             .WithJobQueueReader(new AzureJobQueueReader(azureSBConnectionString, queue))
             .WithJobQueueWriter(new AzureJobQueueWriter(azureSBConnectionString, queue))
