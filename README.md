@@ -1,12 +1,6 @@
 # WebReaper
 
-Declarative extensible web scraper written in C#. It visites the site links specified via FollowLinks method and when it reaches the target pages specified by the last FollowLinks call, then it parses pages and maps data to the Schema and saves it the the Sink(s).
-
-Web scraper is a software that consits of two main parts:
-1. Crawler that goes throuth site links
-2. Parser that grabs the data you need from the web pages
-
-This project has focused web crawlerd, which means that it doesn't visit all site links, only the ones that maches the selectors that you specify via the FollowLinks mothed.
+Declarative extensible web scraper written in C# with focused web crowler, which meand it visits only what you tell it to visit.
 
 This is work in progres! API is not stable and will change.
 
