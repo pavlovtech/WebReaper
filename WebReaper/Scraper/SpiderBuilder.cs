@@ -12,26 +12,43 @@ using WebReaper.LinkTracker;
 using WebReaper.Loaders;
 using Microsoft.Extensions.Logging.Abstractions;
 using WebReaper.Spiders;
+using WebReaper.Queue.InMemory;
+using System.Collections.Concurrent;
+using WebReaper.Domain;
+using WebReaper.Queue;
 
 namespace WebReaper.Scraper;
 
 public class SpiderBuilder
 {
+    public SpiderBuilder()
+    {
+        // default implementations
+        Logger = NullLogger.Instance;
+        JobQueueReader = new JobQueueReader(jobs);
+        JobQueueWriter = new JobQueueWriter(jobs);
+        ContentParser = new ContentParser(Logger);
+        LinkParser = new LinkParserByCssSelector();
+        SiteLinkTracker = new InMemoryCrawledLinkTracker();
+    }
+
     public List<IScraperSink> Sinks { get; protected set; } = new(); 
     
     protected int limit = int.MaxValue;
 
     protected string baseUrl = "";
 
-    protected IJobQueueReader JobQueueReader;
+    protected BlockingCollection<Job> jobs = new(new ProducerConsumerPriorityQueue());
 
-    protected IJobQueueWriter JobQueueWriter;
+    protected IJobQueueReader JobQueueReader { get; set; }
 
-    protected ILogger Logger = NullLogger.Instance;
+    protected IJobQueueWriter JobQueueWriter { get; set; }
 
-    protected ILinkParser LinkParser = new LinkParserByCssSelector();
+    protected ILogger Logger { get; set; }
 
-    protected ICrawledLinkTracker SiteLinkTracker = new InMemoryCrawledLinkTracker();
+    protected ILinkParser LinkParser { get; set; }
+
+    protected ICrawledLinkTracker SiteLinkTracker { get; set; }
 
     protected IContentParser ContentParser;
 
@@ -109,7 +126,7 @@ public class SpiderBuilder
 
     public SpiderBuilder WriteToCsvFile(string filePath) => AddSink(new CsvFileSink(filePath));
 
-    public SpiderBuilder Build()
+    public ISpider Build()
     {
         ISpider spider = new WebReaperSpider(
             Sinks,
@@ -127,6 +144,6 @@ public class SpiderBuilder
             PageCrawlLimit = limit
         };
 
-        return this;
+        return spider;
     }
 }

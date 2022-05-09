@@ -8,7 +8,7 @@ namespace DistributedScraperWorkerService;
 
 public class ScrapingWorker : BackgroundService
 {
-    private readonly Scraper scraper;
+    private readonly ScraperRunner runner;
 
     public ScrapingWorker(ILogger<ScrapingWorker> logger)
     {
@@ -24,10 +24,9 @@ public class ScrapingWorker : BackgroundService
         var azureSBConnectionString = "Endpoint=sb://webreaper.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=mIHXjIKh6I89CHyMM2SDMr7YxvVTDFQvL+/FKlbK43g=";
         var queue = "jobqueue";
 
-        scraper = new Scraper()
+        var config = new ScraperConfigBuilder()
             .WithLogger(logger)
             .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
-            .IgnoreUrls(blackList)
             .FollowLinks("#cf-33 .forumlink>a")
             .FollowLinks(".forumlink>a")
             .FollowLinks("a.torTopic", ".pg")
@@ -39,18 +38,24 @@ public class ScrapingWorker : BackgroundService
                 new Url("torrentLink", ".magnet-link"),
                 new Image("coverImageUrl", ".postImg")
             })
-            .WithParallelismDegree(4)
+            .Build();
+
+        var spider = new SpiderBuilder()
             .WithLinkTracker(new RedisCrawledLinkTracker(redisConnectionString))
             .WithJobQueueReader(new AzureJobQueueReader(azureSBConnectionString, queue))
             .WithJobQueueWriter(new AzureJobQueueWriter(azureSBConnectionString, queue))
             .WriteToJsonFile("result.json")
             .WriteToCsvFile("result.csv")
+            .IgnoreUrls(blackList)
             .Build();
+
+        runner = new ScraperRunner(config, spider, logger);
+
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        await scraper.Run();
+        await runner.Run(10);
     }
 }
 

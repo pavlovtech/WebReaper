@@ -23,8 +23,8 @@ public class ScrapingWorker : BackgroundService
 
         scraper = new Scraper()
             .WithLogger(logger)
-            .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
             .IgnoreUrls(blackList)
+            .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
             .FollowLinks("#cf-33 .forumlink>a")
             .FollowLinks(".forumlink>a")
             .FollowLinks("a.torTopic", ".pg")

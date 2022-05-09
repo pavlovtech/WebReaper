@@ -1,570 +1,1740 @@
 {
-  "name": "Дель Торо Гильермо, Хоган Чак - Штамм 2, Закат [Гарри Стил, (ЛИ), 2022, 256 kbps, MP3]",
-  "category": "Фантастика, фэнтези, мистика, ужасы, фанфики",
-  "subcategory": "[Аудио] Зарубежная фантастика, фэнтези, мистика, ужасы, фанфики",
-  "torrentSize": "1.71&nbsp;GB",
-  "torrentLink": "magnet:?xt=urn:btih:CB35188769A40B0250A06AE036628B552106ACCF&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i116.fastpic.org/big/2022/0301/29/84deee965e3f5e42e24e1c92b9567429.jpg"
-},
+  "name": "Крапивин Владислав – Взрыв Генерального штаба [Князев Игорь, 2014 г., 192 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Детская литература",
+  "torrentSize": "300.1 MB",
+  "torrentLink": "magnet:?xt=urn:btih:5CECCC4B0185C98B3C4FE30047DA77812FB0EF18&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i59.fastpic.ru/big/2014/0417/28/ebe730adc10c468a865e5601ed569528.jpg"
+},
+{
+  "name": "Кэрролл Льюис - Алиса в Зазеркалье [Елена Полонецкая, 2016, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Детская литература",
+  "torrentSize": "176.1 MB",
+  "torrentLink": "magnet:?xt=urn:btih:14316A5B80312DEC10CC08FE120A38F59051515D&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i117.fastpic.org/big/2022/0507/cd/d09b2a63f17d68fe4c560b87e84347cd.png"
+},
+b4.jpg"
+},
+{
+  "name": "Заходер Борис - Винни-Пух и все-все-все 2, Дом на Пуховой Опушке [Otsuru, (ЛИ), 2020, 192 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Детская литература",
+  "torrentSize": "283.5 MB",
+  "torrentLink": "magnet:?xt=urn:btih:1D6D5B6672CF594E3364E6C7793592022A542E9B&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i111.fastpic.ru/big/2020/0506/5d/dc3572870c53d5428c4aeaadd3f1b15d.jpg"
+},
+
+{
+  "name": "Логвин Янина – Зимний сон Малинки [Калиниченко Елена, 2020, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Современные любовные романы",
+  "torrentSize": "518.4 MB",
+  "torrentLink": "magnet:?xt=urn:btih:96EE5017466FE2FAE9B5AEA67F92996C869F6D29&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i5.imageban.ru/out/2020/04/29/b02a2f0f027a846c48aa37de8eb04bd8.jpg"
+},
+},
+{
+  "name": "Гришэм Джон - Пора убивать [Игорь Князев, 2021, 64 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Зарубежные детективы, приключения, триллеры, боевики",
+  "torrentSize": "675.2 MB",
+  "torrentLink": "magnet:?xt=urn:btih:9EDD89E7AFA2D6E529C72BB4833DCC6C769E6057&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i116.fastpic.org/big/2022/0130/06/c8887fb35053526e52b105867806c906.jpg"
+},
+{
+  "name": "Трижиани Адриана - Жена Тони [Багдасаров Алексей, 2021, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Современные любовные романы",
+  "torrentSize": "995.5 MB",
+  "torrentLink": "magnet:?xt=urn:btih:5298D82422FD03B6B919AB5CB2815C0BC579EF46&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i115.fastpic.org/big/2021/0801/a2/82e506119f7bf9c5e7a8c8c20f0332a2.jpg"
+},
+.ru/out/2021/06/25/5972ccdca5d7615557600a8d51cd6a86.jpg"
+},
+{
+  "name": "Воронова Мария - Повод для знакомства [Кирилл Петров, 2022, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Современные любовные романы",
+  "torrentSize": "533 MB",
+  "torrentLink": "magnet:?xt=urn:btih:AB684552F764A471DA9F9AA40BDE44B82AF33914&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i117.fastpic.org/big/2022/0424/6d/5b3391746f4659b5c31328094342e26d.jpg"
+},
+2a68567d695f570be4c513543.jpg"
+},
+{
+  "name": "Рампо Эдогава – Чудовище во мраке [Олег Булдаков, 2022, 192 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Зарубежные детективы, приключения, триллеры, боевики",
+  "torrentSize": "278 MB",
+  "torrentLink": "magnet:?xt=urn:btih:7A22956D4D8E0FD96C8DE05C62642BD0B5A564C3&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i5.imageban.ru/out/2022/03/16/930068566c39ad97f86fb7ba75276763.jpg"
+},
+d6e651dcf.jpg"
+},
+{
+  "name": "Кристи Агата - Эркюль Пуаро 07, Загадка Эндхауза [Егор Серов, 2021, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Зарубежные детективы, приключения, триллеры, боевики",
+  "torrentSize": "393 MB",
+  "torrentLink": "magnet:?xt=urn:btih:04EF9D245B04A5727512C6F07ABF547A8D9ED620&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://b.radikal.ru/b42/2106/67/9d6f43da492d.jpg"
+},
+{
+  "name": "Пророк Мухаммад - Коран. Правильная (хронологическая) последовательность сур. [Александр Клюквин, 2009 г., 128 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Ислам",
+  "torrentSize": "1.24 GB",
+  "torrentLink": "magnet:?xt=urn:btih:4B605740F35231CC55668ACDFE585F8DAEE4EC4D&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i74.fastpic.ru/big/2015/1107/0c/b278aea01c18e64d0113bf68b66b840c.jpg"
+},
+{
+  "name": "Кругосветов Саша - Мужчина в доме. Ленинградская повесть [Маргарита Богородская, 2022, 48 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Детская литература",
+  "torrentSize": "84.4 MB",
+  "torrentLink": "magnet:?xt=urn:btih:9E7F48DABDD6FF5E4424085F3D7AFDD9B2ACB803&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i1.imageban.ru/out/2022/05/07/4105ac777eb41de663ffbb57882feaf2.jpg"
+},
+{
+  "name": "Геррон Мик - Слау-башня 01, Хромые кони [Владимир Рыбальченко, 2022, 64 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Зарубежные детективы, приключения, триллеры, боевики",
+  "torrentSize": "309.7 MB",
+  "torrentLink": "magnet:?xt=urn:btih:7604170A87D099FA1ED8D5FC10A3B0CCA9A5C19E&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i116.fastpic.org/big/2022/0328/d9/b45a5a6558aecad4c10a0ee69d1532d9.jpg"
+},
+{
+  "name": "Жизнеописание Пророка. Учебное пособие [2014, 160 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Ислам",
+  "torrentSize": "576.2 MB",
+  "torrentLink": "magnet:?xt=urn:btih:A491EB20C9F993B0342D18063D1DA7D05253880E&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i61.fastpic.ru/big/2014/0617/57/f186aff90cb484e3c8d994da723b5d57.jpg"
+},
+{
+  "name": "Гуляева Евдокия - Чужое отражение 1, Чужое отражение [Наталия Otrashevska, Роман Рассказов, 2022, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Современные любовные романы",
+  "torrentSize": "286.2 MB",
+  "torrentLink": "magnet:?xt=urn:btih:1653774FF41615566FE09CAD83B2EEF2C6E75964&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i116.fastpic.org/big/2022/0322/4b/6d332db8210a27441aa8e6b671d3ba4b.jpg"
+},
+{
+  "name": "Светланов Юрий - Интересное чтение: Скандинавские сказания о богах и героях [Александр Макшанцев, 2022, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Детская литература",
+  "torrentSize": "467.9 MB",
+  "torrentLink": "magnet:?xt=urn:btih:F01B43BBD2FE00F19FABCB2130CDBEB9A06DF8F4&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i117.fastpic.org/big/2022/0507/c9/9b71ec02a2fa556fb186e573804abcc9.jpg"
+},
+{
+  "name": "Ренуар Макс – Дьявольские карты [Горевой Михаил, 2019, 56 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Современные любовные романы",
+  "torrentSize": "120.4 MB",
+  "torrentLink": "magnet:?xt=urn:btih:C38790144730EC2AF7475A380E8B932A6F07C6FF&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i3.imageban.ru/out/2019/08/19/dc31f860eb1073768d0cea47ffa80356.jpg"
+},
+{
+  "name": "Али Мухаммед ас-Салляби - История Халифата Аудиокнига. ‘Умар ибн аль-Хаттаб. Второй праведный халиф [2013, 80кб/с, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Ислам",
+  "torrentSize": "590.9 MB",
+  "torrentLink": "magnet:?xt=urn:btih:E192C28F11EA4BBA5E558C4DFA76A6E5A2594D5E&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://www.islamicshop.ru/images/product_images/popup_images/1893_0.png"
+},
+{
+  "name": "Ясинская Марина - Восьмирье 02, Ночная радуга [Тутта Ларсен, 2021, 56 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Детская литература",
+  "torrentSize": "95.2 MB",
+  "torrentLink": "magnet:?xt=urn:btih:FD74402D6244F5CD5AE09987AFE5C2841F566CFB&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i117.fastpic.org/big/2022/0506/f5/e8c80e55dd625a61d77b479450336bf5.jpg"
+},
+{
+  "name": "Гаррос Александр, Евдокимов Алексей - Серая слизь [Литвинов Иван, 2011, 160 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Зарубежные детективы, приключения, триллеры, боевики",
+  "torrentSize": "1.11 GB",
+  "torrentLink": "magnet:?xt=urn:btih:E8C431AFFA4AAAA3AD550CDD4702FA19BBC459E1&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://s014.radikal.ru/i326/1701/3f/e5c64bb1445f.jpg"
+},
+{
+  "name": "Мясникова Ирина – Женские истории 2, Требуются отдыхающие [Беляева Наталья, 2019, 160 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Современные любовные романы",
+  "torrentSize": "527.6 MB",
+  "torrentLink": "magnet:?xt=urn:btih:BBD1B717C52254EA78E1CBA9290AB1B60746E867&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i6.imageban.ru/out/2019/09/03/847f670285923bb53f28d3ad78e26cd8.jpg"
+},
+{
+  "name": "Макдональд Джон - Капкан на \"Волчью стаю\" (Конец тьмы) [Козий Николай, 2009, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Зарубежные детективы, приключения, триллеры, боевики",
+  "torrentSize": "574.4 MB",
+  "torrentLink": "magnet:?xt=urn:btih:E7BFCA87EACD4BAD558AD512F468E29B4C6ECFA6&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://s019.radikal.ru/i630/1708/62/63cba4546e10.jpg"
+},
+06.jpg"
+},
+{
+  "name": "Коран - Перевод Смыслов священного Корана - Кулиев Э. (Аудио на русском языке 80 kbps)",
+  "category": "Религии",
+  "subcategory": "[Аудио] Ислам",
+  "torrentSize": "642 MB",
+  "torrentLink": "magnet:?xt=urn:btih:CE106314269CFE3D91864D8CCE3DBDAE530FDA03&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet"
+},
+geUrl": "http://i3.fastpic.ru/big/2009/1023/03/bee9a72e881ac6be315785c4f760be03.png"
+},
+{
+  "name": "Гарднер Эрл Стэнли - Перри Мейсон 47, Дело очаровательного призрака [Торопов Виталий, (ЛИ), 2022, 96 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Зарубежные детективы, приключения, триллеры, боевики",
+  "torrentSize": "240.8 MB",
+  "torrentLink": "magnet:?xt=urn:btih:690EC3AE9B8EBE7D56A4B9CBC8E3DAF97255E5C4&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i117.fastpic.org/big/2022/0506/a4/a608124921777ba98b526d308e10bea4.jpg"
+},
+{
+  "name": "Шепард Роуз - Любовь плохой женщины [Телегина Татьяна, 2021, 96 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Современные любовные романы",
+  "torrentSize": "801 MB",
+  "torrentLink": "magnet:?xt=urn:btih:ACDDE8D387CA4C42B3D1D8D209FAA71E79D2FAF8&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i.ibb.co/G9L90z0/Shepard-R-Lyubov-plohoy-zhenschiny-Telegina-T.jpg"
+},
+{
+  "name": "Качур Елена - Корабли и мореплавание. Детские энциклопедии с Чевостиком [Т.Аведикова, Д.Столбцов, 2020, 320 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Детская литература",
+  "torrentSize": "132.1 MB",
+  "torrentLink": "magnet:?xt=urn:btih:3DBA5F620C52AC974E3F1C0FF2F6B5DD6C1CD1E6&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i116.fastpic.org/big/2022/0107/83/cbe991d1bdebd0ba3b2e358fa8152583.jpg"
+},
+{
+  "name": "Чередий Галина - Поцелуй темного солнца [Римма Макарова, 2021, 192 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Современные любовные романы",
+  "torrentSize": "387.1 MB",
+  "torrentLink": "magnet:?xt=urn:btih:56AFA96AD5E67E3676515A484F2961CA247E5DC7&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i116.fastpic.org/big/2021/1115/46/56b93031ab11d6cdc2b298b27e831e46.jpg"
+},
+{
+  "name": "Ридаль Томас, Казински А. Й. - Убийство русалки [Александр Дунин, 2022, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Зарубежные детективы, приключения, триллеры, боевики",
+  "torrentSize": "928.1 MB",
+  "torrentLink": "magnet:?xt=urn:btih:C6D453A2E8421D62BF050D221B9FA9D887A1E828&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i117.fastpic.org/big/2022/0507/86/4249efb58e2b1f3dbdc7584b172d8c86.jpg"
+},
+{
+  "name": "Мухаммед - Благословенный коран MP3, PDF на русском",
+  "category": "Религии",
+  "subcategory": "[Аудио] Ислам",
+  "torrentSize": "515.8 MB",
+  "torrentLink": "magnet:?xt=urn:btih:5E84F9B69E48C05FFB7D0A8E71C9A42518CE3DAE&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet"
+},
+{
+  "name": "Ирвинг Вашингтон - Жизнь Магомета [Поздняков Михаил, 2010 г., 128, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Ислам",
+  "torrentSize": "646.4 MB",
+  "torrentLink": "magnet:?xt=urn:btih:80C21A84483C02DEE1A70A6E85F51939F13693F7&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://mmedia.ozon.ru/multimedia/books_covers/1002152047.jpg"
+},
+{
+  "name": "Чередий Галина – Ведьма 1, Ведьма [Евгения Гордеева, 2020, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Современные любовные романы",
+  "torrentSize": "259.7 MB",
+  "torrentLink": "magnet:?xt=urn:btih:357E412731212560C0CEB3EA52AB6A295387CDF6&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i5.imageban.ru/out/2020/09/27/152c5f1fe195ed9429b574dddf365de0.jpg"
+},
+{
+  "name": "Есфирь Гюльшан - Разорванная завеса [Нина Касторф, 2019, 96 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Ислам",
+  "torrentSize": "266.4 MB",
+  "torrentLink": "magnet:?xt=urn:btih:ED5B61FC3811A7D6352DFDB1B05D021E5506CD01&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://c.radikal.ru/c32/2105/d1/858136afc323.jpg"
+},
+{
+  "name": "Макдоннелл Куив - Дублинская серия: «Ангельская» работёнка [Иван Броневой, 2022, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Зарубежные детективы, приключения, триллеры, боевики",
+  "torrentSize": "664.1 MB",
+  "torrentLink": "magnet:?xt=urn:btih:AFA3D8F87CDD6A9273809CAA70961CFAB97BEE41&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i117.fastpic.org/big/2022/0507/cc/41b43899c49e818fa7d6ed16ee1529cc.jpg"
+},
+{
+  "name": "Чередий Галина – Ведьма 2, Гадкий рыжик [Григорий Андрианов, 2020, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Современные любовные романы",
+  "torrentSize": "359.9 MB",
+  "torrentLink": "magnet:?xt=urn:btih:0DAE1A8CA4C12472A1B36E6CEB25F5130BBB2FDB&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i4.imageban.ru/out/2020/09/10/7c9bc0d658f5fa79269717cc145bf6c9.jpg"
+},
+{
+  "name": "Джексон Тиффани - Супер черный триллер Никто не видел Мандей [Мария Фортунатова, 2022, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Зарубежные детективы, приключения, триллеры, боевики",
+  "torrentSize": "607.3 MB",
+  "torrentLink": "magnet:?xt=urn:btih:19217E5365DA2353DC3C010D40337865EF1362D4&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i117.fastpic.org/big/2022/0507/01/bb1ccff45e647ce2496e3dae7a27a901.jpg"
+},
+{
+  "name": "Роулинг Джоан - Гарри Поттер и дары смерти [Николай Савицкий, 2009, VBR 32]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Детская литература",
+  "torrentSize": "365.1 MB",
+  "torrentLink": "magnet:?xt=urn:btih:F3EB124C086E6DEEFB2AB2B8D14339CF0507C5EE&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://gorodknig.spb.ru/modules/files/cache/shots/___________________________1.jpg"
+},
+{
+  "name": "Синдбад-Мореход. Перессказ с арабского М.Салье. [2002, 320 kbps]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Детская литература",
+  "torrentSize": "141.7 MB",
+  "torrentLink": "magnet:?xt=urn:btih:B28D72409410E9951FBB6E2C4A9EB5F39F545DDC&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i3.fastpic.ru/big/2009/1023/c2/1d09b422122848b4aa79d23a1abed1c2.jpg"
+},
+{
+  "name": "Гейдар Джемаль - Иллюзия (Зло и общество) [1998, 192 kbps]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Ислам",
+  "torrentSize": "78.6 MB",
+  "torrentLink": "magnet:?xt=urn:btih:CC8813C70B41C6B76C993D5B125D9C9428BC018B&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i037.radikal.ru/0909/bd/74e6045df23e.jpg"
+},
+{
+  "name": "Кристи Агата - Вилла «Белый конь» [Андрей Новокрещенов, 2022, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Зарубежные детективы, приключения, триллеры, боевики",
+  "torrentSize": "470.1 MB",
+  "torrentLink": "magnet:?xt=urn:btih:56AD81B45865DF4CEE12609D539EB3BB2A4166FA&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i116.fastpic.org/big/2022/0130/11/6b4f7a9e22df3b7406c91506f7243e11.jpg"
+},
+{
+  "name": "Чередий Галина - Просто о любви 3, Взгляни на птиц небесных [Андрианов Григорий, 2021, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Современные любовные романы",
+  "torrentSize": "388.4 MB",
+  "torrentLink": "magnet:?xt=urn:btih:90E868AE2992DEC103642A503898DA9BE4AC6EE0&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i114.fastpic.ru/big/2021/0608/c1/0f7aa5d941f0d5a4f0316fd14cad0ec1.jpg"
+},
+{
+  "name": "Аудиокнига: «Единобожие. Учебное пособие» [2014, 160 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Ислам",
+  "torrentSize": "463.5 MB",
+  "torrentLink": "magnet:?xt=urn:btih:E2E40E9B8FCFD46958E74E325EC4412F3C490D08&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i33.fastpic.ru/big/2014/0318/a5/4e7cac6e20ea7ea563ddafb2b574f1a5.png"
+},
+{
+  "name": "Али-Баба и сорок разбойников. Перессказ с арабского М.Салье. [2002, 320 kbps]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Детская литература",
+  "torrentSize": "143.8 MB",
+  "torrentLink": "magnet:?xt=urn:btih:505425B6C10B8A0CA3F3F8646B17BB67E9696020&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i3.fastpic.ru/big/2009/1023/41/7ce1672f8f6e1f0c90ad54050e9f7441.jpg"
+},
+{
+  "name": "- Аудиокнига «История жизни Пророка» [2014, 56 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Ислам",
+  "torrentSize": "617.1 MB",
+  "torrentLink": "magnet:?xt=urn:btih:129FB606D747793DFEA2939E543B564FEB980E94&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://muslimmarket.ru/upload/iblock/6d5/istoriya_zhizni_proroka_audiokniga_mp3_na_1_cd.jpg"
+},
+{
+  "name": "Чередий Галина - Кошка Зимы [Макарова Римма, 2021, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Современные любовные романы",
+  "torrentSize": "415.1 MB",
+  "torrentLink": "magnet:?xt=urn:btih:0C80E900572F9BE80DD9F15477167F93239D3C72&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i114.fastpic.ru/big/2021/0604/a4/00343066ef4903ba2ee389b14f89caa4.jpg"
+},
+{
+  "name": "Стюарт Мэри – И девять ждут тебя карет [Човжик Алла, 2017, 80 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Зарубежные детективы, приключения, триллеры, боевики",
+  "torrentSize": "433.3 MB",
+  "torrentLink": "magnet:?xt=urn:btih:E5ED4AA5ED21C64A105CCE2810F0AA8C0A759CBF&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i1.imageban.ru/out/2017/11/30/d39991565e4ec6659ca80ae237a668e7.jpg"
+},
+{
+  "name": "Azumi Kei - Лунный Бог, приключение и другой мир 1 (часть 1), Блуждая на краю света [radvin, (ЛИ), 2021, 192 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Азиатская подростковая литература, ранобэ, веб-новеллы",
+  "torrentSize": "794.7 MB",
+  "torrentLink": "magnet:?xt=urn:btih:1E73680177225D573138EBF534BA801DD5D27D19&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i116.fastpic.org/big/2021/1230/89/20ec0b8298a408356c3ab54c7460f189.png"
+},
+{
+  "name": "Чередий Галина - Любовь без обоснуя 4, Питбуль для училки [Римма Макарова, 2021, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Современные любовные романы",
+  "torrentSize": "401.8 MB",
+  "torrentLink": "magnet:?xt=urn:btih:C08F1BEEA92CA84788F3AC11B1119C0DFA65EA06&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i115.fastpic.org/big/2021/1013/55/a8fa46690bfefb988cc4d949534b8555.jpg"
+},
+{
+  "name": "Салье Михаил: Волшебная лампа Аладдина [Ростислав Плятт, Армен Джигарханян, Александр Леньков, Евгений Весник, Сергей Цейц, Нина Тер-Осипян, 1983 / 2010, 128 kbps, MP3] [«Мелодия»]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Детская литература",
+  "torrentSize": "78.5 MB",
+  "torrentLink": "magnet:?xt=urn:btih:6B73D6308B2938AC48EB89C48E54A6F0D38EB99A&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://b.radikal.ru/b43/2001/87/b4f7bd586246.jpg"
+},
+{
+  "name": "Коран - Перевод Смыслов священного Корана Эльмир Кулиев (аудио) [VBR 32 - 128 kbps]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Ислам",
+  "torrentSize": "481.7 MB",
+  "torrentLink": "magnet:?xt=urn:btih:E45C2FA4C5DB8A699F0FD274FDCF33210124723A&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://upload.wikimedia.org/wikipedia/commons/c/c3/Quran_cover.jpg"
+},
+{
+  "name": "Квин Эллери - Светильник Божий [Ерисанова Ирина, 2013 г., 96 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Зарубежные детективы, приключения, триллеры, боевики",
+  "torrentSize": "126.3 MB",
+  "torrentLink": "magnet:?xt=urn:btih:5E0DBEABB7A97B6C0C66FFAD65D4917B5F6323D5&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i48.fastpic.ru/big/2013/0518/85/8c192a9eb75e29b2ee42c3dc92393d85.jpg"
+},
+{
+  "name": "Сугару Миаки - Начать сначала [Adrenalin28, (ЛИ), 2022, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Азиатская подростковая литература, ранобэ, веб-новеллы",
+  "torrentSize": "212.5 MB",
+  "torrentLink": "magnet:?xt=urn:btih:336AAAC797A0AADA444381AB9F5B07134791AB42&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i117.fastpic.org/big/2022/0430/9a/d63da7b3bb3b39971ef8bd3cc873df9a.jpg"
+},
+{
+  "name": "Чередий Галина - Любовь без обоснуя 3, Бирюк [Римма Макарова, 2021, 320 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Современные любовные романы",
+  "torrentSize": "919.1 MB",
+  "torrentLink": "magnet:?xt=urn:btih:3AC77FB525FFEB0E576C77F1F0014B3B6D2AE768&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i116.fastpic.org/big/2021/1017/64/483be2acb49135f2496f00efd5f3d564.jpg"
+},
+{
+  "name": "Шах Идрис - Сказки дервишей [Простой Человек, (ЛИ), 2019, 128 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Ислам",
+  "torrentSize": "416 MB",
+  "torrentLink": "magnet:?xt=urn:btih:68B20B94D6121C53247A170D5D4A9D0CEEB48513&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i89.fastpic.ru/big/2019/0722/27/1621816856bacfa0a98b49cdf5db4927.jpg"
+},
+nk": "magnet:?xt=urn:btih:09FBD333C279849D272595AD74DC349BD185BA00&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i116.fastpic.org/big/2022/0307/e4/605f0903ec4bc027b7042ba0e18b33e4.jpg"
+},
+{
+  "name": "Протоиерей Валентин Свенцицкий - Диалоги [Читает Олег Сидорчик, 2008, 128 kbps]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Православие",
+  "torrentSize": "536.8 MB",
+  "torrentLink": "magnet:?xt=urn:btih:8C1F30B4E79FDF4812108B68CD23306C7783FAED&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i3.fastpic.ru/big/2009/1023/64/75639784c3ae2abff4a4055e274b3664.jpg"
+},
+{
+  "name": "Тихонов Александр - Рассказы о зверятах [Силантьева Светлана, 2021, 64 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Детская литература",
+  "torrentSize": "24.4 MB",
+  "torrentLink": "magnet:?xt=urn:btih:6B95E3B1866D89995C2AD71A676B5A23DA11A6B6&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i.ibb.co/symvFr5/Tihonov-A-Rasskazy-o-zveryatah-Silanteva-S-tn.jpg"
+},
+{
+  "name": "Сато Цутому - Mahouka Koukou no Rettousei / Непутевый ученик в школе магии 27, Внезапный поворот [Adrenalin28, (ЛИ), 2022, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Азиатская подростковая литература, ранобэ, веб-новеллы",
+  "torrentSize": "308 MB",
+  "torrentLink": "magnet:?xt=urn:btih:C27245EA4E3DDF34D337128C643DEC00FE6A9BDC&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i117.fastpic.org/big/2022/0429/f2/3bbbe2a3541eb18e3ae8029b75c4a9f2.jpg"
+},
+{
+  "name": "Гарднер Эрл Стэнли - Перри Мейсон 5, Дело о любопытной новобрачной [Алексей Крутиков, (ЛИ), 2021, 64 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Зарубежные детективы, приключения, триллеры, боевики",
+  "torrentSize": "180.1 MB",
+  "torrentLink": "magnet:?xt=urn:btih:22F6A4F1A29C40882B1162FE4776E55080B0C72B&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i117.fastpic.org/big/2022/0501/d2/89fb6e3c961b5f5a6400959f2a5c33d2.jpg"
+},
+{
+  "name": "Что НЕ является аудиокнигой",
+  "category": "Религии",
+  "subcategory": "[Аудио] Другие традиционные религии"
+},
+{
+  "name": "Чередий Галина - Любовь без обоснуя 2, Саблезубый [Александр Милославский, 2020, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Современные любовные романы",
+  "torrentSize": "356.1 MB",
+  "torrentLink": "magnet:?xt=urn:btih:2595F67C266BAD897759E6728B45A7174982505C&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i114.fastpic.ru/big/2021/0218/d9/e556f4420a2935daa8c40cdfa23faed9.jpg"
+},
+35dc95e42d2c4d6f8f3b0f09004f.jpg"
+},
+{
+  "name": "Булычёв Кир - Алиса. Планета для тиранов. Секрет чёрного камня [Човжик Алла, 2022, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Детская литература",
+  "torrentSize": "513.6 MB",
+  "torrentLink": "magnet:?xt=urn:btih:9F9EABF6F29742740F4D26607988EDE4444C8BE7&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i117.fastpic.org/big/2022/0423/aa/1c13f2a19cbe1dad357d9c03b99092aa.jpg"
+},
+{
+  "name": "Гарднер Эрл Стэнли - Терри Клейн 2, Дело отсталого мула [Алексей Крутиков, (ЛИ), 2021, 64 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Зарубежные детективы, приключения, триллеры, боевики",
+  "torrentSize": "110 MB",
+  "torrentLink": "magnet:?xt=urn:btih:B938AD9D42A357DC79FAA34D119EECB12F45A8CE&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i117.fastpic.org/big/2022/0501/50/807183dea4d814c5db9aa77c77be2d50.jpg"
+},
+{
+  "name": "Дунаев Михаил - Лев Николаевич Толстой. Лекция М. М. Дунаева [М. М. Дунаев, 2009, 112 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Православие",
+  "torrentSize": "662.3 MB",
+  "torrentLink": "magnet:?xt=urn:btih:2118409BF7F0524D606D482E94941A7E8B424017&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i116.fastpic.org/big/2021/1210/22/007dc521a09e84b38b13b91c4f0e2722.jpg"
+},
+{
+  "name": "Аудиокнига: Коран. Перевод смыслов. [Халяф Джафаров. Эльмир Кулиев, 2016, 96 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Ислам",
+  "torrentSize": "825.9 MB",
+  "torrentLink": "magnet:?xt=urn:btih:93631293C6B68C2E92A2240D830CE8CD068771CA&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i88.fastpic.ru/big/2017/0102/6a/182a9c78d9b24f9151c4d77c072a9f6a.jpg"
+},
+{
+  "name": "Йога Васиштха (Маха-Рамаяна, Арша-Рамаяна, Васиштха-Рамаяна, Васиштха-гита) [Золотов Андрей, 2012, 128 kbps, MP3, с муз. сопровождением]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Другие традиционные религии",
+  "torrentSize": "2.99 GB",
+  "torrentLink": "magnet:?xt=urn:btih:77FC854283A1C469EF060BC6DC046C3492ABAC3B&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i110.fastpic.ru/big/2019/0317/72/a1c151d511fbb272925ef60aa7121c72.jpg"
+},
+{
+  "name": "Чередий Галина - Любовь без обоснуя 1, Гризли [Luigi, 2020, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Современные любовные романы",
+  "torrentSize": "412.6 MB",
+  "torrentLink": "magnet:?xt=urn:btih:18E759606EF81BE39FC08D03DB34BE9F67BA8F42&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i114.fastpic.ru/big/2020/1107/58/b203216a0c92247d66c9a14ac5339758.jpg"
+},
+{
+  "name": "Леонтьев Антон - Авантюрная мелодрама 04, Бизнес-ланч у Минотавра [Алексей Нос, 2021, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Российские детективы, приключения, триллеры, боевики",
+  "torrentSize": "692.7 MB",
+  "torrentLink": "magnet:?xt=urn:btih:B0352C4C3C7E7D0ABA6D63B127773F54EE9F31FA&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i115.fastpic.org/big/2021/0906/3f/5289369f6bbc0e25ed92fc816dc7d63f.jpg"
+},
+{
+  "name": "Магонотэ Рифудзин - Реинкарнация безработного 22, Подготовка [Zodik, (ЛИ), 2021, 192 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Азиатская подростковая литература, ранобэ, веб-новеллы",
+  "torrentSize": "286.5 MB",
+  "torrentLink": "magnet:?xt=urn:btih:3F44B40CC90800ADEB9FB09BE8E47E716A87FE3F&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i114.fastpic.ru/big/2021/0508/cb/2db745f1b4d2dd813c14bd467a8bfccb.jpg"
+},
+{
+  "name": "Хантер Эрин – Коты-воители. Воители 1, Стань диким! [Стрелец Анна, (ЛИ), 2018, 96 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Детская литература",
+  "torrentSize": "321.4 MB",
+  "torrentLink": "magnet:?xt=urn:btih:D17BFB79CBE20B18B5857C6C17A7E0EC67F5F34B&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i1.imageban.ru/out/2019/01/19/1a166f40b24737919fe557ac4db9da26.jpg"
+},
+{
+  "name": "Абу Али аль-Аш'ари Исаев Рашид - Исламское вероучение Мухтасар- основы мусульманской религии [Исаев Рашид, 2009 г., 128 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Ислам",
+  "torrentSize": "341.1 MB",
+  "torrentLink": "magnet:?xt=urn:btih:177C7730A05719431A14309F2EF5A416A220B51A&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i59.fastpic.ru/big/2013/0831/9d/c76d832437705c86108bc3c165994b9d.jpg"
+},
+{
+  "name": "Гранже Жан-Кристоф - Обещания богов [Сергей Горбунов, 2022, 64 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Зарубежные детективы, приключения, триллеры, боевики",
+  "torrentSize": "626.9 MB",
+  "torrentLink": "magnet:?xt=urn:btih:9E1E9FFC7717AD4C123BA842C689002B835FFDE9&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i117.fastpic.org/big/2022/0420/1a/58c617099b63b40300c294dd9ebdf81a.jpg"
+},
+{
+  "name": "Брянчанинов Игнатий, святитель - Письма мирянам о христианской жизни [Алексей Ковалёв, 2012 г., 56 Kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Православие",
+  "torrentSize": "242.5 MB",
+  "torrentLink": "magnet:?xt=urn:btih:9E3365D9973A3F5DE3DDE453F5EB3CD6FEA9A26E&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i32.fastpic.ru/big/2012/0404/ec/23edaa9510d29fd4b1ab43df49609aec.jpg"
+},
+{
+  "name": "Чередий Галина – Эволюция любви [Варвара Варенич, 2020, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Современные любовные романы",
+  "torrentSize": "500.2 MB",
+  "torrentLink": "magnet:?xt=urn:btih:AA5EDDEF5537FF10F57EB95505C7B0528AB77E05&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i6.imageban.ru/out/2020/10/18/4358f9eee22bcf10d6ddb98d09e734cf.jpg"
+},
+{
+  "name": "Георгий Вайнер - Райский сад дьявола [Вячеслав Манылов, 96]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Российские детективы, приключения, триллеры, боевики",
+  "torrentSize": "940.3 MB",
+  "torrentLink": "magnet:?xt=urn:btih:2F1661F03FCECBF9753261BA6B216D24CA1D18E3&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://10pix.ru/img1/532353/773498.jpg"
+},
+{
+  "name": "Чаа Аджан - Бодхиньяна (серия «Мастера современного буддизма») [Пётр Маркин, 2019, 128 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Другие традиционные религии",
+  "torrentSize": "361.4 MB",
+  "torrentLink": "magnet:?xt=urn:btih:E1586CCE0DF6DD60AC1C9F5CC57FF301C4FC8288&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://a.radikal.ru/a05/2201/d3/fba2c309c087.jpg"
+},
+029/77/4ed4a52d7c709a72df9f1eb96e05ed77.jpg"
+},
+{
+  "name": "Твен Марк - Принц и нищий [Зарецкий Андрей, 2004 г., 192 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Детская литература",
+  "torrentSize": "668 MB",
+  "torrentLink": "magnet:?xt=urn:btih:1599B3F8BDC6D3D0A4AC2AF235D70BA9CC01C435&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://www.ozon.ru/multimedia/books_covers/1000125406.jpg"
+},
+{
+  "name": "Порохова Иман Валерия - Коран. Перевод смыслов и комментарии Иман В. Пороховой [Ильяс Созаев, 2009 г., 64 кб/с, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Ислам",
+  "torrentSize": "643 MB",
+  "torrentLink": "magnet:?xt=urn:btih:5F200B3D2154F24C7280AFB3D03D44620AD92331&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i29.fastpic.ru/big/2012/0415/e0/19a56eb43e2dcd4c9b8f430f472d07e0.jpg"
+},
+{
+  "name": "Джеймс Питер - За сумеречным порогом [Игорь Ильин, 2011 г., 128, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Зарубежные детективы, приключения, триллеры, боевики",
+  "torrentSize": "857.4 MB",
+  "torrentLink": "magnet:?xt=urn:btih:D5F9DAADACB54C35193B2F22F1B3477AEB5B7E47&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://s017.radikal.ru/i434/1110/4b/059c1f853500.jpg"
+},
+{
+  "name": "Хорни Карен - Невротическая личность нашего времени [Писарев Игорь, 2005 г., 160 kbps, MP3]",
+  "category": "Прочая литература",
+  "subcategory": "[Аудио] Книги по медицине",
+  "torrentSize": "635.6 MB",
+  "torrentLink": "magnet:?xt=urn:btih:4C7EEA7584A75CA0DA2B590BB448FB07C651B691&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i48.fastpic.ru/big/2015/0428/cb/7ec0fdc622c1c97c4814ff4f41af59cb.jpeg"
+},
+{
+  "name": "Устинова Татьяна - У меня зазвонил телефон [Сергей Чонишвили, 2017, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Современные любовные романы",
+  "torrentSize": "13.2 MB",
+  "torrentLink": "magnet:?xt=urn:btih:7113C6A9B86AE1DD4B27289099E8275DB52E76CE&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i109.fastpic.ru/big/2019/0311/73/9eb6a2a0c258df25f93760571b685773.jpg"
+},
+{
+  "name": "Брянчанинов Игнатий, святитель - Слово о чувственном и о духовном видении духов [Алексей Ковалёв, 2012 г., 48 Kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Православие",
+  "torrentSize": "64.5 MB",
+  "torrentLink": "magnet:?xt=urn:btih:966A33C99674F97333914B75DE1147C999C75532&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i32.fastpic.ru/big/2012/0404/ec/23edaa9510d29fd4b1ab43df49609aec.jpg"
+},
+{
+  "name": "Обухова Лена; Тимошенко Наталья - Нормальное аномальное 11, Дом безликих теней [Човжик Алла, 2017, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Российские детективы, приключения, триллеры, боевики",
+  "torrentSize": "470.7 MB",
+  "torrentLink": "magnet:?xt=urn:btih:DA00AD7BA92381A43597A6E9A1260A5E9C2DD35A&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://s013.radikal.ru/i324/1712/93/158620b2484b.jpg"
+},
+{
+  "name": "Ринпоче Согьял - Книга жизни и практики умирания (Тибетская книга жизни и смерти) [Пётр Маркин, 2019, 128 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Другие традиционные религии",
+  "torrentSize": "1.35 GB",
+  "torrentLink": "magnet:?xt=urn:btih:A40FD058356FB999FB64777B2C10D2FB7543604E&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://a.radikal.ru/a31/2104/6e/385a2b24244c.jpg"
+},
+{
+  "name": "Мок Ма - Владея Ничем 2 [radvin, Anri, (ЛИ), 2022, 192 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Азиатская подростковая литература, ранобэ, веб-новеллы",
+  "torrentSize": "512.7 MB",
+  "torrentLink": "magnet:?xt=urn:btih:DB4DB098BF0DDAA0AB6A24F8BA282DFA760B6BB0&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i112.fastpic.ru/big/2020/0911/e6/4f3033ed75b0d2889a2203cbd823f6e6.jpg"
+},
+{
+  "name": "Житков Борис - Что я видел [Телегина Татьяна, 2011 г., 32 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Детская литература",
+  "torrentSize": "121.8 MB",
+  "torrentLink": "magnet:?xt=urn:btih:8CE81950F13623146FA29FB79A810E36F6982772&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i52.fastpic.ru/big/2013/0118/74/afb902d31979e8c03acf627361bbe774.jpg"
+},
+{
+  "name": "Умар Сулейман аль-Ашкар - Аудиокнига: «Вера в Аллаха» [2014, 128 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Ислам",
+  "torrentSize": "745.2 MB",
+  "torrentLink": "magnet:?xt=urn:btih:DFA4AE4C8264F8D049C48DEE276CF62BDAD00748&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i68.fastpic.ru/big/2014/1001/2a/c1f10fbf7b739922365666553c07d32a.jpg"
+},
+{
+  "name": "Брум Изабелль - Год и один день [Татьяна Ферцева, 2022, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Современные любовные романы",
+  "torrentSize": "814.5 MB",
+  "torrentLink": "magnet:?xt=urn:btih:B11E93E4F1435AF60CA710AD1502B5B50E4F91C2&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i117.fastpic.org/big/2022/0501/89/44d9e94f9566a6b3bf93ccf32eabb089.jpg"
+},
+{
+  "name": "Сименон Жорж - Комиссар Мегрэ 57, Мегрэ у коронера [Хошабаев Александр, 2018, 80 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Зарубежные детективы, приключения, триллеры, боевики",
+  "torrentSize": "150.6 MB",
+  "torrentLink": "magnet:?xt=urn:btih:BA7C3C6E0B8E81CBC357742393A6F01FC6936B4A&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i117.fastpic.org/big/2022/0505/06/e9f6cd946c4d4e7501853d5dd67ddb06.jpg"
+},
+{
+  "name": "Анатолий Афанасьев - Монстр сдох [Евгений Терновский, 1998]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Российские детективы, приключения, триллеры, боевики",
+  "torrentSize": "612.8 MB",
+  "torrentLink": "magnet:?xt=urn:btih:3C57D9E2FC855B84CC7A2ABD7370404AAA55E098&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://img1.nnm.ru/imagez/gallery/3/9/f/d/7/39fd743ceff53bd138f83192181cfb0f_full.jpg"
+},
+{
+  "name": "Сазонов Андрей – Фильтруй! Как работают наши печень и почки [Новокрещенов Андрей, 2020, 128 kbps, MP3]",
+  "category": "Прочая литература",
+  "subcategory": "[Аудио] Книги по медицине",
+  "torrentSize": "360 MB",
+  "torrentLink": "magnet:?xt=urn:btih:C44A2D928740107EC200755BD64E6D45DA1C8C6A&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i3.imageban.ru/out/2020/10/03/9c38625dc1cdb8bea10a92d276c76c06.jpg"
+},
+{
+  "name": "Святитель Игнатий Брянчанинов - В помощь кающимся [Дмитрий Чурсин, (ЛИ), 2013 г., 128 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Православие",
+  "torrentSize": "54.6 MB",
+  "torrentLink": "magnet:?xt=urn:btih:E1E759B67F81787B0ACD2977FEC250D94C570DD8&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i33.fastpic.ru/big/2014/0119/29/abf2dfb92246ad0c58adae79700a6c29.jpg"
+},
+{
+  "name": "Магонотэ Рифудзин - Реинкарнация безработного 21, Клифф [Zodik, (ЛИ), 2021, 192 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Азиатская подростковая литература, ранобэ, веб-новеллы",
+  "torrentSize": "481 MB",
+  "torrentLink": "magnet:?xt=urn:btih:C483D96433E2048E4713DF1C68D20812A2C58381&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i114.fastpic.ru/big/2021/0427/ab/799f481e09f456df34400c9c73b2caab.jpg"
+},
+{
+  "name": "Далай-лама, Согьял Ринпоче - Медитации на каждый день [Добрый человек, 2015 г., 96 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Другие традиционные религии",
+  "torrentSize": "103.6 MB",
+  "torrentLink": "magnet:?xt=urn:btih:4A1758225B1C160676766F32AA5BF0B2B6542FF8&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://forum.arimoya.info/userdata/sonya/meditations-by-dalaai-lama.jpg"
+},
+{
+  "name": "Умар Сулейман аль-Ашкар - Аудиокнига: «Судьба и предопределение» [2015, 96 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Ислам",
+  "torrentSize": "138.6 MB",
+  "torrentLink": "magnet:?xt=urn:btih:A2CC342DAD19668D11A887ECF3CCEDFC3AC11C06&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://s2.musulmanin.com/audio_knigi/aqida-03-predopredelenie/aqida-03-predopredelenie.jpg"
+},
+{
+  "name": "Астрид Линдгрен - Мы-На острове Сальткрока [С. Репина, 2007, 128 kbps]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Детская литература",
+  "torrentSize": "498.5 MB",
+  "torrentLink": "magnet:?xt=urn:btih:C97F7C6DA1E1D833646C65B5AA70D08F35A5EED0&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i3.fastpic.ru/big/2009/1023/38/1e05785cba139903b1cf9fa633cd0c38.jpg"
+},
+{
+  "name": "Святитель Игнатий Брянчанинов - Собрание сочинений. Избранное [Гермоген Ананьев, Лука Пинаев, Макарий Сытенко, Александр Церковников, 2009, MP3, 64 kbps]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Православие",
+  "torrentSize": "759.4 MB",
+  "torrentLink": "magnet:?xt=urn:btih:CF0E6884DF3D63C2AABF789890A567BC7832490E&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i59.fastpic.ru/big/2014/0302/28/67acd38a67bcac7d32ac465d668c3628.jpg"
+},
+{
+  "name": "Лэкберг Камилла, Фексеус Хенрик - Менталист [Александр Аравушкин, 2022, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Зарубежные детективы, приключения, триллеры, боевики",
+  "torrentSize": "1.12 GB",
+  "torrentLink": "magnet:?xt=urn:btih:0919AB13FADC9EB6CCA3BA65AD877D4786CD7D2A&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i117.fastpic.org/big/2022/0506/1d/478bae102febe5b6706bb1fcb7d02a1d.jpg"
+},
+{
+  "name": "Вялов Сергей – О чем молчит печень. Как уловить сигналы самого крупного внутреннего органа, который предпочитает оставаться в тени [Османов Рустам, 2020, 128 kbps, MP3]",
+  "category": "Прочая литература",
+  "subcategory": "[Аудио] Книги по медицине",
+  "torrentSize": "444.1 MB",
+  "torrentLink": "magnet:?xt=urn:btih:B31CEFFA4558A75B7C4C6A007F51A0773DB2D5C8&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i4.imageban.ru/out/2020/10/01/8fef547bb23d33578ee2f2c2bb8b231b.jpg"
+},
+{
+  "name": "Fallen Ellen / Фоллен Эллен - Коварные игры [Полина Кузьмина, 2021, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Современные любовные романы",
+  "torrentSize": "399.1 MB",
+  "torrentLink": "magnet:?xt=urn:btih:87E52F896AF3ABD5EDFCC3772CB0299512113270&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i116.fastpic.org/big/2022/0323/c6/b3e0c14b1e21c9d149e96a9a1f20e8c6.jpg"
+},
+{
+  "name": "Жарко Владимир - Главный свидетель[Аксентюк Валентин, 2015 г., 128 kbps, 44 kHz, Моно, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Российские детективы, приключения, триллеры, боевики",
+  "torrentSize": "731.2 MB",
+  "torrentLink": "magnet:?xt=urn:btih:DD368B2A31D43CE550C8358ED4CC453842B14CFD&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://s11.postimg.org/orfitv72r/image.jpg"
+},
+{
+  "name": "Ринпоче Согьял - Книга жизни и практика умирания [Добрый человек, (ЛИ), 2015 г., 80 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Другие традиционные религии",
+  "torrentSize": "220.8 MB",
+  "torrentLink": "magnet:?xt=urn:btih:570E954C50E09C1F64899E3C036BBA865F356C68&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://forum.arimoya.info/userdata/sonya/sogyal-rinpoche.jpg"
+},
+{
+  "name": "Танака Ю - О моем перерождении в меч. Том 5 / Tensei Shitara Ken Deshita [Anri, (ЛИ), 2021, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Азиатская подростковая литература, ранобэ, веб-новеллы",
+  "torrentSize": "283.3 MB",
+  "torrentLink": "magnet:?xt=urn:btih:A538DBB6715ED841C428BC8DFD10F139B0918A86&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i116.fastpic.org/big/2021/1029/22/728059343054985fa09d96c55a8b5b22.jpg"
+},
+{
+  "name": "Редьярд Киплинг - Книга джунглей [Владимир Левашев, 2007, 192 кбит/с]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Детская литература",
+  "torrentSize": "1.22 GB",
+  "torrentLink": "magnet:?xt=urn:btih:964C1B86A436DA4F7E05B8B7D06E7B0ABD651377&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://img441.imageshack.us/img441/3870/88580783rp5.jpg"
+},
+{
+  "name": "Брянчанинов Игнатий, святитель - Том 8. Письма [игумен Гермоген (Ананьев), 2009 г., 320 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Православие",
+  "torrentSize": "300.1 MB",
+  "torrentLink": "magnet:?xt=urn:btih:7BAC8EC5D39B085B864B66BFF5D5C31FA00F2311&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i003.radikal.ru/1411/48/a1a34b9c0091.jpg"
+},
+{
+  "name": "Луиза Хей - Позитивный подход [Султанова Диляра, 2006 г., 128 kbps, MP3]",
+  "category": "Прочая литература",
+  "subcategory": "[Аудио] Книги по медицине",
+  "torrentSize": "646.5 MB",
+  "torrentLink": "magnet:?xt=urn:btih:E8E666E87D25A11B41AFFBF8B130CF18C6007AFB&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://www.libex.ru/dimg/2a054.jpg"
+},
+{
+  "name": "Ёрш Ника - Золушка за тридцать [Людмила Шапочкина, 2020, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Современные любовные романы",
+  "torrentSize": "403.1 MB",
+  "torrentLink": "magnet:?xt=urn:btih:187C6F6AED9C965038B74D1AA13CCA374150A257&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i116.fastpic.org/big/2022/0330/41/fca7abe76ddc65a958e1d14e460b0e41.jpg"
+},
+{
+  "name": "Намкай Норбу Ринпоче. Дзогчен - состояние самосовершенства [Добрый человек, 2015 г., 64 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Другие традиционные религии",
+  "torrentSize": "42.2 MB",
+  "torrentLink": "magnet:?xt=urn:btih:B860392FF4E5283033BBFEC6AF3835A4C1709622&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://forum.arimoya.info/userdata/sonya/Namkai-Norbu-Rinpoche.jpg"
+},
+{
+  "name": "Шарапов Валерий - Сыщики 45-го [Александр Серов, 2020, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Российские детективы, приключения, триллеры, боевики",
+  "torrentSize": "509.7 MB",
+  "torrentLink": "magnet:?xt=urn:btih:CA6A8D7A948A19716C847E2B01C0CC9E089F07FA&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i114.fastpic.ru/big/2021/0105/4a/9e9f39495553c8b93ab2ddfd1f4ef54a.jpg"
+},
+{
+  "name": "Эр Ген - Я запечатаю небеса 1, Патриарх Покровитель [Adrenalin28, (ЛИ), 2019, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Азиатская подростковая литература, ранобэ, веб-новеллы",
+  "torrentSize": "1.12 GB",
+  "torrentLink": "magnet:?xt=urn:btih:476DE6140652040BA243840518B20CECBE3F9F96&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i106.fastpic.ru/big/2019/0810/fd/1a18f5cc594bec979db59411306723fd.jpg"
+},
+{
+  "name": "Ханафи, Шафии. - Ханафитский и Шафиитский фикх. [Абу Али аль-Аш'ари, 2012 г., 48 кбит в сек, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Ислам",
+  "torrentSize": "1.46 GB",
+  "torrentLink": "magnet:?xt=urn:btih:A3AC31D9653380260E146D8AF6F8E4FD34E5F12D&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i51.fastpic.ru/big/2013/0202/92/60325d089502329178e763eed8d2e592.jpeg"
+},
+{
+  "name": "Киплинг Редьярд - Старая Англия. Сказания и легенды [Герасимов Вячеслав, 2012 г., 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Детская литература",
+  "torrentSize": "375.7 MB",
+  "torrentLink": "magnet:?xt=urn:btih:40BF552B2D06DD8A8BDB5ED64E4788957085EAAB&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i51.fastpic.ru/big/2013/0126/32/bd53497bb1d0df2969177aa2b890a932.jpg"
+},
+{
+  "name": "Сименон Жорж - Комиссар Мегрэ 097, Мегрэ колеблется [Хошабаев Александр, 2017, 80 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Зарубежные детективы, приключения, триллеры, боевики",
+  "torrentSize": "151.9 MB",
+  "torrentLink": "magnet:?xt=urn:btih:0FAE2D57A64897580E9F689886C34285884542D9&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i117.fastpic.org/big/2022/0506/cd/a09bfc875845ccfd4ccb75d5f98aaccd.jpg"
+},
+{
+  "name": "Хей Луиза - Сердечные мысли [Султанова Диляра, 2005 г., 160 kbps, MP3]",
+  "category": "Прочая литература",
+  "subcategory": "[Аудио] Книги по медицине",
+  "torrentSize": "268 MB",
+  "torrentLink": "magnet:?xt=urn:btih:0840AFE4CE03ACD5147C063DC9328D7CE908E395&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i18.fastpic.ru/big/2011/0329/28/e86d26f62261357ee89cd32f829fad28.jpg"
+},
+{
+  "name": "Святитель Игнатий (Брянчанинов) - Аскетические опыты [Денис Гаврилов, 2008 г., 56-128 Kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Православие",
+  "torrentSize": "1.31 GB",
+  "torrentLink": "magnet:?xt=urn:btih:94A9D5A7392CC4C83DDF5687126B62311540995D&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://s44.radikal.ru/i103/0910/bf/9d14a18df1a6.jpg"
+},
+{
+  "name": "Что НЕ является аудиокнигой",
+  "category": "Религии",
+  "subcategory": "[Аудио] Нетрадиционные религиозно-философские учения"
+},
+{
+  "name": "Тодд Анна - После 5, До того как [Никитина Марина, 2020, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Современные любовные романы",
+  "torrentSize": "560.7 MB",
+  "torrentLink": "magnet:?xt=urn:btih:F63979935F770D6BB81D62E0AC6F0EE4EB7D875A&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i114.fastpic.ru/big/2021/0425/f2/0e95ebc1d5ffc9677b168fc862c63ff2.jpg"
+},
+{
+  "name": "Толстой Лев - Патриотизм или мир? [Павел Настенко, 2017, 128 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Другие традиционные религии",
+  "torrentSize": "17.6 MB",
+  "torrentLink": "magnet:?xt=urn:btih:2A7C77D125C3C9CDA69EA3D0FABC020E2FAD5F46&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i116.fastpic.org/big/2022/0305/7f/178cbe5004e37ef078dd71eb8a6c187f.jpg"
+},
+{
+  "name": "Проект Анонимус - Тайный дневник Михаила Булгакова [Александр Клюквин, 2022, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Российские детективы, приключения, триллеры, боевики",
+  "torrentSize": "413.8 MB",
+  "torrentLink": "magnet:?xt=urn:btih:387035A5847BC860AF8C8B60CDF16B4C3C4A1105&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i2.imageban.ru/out/2022/04/19/8af0688a46fc3938c54b51d4f1f77c55.jpg"
+},
+{
+  "name": "АбдулКадир Иса - Истина суфизма [Радио Ватан, 2012 г., 192 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Ислам",
+  "torrentSize": "843.2 MB",
+  "torrentLink": "magnet:?xt=urn:btih:A1935476A068376FFB5C5F32CCD6E06692A66333&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i80.fastpic.ru/big/2016/0823/0c/01524096276329e78b86488f40ba0a0c.jpg"
+},
+20C470D0&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i117.fastpic.org/big/2022/0420/5e/85d16f6554c5e4dcff14f9243e89af5e.jpeg"
+},
+{
+  "name": "Мясников Александр - Врача вызывали? Ответы на самые важные вопросы о здоровье, красоте и долголетии [Иванов Станислав, 2019, 56 kbps, 44 kHz, Joint Stereo, MP3]",
+  "category": "Прочая литература",
+  "subcategory": "[Аудио] Книги по медицине",
+  "torrentSize": "88.1 MB",
+  "torrentLink": "magnet:?xt=urn:btih:2DEDDDB6B9C2676E85B3569F0E83AE592BA860A2&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i.ibb.co/RzqCcKS/Myasnikov-A-Vracha-vyzyvali-Ivanov-S-tn.jpg"
+},
+{
+  "name": "Киплинг Редьярд - Маугли. Книги джунглей [Аркадий Бухмин, 2012 г., 112 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Детская литература",
+  "torrentSize": "702.3 MB",
+  "torrentLink": "magnet:?xt=urn:btih:BB2FEFA57EE5609EC433738967722A3B68EA2A5F&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i54.fastpic.ru/big/2013/0205/d7/6ece46b5519d61de2b3ddc2458d879d7.jpg"
+},
+{
+  "name": "Святитель Игнатий Брянчанинов - Приношение современному монашеству [2007, 128 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Православие",
+  "torrentSize": "886 MB",
+  "torrentLink": "magnet:?xt=urn:btih:3A0D658BD53FECD070B100BD83D8506D918C2F2F&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://s008.radikal.ru/i303/1708/0f/fd4e76dea6f3.jpg"
+},
+{
+  "name": "Тодд Анна – После 2, После ссоры [Никитина Марина, 2019, 48 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Современные любовные романы",
+  "torrentSize": "494.9 MB",
+  "torrentLink": "magnet:?xt=urn:btih:E131AADE6ED60B5A095010A0393797FE17002579&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i5.imageban.ru/out/2020/10/10/3862099e22b609225c31626fc7e3d023.jpg"
+},
+g"
+},
+{
+  "name": "Шервуд Том - Сокровища ждут! 01, Остров Локк [Кирсанов Сергей, 2015 г., 96 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Зарубежные детективы, приключения, триллеры, боевики",
+  "torrentSize": "421.1 MB",
+  "torrentLink": "magnet:?xt=urn:btih:904056C94A48A9F838908FB8FF176851972549CC&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://s019.radikal.ru/i641/1601/81/78931662d309.jpg"
+},
+{
+  "name": "Кулиев, Мишари Эльмир, Рашид - Коран arab/rus, Толкование Корана rus [Кулиев Эльмир, Мишари Рашид, 2015 г., 128 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Ислам",
+  "torrentSize": "6.66 GB",
+  "torrentLink": "magnet:?xt=urn:btih:CF151B06E0ACBDB40E92097523B561CC4EDE2CA2&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i66.fastpic.ru/big/2015/0901/fd/21ec88fd70fc83b35788aebb071163fd.jpg"
+},
+{
+  "name": "Тамоников Александр - СМЕРШ – спецназ Сталина: Смерть под уровнем моря [Александр Мозгунов, 2022, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Российские детективы, приключения, триллеры, боевики",
+  "torrentSize": "406.7 MB",
+  "torrentLink": "magnet:?xt=urn:btih:2A9940977FD28BB723B05B22D85180607F61EE94&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i117.fastpic.org/big/2022/0504/15/6401cadbe1407179395e2d91eea74115.jpg"
+},
+{
+  "name": "Чодрон Пема - Когда не везет. Советы сердца в трудные времена [Nikosho, (ЛИ), 2015 г., 256 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Другие традиционные религии",
+  "torrentSize": "581.3 MB",
+  "torrentLink": "magnet:?xt=urn:btih:AD4CA053D79EACD981D9B2AD6C3CA06470E7B1C4&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i71.fastpic.ru/big/2015/0816/67/e3ecf808623de363fbe886c60c1b6567.jpg"
+},
+{
+  "name": "Катаев Валентин - Волны Черного моря - 3, 4 части [Конышев Борис, 2010 г., 96 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Детская литература",
+  "torrentSize": "1.16 GB",
+  "torrentLink": "magnet:?xt=urn:btih:2D19C9A07F897C5979C1003CCB42015DFAD157C5&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://www.ozon.ru/multimedia/books_covers/1001063150.jpg"
+},
+{
+  "name": "Резник Юлия - Буду тебе женой [Аня Грэй, 2021, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Современные любовные романы",
+  "torrentSize": "340.1 MB",
+  "torrentLink": "magnet:?xt=urn:btih:4B63D36B31D7C977B1D96C87104B7C6281C513E6&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i117.fastpic.org/big/2022/0506/17/047864ecc8a1b0e35b18f80006624a17.jpg"
+},
+{
+  "name": "Мантэк Чиа - Внутренняя улыбка. Мужская версия (аудиомедитация) [2011, 320 Kbps, MP3]",
+  "category": "Прочая литература",
+  "subcategory": "[Аудио] Книги по медицине",
+  "torrentSize": "55.9 MB",
+  "torrentLink": "magnet:?xt=urn:btih:1C306E611C85FD0194F031BEBBD033D29A74A08E&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i22.fastpic.ru/big/2011/0604/4f/87de6595411fafea634af6846feebd4f.jpg"
+},
+{
+  "name": "Преподобный Исаак Сирин - Любовь. Безмолвие. Искушения. Духовно литературно-музыкальная композиция [Митрополит Иларион (Алфеев), Петр Мамонов, 2012 г., 320 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Православие",
+  "torrentSize": "179.7 MB",
+  "torrentLink": "magnet:?xt=urn:btih:225B57810ACDF4990D14800E7F39F37B3590BA6A&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i53.fastpic.ru/big/2013/0120/4f/55028800925c7dc078e29c394584d74f.jpg"
+},
+{
+  "name": "Даниель Дефо - Жизнь и удивительные приключения Робинзона Крузо, моряка из Йорка [Игорь Владимиров, Мария Кашинсая, Александр Кольцов., 2007, 192 kbps]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Зарубежные детективы, приключения, триллеры, боевики",
+  "torrentSize": "447.6 MB",
+  "torrentLink": "magnet:?xt=urn:btih:010E47B44D4DAADD79C248216DE7A662A1A87B91&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i31.fastpic.ru/big/2012/0403/4d/2cbd33991d2ecde128c0040b29425d4d.jpg"
+},
+{
+  "name": "Кавахара Рэки - Accel World / Ускоренный мир 1, Возвращение Черноснежки [Adrenalin28, (ЛИ), 2013 г., 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Азиатская подростковая литература, ранобэ, веб-новеллы",
+  "torrentSize": "367 MB",
+  "torrentLink": "magnet:?xt=urn:btih:34C2F04223A52EF8FD4CF35CED3592AD14284868&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i57.fastpic.ru/big/2013/1211/8b/e0c0b7009762affde559534db692a18b.jpg"
+},
+{
+  "name": "Воронин Андрей - Слепой стреляет без промаха [Михаил Росляков, 2014 г., 96 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Российские детективы, приключения, триллеры, боевики",
+  "torrentSize": "704.2 MB",
+  "torrentLink": "magnet:?xt=urn:btih:6B2264210B1BD423B93F350BBBD23BC5AAF522A2&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i68.fastpic.ru/big/2015/0320/ad/dd0f05382fbe01dfc4b06cc6293708ad.jpg"
+},
+{
+  "name": "ОШО Бхагван Шри Раджниш - Жизнь, любовь, смех [Олег Воротилин, (ЛИ), 2020 г., 192 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Нетрадиционные религиозно-философские учения",
+  "torrentSize": "397.9 MB",
+  "torrentLink": "magnet:?xt=urn:btih:7BB96B714461D0238ACE3332B8D7B061A7CEC5C7&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i67.fastpic.ru/big/2014/0905/cf/ad4ee7b678c004027e657cda27de3acf.jpg"
+},
+{
+  "name": "Коран Шейх Сауд Шурейм, 2016 г., 128 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Ислам",
+  "torrentSize": "992.9 MB",
+  "torrentLink": "magnet:?xt=urn:btih:901DC98A529877C8B4C7BADB3D45B51518EDAD5E&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i77.fastpic.ru/big/2016/0713/d6/35567c02ba9abd56ab3754ee40fc0dd6.jpg"
+},
+orrentSize": "436.6 MB",
+  "torrentLink": "magnet:?xt=urn:btih:97A5A3F943E301AF3299A648FA6C39CAEC937315&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i89.fastpic.ru/big/2017/0206/7d/021e75c0e9275997b1fee5a8f33f027d.png"
+},
+{
+  "name": "Росс Нэнси Уилсон (Дайсэцу Тэйтаро Судзуки, Алан Уотс, Рут Фуллер Сасаки, Эрих Фромм, Ойген Херригель, Генрих фон Клейст, Гэри Снайдер, Чжан Чжень-Цзы, Сы Май-май, Роберт Линссен и др.) - Мир дзэн. Антология Востока и Запада [Пётр Маркин, 2021, 128 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Другие традиционные религии",
+  "torrentSize": "951.7 MB",
+  "torrentLink": "magnet:?xt=urn:btih:4DC90060E32DAD0E401723E4BC6D86232D2E71F4&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://b.radikal.ru/b23/2112/87/7e6441ef26b7.jpg"
+},
+{
+  "name": "Валентин Катаев - Хуторок в степи (Волны Черного моря 2) [Панфилов Владимир, 2009, 96 kbps]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Детская литература",
+  "torrentSize": "537.2 MB",
+  "torrentLink": "magnet:?xt=urn:btih:C4A2A69FD9C8DEA698773E738505FEE8F533D708&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://www.ozon.ru/multimedia/books_covers/1000784230.jpg"
+},
+{
+  "name": "Святые отцы и подвижники благочестия Православной Церкви - ''От Меня это было...''. Молитвы святых отцов [Александр Борисов, 2007 г., 320 Kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Православие",
+  "torrentSize": "136.6 MB",
+  "torrentLink": "magnet:?xt=urn:btih:7AB07C71B08B442661907ECA8DDCBC69D375B738&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i31.fastpic.ru/big/2011/0831/d8/9c9a509299a6bec8b92038b9ec6721d8.jpg"
+},
+{
+  "name": "Мамлеева Наталья - Няня по ошибке, или Лист желаний [Алла Човжик, 2020, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Современные любовные романы",
+  "torrentSize": "326.2 MB",
+  "torrentLink": "magnet:?xt=urn:btih:1A6E9F88BB2C38882431CE5D48807867A24A9221&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://b.radikal.ru/b36/2006/86/6234f1141597.jpg"
+},
+{
+  "name": "И.М.Сеченов - И.М.Сеченов \"Рефлексы головного мозга\" [О.Федоров, 2006, 128 kbps]",
+  "category": "Прочая литература",
+  "subcategory": "[Аудио] Книги по медицине",
+  "torrentSize": "292.9 MB",
+  "torrentLink": "magnet:?xt=urn:btih:28563C0E61A9978857A62CAFBBF2B8E53989BCF6&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://covers.allshops.ru/m/ma/mar/mard1004big.jpg"
+},
+"coverImageUrl": "http://i29.fastpic.ru/big/2012/0322/85/4bf1b817e7a0445adf9ba024b2a1a785.png"
+},
+{
+  "name": "Рясков Олег - Записки экспедитора Тайной канцелярии [Чонишвили Сергей, 2014 г., 96 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Российские детективы, приключения, триллеры, боевики",
+  "torrentSize": "366 MB",
+  "torrentLink": "magnet:?xt=urn:btih:7FBD7B23E869D2321980F70590691AFEE95A3F14&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://s017.radikal.ru/i419/1604/cb/2dec586995c7.jpg"
+},
+{
+  "name": "Антарова Конкордия - Беседы Учителя. Как прожить свой серый день [BIGBAG, (ЛИ), 2021, 128 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Нетрадиционные религиозно-философские учения",
+  "torrentSize": "584.6 MB",
+  "torrentLink": "magnet:?xt=urn:btih:06F7B191E77938D730DFCBCE671745DDB382AE92&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i115.fastpic.ru/big/2021/0722/38/53131e7878e6f5c3d51392d43340d238.jpg"
+},
+{
+  "name": "Ибн Каййим аль-Джаузийя - Аудиокнига: «Фаваид - Полезные наставления» [2014, 96 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Ислам",
+  "torrentSize": "517.2 MB",
+  "torrentLink": "magnet:?xt=urn:btih:44ADA5011FE0A1B111C0D6ACCF137E9F74E42BF6&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://musulmanin.com/wp-content/uploads/2015/01/favaid.jpg"
+},
+t:?xt=urn:btih:77EF02CEAE95365677FC68512AA64F3FB41AFB4B&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i82.fastpic.ru/big/2016/1003/7b/a24cd90b4a57b9844d4ce67c75b4c77b.jpg"
+},
+{
+  "name": "Владислав Крапивин - Та сторона, где ветер - Коллекция радиоспектаклей Диск 10 [Николай Литвинов, Б. Захарова и др., 2009, 192 kbps]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Детская литература",
+  "torrentSize": "63.6 MB",
+  "torrentLink": "magnet:?xt=urn:btih:F34BFCE4B175E81C9B3C880846E4271C0C1BE0A2&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://s57.radikal.ru/i157/0911/b9/6f41c1c06e33.jpg"
+},
+{
+  "name": "Протоиерей Александр Мень - Вестники Царства Божия [Денис Гаврилов, 2012 г., 64 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Православие",
+  "torrentSize": "536.6 MB",
+  "torrentLink": "magnet:?xt=urn:btih:7E36549C447BDB9693FD0A6DB17EA4FDDFE65830&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i53.fastpic.ru/big/2012/1213/dc/c1ab9b8eafb82f423a4e740a22457ddc.jpg"
+},
+{
+  "name": "Уотс Алан - Дао и дзен / Путь Дзен [Пётр Маркин, 2020, 96 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Другие традиционные религии",
+  "torrentSize": "469.5 MB",
+  "torrentLink": "magnet:?xt=urn:btih:3C728D3EF24A10C6D4305DDB0350DC299CC972D4&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://d.radikal.ru/d06/2107/f7/63cbc138e3df.jpg"
+},
+{
+  "name": "Дарк Эмилия - По кругу на вписке [Сергей Рыжков, 2021, 320 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Современные любовные романы",
+  "torrentSize": "690.9 MB",
+  "torrentLink": "magnet:?xt=urn:btih:46E46DDE857B1B23440B636319035DBF95678D90&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://images.vfl.ru/ii/1626353360/07b24646/35166057.jpg"
+},
+{
+  "name": "Столешников А.П. - Чем наполнить организм (Голодание, Питание, Живоедение) [fatSergio (ЛИ), 2011 г., 159, MP3]",
+  "category": "Прочая литература",
+  "subcategory": "[Аудио] Книги по медицине",
+  "torrentSize": "687.9 MB",
+  "torrentLink": "magnet:?xt=urn:btih:03A9F5917EADD1910EB9F6352100CA062B20D555&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i27.fastpic.ru/big/2011/1029/ea/100eaf3b58d102cca886ab6d88cbbcea.jpg"
+},
+{
+  "name": "Чопра Дипак - Путь Волшебника [Жанна Жиглинская (ЛИ) 2016 г., 256 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Нетрадиционные религиозно-философские учения",
+  "torrentSize": "1005.9 MB",
+  "torrentLink": "magnet:?xt=urn:btih:977746DEE1E97832B260D4BC38098B48BC53A956&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i67.fastpic.ru/big/2016/0109/15/1027b77b165b8a799e27011f6b670015.jpg"
+},
+{
+  "name": "Литвинова Анна, Литвинов Сергей - Вижу вас из облаков [Ирина Патракова, 2022, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Российские детективы, приключения, триллеры, боевики",
+  "torrentSize": "427.1 MB",
+  "torrentLink": "magnet:?xt=urn:btih:54CD3C7284C8217153927E387DA6A9C6DEF7E0E4&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i117.fastpic.org/big/2022/0506/da/c278149f6085c5b624227623da78ddda.jpg"
+},
 {
-  "name": "Медведкина Александра - Черное озеро [Дрейден С., Мокшина М., Багров А. и др., 2013, 160 kbps, MP3]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Радиоспектакли и литературные чтения",
-  "torrentSize": "102.3&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:033004843E8388CA290D8DB366F8262ECB9803B5&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "http://gallery.abook-club.ru/var/albums/radio/Radio2/Medvedkina_Aleksandra_-_Chernoe_ozero_by_spektakl.jpg"
-},
+  "name": "Ханна Софи - Эркюль Пуаро. Эркюль Пуаро и Шкатулка с секретом [Ирина Сидорова, (ЛИ), 2021, 80 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Зарубежные детективы, приключения, триллеры, боевики",
+  "torrentSize": "420.4 MB",
+  "torrentLink": "magnet:?xt=urn:btih:63C28E111DC4C304287E5822743007BE7C0442E4&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i116.fastpic.org/big/2021/1208/4e/96d361985b05538fc0d51c54028e264e.jpg"
+},
+{
+  "name": "Протоиерей Александр Мень - Таинство, Слово и Образ [Денис Гаврилов, 2012 г., 64 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Православие",
+  "torrentSize": "177.5 MB",
+  "torrentLink": "magnet:?xt=urn:btih:B68F8594AEC10380A4453ACFEE7D3472F58AA7D3&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i41.fastpic.ru/big/2012/0924/2c/1afe7b074660ac794d289193f675712c.jpg"
+},
+{
+  "name": "Имам Ибн Каййим аль-Джаузийя - Аудиокнига: «Вабиль. Благодатный дождь» [2015, 128 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Ислам",
+  "torrentSize": "528.5 MB",
+  "torrentLink": "magnet:?xt=urn:btih:4BDAC757077FB1267D20606CC2E10EEF55F229FC&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://musulmanin.com/wp-content/uploads/2015/03/vabil.jpg"
+},
+{
+  "name": "Хасэкура Исуна - Spice and Wolf / Волчица и пряности 1 [Adrenalin28, (ЛИ), 2016 г., 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Азиатская подростковая литература, ранобэ, веб-новеллы",
+  "torrentSize": "409.3 MB",
+  "torrentLink": "magnet:?xt=urn:btih:31A7999AA8A80B5C32BB5D3666FEB9506760CD36&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i74.fastpic.ru/big/2016/0402/87/5f7374c319c451b4736b614b0dfb3987.png"
+},
+{
+  "name": "Водневский Николай - Не хлебом единым [Николай Козий, 2009 г., 144 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Другие традиционные религии",
+  "torrentSize": "660 MB",
+  "torrentLink": "magnet:?xt=urn:btih:758E787E9466A9B98DC48EDC4A890DA0C2D8EE41&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i73.fastpic.ru/big/2015/1218/26/36fce74d9738b0ac7a32554c1bed5d26.jpg"
+},
+{
+  "name": "Чейз Джеймс Хедли - Мэллори [Ильин Игорь, 2013, 96 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Зарубежные детективы, приключения, триллеры, боевики",
+  "torrentSize": "305 MB",
+  "torrentLink": "magnet:?xt=urn:btih:0E52C4EE46ADD0FA767BAE269E5F0D127D000738&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i54.fastpic.ru/big/2013/0324/fa/6971e7fbf96b2071a1e9d9fb9eab62fa.jpg"
+},
+{
+  "name": "Эмилия Дарк - Глубокий кастинг [Ульяна Савельева, 2021, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Современные любовные романы",
+  "torrentSize": "319.7 MB",
+  "torrentLink": "magnet:?xt=urn:btih:C8AC8AD6C7196B413E3F2C7A644EA03FBAE8D2FD&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://images.vfl.ru/ii/1626545596/3886b83f/35191118.jpg"
+},
+{
+  "name": "Столешников А.П. - Как вернуться к жизни (Голодание, Питание) [fatSergio (ЛИ), 2011 г., 128-320 Кбит/сек, MP3]",
+  "category": "Прочая литература",
+  "subcategory": "[Аудио] Книги по медицине",
+  "torrentSize": "724.4 MB",
+  "torrentLink": "magnet:?xt=urn:btih:8A985759FAB6ED1C54AEE6F9A071B2DE35AA531A&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i28.fastpic.ru/big/2011/1029/51/30387030d90e2a257a39c0ee049f3a51.jpg"
+},
+{
+  "name": "Роулинг Джоан - Гарри Поттер и Дары Смерти [Клюквин Александр!!!, 2011 г., 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Детская литература",
+  "torrentSize": "1.34 GB",
+  "torrentLink": "magnet:?xt=urn:btih:10493827FC5BD0DA00C78CD844C68AAD756A5684&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://www.soyuz.ru/images/news/abook/releases/93819_c_l.jpg"
+},
+{
+  "name": "Абдуррахман бин Насир ас-Са`ди - Аудиокнига «Толкование Священного Корана» [2011, 80 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Ислам",
+  "torrentSize": "3.91 GB",
+  "torrentLink": "magnet:?xt=urn:btih:BE403E418FC7E24A3E9FFB2FF31CE2D329C1F34F&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i57.fastpic.ru/big/2014/0303/a8/4b95c903bb172c4ff77e0c965bcaaea8.jpeg"
+},
+3cf6b84c0f79.jpg"
+},
+{
+  "name": "Мень Александр – Мировая духовная культура [Ледовский Сергей, 2020, 128 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Православие",
+  "torrentSize": "285.8 MB",
+  "torrentLink": "magnet:?xt=urn:btih:DCD3E341F6D1199FD84FD1876CA097DDE0572930&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i5.imageban.ru/out/2020/09/22/b1a8e43e2b1fdc4ad821cf9ca73c74e1.jpg"
+},
+{
+  "name": "Карлос Кастанеда - Полное Собрание Сочинений + Бонус [Все 11 книг автора - AAC]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Нетрадиционные религиозно-философские учения",
+  "torrentSize": "3.17 GB",
+  "torrentLink": "magnet:?xt=urn:btih:8043467D37EFE68B5548061ADE2493D0AAD8C409&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://10pix.ru/img1/4481/162295.gif"
+},
+{
+  "name": "Сёдзи Гато - Full Metal Panic / Стальная тревога 1, Боец-юнец встречает девушку [Adrenalin28, (ЛИ), 2016 г., 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Азиатская подростковая литература, ранобэ, веб-новеллы",
+  "torrentSize": "432.7 MB",
+  "torrentLink": "magnet:?xt=urn:btih:11EF46C6C9ADA6675F9E72F026B940054B95C4B9&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i74.fastpic.ru/big/2016/0321/6f/8ba20fd0c249270773c7faca3f13c16f.jpg"
+},
+{
+  "name": "Борис Акунин - Пелагия и Белый Бульдог [Полина Кутепова, 2006]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Российские детективы, приключения, триллеры, боевики",
+  "torrentSize": "1.21 GB",
+  "torrentLink": "magnet:?xt=urn:btih:311AEA47DAD2C3282F228855541D7AC78450F06F&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://img243.imageshack.us/img243/2394/1000449793ye8.jpg"
+},
+{
+  "name": "Малоземов Сергей - Еда живая и мертвая: 5 принципов здорового питания [Малозёмов Сергей, 2018, 128 kbps (CBR), MP3]",
+  "category": "Прочая литература",
+  "subcategory": "[Аудио] Книги по медицине",
+  "torrentSize": "364 MB",
+  "torrentLink": "magnet:?xt=urn:btih:5CAAB9CC2770816A32C6C21681705A8A03FFFDCB&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i111.fastpic.ru/big/2020/0408/f3/ba2ce075bb2a107fe3900954e875e9f3.jpg"
+},
+{
+  "name": "Толстой Лев - Так что же нам делать? [Дмитрий Оргин, 2019, 56 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Нетрадиционные религиозно-философские учения",
+  "torrentSize": "286 MB",
+  "torrentLink": "magnet:?xt=urn:btih:54BB8DDF02231FCCF6FF3F7288E336150F4FBBC2&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i116.fastpic.org/big/2022/0305/c2/d65f6bf90994d8bef7d6cd6b6fc58dc2.jpg"
+},
+{
+  "name": "Винд-Хансен Санне, Винд-Хансен Брайан - Страшные сказки Андерсена [Кирилл Радциг, Нона Трояновская, 2020, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Зарубежные детективы, приключения, триллеры, боевики",
+  "torrentSize": "489 MB",
+  "torrentLink": "magnet:?xt=urn:btih:D6406C7C9028C31E4B51B85AABC09B974864D3EC&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://d.radikal.ru/d22/2109/3a/f9d79de88471.jpg"
+},
+{
+  "name": "Роулинг Джоан - Гарри Поттер и принц-полукровка [Клюквин Александр, 2011 г., 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Детская литература",
+  "torrentSize": "1.08 GB",
+  "torrentLink": "magnet:?xt=urn:btih:7628092395A1631788C9991D1B2004B47292C13A&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://www.soyuz.ru/images/news/abook/releases/93232_c_l.jpg"
+},
+{
+  "name": "Чодрон Пема - Когда все рушится. Сердечный совет в трудные времена [Алевтина Пугач, 2018, 64 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Другие традиционные религии",
+  "torrentSize": "142.2 MB",
+  "torrentLink": "magnet:?xt=urn:btih:8860C988CA1BBD4EA352A8F7716FD4C5D1956C9D&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i87.fastpic.ru/big/2019/1008/c5/5491cbabe870664762c2ed77812b9dc5.jpg"
+},
+{
+  "name": "Полный Коран, все 114 сур. [Шейх Али Аль - Хузейфа 192 kbps]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Ислам",
+  "torrentSize": "2.37 GB",
+  "torrentLink": "magnet:?xt=urn:btih:486C4729E34BE0AD86E03292CF077D9650E0BFE2&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet"
+},
+{
+  "name": "Корецкий Данил - Антикиллер 02, Антикиллер [Исаев Олег, 2016 г., 96 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Российские детективы, приключения, триллеры, боевики",
+  "torrentSize": "804.5 MB",
+  "torrentLink": "magnet:?xt=urn:btih:79DB0AD63D14D7F898ADC4BEBAB4052155247F56&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://s010.radikal.ru/i312/1603/4c/a34fcb2dcb9e.jpg"
+},
+{
+  "name": "Протоиерей Александр Мень - История религии [Гаврилов Денис, 2012 г., 64 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Православие",
+  "torrentSize": "636.2 MB",
+  "torrentLink": "magnet:?xt=urn:btih:B299E095D5097B56B4634F56FD5C47324E4D8ACC&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i33.fastpic.ru/big/2012/0314/eb/050b56bd5c57efbb404ef6711dd0daeb.jpg"
+},
+{
+  "name": "Танака Ёсики - Ginga Eiyuu Densetsu / Легенда о Героях Галактики 1 [Adrenalin28, (ЛИ), 2017, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Азиатская подростковая литература, ранобэ, веб-новеллы",
+  "torrentSize": "519.8 MB",
+  "torrentLink": "magnet:?xt=urn:btih:5B7D13FE16D5351AB4213F363467FF741A54D3DB&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i99.fastpic.ru/big/2017/1228/51/24c83f83b3467ffdf5f9151c2fbd1951.jpeg"
+},
+{
+  "name": "Эмилия Дарк - Под столом босса [Дарья Вишневая, 2020, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Современные любовные романы",
+  "torrentSize": "339.1 MB",
+  "torrentLink": "magnet:?xt=urn:btih:C09AD4F29D1878BF9774CBFC0F0045F5778552BE&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://images.vfl.ru/ii/1626553486/e74c2d43/35192350.jpg"
+},
+{
+  "name": "Чезаре Ломброзо - Женщина преступница и проститутка [Вадим Максимов, 2006, 128 kbps]",
+  "category": "Прочая литература",
+  "subcategory": "[Аудио] Книги по медицине",
+  "torrentSize": "572.2 MB",
+  "torrentLink": "magnet:?xt=urn:btih:30597DA2D160985FFD435217436294F7757A99F9&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i3.fastpic.ru/big/2009/1023/fb/10368479f78b0dc5234897ec6bdf16fb.jpg"
+},
+{
+  "name": "Роулинг Джоан - Гарри Поттер и Орден Феникса (Переиздание 2011 г.) [Клюквин Александр, 2008 г., 102-120 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Детская литература",
+  "torrentSize": "1.47 GB",
+  "torrentLink": "magnet:?xt=urn:btih:23A3575638A57257E4AA30F104A3458D11C6AD98&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i3.fastpic.ru/big/2009/1023/c4/85137b29b1e05d840c9e84350c20e4c4.jpg"
+},
 {
-  "name": "Domagoj Kurmaic aka nobody103 - Mother of Learning / Мать ученья [Adrenalin28, (ЛИ), 2022, 128 kbps, MP3]",
-  "category": "Фантастика, фэнтези, мистика, ужасы, фанфики",
-  "subcategory": "[Аудио] Зарубежная фантастика, фэнтези, мистика, ужасы, фанфики",
-  "torrentSize": "3.25&nbsp;GB",
-  "torrentLink": "magnet:?xt=urn:btih:19A2EB6F3A4C0A0C448DD535613E2B6EBCB31691&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i116.fastpic.org/big/2022/0218/7c/0eb366dcf1cbbe1cf636c8a72a48bf7c.jpg"
-},
+  "name": "Толстой Лев - О жизни [Юрий Белик, 2021, 128 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Нетрадиционные религиозно-философские учения",
+  "torrentSize": "348.1 MB",
+  "torrentLink": "magnet:?xt=urn:btih:B7C4BEDF51560001FD726B6C0A605F2E8C636CC3&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i116.fastpic.org/big/2022/0305/0c/c244e68e009bf1e8894c814c03c6050c.jpg"
+},
+{
+  "name": "Любенко Иван - Клим Ардашев, Путешествие за смертью 1. Могильщик из Таллина [Сергей Уделов, 2022, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Российские детективы, приключения, триллеры, боевики",
+  "torrentSize": "366.8 MB",
+  "torrentLink": "magnet:?xt=urn:btih:D5355A7A03E4FF4A003AEA7FC9001EA9736D4482&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i116.fastpic.org/big/2022/0308/7c/c75addf20ffaee14943e5f558095147c.jpg"
+},
+{
+  "name": "Священный Коран (полностью).Чтец Mohd Altablawi [2000, 56 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Ислам",
+  "torrentSize": "677.3 MB",
+  "torrentLink": "magnet:?xt=urn:btih:4B3614BB5399602DF6DFE98F8498B0646545086E&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i60.fastpic.ru/big/2014/0115/4c/c8a6088427160203d44adc90e9bfcd4c.jpg"
+},
+{
+  "name": "Чейз Джеймс Хедли - Мэллори [Ильин Игорь, 2011 г., 128, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Зарубежные детективы, приключения, триллеры, боевики",
+  "torrentSize": "407.5 MB",
+  "torrentLink": "magnet:?xt=urn:btih:ABFE4E8DAFFBF68DC15F93C52DEE1805BB48F31A&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://funkyimg.com/u2/1126/977/740648image35863437.jpg"
+},
+{
+  "name": "Садхгуру Садхгуру - Размышления мистика. Ответы на все вопросы. Том 1 [Александр Шаронов, 2019, 56 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Другие традиционные религии",
+  "torrentSize": "293.4 MB",
+  "torrentLink": "magnet:?xt=urn:btih:4950605A972959E8634664C77409395E82FA4CA1&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i89.fastpic.ru/big/2019/1008/4f/3866136ac7f61a6e8c8176f80a5ec74f.jpg"
+},
+{
+  "name": "Гойкэда Синъя - Devil May Cry / И дьявол может плакать 1 [HugoLocus, (ЛИ), 2019, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Азиатская подростковая литература, ранобэ, веб-новеллы",
+  "torrentSize": "177.9 MB",
+  "torrentLink": "magnet:?xt=urn:btih:13AA60A65D222D3BFD569D6AA4C4965A90FDA9BD&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i111.fastpic.ru/big/2019/1126/aa/f9ccba03e51da376d53d7c99d3eaa9aa.jpg"
+},
+{
+  "name": "Эмилия Дарк - Игрушка для босса [Марион, 2021, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Современные любовные романы",
+  "torrentSize": "358.4 MB",
+  "torrentLink": "magnet:?xt=urn:btih:B4AEA62AA9D3501D51432DF6B0769E713FB7F663&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://images.vfl.ru/ii/1627239043/2086720b/35279553.jpg"
+},
+ttp://i69.fastpic.ru/big/2015/0523/79/12a1070115bfe19f69cafab9262ae179.jpg"
+},
+{
+  "name": "Файгенбаум Дэвид - В погоне за жизнью [Алексей Багдасаров, 2020, 80 kbps, MP3]",
+  "category": "Прочая литература",
+  "subcategory": "[Аудио] Книги по медицине",
+  "torrentSize": "301.1 MB",
+  "torrentLink": "magnet:?xt=urn:btih:1A544946AA2D743A67FA829E8329355933B6C2B4&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i7.imageban.ru/out/2022/02/21/01df307f17fdd605409fbb6accb46e7f.jpg"
+},
+{
+  "name": "Гюрджиев (Гурджиев) Георгий Иванович - Всё и вся. Рассказы Вельзевула своему внуку [Станислав Иванов, Юлия Скалина, 2011, 128 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Нетрадиционные религиозно-философские учения",
+  "torrentSize": "1.07 GB",
+  "torrentLink": "magnet:?xt=urn:btih:70912656EAA9C86C64B9E6915ADDC282CF898411&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://b7.icdn.ru/m/m_u_s_t_a_f_a/5/72255585QLd.jpg"
+},
+{
+  "name": "Чейз Джеймс Хедли - Ещё один простофиля [Терновский Евгений, 2013, 96 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Зарубежные детективы, приключения, триллеры, боевики",
+  "torrentSize": "316.7 MB",
+  "torrentLink": "magnet:?xt=urn:btih:CA477E8D07A3936679C2A84FDD505AA3132BA0EF&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i53.fastpic.ru/big/2013/0323/67/8eab9b4de1cf7cdbe5d630520cf63767.jpg"
+},
+{
+  "name": "Роулинг Джоан Кэтлин - Гарри Поттер и Кубок Огня [Александр Клюквин, 2009, 128 kbps]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Детская литература",
+  "torrentSize": "1.14 GB",
+  "torrentLink": "magnet:?xt=urn:btih:8714D38253271B97D8ACF4B1D689746096746335&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i3.fastpic.ru/big/2009/1023/55/582785518a7274db623252750da61055.jpg"
+},
+{
+  "name": "неизвестен - сестра-мусульманка (цикл радио-програм на радио Ватан) [неизвестен, 2009, VBR 128-192 kbps]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Ислам",
+  "torrentSize": "316.7 MB",
+  "torrentLink": "magnet:?xt=urn:btih:E1C4265A77C4453C29173B335057CAA270FA456E&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet"
+},
+{
+  "name": "Кляйн Жан - Кто я? Священный поиск (серия «Самадхи») [Пётр Маркин, 2020, 128 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Другие традиционные религии",
+  "torrentSize": "517.5 MB",
+  "torrentLink": "magnet:?xt=urn:btih:1AAEEF60582E687B1A37D1607E0BD9455868E1FA&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://c.radikal.ru/c25/2108/c8/f3938a17fb82.jpg"
+},
 {
-  "name": "Владимир Сорокин - Владимир Сорокин - Землянка (радиопьеса) [Любительская театральная труппа журнала Game.EXE, 2003, 64 kbps]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Радиоспектакли и литературные чтения",
-  "torrentSize": "31.9&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:0B43343C091E45888F3257AE7898D4F37F8FF678&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet"
-},
-{
-  "name": "Лекции, семинары, радиопередачи",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Биографии и мемуары"
+  "name": "Вайнер Георгий, Вайнер Аркадий - Следователь Тихонов, Визит к Минотавру [Игорь Тарадайкин, 2021, 56 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Российские детективы, приключения, триллеры, боевики",
+  "torrentSize": "390.5 MB",
+  "torrentLink": "magnet:?xt=urn:btih:24FFF0DCEA8A334068438F6CA8EE8E41D7D66309&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i115.fastpic.org/big/2021/1006/95/d1616ed8e97ce5740d8fe90c3b7ba795.jpg"
 },
 {
-  "name": "Любенко Иван - Клим Ардашев 14, Убийство на Васильев вечер [Актерский коллектив, 2019, 80 kbps, MP3]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Радиоспектакли и литературные чтения",
-  "torrentSize": "22.3&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:C48A9D85D0E196C4F3E3700B5A674065DB87FF53&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i117.fastpic.org/big/2022/0504/61/6a526870c85088a94bdaedcf0e614661.jpg"
+  "name": "Руи Цукиё - Маг-целитель: новый старт 1, Возвращение героя [Zulshaman, (ЛИ), 2021, 160 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Азиатская подростковая литература, ранобэ, веб-новеллы",
+  "torrentSize": "341.3 MB",
+  "torrentLink": "magnet:?xt=urn:btih:7E2EBA4C7464995DC11EDB832A139F4D29AF7BBA&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i116.fastpic.org/big/2021/1021/47/fe9ca26a6632c0f840c4f201d733ce47.jpg"
 },
 {
-  "name": "Рифеншталь Лени - Мемуары [Харитонов Александр, (ЛИ), 2021, 128 kbps, MP3]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Биографии и мемуары",
-  "torrentSize": "2.26&nbsp;GB",
-  "torrentLink": "magnet:?xt=urn:btih:FFC63C4BA597FF33A4E446750149BB9ADF9298FD&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i115.fastpic.ru/big/2021/0713/4e/b7895df33c1c1653bceef6fd83ab1a4e.jpg"
+  "name": "Толстой Лев - Карма [Евгений Гриднев, 2016, 320 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Нетрадиционные религиозно-философские учения",
+  "torrentSize": "53.8 MB",
+  "torrentLink": "magnet:?xt=urn:btih:C744D6B2E30B201529362532DBE19988B8DC2FA6&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i116.fastpic.org/big/2022/0305/21/d19b7246cdd341dec65e1f50e71de921.jpg"
 },
 {
-  "name": "Вайль Петр - Карта родины [Игорь Князев, 2021, 64 kbps, MP3]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Биографии и мемуары",
-  "torrentSize": "477.2&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:15C01D7460410A59FA13696385274C3D09F4248F&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i116.fastpic.org/big/2021/1111/75/b58decd4d2b5d4b8d6605e062656a275.jpg"
+  "name": "Махнач Владимир - Рим [Махнач Владимир, 2000 г., 96 Кбит/с, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Православие",
+  "torrentSize": "68 MB",
+  "torrentLink": "magnet:?xt=urn:btih:FB16B1C3CA545A7EA964C7FC0E8599A113154BBA&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i31.fastpic.ru/big/2011/1113/94/556d747c1077cc5989879de229eceb94.jpg"
 },
 {
-  "name": "Кинг Стивен - Позже [BIGBAG, (ЛИ), 2021, 192 kbps, MP3]",
-  "category": "Фантастика, фэнтези, мистика, ужасы, фанфики",
-  "subcategory": "[Аудио] Зарубежная фантастика, фэнтези, мистика, ужасы, фанфики",
-  "torrentSize": "1.38&nbsp;GB",
-  "torrentLink": "magnet:?xt=urn:btih:145CCB51D2DBB20181EF7FA9A98A7F69B8A6800F&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i114.fastpic.ru/big/2021/0611/f8/69f96d63e9d7f4633ea68fd16689b4f8.jpg"
+  "name": "Дарк Эмилия - На столе моего босса [Ульяна Савельева, 2021, 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Современные любовные романы",
+  "torrentSize": "287.2 MB",
+  "torrentLink": "magnet:?xt=urn:btih:F4EC47BC2F5DB8F75E798E56C1D65493AF36AB96&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i116.fastpic.org/big/2021/1119/f9/5bea0178379a1ab77d2d0c6ec4b083f9.jpg"
 },
 {
-  "name": "Достоевский Фёдор - Неточка Незванова [Мельникова Анастасия, 2017, 128 kbps, MP3]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Радиоспектакли и литературные чтения",
-  "torrentSize": "336.9&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:2E40149BFE9B0B8056AEDA410E701263EF292D2B&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "http://s13.radikal.ru/i186/1703/ba/bc0131f61950.jpg"
+  "name": "Нагумо Ёсинори - Метод Нагумо. Японская система [Доронин Максим, 2019, 50, MP3]",
+  "category": "Прочая литература",
+  "subcategory": "[Аудио] Книги по медицине",
+  "torrentSize": "90 MB",
+  "torrentLink": "magnet:?xt=urn:btih:6720753B5BCB013827FF8AE025AF4C1BDE1D6651&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i111.fastpic.ru/big/2020/0302/d1/10987285c2d3c7bc777765585d9d29d1.jpg"
 },
 {
-  "name": "Ламли Брайан – Из глубины [Олег Булдаков, 2022, 192 kbps, MP3]",
-  "category": "Фантастика, фэнтези, мистика, ужасы, фанфики",
-  "subcategory": "[Аудио] Зарубежная фантастика, фэнтези, мистика, ужасы, фанфики",
-  "torrentSize": "516.5&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:A9FB0E37060FD188C0B9868F5CEDA2F8DDA5B85C&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i6.imageban.ru/out/2022/03/15/13672a3a65cf231e746e7708a4c1f380.jpg"
+  "name": "Роулинг Дж. К. - Гарри Поттер и Узник Азкабана [Клюквин Александр, 2006, 128 kbps]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Детская литература",
+  "torrentSize": "695.6 MB",
+  "torrentLink": "magnet:?xt=urn:btih:F21F22CCA227A3466C5AA418A18023FE052F0214&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://s2.ipicture.ru/uploads/080920/LrIUSaVl4u.jpg"
 },
 {
-  "name": "Гюго Виктор - Человек, который смеется [Аксенов В., Арди Н., Ханов А. и др., 1952, 128 kbps, MP3]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Радиоспектакли и литературные чтения",
-  "torrentSize": "60.4&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:EF128E641924DCB9B3B425AB6A612910ED4E1A86&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i117.fastpic.org/big/2022/0506/64/047d83994255ada28cb4c7fbe8164564.jpg"
+  "name": "Чейз Джеймс Хедли - Мисс Каллиган впадает в печаль [Валерий Стельмащук,(ЛИ) 2015 г., 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Зарубежные детективы, приключения, триллеры, боевики",
+  "torrentSize": "419.9 MB",
+  "torrentLink": "magnet:?xt=urn:btih:C763D61BDBD0BACFF465838DA10572BD7848460D&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i70.fastpic.ru/big/2015/0705/be/929d4147e51ac8b17a71e0eabd521ebe.jpg"
 },
 {
-  "name": "Мальков Павел - Записки коменданта Кремля [Харитонов Александр, (ЛИ), 2022, 128 kbps, MP3]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Биографии и мемуары",
-  "torrentSize": "530.5&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:E08978B53B5A5BE49D0D2EBE292D8D670BCC69B3&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i116.fastpic.org/big/2021/1225/e8/bd9045a9196beedd7f1c66e501e349e8.jpg"
+  "name": "Вайнер Аркадий, Вайнер Георгий - Следователь Тихонов, Телеграмма с того света [Игорь Тарадайкин, 2022, 56 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Российские детективы, приключения, триллеры, боевики",
+  "torrentSize": "147.8 MB",
+  "torrentLink": "magnet:?xt=urn:btih:CD72325AAB8EBEB616B8F7A128361894614E44C6&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i116.fastpic.org/big/2022/0322/5d/417d16c13d1bcdfbad69f24a8836d75d.jpg"
 },
 {
-  "name": "Ле Гуин Урсула - Хайнский цикл: 08. Толкователи [Оробчук Сергей, (ЛИ), 2021, 128 kbps, MP3]",
-  "category": "Фантастика, фэнтези, мистика, ужасы, фанфики",
-  "subcategory": "[Аудио] Зарубежная фантастика, фэнтези, мистика, ужасы, фанфики",
-  "torrentSize": "438.6&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:0E5DC87B5611D428ED47BE8532CF0E25F9B39578&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://www.hostpic.org/images/2204162218320114.jpg"
-},
-{
-  "name": "Лайдон Джон - Sex Pistols. Гнев – это энергия: моя жизнь без купюр [Юрий Гуржий, 2022, 64 kbps, MP3]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Биографии и мемуары",
-  "torrentSize": "618.9&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:93AD4094A4F66B0038A06ED5FA35BBE568F282CE&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i116.fastpic.org/big/2022/0304/3e/f43dfb6a4ed62abfb95ff47fdd5c653e.jpg"
-},
-{
-  "name": "Горин Григорий - Забыть Герострата [С. Фролов, К. Бадалов, А. Стеклова, А. Вертков, А. Колубков, А. Жеребцов и др., 2012 г., 160 kbps, MP3]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Радиоспектакли и литературные чтения",
-  "torrentSize": "144.4&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:B7D430B12E59421103764AEBC5B73B682AB1B30D&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "http://i58.fastpic.ru/big/2014/0303/77/506b74a1ded312195f2b0b97b2052b77.jpg"
-},
-{
-  "name": "Герберт Джеймс – Туман [Олег Булдаков, 2022, 192 kbps, MP3]",
-  "category": "Фантастика, фэнтези, мистика, ужасы, фанфики",
-  "subcategory": "[Аудио] Зарубежная фантастика, фэнтези, мистика, ужасы, фанфики",
-  "torrentSize": "768.2&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:5A701AC7355C897EF16981CD7161F75C758DE044&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i6.imageban.ru/out/2022/01/19/28b20b49db90c727f8e4307419982ab2.jpg"
-},
-{
-  "name": "Керсновская Ефросиния - Сколько стоит человек [Людмила Зотова, 2015, 96 kbps, MP3]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Биографии и мемуары",
-  "torrentSize": "1.07&nbsp;GB",
-  "torrentLink": "magnet:?xt=urn:btih:6EEB89DB6F94DA0C3D73808E09358CEFDFC7F8CA&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "http://i2.imageban.ru/out/2018/07/26/1170d022c53f744f43c05dac7912ca4e.jpg"
-},
-{
-  "name": "А. Азимов - Я - робот. Человек, который никогда не лгал. Что значит имя - Коллекция радиоспектаклей Диск 2 [Артисты театров, 2009, 192 kbps]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Радиоспектакли и литературные чтения",
-  "torrentSize": "84.3&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:12402FF3B9149E1973072DFF28C1DF8B359D2E1B&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "http://i061.radikal.ru/0909/2c/4c0dfefe090b.gif"
-},
-{
-  "name": "Кинг Стивен – Роза Марена [Игорь Князев, 2021, 128 kbps, MP3]",
-  "category": "Фантастика, фэнтези, мистика, ужасы, фанфики",
-  "subcategory": "[Аудио] Зарубежная фантастика, фэнтези, мистика, ужасы, фанфики",
-  "torrentSize": "1.34&nbsp;GB",
-  "torrentLink": "magnet:?xt=urn:btih:FF2163095FC0B75B2B3B3395229D05F4062AA75B&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i1.imageban.ru/out/2021/07/29/c9a297e3719b0b70fdc04b519e2129f0.jpg"
-},
-{
-  "name": "Салье Михаил: Шахразада («1001 ночь») [Сурен Кочарян, 1961 / 2008, 128 kbps, MP3] [«Мелодия»]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Радиоспектакли и литературные чтения",
-  "torrentSize": "85.6&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:574B3795C3CBD7705C8EEAA6A64A42E999771FD7&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://a.radikal.ru/a38/2001/5d/bfd9709c59fa.jpg"
-},
-{
-  "name": "Рязанов Эльдар - НЕподведенные итоги [Терновский Евгений, 2013, 96 kbps, MP3]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Биографии и мемуары",
-  "torrentSize": "1.18&nbsp;GB",
-  "torrentLink": "magnet:?xt=urn:btih:247D9B28F03C1C7A4AADDD1E84559D35307CF31B&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "http://i63.fastpic.ru/big/2015/0108/49/8718c4e9a95001edd044116635a63649.jpg"
-},
-{
-  "name": "Эриксон Стивен – Бошелен и Корбал Брош. (Следом кровь. Места, где не до смеха. Гаддова крепость. За здоровье мертвеца. По следу треснувшего горшка. Изверги кошмарии.) [Головин Кирилл, 2021, 192 kbps, MP3]",
-  "category": "Фантастика, фэнтези, мистика, ужасы, фанфики",
-  "subcategory": "[Аудио] Зарубежная фантастика, фэнтези, мистика, ужасы, фанфики",
-  "torrentSize": "1.66&nbsp;GB",
-  "torrentLink": "magnet:?xt=urn:btih:C2D60349C6A4490ECF99D3D71A1C55B5D2884A76&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i7.imageban.ru/out/2022/01/28/35d188629011fe0425efac3cc1da1dc4.jpg"
-},
-{
-  "name": "Пильняк Борис - Грэго-Тримунтан [В. Чилап, Н. Чиндяйкин, А. Белый, И. Гордин, С. Еськин, 2014 г., 192 kbps, MP3]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Радиоспектакли и литературные чтения",
-  "torrentSize": "179.3&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:743C07A4E26E16540FA01493AB9D96A5D70383D6&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "http://i59.fastpic.ru/big/2015/0325/b4/06306d67f81d311e5bfaa876dc818ab4.png"
-},
-{
-  "name": "Митчелл Сэнди - Warhammer 40000. Кайафас Каин 7, Избранные воины Императора [Adrenalin28, (ЛИ), 2022, 128 kbps, MP3]",
-  "category": "Фантастика, фэнтези, мистика, ужасы, фанфики",
-  "subcategory": "[Аудио] Зарубежная фантастика, фэнтези, мистика, ужасы, фанфики",
-  "torrentSize": "497.7&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:BD38DD5E7276D841E5547305F8B59F06FFE9688A&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i116.fastpic.org/big/2022/0202/4a/348507429e6a7f4c3e2da49949af9e4a.jpg"
-},
-{
-  "name": "Марш Генри – Не навреди. Истории о жизни, смерти и нейрохирургии [Сергеев Игорь, 2016, 128 kbps, MP3]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Биографии и мемуары",
-  "torrentSize": "483.5&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:FC76D38643A9D3B3B3ED9FAB26B4533D7C88B4A1&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://a.radikal.ru/a06/1905/d1/46ee1710e3d8.jpg"
-},
-{
-  "name": "Барсуков Ярослав - Башня из грязи и веток (сборник) [Кирилл Головин, 2022, 128 kbps, MP3]",
-  "category": "Фантастика, фэнтези, мистика, ужасы, фанфики",
-  "subcategory": "[Аудио] Зарубежная фантастика, фэнтези, мистика, ужасы, фанфики",
-  "torrentSize": "434.4&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:74E7FDB6B17C563100E200EFDE14377F4949334D&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i116.fastpic.org/big/2022/0404/f8/fe6d442527ecef15a3894d0da0dfd7f8.jpg"
-},
-{
-  "name": "Толстой Лев - Воскресение [Качалов В., Еланская К., Ершов В. и др., 2008, 192 kbps, MP3]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Радиоспектакли и литературные чтения",
-  "torrentSize": "215.9&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:70C9653E76B09E2EB57A6C050BB235B0BD0C67DF&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i116.fastpic.org/big/2022/0123/b2/c9af9ce336592a7f3874c616362011b2.jpg"
-},
-{
-  "name": "Подгородецкий Пётр — «Машина» с евреями [booblecat (ЛИ), 2011 г., 128, MP3]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Биографии и мемуары",
-  "torrentSize": "475.3&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:C32A62B30B86BF23046EBAB92502B239FC7C0178&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "http://rghost.ru/21183181/image.png"
-},
-{
-  "name": "Митчелл Сэнди - Warhammer 40000. Кайафас Каин 5, Зов долга [Adrenalin28, (ЛИ), 2021, 128 kbps, MP3]",
-  "category": "Фантастика, фэнтези, мистика, ужасы, фанфики",
-  "subcategory": "[Аудио] Зарубежная фантастика, фэнтези, мистика, ужасы, фанфики",
-  "torrentSize": "548.3&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:C665409A8B76B8D1CA4C68A170DBD9B7439F8623&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i115.fastpic.org/big/2021/0909/02/9028bbdd31774245316367ac48b1a502.jpg"
-},
-{
-  "name": "Дойл Артур Конан - Медные буки [Ливанов А., Быков В., Иванов Б. и др., 1994, 160 kbps, MP3]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Радиоспектакли и литературные чтения",
-  "torrentSize": "66&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:D3B3810A7F337536D1A120D9E0944072A8B3712F&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i115.fastpic.org/big/2021/1005/d9/703fce655036f01c61f3bd6956a54fd9.jpg"
-},
-{
-  "name": "Бута Елизавета - Мир глазами убийцы: Душегуб. История серийного убийцы Михасевича [Роман Волков, 2022, 128 kbps, MP3]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Биографии и мемуары",
-  "torrentSize": "384.4&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:F24959E53D8365EDBC9F36580AC386762FDBA58C&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i117.fastpic.org/big/2022/0507/37/a2e978eb283509018cd56021bf293837.jpg"
-},
-{
-  "name": "Дойль Артур Конан - &quot;История с гипсовыми бюстами&quot; и другие инсценированные рассказы о Шерлоке Холмсе [Плятт Р., Велихов Е., Ливанов А. и др., 2004, 192 kbps, MP3]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Радиоспектакли и литературные чтения",
-  "torrentSize": "267.8&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:6599A8B1248CC10C390A79882A495C5B4115EF75&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i116.fastpic.org/big/2021/1111/2a/e28a677120ef06d914c66cf4fd25252a.jpg"
-},
-{
-  "name": "Стерлинг Брюс - Распад [Оробчук Сергей, (ЛИ), 2022, 128 kbps, MP3]",
-  "category": "Фантастика, фэнтези, мистика, ужасы, фанфики",
-  "subcategory": "[Аудио] Зарубежная фантастика, фэнтези, мистика, ужасы, фанфики",
-  "torrentSize": "860.9&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:B02903707D54483438278AD261D0D45665EFBA59&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://www.hostpic.org/images/2203162228110098.jpg"
-},
-{
-  "name": "Кожедуб Иван - Неизвестный Кожедуб. Служу Родине! [Геннадий Воробьев, 2022, 128 kbps, MP3]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Биографии и мемуары",
-  "torrentSize": "533.4&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:B18860BD9BC7FDE7A1F1B8AF744F8D4B59F049D7&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i117.fastpic.org/big/2022/0507/e9/e3291101e46197c0fce659ab6b93d5e9.jpg"
-},
-{
-  "name": "Толкин Джон Роналд Руэл - Хоббит, или Туда и обратно [Светлана Сорокина и др., 1999, 256 kbps, MP3]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Радиоспектакли и литературные чтения",
-  "torrentSize": "864.5&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:898CF208D86752C0056BBB81B2E2ED468DD02BFA&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i112.fastpic.ru/big/2020/0824/4f/e9b243ca5f0d912cc7d2e3cf3137624f.jpg"
-},
-{
-  "name": "Вебер Дэвид - В руках врага [Владимир Князев, 2022, 192 kbps, MP3]",
-  "category": "Фантастика, фэнтези, мистика, ужасы, фанфики",
-  "subcategory": "[Аудио] Зарубежная фантастика, фэнтези, мистика, ужасы, фанфики",
-  "torrentSize": "1.52&nbsp;GB",
-  "torrentLink": "magnet:?xt=urn:btih:5C61E8810CD398F8377E82794B40496B84A62A8F&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i116.fastpic.org/big/2022/0306/4e/702928f3ef92f2c04d95d13c5bbb354e.jpg"
-},
-{
-  "name": "Хигер Кристина, Пайснер Даниэль - В темноте [Сурков Артём, (ЛИ), 2020, 67 kbps, MP3]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Биографии и мемуары",
-  "torrentSize": "210.1&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:D35D67D06EC56ADFD35DC534454B151D26C2506D&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://b.radikal.ru/b35/2005/74/0502c6faf021.jpg"
-},
-{
-  "name": "Жюль Верн - Таинственный остров [Евгений Киндинов,Всеволод Ларионов,Вячеслав Невинный,Лев Дуров и др., 1989]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Радиоспектакли и литературные чтения",
-  "torrentSize": "181.1&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:64C8CB718CCFF3FF19962E8B83F4D03686E172F7&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "http://img12.nnm.ru/imagez/gallery/c/b/9/a/0/cb9a0a832c00e365651f457c131f6bdb_full.jpg"
-},
-{
-  "name": "Мейер Марисса - Лунные хроники 2, Красная Шапочка [Смелова Светлана, (ЛИ), 2021, 128 kbps, MP3]",
-  "category": "Фантастика, фэнтези, мистика, ужасы, фанфики",
-  "subcategory": "[Аудио] Зарубежная фантастика, фэнтези, мистика, ужасы, фанфики",
-  "torrentSize": "593&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:BD4F1B5C0AFED5030106F78215F6221D6DD17F67&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i116.fastpic.org/big/2021/1222/b4/39c154ed3f9e77a1e49c479cd599e2b4.png"
-},
-{
-  "name": "Тэффи Надежда, Зощенко Михаил, Замятин Евгений - Вечер короткого рассказа [Шиляев Д., Казаков С., Полянская Е., Ланская Е. и др., 2017, 128,160 kbps, MP3]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Радиоспектакли и литературные чтения",
-  "torrentSize": "241.5&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:0AC5268A31EC09FCE2F82F128A332AAC44769EAD&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "http://s013.radikal.ru/i325/1706/7f/e58baad701c9.jpg"
-},
-{
-  "name": "Хигер Кристина, Пайснер Даниэль - В темноте [Мария Абалкина, 2020, 128 kbps, MP3]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Биографии и мемуары",
-  "torrentSize": "510.2&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:00D9F17B9F125FB463878D5C1566E00BBABFF699&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i114.fastpic.ru/big/2021/0201/f4/36c044dede6fd7f14c2d7d6718d9a0f4.jpg"
-},
-{
-  "name": "Василий Аксёнов - Затоваренная бочкотара [Борис Левинсон, Александр Леньков, Виктор Гордеев, 1996, 128 kbps]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Радиоспектакли и литературные чтения",
-  "torrentSize": "98&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:742B10951E2A82602EAEC062A842E18858CA8B71&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "http://i1.fastpic.ru/big/2010/0118/e9/0457984dead2e2734c5d4cfa14fd68e9.jpg"
-},
-{
-  "name": "Дель Торо Гильермо, Хоган Чак - Штамм 1, Начало [Гарри Стил, (ЛИ), 2021, 256 kbps, MP3]",
-  "category": "Фантастика, фэнтези, мистика, ужасы, фанфики",
-  "subcategory": "[Аудио] Зарубежная фантастика, фэнтези, мистика, ужасы, фанфики",
-  "torrentSize": "1.69&nbsp;GB",
-  "torrentLink": "magnet:?xt=urn:btih:8BFBBD51C277BE8A000F0BB63E4C3C6EEB85B591&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i115.fastpic.org/big/2021/0828/5b/6b26ca25ca65ce7b91a3269701772e5b.jpg"
-},
-{
-  "name": "Суржиков Роман - Полари 4, Янмэйская охота. Том 2 [Кирилл Головин, 2021, 192 kbps, MP3]",
-  "category": "Фантастика, фэнтези, мистика, ужасы, фанфики",
-  "subcategory": "[Аудио] Российская фантастика, фэнтези, мистика, ужасы, фанфики",
-  "torrentSize": "1.35&nbsp;GB",
-  "torrentLink": "magnet:?xt=urn:btih:BBD9D001D38EC5822D0A8C40AB38AFFD9CD4E8A1&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i116.fastpic.org/big/2021/1213/8e/03eb9d63ce17b40a3d0f40e47bef308e.jpg"
-},
-{
-  "name": "Мейер Марисса - Лунные хроники 1, Золушка [Смелова Светлана, (ЛИ), 2021, 128 kbps, MP3]",
-  "category": "Фантастика, фэнтези, мистика, ужасы, фанфики",
-  "subcategory": "[Аудио] Зарубежная фантастика, фэнтези, мистика, ужасы, фанфики",
-  "torrentSize": "554.8&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:CB0CBF90CFA40E015C6196F606BA479240D9C557&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i116.fastpic.org/big/2021/1222/c5/abed5e233fd3b5302f018c245476edc5.png"
-},
-{
-  "name": "Пушкин Александр - Капитанская дочка [Михаил Горевой, 2014 г., 192 kbps, MP3]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Радиоспектакли и литературные чтения",
-  "torrentSize": "348.3&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:E920A62F4D10AEDB9A888F9AB45511D865A2F6B2&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "http://i65.fastpic.ru/big/2014/0821/d4/78960ade05cedb7763b4694d15b2ead4.png"
-},
-{
-  "name": "Рубен Бернгард - Зощенко [Оборотов Юрий, 2013, 96 kbps, MP3]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Биографии и мемуары",
-  "torrentSize": "706.7&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:5567747A3B2D2CFCEFAB682E32B4CF6177E1EAB2&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "http://s018.radikal.ru/i509/1703/65/3b9e8974210e.jpg"
-},
-{
-  "name": "Анна Ахматова. Стихи и проза (читает автор) [FLAC]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Радиоспектакли и литературные чтения",
-  "torrentSize": "153.5&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:2D54579F590358DB4C54BE4737553E81BAF83E71&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "http://i7.fastpic.ru/big/2010/0617/74/00bf53c367398e0c24f3d48f6a84e874.jpg"
-},
-{
-  "name": "Кинг Стивен – Нужные вещи [Игорь Князев, 2021, 128 kbps, MP3]",
-  "category": "Фантастика, фэнтези, мистика, ужасы, фанфики",
-  "subcategory": "[Аудио] Зарубежная фантастика, фэнтези, мистика, ужасы, фанфики",
-  "torrentSize": "1.7&nbsp;GB",
-  "torrentLink": "magnet:?xt=urn:btih:FCF7678A36300819B6EC2BEC316CA1A60780D94B&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i6.imageban.ru/out/2021/11/09/5e7005dc1a39367440e1aaac6ff81af8.jpg"
-},
-{
-  "name": "Валериев Игорь - Ермак 7. Война [Игорь Князев, 2022, 64 kbps, MP3]",
-  "category": "Фантастика, фэнтези, мистика, ужасы, фанфики",
-  "subcategory": "[Аудио] Российская фантастика, фэнтези, мистика, ужасы, фанфики",
-  "torrentSize": "295.9&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:02247DBF73FCD7627F10892261798F1BA86FC021&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i116.fastpic.org/big/2022/0203/8a/e8930f839b86d20e91be548a2fc0d18a.jpg"
-},
-{
-  "name": "Степаков Виктор - Павел Судоплатов - гений террора [Валентин Аксентюк, 2013 г., 96 kbps, MP3]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Биографии и мемуары",
-  "torrentSize": "267.2&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:73118C068929E792B0BDC6904089506DE0895C16&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "http://i58.fastpic.ru/big/2013/1030/9c/62172bf74a0de0dde1a734e3a56a3f9c.jpg"
-},
-{
-  "name": "Анна Ахматова. Реквием. Коллекция радиоспектаклей. Диск 22. Алла Демидова, 192 kbps, 2010",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Радиоспектакли и литературные чтения",
-  "torrentSize": "112.3&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:A2F5692BD67FEE37EE5EA1C7F18D2DC0BE6F3A29&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "http://i8.fastpic.ru/big/2010/0729/78/87567419f4cf5a8c096e098448c99178.jpg"
-},
-{
-  "name": "Герберт Джеймс - В плену у призраков [Олег Воротилин (ЛИ), 2021, 192 kbps, MP3]",
-  "category": "Фантастика, фэнтези, мистика, ужасы, фанфики",
-  "subcategory": "[Аудио] Зарубежная фантастика, фэнтези, мистика, ужасы, фанфики",
-  "torrentSize": "657.9&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:907DCA088A476D7C6CA513F7378B68E6708691F0&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i115.fastpic.ru/big/2021/0621/09/2f6411f54e73d4fa6358ffb04067d609.jpg"
-},
-{
-  "name": "Беседка раздела ЛФР",
-  "category": "Фантастика, фэнтези, мистика, ужасы, фанфики",
-  "subcategory": "[Аудио] Любовно-фантастический роман",
-  "coverImageUrl": "https://i106.fastpic.ru/big/2019/0929/b4/5a82a8be519802e123cd27de67704eb4.gif"
+  "name": "Аляутдинов Шамиль - Потусторонние миры [Р. Ибрагимов, В. Березин, 2006, 256 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Ислам",
+  "torrentSize": "1.36 GB",
+  "torrentLink": "magnet:?xt=urn:btih:4B25D9DBC95105F565BE011EA41157238DF93CD3&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i116.fastpic.org/big/2021/1026/70/0d38798dd0e8dfdb01e5ef50ecf00670.jpg"
 },
-{
-  "name": "Сексуальный миф Третьего Рейха [Харитонов Александр, (ЛИ), 2022, 128 kbps, MP3]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] История, культурология, философия",
-  "torrentSize": "757.4&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:ED73808F9E553D6F3A73F6F9079F7E4A83E61A15&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i116.fastpic.org/big/2021/1225/b7/312ccc98ac2e7c2acc1bf0aca00ee8b7.jpg"
+{
+  "name": "Чаа Аджан - Тихая лесная заводь (серия «Самадхи») [Пётр Маркин, 2020, 128 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Другие традиционные религии",
+  "torrentSize": "411.1 MB",
+  "torrentLink": "magnet:?xt=urn:btih:6F1BE53FA528EB2D58FACDE54496C7E80C812BCD&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://d.radikal.ru/d29/2110/00/822559178d2a.jpg"
+},
+{
+  "name": "Махнач Владимир - История Византии [Махнач Владимир, 1999 г., 64kbps, 1ch., MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Православие",
+  "torrentSize": "84.1 MB",
+  "torrentLink": "magnet:?xt=urn:btih:6C0DB367CCAB1C69FCAEEDB6FEF142D42CDD8B08&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i32.fastpic.ru/big/2011/1120/7e/4549417213d4ad77a2799afd5fea007e.jpg"
+},
+{
+  "name": "Маруяма Куганэ - Overlord / Властелин 1, Король-нежить [Adrenalin28, (ЛИ), 2016 г., 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Азиатская подростковая литература, ранобэ, веб-новеллы",
+  "torrentSize": "483.7 MB",
+  "torrentLink": "magnet:?xt=urn:btih:84805EF172782E2555B407FE410B78834B633185&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://s019.radikal.ru/i603/1606/88/c5c7456411de.jpg"
+},
+{
+  "name": "Робертс Джейн - Говорит Сет. Вечная реальность души [Сергей Горин, 2021, 128 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Нетрадиционные религиозно-философские учения",
+  "torrentSize": "863.4 MB",
+  "torrentLink": "magnet:?xt=urn:btih:ACC843D9142FAF8A3E266DBA5D41CD848B1BF2BE&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i114.fastpic.ru/big/2021/0419/1b/a029019c01bf71fe53fefaadab75681b.jpg"
+},
+{
+  "name": "Карл Густав Юнг - Аналитическая психология. Тавистокские лекции [Ерисанова И., 2007, 128 kbs, MP3]",
+  "category": "Прочая литература",
+  "subcategory": "[Аудио] Книги по медицине",
+  "torrentSize": "585.4 MB",
+  "torrentLink": "magnet:?xt=urn:btih:BF98F4320A61EA65EDEA60F4FBC6F768CAFC7817&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://bookap.info/psyanaliz/ungtavistok/cover.jpg"
+},
+{
+  "name": "Резник Юлия - Моль [Людмила Шапочкина, 2021, 56 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Современные любовные романы",
+  "torrentSize": "162.6 MB",
+  "torrentLink": "magnet:?xt=urn:btih:FBDAF505BD853A4AF58B2B8A720E8B24DFBB6116&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i117.fastpic.org/big/2022/0505/45/8330131325bf5149f8a64189178a6a45.jpg"
+},
+{
+  "name": "Чейз Джеймс Хедли - Я сам похороню своих мертвых [Валерий Стельмащук,(ЛИ) 2015 г., 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Зарубежные детективы, приключения, триллеры, боевики",
+  "torrentSize": "430.7 MB",
+  "torrentLink": "magnet:?xt=urn:btih:EABF759883F034D11C55DEBAFE01F0B8BFA09EB7&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i72.fastpic.ru/big/2015/0910/bf/8c9c2b7f7f3653268129f97e7061bcbf.jpg"
 },
-{
-  "name": "Плотников Сергей - Паутина света [Олег Воля, 2021 128 kbps, MP3]",
-  "category": "Фантастика, фэнтези, мистика, ужасы, фанфики",
-  "subcategory": "[Аудио] Российская фантастика, фэнтези, мистика, ужасы, фанфики",
-  "torrentSize": "3.32&nbsp;GB",
-  "torrentLink": "magnet:?xt=urn:btih:C343F0D9A9BFB07F912C7AE235C96EF2801601F5&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i116.fastpic.org/big/2021/1210/09/b73069195a17cdcf8ec9c721d2f46a09.jpg"
+{
+  "name": "Роулинг Дж.К. - Гарри Поттер и Тайная комната [Александр Клюквин, 2006, 128 kbps]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Детская литература",
+  "torrentSize": "574 MB",
+  "torrentLink": "magnet:?xt=urn:btih:57210F36FE74981B8E1E3358A493BFF73FA5C67E&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://ipicture.ru/uploads/080901/12643/APkSAIYFtC.jpg"
+},
+{
+  "name": "Незнанский Фридрих - Девочка для шпиона [Юрий Заборовский, 2007, 96 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Российские детективы, приключения, триллеры, боевики",
+  "torrentSize": "634.9 MB",
+  "torrentLink": "magnet:?xt=urn:btih:A015794CB9A300AFB6053E2320F409C74CE79F40&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://www.ozon.ru/multimedia/books_covers/0656.jpg"
+},
+{
+  "name": "Полный Коран, все 114 сур. [Шейх Абдурахман Аль Судейс, 2004, 16 kbps]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Ислам",
+  "torrentSize": "154.3 MB",
+  "torrentLink": "magnet:?xt=urn:btih:5EF7B94EE12F3293EA6D2240B8F775BD041CF412&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet"
+},
+{
+  "name": "Махнач Владимир - Исторические имена (цикл бесед) [Махнач Владимир, 1996-2002 гг., 64kbps 1ch, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Православие",
+  "torrentSize": "117.5 MB",
+  "torrentLink": "magnet:?xt=urn:btih:604ED2C6C0B006DA64974A2C469C2D2B8E01E6E2&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i29.fastpic.ru/big/2011/1120/bc/033f594a7bead4e2729e117c623e57bc.jpg"
 },
-{
-  "name": "Валерий Прокофьев - Начальник внешней разведки. Спецоперации генерала Сахаровского [Леонов Андрей, 2017 г., 128 kbps, 44 kHz, Моно, MP3]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Биографии и мемуары",
-  "torrentSize": "684.7&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:7767D7465CC19B40AFF6B83D51B0537C39346333&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "http://s2.1pic.org/files/2017/05/16/8a2f3d37e8a335192a0e.jpg"
+{
+  "name": "Олендзки Эндрю - Ум, устраняющий границы. Радикально практическая психология буддизма (серия «Самадхи») [Пётр Маркин, 2019, 128 kbps, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Другие традиционные религии",
+  "torrentSize": "407 MB",
+  "torrentLink": "magnet:?xt=urn:btih:838844969EA06029797560426DD054B4B2B3D12D&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://thumbs4.imagebam.com/69/62/09/ME8V3A2_t.jpg"
+},
+{
+  "name": "Литвак Михаил - Психологическое айкидо [Виктор Рудниченко, 2017, 56 kbps, MP3]",
+  "category": "Прочая литература",
+  "subcategory": "[Аудио] Книги по медицине",
+  "torrentSize": "161.1 MB",
+  "torrentLink": "magnet:?xt=urn:btih:9B9F324450C9F5BAC2E8106170407303EF6920BC&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://i117.fastpic.org/big/2022/0505/bf/25572c26eaf66876f0f17fef71bb55bf.jpg"
 },
-{
-  "name": "Валентин Катаев - Белеет парус одинокий. Волны Черного моря кн.1 [В. Сперантова, Шефер, Князева, Иванов, Абрамов, Доронин, Гусмановский, Чумак, Ильина, др., 1958, VBR до 128 kbps]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Радиоспектакли и литературные чтения",
-  "torrentSize": "25.5&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:BEC8CB964248EBE6263111B096233E2908CC7BED&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "http://i3.fastpic.ru/big/2009/1023/14/31a69cb0d3183ed3cbc743bf46109f14.gif"
+{
+  "name": "Маруяма Куганэ - Overlord / Властелин 2, Темный воин [Adrenalin28, (ЛИ), 2016 г., 128 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Азиатская подростковая литература, ранобэ, веб-новеллы",
+  "torrentSize": "467.7 MB",
+  "torrentLink": "magnet:?xt=urn:btih:0C5CBC604A140B60149007B4A8F8E1E44C654164&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://s020.radikal.ru/i714/1606/97/7475567e02ec.jpg"
+},
+{
+  "name": "Ошо Раджниш - Близость [Nikosho (ЛИ), 2012 г., VBR 100, MP3]",
+  "category": "Религии",
+  "subcategory": "[Аудио] Нетрадиционные религиозно-философские учения",
+  "torrentSize": "613.2 MB",
+  "torrentLink": "magnet:?xt=urn:btih:2E56BB22E6C7456454E659AAEA5123E375C4B3E5&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "http://i53.fastpic.ru/big/2012/1214/d2/021b98fa790e04a5553a0e0f2f46aed2.jpg"
 },
-{
-  "name": "Змаевы Алекс и Ангелина - Подарки весны [Олег Воля, 2021, 128 kbps, MP3]",
-  "category": "Фантастика, фэнтези, мистика, ужасы, фанфики",
-  "subcategory": "[Аудио] Любовно-фантастический роман",
-  "torrentSize": "77.4&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:D9E97848B7110CBCA01FB5BF89A953D5ED115AA4&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://fanfics.me/images/fanart_o/2021/08/03/498621627969729.jpg"
-},
-{
-  "name": "Щербаков Алексей - 1905 год. Прелюдия катастрофы [Харитонов Александр, (ЛИ), 2022, 128 kbps, MP3]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] История, культурология, философия",
-  "torrentSize": "966.4&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:9B2A1567A44F6F663E5D8F4ECEFC4CD44786222D&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i116.fastpic.org/big/2022/0315/a1/22102fbff3b220390f7ff34b1ea32fa1.jpg"
-},
-{
-  "name": "Форман Милош; Новак Ян - Круговорот [Терновский Евгений, 2015, 96 kbps, MP3]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Биографии и мемуары",
-  "torrentSize": "652&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:08A8BB00CA966D664B79CC256B9CA673FD43E2A7&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "http://s48.radikal.ru/i119/1608/e7/8d84f1ea69fa.jpg"
-},
-{
-  "name": "Буль Пьер – Планета обезьян [Михаил Прокопов, (ЛИ), 2021, 192 kbps, MP3]",
-  "category": "Фантастика, фэнтези, мистика, ужасы, фанфики",
-  "subcategory": "[Аудио] Зарубежная фантастика, фэнтези, мистика, ужасы, фанфики",
-  "torrentSize": "529.5&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:CFE21C78CE60B88ECD5CDF416B4EFC227D2E60EC&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i2.imageban.ru/out/2021/05/30/ed2e9d3dd8646e141c3e00088171bfc1.png"
-},
-{
-  "name": "Азерников Валентин - Возможны варианты или по семейным обстоятельствам- Коллекция радиоспектаклей Диск 19 [Артисты театра имени Моссовета Р. Плятт, И. Саввина, Л. Наумкина, и др., 2010, 192 kbps]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Радиоспектакли и литературные чтения",
-  "torrentSize": "121.7&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:72363A7334326251CBB0C55573C826475D2C0827&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "http://s56.radikal.ru/i153/1003/35/bfd3236f75bf.jpg"
-},
-{
-  "name": "Суржиков Роман - Полари, Глас Зимы [Кирилл Головин, 2021, 192 kbps, MP3]",
-  "category": "Фантастика, фэнтези, мистика, ужасы, фанфики",
-  "subcategory": "[Аудио] Российская фантастика, фэнтези, мистика, ужасы, фанфики",
-  "torrentSize": "80.8&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:A63472EF3A74B8DFFB2F791E6A590D2249B4F633&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://a.radikal.ru/a31/2108/38/44de1b985931.jpg"
-},
-{
-  "name": "muppet47 &quot;Игра ожидания&quot; фанфик по фандому сериала &quot;Касл&quot; [Олег Воля, (ЛИ), 2015 г., 128 kbps, MP3]",
-  "category": "Фантастика, фэнтези, мистика, ужасы, фанфики",
-  "subcategory": "[Аудио] Любовно-фантастический роман",
-  "torrentSize": "277.3&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:352B165443CE0F0F6DDFC8B23076FE6214C068A5&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "http://www.pichome.ru/images/2015/04/06/dLWli4.jpg"
-},
-{
-  "name": "Андерсон, Янг, Морье, Тимперли, Лиготти, Олдисс, Стайн, Ликок, Уэстлейк, Суэнвик, Литтл – Пока все дома. Новогодняя серия [Олег Булдаков, 2022, 192 kbps, MP3]",
-  "category": "Фантастика, фэнтези, мистика, ужасы, фанфики",
-  "subcategory": "[Аудио] Сборники/разное Фантастика, фэнтези, мистика, ужасы, фанфики",
-  "torrentSize": "305.8&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:B8EE73D7207535BB2FA19D732E6D54D454DC132D&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i4.imageban.ru/out/2022/03/16/4a6095d63be7f8252e67de51827f1a57.jpg"
-},
-{
-  "name": "Степун Фёдор - Николай Переслегин [Терновский Евгений, 2013 г., 96 kbps, MP3]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Биографии и мемуары",
-  "torrentSize": "536.1&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:B1A7E6011F5AF160D2B018E394385B24BE58DA19&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "http://i057.radikal.ru/1512/3d/376a98741206.jpg"
-},
-{
-  "name": "Стивенсон, Роберт Льюис - Алмаз Раджи - Коллекция радиоспектаклей Диск 15 [Артисты театров Рогволд Суховерко, Зиновий Гердт, Евгений Весник, Вера Васильева, Клавдия Блохина, Вячеслав Невинный, и др. 2009, 192 kbps]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] Радиоспектакли и литературные чтения",
-  "torrentSize": "143.7&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:9BF08D9B21709B69ADA8081730FA385A9E5BA1F7&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "http://pic.ipicture.ru/uploads/091120/2jbm3T8TSH.jpg"
-},
-{
-  "name": "Бреннан Мари - Естественная история драконов 1, Мемуары леди Трент: Естественная история драконов [Гуржий Юрий, 2021, 128 kbps, MP3]",
-  "category": "Фантастика, фэнтези, мистика, ужасы, фанфики",
-  "subcategory": "[Аудио] Зарубежная фантастика, фэнтези, мистика, ужасы, фанфики",
-  "torrentSize": "647.6&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:433A5167AFA293A03E097C9434C9B308CFB3FD99&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i114.fastpic.ru/big/2021/0504/91/20f194f0518d414b0c2114896f650591.jpeg"
-},
-{
-  "name": "Верхова Екатерина - Драконий союз, или Академия льда и пламени [Медведева Яна, 2021, 128 kbps, MP3]",
-  "category": "Фантастика, фэнтези, мистика, ужасы, фанфики",
-  "subcategory": "[Аудио] Любовно-фантастический роман",
-  "torrentSize": "491.9&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:90A5C666736ED3E7D4B69C999C9A0423C1FB37A6&tr=http%3A%2F%2Fbt3.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i115.fastpic.org/big/2021/1007/10/5b5dacc017c47bd8e7b192ca0727c510.jpg"
-},
-{
-  "name": "Мухин Юрий - Афганский фронт СССР [Сергей Дмитриев (ЛИ), 2014, 192 kbps, MP3]",
-  "category": "Радиоспектакли, история, мемуары",
-  "subcategory": "[Аудио] История, культурология, философия",
-  "torrentSize": "613.9&nbsp;MB",
-  "torrentLink": "magnet:?xt=urn:btih:D7DA7A6387383F3062F711B0E0D35D106831020A&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann%3Fmagnet",
-  "coverImageUrl": "https://i116.fastpic.org/big/2021/1118/16/ed24aba363955cce72fcc5036b6f6b16.jpg"
+{
+  "name": "Чейз Джеймс Хэдли - Весь мир в кармане [Хошабаев Александр, 2020, 96 kbps, MP3]",
+  "category": "Художественная литература",
+  "subcategory": "[Аудио] Зарубежные детективы, приключения, триллеры, боевики",
+  "torrentSize": "306.4 MB",
+  "torrentLink": "magnet:?xt=urn:btih:7BADFA3D6C5AB7D6CBB8274FFF54521D5875F246&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet",
+  "coverImageUrl": "https://c.radikal.ru/c37/2004/1d/b23ca2b3a731.jpg"
 },
