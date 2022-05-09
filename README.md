@@ -4,7 +4,7 @@ Declarative extensible web scraper written in C# with focused web crawler, which
 
 This is work in progres! API is not stable and will change.
 
-## Example:
+## 📋 Example:
 
 ```c#
 await new Scraper()
