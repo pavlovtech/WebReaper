@@ -27,11 +27,11 @@ await new Scraper()
 
 ## Features:
 
-* :zap: It's fast
-* 🗒 Easy declarative parsing:  new Schema { new("field", ".selector") }
-* :page_facing_up: Pagination support:  .FollowLinks("a", ".paginationSelector")
+* :zap: It's extremly fast due to speed parallelism and asynchrony
+* 🗒 Declarative parsing with a structured scheme
+* :page_facing_up: Pagination support
 * 💾 Saving data to any sinks such as file, database or API
-* :earth_americas: Distributed crawling support: provide your implementation of IJobQueueReader, IJobQueueWriter and ICrawledLinkTracker and run your crawler on ony cloud VM, serverless function, on-prem servers, etc
+* :earth_americas: Distributed crawling support: run your crawler on ony cloud VM, serverless function, on-prem servers, etc
 * :octopus: Crowling and parsing Single Page Applications
 
 ## Coming soon:
@@ -40,5 +40,6 @@ await new Scraper()
 - [ ] Azure functions for the distributed crawling
 - [ ] Request throttling
 - [ ] Autotune for parallelism degree and throttling
+- [ ] Flexible SPA manipulation
 - [ ] Ports to NoneJS and GO
 
