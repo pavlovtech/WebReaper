@@ -37,16 +37,16 @@ await new Scraper()
 
 ### Intrefaces
 
-| Interface           | Description                                                                                                                                          |
-| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| IJobQueueReader     | Reading from job queue. By default the in-memory queue is used, but you can provider your implementation for RabbitMQ, Azure Service Bus queue, etc. |
-| IJobQueueWriter     | Writing to job queue. By default the in-memory queue is used, but you can provider your implementation for RabbitMQ, Azure Service Bus queue, etc.   |
-| ICrawledLinkTracker | racker of visited links. Default implementations is in memory tracker. You can provide your own for Redis, MongoDB, etc.                             |
-| IPageLoader         | loader that takes url and returns html of the page as a string                                                                                       |
-| IContentParser      | takes html and schema and returns Json representation (JObject).                                                                                     |
-| ILinkParser         | takes html as a string and returns page links                                                                                                        |
-| IScraperSink        | represents a data store for writing the results of web scraping. Takes the JObject as parameter                                                      |
-| ISpider             | spider that does the crawling, parsing, and saving the data                                                                                          |
+| Interface           | Description                                                                                                                                               |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| IJobQueueReader     | Reading from the job queue. By default, the in-memory queue is used, but you can provider your implementation for RabbitMQ, Azure Service Bus queue, etc. |
+| IJobQueueWriter     | Writing to the job queue. By default, the in-memory queue is used, but you can provider your implementation for RabbitMQ, Azure Service Bus queue, etc.   |
+| ICrawledLinkTracker | Tracker of visited links. A default implementation is an in-memory tracker. You can provide your own for Redis, MongoDB, etc.                             |
+| IPageLoader         | Loader that takes URL and returns HTML of the page as a string                                                                                            |
+| IContentParser      | Takes HTML and schema and returns JSON representation (JObject).                                                                                          |
+| ILinkParser         | Takes HTML as a string and returns page links                                                                                                             |
+| IScraperSink        | Represents a data store for writing the results of web scraping. Takes the JObject as parameter                                                           |
+| ISpider             | A spider that does the crawling, parsing, and saving of the data                                                                                          |
 
 ### Main entities
 * Job - a record that represends a job for the spider
