@@ -36,7 +36,7 @@ public class ScrapingWorker : BackgroundService
                 new Url("torrentLink", ".magnet-link"),
                 new Image("coverImageUrl", ".postImg")
             })
-            .WithParallelismDegree(10)
+            .WithParallelismDegree(4)
             .WriteToJsonFile("result.json")
             .WriteToCsvFile("result.csv")
             .Build();

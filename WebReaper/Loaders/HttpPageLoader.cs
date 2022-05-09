@@ -25,6 +25,19 @@ public class HttpPageLoader : IPageLoader
     public async Task<string> Load(string url)
     {
         using var _ = logger.LogMethodDuration();
-        return await HttpClient.GetStringAsync(url);
+        // return await HttpClient.GetStringAsync(url);
+
+        var response = await HttpClient.GetAsync(url);
+
+        if (response.IsSuccessStatusCode) {
+            return await response.Content.ReadAsStringAsync();
+        } else {
+            logger.LogError("Failed to load page {url}. Error code: {statusCode}", url, response.StatusCode);
+
+            throw new InvalidOperationException($"Failed to load page {url}. Error code: {response.StatusCode}") 
+            {
+                Data = { ["url"] = url, ["statusCode"] = response.StatusCode }
+            };
+        }
     }
 }
