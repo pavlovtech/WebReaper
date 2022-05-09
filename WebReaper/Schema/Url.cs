@@ -18,6 +18,6 @@ public record Url(string Field, string Selector, SelectorType? SelectorType = Se
             throw new InvalidOperationException($"No href attribute found by selector {Selector} in {node?.OuterHtml}.");
         }
 
-        return content;
+        return HtmlEntity.DeEntitize(content);
     }
 }

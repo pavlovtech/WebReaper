@@ -19,6 +19,6 @@ public record Image(string Field, string Selector, SelectorType? SelectorType = 
             throw new InvalidOperationException($"Cannot find image link by selector {Selector} in {node?.OuterHtml}.");
         }
 
-        return content;
+        return HtmlEntity.DeEntitize(content);
     }
 }

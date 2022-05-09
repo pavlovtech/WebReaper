@@ -20,7 +20,7 @@ public class ScrapingWorker : BackgroundService
             "https://rutracker.org/forum/viewforum.php?f=2321"
         };
 
-        var redisConnectionString = "redis-14134.c135.eu-central-1-1.ec2.cloud.redislabs.com:14134,allowAdmin=true,password=fFyL97L9hj3NPTsIGyPy99YgxnmoHzH4";
+        var redisConnectionString = "webreaper.redis.cache.windows.net:6380,password=AIWM15Q0XAKjfZYUc9ickXfwi8O3Ti9UFAzCaAnMeEc=,ssl=True,abortConnect=False";
         var azureSBConnectionString = "Endpoint=sb://webreaper.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=mIHXjIKh6I89CHyMM2SDMr7YxvVTDFQvL+/FKlbK43g=";
         var queue = "jobqueue";
 

@@ -19,6 +19,6 @@ public record Text(string Field, string Selector, SelectorType? SelectorType = S
             
         }
 
-        return content;
+        return HtmlEntity.DeEntitize(content);
     }
 }
