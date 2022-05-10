@@ -1,10 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Logging;
-using WebReaper.Domain.Parsing;
-using WebReaper.Parsing;
 using WebReaper.Scraper;
 using WebReaper.LinkTracker;
 using WebReaper.Queue.AzureServiceBus;
@@ -17,7 +14,7 @@ namespace WebReaper.Spider
     {
         [FunctionName("WebReaperSpiderFunc")]
         public static async Task Run([ServiceBusTrigger("jobqueue",
-            Connection = "webreaper_SERVICEBUS")]string queueItem, ILogger log)
+            Connection = "ServiceBusConnection")]string queueItem, ILogger log)
         {
             log.LogInformation($"C# ServiceBus queue trigger function processed message: {queueItem}");
 
