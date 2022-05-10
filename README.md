@@ -89,5 +89,6 @@ await new Scraper()
 - [ ] Autothrottling
 - [ ] Flexible SPA manipulation
 - [ ] Ports to NodeJS and Go
+- [ ] Sitemap crawling support
 
 See the [LICENSE](LICENSE.txt) file for license rights and limitations (GNU GPLv3).
