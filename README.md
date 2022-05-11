@@ -31,7 +31,9 @@ BlockingCollection<Job> jobs = new(new ProducerConsumerPriorityQueue());
 var jobQueueReader = new JobQueueReader(jobs);
 var jobQueueWriter = new JobQueueWriter(jobs);
 
-runner = new ScraperRunner(config, jobQueueReader, jobQueueWriter,  spider, logger);
+var runner = new ScraperRunner(config, jobQueueReader, jobQueueWriter,  spider, logger);
+
+runner.Run(10); // 10 - degree of parallerism
 ```
 
 ## Features:
