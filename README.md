@@ -22,16 +22,16 @@ var config = new ScraperConfigBuilder()
     })
     .Build();
 
-    var spider = new SpiderBuilder()
-        .WriteToJsonFile("result.json")
-        .WithLogger(logger)
-        .Build();
+var spider = new SpiderBuilder()
+    .WriteToJsonFile("result.json")
+    .WithLogger(logger)
+    .Build();
 
-    BlockingCollection<Job> jobs = new(new ProducerConsumerPriorityQueue());
-    var jobQueueReader = new JobQueueReader(jobs);
-    var jobQueueWriter = new JobQueueWriter(jobs);
+BlockingCollection<Job> jobs = new(new ProducerConsumerPriorityQueue());
+var jobQueueReader = new JobQueueReader(jobs);
+var jobQueueWriter = new JobQueueWriter(jobs);
 
-    runner = new ScraperRunner(config, jobQueueReader, jobQueueWriter,  spider, logger);
+runner = new ScraperRunner(config, jobQueueReader, jobQueueWriter,  spider, logger);
 ```
 
 ## Features:
