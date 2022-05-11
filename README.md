@@ -8,8 +8,8 @@ Declarative extensible web scraper written in C#. Easly crawl any web site and p
 
 ## 📋 Example:
 
-```c#
-await new Scraper()
+```C#
+var config = new ScraperConfigBuilder()
     .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
     .FollowLinks("#cf-33 .forumlink>a") // first level links
     .FollowLinks(".forumlink>a").       // second level links
@@ -20,9 +20,18 @@ await new Scraper()
         new Url("torrentLink", ".magnet-link"), // get a link from <a> HTML tag (href attribute)
         new Image("coverImageUrl", ".postImg")  // get a link to the image from HTML <img> tag (src attribute)
     })
-    .WriteToJsonFile("result.json")
-    .Build()
-    .Run();
+    .Build();
+
+    var spider = new SpiderBuilder()
+        .WriteToJsonFile("result.json")
+        .WithLogger(logger)
+        .Build();
+
+    BlockingCollection<Job> jobs = new(new ProducerConsumerPriorityQueue());
+    var jobQueueReader = new JobQueueReader(jobs);
+    var jobQueueWriter = new JobQueueWriter(jobs);
+
+    runner = new ScraperRunner(config, jobQueueReader, jobQueueWriter,  spider, logger);
 ```
 
 ## Features:
