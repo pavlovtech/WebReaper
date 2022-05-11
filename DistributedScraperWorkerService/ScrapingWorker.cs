@@ -42,14 +42,19 @@ public class ScrapingWorker : BackgroundService
 
         var spider = new SpiderBuilder()
             .WithLinkTracker(new RedisCrawledLinkTracker(redisConnectionString))
-            .WithJobQueueReader(new AzureJobQueueReader(azureSBConnectionString, queue))
-            .WithJobQueueWriter(new AzureJobQueueWriter(azureSBConnectionString, queue))
-            .WriteToJsonFile("result.json")
-            .WriteToCsvFile("result.csv")
+            .WriteToCosmosDb(
+                "https://webreaper.documents.azure.com:443/",
+                "XkMSndeYQ1285XrVRNG7MYVg3YUw32aOPPpYyS8YDIcKa8SxMK5cqwsg069jlFW2oOdxedg92qQieZd0IO4Qtw==",
+                "WebReaper",
+                "Rutraker")
             .IgnoreUrls(blackList)
+            .WithLogger(logger)
             .Build();
 
-        runner = new ScraperRunner(config, spider, logger);
+        var queueReader = new AzureJobQueueReader(azureSBConnectionString, queue);
+        var queueWriter = new AzureJobQueueWriter(azureSBConnectionString, queue);
+        
+        runner = new ScraperRunner(config, queueReader,  queueWriter, spider, logger);
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)

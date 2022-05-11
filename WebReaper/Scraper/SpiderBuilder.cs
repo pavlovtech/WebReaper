@@ -144,8 +144,6 @@ public class SpiderBuilder
             SiteLinkTracker,
             new HttpPageLoader(httpClient.Value, Logger),
             new PuppeteerPageLoader(Logger),
-            JobQueueReader,
-            JobQueueWriter,
             Logger)
         {
             UrlBlackList = urlBlackList.ToList(),

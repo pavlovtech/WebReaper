@@ -1,0 +1,234 @@
+2022-05-11 23:54:04.442 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-11 23:54:04.542 +03:00 [INF] Hosting environment: Development
+2022-05-11 23:54:04.544 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-05-11 23:54:05.180 +03:00 [INF] Load finished in 734 ms
+2022-05-11 23:54:09.772 +03:00 [INF] Load finished in 387 ms
+2022-05-11 23:54:10.077 +03:00 [INF] Load finished in 644 ms
+2022-05-11 23:54:10.080 +03:00 [INF] Load finished in 647 ms
+2022-05-11 23:54:10.080 +03:00 [INF] Load finished in 647 ms
+2022-05-11 23:54:10.085 +03:00 [INF] Load finished in 625 ms
+2022-05-11 23:54:10.344 +03:00 [INF] Load finished in 529 ms
+2022-05-11 23:54:10.414 +03:00 [INF] Load finished in 619 ms
+2022-05-11 23:54:10.414 +03:00 [INF] Load finished in 619 ms
+2022-05-11 23:54:10.415 +03:00 [INF] Load finished in 981 ms
+2022-05-11 23:54:10.415 +03:00 [INF] Load finished in 620 ms
+2022-05-11 23:54:10.814 +03:00 [INF] Load finished in 994 ms
+2022-05-11 23:54:10.952 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=275
+2022-05-11 23:54:10.979 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=14
+2022-05-11 23:54:11.001 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=638
+2022-05-11 23:54:11.051 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=409
+2022-05-11 23:54:11.218 +03:00 [INF] Load finished in 478 ms
+2022-05-11 23:54:11.240 +03:00 [INF] Load finished in 700 ms
+2022-05-11 23:54:11.264 +03:00 [INF] Load finished in 673 ms
+2022-05-11 23:54:11.327 +03:00 [INF] Load finished in 589 ms
+2022-05-11 23:54:11.373 +03:00 [INF] Load finished in 348 ms
+2022-05-11 23:54:11.327 +03:00 [INF] Load finished in 669 ms
+2022-05-11 23:54:11.622 +03:00 [INF] Load finished in 455 ms
+2022-05-11 23:54:11.623 +03:00 [INF] Load finished in 506 ms
+2022-05-11 23:54:11.754 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=323
+2022-05-11 23:54:11.850 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1809
+2022-05-11 23:54:12.023 +03:00 [INF] Load finished in 907 ms
+2022-05-11 23:54:12.074 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=2448
+2022-05-11 23:54:12.093 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=2448
+2022-05-11 23:54:12.115 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=2448
+2022-05-11 23:54:12.121 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=2448
+2022-05-11 23:54:12.115 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=2448
+2022-05-11 23:54:12.334 +03:00 [INF] Load finished in 501 ms
+2022-05-11 23:54:12.428 +03:00 [INF] Load finished in 435 ms
+2022-05-11 23:54:12.519 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=13
+2022-05-11 23:54:12.630 +03:00 [INF] Load finished in 450 ms
+2022-05-11 23:54:12.660 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=16
+2022-05-11 23:54:12.816 +03:00 [INF] Load finished in 584 ms
+2022-05-11 23:54:12.816 +03:00 [INF] Load finished in 486 ms
+2022-05-11 23:54:13.113 +03:00 [INF] Load finished in 901 ms
+2022-05-11 23:54:13.143 +03:00 [INF] Load finished in 905 ms
+2022-05-11 23:54:13.240 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1342
+2022-05-11 23:54:13.240 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=10
+2022-05-11 23:54:13.386 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=2243
+2022-05-11 23:54:13.714 +03:00 [INF] Load finished in 1156 ms
+2022-05-11 23:54:13.786 +03:00 [INF] Load finished in 511 ms
+2022-05-11 23:54:13.866 +03:00 [INF] Load finished in 998 ms
+2022-05-11 23:54:13.939 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1933
+2022-05-11 23:54:13.940 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1366
+2022-05-11 23:54:13.972 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=2236
+2022-05-11 23:54:13.973 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=2235
+2022-05-11 23:54:14.171 +03:00 [INF] Load finished in 870 ms
+2022-05-11 23:54:14.147 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=2238
+2022-05-11 23:54:14.245 +03:00 [INF] Load finished in 671 ms
+2022-05-11 23:54:14.585 +03:00 [INF] Load finished in 590 ms
+2022-05-11 23:54:14.613 +03:00 [INF] Load finished in 590 ms
+2022-05-11 23:54:14.681 +03:00 [INF] Load finished in 609 ms
+2022-05-11 23:54:14.742 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=957
+2022-05-11 23:54:14.770 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=285
+2022-05-11 23:54:14.835 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=828
+2022-05-11 23:54:15.116 +03:00 [INF] Load finished in 729 ms
+2022-05-11 23:54:15.116 +03:00 [INF] Load finished in 752 ms
+2022-05-11 23:54:15.440 +03:00 [INF] Load finished in 670 ms
+2022-05-11 23:54:15.534 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1014
+2022-05-11 23:54:15.568 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1503
+2022-05-11 23:54:15.626 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1052
+2022-05-11 23:54:15.625 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1016
+2022-05-11 23:54:15.673 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1013
+2022-05-11 23:54:15.911 +03:00 [INF] Load finished in 898 ms
+2022-05-11 23:54:16.013 +03:00 [INF] Load finished in 1085 ms
+2022-05-11 23:54:16.420 +03:00 [INF] Load finished in 795 ms
+2022-05-11 23:54:16.420 +03:00 [INF] Load finished in 851 ms
+2022-05-11 23:54:16.421 +03:00 [INF] Load finished in 724 ms
+2022-05-11 23:54:16.544 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1012
+2022-05-11 23:54:16.545 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1376
+2022-05-11 23:54:16.545 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1195
+2022-05-11 23:54:17.005 +03:00 [INF] Load finished in 1176 ms
+2022-05-11 23:54:17.040 +03:00 [INF] Load finished in 980 ms
+2022-05-11 23:54:17.235 +03:00 [INF] Load finished in 603 ms
+2022-05-11 23:54:17.336 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=216
+2022-05-11 23:54:17.337 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=2185
+2022-05-11 23:54:17.337 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=650
+2022-05-11 23:54:17.357 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=240
+2022-05-11 23:54:17.471 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=758
+2022-05-11 23:54:17.725 +03:00 [INF] Load finished in 1146 ms
+2022-05-11 23:54:17.752 +03:00 [INF] Load finished in 1094 ms
+2022-05-11 23:54:17.944 +03:00 [INF] Load finished in 567 ms
+2022-05-11 23:54:18.075 +03:00 [INF] Load finished in 669 ms
+2022-05-11 23:54:18.077 +03:00 [INF] Load finished in 553 ms
+2022-05-11 23:54:18.077 +03:00 [INF] Load finished in 479 ms
+2022-05-11 23:54:19.387 +03:00 [INF] Load finished in 1962 ms
+2022-05-11 23:54:19.538 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=899
+2022-05-11 23:54:19.539 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=2142
+2022-05-11 23:54:19.550 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=548
+2022-05-11 23:54:20.023 +03:00 [INF] Load finished in 446 ms
+2022-05-11 23:54:20.153 +03:00 [INF] Load finished in 480 ms
+2022-05-11 23:54:20.222 +03:00 [INF] Load finished in 530 ms
+2022-05-11 23:54:20.336 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=139
+2022-05-11 23:54:20.337 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=2400
+2022-05-11 23:54:20.337 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=5
+2022-05-11 23:54:20.377 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=518
+2022-05-11 23:54:20.409 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=960
+2022-05-11 23:54:20.433 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1007
+2022-05-11 23:54:20.485 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=2507
+2022-05-11 23:54:20.948 +03:00 [INF] Load finished in 525 ms
+2022-05-11 23:54:24.389 +03:00 [INF] Load finished in 3965 ms
+2022-05-11 23:54:24.413 +03:00 [INF] Load finished in 3958 ms
+2022-05-11 23:54:24.414 +03:00 [INF] Load finished in 3799 ms
+2022-05-11 23:54:24.414 +03:00 [INF] Load finished in 3885 ms
+2022-05-11 23:54:24.414 +03:00 [INF] Load finished in 3934 ms
+2022-05-11 23:54:24.441 +03:00 [INF] Load finished in 3776 ms
+2022-05-11 23:54:24.630 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=2403
+2022-05-11 23:54:24.735 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=413
+2022-05-11 23:54:25.140 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1853
+2022-05-11 23:54:25.328 +03:00 [INF] Load finished in 597 ms
+2022-05-11 23:54:25.421 +03:00 [INF] Load finished in 512 ms
+2022-05-11 23:54:25.731 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1785
+2022-05-11 23:54:25.731 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1811
+2022-05-11 23:54:25.773 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1299
+2022-05-11 23:54:25.773 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=860
+2022-05-11 23:54:25.795 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1810
+2022-05-11 23:54:25.879 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=2219
+2022-05-11 23:54:25.931 +03:00 [INF] Load finished in 651 ms
+2022-05-11 23:54:26.251 +03:00 [INF] Load finished in 434 ms
+2022-05-11 23:54:26.326 +03:00 [INF] Load finished in 511 ms
+2022-05-11 23:54:26.399 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1239
+2022-05-11 23:54:26.622 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1808
+2022-05-11 23:54:26.758 +03:00 [INF] Load finished in 833 ms
+2022-05-11 23:54:26.758 +03:00 [INF] Load finished in 895 ms
+2022-05-11 23:54:26.785 +03:00 [INF] Load finished in 855 ms
+2022-05-11 23:54:26.833 +03:00 [INF] Load finished in 879 ms
+2022-05-11 23:54:26.900 +03:00 [INF] Load finished in 445 ms
+2022-05-11 23:54:26.926 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=2448
+2022-05-11 23:54:27.438 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=13
+2022-05-11 23:54:27.480 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1342
+2022-05-11 23:54:27.496 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=16
+2022-05-11 23:54:27.626 +03:00 [INF] Load finished in 891 ms
+2022-05-11 23:54:27.626 +03:00 [INF] Load finished in 569 ms
+2022-05-11 23:54:27.829 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=2235
+2022-05-11 23:54:27.853 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=2238
+2022-05-11 23:54:27.872 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=10
+2022-05-11 23:54:27.892 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=2243
+2022-05-11 23:54:27.965 +03:00 [INF] Load finished in 421 ms
+2022-05-11 23:54:27.985 +03:00 [INF] Load finished in 407 ms
+2022-05-11 23:54:28.007 +03:00 [INF] Load finished in 407 ms
+2022-05-11 23:54:28.076 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=2236
+2022-05-11 23:54:28.426 +03:00 [INF] Load finished in 486 ms
+2022-05-11 23:54:28.438 +03:00 [INF] Load finished in 524 ms
+2022-05-11 23:54:28.438 +03:00 [INF] Load finished in 381 ms
+2022-05-11 23:54:28.543 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1933
+2022-05-11 23:54:28.563 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1366
+2022-05-11 23:54:28.849 +03:00 [INF] Load finished in 725 ms
+2022-05-11 23:54:28.850 +03:00 [INF] Load finished in 842 ms
+2022-05-11 23:54:28.893 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=957
+2022-05-11 23:54:28.905 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1503
+2022-05-11 23:54:28.918 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=285
+2022-05-11 23:54:28.946 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1014
+2022-05-11 23:54:28.946 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1016
+2022-05-11 23:54:29.253 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=828
+2022-05-11 23:54:29.323 +03:00 [INF] Load finished in 716 ms
+2022-05-11 23:54:29.524 +03:00 [INF] Load finished in 511 ms
+2022-05-11 23:54:29.572 +03:00 [INF] Load finished in 542 ms
+2022-05-11 23:54:29.573 +03:00 [INF] Load finished in 937 ms
+2022-05-11 23:54:29.585 +03:00 [INF] Load finished in 555 ms
+2022-05-11 23:54:29.585 +03:00 [INF] Load finished in 641 ms
+2022-05-11 23:54:29.803 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1013
+2022-05-11 23:54:29.844 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1052
+2022-05-11 23:54:30.052 +03:00 [INF] Load finished in 974 ms
+2022-05-11 23:54:30.129 +03:00 [INF] Load finished in 829 ms
+2022-05-11 23:54:30.174 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1195
+2022-05-11 23:54:30.204 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=240
+2022-05-11 23:54:30.219 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1376
+2022-05-11 23:54:30.219 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=758
+2022-05-11 23:54:30.265 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1012
+2022-05-11 23:54:30.264 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=216
+2022-05-11 23:54:30.631 +03:00 [INF] Load finished in 714 ms
+2022-05-11 23:54:30.726 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=650
+2022-05-11 23:54:30.846 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=2185
+2022-05-11 23:54:30.953 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=899
+2022-05-11 23:54:31.217 +03:00 [INF] Load finished in 1348 ms
+2022-05-11 23:54:31.242 +03:00 [INF] Load finished in 487 ms
+2022-05-11 23:54:31.356 +03:00 [INF] Load finished in 1020 ms
+2022-05-11 23:54:31.408 +03:00 [INF] Load finished in 1093 ms
+2022-05-11 23:54:31.408 +03:00 [INF] Load finished in 1067 ms
+2022-05-11 23:54:31.458 +03:00 [INF] Load finished in 1075 ms
+2022-05-11 23:54:31.590 +03:00 [INF] Load finished in 691 ms
+2022-05-11 23:54:31.591 +03:00 [INF] Load finished in 631 ms
+2022-05-11 23:54:31.610 +03:00 [INF] Load finished in 1346 ms
+2022-05-11 23:54:31.611 +03:00 [INF] Load finished in 1247 ms
+2022-05-11 23:54:31.777 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=139
+2022-05-11 23:54:31.820 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1007
+2022-05-11 23:54:31.830 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=2142
+2022-05-11 23:54:31.831 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=548
+2022-05-11 23:54:31.881 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=5
+2022-05-11 23:54:31.881 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=2400
+2022-05-11 23:54:32.169 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=960
+2022-05-11 23:54:32.170 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1807
+2022-05-11 23:54:32.171 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=2507
+2022-05-11 23:54:32.223 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=518
+2022-05-11 23:54:32.314 +03:00 [INF] Load finished in 387 ms
+2022-05-11 23:54:32.336 +03:00 [INF] Load finished in 485 ms
+2022-05-11 23:54:32.359 +03:00 [INF] Load finished in 406 ms
+2022-05-11 23:54:32.379 +03:00 [INF] Load finished in 455 ms
+2022-05-11 23:54:32.412 +03:00 [INF] Load finished in 436 ms
+2022-05-11 23:54:32.437 +03:00 [INF] Load finished in 509 ms
+2022-05-11 23:54:32.615 +03:00 [INF] Load finished in 421 ms
+2022-05-11 23:54:32.615 +03:00 [INF] Load finished in 417 ms
+2022-05-11 23:54:32.656 +03:00 [INF] Load finished in 412 ms
+2022-05-11 23:54:32.680 +03:00 [INF] Load finished in 389 ms
+2022-05-11 23:54:32.817 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1853
+2022-05-11 23:54:32.949 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1821
+2022-05-11 23:54:32.949 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=2219
+2022-05-11 23:54:32.989 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=413
+2022-05-11 23:54:32.990 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=2403
+2022-05-11 23:54:33.052 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=860
+2022-05-11 23:54:33.392 +03:00 [INF] Load finished in 493 ms
+2022-05-11 23:54:33.370 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1785
+2022-05-11 23:54:33.476 +03:00 [INF] Load finished in 375 ms
+2022-05-11 23:54:33.519 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1811
+2022-05-11 23:54:33.559 +03:00 [INF] Load finished in 456 ms
+2022-05-11 23:54:33.639 +03:00 [INF] Load finished in 468 ms
+2022-05-11 23:54:33.667 +03:00 [INF] Load finished in 519 ms
+2022-05-11 23:54:33.715 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1239
+2022-05-11 23:54:33.715 +03:00 [INF] No pages with pagination found with selector .pg on https://rutracker.org/forum/index.php?c=33viewforum.php?f=1299
+2022-05-11 23:54:33.995 +03:00 [INF] Load finished in 959 ms
+2022-05-11 23:54:34.032 +03:00 [INF] Load finished in 592 ms
+2022-05-11 23:54:34.340 +03:00 [INF] Load finished in 601 ms
+2022-05-11 23:58:25.808 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-11 23:58:37.567 +03:00 [INF] Hosting environment: Development
+2022-05-11 23:58:37.570 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/ScraperWorkerService
+2022-05-11 23:58:40.909 +03:00 [INF] Load finished in 4658 ms

@@ -9,7 +9,7 @@ namespace WebReaper.Abastracts.Spider;
 
 public interface ISpider
 {
-    Task CrawlAsync(Job job);
+    Task<IEnumerable<Job>> CrawlAsync(Job job);
 
     IPageLoader StaticPageLoader { get; init; }
     
@@ -20,10 +20,6 @@ public interface ISpider
     IContentParser ContentParser { get; init; }
 
     ICrawledLinkTracker LinkTracker { get; init; }
-
-    IJobQueueReader JobQueueReader { get; init; }
-
-    IJobQueueWriter JobQueueWriter { get; init; }
 
     List<IScraperSink> Sinks { get; init; }
 

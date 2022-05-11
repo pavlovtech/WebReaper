@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebReaper.Domain", "WebReap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DistributedScraperWorkerService", "DistributedScraperWorkerService\DistributedScraperWorkerService.csproj", "{99FFE504-8FF2-4102-90FC-BA8EBD5F8AAD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebReaper.AzureFunctionSpider", "WebReaper.AzureFunctionSpider\WebReaper.AzureFunctionSpider.csproj", "{ACC07D57-BEDB-40CD-96AA-D8688D7BC390}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

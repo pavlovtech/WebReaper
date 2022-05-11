@@ -1,14 +1,28 @@
 using System.Collections.Immutable;
 using Microsoft.Extensions.Logging;
 using WebReaper.Abastracts.Spider;
+using WebReaper.Abstractions.JobQueue;
 using WebReaper.Domain;
 
 namespace WebReaper.Scraper;
 
 public class ScraperRunner
 {
-    public ScraperRunner(ScraperConfig config, ISpider spider, ILogger logger)
+    public ScraperConfig Config { get; init; }
+    public IJobQueueReader JobQueueReader { get; init; }
+    public IJobQueueWriter JobQueueWriter { get; init; }
+    public ISpider Spider { get; init; }
+    public ILogger Logger { get; init; }
+
+    public ScraperRunner(
+        ScraperConfig config,
+        IJobQueueReader jobQueueReader,
+        IJobQueueWriter jobQueueWriter,
+        ISpider spider,
+        ILogger logger)
     {
+        JobQueueReader = jobQueueReader;
+        JobQueueWriter = jobQueueWriter;
         Config = config;
         Spider = spider;
         Logger = logger;
@@ -16,31 +30,28 @@ public class ScraperRunner
 
     public async Task Run(int parallelismDegree)
     {
-        await Spider.JobQueueWriter.WriteAsync(new Job(
+        await JobQueueWriter.WriteAsync(new Job(
             Config.ParsingScheme!,
-            Config.StartUrl!,
             Config.BaseUrl,
+            Config.StartUrl!,
             ImmutableQueue.Create(Config.LinkPathSelectors.ToArray()),
             DepthLevel: 0));
 
         var options = new ParallelOptions { MaxDegreeOfParallelism = parallelismDegree };
-        await Parallel.ForEachAsync(Spider.JobQueueReader.ReadAsync(), options, async (job, token) =>
+        await Parallel.ForEachAsync(JobQueueReader.ReadAsync(), options, async (job, token) =>
         {
             try
             {
-                await Spider.CrawlAsync(job);
+                var newJobs = await Spider.CrawlAsync(job);
+                await JobQueueWriter.WriteAsync(newJobs.ToArray());
             }
             catch (Exception ex)
             {
                 Logger.LogError(ex, "Error occurred when scraping {url}", job.Url);
 
                 // return job back to the queue
-                await Spider.JobQueueWriter.WriteAsync(job);
+                await JobQueueWriter.WriteAsync(job);
             }
         });
     }
-
-    protected ScraperConfig Config { get; init; }
-    protected ISpider Spider { get; init; }
-    public ILogger Logger { get; }
 }
