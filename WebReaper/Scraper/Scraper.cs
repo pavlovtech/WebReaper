@@ -199,7 +199,8 @@ public class Scraper
         {
             try
             {
-                await spider.CrawlAsync(job);
+                var newJobs = await spider.CrawlAsync(job);
+                await JobQueueWriter.WriteAsync(newJobs.ToArray());
             }
             catch (Exception ex)
             {
@@ -229,8 +230,6 @@ public class Scraper
             SiteLinkTracker,
             new HttpPageLoader(httpClient.Value, Logger),
             new PuppeteerPageLoader(Logger),
-            JobQueueReader,
-            JobQueueWriter,
             Logger)
         {
             UrlBlackList = urlBlackList.ToList(),

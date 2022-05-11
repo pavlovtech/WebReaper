@@ -7,8 +7,6 @@ using WebReaper.Abastracts.Spider;
 using WebReaper.Abstractions.Parsers;
 using WebReaper.Absctracts.Sinks;
 using WebReaper.Domain.Selectors;
-using WebReaper.Abstractions.JobQueue;
-using WebReaper.Domain.Parsing;
 using WebReaper.Abstractions.Loaders.PageLoader;
 
 namespace WebReaper.Spiders;
@@ -20,8 +18,6 @@ public class WebReaperSpider : ISpider
     public ILinkParser LinkParser { get; init; }
     public IContentParser ContentParser { get; init; }
     public ICrawledLinkTracker LinkTracker { get; init; }
-    public IJobQueueReader JobQueueReader { get; init; }
-    public IJobQueueWriter JobQueueWriter { get; init; }
 
     public List<string> UrlBlackList { get; set; } = new();
 
@@ -38,8 +34,6 @@ public class WebReaperSpider : ISpider
         ICrawledLinkTracker linkTracker,
         IPageLoader staticPageLoader,
         IPageLoader spaPageLoader,
-        IJobQueueReader jobQueueReader,
-        IJobQueueWriter jobQueueWriter,
         ILogger logger)
     {
         Sinks = sinks;
@@ -48,27 +42,25 @@ public class WebReaperSpider : ISpider
         LinkTracker = linkTracker;
         StaticPageLoader = staticPageLoader;
         SpaPageLoader = spaPageLoader;
-        JobQueueReader = jobQueueReader;
-        JobQueueWriter = jobQueueWriter;
 
         Logger = logger;
     }
 
-    public async Task CrawlAsync(Job job)
+    public async Task<IEnumerable<Job>> CrawlAsync(Job job)
     {
-        if (UrlBlackList.Contains(job.Url)) return;
+        if (UrlBlackList.Contains(job.Url)) return Enumerable.Empty<Job>();
 
         if ((await LinkTracker.GetVisitedLinksAsync(job.BaseUrl)).Count() >= PageCrawlLimit)
         {
-            await JobQueueWriter.CompleteAddingAsync();
-            return;
+            return Enumerable.Empty<Job>();
         }
 
         await LinkTracker.AddVisitedLinkAsync(job.BaseUrl, job.Url);
 
         string doc;
 
-        if (job.pageType == PageType.Static) {
+        if (job.pageType == PageType.Static) 
+        {
             doc = await StaticPageLoader.Load(job.Url);
         } else {
             doc = await SpaPageLoader.Load(job.Url);
@@ -82,45 +74,51 @@ public class WebReaperSpider : ISpider
             var sinkTasks = Sinks.Select(sink => sink.EmitAsync(result));
 
             await Task.WhenAll(sinkTasks);
-            return;
+            return Enumerable.Empty<Job>();
         }
 
         var newLinkPathSelectors = job.LinkPathSelectors.Dequeue(out var currentSelector);
 
-        var links = LinkParser.GetLinks(doc, currentSelector.Selector)
+        var rawLinks = LinkParser.GetLinks(doc, currentSelector.Selector).ToList();
+
+        var links = rawLinks
             .Select(link => job.BaseUrl + link)
             .Except(await LinkTracker.GetVisitedLinksAsync(job.BaseUrl));
 
-        await AddToQueueAsync(job.schema, job.BaseUrl, newLinkPathSelectors, links, job.DepthLevel + 1);
+        var newJobs = new List<Job>();
+
+        newJobs.AddRange(CreateNextJobs(job, newLinkPathSelectors, links));
 
         if (job.PageCategory == PageCategory.PageWithPagination)
         {
             ArgumentNullException.ThrowIfNull(currentSelector.PaginationSelector);
 
-            var linksToPaginatedPages = LinkParser.GetLinks(doc, currentSelector.PaginationSelector)
-                .Select(link => job.BaseUrl + link)
-                .Except(await LinkTracker.GetVisitedLinksAsync(job.BaseUrl));
+            var rawPaginatedLinks = LinkParser.GetLinks(doc, currentSelector.PaginationSelector);
 
-            if (!linksToPaginatedPages.Any())
+            if (!rawPaginatedLinks.Any())
             {
                 Logger.LogInformation("No pages with pagination found with selector {selector} on {url}", currentSelector.PaginationSelector, job.Url);
             }
 
-            await AddToQueueAsync(job.schema, job.BaseUrl, job.LinkPathSelectors, linksToPaginatedPages, job.DepthLevel + 1);
+            var linksToPaginatedPages = rawPaginatedLinks
+                .Select(link => job.BaseUrl + link)
+                .Except(await LinkTracker.GetVisitedLinksAsync(job.BaseUrl));
+
+            newJobs.AddRange(CreateNextJobs(job, job.LinkPathSelectors, linksToPaginatedPages));
         }
+
+        return newJobs;
     }
 
-    private async Task AddToQueueAsync(
-        Schema schema,
-        string baseUrl,
+    private IEnumerable<Job> CreateNextJobs(
+        Job job,
         ImmutableQueue<LinkPathSelector> selectors,
-        IEnumerable<string> links,
-        int depthLevel)
+        IEnumerable<string> links)
     {
         foreach (var link in links)
         {
-            var newJob = new Job(schema, baseUrl, link, selectors, depthLevel);
-            await JobQueueWriter.WriteAsync(newJob);
+            var newJob = new Job(job.schema, job.BaseUrl, link, selectors, job.DepthLevel + 1);
+            yield return newJob;
         }
     }
 }

@@ -13,7 +13,7 @@ public class ScraperConfigBuilder
 
     protected string baseUrl = "";
 
-    private Schema? schema;
+    protected Schema? schema;
 
     protected ILogger Logger = NullLogger.Instance;
 

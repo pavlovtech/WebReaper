@@ -3,6 +3,6 @@ namespace WebReaper.Abstractions.JobQueue;
 
 public interface IJobQueueWriter
 {
-    Task WriteAsync(Job job);
+    Task WriteAsync(params Job[] jobs);
     Task CompleteAddingAsync();
 }

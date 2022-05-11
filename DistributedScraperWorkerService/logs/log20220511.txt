@@ -1,0 +1,14 @@
+2022-05-11 21:59:39.882 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-11 21:59:39.924 +03:00 [INF] Hosting environment: Development
+2022-05-11 21:59:39.925 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/DistributedScraperWorkerService
+2022-05-11 22:00:53.008 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-11 22:00:53.045 +03:00 [INF] Hosting environment: Development
+2022-05-11 22:00:53.047 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/DistributedScraperWorkerService
+2022-05-11 22:02:41.894 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-11 22:02:41.930 +03:00 [INF] Hosting environment: Development
+2022-05-11 22:02:41.931 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/DistributedScraperWorkerService
+2022-05-11 22:05:36.748 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33viewforum.php?f=139
+StackExchange.Redis.RedisTimeoutException: Timeout awaiting response (outbound=0KiB, inbound=0KiB, 13965ms elapsed, timeout is 5000ms), command=SMEMBERS, next: SMEMBERS https://rutracker.org/forum/index.php?c=33, inst: 0, qu: 2, qs: 0, aw: True, bw: WritingMessage, rs: DequeueResult, ws: Writing, in: 0, serverEndpoint: webreaper.redis.cache.windows.net:6380, mc: 1/1/0, mgr: 9 of 10 available, clientName: Alexanders-MBP(SE.Redis-v2.5.61.22961), IOCP: (Busy=0,Free=1000,Min=8,Max=1000), WORKER: (Busy=7,Free=32760,Min=8,Max=32767), POOL: (Threads=10,QueuedItems=0,CompletedItems=6842), v: 2.5.61.22961 (Please take a look at this article for some common client-side issues that can cause timeouts: https://stackexchange.github.io/StackExchange.Redis/Timeouts)
+   at WebReaper.LinkTracker.RedisCrawledLinkTracker.GetVisitedLinksAsync(String siteUrl) in /Users/alex/Development/WebReaper/WebReaper/LinkTracker/RedisLinkTracker.cs:line 35
+   at WebReaper.Spiders.WebReaperSpider.CrawlAsync(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spiders/WebReaperSpider.cs:line 82
+   at WebReaper.Scraper.ScraperRunner.<Run>b__21_0(Job job, CancellationToken token) in /Users/alex/Development/WebReaper/WebReaper/Scraper/ScraperRunner.cs:line 45

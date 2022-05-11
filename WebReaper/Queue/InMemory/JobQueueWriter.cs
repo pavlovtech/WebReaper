@@ -10,11 +10,12 @@ public class JobQueueWriter : IJobQueueWriter
 
     public JobQueueWriter(BlockingCollection<Job> jobs) => this.jobs = jobs;
 
-    public Task WriteAsync(Job job)
+    public Task WriteAsync(params Job[] jobs)
     {
-        if (jobs.Any(existingJob => existingJob.Url == job.Url)) return Task.CompletedTask;
-
-        jobs.Add(job);
+        foreach (Job job in jobs)
+        {
+            this.jobs.Add(job);
+        }
 
         return Task.CompletedTask;
     }

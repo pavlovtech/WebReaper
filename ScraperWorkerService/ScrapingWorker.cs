@@ -1,18 +1,19 @@
-﻿using WebReaper.Domain.Parsing;
+﻿using System.Collections.Concurrent;
+using WebReaper.Domain;
+using WebReaper.Domain.Parsing;
 using WebReaper.Parsing;
+using WebReaper.Queue;
+using WebReaper.Queue.InMemory;
 using WebReaper.Scraper;
 
 namespace ScraperWorkerService;
 
 public class ScrapingWorker : BackgroundService
 {
-    private readonly ILogger<ScrapingWorker> _logger;
+    private ScraperRunner runner;
 
-    private Scraper scraper;
     public ScrapingWorker(ILogger<ScrapingWorker> logger)
     {
-        _logger = logger;
-
         var blackList = new string[] {
             "https://rutracker.org/forum/viewforum.php?f=396",
             "https://rutracker.org/forum/viewforum.php?f=2322",
@@ -21,9 +22,8 @@ public class ScrapingWorker : BackgroundService
             "https://rutracker.org/forum/viewforum.php?f=2321"
         };
 
-        scraper = new Scraper()
+        var config = new ScraperConfigBuilder()
             .WithLogger(logger)
-            .IgnoreUrls(blackList)
             .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
             .FollowLinks("#cf-33 .forumlink>a")
             .FollowLinks(".forumlink>a")
@@ -36,15 +36,25 @@ public class ScrapingWorker : BackgroundService
                 new Url("torrentLink", ".magnet-link"),
                 new Image("coverImageUrl", ".postImg")
             })
-            .WithParallelismDegree(4)
+            .Build();
+
+        var spider = new SpiderBuilder()
             .WriteToJsonFile("result.json")
             .WriteToCsvFile("result.csv")
+            .IgnoreUrls(blackList)
+            .WithLogger(logger)
             .Build();
+
+        BlockingCollection<Job> jobs = new(new ProducerConsumerPriorityQueue());
+        var jobQueueReader = new JobQueueReader(jobs);
+        var jobQueueWriter = new JobQueueWriter(jobs);
+
+        runner = new ScraperRunner(config, jobQueueReader, jobQueueWriter,  spider, logger);
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        await scraper.Run();
+        await runner.Run(10);
     }
 }
 

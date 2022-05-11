@@ -18,14 +18,10 @@ public class AzureJobQueueWriter : IJobQueueWriter, IAsyncDisposable
         sender = client.CreateSender(queueName);
     }
 
-    public async Task WriteAsync(Job job)
+    public async Task WriteAsync(params Job[] jobs)
     {
-        var json = JsonConvert.SerializeObject(job, Formatting.Indented, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Auto
-        });
-
-        await sender.SendMessageAsync(new ServiceBusMessage(json));
+        var messages = jobs.Select(job => new ServiceBusMessage(SerializeToJson(job)));
+        await sender.SendMessagesAsync(messages);
     }
 
     public async Task CompleteAddingAsync()
@@ -36,5 +32,15 @@ public class AzureJobQueueWriter : IJobQueueWriter, IAsyncDisposable
     public async ValueTask DisposeAsync()
     {
         await client.DisposeAsync();
+    }
+
+    private string SerializeToJson(Job job)
+    {
+        var json = JsonConvert.SerializeObject(job, Formatting.Indented, new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Auto
+        });
+
+        return json;
     }
 }
