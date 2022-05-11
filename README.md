@@ -29,8 +29,8 @@ await new Scraper()
 
 * :zap: It's extremly fast due to parallelism and asynchrony
 * 🗒 Declarative parsing with a structured scheme
-* 💾 Saving data to any sinks such as file, database or API
-* :earth_americas: Distributed crawling support: run your crawler on ony cloud VM, serverless function, on-prem servers, etc
+* 💾 Saving data to any sinks such as JSON or CSV file, MongoDB, CosmosDB, Redis, etc.
+* :earth_americas: Distributed crawling support: run your web scraper on ony cloud VMs, serverless functions, on-prem servers, etc.
 * :octopus: Crowling and parsing Single Page Applications
 * 🌀 Automatic reties
 
