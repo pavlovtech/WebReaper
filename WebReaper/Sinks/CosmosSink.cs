@@ -1,4 +1,4 @@
-using Azure.Cosmos;
+using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -16,7 +16,7 @@ public class CosmosSink : IScraperSink
     protected string ContainerId { get; init; }
     protected ILogger Logger { get; }
     protected CosmosClient CosmosClient { get; set; }
-    protected CosmosContainer Container { get; set; }
+    protected Container Container { get; set; }
 
     public bool IsInitialized { get; set; }
 
@@ -67,11 +67,4 @@ public class CosmosSink : IScraperSink
             throw;
         }
     }
-}
-
-public class Family
-{
-    [JsonProperty(PropertyName = "id")]
-    public string id { get; set; }
-    public string Text { get; set; }
 }

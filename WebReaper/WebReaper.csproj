@@ -14,16 +14,16 @@
     <None Remove="Azure.Messaging.ServiceBus" />
     <None Remove="Queue\AzureServiceBus\" />
   </ItemGroup>
-  <ItemGroup>    
-    <PackageReference Include="Azure.Cosmos" Version="4.0.0-preview3" />       
+  <ItemGroup>       
+    <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.27.0" />       
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Polly" Version="7.2.3" />
     <PackageReference Include="PuppeteerSharp" Version="7.0.0" />
     <PackageReference Include="StackExchange.Redis" Version="2.5.61" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="6.0.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="7.0.0-preview.4.22229.4" />
      <PackageReference Include="Fizzler.Systems.HtmlAgilityPack" Version="1.2.1" />
-     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
-     <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.7.0" />
+     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0-preview.4.22229.4" />
+     <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.8.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WebReaper.Abstractions\WebReaper.Abstractions.csproj" />
