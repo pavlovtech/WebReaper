@@ -288,3 +288,174 @@ CosmosException;StatusCode=BadRequest;SubStatusCode=0;ActivityId=769e6826-1366-4
 CosmosException;StatusCode=BadRequest;SubStatusCode=0;ActivityId=638621df-f4b2-4cd1-b17d-2f0925789b6c;RequestCharge=1.24;Message=Response status code does not indicate success: 400 Substatus: 0 Reason: (Message: {"Errors":["The input name '[' is invalid. Ensure to provide a unique non-empty string less than '1024' characters."]}ActivityId: 638621df-f4b2-4cd1-b17d-2f0925789b6c, Request URI: /apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, RequestStats: RequestStartTime: 2022-05-12T21:39:46.6071760Z, RequestEndTime: 2022-05-12T21:39:53.5273450Z,  Number of regions attempted:1ResponseTime: 2022-05-12T21:39:53.5273450Z, StoreResult: StorePhysicalAddress: rntbd://cdb-ms-prod-westus1-fd81.documents.azure.com:14091/apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, LSN: 66, GlobalCommittedLsn: 66, PartitionKeyRangeId: 0, IsValid: True, StatusCode: 400, SubStatusCode: 0, RequestCharge: 1.24, ItemLSN: -1, SessionToken: -1#66, UsingLocalLSN: False, TransportException: null, ResourceType: Document, OperationType: Create, SDK: Darwin/10.17 cosmos-netstandard-sdk/3.4.1).;Diagnostics
 2022-05-13 00:39:54.251 +03:00 [ERR] Error writing to CosmosDB
 CosmosException;StatusCode=BadRequest;SubStatusCode=0;ActivityId=1b12b1a8-e537-4939-bb7c-aab38f60167a;RequestCharge=1.24;Message=Response status code does not indicate success: 400 Substatus: 0 Reason: (Message: {"Errors":["The input name '[' is invalid. Ensure to provide a unique non-empty string less than '1024' characters."]}ActivityId: 1b12b1a8-e537-4939-bb7c-aab38f60167a, Request URI: /apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, RequestStats: RequestStartTime: 2022-05-12T21:39:46.6940700Z, RequestEndTime: 2022-05-12T21:39:53.5273550Z,  Number of regions attempted:1ResponseTime: 2022-05-12T21:39:53.5273550Z, StoreResult: StorePhysicalAddress: rntbd://cdb-ms-prod-westus1-fd81.documents.azure.com:14091/apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, LSN: 66, GlobalCommittedLsn: 66, PartitionKeyRangeId: 0, IsValid: True, StatusCode: 400, SubStatusCode: 0, RequestCharge: 1.24, ItemLSN: -1, SessionToken: -1#66, UsingLocalLSN: False, TransportException: null, ResourceType: Document, OperationType: Create, SDK: Darwin/10.17 cosmos-netstandard-sdk/3.4.1).;Diagnostics
+2022-05-13 00:48:46.872 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-13 00:48:46.919 +03:00 [INF] Hosting environment: Development
+2022-05-13 00:48:46.923 +03:00 [INF] Content root path: C:\Projects\WebReaper\DistributedScraperWorkerService
+2022-05-13 00:48:48.877 +03:00 [INF] Load finished in 152 ms
+2022-05-13 00:48:48.877 +03:00 [INF] Load finished in 229 ms
+2022-05-13 00:48:48.892 +03:00 [INF] Handle on target page was called 1 times
+2022-05-13 00:48:48.892 +03:00 [INF] Load finished in 105 ms
+2022-05-13 00:48:48.893 +03:00 [INF] Handle on target page was called 2 times
+2022-05-13 00:48:48.898 +03:00 [INF] Handle on target page was called 3 times
+2022-05-13 00:48:48.905 +03:00 [INF] Load finished in 284 ms
+2022-05-13 00:48:48.909 +03:00 [INF] Handle on target page was called 4 times
+2022-05-13 00:48:48.953 +03:00 [INF] Load finished in 103 ms
+2022-05-13 00:48:48.956 +03:00 [INF] Handle on target page was called 5 times
+2022-05-13 00:48:49.005 +03:00 [INF] Load finished in 92 ms
+2022-05-13 00:48:49.009 +03:00 [INF] Handle on target page was called 6 times
+2022-05-13 00:48:49.176 +03:00 [INF] Load finished in 90 ms
+2022-05-13 00:48:49.179 +03:00 [INF] Handle on target page was called 7 times
+2022-05-13 00:48:49.218 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:48:49.218 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:48:49.218 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:48:49.218 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:48:49.218 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:48:49.218 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:48:49.218 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:48:49.347 +03:00 [INF] Load finished in 93 ms
+2022-05-13 00:48:49.351 +03:00 [INF] Handle on target page was called 8 times
+2022-05-13 00:48:49.360 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:48:49.716 +03:00 [INF] Load finished in 432 ms
+2022-05-13 00:48:49.718 +03:00 [INF] Handle on target page was called 9 times
+2022-05-13 00:48:49.737 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:48:50.223 +03:00 [INF] Load finished in 877 ms
+2022-05-13 00:48:50.225 +03:00 [INF] Handle on target page was called 10 times
+2022-05-13 00:48:50.231 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:48:56.337 +03:00 [INF] Load finished in 88 ms
+2022-05-13 00:48:56.340 +03:00 [INF] Handle on target page was called 11 times
+2022-05-13 00:48:56.518 +03:00 [INF] Load finished in 156 ms
+2022-05-13 00:48:56.520 +03:00 [INF] Handle on target page was called 12 times
+2022-05-13 00:48:56.543 +03:00 [INF] Load finished in 84 ms
+2022-05-13 00:48:56.547 +03:00 [INF] Handle on target page was called 13 times
+2022-05-13 00:48:56.743 +03:00 [INF] Load finished in 160 ms
+2022-05-13 00:48:56.746 +03:00 [INF] Handle on target page was called 14 times
+2022-05-13 00:48:56.782 +03:00 [INF] Load finished in 89 ms
+2022-05-13 00:48:56.784 +03:00 [INF] Handle on target page was called 15 times
+2022-05-13 00:48:56.937 +03:00 [INF] Load finished in 94 ms
+2022-05-13 00:48:56.941 +03:00 [INF] Handle on target page was called 16 times
+2022-05-13 00:48:57.045 +03:00 [INF] Load finished in 90 ms
+2022-05-13 00:48:57.048 +03:00 [INF] Handle on target page was called 17 times
+2022-05-13 00:48:57.090 +03:00 [INF] Load finished in 87 ms
+2022-05-13 00:48:57.094 +03:00 [INF] Handle on target page was called 18 times
+2022-05-13 00:48:57.199 +03:00 [INF] Load finished in 84 ms
+2022-05-13 00:48:57.204 +03:00 [INF] Handle on target page was called 19 times
+2022-05-13 00:48:57.325 +03:00 [INF] Load finished in 81 ms
+2022-05-13 00:48:57.329 +03:00 [INF] Handle on target page was called 20 times
+2022-05-13 00:48:57.434 +03:00 [INF] Load finished in 87 ms
+2022-05-13 00:48:57.437 +03:00 [INF] Handle on target page was called 21 times
+2022-05-13 00:48:57.556 +03:00 [INF] Load finished in 81 ms
+2022-05-13 00:48:57.559 +03:00 [INF] Handle on target page was called 22 times
+2022-05-13 00:48:57.688 +03:00 [INF] Load finished in 85 ms
+2022-05-13 00:48:57.692 +03:00 [INF] Handle on target page was called 23 times
+2022-05-13 00:48:57.954 +03:00 [INF] Load finished in 85 ms
+2022-05-13 00:48:57.959 +03:00 [INF] Handle on target page was called 24 times
+2022-05-13 00:48:58.024 +03:00 [INF] Load finished in 154 ms
+2022-05-13 00:48:58.027 +03:00 [INF] Handle on target page was called 25 times
+2022-05-13 00:48:58.053 +03:00 [INF] Load finished in 96 ms
+2022-05-13 00:48:58.055 +03:00 [INF] Handle on target page was called 26 times
+2022-05-13 00:48:58.223 +03:00 [INF] Load finished in 150 ms
+2022-05-13 00:48:58.226 +03:00 [INF] Handle on target page was called 27 times
+2022-05-13 00:48:58.290 +03:00 [INF] Load finished in 84 ms
+2022-05-13 00:48:58.294 +03:00 [INF] Handle on target page was called 28 times
+2022-05-13 00:48:58.440 +03:00 [INF] Load finished in 86 ms
+2022-05-13 00:48:58.441 +03:00 [INF] Handle on target page was called 29 times
+2022-05-13 00:48:58.559 +03:00 [INF] Load finished in 86 ms
+2022-05-13 00:48:58.563 +03:00 [INF] Handle on target page was called 30 times
+2022-05-13 00:48:58.672 +03:00 [INF] Load finished in 88 ms
+2022-05-13 00:48:58.675 +03:00 [INF] Handle on target page was called 31 times
+2022-05-13 00:48:58.896 +03:00 [INF] Load finished in 157 ms
+2022-05-13 00:48:58.899 +03:00 [INF] Handle on target page was called 32 times
+2022-05-13 00:48:58.955 +03:00 [INF] Load finished in 89 ms
+2022-05-13 00:48:58.959 +03:00 [INF] Handle on target page was called 33 times
+2022-05-13 00:48:59.015 +03:00 [INF] Load finished in 83 ms
+2022-05-13 00:48:59.019 +03:00 [INF] Handle on target page was called 34 times
+2022-05-13 00:48:59.156 +03:00 [INF] Load finished in 84 ms
+2022-05-13 00:48:59.160 +03:00 [INF] Handle on target page was called 35 times
+2022-05-13 00:48:59.342 +03:00 [INF] Load finished in 151 ms
+2022-05-13 00:48:59.346 +03:00 [INF] Handle on target page was called 36 times
+2022-05-13 00:48:59.406 +03:00 [INF] Load finished in 91 ms
+2022-05-13 00:48:59.409 +03:00 [INF] Handle on target page was called 37 times
+2022-05-13 00:48:59.538 +03:00 [INF] Load finished in 95 ms
+2022-05-13 00:48:59.543 +03:00 [INF] Handle on target page was called 38 times
+2022-05-13 00:48:59.667 +03:00 [INF] Load finished in 86 ms
+2022-05-13 00:48:59.671 +03:00 [INF] Handle on target page was called 39 times
+2022-05-13 00:48:59.792 +03:00 [INF] Load finished in 97 ms
+2022-05-13 00:48:59.797 +03:00 [INF] Handle on target page was called 40 times
+2022-05-13 00:48:59.973 +03:00 [INF] Load finished in 155 ms
+2022-05-13 00:48:59.976 +03:00 [INF] Handle on target page was called 41 times
+2022-05-13 00:49:00.046 +03:00 [INF] Load finished in 83 ms
+2022-05-13 00:49:00.051 +03:00 [INF] Handle on target page was called 42 times
+2022-05-13 00:49:00.184 +03:00 [INF] Load finished in 81 ms
+2022-05-13 00:49:00.187 +03:00 [INF] Handle on target page was called 43 times
+2022-05-13 00:49:00.360 +03:00 [INF] Load finished in 155 ms
+2022-05-13 00:49:00.364 +03:00 [INF] Handle on target page was called 44 times
+2022-05-13 00:49:00.412 +03:00 [INF] Load finished in 90 ms
+2022-05-13 00:49:00.416 +03:00 [INF] Handle on target page was called 45 times
+2022-05-13 00:49:00.546 +03:00 [INF] Load finished in 84 ms
+2022-05-13 00:49:00.550 +03:00 [INF] Handle on target page was called 46 times
+2022-05-13 00:49:00.550 +03:00 [INF] Load finished in 157 ms
+2022-05-13 00:49:00.556 +03:00 [INF] Handle on target page was called 47 times
+2022-05-13 00:49:00.668 +03:00 [INF] Load finished in 100 ms
+2022-05-13 00:49:00.672 +03:00 [INF] Handle on target page was called 48 times
+2022-05-13 00:49:00.789 +03:00 [INF] Load finished in 92 ms
+2022-05-13 00:49:00.792 +03:00 [INF] Handle on target page was called 49 times
+2022-05-13 00:49:00.948 +03:00 [INF] Load finished in 92 ms
+2022-05-13 00:49:00.952 +03:00 [INF] Handle on target page was called 50 times
+2022-05-13 00:49:01.057 +03:00 [INF] Load finished in 85 ms
+2022-05-13 00:49:01.061 +03:00 [INF] Handle on target page was called 51 times
+2022-05-13 00:49:01.068 +03:00 [INF] Load finished in 158 ms
+2022-05-13 00:49:01.071 +03:00 [INF] Handle on target page was called 52 times
+2022-05-13 00:49:01.195 +03:00 [INF] Load finished in 96 ms
+2022-05-13 00:49:01.199 +03:00 [INF] Handle on target page was called 53 times
+2022-05-13 00:49:01.307 +03:00 [INF] Load finished in 87 ms
+2022-05-13 00:49:01.311 +03:00 [INF] Handle on target page was called 54 times
+2022-05-13 00:49:01.418 +03:00 [INF] Load finished in 86 ms
+2022-05-13 00:49:01.422 +03:00 [INF] Handle on target page was called 55 times
+2022-05-13 00:49:01.622 +03:00 [INF] Load finished in 150 ms
+2022-05-13 00:49:01.626 +03:00 [INF] Handle on target page was called 56 times
+2022-05-13 00:49:01.672 +03:00 [INF] Load finished in 93 ms
+2022-05-13 00:49:01.675 +03:00 [INF] Handle on target page was called 57 times
+2022-05-13 00:49:01.900 +03:00 [INF] Load finished in 93 ms
+2022-05-13 00:49:01.904 +03:00 [INF] Handle on target page was called 58 times
+2022-05-13 00:49:02.064 +03:00 [INF] Load finished in 94 ms
+2022-05-13 00:49:02.068 +03:00 [INF] Handle on target page was called 59 times
+2022-05-13 00:49:02.344 +03:00 [INF] Load finished in 84 ms
+2022-05-13 00:49:02.347 +03:00 [INF] Handle on target page was called 60 times
+2022-05-13 00:49:02.401 +03:00 [INF] Load finished in 82 ms
+2022-05-13 00:49:02.403 +03:00 [INF] Handle on target page was called 61 times
+2022-05-13 00:49:02.476 +03:00 [INF] Load finished in 318 ms
+2022-05-13 00:49:02.480 +03:00 [INF] Handle on target page was called 62 times
+2022-05-13 00:49:02.548 +03:00 [INF] Load finished in 86 ms
+2022-05-13 00:49:02.552 +03:00 [INF] Handle on target page was called 63 times
+2022-05-13 00:49:02.655 +03:00 [INF] Load finished in 86 ms
+2022-05-13 00:49:02.659 +03:00 [INF] Handle on target page was called 64 times
+2022-05-13 00:49:02.750 +03:00 [INF] Load finished in 82 ms
+2022-05-13 00:49:02.754 +03:00 [INF] Handle on target page was called 65 times
+2022-05-13 00:49:02.895 +03:00 [INF] Load finished in 85 ms
+2022-05-13 00:49:02.899 +03:00 [INF] Handle on target page was called 66 times
+2022-05-13 00:49:02.938 +03:00 [INF] Load finished in 86 ms
+2022-05-13 00:49:02.942 +03:00 [INF] Handle on target page was called 67 times
+2022-05-13 00:49:03.052 +03:00 [INF] Load finished in 91 ms
+2022-05-13 00:49:03.055 +03:00 [INF] Handle on target page was called 68 times
+2022-05-13 00:49:03.167 +03:00 [INF] Load finished in 85 ms
+2022-05-13 00:49:03.171 +03:00 [INF] Handle on target page was called 69 times
+2022-05-13 00:49:03.278 +03:00 [INF] Load finished in 88 ms
+2022-05-13 00:49:03.283 +03:00 [INF] Handle on target page was called 70 times
+2022-05-13 00:49:03.414 +03:00 [INF] Load finished in 91 ms
+2022-05-13 00:49:03.418 +03:00 [INF] Handle on target page was called 71 times
+2022-05-13 00:49:03.490 +03:00 [INF] Load finished in 92 ms
+2022-05-13 00:49:03.494 +03:00 [INF] Handle on target page was called 72 times
+2022-05-13 00:49:03.580 +03:00 [INF] Load finished in 85 ms
+2022-05-13 00:49:03.585 +03:00 [INF] Handle on target page was called 73 times
+2022-05-13 00:49:03.733 +03:00 [INF] Load finished in 89 ms
+2022-05-13 00:49:03.738 +03:00 [INF] Handle on target page was called 74 times
+2022-05-13 00:49:03.758 +03:00 [INF] Load finished in 174 ms
+2022-05-13 00:49:03.761 +03:00 [INF] Handle on target page was called 75 times
+2022-05-13 00:49:03.847 +03:00 [INF] Load finished in 90 ms
+2022-05-13 00:49:03.851 +03:00 [INF] Handle on target page was called 76 times
+2022-05-13 00:49:03.900 +03:00 [INF] Load finished in 82 ms
+2022-05-13 00:49:03.903 +03:00 [INF] Handle on target page was called 77 times
+2022-05-13 00:49:04.179 +03:00 [INF] Load finished in 164 ms
+2022-05-13 00:49:04.179 +03:00 [INF] Load finished in 81 ms
+2022-05-13 00:49:04.187 +03:00 [INF] Handle on target page was called 78 times
+2022-05-13 00:49:04.189 +03:00 [INF] Handle on target page was called 79 times
