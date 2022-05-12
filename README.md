@@ -9,31 +9,23 @@ Declarative extensible web scraper written in C#. Easly crawl any web site and p
 ## 📋 Example:
 
 ```C#
-var config = new ScraperConfigBuilder()
+
+new Scraper()
+    .WithLogger(logger)
     .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
     .FollowLinks("#cf-33 .forumlink>a") // first level links
     .FollowLinks(".forumlink>a").       // second level links
     .FollowLinks("a.torTopic", ".pg").  // third level links to target pages
-    .WithScheme(new Schema {
+    .Parse(new Schema {
         new("name", "#topic-title"),
         new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
         new Url("torrentLink", ".magnet-link"), // get a link from <a> HTML tag (href attribute)
         new Image("coverImageUrl", ".postImg")  // get a link to the image from HTML <img> tag (src attribute)
+        new Url("torrentLink", ".magnet-link"),
+        new Image("coverImageUrl", ".postImg")
     })
-    .Build();
-
-var spider = new SpiderBuilder()
     .WriteToJsonFile("result.json")
-    .WithLogger(logger)
-    .Build();
-
-BlockingCollection<Job> jobs = new(new ProducerConsumerPriorityQueue());
-var jobQueueReader = new JobQueueReader(jobs);
-var jobQueueWriter = new JobQueueWriter(jobs);
-
-var runner = new ScraperRunner(config, jobQueueReader, jobQueueWriter,  spider, logger);
-
-runner.Run(10); // 10 - degree of parallerism
+    .Run(10); // 10 - degree of parallerism
 ```
 
 ## Features:
