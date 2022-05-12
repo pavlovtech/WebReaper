@@ -1,4 +1,5 @@
 using Azure.Cosmos;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using WebReaper.Absctracts.Sinks;
 
@@ -46,6 +47,6 @@ public class CosmosSink : IScraperSink
             await InitAsync();
         }
 
-       await Container.UpsertItemAsync(scrapedData);
+       await Container.CreateItemAsync(JsonConvert.DeserializeObject(scrapedData.ToString()));
     }
 }
