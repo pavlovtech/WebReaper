@@ -54,7 +54,8 @@ public class CosmosSink : IScraperSink
             await InitAsync();
         }
 
-        scrapedData["id"] = Guid.NewGuid().ToString();
+        var id = Guid.NewGuid().ToString();
+        scrapedData["id"] = id;
         
         try
         {
