@@ -90,5 +90,6 @@ new Scraper()
 - [ ] Flexible SPA manipulation
 - [ ] Ports to NodeJS and Go
 - [ ] Sitemap crawling support
+- [ ] Parsing lists
 
 See the [LICENSE](LICENSE.txt) file for license rights and limitations (GNU GPLv3).
