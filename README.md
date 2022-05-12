@@ -20,8 +20,6 @@ new Scraper()
         new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
         new Url("torrentLink", ".magnet-link"), // get a link from <a> HTML tag (href attribute)
         new Image("coverImageUrl", ".postImg")  // get a link to the image from HTML <img> tag (src attribute)
-        new Url("torrentLink", ".magnet-link"),
-        new Image("coverImageUrl", ".postImg")
     })
     .WriteToJsonFile("result.json")
     .Run(10); // 10 - degree of parallerism
