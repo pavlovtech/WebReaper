@@ -32,7 +32,12 @@ public class ScrapingWorker : BackgroundService
             .FollowLinks("a.torTopic", ".pg")
             .IgnoreUrls(blackList)
             .Parse(new Schema {
-                new("name", "#topic-title")
+                new("name", "#topic-title"),
+                new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
+                new("subcategory", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(5)"),
+                new("torrentSize", "div.attach_link.guest>ul>li:nth-child(2)"),
+                new Url("torrentLink", ".magnet-link"),
+                new Image("coverImageUrl", ".postImg")
             })
             .WithLinkTracker(new RedisCrawledLinkTracker(redisConnectionString))
             .WriteToCosmosDb(
