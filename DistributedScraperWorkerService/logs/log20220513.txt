@@ -459,3 +459,246 @@ CosmosException;StatusCode=BadRequest;SubStatusCode=0;ActivityId=1b12b1a8-e537-4
 2022-05-13 00:49:04.179 +03:00 [INF] Load finished in 81 ms
 2022-05-13 00:49:04.187 +03:00 [INF] Handle on target page was called 78 times
 2022-05-13 00:49:04.189 +03:00 [INF] Handle on target page was called 79 times
+2022-05-13 01:07:23.144 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-13 01:07:23.181 +03:00 [INF] Hosting environment: Development
+2022-05-13 01:07:23.182 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/DistributedScraperWorkerService
+2022-05-13 01:07:27.882 +03:00 [INF] Load finished in 977 ms
+2022-05-13 01:07:27.883 +03:00 [INF] Load finished in 1399 ms
+2022-05-13 01:07:27.882 +03:00 [INF] Load finished in 1779 ms
+2022-05-13 01:07:27.882 +03:00 [INF] Load finished in 1313 ms
+2022-05-13 01:07:27.882 +03:00 [INF] Load finished in 1962 ms
+2022-05-13 01:07:27.887 +03:00 [INF] Handle on target page was called 1 times
+2022-05-13 01:07:27.888 +03:00 [INF] Handle on target page was called 2 times
+2022-05-13 01:07:27.888 +03:00 [INF] Handle on target page was called 3 times
+2022-05-13 01:07:27.888 +03:00 [INF] Handle on target page was called 4 times
+2022-05-13 01:07:27.888 +03:00 [INF] Handle on target page was called 5 times
+2022-05-13 01:07:27.930 +03:00 [INF] Load finished in 1652 ms
+2022-05-13 01:07:27.930 +03:00 [INF] Handle on target page was called 6 times
+2022-05-13 01:07:28.047 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 01:07:28.085 +03:00 [INF] Load finished in 461 ms
+2022-05-13 01:07:28.085 +03:00 [INF] Handle on target page was called 7 times
+2022-05-13 01:07:28.199 +03:00 [INF] Load finished in 804 ms
+2022-05-13 01:07:28.200 +03:00 [INF] Handle on target page was called 8 times
+2022-05-13 01:07:28.250 +03:00 [INF] Load finished in 266 ms
+2022-05-13 01:07:28.277 +03:00 [INF] Handle on target page was called 9 times
+2022-05-13 01:07:28.277 +03:00 [INF] Load finished in 762 ms
+2022-05-13 01:07:28.277 +03:00 [INF] Handle on target page was called 10 times
+2022-05-13 01:07:28.483 +03:00 [ERR] Error writing to CosmosDB
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at WebReaper.Sinks.CosmosSink.EmitAsync(JObject scrapedData) in /Users/alex/Development/WebReaper/WebReaper/Sinks/CosmosSink.cs:line 73
+2022-05-13 01:07:28.483 +03:00 [ERR] Error writing to CosmosDB
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at WebReaper.Sinks.CosmosSink.EmitAsync(JObject scrapedData) in /Users/alex/Development/WebReaper/WebReaper/Sinks/CosmosSink.cs:line 73
+2022-05-13 01:07:28.483 +03:00 [ERR] Error writing to CosmosDB
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at WebReaper.Sinks.CosmosSink.EmitAsync(JObject scrapedData) in /Users/alex/Development/WebReaper/WebReaper/Sinks/CosmosSink.cs:line 73
+2022-05-13 01:07:28.597 +03:00 [ERR] Error writing to CosmosDB
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at WebReaper.Sinks.CosmosSink.EmitAsync(JObject scrapedData) in /Users/alex/Development/WebReaper/WebReaper/Sinks/CosmosSink.cs:line 73
+2022-05-13 01:07:35.353 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewtopic.php?t=5760583
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at WebReaper.Sinks.CosmosSink.EmitAsync(JObject scrapedData) in /Users/alex/Development/WebReaper/WebReaper/Sinks/CosmosSink.cs:line 73
+   at WebReaper.Spiders.WebReaperSpider.CrawlAsync(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spiders/WebReaperSpider.cs:line 76
+   at WebReaper.Scraper.Scraper.<>c__DisplayClass36_0.<<Run>b__0>d.MoveNext() in /Users/alex/Development/WebReaper/WebReaper/Scraper/Scraper.cs:line 163
+2022-05-13 01:07:35.353 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewtopic.php?t=4820546
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at WebReaper.Sinks.CosmosSink.EmitAsync(JObject scrapedData) in /Users/alex/Development/WebReaper/WebReaper/Sinks/CosmosSink.cs:line 73
+   at WebReaper.Spiders.WebReaperSpider.CrawlAsync(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spiders/WebReaperSpider.cs:line 76
+   at WebReaper.Scraper.Scraper.<>c__DisplayClass36_0.<<Run>b__0>d.MoveNext() in /Users/alex/Development/WebReaper/WebReaper/Scraper/Scraper.cs:line 163
+2022-05-13 01:07:35.353 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/viewtopic.php?t=4395497
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at WebReaper.Sinks.CosmosSink.EmitAsync(JObject scrapedData) in /Users/alex/Development/WebReaper/WebReaper/Sinks/CosmosSink.cs:line 73
+   at WebReaper.Spiders.WebReaperSpider.CrawlAsync(Job job) in /Users/alex/Development/WebReaper/WebReaper/Spiders/WebReaperSpider.cs:line 76
+   at WebReaper.Scraper.Scraper.<>c__DisplayClass36_0.<<Run>b__0>d.MoveNext() in /Users/alex/Development/WebReaper/WebReaper/Scraper/Scraper.cs:line 163
+2022-05-13 01:10:30.035 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-13 01:10:30.081 +03:00 [INF] Hosting environment: Development
+2022-05-13 01:10:30.083 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/DistributedScraperWorkerService
+2022-05-13 01:10:32.527 +03:00 [INF] Load finished in 438 ms
+2022-05-13 01:10:32.527 +03:00 [INF] Load finished in 366 ms
+2022-05-13 01:10:32.599 +03:00 [INF] Handle on target page was called 1 times
+2022-05-13 01:10:32.600 +03:00 [INF] Handle on target page was called 2 times
+2022-05-13 01:10:32.770 +03:00 [INF] Load finished in 217 ms
+2022-05-13 01:10:32.825 +03:00 [INF] Handle on target page was called 3 times
+2022-05-13 01:10:32.918 +03:00 [INF] Load finished in 528 ms
+2022-05-13 01:10:32.943 +03:00 [INF] Load finished in 284 ms
+2022-05-13 01:10:33.041 +03:00 [INF] Handle on target page was called 4 times
+2022-05-13 01:10:33.041 +03:00 [INF] Handle on target page was called 5 times
+2022-05-13 01:10:33.747 +03:00 [INF] Load finished in 436 ms
+2022-05-13 01:10:33.823 +03:00 [INF] Handle on target page was called 6 times
+2022-05-13 01:10:34.001 +03:00 [INF] Load finished in 303 ms
+2022-05-13 01:10:34.002 +03:00 [INF] Handle on target page was called 7 times
+2022-05-13 01:10:34.485 +03:00 [INF] Load finished in 197 ms
+2022-05-13 01:10:34.485 +03:00 [INF] Handle on target page was called 8 times
+2022-05-13 01:10:34.709 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 01:10:34.710 +03:00 [INF] Load finished in 160 ms
+2022-05-13 01:10:34.710 +03:00 [INF] Handle on target page was called 9 times
+2022-05-13 01:10:34.880 +03:00 [INF] Load finished in 131 ms
+2022-05-13 01:10:34.881 +03:00 [INF] Handle on target page was called 10 times
+2022-05-13 01:10:34.835 +03:00 [ERR] Error writing to CosmosDB
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at WebReaper.Sinks.CosmosSink.EmitAsync(JObject scrapedData) in /Users/alex/Development/WebReaper/WebReaper/Sinks/CosmosSink.cs:line 77
+2022-05-13 01:10:34.927 +03:00 [ERR] Error writing to CosmosDB
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at WebReaper.Sinks.CosmosSink.EmitAsync(JObject scrapedData) in /Users/alex/Development/WebReaper/WebReaper/Sinks/CosmosSink.cs:line 77
+2022-05-13 01:10:56.565 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-13 01:10:56.603 +03:00 [INF] Hosting environment: Development
+2022-05-13 01:10:56.604 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/DistributedScraperWorkerService
+2022-05-13 01:10:59.622 +03:00 [INF] Load finished in 876 ms
+2022-05-13 01:10:59.622 +03:00 [INF] Load finished in 439 ms
+2022-05-13 01:10:59.622 +03:00 [INF] Load finished in 1041 ms
+2022-05-13 01:10:59.622 +03:00 [INF] Load finished in 651 ms
+2022-05-13 01:10:59.622 +03:00 [INF] Load finished in 243 ms
+2022-05-13 01:10:59.622 +03:00 [INF] Load finished in 937 ms
+2022-05-13 01:10:59.628 +03:00 [INF] Handle on target page was called 1 times
+2022-05-13 01:10:59.629 +03:00 [INF] Handle on target page was called 2 times
+2022-05-13 01:10:59.629 +03:00 [INF] Handle on target page was called 5 times
+2022-05-13 01:10:59.629 +03:00 [INF] Handle on target page was called 3 times
+2022-05-13 01:10:59.629 +03:00 [INF] Handle on target page was called 4 times
+2022-05-13 01:10:59.629 +03:00 [INF] Handle on target page was called 6 times
+2022-05-13 01:10:59.778 +03:00 [INF] Load finished in 136 ms
+2022-05-13 01:10:59.778 +03:00 [INF] Handle on target page was called 7 times
+2022-05-13 01:11:00.014 +03:00 [INF] Load finished in 148 ms
+2022-05-13 01:11:00.014 +03:00 [INF] Handle on target page was called 8 times
+2022-05-13 01:11:25.332 +03:00 [INF] Load finished in 3257 ms
+2022-05-13 01:11:25.333 +03:00 [INF] Handle on target page was called 9 times
+2022-05-13 01:11:25.334 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 01:13:37.371 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-13 01:13:37.409 +03:00 [INF] Hosting environment: Development
+2022-05-13 01:13:37.410 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/DistributedScraperWorkerService
+2022-05-13 01:13:40.602 +03:00 [INF] Load finished in 1063 ms
+2022-05-13 01:13:40.602 +03:00 [INF] Load finished in 703 ms
+2022-05-13 01:13:40.602 +03:00 [INF] Load finished in 1104 ms
+2022-05-13 01:13:40.602 +03:00 [INF] Load finished in 761 ms
+2022-05-13 01:13:40.607 +03:00 [INF] Handle on target page was called 1 times
+2022-05-13 01:13:40.607 +03:00 [INF] Handle on target page was called 2 times
+2022-05-13 01:13:40.607 +03:00 [INF] Handle on target page was called 4 times
+2022-05-13 01:13:40.607 +03:00 [INF] Handle on target page was called 3 times
+2022-05-13 01:13:40.833 +03:00 [INF] Load finished in 323 ms
+2022-05-13 01:13:40.855 +03:00 [INF] Handle on target page was called 5 times
+2022-05-13 01:13:40.908 +03:00 [INF] Load finished in 198 ms
+2022-05-13 01:13:40.978 +03:00 [INF] Handle on target page was called 6 times
+2022-05-13 01:13:41.220 +03:00 [INF] Load finished in 1040 ms
+2022-05-13 01:13:41.221 +03:00 [INF] Handle on target page was called 7 times
+2022-05-13 01:13:41.291 +03:00 [INF] Load finished in 215 ms
+2022-05-13 01:13:41.291 +03:00 [INF] Handle on target page was called 8 times
+2022-05-13 01:13:49.714 +03:00 [INF] Load finished in 8472 ms
+2022-05-13 01:13:49.714 +03:00 [INF] Handle on target page was called 9 times
+2022-05-13 01:13:49.718 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 01:13:50.406 +03:00 [INF] Load finished in 691 ms
+2022-05-13 01:13:50.406 +03:00 [INF] Handle on target page was called 10 times
+2022-05-13 01:13:57.946 +03:00 [INF] Load finished in 130 ms
+2022-05-13 01:13:57.946 +03:00 [INF] Handle on target page was called 11 times
+2022-05-13 01:14:00.899 +03:00 [INF] Load finished in 138 ms
+2022-05-13 01:14:00.899 +03:00 [INF] Load finished in 138 ms
+2022-05-13 01:14:00.899 +03:00 [INF] Handle on target page was called 12 times
+2022-05-13 01:14:00.899 +03:00 [INF] Handle on target page was called 13 times
+2022-05-13 01:14:02.000 +03:00 [INF] Load finished in 1032 ms
+2022-05-13 01:14:02.024 +03:00 [INF] Handle on target page was called 14 times
+2022-05-13 01:14:03.987 +03:00 [INF] Load finished in 1885 ms
+2022-05-13 01:14:04.493 +03:00 [INF] Handle on target page was called 15 times
+2022-05-13 01:14:11.245 +03:00 [INF] Load finished in 6752 ms
+2022-05-13 01:14:11.267 +03:00 [INF] Handle on target page was called 16 times
+2022-05-13 01:14:14.751 +03:00 [INF] Load finished in 339 ms
+2022-05-13 01:14:14.753 +03:00 [INF] Handle on target page was called 17 times
+2022-05-13 01:14:14.797 +03:00 [INF] Load finished in 166 ms
+2022-05-13 01:14:14.818 +03:00 [INF] Handle on target page was called 18 times
+2022-05-13 01:14:14.959 +03:00 [INF] Load finished in 214 ms
+2022-05-13 01:14:14.959 +03:00 [INF] Handle on target page was called 19 times
+2022-05-13 01:14:15.208 +03:00 [INF] Load finished in 224 ms
+2022-05-13 01:14:15.208 +03:00 [INF] Handle on target page was called 20 times
+2022-05-13 01:14:15.781 +03:00 [INF] Load finished in 161 ms
+2022-05-13 01:14:15.782 +03:00 [INF] Handle on target page was called 21 times
+2022-05-13 01:14:15.822 +03:00 [INF] Load finished in 337 ms
+2022-05-13 01:14:15.823 +03:00 [INF] Handle on target page was called 22 times
+2022-05-13 01:14:15.849 +03:00 [INF] Load finished in 175 ms
+2022-05-13 01:14:15.849 +03:00 [INF] Handle on target page was called 23 times
+2022-05-13 01:14:15.972 +03:00 [INF] Load finished in 147 ms
+2022-05-13 01:14:15.973 +03:00 [INF] Handle on target page was called 24 times
+2022-05-13 01:14:16.141 +03:00 [INF] Load finished in 167 ms
+2022-05-13 01:14:16.141 +03:00 [INF] Handle on target page was called 25 times
+2022-05-13 01:14:16.488 +03:00 [INF] Load finished in 169 ms
+2022-05-13 01:14:16.509 +03:00 [INF] Handle on target page was called 26 times
+2022-05-13 01:14:16.586 +03:00 [INF] Load finished in 150 ms
+2022-05-13 01:14:16.586 +03:00 [INF] Handle on target page was called 27 times
+2022-05-13 01:14:16.826 +03:00 [INF] Load finished in 218 ms
+2022-05-13 01:14:16.852 +03:00 [INF] Handle on target page was called 28 times
+2022-05-13 01:14:16.998 +03:00 [INF] Load finished in 252 ms
+2022-05-13 01:14:17.025 +03:00 [INF] Handle on target page was called 29 times
+2022-05-13 01:14:17.129 +03:00 [INF] Load finished in 160 ms
+2022-05-13 01:14:17.130 +03:00 [INF] Handle on target page was called 30 times
+2022-05-13 01:14:17.203 +03:00 [INF] Load finished in 203 ms
+2022-05-13 01:14:17.203 +03:00 [INF] Handle on target page was called 31 times
+2022-05-13 01:14:17.362 +03:00 [INF] Load finished in 185 ms
+2022-05-13 01:14:17.384 +03:00 [INF] Handle on target page was called 32 times
+2022-05-13 01:14:17.583 +03:00 [INF] Load finished in 114 ms
+2022-05-13 01:14:17.584 +03:00 [INF] Handle on target page was called 33 times
+2022-05-13 01:14:17.811 +03:00 [INF] Load finished in 377 ms
+2022-05-13 01:14:17.862 +03:00 [INF] Handle on target page was called 34 times
+2022-05-13 01:14:17.960 +03:00 [INF] Load finished in 249 ms
+2022-05-13 01:14:18.003 +03:00 [INF] Handle on target page was called 35 times
+2022-05-13 01:14:18.093 +03:00 [INF] Load finished in 255 ms
+2022-05-13 01:14:18.114 +03:00 [INF] Handle on target page was called 36 times
+2022-05-13 01:14:18.466 +03:00 [INF] Load finished in 146 ms
+2022-05-13 01:14:18.467 +03:00 [INF] Handle on target page was called 37 times
+2022-05-13 01:14:18.665 +03:00 [INF] Load finished in 225 ms
+2022-05-13 01:14:18.687 +03:00 [INF] Handle on target page was called 38 times
+2022-05-13 01:14:18.736 +03:00 [INF] Load finished in 505 ms
+2022-05-13 01:14:19.094 +03:00 [INF] Load finished in 361 ms
+2022-05-13 01:14:19.119 +03:00 [INF] Load finished in 170 ms
+2022-05-13 01:14:19.120 +03:00 [INF] Handle on target page was called 39 times
+2022-05-13 01:14:19.348 +03:00 [INF] Load finished in 207 ms
+2022-05-13 01:14:19.369 +03:00 [INF] Handle on target page was called 40 times
+2022-05-13 01:14:19.631 +03:00 [INF] Load finished in 281 ms
+2022-05-13 01:14:19.631 +03:00 [INF] Handle on target page was called 41 times
+2022-05-13 01:14:19.786 +03:00 [INF] Load finished in 179 ms
+2022-05-13 01:14:19.831 +03:00 [INF] Handle on target page was called 42 times
+2022-05-13 01:14:19.855 +03:00 [INF] Load finished in 157 ms
+2022-05-13 01:14:19.855 +03:00 [INF] Handle on target page was called 43 times
+2022-05-13 01:14:20.104 +03:00 [INF] Load finished in 247 ms
+2022-05-13 01:14:20.128 +03:00 [INF] Handle on target page was called 44 times
+2022-05-13 01:14:20.128 +03:00 [INF] Load finished in 222 ms
+2022-05-13 01:14:20.128 +03:00 [INF] Handle on target page was called 45 times
+2022-05-13 01:14:20.361 +03:00 [INF] Load finished in 157 ms
+2022-05-13 01:14:20.361 +03:00 [INF] Handle on target page was called 46 times
+2022-05-13 01:14:20.873 +03:00 [INF] Load finished in 334 ms
+2022-05-13 01:14:20.899 +03:00 [INF] Handle on target page was called 47 times
+2022-05-13 01:14:21.595 +03:00 [INF] Load finished in 262 ms
+2022-05-13 01:14:21.596 +03:00 [INF] Handle on target page was called 48 times
+2022-05-13 01:14:21.840 +03:00 [INF] Load finished in 341 ms
+2022-05-13 01:14:21.866 +03:00 [INF] Handle on target page was called 49 times
+2022-05-13 01:14:21.888 +03:00 [INF] Load finished in 246 ms
+2022-05-13 01:14:21.909 +03:00 [INF] Handle on target page was called 50 times
+2022-05-13 01:14:22.187 +03:00 [INF] Load finished in 183 ms
+2022-05-13 01:14:22.187 +03:00 [INF] Handle on target page was called 51 times
+2022-05-13 01:14:22.383 +03:00 [INF] Load finished in 194 ms
+2022-05-13 01:14:22.404 +03:00 [INF] Handle on target page was called 52 times
+2022-05-13 01:14:22.449 +03:00 [INF] Load finished in 189 ms
+2022-05-13 01:14:22.472 +03:00 [INF] Handle on target page was called 53 times
+2022-05-13 01:14:22.733 +03:00 [INF] Load finished in 238 ms
+2022-05-13 01:14:22.734 +03:00 [INF] Handle on target page was called 54 times
+2022-05-13 01:14:22.871 +03:00 [INF] Load finished in 227 ms
+2022-05-13 01:14:22.872 +03:00 [INF] Handle on target page was called 55 times
+2022-05-13 01:14:23.222 +03:00 [INF] Load finished in 105 ms
+2022-05-13 01:14:23.222 +03:00 [INF] Handle on target page was called 56 times
+2022-05-13 01:14:23.380 +03:00 [INF] Load finished in 125 ms
+2022-05-13 01:14:23.381 +03:00 [INF] Handle on target page was called 57 times
+2022-05-13 01:14:23.695 +03:00 [INF] Load finished in 111 ms
+2022-05-13 01:14:23.696 +03:00 [INF] Handle on target page was called 58 times
+2022-05-13 01:14:23.718 +03:00 [INF] Load finished in 217 ms
+2022-05-13 01:14:23.718 +03:00 [INF] Handle on target page was called 59 times
+2022-05-13 01:14:23.849 +03:00 [INF] Load finished in 281 ms
+2022-05-13 01:14:23.856 +03:00 [INF] Handle on target page was called 60 times
+2022-05-13 01:14:23.857 +03:00 [INF] Load finished in 97 ms
+2022-05-13 01:14:23.857 +03:00 [INF] Handle on target page was called 61 times
+2022-05-13 01:14:24.179 +03:00 [INF] Load finished in 273 ms
+2022-05-13 01:14:24.180 +03:00 [INF] Handle on target page was called 62 times
+2022-05-13 01:14:24.379 +03:00 [INF] Load finished in 147 ms
+2022-05-13 01:14:24.379 +03:00 [INF] Handle on target page was called 63 times
+2022-05-13 01:14:24.563 +03:00 [INF] Load finished in 143 ms
+2022-05-13 01:14:24.564 +03:00 [INF] Handle on target page was called 64 times
+2022-05-13 01:14:24.776 +03:00 [INF] Load finished in 107 ms
+2022-05-13 01:14:24.776 +03:00 [INF] Handle on target page was called 65 times
+2022-05-13 01:14:24.894 +03:00 [INF] Load finished in 179 ms
+2022-05-13 01:14:24.895 +03:00 [INF] Handle on target page was called 66 times
+2022-05-13 01:14:25.062 +03:00 [INF] Load finished in 190 ms
+2022-05-13 01:14:25.062 +03:00 [INF] Handle on target page was called 67 times

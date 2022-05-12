@@ -36,6 +36,13 @@ public class CosmosSink : IScraperSink
 
     public async Task InitAsync()
     {
+        if (IsInitialized)
+        {
+            return;
+        }
+
+        // update isInitialized via Interlocked
+
         Logger.LogInformation("Initializing CosmosSink...");
 
         CosmosClient = new CosmosClient(EndpointUrl, AuthorizationKey);
@@ -47,11 +54,19 @@ public class CosmosSink : IScraperSink
         IsInitialized = true;
     }
 
+    SemaphoreSlim sem = new SemaphoreSlim(1,1);
+
     public async Task EmitAsync(JObject scrapedData)
     {
         if(!IsInitialized)
         {
-            await InitAsync();
+            try {
+                await sem.WaitAsync();
+                await InitAsync();
+            
+            } finally {
+                sem.Release();
+            }
         }
 
         var id = Guid.NewGuid().ToString();
