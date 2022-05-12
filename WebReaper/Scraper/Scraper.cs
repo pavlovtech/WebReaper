@@ -3,92 +3,131 @@ using WebReaper.Domain;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
-using System.Net.Security;
-using WebReaper.Domain.Selectors;
 using WebReaper.Absctracts.Sinks;
-using WebReaper.Abastracts.Spider;
-using WebReaper.Abstractions.Parsers;
 using WebReaper.LinkTracker.Abstract;
 using WebReaper.Abstractions.JobQueue;
-using WebReaper.Parser;
 using WebReaper.Queue;
 using WebReaper.Sinks;
 using WebReaper.Domain.Parsing;
-using WebReaper.LinkTracker;
-using WebReaper.Loaders;
 using Microsoft.Extensions.Logging.Abstractions;
 using WebReaper.Queue.InMemory;
-using WebReaper.Spiders;
+using WebReaper.Domain.Selectors;
 
 namespace WebReaper.Scraper;
 
 public class Scraper
 {
-    public List<IScraperSink> Sinks { get; protected set; } = new(); 
+    protected ScraperConfigBuilder ConfigBuilder { get; set; } = new();
+    protected SpiderBuilder SpiderBuilder { get; set; } = new();
+    protected ScraperRunner Runner { get; set; }
 
-    protected List<LinkPathSelector> linkPathSelectors = new();
-    
-    protected int limit = int.MaxValue;
-
-    protected BlockingCollection<Job> jobs = new(new ProducerConsumerPriorityQueue());
-
-    private string? startUrl;
-    
-    private ISpider spider;
-
-    private Schema? schema;
-
-    private WebProxy? proxy;
-
-    private WebProxy[] proxies = Array.Empty<WebProxy>();
-
-    protected string baseUrl = "";
+    protected ILogger Logger { get; set; } = NullLogger.Instance;
 
     protected IJobQueueReader JobQueueReader;
 
     protected IJobQueueWriter JobQueueWriter;
 
-    protected ILogger Logger = NullLogger.Instance;
-
-    protected ILinkParser LinkParser = new LinkParserByCssSelector();
-
-    protected ICrawledLinkTracker SiteLinkTracker = new InMemoryCrawledLinkTracker();
-
-    protected IContentParser ContentParser;
-
-    protected static SocketsHttpHandler httpHandler = new()
-    {
-        MaxConnectionsPerServer = 100,
-        SslOptions = new SslClientAuthenticationOptions
-        {
-            // Leave certs unvalidated for debugging
-            RemoteCertificateValidationCallback = delegate { return true; },
-        },
-        PooledConnectionIdleTimeout = TimeSpan.FromMinutes(2),
-        PooledConnectionLifetime = Timeout.InfiniteTimeSpan
-    };
-
-    protected Lazy<HttpClient> httpClient = new(() => new(httpHandler));
-
-    protected List<string> urlBlackList = new();
-
-    protected int ParallelismDegree { get; private set; } = 1;
+    protected BlockingCollection<Job> jobs;
 
     public Scraper()
     {
+        jobs = new(new ProducerConsumerPriorityQueue());   
         JobQueueReader = new JobQueueReader(jobs);
         JobQueueWriter = new JobQueueWriter(jobs);
     }
 
-    public Scraper WithLogger(ILogger logger)
+    public Scraper AddSink(IScraperSink sink)
     {
-        Logger = logger;
+        SpiderBuilder.AddSink(sink);
+        return this;
+    }
+
+    public Scraper Authorize(Func<CookieContainer> authorize)
+    {
+        SpiderBuilder.Authorize(authorize);
+        return this;
+    }
+
+    public Scraper IgnoreUrls(params string[] urls)
+    {
+        SpiderBuilder.IgnoreUrls(urls);
+        return this;
+    }
+
+    public Scraper Limit(int limit)
+    {
+        SpiderBuilder.Limit(limit);
         return this;
     }
 
     public Scraper WithLinkTracker(ICrawledLinkTracker linkTracker)
     {
-        SiteLinkTracker = linkTracker;
+        SpiderBuilder.WithLinkTracker(linkTracker);
+        return this;
+    }
+
+    public Scraper WithLogger(ILogger logger)
+    {
+        SpiderBuilder.WithLogger(logger);
+        ConfigBuilder.WithLogger(logger);
+
+        this.Logger = logger;
+
+        return this;
+    }
+
+    public Scraper WriteToConsole()
+    {
+        SpiderBuilder.WriteToConsole();
+        return this;
+    }
+    
+    public Scraper WriteToCosmosDb(
+        string endpointUrl,
+        string authorizationKey,
+        string databaseId,
+        string containerId)
+    {
+        SpiderBuilder.AddSink(new CosmosSink(endpointUrl, authorizationKey, databaseId, containerId));
+        return this;
+    }
+
+    public Scraper WriteToCsvFile(string filePath)
+    {
+        SpiderBuilder.AddSink(new CsvFileSink(filePath));
+        return this;
+    }
+
+    public Scraper WriteToJsonFile(string filePath)
+    {
+        SpiderBuilder.AddSink(new JsonFileSink(filePath));
+        return this;
+    }
+
+    public Scraper Parse(Schema schema)
+    {
+        ConfigBuilder.WithScheme(schema);
+        return this;
+    }
+
+    public Scraper WithStartUrl(string url)
+    {
+        ConfigBuilder.WithStartUrl(url);
+        return this;
+    }
+
+    public Scraper FollowLinks(
+        string linkSelector,
+        SelectorType selectorType = SelectorType.Css,
+        PageType pageType = PageType.Static)
+    {
+        ConfigBuilder.FollowLinks(linkSelector, selectorType, pageType);
+        return this;
+    }
+
+    public Scraper FollowLinks(string linkSelector, string paginationSelector, SelectorType selectorType = SelectorType.Css, PageType pageType = PageType.Static)
+    {
+        ConfigBuilder.FollowLinks(linkSelector, paginationSelector, selectorType, pageType);
         return this;
     }
 
@@ -104,97 +143,19 @@ public class Scraper
         return this;
     }
 
-    public Scraper WithStartUrl(string startUrl)
+    public async Task Run(int parallelismDegree)
     {
-        this.startUrl = startUrl;
+        var config = ConfigBuilder.Build();
+        var spider = SpiderBuilder.Build();
 
-        var startUri = new Uri(startUrl);
-
-        var baseUrl = startUri.GetLeftPart(UriPartial.Authority);
-        var segments = startUri.Segments;
-
-        this.baseUrl = baseUrl + string.Join(string.Empty, segments.SkipLast(1));
-
-        return this;
-    }
-
-    public Scraper Authorize(Func<CookieContainer> authorize)
-    {
-        var CookieContainer = authorize();
-
-        httpHandler.CookieContainer = CookieContainer;
-
-        return this;
-    }
-
-    public Scraper FollowLinks(
-        string linkSelector,
-        SelectorType selectorType = SelectorType.Css,
-        PageType pageType = PageType.Static)
-    {
-        linkPathSelectors.Add(new(linkSelector, SelectorType: selectorType, PageType: pageType));
-        return this;
-    }
-
-    public Scraper FollowLinks(string linkSelector, string paginationSelector, SelectorType selectorType = SelectorType.Css, PageType pageType = PageType.Static)
-    {
-        linkPathSelectors.Add(new(linkSelector, paginationSelector, pageType, selectorType));
-        return this;
-    }
-
-    public Scraper AddSink(IScraperSink sink)
-    {
-        Sinks.Add(sink);
-
-        return this;
-    }
-
-    public Scraper IgnoreUrls(params string[] urls)
-    {
-        urlBlackList.AddRange(urls);
-        return this;
-    }
-
-    public Scraper WithScheme(Schema schema)
-    {
-        this.schema = schema;
-        return this;
-    }
-
-    public Scraper WithParallelismDegree(int parallelismDegree)
-    {
-        ParallelismDegree = parallelismDegree;
-        return this;
-    }
-
-    public Scraper Limit(int limit)
-    {
-        this.limit = limit;
-        return this;
-    }
-
-    public Scraper WithProxy(WebProxy proxy)
-    {
-        this.proxy = proxy;
-        return this;
-    }
-
-    public Scraper WithProxy(WebProxy[] proxies)
-    {
-        this.proxies = proxies;
-        return this;
-    }
-
-    public async Task Run()
-    {
         await JobQueueWriter.WriteAsync(new Job(
-            schema!,
-            baseUrl,
-            startUrl!,
-            ImmutableQueue.Create(linkPathSelectors.ToArray()),
+            config.ParsingScheme!,
+            config.BaseUrl,
+            config.StartUrl!,
+            ImmutableQueue.Create(config.LinkPathSelectors.ToArray()),
             DepthLevel: 0));
 
-        var options = new ParallelOptions { MaxDegreeOfParallelism = ParallelismDegree };
+        var options = new ParallelOptions { MaxDegreeOfParallelism = parallelismDegree };
         await Parallel.ForEachAsync(JobQueueReader.ReadAsync(), options, async (job, token) =>
         {
             try
@@ -210,33 +171,5 @@ public class Scraper
                 await JobQueueWriter.WriteAsync(job);
             }
         });
-    }
-
-    public Scraper WriteToConsole() => AddSink(new ConsoleSink());
-
-    public Scraper WriteToJsonFile(string filePath) => AddSink(new JsonFileSink(filePath));
-
-    public Scraper WriteToCsvFile(string filePath) => AddSink(new CsvFileSink(filePath));
-
-    public Scraper Build()
-    {
-        ArgumentNullException.ThrowIfNull(startUrl);
-        ArgumentNullException.ThrowIfNull(schema);
-
-        spider = new WebReaperSpider(
-            Sinks,
-            LinkParser,
-            new ContentParser(Logger),
-            SiteLinkTracker,
-            new HttpPageLoader(httpClient.Value, Logger),
-            new PuppeteerPageLoader(Logger),
-            Logger)
-        {
-            UrlBlackList = urlBlackList.ToList(),
-
-            PageCrawlLimit = limit
-        };
-
-        return this;
     }
 }

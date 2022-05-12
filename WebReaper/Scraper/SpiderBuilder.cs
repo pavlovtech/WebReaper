@@ -5,17 +5,12 @@ using WebReaper.Absctracts.Sinks;
 using WebReaper.Abastracts.Spider;
 using WebReaper.Abstractions.Parsers;
 using WebReaper.LinkTracker.Abstract;
-using WebReaper.Abstractions.JobQueue;
 using WebReaper.Parser;
 using WebReaper.Sinks;
 using WebReaper.LinkTracker;
 using WebReaper.Loaders;
 using Microsoft.Extensions.Logging.Abstractions;
 using WebReaper.Spiders;
-using WebReaper.Queue.InMemory;
-using System.Collections.Concurrent;
-using WebReaper.Domain;
-using WebReaper.Queue;
 
 namespace WebReaper.Scraper;
 
@@ -25,8 +20,6 @@ public class SpiderBuilder
     {
         // default implementations
         Logger = NullLogger.Instance;
-        JobQueueReader = new JobQueueReader(jobs);
-        JobQueueWriter = new JobQueueWriter(jobs);
         ContentParser = new ContentParser(Logger);
         LinkParser = new LinkParserByCssSelector();
         SiteLinkTracker = new InMemoryCrawledLinkTracker();
@@ -37,12 +30,6 @@ public class SpiderBuilder
     protected int limit = int.MaxValue;
 
     protected string baseUrl = "";
-
-    protected BlockingCollection<Job> jobs = new(new ProducerConsumerPriorityQueue());
-
-    protected IJobQueueReader JobQueueReader { get; set; }
-
-    protected IJobQueueWriter JobQueueWriter { get; set; }
 
     protected ILogger Logger { get; set; }
 
@@ -77,18 +64,6 @@ public class SpiderBuilder
     public SpiderBuilder WithLinkTracker(ICrawledLinkTracker linkTracker)
     {
         SiteLinkTracker = linkTracker;
-        return this;
-    }
-
-    public SpiderBuilder WithJobQueueWriter(IJobQueueWriter jobQueueWriter)
-    {
-        JobQueueWriter = jobQueueWriter;
-        return this;
-    }
-
-    public SpiderBuilder WithJobQueueReader(IJobQueueReader jobQueueReader)
-    {
-        JobQueueReader = jobQueueReader;
         return this;
     }
 
