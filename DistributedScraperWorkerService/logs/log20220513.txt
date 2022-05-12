@@ -1,0 +1,249 @@
+2022-05-13 00:26:31.424 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-13 00:26:31.461 +03:00 [INF] Hosting environment: Development
+2022-05-13 00:26:31.462 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/DistributedScraperWorkerService
+2022-05-13 00:26:34.921 +03:00 [INF] Load finished in 786 ms
+2022-05-13 00:26:34.921 +03:00 [INF] Load finished in 1132 ms
+2022-05-13 00:26:34.921 +03:00 [INF] Load finished in 974 ms
+2022-05-13 00:26:34.921 +03:00 [INF] Load finished in 1303 ms
+2022-05-13 00:26:34.921 +03:00 [INF] Load finished in 524 ms
+2022-05-13 00:26:34.923 +03:00 [INF] Load finished in 706 ms
+2022-05-13 00:26:34.942 +03:00 [INF] Handle on target page was called 1 times
+2022-05-13 00:26:34.943 +03:00 [INF] Handle on target page was called 2 times
+2022-05-13 00:26:34.943 +03:00 [INF] Handle on target page was called 3 times
+2022-05-13 00:26:34.943 +03:00 [INF] Handle on target page was called 4 times
+2022-05-13 00:26:34.943 +03:00 [INF] Handle on target page was called 5 times
+2022-05-13 00:26:35.105 +03:00 [INF] Load finished in 144 ms
+2022-05-13 00:26:35.105 +03:00 [INF] Handle on target page was called 6 times
+2022-05-13 00:26:35.107 +03:00 [INF] Load finished in 355 ms
+2022-05-13 00:26:35.107 +03:00 [INF] Handle on target page was called 7 times
+2022-05-13 00:26:35.551 +03:00 [INF] Load finished in 234 ms
+2022-05-13 00:26:35.551 +03:00 [INF] Handle on target page was called 8 times
+2022-05-13 00:26:35.756 +03:00 [INF] Load finished in 200 ms
+2022-05-13 00:26:35.769 +03:00 [INF] Handle on target page was called 9 times
+2022-05-13 00:26:35.781 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:26:35.781 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:26:35.781 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:26:35.781 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:26:35.781 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:26:35.781 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:26:35.781 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:26:35.781 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:26:35.844 +03:00 [ERR] System.InvalidOperationException: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in /Users/alex/Development/WebReaper/WebReaper/Schema/Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, SchemaElement item) in /Users/alex/Development/WebReaper/WebReaper/Parser/ContentParser.cs:line 53
+2022-05-13 00:26:35.844 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:26:35.916 +03:00 [INF] Load finished in 100 ms
+2022-05-13 00:26:35.916 +03:00 [INF] Handle on target page was called 10 times
+2022-05-13 00:26:35.926 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:27:37.835 +03:00 [ERR] Error writing to CosmosDB
+CosmosException;StatusCode=BadRequest;SubStatusCode=0;ActivityId=3605f7db-dbe1-4feb-bd3d-b94535f9b492;RequestCharge=1.24;Message=Response status code does not indicate success: 400 Substatus: 0 Reason: (Message: {"Errors":["The input content is invalid because the required properties - 'id; ' - are missing. Learn more: https:\/\/aka.ms\/CosmosDB\/sql\/errors\/missing-id"]}ActivityId: 3605f7db-dbe1-4feb-bd3d-b94535f9b492, Request URI: /apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, RequestStats: RequestStartTime: 2022-05-12T21:27:27.1753150Z, RequestEndTime: 2022-05-12T21:27:36.6814040Z,  Number of regions attempted:1ResponseTime: 2022-05-12T21:27:36.6814040Z, StoreResult: StorePhysicalAddress: rntbd://cdb-ms-prod-westus1-fd81.documents.azure.com:14091/apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, LSN: 66, GlobalCommittedLsn: 66, PartitionKeyRangeId: 0, IsValid: True, StatusCode: 400, SubStatusCode: 0, RequestCharge: 1.24, ItemLSN: -1, SessionToken: -1#66, UsingLocalLSN: False, TransportException: null, ResourceType: Document, OperationType: Create, SDK: Darwin/10.17 cosmos-netstandard-sdk/3.4.1).;Diagnostics
+2022-05-13 00:27:37.835 +03:00 [ERR] Error writing to CosmosDB
+CosmosException;StatusCode=BadRequest;SubStatusCode=0;ActivityId=2136956e-8d22-413f-a333-d8543b41dc53;RequestCharge=1.24;Message=Response status code does not indicate success: 400 Substatus: 0 Reason: (Message: {"Errors":["The input content is invalid because the required properties - 'id; ' - are missing. Learn more: https:\/\/aka.ms\/CosmosDB\/sql\/errors\/missing-id"]}ActivityId: 2136956e-8d22-413f-a333-d8543b41dc53, Request URI: /apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, RequestStats: RequestStartTime: 2022-05-12T21:27:27.1753360Z, RequestEndTime: 2022-05-12T21:27:36.6814110Z,  Number of regions attempted:1ResponseTime: 2022-05-12T21:27:36.6814110Z, StoreResult: StorePhysicalAddress: rntbd://cdb-ms-prod-westus1-fd81.documents.azure.com:14091/apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, LSN: 66, GlobalCommittedLsn: 66, PartitionKeyRangeId: 0, IsValid: True, StatusCode: 400, SubStatusCode: 0, RequestCharge: 1.24, ItemLSN: -1, SessionToken: -1#66, UsingLocalLSN: False, TransportException: null, ResourceType: Document, OperationType: Create, SDK: Darwin/10.17 cosmos-netstandard-sdk/3.4.1).;Diagnostics
+2022-05-13 00:27:37.834 +03:00 [ERR] Error writing to CosmosDB
+CosmosException;StatusCode=BadRequest;SubStatusCode=0;ActivityId=32a20b5f-01e4-49d4-ba41-140040b686ad;RequestCharge=1.24;Message=Response status code does not indicate success: 400 Substatus: 0 Reason: (Message: {"Errors":["The input content is invalid because the required properties - 'id; ' - are missing. Learn more: https:\/\/aka.ms\/CosmosDB\/sql\/errors\/missing-id"]}ActivityId: 32a20b5f-01e4-49d4-ba41-140040b686ad, Request URI: /apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, RequestStats: RequestStartTime: 2022-05-12T21:27:27.1753450Z, RequestEndTime: 2022-05-12T21:27:36.6814270Z,  Number of regions attempted:1ResponseTime: 2022-05-12T21:27:36.6814270Z, StoreResult: StorePhysicalAddress: rntbd://cdb-ms-prod-westus1-fd81.documents.azure.com:14091/apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, LSN: 66, GlobalCommittedLsn: 66, PartitionKeyRangeId: 0, IsValid: True, StatusCode: 400, SubStatusCode: 0, RequestCharge: 1.24, ItemLSN: -1, SessionToken: -1#66, UsingLocalLSN: False, TransportException: null, ResourceType: Document, OperationType: Create, SDK: Darwin/10.17 cosmos-netstandard-sdk/3.4.1).;Diagnostics
+2022-05-13 00:29:52.892 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-13 00:29:52.926 +03:00 [INF] Hosting environment: Development
+2022-05-13 00:29:52.927 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/DistributedScraperWorkerService
+2022-05-13 00:29:55.857 +03:00 [INF] Load finished in 1008 ms
+2022-05-13 00:29:55.857 +03:00 [INF] Load finished in 943 ms
+2022-05-13 00:29:55.857 +03:00 [INF] Load finished in 526 ms
+2022-05-13 00:29:55.857 +03:00 [INF] Load finished in 831 ms
+2022-05-13 00:29:55.862 +03:00 [INF] Handle on target page was called 1 times
+2022-05-13 00:29:55.863 +03:00 [INF] Handle on target page was called 2 times
+2022-05-13 00:29:55.863 +03:00 [INF] Handle on target page was called 4 times
+2022-05-13 00:29:55.863 +03:00 [INF] Handle on target page was called 3 times
+2022-05-13 00:29:56.050 +03:00 [INF] Load finished in 625 ms
+2022-05-13 00:29:56.051 +03:00 [INF] Handle on target page was called 5 times
+2022-05-13 00:29:56.051 +03:00 [INF] Load finished in 357 ms
+2022-05-13 00:29:56.051 +03:00 [INF] Handle on target page was called 6 times
+2022-05-13 00:29:56.298 +03:00 [INF] Load finished in 221 ms
+2022-05-13 00:29:56.299 +03:00 [INF] Handle on target page was called 7 times
+2022-05-13 00:29:56.461 +03:00 [INF] Load finished in 309 ms
+2022-05-13 00:29:56.461 +03:00 [INF] Handle on target page was called 8 times
+2022-05-13 00:29:56.653 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:29:56.653 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:29:56.653 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:29:56.653 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:29:56.653 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:29:56.653 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:29:56.653 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:29:56.653 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:29:57.095 +03:00 [INF] Load finished in 770 ms
+2022-05-13 00:29:57.096 +03:00 [INF] Handle on target page was called 9 times
+2022-05-13 00:29:57.103 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:29:57.194 +03:00 [INF] Load finished in 168 ms
+2022-05-13 00:29:57.194 +03:00 [INF] Handle on target page was called 10 times
+2022-05-13 00:29:57.219 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:30:02.070 +03:00 [ERR] Error writing to CosmosDB
+System.ArgumentException: Unsupported PartitionKey value component '[]'. Numeric, string, bool, null, Undefined are the only supported types.
+   at Azure.Cosmos.ContainerCore.CosmosElementToPartitionKeyObject(CosmosElement cosmosElement)
+   at Azure.Cosmos.ContainerCore.GetPartitionKeyValueFromStreamAsync(Stream stream, CancellationToken cancellation)
+   at Azure.Cosmos.ContainerCore.ProcessItemStreamAsync(Nullable`1 partitionKey, String itemId, Stream streamPayload, OperationType operationType, RequestOptions requestOptions, Boolean extractPartitionKeyIfNeeded, CancellationToken cancellationToken)
+   at Azure.Cosmos.ContainerCore.ExtractPartitionKeyAndProcessItemStreamAsync(Nullable`1 partitionKey, String itemId, Stream streamPayload, OperationType operationType, RequestOptions requestOptions, CancellationToken cancellationToken)
+   at Azure.Cosmos.CosmosResponseFactory.ProcessMessageAsync[T](Task`1 cosmosResponseTask, Func`2 createResponse)
+   at WebReaper.Sinks.CosmosSink.EmitAsync(JObject scrapedData) in /Users/alex/Development/WebReaper/WebReaper/Sinks/CosmosSink.cs:line 64
+2022-05-13 00:30:46.646 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-13 00:30:46.681 +03:00 [INF] Hosting environment: Development
+2022-05-13 00:30:46.682 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/DistributedScraperWorkerService
+2022-05-13 00:30:49.346 +03:00 [INF] Load finished in 623 ms
+2022-05-13 00:30:49.501 +03:00 [INF] Load finished in 503 ms
+2022-05-13 00:30:49.511 +03:00 [INF] Load finished in 220 ms
+2022-05-13 00:30:49.501 +03:00 [INF] Load finished in 426 ms
+2022-05-13 00:30:49.558 +03:00 [INF] Load finished in 847 ms
+2022-05-13 00:30:49.763 +03:00 [INF] Handle on target page was called 1 times
+2022-05-13 00:30:49.879 +03:00 [INF] Handle on target page was called 2 times
+2022-05-13 00:30:49.879 +03:00 [INF] Handle on target page was called 4 times
+2022-05-13 00:30:49.879 +03:00 [INF] Handle on target page was called 3 times
+2022-05-13 00:30:49.879 +03:00 [INF] Handle on target page was called 5 times
+2022-05-13 00:30:50.069 +03:00 [INF] Load finished in 188 ms
+2022-05-13 00:30:50.069 +03:00 [INF] Load finished in 187 ms
+2022-05-13 00:30:50.069 +03:00 [INF] Handle on target page was called 6 times
+2022-05-13 00:30:50.069 +03:00 [INF] Handle on target page was called 7 times
+2022-05-13 00:30:50.175 +03:00 [INF] Load finished in 289 ms
+2022-05-13 00:30:50.175 +03:00 [INF] Handle on target page was called 8 times
+2022-05-13 00:30:50.292 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:30:50.292 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:30:50.292 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:30:50.292 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:30:50.292 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:30:50.292 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:30:50.292 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:30:50.292 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:30:50.991 +03:00 [INF] Load finished in 125 ms
+2022-05-13 00:30:50.991 +03:00 [INF] Handle on target page was called 9 times
+2022-05-13 00:30:50.993 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:30:51.141 +03:00 [INF] Load finished in 393 ms
+2022-05-13 00:30:51.141 +03:00 [INF] Handle on target page was called 10 times
+2022-05-13 00:30:51.162 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:30:58.297 +03:00 [ERR] Error writing to CosmosDB
+CosmosException;StatusCode=BadRequest;SubStatusCode=0;ActivityId=10989f8f-7b2b-4339-a1dd-7f211576984a;RequestCharge=1.24;Message=Response status code does not indicate success: 400 Substatus: 0 Reason: (Message: {"Errors":["The input name '[' is invalid. Ensure to provide a unique non-empty string less than '1024' characters."]}ActivityId: 10989f8f-7b2b-4339-a1dd-7f211576984a, Request URI: /apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, RequestStats: RequestStartTime: 2022-05-12T21:30:55.4249130Z, RequestEndTime: 2022-05-12T21:30:57.6268560Z,  Number of regions attempted:1ResponseTime: 2022-05-12T21:30:57.6268560Z, StoreResult: StorePhysicalAddress: rntbd://cdb-ms-prod-westus1-fd81.documents.azure.com:14091/apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, LSN: 66, GlobalCommittedLsn: 66, PartitionKeyRangeId: 0, IsValid: True, StatusCode: 400, SubStatusCode: 0, RequestCharge: 1.24, ItemLSN: -1, SessionToken: -1#66, UsingLocalLSN: False, TransportException: null, ResourceType: Document, OperationType: Create, SDK: Darwin/10.17 cosmos-netstandard-sdk/3.4.1).;Diagnostics
+2022-05-13 00:30:58.180 +03:00 [ERR] Error writing to CosmosDB
+CosmosException;StatusCode=BadRequest;SubStatusCode=0;ActivityId=674c6367-2d28-4771-9fe0-f25cd666f4a6;RequestCharge=1.24;Message=Response status code does not indicate success: 400 Substatus: 0 Reason: (Message: {"Errors":["The input name '[' is invalid. Ensure to provide a unique non-empty string less than '1024' characters."]}ActivityId: 674c6367-2d28-4771-9fe0-f25cd666f4a6, Request URI: /apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, RequestStats: RequestStartTime: 2022-05-12T21:30:55.4249380Z, RequestEndTime: 2022-05-12T21:30:57.6268000Z,  Number of regions attempted:1ResponseTime: 2022-05-12T21:30:57.6268000Z, StoreResult: StorePhysicalAddress: rntbd://cdb-ms-prod-westus1-fd81.documents.azure.com:14091/apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, LSN: 66, GlobalCommittedLsn: 66, PartitionKeyRangeId: 0, IsValid: True, StatusCode: 400, SubStatusCode: 0, RequestCharge: 1.24, ItemLSN: -1, SessionToken: -1#66, UsingLocalLSN: False, TransportException: null, ResourceType: Document, OperationType: Create, SDK: Darwin/10.17 cosmos-netstandard-sdk/3.4.1).;Diagnostics
+2022-05-13 00:30:58.297 +03:00 [ERR] Error writing to CosmosDB
+CosmosException;StatusCode=BadRequest;SubStatusCode=0;ActivityId=4df44362-67a6-4b2e-8bb2-a30acacf9526;RequestCharge=1.24;Message=Response status code does not indicate success: 400 Substatus: 0 Reason: (Message: {"Errors":["The input name '[' is invalid. Ensure to provide a unique non-empty string less than '1024' characters."]}ActivityId: 4df44362-67a6-4b2e-8bb2-a30acacf9526, Request URI: /apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, RequestStats: RequestStartTime: 2022-05-12T21:30:55.4248790Z, RequestEndTime: 2022-05-12T21:30:57.6268020Z,  Number of regions attempted:1ResponseTime: 2022-05-12T21:30:57.6268020Z, StoreResult: StorePhysicalAddress: rntbd://cdb-ms-prod-westus1-fd81.documents.azure.com:14091/apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, LSN: 66, GlobalCommittedLsn: 66, PartitionKeyRangeId: 0, IsValid: True, StatusCode: 400, SubStatusCode: 0, RequestCharge: 1.24, ItemLSN: -1, SessionToken: -1#66, UsingLocalLSN: False, TransportException: null, ResourceType: Document, OperationType: Create, SDK: Darwin/10.17 cosmos-netstandard-sdk/3.4.1).;Diagnostics
+2022-05-13 00:30:58.367 +03:00 [ERR] Error writing to CosmosDB
+CosmosException;StatusCode=BadRequest;SubStatusCode=0;ActivityId=a5637bdc-1218-481f-b914-192d3ee61fc7;RequestCharge=1.24;Message=Response status code does not indicate success: 400 Substatus: 0 Reason: (Message: {"Errors":["The input name '[' is invalid. Ensure to provide a unique non-empty string less than '1024' characters."]}ActivityId: a5637bdc-1218-481f-b914-192d3ee61fc7, Request URI: /apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, RequestStats: RequestStartTime: 2022-05-12T21:30:55.4249410Z, RequestEndTime: 2022-05-12T21:30:57.6267910Z,  Number of regions attempted:1ResponseTime: 2022-05-12T21:30:57.6267910Z, StoreResult: StorePhysicalAddress: rntbd://cdb-ms-prod-westus1-fd81.documents.azure.com:14091/apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, LSN: 66, GlobalCommittedLsn: 66, PartitionKeyRangeId: 0, IsValid: True, StatusCode: 400, SubStatusCode: 0, RequestCharge: 1.24, ItemLSN: -1, SessionToken: -1#66, UsingLocalLSN: False, TransportException: null, ResourceType: Document, OperationType: Create, SDK: Darwin/10.17 cosmos-netstandard-sdk/3.4.1).;Diagnostics
+2022-05-13 00:30:58.297 +03:00 [ERR] Error writing to CosmosDB
+CosmosException;StatusCode=BadRequest;SubStatusCode=0;ActivityId=165cb4d2-c765-49d6-9431-e2f4cb29f870;RequestCharge=1.24;Message=Response status code does not indicate success: 400 Substatus: 0 Reason: (Message: {"Errors":["The input name '[' is invalid. Ensure to provide a unique non-empty string less than '1024' characters."]}ActivityId: 165cb4d2-c765-49d6-9431-e2f4cb29f870, Request URI: /apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, RequestStats: RequestStartTime: 2022-05-12T21:30:55.4248790Z, RequestEndTime: 2022-05-12T21:30:57.6268110Z,  Number of regions attempted:1ResponseTime: 2022-05-12T21:30:57.6268110Z, StoreResult: StorePhysicalAddress: rntbd://cdb-ms-prod-westus1-fd81.documents.azure.com:14091/apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, LSN: 66, GlobalCommittedLsn: 66, PartitionKeyRangeId: 0, IsValid: True, StatusCode: 400, SubStatusCode: 0, RequestCharge: 1.24, ItemLSN: -1, SessionToken: -1#66, UsingLocalLSN: False, TransportException: null, ResourceType: Document, OperationType: Create, SDK: Darwin/10.17 cosmos-netstandard-sdk/3.4.1).;Diagnostics
+2022-05-13 00:32:37.469 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-13 00:32:37.504 +03:00 [INF] Hosting environment: Development
+2022-05-13 00:32:37.505 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/DistributedScraperWorkerService
+2022-05-13 00:32:40.928 +03:00 [INF] Load finished in 1163 ms
+2022-05-13 00:32:40.928 +03:00 [INF] Load finished in 1163 ms
+2022-05-13 00:32:40.928 +03:00 [INF] Load finished in 968 ms
+2022-05-13 00:32:40.928 +03:00 [INF] Load finished in 1055 ms
+2022-05-13 00:32:40.934 +03:00 [INF] Handle on target page was called 1 times
+2022-05-13 00:32:40.934 +03:00 [INF] Handle on target page was called 2 times
+2022-05-13 00:32:40.934 +03:00 [INF] Handle on target page was called 4 times
+2022-05-13 00:32:40.934 +03:00 [INF] Handle on target page was called 3 times
+2022-05-13 00:32:41.038 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:32:41.039 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:32:41.038 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:32:41.039 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:32:41.214 +03:00 [INF] Load finished in 295 ms
+2022-05-13 00:32:41.215 +03:00 [INF] Handle on target page was called 5 times
+2022-05-13 00:32:41.349 +03:00 [INF] Load finished in 906 ms
+2022-05-13 00:32:41.400 +03:00 [INF] Handle on target page was called 6 times
+2022-05-13 00:32:41.584 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:32:41.637 +03:00 [INF] Load finished in 1470 ms
+2022-05-13 00:32:41.709 +03:00 [INF] Load finished in 264 ms
+2022-05-13 00:32:41.720 +03:00 [INF] Handle on target page was called 7 times
+2022-05-13 00:32:41.724 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:32:41.736 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:32:42.254 +03:00 [INF] Load finished in 305 ms
+2022-05-13 00:32:42.254 +03:00 [INF] Load finished in 420 ms
+2022-05-13 00:32:42.256 +03:00 [INF] Handle on target page was called 8 times
+2022-05-13 00:32:42.256 +03:00 [INF] Handle on target page was called 9 times
+2022-05-13 00:32:42.276 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:32:42.277 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:32:42.616 +03:00 [INF] Load finished in 210 ms
+2022-05-13 00:32:42.616 +03:00 [INF] Handle on target page was called 10 times
+2022-05-13 00:32:42.625 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:32:49.619 +03:00 [ERR] Error writing to CosmosDB
+CosmosException;StatusCode=BadRequest;SubStatusCode=0;ActivityId=3376c1a9-c700-4f0d-9602-e6b79f605e1c;RequestCharge=1.24;Message=Response status code does not indicate success: 400 Substatus: 0 Reason: (Message: {"Errors":["The input name '[' is invalid. Ensure to provide a unique non-empty string less than '1024' characters."]}ActivityId: 3376c1a9-c700-4f0d-9602-e6b79f605e1c, Request URI: /apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, RequestStats: RequestStartTime: 2022-05-12T21:32:46.6765260Z, RequestEndTime: 2022-05-12T21:32:48.9544180Z,  Number of regions attempted:1ResponseTime: 2022-05-12T21:32:48.9544180Z, StoreResult: StorePhysicalAddress: rntbd://cdb-ms-prod-westus1-fd81.documents.azure.com:14091/apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, LSN: 66, GlobalCommittedLsn: 66, PartitionKeyRangeId: 0, IsValid: True, StatusCode: 400, SubStatusCode: 0, RequestCharge: 1.24, ItemLSN: -1, SessionToken: -1#66, UsingLocalLSN: False, TransportException: null, ResourceType: Document, OperationType: Create, SDK: Darwin/10.17 cosmos-netstandard-sdk/3.4.1).;Diagnostics
+2022-05-13 00:32:49.619 +03:00 [ERR] Error writing to CosmosDB
+CosmosException;StatusCode=BadRequest;SubStatusCode=0;ActivityId=1e70004e-281e-4971-ba2c-16e01eebf70a;RequestCharge=1.24;Message=Response status code does not indicate success: 400 Substatus: 0 Reason: (Message: {"Errors":["The input name '[' is invalid. Ensure to provide a unique non-empty string less than '1024' characters."]}ActivityId: 1e70004e-281e-4971-ba2c-16e01eebf70a, Request URI: /apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, RequestStats: RequestStartTime: 2022-05-12T21:32:46.6765260Z, RequestEndTime: 2022-05-12T21:32:48.9544240Z,  Number of regions attempted:1ResponseTime: 2022-05-12T21:32:48.9544240Z, StoreResult: StorePhysicalAddress: rntbd://cdb-ms-prod-westus1-fd81.documents.azure.com:14091/apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, LSN: 66, GlobalCommittedLsn: 66, PartitionKeyRangeId: 0, IsValid: True, StatusCode: 400, SubStatusCode: 0, RequestCharge: 1.24, ItemLSN: -1, SessionToken: -1#66, UsingLocalLSN: False, TransportException: null, ResourceType: Document, OperationType: Create, SDK: Darwin/10.17 cosmos-netstandard-sdk/3.4.1).;Diagnostics
+2022-05-13 00:32:49.619 +03:00 [ERR] Error writing to CosmosDB
+CosmosException;StatusCode=BadRequest;SubStatusCode=0;ActivityId=227c6ef3-59b7-47e3-92e1-055f43903846;RequestCharge=1.24;Message=Response status code does not indicate success: 400 Substatus: 0 Reason: (Message: {"Errors":["The input name '[' is invalid. Ensure to provide a unique non-empty string less than '1024' characters."]}ActivityId: 227c6ef3-59b7-47e3-92e1-055f43903846, Request URI: /apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, RequestStats: RequestStartTime: 2022-05-12T21:32:46.6765510Z, RequestEndTime: 2022-05-12T21:32:48.9544340Z,  Number of regions attempted:1ResponseTime: 2022-05-12T21:32:48.9544340Z, StoreResult: StorePhysicalAddress: rntbd://cdb-ms-prod-westus1-fd81.documents.azure.com:14091/apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, LSN: 66, GlobalCommittedLsn: 66, PartitionKeyRangeId: 0, IsValid: True, StatusCode: 400, SubStatusCode: 0, RequestCharge: 1.24, ItemLSN: -1, SessionToken: -1#66, UsingLocalLSN: False, TransportException: null, ResourceType: Document, OperationType: CreateAddressResolution - StartTime: 2022-05-12T21:32:47.4103420Z, EndTime: 2022-05-12T21:32:47.6043650Z, TargetEndpoint: https://webreaper-westus.documents.azure.com//addresses/?$resolveFor=dbs%2fuLUCAA%3d%3d%2fcolls%2fuLUCAKez2TM%3d%2fdocs&$filter=protocol eq rntbd&$partitionKeyRangeIds=0, SDK: Darwin/10.17 cosmos-netstandard-sdk/3.4.1).;Diagnostics
+2022-05-13 00:32:49.619 +03:00 [ERR] Error writing to CosmosDB
+CosmosException;StatusCode=BadRequest;SubStatusCode=0;ActivityId=93abbb9f-5306-4f71-8a2e-e3df710f62c2;RequestCharge=1.24;Message=Response status code does not indicate success: 400 Substatus: 0 Reason: (Message: {"Errors":["The input name '[' is invalid. Ensure to provide a unique non-empty string less than '1024' characters."]}ActivityId: 93abbb9f-5306-4f71-8a2e-e3df710f62c2, Request URI: /apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, RequestStats: RequestStartTime: 2022-05-12T21:32:46.6765400Z, RequestEndTime: 2022-05-12T21:32:48.9544460Z,  Number of regions attempted:1ResponseTime: 2022-05-12T21:32:48.9544460Z, StoreResult: StorePhysicalAddress: rntbd://cdb-ms-prod-westus1-fd81.documents.azure.com:14091/apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, LSN: 66, GlobalCommittedLsn: 66, PartitionKeyRangeId: 0, IsValid: True, StatusCode: 400, SubStatusCode: 0, RequestCharge: 1.24, ItemLSN: -1, SessionToken: -1#66, UsingLocalLSN: False, TransportException: null, ResourceType: Document, OperationType: Create, SDK: Darwin/10.17 cosmos-netstandard-sdk/3.4.1).;Diagnostics
+2022-05-13 00:34:07.362 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-13 00:34:07.398 +03:00 [INF] Hosting environment: Development
+2022-05-13 00:34:07.400 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/DistributedScraperWorkerService
+2022-05-13 00:34:10.671 +03:00 [INF] Load finished in 929 ms
+2022-05-13 00:34:10.671 +03:00 [INF] Load finished in 970 ms
+2022-05-13 00:34:10.671 +03:00 [INF] Load finished in 690 ms
+2022-05-13 00:34:10.671 +03:00 [INF] Load finished in 318 ms
+2022-05-13 00:34:10.671 +03:00 [INF] Load finished in 1045 ms
+2022-05-13 00:34:10.671 +03:00 [INF] Load finished in 487 ms
+2022-05-13 00:34:10.680 +03:00 [INF] Handle on target page was called 1 times
+2022-05-13 00:34:10.681 +03:00 [INF] Handle on target page was called 4 times
+2022-05-13 00:34:10.681 +03:00 [INF] Handle on target page was called 3 times
+2022-05-13 00:34:10.681 +03:00 [INF] Handle on target page was called 6 times
+2022-05-13 00:34:10.681 +03:00 [INF] Handle on target page was called 2 times
+2022-05-13 00:34:10.681 +03:00 [INF] Handle on target page was called 5 times
+2022-05-13 00:34:10.834 +03:00 [INF] Load finished in 165 ms
+2022-05-13 00:34:10.834 +03:00 [INF] Handle on target page was called 7 times
+2022-05-13 00:34:10.839 +03:00 [INF] Load finished in 240 ms
+2022-05-13 00:34:10.839 +03:00 [INF] Handle on target page was called 8 times
+2022-05-13 00:34:10.945 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:34:10.945 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:34:10.945 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:34:10.945 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:34:10.945 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:34:10.945 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:34:10.945 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:34:10.945 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:34:11.455 +03:00 [INF] Load finished in 109 ms
+2022-05-13 00:34:11.455 +03:00 [INF] Handle on target page was called 9 times
+2022-05-13 00:34:11.460 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:34:11.576 +03:00 [INF] Load finished in 202 ms
+2022-05-13 00:34:11.576 +03:00 [INF] Handle on target page was called 10 times
+2022-05-13 00:34:11.594 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:34:18.858 +03:00 [ERR] Error writing to CosmosDB
+CosmosException;StatusCode=BadRequest;SubStatusCode=0;ActivityId=4fb97514-6ab4-4b49-9a3e-440761a7ba5f;RequestCharge=1.57;Message=Response status code does not indicate success: 400 Substatus: 0 Reason: (Message: {"Errors":["One of the specified inputs is invalid"]}ActivityId: 4fb97514-6ab4-4b49-9a3e-440761a7ba5f, Request URI: /apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, RequestStats: RequestStartTime: 2022-05-12T21:34:16.0880550Z, RequestEndTime: 2022-05-12T21:34:18.3294590Z,  Number of regions attempted:1ResponseTime: 2022-05-12T21:34:18.3294590Z, StoreResult: StorePhysicalAddress: rntbd://cdb-ms-prod-westus1-fd81.documents.azure.com:14091/apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, LSN: 66, GlobalCommittedLsn: 66, PartitionKeyRangeId: 0, IsValid: True, StatusCode: 400, SubStatusCode: 0, RequestCharge: 1.57, ItemLSN: -1, SessionToken: -1#66, UsingLocalLSN: False, TransportException: null, ResourceType: Document, OperationType: Create, SDK: Darwin/10.17 cosmos-netstandard-sdk/3.4.1).;Diagnostics
+2022-05-13 00:34:18.858 +03:00 [ERR] Error writing to CosmosDB
+CosmosException;StatusCode=BadRequest;SubStatusCode=0;ActivityId=e39a81fb-c106-4718-bdab-42abd2abf5e2;RequestCharge=1.57;Message=Response status code does not indicate success: 400 Substatus: 0 Reason: (Message: {"Errors":["One of the specified inputs is invalid"]}ActivityId: e39a81fb-c106-4718-bdab-42abd2abf5e2, Request URI: /apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, RequestStats: RequestStartTime: 2022-05-12T21:34:16.0880120Z, RequestEndTime: 2022-05-12T21:34:18.3271440Z,  Number of regions attempted:1ResponseTime: 2022-05-12T21:34:18.3271440Z, StoreResult: StorePhysicalAddress: rntbd://cdb-ms-prod-westus1-fd81.documents.azure.com:14091/apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, LSN: 66, GlobalCommittedLsn: 66, PartitionKeyRangeId: 0, IsValid: True, StatusCode: 400, SubStatusCode: 0, RequestCharge: 1.57, ItemLSN: -1, SessionToken: -1#66, UsingLocalLSN: False, TransportException: null, ResourceType: Document, OperationType: Create, SDK: Darwin/10.17 cosmos-netstandard-sdk/3.4.1).;Diagnostics
+2022-05-13 00:35:37.891 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-13 00:35:37.928 +03:00 [INF] Hosting environment: Development
+2022-05-13 00:35:37.929 +03:00 [INF] Content root path: /Users/alex/Development/WebReaper/DistributedScraperWorkerService
+2022-05-13 00:35:40.607 +03:00 [INF] Load finished in 657 ms
+2022-05-13 00:35:40.607 +03:00 [INF] Load finished in 694 ms
+2022-05-13 00:35:40.612 +03:00 [INF] Handle on target page was called 1 times
+2022-05-13 00:35:40.613 +03:00 [INF] Handle on target page was called 2 times
+2022-05-13 00:35:40.787 +03:00 [INF] Load finished in 155 ms
+2022-05-13 00:35:40.787 +03:00 [INF] Handle on target page was called 3 times
+2022-05-13 00:35:40.788 +03:00 [INF] Load finished in 363 ms
+2022-05-13 00:35:40.789 +03:00 [INF] Handle on target page was called 4 times
+2022-05-13 00:35:40.789 +03:00 [INF] Load finished in 666 ms
+2022-05-13 00:35:40.789 +03:00 [INF] Handle on target page was called 5 times
+2022-05-13 00:35:41.142 +03:00 [INF] Load finished in 160 ms
+2022-05-13 00:35:41.143 +03:00 [INF] Handle on target page was called 6 times
+2022-05-13 00:35:41.282 +03:00 [INF] Load finished in 280 ms
+2022-05-13 00:35:41.283 +03:00 [INF] Handle on target page was called 7 times
+2022-05-13 00:35:41.369 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:35:41.369 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:35:41.369 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:35:41.369 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:35:41.369 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:35:41.369 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:35:41.375 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:35:41.454 +03:00 [INF] Load finished in 171 ms
+2022-05-13 00:35:41.454 +03:00 [INF] Handle on target page was called 8 times
+2022-05-13 00:35:41.463 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:35:41.875 +03:00 [INF] Load finished in 516 ms
+2022-05-13 00:35:41.875 +03:00 [INF] Handle on target page was called 9 times
+2022-05-13 00:35:41.890 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:35:42.021 +03:00 [INF] Load finished in 102 ms
+2022-05-13 00:35:42.021 +03:00 [INF] Handle on target page was called 10 times
+2022-05-13 00:35:42.026 +03:00 [INF] Initializing CosmosSink...
+2022-05-13 00:35:48.957 +03:00 [ERR] Error writing to CosmosDB
+CosmosException;StatusCode=BadRequest;SubStatusCode=0;ActivityId=d74f9d3a-945d-447f-8cc7-084ba1702200;RequestCharge=1.57;Message=Response status code does not indicate success: 400 Substatus: 0 Reason: (Message: {"Errors":["One of the specified inputs is invalid"]}ActivityId: d74f9d3a-945d-447f-8cc7-084ba1702200, Request URI: /apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, RequestStats: RequestStartTime: 2022-05-12T21:35:46.3686860Z, RequestEndTime: 2022-05-12T21:35:48.4793580Z,  Number of regions attempted:1ResponseTime: 2022-05-12T21:35:48.4793580Z, StoreResult: StorePhysicalAddress: rntbd://cdb-ms-prod-westus1-fd81.documents.azure.com:14091/apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, LSN: 66, GlobalCommittedLsn: 66, PartitionKeyRangeId: 0, IsValid: True, StatusCode: 400, SubStatusCode: 0, RequestCharge: 1.57, ItemLSN: -1, SessionToken: -1#66, UsingLocalLSN: False, TransportException: null, ResourceType: Document, OperationType: Create, SDK: Darwin/10.17 cosmos-netstandard-sdk/3.4.1).;Diagnostics
+2022-05-13 00:35:49.049 +03:00 [ERR] Error writing to CosmosDB
+CosmosException;StatusCode=BadRequest;SubStatusCode=0;ActivityId=ec32f9da-56dd-4ffa-a2b0-01514e936003;RequestCharge=1.57;Message=Response status code does not indicate success: 400 Substatus: 0 Reason: (Message: {"Errors":["One of the specified inputs is invalid"]}ActivityId: ec32f9da-56dd-4ffa-a2b0-01514e936003, Request URI: /apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, RequestStats: RequestStartTime: 2022-05-12T21:35:46.3686840Z, RequestEndTime: 2022-05-12T21:35:48.4793290Z,  Number of regions attempted:1ResponseTime: 2022-05-12T21:35:48.4793290Z, StoreResult: StorePhysicalAddress: rntbd://cdb-ms-prod-westus1-fd81.documents.azure.com:14091/apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, LSN: 66, GlobalCommittedLsn: 66, PartitionKeyRangeId: 0, IsValid: True, StatusCode: 400, SubStatusCode: 0, RequestCharge: 1.57, ItemLSN: -1, SessionToken: -1#66, UsingLocalLSN: False, TransportException: null, ResourceType: Document, OperationType: Create, SDK: Darwin/10.17 cosmos-netstandard-sdk/3.4.1).;Diagnostics
+2022-05-13 00:35:48.957 +03:00 [ERR] Error writing to CosmosDB
+CosmosException;StatusCode=BadRequest;SubStatusCode=0;ActivityId=df7fe120-d55b-4cc5-a006-b4ea54dd155c;RequestCharge=1.57;Message=Response status code does not indicate success: 400 Substatus: 0 Reason: (Message: {"Errors":["One of the specified inputs is invalid"]}ActivityId: df7fe120-d55b-4cc5-a006-b4ea54dd155c, Request URI: /apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, RequestStats: RequestStartTime: 2022-05-12T21:35:46.3686840Z, RequestEndTime: 2022-05-12T21:35:48.4794030Z,  Number of regions attempted:1ResponseTime: 2022-05-12T21:35:48.4794030Z, StoreResult: StorePhysicalAddress: rntbd://cdb-ms-prod-westus1-fd81.documents.azure.com:14091/apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, LSN: 66, GlobalCommittedLsn: 66, PartitionKeyRangeId: 0, IsValid: True, StatusCode: 400, SubStatusCode: 0, RequestCharge: 1.57, ItemLSN: -1, SessionToken: -1#66, UsingLocalLSN: False, TransportException: null, ResourceType: Document, OperationType: Create, SDK: Darwin/10.17 cosmos-netstandard-sdk/3.4.1).;Diagnostics
+2022-05-13 00:35:49.023 +03:00 [ERR] Error writing to CosmosDB
+CosmosException;StatusCode=BadRequest;SubStatusCode=0;ActivityId=7d25f097-c005-4324-9b88-66c54861da64;RequestCharge=1.57;Message=Response status code does not indicate success: 400 Substatus: 0 Reason: (Message: {"Errors":["One of the specified inputs is invalid"]}ActivityId: 7d25f097-c005-4324-9b88-66c54861da64, Request URI: /apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, RequestStats: RequestStartTime: 2022-05-12T21:35:46.3687070Z, RequestEndTime: 2022-05-12T21:35:48.4793300Z,  Number of regions attempted:1ResponseTime: 2022-05-12T21:35:48.4793300Z, StoreResult: StorePhysicalAddress: rntbd://cdb-ms-prod-westus1-fd81.documents.azure.com:14091/apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, LSN: 66, GlobalCommittedLsn: 66, PartitionKeyRangeId: 0, IsValid: True, StatusCode: 400, SubStatusCode: 0, RequestCharge: 1.57, ItemLSN: -1, SessionToken: -1#66, UsingLocalLSN: False, TransportException: null, ResourceType: Document, OperationType: Create, SDK: Darwin/10.17 cosmos-netstandard-sdk/3.4.1).;Diagnostics
+2022-05-13 00:35:49.049 +03:00 [ERR] Error writing to CosmosDB
+CosmosException;StatusCode=BadRequest;SubStatusCode=0;ActivityId=c217bc30-95c0-4ccc-a1ac-e65af94f3774;RequestCharge=1.57;Message=Response status code does not indicate success: 400 Substatus: 0 Reason: (Message: {"Errors":["One of the specified inputs is invalid"]}ActivityId: c217bc30-95c0-4ccc-a1ac-e65af94f3774, Request URI: /apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, RequestStats: RequestStartTime: 2022-05-12T21:35:46.3686720Z, RequestEndTime: 2022-05-12T21:35:48.4793430Z,  Number of regions attempted:1ResponseTime: 2022-05-12T21:35:48.4793430Z, StoreResult: StorePhysicalAddress: rntbd://cdb-ms-prod-westus1-fd81.documents.azure.com:14091/apps/0b624c75-81c6-4c63-ac89-ab13a7de101a/services/519b5e79-72c9-42ad-a7c6-6c8296bce8e3/partitions/8f879ea5-f05a-4188-99e2-c4d95ee3757b/replicas/132965982170988690p/, LSN: 66, GlobalCommittedLsn: 66, PartitionKeyRangeId: 0, IsValid: True, StatusCode: 400, SubStatusCode: 0, RequestCharge: 1.57, ItemLSN: -1, SessionToken: -1#66, UsingLocalLSN: False, TransportException: null, ResourceType: Document, OperationType: Create, SDK: Darwin/10.17 cosmos-netstandard-sdk/3.4.1).;Diagnostics
