@@ -55,10 +55,10 @@ public class CosmosSink : IScraperSink
         }
 
         scrapedData["id"] = Guid.NewGuid().ToString();
-
+        
         try
         {
-            await Container.CreateItemAsync(scrapedData, new PartitionKey(scrapedData["id"].ToString()));
+            await Container.CreateItemAsync(scrapedData, new PartitionKey(id));
         }
         catch (Exception ex)
         {
