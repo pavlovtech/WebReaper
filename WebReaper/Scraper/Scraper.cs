@@ -88,7 +88,7 @@ public class Scraper
         string databaseId,
         string containerId)
     {
-        SpiderBuilder.AddSink(new CosmosSink(endpointUrl, authorizationKey, databaseId, containerId));
+        SpiderBuilder.AddSink(new CosmosSink(endpointUrl, authorizationKey, databaseId, containerId, Logger));
         return this;
     }
 

@@ -44,7 +44,7 @@ public class ScrapingWorker : BackgroundService
                 "https://webreaper.documents.azure.com:443/",
                 "XkMSndeYQ1285XrVRNG7MYVg3YUw32aOPPpYyS8YDIcKa8SxMK5cqwsg069jlFW2oOdxedg92qQieZd0IO4Qtw==",
                 "WebReaper",
-                "Rutraker")
+                "Rutracker")
             .WithJobQueueReader(new AzureJobQueueReader(azureSBConnectionString, queue))
             .WithJobQueueWriter(new AzureJobQueueWriter(azureSBConnectionString, queue));
     }
