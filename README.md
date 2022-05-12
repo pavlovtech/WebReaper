@@ -11,7 +11,6 @@ Declarative extensible web scraper written in C#. Easly crawl any web site and p
 ```C#
 
 new Scraper()
-    .WithLogger(logger)
     .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
     .FollowLinks("#cf-33 .forumlink>a") // first level links
     .FollowLinks(".forumlink>a").       // second level links
