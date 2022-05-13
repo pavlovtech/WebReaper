@@ -2,7 +2,6 @@
 using WebReaper.Domain;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
-using System.Collections.Immutable;
 using WebReaper.Absctracts.Sinks;
 using WebReaper.LinkTracker.Abstract;
 using WebReaper.Abstractions.JobQueue;
@@ -148,28 +147,8 @@ public class Scraper
         var config = ConfigBuilder.Build();
         var spider = SpiderBuilder.Build();
 
-        await JobQueueWriter.WriteAsync(new Job(
-            config.ParsingScheme!,
-            config.BaseUrl,
-            config.StartUrl!,
-            ImmutableQueue.Create(config.LinkPathSelectors.ToArray()),
-            DepthLevel: 0));
+        Runner = new ScraperRunner(config, JobQueueReader, JobQueueWriter, spider, Logger);
 
-        var options = new ParallelOptions { MaxDegreeOfParallelism = parallelismDegree };
-        await Parallel.ForEachAsync(JobQueueReader.ReadAsync(), options, async (job, token) =>
-        {
-            try
-            {
-                var newJobs = await spider.CrawlAsync(job);
-                await JobQueueWriter.WriteAsync(newJobs.ToArray());
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex, "Error occurred when scraping {url}", job.Url);
-
-                // return job back to the queue
-                await JobQueueWriter.WriteAsync(job);
-            }
-        });
+        await Runner.Run(parallelismDegree);
     }
 }
