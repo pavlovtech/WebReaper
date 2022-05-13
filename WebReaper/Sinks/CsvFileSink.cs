@@ -12,7 +12,7 @@ namespace WebReaper.Sinks
         
         BlockingCollection<JObject> entries = new();
 
-        public bool IsInitialized { get; set; } = false;
+        protected bool IsInitialized { get; set; } = false;
 
         public CsvFileSink(string filePath)
         {

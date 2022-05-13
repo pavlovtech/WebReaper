@@ -16,14 +16,16 @@ namespace WebReaper.Sinks
 
         public JsonFileSink(string filePath) => this.filePath = filePath;
 
-        public async Task EmitAsync(JObject scrapedData)
+        public Task EmitAsync(JObject scrapedData)
         {
             if(!IsInitialized)
             {
-                await InitAsync();
+                Init();
             }
 
             entries.Add(scrapedData);
+
+            return Task.CompletedTask;
         }
 
         public async Task HandleAsync()
@@ -35,17 +37,22 @@ namespace WebReaper.Sinks
             await File.AppendAllTextAsync(filePath, "]");
         }
 
-        public Task InitAsync()
+        public void Init()
         {
             lock (_lock)
             {
+                if(IsInitialized)
+                {
+                    return;
+                }
+
                 File.Delete(filePath);
                 IsInitialized = true;
             
                 _ = HandleAsync();
             }
 
-            return Task.CompletedTask;
+            return;
         }
     }
 }

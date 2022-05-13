@@ -1,6 +1,5 @@
 using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using WebReaper.Absctracts.Sinks;
 
@@ -8,8 +7,6 @@ namespace WebReaper.Sinks;
 
 public class CosmosSink : IScraperSink
 {
-    private readonly object lockObject = new();
-
     protected string EndpointUrl { get; init; }
     protected string AuthorizationKey { get; init; }
     protected string DatabaseId { get; init; }
@@ -18,7 +15,23 @@ public class CosmosSink : IScraperSink
     protected CosmosClient CosmosClient { get; set; }
     protected Container Container { get; set; }
 
-    public bool IsInitialized { get; set; }
+    public Task Initialization { get; private set; }
+
+    private async Task InitializeAsync()
+    {
+        var CosmosClient = new CosmosClient(EndpointUrl, AuthorizationKey);
+
+        var databaseResponse = await CosmosClient.CreateDatabaseIfNotExistsAsync(DatabaseId);
+        var database = databaseResponse.Database;
+
+        // remove container
+        var testcontainer = database.GetContainer(ContainerId);
+        await testcontainer.DeleteContainerAsync();
+
+        // create container
+        var containerResp = await database.CreateContainerIfNotExistsAsync(ContainerId, "/id");
+        Container = containerResp.Container;
+    }
 
     public CosmosSink(
         string endpointUrl,
@@ -32,42 +45,13 @@ public class CosmosSink : IScraperSink
         DatabaseId = databaseId;
         ContainerId = containerId;
         Logger = logger;
+
+        Initialization = InitializeAsync();
     }
-
-    public async Task InitAsync()
-    {
-        if (IsInitialized)
-        {
-            return;
-        }
-
-        // update isInitialized via Interlocked
-
-        Logger.LogInformation("Initializing CosmosSink...");
-
-        CosmosClient = new CosmosClient(EndpointUrl, AuthorizationKey);
-        var databaseResponse = await CosmosClient.CreateDatabaseIfNotExistsAsync(DatabaseId);
-        var database = databaseResponse.Database;
-        var containerResp = await database.CreateContainerIfNotExistsAsync(ContainerId, "/id");
-        Container = containerResp.Container;
-
-        IsInitialized = true;
-    }
-
-    SemaphoreSlim sem = new SemaphoreSlim(1,1);
 
     public async Task EmitAsync(JObject scrapedData)
     {
-        if(!IsInitialized)
-        {
-            try {
-                await sem.WaitAsync();
-                await InitAsync();
-            
-            } finally {
-                sem.Release();
-            }
-        }
+        await Initialization;
 
         var id = Guid.NewGuid().ToString();
         scrapedData["id"] = id;
