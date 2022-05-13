@@ -9,7 +9,7 @@ namespace WebReaper.Sinks
         private object _lock = new();
 
         private readonly string filePath;
-        
+
         BlockingCollection<JObject> entries = new();
 
         public bool IsInitialized { get; set; } = false;
@@ -18,7 +18,7 @@ namespace WebReaper.Sinks
 
         public Task EmitAsync(JObject scrapedData)
         {
-            if(!IsInitialized)
+            if (!IsInitialized)
             {
                 Init();
             }
@@ -31,8 +31,9 @@ namespace WebReaper.Sinks
         public async Task HandleAsync()
         {
             await File.AppendAllTextAsync(filePath, "[");
-            
-            foreach(var entry in entries.GetConsumingEnumerable()) {
+
+            foreach (var entry in entries.GetConsumingEnumerable())
+            {
                 await File.AppendAllTextAsync(filePath, $"{entry.ToString()},{Environment.NewLine}");
             }
 
@@ -43,14 +44,14 @@ namespace WebReaper.Sinks
         {
             lock (_lock)
             {
-                if(IsInitialized)
+                if (IsInitialized)
                 {
                     return;
                 }
 
                 File.Delete(filePath);
                 IsInitialized = true;
-            
+
                 _ = HandleAsync();
             }
 
