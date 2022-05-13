@@ -30,6 +30,8 @@ namespace WebReaper.Sinks
 
         public async Task HandleAsync()
         {
+            await File.AppendAllTextAsync(filePath, "[");
+            
             foreach(var entry in entries.GetConsumingEnumerable()) {
                 await File.AppendAllTextAsync(filePath, $"{entry.ToString()},{Environment.NewLine}");
             }

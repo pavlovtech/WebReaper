@@ -12,8 +12,8 @@ public class CosmosSink : IScraperSink
     protected string DatabaseId { get; init; }
     protected string ContainerId { get; init; }
     protected ILogger Logger { get; }
-    protected CosmosClient CosmosClient { get; set; }
-    protected Container Container { get; set; }
+    protected CosmosClient? CosmosClient { get; set; }
+    protected Container? Container { get; set; }
 
     public Task Initialization { get; private set; }
 
@@ -51,14 +51,14 @@ public class CosmosSink : IScraperSink
 
     public async Task EmitAsync(JObject scrapedData)
     {
-        await Initialization;
+        await Initialization; // make sure that initialization finished
 
         var id = Guid.NewGuid().ToString();
         scrapedData["id"] = id;
         
         try
         {
-            await Container.CreateItemAsync(scrapedData, new PartitionKey(id));
+            await Container!.CreateItemAsync(scrapedData, new PartitionKey(id));
         }
         catch (Exception ex)
         {
