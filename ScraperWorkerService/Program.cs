@@ -5,6 +5,12 @@ Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Information()
                 .WriteTo.Console()
                 .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)
+                .Enrich.FromLogContext()
+                .Enrich.WithMachineName()
+                .Enrich.WithThreadName()
+                .Enrich.WithThreadId()
+                .Enrich.WithEnvironmentName()
+                .Enrich.WithMachineName()
                 .CreateLogger();
 
 IHost host = Host.CreateDefaultBuilder(args)
