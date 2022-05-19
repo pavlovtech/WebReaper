@@ -91,6 +91,6 @@ new Scraper()
 - [ ] Ports to NodeJS and Go
 - [ ] Sitemap crawling support
 - [ ] Parsing lists
-- [ ] API request suport
+- [ ] Site API support
 
 See the [LICENSE](LICENSE.txt) file for license rights and limitations (GNU GPLv3).
