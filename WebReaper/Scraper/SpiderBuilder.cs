@@ -103,10 +103,9 @@ public class SpiderBuilder
         string endpointUrl,
         string authorizationKey,
         string databaseId,
-        string containerId,
-        ILogger logger)
+        string containerId)
     {
-        return AddSink(new CosmosSink(endpointUrl, authorizationKey, databaseId, containerId, logger));
+        return AddSink(new CosmosSink(endpointUrl, authorizationKey, databaseId, containerId, Logger));
     }
 
     public SpiderBuilder WriteToCsvFile(string filePath) => AddSink(new CsvFileSink(filePath));
