@@ -24,7 +24,7 @@ namespace WebReaper.AzureFuncs
         }
 
         [FunctionName("WebReaperSpider")]
-        public static async Task Run([ServiceBusTrigger("jobqueue", Connection = "ServiceBusConnectionString")]string myQueueItem, IAsyncCollector<string> outputSbQueue, ILogger log)
+        public static async Task Run([ServiceBusTrigger("jobqueue", Connection = "ServiceBusConnectionString")]string myQueueItem, [ServiceBus("jobqueue", Connection = "ServiceBusConnectionString")] IAsyncCollector<string> outputSbQueue, ILogger log)
         {
             log.LogInformation($"C# ServiceBus queue trigger function processed message: {myQueueItem}");
             
