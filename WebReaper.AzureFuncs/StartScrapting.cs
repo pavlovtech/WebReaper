@@ -37,9 +37,7 @@ namespace WebReaper.AzureFuncs
         {
             _logger.LogInformation("C# HTTP trigger function processed a request.");
 
-            try
-			{
-				var config = new ScraperConfigBuilder()
+            var config = new ScraperConfigBuilder()
 					.WithLogger(_logger)
 					.WithStartUrl("https://rutracker.org/forum/index.php?c=33")
 					.FollowLinks("#cf-33 .forumlink>a")
@@ -64,16 +62,10 @@ namespace WebReaper.AzureFuncs
 				config.StartUrl!,
 				ImmutableQueue.Create(config.LinkPathSelectors.ToArray()),
 				DepthLevel: 0));
-			}
-			catch (System.Exception ex)
-			{
-				_logger.LogError(ex, "Error occured");
-				return new OkObjectResult(ex);
-			}
 
             return new OkObjectResult(new
             {
-				Message = "good"
+				Message = "OK"
             });
         }
     }
