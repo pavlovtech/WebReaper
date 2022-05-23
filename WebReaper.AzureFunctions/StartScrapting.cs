@@ -31,7 +31,7 @@ namespace WebReaper.AzureFunctions
             try
 			{
 				var config = new ScraperConfigBuilder()
-					.WithLogger(log)
+					.WithLogger(_logger)
 					.WithStartUrl("https://rutracker.org/forum/index.php?c=33")
 					.FollowLinks("#cf-33 .forumlink>a")
 					.FollowLinks(".forumlink>a")
