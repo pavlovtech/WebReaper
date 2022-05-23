@@ -1,12 +1,9 @@
-using System;
 using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using WebReaper.Domain;
 using WebReaper.LinkTracker;
-using WebReaper.Queue.AzureServiceBus;
 using WebReaper.Scraper;
 
 namespace WebReaper.AzureFuncs
@@ -24,7 +21,8 @@ namespace WebReaper.AzureFuncs
         }
 
         [FunctionName("WebReaperSpider")]
-        public static async Task Run([ServiceBusTrigger("jobqueue", Connection = "ServiceBusConnectionString")]string myQueueItem, [ServiceBus("jobqueue", Connection = "ServiceBusConnectionString")] IAsyncCollector<string> outputSbQueue, ILogger log)
+        public static async Task Run([ServiceBusTrigger("jobqueue", Connection = "ServiceBusConnectionString")]string myQueueItem,
+                [ServiceBus("jobqueue", Connection = "ServiceBusConnectionString")]IAsyncCollector<string> outputSbQueue, ILogger log)
         {
             log.LogInformation($"C# ServiceBus queue trigger function processed message: {myQueueItem}");
             
@@ -54,10 +52,11 @@ namespace WebReaper.AzureFuncs
                     "Rutracker")
                 .Build();
 
-            var newJobs = await spiderBuilder.CrawlAsync(job);   
+            var newJobs = await spiderBuilder.CrawlAsync(job);
 
             foreach(var newJob in newJobs)
             {
+                log.LogInformation($"Adding to the queue: {newJob.Url}");
                 await outputSbQueue.AddAsync(SerializeToJson(newJob));
             }
         }
