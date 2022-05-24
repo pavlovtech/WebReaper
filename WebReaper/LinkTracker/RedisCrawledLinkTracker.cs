@@ -18,6 +18,11 @@ public class RedisCrawledLinkTracker : ICrawledLinkTracker
         });
     }
 
+    public RedisCrawledLinkTracker(IConnectionMultiplexer connection)
+    {
+        redis = (ConnectionMultiplexer?)connection;
+    }
+
     public async Task AddVisitedLinkAsync(string siteUrl, string visitedLink)
     {
         IDatabase db = redis.GetDatabase();
