@@ -10,17 +10,6 @@ public class RedisCrawledLinkTracker : ICrawledLinkTracker
     public RedisCrawledLinkTracker(string connectionString)
     {
         redis = ConnectionMultiplexer.Connect(connectionString);
-
-        try
-        {
-            // TODO: remove this line
-            var srv = redis.GetServer("webreaper.redis.cache.windows.net:6380");
-            srv.FlushDatabase();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-        }
     }
 
     public async Task AddVisitedLinkAsync(string siteUrl, string visitedLink)

@@ -59,6 +59,8 @@ namespace WebReaper.AzureFuncs
                 log.LogInformation($"Adding to the queue: {newJob.Url}");
                 await outputSbQueue.AddAsync(SerializeToJson(newJob));
             }
+
+            await outputSbQueue.FlushAsync();
         }
     }
 }
