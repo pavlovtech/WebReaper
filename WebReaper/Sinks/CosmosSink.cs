@@ -24,10 +24,6 @@ public class CosmosSink : IScraperSink
         var databaseResponse = await CosmosClient.CreateDatabaseIfNotExistsAsync(DatabaseId);
         var database = databaseResponse.Database;
 
-        // remove container
-        var testcontainer = database.GetContainer(ContainerId);
-        await testcontainer.DeleteContainerAsync();
-
         // create container
         var containerResp = await database.CreateContainerIfNotExistsAsync(ContainerId, "/id");
         Container = containerResp.Container;
