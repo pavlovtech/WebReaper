@@ -11,6 +11,7 @@ using WebReaper.Domain.Parsing;
 using Microsoft.Extensions.Logging.Abstractions;
 using WebReaper.Queue.InMemory;
 using WebReaper.Domain.Selectors;
+using Microsoft.Azure.Cosmos;
 
 namespace WebReaper.Scraper;
 
@@ -82,12 +83,11 @@ public class Scraper
     }
     
     public Scraper WriteToCosmosDb(
-        string endpointUrl,
-        string authorizationKey,
+        CosmosClient cosmosClient,
         string databaseId,
         string containerId)
     {
-        SpiderBuilder.AddSink(new CosmosSink(endpointUrl, authorizationKey, databaseId, containerId, Logger));
+        SpiderBuilder.AddSink(new CosmosSink(cosmosClient, databaseId, containerId, Logger));
         return this;
     }
 

@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -12,10 +13,12 @@ namespace WebReaper.AzureFuncs
     public class WebReaperSpider
     {
         public IConnectionMultiplexer ConnectionMultiplexer { get; }
+        public CosmosClient CosmosClient { get; }
 
-        public WebReaperSpider(IConnectionMultiplexer connectionMultiplexer)
+        public WebReaperSpider(IConnectionMultiplexer connectionMultiplexer, CosmosClient cosmosClient)
         {
             ConnectionMultiplexer = connectionMultiplexer;
+            CosmosClient = cosmosClient;
         }
 
         private string SerializeToJson(Job job)
@@ -52,8 +55,7 @@ namespace WebReaper.AzureFuncs
                 .IgnoreUrls(blackList)
                 .WithLinkTracker(new RedisCrawledLinkTracker(ConnectionMultiplexer))
                 .WriteToCosmosDb(
-                    "https://webreaper.documents.azure.com:443/",
-                    "XkMSndeYQ1285XrVRNG7MYVg3YUw32aOPPpYyS8YDIcKa8SxMK5cqwsg069jlFW2oOdxedg92qQieZd0IO4Qtw==",
+                    CosmosClient,
                     "WebReaper",
                     "Rutracker")
                 .Build();
