@@ -39,7 +39,7 @@ namespace WebReaper.AzureFuncs
                 "https://rutracker.org/forum/viewforum.php?f=2321"
             };
 
-            var redisConnectionString = "redis-14134.c135.eu-central-1-1.ec2.cloud.redislabs.com:14134,password=fFyL97L9hj3NPTsIGyPy99YgxnmoHzH4,ssl=True,abortConnect=False";
+            var redisConnectionString = "webreaper.redis.cache.windows.net:6380,password=etUgOS0XUTTpZqNGlSlmaczrDKTeySPBWAzCaAMhsVU=,ssl=True,abortConnect=False";
 
             var spiderBuilder = new SpiderBuilder()
                 .WithLogger(log)
