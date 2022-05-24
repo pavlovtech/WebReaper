@@ -1,4 +1,5 @@
-﻿using Microsoft.Azure.Functions.Extensions.DependencyInjection;
+﻿using Microsoft.Azure.Cosmos;
+using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
 
@@ -22,7 +23,9 @@ namespace WebReaper.AzureFuncs
                     });
                 return r;
             });
-               
+
+            builder.Services.AddSingleton(new CosmosClient("https://webreaper.documents.azure.com:443/",
+                "XkMSndeYQ1285XrVRNG7MYVg3YUw32aOPPpYyS8YDIcKa8SxMK5cqwsg069jlFW2oOdxedg92qQieZd0IO4Qtw=="));
         }
     }
 }

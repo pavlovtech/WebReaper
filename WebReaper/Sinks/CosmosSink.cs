@@ -19,9 +19,7 @@ public class CosmosSink : IScraperSink
 
     private async Task InitializeAsync()
     {
-        var CosmosClient = new CosmosClient(EndpointUrl, AuthorizationKey);
-
-        var databaseResponse = await CosmosClient.CreateDatabaseIfNotExistsAsync(DatabaseId);
+        var databaseResponse = await CosmosClient!.CreateDatabaseIfNotExistsAsync(DatabaseId);
         var database = databaseResponse.Database;
 
         // create container
@@ -30,14 +28,12 @@ public class CosmosSink : IScraperSink
     }
 
     public CosmosSink(
-        string endpointUrl,
-        string authorizationKey,
+        CosmosClient cosmosClient,
         string databaseId,
         string containerId,
         ILogger logger)
     {
-        EndpointUrl = endpointUrl;
-        AuthorizationKey = authorizationKey;
+        CosmosClient = cosmosClient;
         DatabaseId = databaseId;
         ContainerId = containerId;
         Logger = logger;

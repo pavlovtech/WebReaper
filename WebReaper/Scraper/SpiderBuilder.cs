@@ -11,6 +11,7 @@ using WebReaper.LinkTracker;
 using WebReaper.Loaders;
 using Microsoft.Extensions.Logging.Abstractions;
 using WebReaper.Spiders;
+using Microsoft.Azure.Cosmos;
 
 namespace WebReaper.Scraper;
 
@@ -100,12 +101,11 @@ public class SpiderBuilder
     public SpiderBuilder WriteToJsonFile(string filePath) => AddSink(new JsonFileSink(filePath));
 
     public SpiderBuilder WriteToCosmosDb(
-        string endpointUrl,
-        string authorizationKey,
+        CosmosClient cosmosClient,
         string databaseId,
         string containerId)
     {
-        return AddSink(new CosmosSink(endpointUrl, authorizationKey, databaseId, containerId, Logger));
+        return AddSink(new CosmosSink(cosmosClient, databaseId, containerId, Logger));
     }
 
     public SpiderBuilder WriteToCsvFile(string filePath) => AddSink(new CsvFileSink(filePath));
