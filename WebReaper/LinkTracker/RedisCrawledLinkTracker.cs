@@ -9,7 +9,12 @@ public class RedisCrawledLinkTracker : ICrawledLinkTracker
 
     public RedisCrawledLinkTracker(string connectionString)
     {
-        redis = ConnectionMultiplexer.Connect(connectionString);
+        redis = ConnectionMultiplexer.Connect(connectionString, config => {
+            config.SyncTimeout = 10000;
+            config.AsyncTimeout = 10000;
+            config.ConnectTimeout = 20000;
+            config.AbortOnConnectFail = true;
+        });
     }
 
     public async Task AddVisitedLinkAsync(string siteUrl, string visitedLink)
