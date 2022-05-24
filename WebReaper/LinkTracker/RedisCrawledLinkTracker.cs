@@ -13,7 +13,8 @@ public class RedisCrawledLinkTracker : ICrawledLinkTracker
             config.SyncTimeout = 10000;
             config.AsyncTimeout = 10000;
             config.ConnectTimeout = 20000;
-            config.AbortOnConnectFail = true;
+            config.AbortOnConnectFail = false;
+            config.ConnectRetry = 5;
         });
     }
 
