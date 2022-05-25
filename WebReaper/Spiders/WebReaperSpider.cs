@@ -50,7 +50,7 @@ public class WebReaperSpider : ISpider
     {
         if (UrlBlackList.Contains(job.Url)) return Enumerable.Empty<Job>();
 
-        if ((await LinkTracker.GetVisitedLinksAsync(job.BaseUrl)).Count() >= PageCrawlLimit)
+        if ((await LinkTracker.GetVisitedLinksCount(job.BaseUrl)) >= PageCrawlLimit)
         {
             return Enumerable.Empty<Job>();
         }
@@ -100,9 +100,9 @@ public class WebReaperSpider : ISpider
                 Logger.LogInformation("No pages with pagination found with selector {selector} on {url}", currentSelector.PaginationSelector, job.Url);
             }
 
-            var linksToPaginatedPages = rawPaginatedLinks
-                .Select(link => job.BaseUrl + link)
-                .Except(await LinkTracker.GetVisitedLinksAsync(job.BaseUrl));
+            var allLinks = rawPaginatedLinks.Select(link => job.BaseUrl + link);
+
+            var linksToPaginatedPages = await LinkTracker.GetNotVisitedLinks(job.BaseUrl, allLinks);
 
             newJobs.AddRange(CreateNextJobs(job, job.LinkPathSelectors, linksToPaginatedPages));
         }

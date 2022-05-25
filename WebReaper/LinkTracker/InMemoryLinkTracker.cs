@@ -34,4 +34,15 @@ public class InMemoryCrawledLinkTracker : ICrawledLinkTracker
 
         return Task.FromResult(visited);
     }
+
+    public async Task<IEnumerable<string>> GetNotVisitedLinks(string siteUrl, IEnumerable<string> links)
+    {
+        var visited = await GetVisitedLinksAsync(siteUrl);
+        return links.Except(visited);
+    }
+
+    public Task<long> GetVisitedLinksCount(string siteUrl)
+    {
+        return Task.FromResult((long)visitedUrlsPerSite[siteUrl].Count());
+    }
 }
