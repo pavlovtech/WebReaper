@@ -44,7 +44,7 @@ public class ScrapingWorker : BackgroundService
             .WriteToCosmosDb(
                 "https://webreaperdbserverless.documents.azure.com:443/",
                 "TssEjPIdgShphVKhFkxrAu6WJovPdIZLTFNshJWGdXuitWPIMlXTidc05WFqm20qFVz8leE8zc5JBOphlNmRYg==",
-                "WebReaper",
+                "DistributedWebReaper",
                 "Rutracker")
             .WithJobQueueReader(new AzureJobQueueReader(azureSBConnectionString, queue))
             .WithJobQueueWriter(new AzureJobQueueWriter(azureSBConnectionString, queue));

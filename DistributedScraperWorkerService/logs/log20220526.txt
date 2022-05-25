@@ -1,0 +1,8 @@
+2022-05-26 02:50:19.954 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-26 02:50:20.018 +03:00 [INF] Hosting environment: Development
+2022-05-26 02:50:20.021 +03:00 [INF] Content root path: C:\Projects\WebReaper\DistributedScraperWorkerService
+2022-05-26 02:50:21.754 +03:00 [INF] Load finished in 123 ms
+2022-05-26 02:53:21.358 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-26 02:53:21.404 +03:00 [INF] Hosting environment: Development
+2022-05-26 02:53:21.408 +03:00 [INF] Content root path: C:\Projects\WebReaper\DistributedScraperWorkerService
+2022-05-26 02:53:22.876 +03:00 [INF] Load finished in 122 ms
