@@ -83,11 +83,12 @@ public class Scraper
     }
     
     public Scraper WriteToCosmosDb(
-        CosmosClient cosmosClient,
+        string endpointUrl,
+        string authorizationKey,
         string databaseId,
         string containerId)
     {
-        SpiderBuilder.AddSink(new CosmosSink(cosmosClient, databaseId, containerId, Logger));
+        SpiderBuilder.AddSink(new CosmosSink(endpointUrl, authorizationKey, databaseId, containerId, Logger));
         return this;
     }
 

@@ -42,8 +42,8 @@ public class ScrapingWorker : BackgroundService
             })
             .WithLinkTracker(new RedisCrawledLinkTracker(redisConnectionString))
             .WriteToCosmosDb(
-                new CosmosClient("https://webreaperdbserverless.documents.azure.com:443/",
-                    "TssEjPIdgShphVKhFkxrAu6WJovPdIZLTFNshJWGdXuitWPIMlXTidc05WFqm20qFVz8leE8zc5JBOphlNmRYg=="),
+                "https://webreaperdbserverless.documents.azure.com:443/",
+                "TssEjPIdgShphVKhFkxrAu6WJovPdIZLTFNshJWGdXuitWPIMlXTidc05WFqm20qFVz8leE8zc5JBOphlNmRYg==",
                 "WebReaper",
                 "Rutracker")
             .WithJobQueueReader(new AzureJobQueueReader(azureSBConnectionString, queue))
