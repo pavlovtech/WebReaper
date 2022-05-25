@@ -32,4 +32,18 @@ public class RedisCrawledLinkTracker : ICrawledLinkTracker
 
         return result.Select(x => x.ToString());
     }
+
+    public Task<IEnumerable<string>> GetNotVisitedLinks(string siteUrl, IEnumerable<string> links)
+    {
+        IDatabase db = redis!.GetDatabase();
+        var result = links.Where(x => !db.SetContains(siteUrl, x));
+        
+        return Task.FromResult(result);
+    }
+
+    public async Task<long> GetVisitedLinksCount(string siteUrl)
+    {
+        IDatabase db = redis!.GetDatabase();
+        return await db.SetLengthAsync("visitedLinks");
+    }
 }
