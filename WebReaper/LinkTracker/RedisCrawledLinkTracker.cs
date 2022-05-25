@@ -11,9 +11,9 @@ public class RedisCrawledLinkTracker : ICrawledLinkTracker
     {
         redis = ConnectionMultiplexer.Connect(connectionString, config => {
             config.AbortOnConnectFail = false;
-            config.AsyncTimeout = 60000;
-            config.SyncTimeout = 60000;
-            config.ConnectTimeout = 40000;
+
+            config.AsyncTimeout = 180000;
+            config.SyncTimeout = 180000;
 
             config.ReconnectRetryPolicy = new ExponentialRetry(10000);
         });
