@@ -101,11 +101,12 @@ public class SpiderBuilder
     public SpiderBuilder WriteToJsonFile(string filePath) => AddSink(new JsonFileSink(filePath));
 
     public SpiderBuilder WriteToCosmosDb(
-        CosmosClient cosmosClient,
+        string endpointUrl,
+        string authorizationKey,
         string databaseId,
         string containerId)
     {
-        return AddSink(new CosmosSink(cosmosClient, databaseId, containerId, Logger));
+        return AddSink(new CosmosSink(endpointUrl, authorizationKey, databaseId, containerId, Logger));
     }
 
     public SpiderBuilder WriteToCsvFile(string filePath) => AddSink(new CsvFileSink(filePath));

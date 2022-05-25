@@ -6,19 +6,21 @@ using Newtonsoft.Json;
 using StackExchange.Redis;
 using WebReaper.Domain;
 using WebReaper.LinkTracker;
+using WebReaper.LinkTracker.Abstract;
 using WebReaper.Scraper;
+using WebReaper.Sinks;
 
 namespace WebReaper.AzureFuncs
 {
     public class WebReaperSpider
     {
-        public IConnectionMultiplexer ConnectionMultiplexer { get; }
-        public CosmosClient CosmosClient { get; }
+        public ICrawledLinkTracker LinkTracker { get; }
+        public CosmosSink CosmosSink { get; }
 
-        public WebReaperSpider(IConnectionMultiplexer connectionMultiplexer, CosmosClient cosmosClient)
+        public WebReaperSpider(ICrawledLinkTracker linkTracker, CosmosSink cosmosSink)
         {
-            ConnectionMultiplexer = connectionMultiplexer;
-            CosmosClient = cosmosClient;
+            LinkTracker = linkTracker;
+            CosmosSink = cosmosSink;
         }
 
         private string SerializeToJson(Job job)
@@ -53,11 +55,8 @@ namespace WebReaper.AzureFuncs
             var spiderBuilder = new SpiderBuilder()
                 .WithLogger(log)
                 .IgnoreUrls(blackList)
-                .WithLinkTracker(new RedisCrawledLinkTracker(ConnectionMultiplexer))
-                .WriteToCosmosDb(
-                    CosmosClient,
-                    "WebReaper",
-                    "Rutracker")
+                .WithLinkTracker(LinkTracker)
+                .AddSink(CosmosSink)
                 .Build();
 
             var newJobs = await spiderBuilder.CrawlAsync(job);
