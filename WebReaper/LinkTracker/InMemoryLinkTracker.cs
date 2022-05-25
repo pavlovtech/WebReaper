@@ -43,6 +43,13 @@ public class InMemoryCrawledLinkTracker : ICrawledLinkTracker
 
     public Task<long> GetVisitedLinksCount(string siteUrl)
     {
-        return Task.FromResult((long)visitedUrlsPerSite[siteUrl].Count());
+        var successful = visitedUrlsPerSite.TryGetValue(siteUrl, out var result);
+
+        if(!successful)
+        {
+            return Task.FromResult(0L);
+        }
+
+        return Task.FromResult((long)result!.Count);
     }
 }

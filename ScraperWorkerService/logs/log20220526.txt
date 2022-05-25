@@ -1,0 +1,264 @@
+2022-05-26 02:47:37.783 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-26 02:47:38.011 +03:00 [INF] Hosting environment: Development
+2022-05-26 02:47:38.014 +03:00 [INF] Content root path: C:\Projects\WebReaper\ScraperWorkerService
+2022-05-26 02:47:38.223 +03:00 [INF] Load finished in 440 ms
+2022-05-26 02:47:38.461 +03:00 [INF] Load finished in 89 ms
+2022-05-26 02:47:38.486 +03:00 [INF] Load finished in 110 ms
+2022-05-26 02:47:38.494 +03:00 [INF] Load finished in 120 ms
+2022-05-26 02:47:38.589 +03:00 [INF] Load finished in 92 ms
+2022-05-26 02:47:38.667 +03:00 [INF] Load finished in 175 ms
+2022-05-26 02:47:38.674 +03:00 [INF] Load finished in 167 ms
+2022-05-26 02:47:38.684 +03:00 [INF] Load finished in 310 ms
+2022-05-26 02:47:38.717 +03:00 [INF] Load finished in 84 ms
+2022-05-26 02:47:38.741 +03:00 [INF] Handle on target page was called 1 times
+2022-05-26 02:48:05.342 +03:00 [INF] Load finished in 26607 ms
+2022-05-26 02:48:05.342 +03:00 [INF] Load finished in 26653 ms
+2022-05-26 02:48:05.343 +03:00 [INF] Load finished in 26603 ms
+2022-05-26 02:48:05.387 +03:00 [INF] Handle on target page was called 3 times
+2022-05-26 02:48:05.387 +03:00 [INF] Handle on target page was called 2 times
+2022-05-26 02:48:05.388 +03:00 [INF] Handle on target page was called 4 times
+2022-05-26 02:49:28.700 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-26 02:49:28.825 +03:00 [INF] Hosting environment: Development
+2022-05-26 02:49:28.828 +03:00 [INF] Content root path: C:\Projects\WebReaper\ScraperWorkerService
+2022-05-26 02:49:29.050 +03:00 [INF] Load finished in 348 ms
+2022-05-26 02:49:29.252 +03:00 [INF] Load finished in 88 ms
+2022-05-26 02:49:29.283 +03:00 [INF] Load finished in 117 ms
+2022-05-26 02:49:29.283 +03:00 [INF] Load finished in 115 ms
+2022-05-26 02:49:29.283 +03:00 [INF] Load finished in 117 ms
+2022-05-26 02:49:29.344 +03:00 [INF] Load finished in 79 ms
+2022-05-26 02:49:29.435 +03:00 [INF] Load finished in 86 ms
+2022-05-26 02:49:29.495 +03:00 [INF] Load finished in 176 ms
+2022-05-26 02:49:29.528 +03:00 [INF] Load finished in 211 ms
+2022-05-26 02:49:29.495 +03:00 [INF] Load finished in 176 ms
+2022-05-26 02:49:29.558 +03:00 [INF] Load finished in 85 ms
+2022-05-26 02:49:30.079 +03:00 [INF] Handle on target page was called 1 times
+2022-05-26 02:49:30.157 +03:00 [INF] Load finished in 77 ms
+2022-05-26 02:49:30.161 +03:00 [INF] Handle on target page was called 2 times
+2022-05-26 02:49:30.198 +03:00 [INF] Load finished in 80 ms
+2022-05-26 02:49:30.199 +03:00 [INF] Handle on target page was called 3 times
+2022-05-26 02:49:30.199 +03:00 [INF] Load finished in 78 ms
+2022-05-26 02:49:30.202 +03:00 [INF] Handle on target page was called 4 times
+2022-05-26 02:49:30.310 +03:00 [INF] Load finished in 87 ms
+2022-05-26 02:49:30.311 +03:00 [INF] Load finished in 80 ms
+2022-05-26 02:49:30.312 +03:00 [INF] Handle on target page was called 5 times
+2022-05-26 02:49:30.319 +03:00 [INF] Handle on target page was called 6 times
+2022-05-26 02:49:30.323 +03:00 [INF] Load finished in 85 ms
+2022-05-26 02:49:30.338 +03:00 [INF] Handle on target page was called 7 times
+2022-05-26 02:49:30.404 +03:00 [INF] Load finished in 80 ms
+2022-05-26 02:49:30.480 +03:00 [INF] Load finished in 152 ms
+2022-05-26 02:49:30.498 +03:00 [INF] Load finished in 153 ms
+2022-05-26 02:49:30.507 +03:00 [INF] Handle on target page was called 8 times
+2022-05-26 02:49:30.508 +03:00 [INF] Handle on target page was called 9 times
+2022-05-26 02:49:30.509 +03:00 [INF] Handle on target page was called 10 times
+2022-05-26 02:49:30.565 +03:00 [INF] Load finished in 79 ms
+2022-05-26 02:49:30.567 +03:00 [INF] Handle on target page was called 11 times
+2022-05-26 02:49:30.596 +03:00 [INF] Load finished in 82 ms
+2022-05-26 02:49:30.598 +03:00 [INF] Handle on target page was called 12 times
+2022-05-26 02:49:30.615 +03:00 [INF] Load finished in 87 ms
+2022-05-26 02:49:30.617 +03:00 [INF] Handle on target page was called 13 times
+2022-05-26 02:49:30.657 +03:00 [INF] Load finished in 84 ms
+2022-05-26 02:49:30.659 +03:00 [INF] Handle on target page was called 14 times
+2022-05-26 02:49:30.679 +03:00 [INF] Load finished in 77 ms
+2022-05-26 02:49:30.681 +03:00 [INF] Handle on target page was called 15 times
+2022-05-26 02:49:30.693 +03:00 [INF] Load finished in 150 ms
+2022-05-26 02:49:30.697 +03:00 [INF] Handle on target page was called 16 times
+2022-05-26 02:49:30.709 +03:00 [INF] Load finished in 79 ms
+2022-05-26 02:49:30.750 +03:00 [INF] Load finished in 83 ms
+2022-05-26 02:49:30.760 +03:00 [INF] Handle on target page was called 17 times
+2022-05-26 02:49:30.762 +03:00 [INF] Handle on target page was called 18 times
+2022-05-26 02:49:30.764 +03:00 [INF] Load finished in 78 ms
+2022-05-26 02:49:30.784 +03:00 [INF] Handle on target page was called 19 times
+2022-05-26 02:49:30.855 +03:00 [INF] Load finished in 80 ms
+2022-05-26 02:49:30.857 +03:00 [INF] Handle on target page was called 20 times
+2022-05-26 02:49:30.861 +03:00 [INF] Load finished in 82 ms
+2022-05-26 02:49:30.864 +03:00 [INF] Handle on target page was called 21 times
+2022-05-26 02:49:30.883 +03:00 [INF] Load finished in 81 ms
+2022-05-26 02:49:30.885 +03:00 [INF] Handle on target page was called 22 times
+2022-05-26 02:49:30.957 +03:00 [INF] Load finished in 94 ms
+2022-05-26 02:49:30.959 +03:00 [INF] Handle on target page was called 23 times
+2022-05-26 02:49:30.970 +03:00 [INF] Load finished in 77 ms
+2022-05-26 02:49:30.972 +03:00 [INF] Handle on target page was called 24 times
+2022-05-26 02:49:31.045 +03:00 [INF] Load finished in 158 ms
+2022-05-26 02:49:31.046 +03:00 [INF] Handle on target page was called 25 times
+2022-05-26 02:49:31.062 +03:00 [INF] Load finished in 78 ms
+2022-05-26 02:49:31.070 +03:00 [INF] Load finished in 94 ms
+2022-05-26 02:49:31.088 +03:00 [INF] Handle on target page was called 27 times
+2022-05-26 02:49:31.087 +03:00 [INF] Handle on target page was called 26 times
+2022-05-26 02:49:31.143 +03:00 [INF] Load finished in 344 ms
+2022-05-26 02:49:31.153 +03:00 [INF] Load finished in 82 ms
+2022-05-26 02:49:31.164 +03:00 [INF] Handle on target page was called 28 times
+2022-05-26 02:49:31.165 +03:00 [INF] Handle on target page was called 29 times
+2022-05-26 02:49:31.185 +03:00 [INF] Load finished in 82 ms
+2022-05-26 02:49:31.188 +03:00 [INF] Handle on target page was called 30 times
+2022-05-26 02:49:31.240 +03:00 [INF] Load finished in 105 ms
+2022-05-26 02:49:31.246 +03:00 [INF] Handle on target page was called 31 times
+2022-05-26 02:49:31.284 +03:00 [INF] Load finished in 92 ms
+2022-05-26 02:49:31.286 +03:00 [INF] Handle on target page was called 32 times
+2022-05-26 02:49:31.321 +03:00 [INF] Load finished in 108 ms
+2022-05-26 02:49:31.322 +03:00 [INF] Handle on target page was called 33 times
+2022-05-26 02:49:31.341 +03:00 [INF] Load finished in 159 ms
+2022-05-26 02:49:31.345 +03:00 [INF] Handle on target page was called 34 times
+2022-05-26 02:49:31.385 +03:00 [INF] Load finished in 82 ms
+2022-05-26 02:49:31.387 +03:00 [INF] Handle on target page was called 35 times
+2022-05-26 02:49:31.395 +03:00 [INF] Load finished in 82 ms
+2022-05-26 02:49:31.398 +03:00 [INF] Handle on target page was called 36 times
+2022-05-26 02:49:31.407 +03:00 [INF] Load finished in 80 ms
+2022-05-26 02:49:31.412 +03:00 [INF] Handle on target page was called 37 times
+2022-05-26 02:49:31.439 +03:00 [INF] Load finished in 82 ms
+2022-05-26 02:49:31.441 +03:00 [INF] Handle on target page was called 38 times
+2022-05-26 02:49:31.493 +03:00 [INF] Load finished in 77 ms
+2022-05-26 02:49:31.495 +03:00 [INF] Handle on target page was called 39 times
+2022-05-26 02:49:31.495 +03:00 [INF] Load finished in 76 ms
+2022-05-26 02:49:31.499 +03:00 [INF] Handle on target page was called 40 times
+2022-05-26 02:49:31.525 +03:00 [INF] Load finished in 75 ms
+2022-05-26 02:49:31.527 +03:00 [INF] Handle on target page was called 41 times
+2022-05-26 02:49:31.557 +03:00 [INF] Load finished in 152 ms
+2022-05-26 02:49:31.559 +03:00 [INF] Handle on target page was called 42 times
+2022-05-26 02:49:31.584 +03:00 [INF] Load finished in 84 ms
+2022-05-26 02:49:31.585 +03:00 [INF] Handle on target page was called 43 times
+2022-05-26 02:49:31.586 +03:00 [INF] Load finished in 81 ms
+2022-05-26 02:49:31.590 +03:00 [INF] Handle on target page was called 44 times
+2022-05-26 02:49:31.651 +03:00 [INF] Load finished in 80 ms
+2022-05-26 02:49:31.653 +03:00 [INF] Handle on target page was called 45 times
+2022-05-26 02:49:31.674 +03:00 [INF] Load finished in 80 ms
+2022-05-26 02:49:31.676 +03:00 [INF] Handle on target page was called 46 times
+2022-05-26 02:49:31.677 +03:00 [INF] Load finished in 81 ms
+2022-05-26 02:49:31.683 +03:00 [INF] Handle on target page was called 47 times
+2022-05-26 02:49:31.683 +03:00 [INF] Load finished in 151 ms
+2022-05-26 02:49:31.690 +03:00 [INF] Handle on target page was called 48 times
+2022-05-26 02:49:31.781 +03:00 [INF] Load finished in 82 ms
+2022-05-26 02:49:31.783 +03:00 [INF] Handle on target page was called 49 times
+2022-05-26 02:49:31.784 +03:00 [INF] Load finished in 83 ms
+2022-05-26 02:49:31.787 +03:00 [INF] Handle on target page was called 50 times
+2022-05-26 02:49:31.795 +03:00 [INF] Load finished in 135 ms
+2022-05-26 02:49:31.798 +03:00 [INF] Handle on target page was called 51 times
+2022-05-26 02:49:31.867 +03:00 [INF] Load finished in 153 ms
+2022-05-26 02:49:31.869 +03:00 [INF] Handle on target page was called 52 times
+2022-05-26 02:49:31.876 +03:00 [INF] Load finished in 87 ms
+2022-05-26 02:49:31.877 +03:00 [INF] Handle on target page was called 53 times
+2022-05-26 02:49:31.900 +03:00 [INF] Load finished in 87 ms
+2022-05-26 02:49:31.902 +03:00 [INF] Handle on target page was called 54 times
+2022-05-26 02:49:31.944 +03:00 [INF] Load finished in 145 ms
+2022-05-26 02:49:31.946 +03:00 [INF] Handle on target page was called 55 times
+2022-05-26 02:49:31.961 +03:00 [INF] Load finished in 82 ms
+2022-05-26 02:49:31.963 +03:00 [INF] Handle on target page was called 56 times
+2022-05-26 02:49:31.967 +03:00 [INF] Load finished in 77 ms
+2022-05-26 02:49:31.970 +03:00 [INF] Handle on target page was called 57 times
+2022-05-26 02:49:38.319 +03:00 [INF] Load finished in 6362 ms
+2022-05-26 02:49:38.345 +03:00 [INF] Handle on target page was called 58 times
+2022-05-26 02:49:38.319 +03:00 [INF] Load finished in 6409 ms
+2022-05-26 02:49:38.361 +03:00 [INF] Handle on target page was called 59 times
+2022-05-26 02:49:38.446 +03:00 [ERR] System.InvalidOperationException: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, SchemaElement item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-05-26 02:49:38.456 +03:00 [INF] Load finished in 92 ms
+2022-05-26 02:49:38.459 +03:00 [INF] Handle on target page was called 60 times
+2022-05-26 02:49:38.476 +03:00 [INF] Load finished in 102 ms
+2022-05-26 02:49:38.477 +03:00 [INF] Handle on target page was called 61 times
+2022-05-26 02:49:38.492 +03:00 [INF] Load finished in 146 ms
+2022-05-26 02:49:38.494 +03:00 [INF] Handle on target page was called 62 times
+2022-05-26 02:49:38.539 +03:00 [INF] Load finished in 89 ms
+2022-05-26 02:49:38.541 +03:00 [INF] Handle on target page was called 63 times
+2022-05-26 02:49:38.583 +03:00 [INF] Load finished in 83 ms
+2022-05-26 02:49:38.585 +03:00 [INF] Handle on target page was called 64 times
+2022-05-26 02:49:38.616 +03:00 [INF] Load finished in 147 ms
+2022-05-26 02:49:38.618 +03:00 [INF] Handle on target page was called 65 times
+2022-05-26 02:49:38.627 +03:00 [INF] Load finished in 77 ms
+2022-05-26 02:49:38.630 +03:00 [INF] Handle on target page was called 66 times
+2022-05-26 02:49:38.636 +03:00 [INF] Load finished in 154 ms
+2022-05-26 02:49:38.638 +03:00 [INF] Handle on target page was called 67 times
+2022-05-26 02:49:38.672 +03:00 [INF] Load finished in 81 ms
+2022-05-26 02:49:38.674 +03:00 [INF] Handle on target page was called 68 times
+2022-05-26 02:49:38.708 +03:00 [INF] Load finished in 82 ms
+2022-05-26 02:49:38.709 +03:00 [INF] Handle on target page was called 69 times
+2022-05-26 02:49:38.722 +03:00 [INF] Load finished in 84 ms
+2022-05-26 02:49:38.723 +03:00 [INF] Load finished in 77 ms
+2022-05-26 02:49:38.729 +03:00 [INF] Handle on target page was called 70 times
+2022-05-26 02:49:38.731 +03:00 [INF] Handle on target page was called 71 times
+2022-05-26 02:49:38.764 +03:00 [INF] Load finished in 86 ms
+2022-05-26 02:49:38.767 +03:00 [INF] Handle on target page was called 72 times
+2022-05-26 02:49:38.802 +03:00 [INF] Load finished in 83 ms
+2022-05-26 02:49:38.806 +03:00 [INF] Handle on target page was called 73 times
+2022-05-26 02:49:38.814 +03:00 [INF] Load finished in 77 ms
+2022-05-26 02:49:38.816 +03:00 [INF] Handle on target page was called 74 times
+2022-05-26 02:49:38.835 +03:00 [INF] Load finished in 95 ms
+2022-05-26 02:49:38.837 +03:00 [INF] Handle on target page was called 75 times
+2022-05-26 02:49:38.863 +03:00 [INF] Load finished in 86 ms
+2022-05-26 02:49:38.865 +03:00 [INF] Handle on target page was called 76 times
+2022-05-26 02:49:40.394 +03:00 [INF] Load finished in 1582 ms
+2022-05-26 02:49:40.417 +03:00 [INF] Handle on target page was called 77 times
+2022-05-26 02:49:40.414 +03:00 [ERR] System.InvalidOperationException: Cannot find image link by selector .postImg in .
+   at WebReaper.Parsing.Image.GetData(HtmlDocument doc) in C:\Projects\WebReaper\WebReaper\Schema\Image.cs:line 19
+   at WebReaper.Parser.ContentParser.FillOutput(JObject result, HtmlDocument doc, SchemaElement item) in C:\Projects\WebReaper\WebReaper\Parser\ContentParser.cs:line 53
+2022-05-26 02:49:40.394 +03:00 [INF] Load finished in 1541 ms
+2022-05-26 02:49:40.433 +03:00 [INF] Handle on target page was called 78 times
+2022-05-26 02:49:40.415 +03:00 [INF] Load finished in 1594 ms
+2022-05-26 02:49:40.438 +03:00 [INF] Handle on target page was called 79 times
+2022-05-26 02:49:40.507 +03:00 [INF] Load finished in 79 ms
+2022-05-26 02:49:40.509 +03:00 [INF] Handle on target page was called 80 times
+2022-05-26 02:49:40.516 +03:00 [INF] Load finished in 79 ms
+2022-05-26 02:49:40.519 +03:00 [INF] Handle on target page was called 81 times
+2022-05-26 02:49:40.535 +03:00 [INF] Load finished in 89 ms
+2022-05-26 02:49:40.536 +03:00 [INF] Handle on target page was called 82 times
+2022-05-26 02:49:40.600 +03:00 [INF] Load finished in 83 ms
+2022-05-26 02:49:40.602 +03:00 [INF] Handle on target page was called 83 times
+2022-05-26 02:49:40.621 +03:00 [INF] Load finished in 79 ms
+2022-05-26 02:49:40.623 +03:00 [INF] Handle on target page was called 84 times
+2022-05-26 02:49:40.677 +03:00 [INF] Load finished in 151 ms
+2022-05-26 02:49:40.679 +03:00 [INF] Handle on target page was called 85 times
+2022-05-26 02:49:40.693 +03:00 [INF] Load finished in 78 ms
+2022-05-26 02:49:40.695 +03:00 [INF] Handle on target page was called 86 times
+2022-05-26 02:49:40.700 +03:00 [INF] Load finished in 272 ms
+2022-05-26 02:49:40.702 +03:00 [INF] Handle on target page was called 87 times
+2022-05-26 02:49:40.711 +03:00 [INF] Load finished in 83 ms
+2022-05-26 02:49:40.714 +03:00 [INF] Handle on target page was called 88 times
+2022-05-26 02:49:40.784 +03:00 [INF] Load finished in 91 ms
+2022-05-26 02:49:40.785 +03:00 [INF] Load finished in 86 ms
+2022-05-26 02:49:40.786 +03:00 [INF] Handle on target page was called 89 times
+2022-05-26 02:49:40.789 +03:00 [INF] Handle on target page was called 90 times
+2022-05-26 02:49:40.797 +03:00 [INF] Load finished in 90 ms
+2022-05-26 02:49:40.808 +03:00 [INF] Load finished in 88 ms
+2022-05-26 02:49:40.808 +03:00 [INF] Handle on target page was called 91 times
+2022-05-26 02:49:40.811 +03:00 [INF] Handle on target page was called 92 times
+2022-05-26 02:49:40.881 +03:00 [INF] Load finished in 81 ms
+2022-05-26 02:49:40.883 +03:00 [INF] Handle on target page was called 93 times
+2022-05-26 02:49:40.893 +03:00 [INF] Load finished in 78 ms
+2022-05-26 02:49:40.896 +03:00 [INF] Handle on target page was called 94 times
+2022-05-26 02:49:40.902 +03:00 [INF] Load finished in 81 ms
+2022-05-26 02:49:40.905 +03:00 [INF] Handle on target page was called 95 times
+2022-05-26 02:49:40.945 +03:00 [INF] Load finished in 148 ms
+2022-05-26 02:49:40.948 +03:00 [INF] Handle on target page was called 96 times
+2022-05-26 02:49:40.975 +03:00 [INF] Load finished in 82 ms
+2022-05-26 02:49:40.977 +03:00 [INF] Handle on target page was called 97 times
+2022-05-26 02:49:40.979 +03:00 [INF] Load finished in 78 ms
+2022-05-26 02:49:40.982 +03:00 [INF] Handle on target page was called 98 times
+2022-05-26 02:49:40.989 +03:00 [INF] Load finished in 79 ms
+2022-05-26 02:49:40.991 +03:00 [INF] Handle on target page was called 99 times
+2022-05-26 02:49:41.059 +03:00 [INF] Load finished in 96 ms
+2022-05-26 02:49:41.062 +03:00 [INF] Load finished in 79 ms
+2022-05-26 02:49:41.062 +03:00 [INF] Handle on target page was called 100 times
+2022-05-26 02:49:41.064 +03:00 [INF] Handle on target page was called 101 times
+2022-05-26 02:49:41.067 +03:00 [INF] Load finished in 80 ms
+2022-05-26 02:49:41.072 +03:00 [INF] Handle on target page was called 102 times
+2022-05-26 02:49:41.076 +03:00 [INF] Load finished in 77 ms
+2022-05-26 02:49:41.080 +03:00 [INF] Handle on target page was called 103 times
+2022-05-26 02:49:41.150 +03:00 [INF] Load finished in 77 ms
+2022-05-26 02:49:41.154 +03:00 [INF] Load finished in 78 ms
+2022-05-26 02:49:41.156 +03:00 [INF] Handle on target page was called 104 times
+2022-05-26 02:49:41.159 +03:00 [INF] Handle on target page was called 105 times
+2022-05-26 02:49:41.172 +03:00 [INF] Load finished in 82 ms
+2022-05-26 02:49:41.176 +03:00 [INF] Handle on target page was called 106 times
+2022-05-26 02:49:41.225 +03:00 [INF] Load finished in 156 ms
+2022-05-26 02:49:41.228 +03:00 [INF] Handle on target page was called 107 times
+2022-05-26 02:49:41.247 +03:00 [INF] Load finished in 84 ms
+2022-05-26 02:49:41.251 +03:00 [INF] Handle on target page was called 108 times
+2022-05-26 02:49:41.255 +03:00 [INF] Load finished in 88 ms
+2022-05-26 02:49:41.257 +03:00 [INF] Load finished in 76 ms
+2022-05-26 02:49:41.260 +03:00 [INF] Handle on target page was called 110 times
+2022-05-26 02:49:41.259 +03:00 [INF] Handle on target page was called 109 times
+2022-05-26 02:49:41.322 +03:00 [INF] Load finished in 84 ms
+2022-05-26 02:49:41.324 +03:00 [INF] Handle on target page was called 111 times
+2022-05-26 02:49:41.337 +03:00 [INF] Load finished in 80 ms
+2022-05-26 02:49:41.339 +03:00 [INF] Handle on target page was called 112 times
+2022-05-26 02:49:41.343 +03:00 [INF] Load finished in 79 ms
+2022-05-26 02:49:41.345 +03:00 [INF] Handle on target page was called 113 times
