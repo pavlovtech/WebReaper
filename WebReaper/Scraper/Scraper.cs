@@ -1,17 +1,15 @@
 ﻿using System.Net;
 using WebReaper.Domain;
 using Microsoft.Extensions.Logging;
-using System.Collections.Concurrent;
 using WebReaper.Absctracts.Sinks;
 using WebReaper.LinkTracker.Abstract;
 using WebReaper.Abstractions.JobQueue;
-using WebReaper.Queue;
 using WebReaper.Sinks;
 using WebReaper.Domain.Parsing;
 using Microsoft.Extensions.Logging.Abstractions;
 using WebReaper.Queue.InMemory;
 using WebReaper.Domain.Selectors;
-using Microsoft.Azure.Cosmos;
+using System.Threading.Channels;
 
 namespace WebReaper.Scraper;
 
@@ -27,13 +25,12 @@ public class Scraper
 
     protected IJobQueueWriter JobQueueWriter;
 
-    protected BlockingCollection<Job> jobs;
+    private readonly Channel<Job> JobChannel = Channel.CreateUnbounded<Job>();
 
     public Scraper()
     {
-        jobs = new(new ProducerConsumerPriorityQueue());   
-        JobQueueReader = new JobQueueReader(jobs);
-        JobQueueWriter = new JobQueueWriter(jobs);
+        JobQueueReader = new JobQueueReader(JobChannel.Reader);
+        JobQueueWriter = new JobQueueWriter(JobChannel.Writer);
     }
 
     public Scraper AddSink(IScraperSink sink)

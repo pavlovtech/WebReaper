@@ -1,4 +1,4 @@
-﻿using System.Collections.Concurrent;
+﻿using System.Threading.Channels;
 using WebReaper.Abstractions.JobQueue;
 using WebReaper.Domain;
 
@@ -6,24 +6,21 @@ namespace WebReaper.Queue.InMemory;
 
 public class JobQueueWriter : IJobQueueWriter
 {
-    private readonly BlockingCollection<Job> jobs;
+    private readonly ChannelWriter<Job> writer;
 
-    public JobQueueWriter(BlockingCollection<Job> jobs) => this.jobs = jobs;
+    public JobQueueWriter(ChannelWriter<Job> writer) => this.writer = writer;
 
-    public Task WriteAsync(params Job[] jobs)
+    public async Task WriteAsync(params Job[] jobs)
     {
         foreach (Job job in jobs)
         {
-            this.jobs.Add(job);
+            await writer.WriteAsync(job);
         }
-
-        return Task.CompletedTask;
     }
 
     public Task CompleteAddingAsync()
     {
-        jobs.CompleteAdding();
-
+        writer.Complete();
         return Task.CompletedTask;
     }
 }
