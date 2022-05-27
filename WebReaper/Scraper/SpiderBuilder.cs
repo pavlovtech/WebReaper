@@ -42,7 +42,7 @@ public class SpiderBuilder
 
     protected static SocketsHttpHandler httpHandler = new()
     {
-        MaxConnectionsPerServer = 100,
+        MaxConnectionsPerServer = 10000,
         SslOptions = new SslClientAuthenticationOptions
         {
             // Leave certs unvalidated for debugging

@@ -1,4 +1,4 @@
-﻿using System.Collections.Concurrent;
+﻿using System.Threading.Channels;
 using WebReaper.Abstractions.JobQueue;
 using WebReaper.Domain;
 
@@ -6,15 +6,9 @@ namespace WebReaper.Queue.InMemory;
 
 public class JobQueueReader : IJobQueueReader
 {
-    private readonly BlockingCollection<Job> jobs;
+    private readonly ChannelReader<Job> reader;
 
-    public JobQueueReader(BlockingCollection<Job> jobs) => this.jobs = jobs;
+    public JobQueueReader(ChannelReader<Job> reader) => this.reader = reader;
 
-    async IAsyncEnumerable<Job> IJobQueueReader.ReadAsync()
-    {
-        foreach (Job job in jobs.GetConsumingEnumerable())
-        {
-            yield return job;
-        }
-    }
+    public IAsyncEnumerable<Job> ReadAsync() => reader.ReadAllAsync();
 }
