@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using WebReaper.Spiders;
 using Microsoft.Azure.Cosmos;
 
-namespace WebReaper.Scraper;
+namespace WebReaper.Core.Scraper;
 
 public class SpiderBuilder
 {
@@ -26,8 +26,8 @@ public class SpiderBuilder
         SiteLinkTracker = new InMemoryCrawledLinkTracker();
     }
 
-    public List<IScraperSink> Sinks { get; protected set; } = new(); 
-    
+    public List<IScraperSink> Sinks { get; protected set; } = new();
+
     protected int limit = int.MaxValue;
 
     protected string baseUrl = "";

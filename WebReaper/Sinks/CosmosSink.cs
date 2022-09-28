@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using WebReaper.Absctracts.Sinks;
 
-namespace WebReaper.Sinks;
+namespace WebReaper.Core.Sinks;
 
 public class CosmosSink : IScraperSink
 {
@@ -49,7 +49,7 @@ public class CosmosSink : IScraperSink
 
         var id = Guid.NewGuid().ToString();
         scrapedData["id"] = id;
-        
+
         try
         {
             await Container!.CreateItemAsync(scrapedData, new PartitionKey(id));
