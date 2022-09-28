@@ -52,7 +52,7 @@ scraper = new Scraper()
 * 🗒 Declarative parsing with a structured scheme
 * 💾 Saving data to any sinks such as JSON or CSV file, MongoDB, CosmosDB, Redis, etc.
 * :earth_americas: Distributed crawling support: run your web scraper on ony cloud VMs, serverless functions, on-prem servers, etc.
-* :octopus: Crowling and parsing Single Page Applications
+* :octopus: Crowling and parsing Single Page Applications as well as static
 * 🌀 Automatic reties
 
 ## Usage examples
