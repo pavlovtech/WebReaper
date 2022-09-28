@@ -1,19 +1,19 @@
 ﻿using System.Net;
 using Microsoft.Extensions.Logging;
 using System.Net.Security;
-using WebReaper.Absctracts.Sinks;
-using WebReaper.Abastracts.Spider;
 using WebReaper.Abstractions.Parsers;
-using WebReaper.LinkTracker.Abstract;
-using WebReaper.Parser;
-using WebReaper.Sinks;
-using WebReaper.LinkTracker;
-using WebReaper.Loaders;
+using WebReaper.Core.Parser;
+using WebReaper.Core.Sinks;
+using WebReaper.Core.LinkTracker;
+using WebReaper.Core.Loaders;
 using Microsoft.Extensions.Logging.Abstractions;
-using WebReaper.Spiders;
+using WebReaper.Core.Spiders;
 using Microsoft.Azure.Cosmos;
+using WebReaper.Abstractions.Spider;
+using WebReaper.Abstractions.Sinks;
+using WebReaper.Abstractions.LinkTracker;
 
-namespace WebReaper.Scraper;
+namespace WebReaper.Core.Scraper;
 
 public class SpiderBuilder
 {
@@ -26,8 +26,8 @@ public class SpiderBuilder
         SiteLinkTracker = new InMemoryCrawledLinkTracker();
     }
 
-    public List<IScraperSink> Sinks { get; protected set; } = new(); 
-    
+    public List<IScraperSink> Sinks { get; protected set; } = new();
+
     protected int limit = int.MaxValue;
 
     protected string baseUrl = "";

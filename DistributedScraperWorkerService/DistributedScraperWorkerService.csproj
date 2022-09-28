@@ -20,6 +20,6 @@
     <PackageReference Include="Serilog.Sinks.Seq" Version="5.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WebReaper\WebReaper.csproj" />
+    <ProjectReference Include="..\WebReaper\WebReaper.Core.csproj" />
   </ItemGroup>
 </Project>

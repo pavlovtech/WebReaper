@@ -1,17 +1,17 @@
 ﻿using System.Net;
 using WebReaper.Domain;
 using Microsoft.Extensions.Logging;
-using WebReaper.Absctracts.Sinks;
-using WebReaper.LinkTracker.Abstract;
 using WebReaper.Abstractions.JobQueue;
-using WebReaper.Sinks;
+using WebReaper.Core.Sinks;
 using WebReaper.Domain.Parsing;
 using Microsoft.Extensions.Logging.Abstractions;
-using WebReaper.Queue.InMemory;
+using WebReaper.Core.Queue.InMemory;
 using WebReaper.Domain.Selectors;
 using System.Threading.Channels;
+using WebReaper.Abstractions.Sinks;
+using WebReaper.Abstractions.LinkTracker;
 
-namespace WebReaper.Scraper;
+namespace WebReaper.Core.Scraper;
 
 public class Scraper
 {
@@ -68,7 +68,7 @@ public class Scraper
         SpiderBuilder.WithLogger(logger);
         ConfigBuilder.WithLogger(logger);
 
-        this.Logger = logger;
+        Logger = logger;
 
         return this;
     }
@@ -78,7 +78,7 @@ public class Scraper
         SpiderBuilder.WriteToConsole();
         return this;
     }
-    
+
     public Scraper WriteToCosmosDb(
         string endpointUrl,
         string authorizationKey,

@@ -1,18 +1,18 @@
-using WebReaper.Absctracts.Sinks;
 using WebReaper.Abstractions.JobQueue;
-using WebReaper.Abstractions.Loaders.PageLoader;
+using WebReaper.Abstractions.LinkTracker;
+using WebReaper.Abstractions.Loaders;
 using WebReaper.Abstractions.Parsers;
+using WebReaper.Abstractions.Sinks;
 using WebReaper.Domain;
-using WebReaper.LinkTracker.Abstract;
 
-namespace WebReaper.Abastracts.Spider;
+namespace WebReaper.Abstractions.Spider;
 
 public interface ISpider
 {
     Task<IEnumerable<Job>> CrawlAsync(Job job);
 
     IPageLoader StaticPageLoader { get; init; }
-    
+
     IPageLoader SpaPageLoader { get; init; }
 
     ILinkParser LinkParser { get; init; }

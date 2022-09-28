@@ -3,7 +3,7 @@ using HtmlAgilityPack;
 using WebReaper.Domain.Parsing;
 using WebReaper.Domain.Selectors;
 
-namespace WebReaper.DOM;
+namespace WebReaper.Core.DOM;
 
 public record Url(string Field, string Selector, SelectorType? SelectorType = SelectorType.Css)
     : SchemaElement(Field, Selector, SelectorType)

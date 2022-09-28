@@ -1,4 +1,4 @@
-namespace WebReaper.Abstractions.Loaders.PageLoader;
+namespace WebReaper.Abstractions.Loaders;
 
 public interface IPageLoader
 {

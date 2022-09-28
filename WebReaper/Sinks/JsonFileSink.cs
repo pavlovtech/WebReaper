@@ -1,8 +1,8 @@
 using System.Collections.Concurrent;
 using Newtonsoft.Json.Linq;
-using WebReaper.Absctracts.Sinks;
+using WebReaper.Abstractions.Sinks;
 
-namespace WebReaper.Sinks
+namespace WebReaper.Core.Sinks
 {
     public class JsonFileSink : IScraperSink
     {

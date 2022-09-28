@@ -1,9 +1,9 @@
 using Microsoft.Extensions.Logging;
 using PuppeteerSharp;
-using WebReaper.Abstractions.Loaders.PageLoader;
-using WebReaper.Extensions;
+using WebReaper.Abstractions.Loaders;
+using WebReaper.Core.Extensions;
 
-namespace WebReaper.Loaders;
+namespace WebReaper.Core.Loaders;
 
 public class PuppeteerPageLoader : IPageLoader
 {

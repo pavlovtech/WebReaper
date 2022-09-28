@@ -4,7 +4,7 @@ using HtmlAgilityPack;
 using WebReaper.Domain.Parsing;
 using WebReaper.Domain.Selectors;
 
-namespace WebReaper.DOM;
+namespace WebReaper.Core.DOM;
 
 public record Image(string Field, string Selector, SelectorType? SelectorType = SelectorType.Css)
     : SchemaElement(Field, Selector, SelectorType)
