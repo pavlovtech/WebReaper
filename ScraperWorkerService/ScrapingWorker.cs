@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
+using WebReaper.DOM;
 using WebReaper.Domain;
 using WebReaper.Domain.Parsing;
-using WebReaper.Parsing;
 using WebReaper.Queue;
 using WebReaper.Queue.InMemory;
 using WebReaper.Scraper;

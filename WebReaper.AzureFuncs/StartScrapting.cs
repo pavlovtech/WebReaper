@@ -9,9 +9,9 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using WebReaper.DOM;
 using WebReaper.Domain;
 using WebReaper.Domain.Parsing;
-using WebReaper.Parsing;
 using WebReaper.Queue.AzureServiceBus;
 using WebReaper.Scraper;
 
