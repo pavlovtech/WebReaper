@@ -25,6 +25,27 @@ new Scraper()
     .Run(10); // 10 - degree of parallerism
 ```
 
+### SPA parsing example
+```C#
+scraper = new Scraper()
+    .WithLogger(logger)
+    .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
+    .FollowLinks("#cf-33 .forumlink>a", pageType: PageType.SPA)
+    .FollowLinks(".forumlink>a", pageType: PageType.SPA)
+    .FollowLinks("a.torTopic", ".pg", pageType: PageType.SPA)
+    .Parse(new Schema {
+		new("name", "#topic-title"),
+        new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
+        new("subcategory", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(5)"),
+        new("torrentSize", "div.attach_link.guest>ul>li:nth-child(2)"),
+        new Url("torrentLink", ".magnet-link"),
+			new Image("coverImageUrl", ".postImg")
+        })
+	.WriteToJsonFile("result.json")
+	.WriteToCsvFile("result.csv")
+	.IgnoreUrls(blackList);
+```
+
 ## Features:
 
 * :zap: It's extremly fast due to parallelism and asynchrony
