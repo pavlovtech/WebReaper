@@ -1,7 +1,7 @@
 ﻿using StackExchange.Redis;
 using WebReaper.LinkTracker.Abstract;
 
-namespace WebReaper.Core.LinkTracker;
+namespace WebReaper.LinkTracker;
 
 public class RedisCrawledLinkTracker : ICrawledLinkTracker
 {
@@ -9,8 +9,7 @@ public class RedisCrawledLinkTracker : ICrawledLinkTracker
 
     public RedisCrawledLinkTracker(string connectionString)
     {
-        redis = ConnectionMultiplexer.Connect(connectionString, config =>
-        {
+        redis = ConnectionMultiplexer.Connect(connectionString, config => {
             config.AbortOnConnectFail = false;
 
             config.AsyncTimeout = 180000;
@@ -38,7 +37,7 @@ public class RedisCrawledLinkTracker : ICrawledLinkTracker
     {
         IDatabase db = redis!.GetDatabase();
         var result = links.Where(x => !db.SetContains(siteUrl, x));
-
+        
         return Task.FromResult(result);
     }
 

@@ -2,10 +2,10 @@
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
+using WebReaper.Sinks;
 using Microsoft.Extensions.Logging;
 using WebReaper.LinkTracker.Abstract;
 using WebReaper.LinkTracker;
-using WebReaper.Core.Sinks;
 
 [assembly: FunctionsStartup(typeof(WebReaper.AzureFuncs.Startup))]
 

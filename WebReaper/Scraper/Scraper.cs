@@ -11,7 +11,7 @@ using WebReaper.Queue.InMemory;
 using WebReaper.Domain.Selectors;
 using System.Threading.Channels;
 
-namespace WebReaper.Core.Scraper;
+namespace WebReaper.Scraper;
 
 public class Scraper
 {
@@ -68,7 +68,7 @@ public class Scraper
         SpiderBuilder.WithLogger(logger);
         ConfigBuilder.WithLogger(logger);
 
-        Logger = logger;
+        this.Logger = logger;
 
         return this;
     }
@@ -78,7 +78,7 @@ public class Scraper
         SpiderBuilder.WriteToConsole();
         return this;
     }
-
+    
     public Scraper WriteToCosmosDb(
         string endpointUrl,
         string authorizationKey,

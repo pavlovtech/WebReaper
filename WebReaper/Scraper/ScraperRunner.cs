@@ -4,7 +4,7 @@ using WebReaper.Abastracts.Spider;
 using WebReaper.Abstractions.JobQueue;
 using WebReaper.Domain;
 
-namespace WebReaper.Core.Scraper;
+namespace WebReaper.Scraper;
 
 public class ScraperRunner
 {

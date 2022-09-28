@@ -2,7 +2,7 @@
 using WebReaper.Abstractions.JobQueue;
 using WebReaper.Domain;
 
-namespace WebReaper.Core.Queue.InMemory;
+namespace WebReaper.Queue.InMemory;
 
 public class JobQueueWriter : IJobQueueWriter
 {

@@ -4,7 +4,7 @@ using HtmlAgilityPack;
 using WebReaper.Domain.Parsing;
 using WebReaper.Domain.Selectors;
 
-namespace WebReaper.Core.Schema;
+namespace WebReaper.Parsing;
 
 public record Image(string Field, string Selector, SelectorType? SelectorType = SelectorType.Css)
     : SchemaElement(Field, Selector, SelectorType)
@@ -15,8 +15,7 @@ public record Image(string Field, string Selector, SelectorType? SelectorType = 
 
         var content = node?.GetAttributeValue("title", "");
 
-        if (string.IsNullOrWhiteSpace(content))
-        {
+        if(string.IsNullOrWhiteSpace(content)) {
             throw new InvalidOperationException($"Cannot find image link by selector {Selector} in {node?.OuterHtml}.");
         }
 

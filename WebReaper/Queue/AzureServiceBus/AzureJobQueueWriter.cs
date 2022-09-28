@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using WebReaper.Abstractions.JobQueue;
 using WebReaper.Domain;
 
-namespace WebReaper.Core.Queue.AzureServiceBus;
+namespace WebReaper.Queue.AzureServiceBus;
 
 public class AzureJobQueueWriter : IJobQueueWriter, IAsyncDisposable
 {

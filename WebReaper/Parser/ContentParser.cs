@@ -4,13 +4,13 @@ using Newtonsoft.Json.Linq;
 using WebReaper.Abstractions.Parsers;
 using WebReaper.Domain.Parsing;
 
-namespace WebReaper.Core.Parser
+namespace WebReaper.Parser
 {
     public class ContentParser : IContentParser
     {
         protected ILogger Logger { get; }
 
-        public ContentParser(ILogger logger) => Logger = logger;
+        public ContentParser(ILogger logger) => this.Logger = logger;
 
         public JObject Parse(string html, Schema schema)
         {
@@ -52,14 +52,13 @@ namespace WebReaper.Core.Parser
             {
                 var data = item.GetData(doc);
 
-                if (item.Type == null)
-                {
+                if (item.Type == null) {
                     result[item.Field] = data;
 
                     return;
                 }
 
-                switch (item.Type)
+                switch(item.Type)
                 {
                     case DataType.Integer:
                         result[item.Field] = int.Parse(data);
