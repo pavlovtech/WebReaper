@@ -3,12 +3,12 @@ using Newtonsoft.Json;
 using WebReaper.Abstractions.JobQueue;
 using WebReaper.Domain;
 
-namespace WebReaper.Queue.AzureServiceBus;
+namespace WebReaper.Core.Queue.AzureServiceBus;
 
 public class AzureJobQueueReader : IJobQueueReader
 {
     private ServiceBusClient client;
-    
+
     private ServiceBusReceiver receiver;
 
     public AzureJobQueueReader(string serviceBusConnectionString, string queueName)

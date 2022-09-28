@@ -2,7 +2,7 @@ using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
 using WebReaper.Abstractions.Parsers;
 
-namespace WebReaper.Parser
+namespace WebReaper.Core.Parser
 {
     public class LinkParserByCssSelector : ILinkParser
     {

@@ -1,7 +1,7 @@
 using Polly;
 using Polly.Retry;
 
-namespace WebReaper.Infra;
+namespace WebReaper.Core.Infra;
 
 public static class Executor
 {

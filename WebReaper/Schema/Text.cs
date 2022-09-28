@@ -3,7 +3,7 @@ using HtmlAgilityPack;
 using WebReaper.Domain.Parsing;
 using WebReaper.Domain.Selectors;
 
-namespace WebReaper.Parsing;
+namespace WebReaper.Core.Schema;
 
 public record Text(string Field, string Selector, SelectorType? SelectorType = SelectorType.Css)
     : SchemaElement(Field, Selector, SelectorType)
@@ -14,9 +14,10 @@ public record Text(string Field, string Selector, SelectorType? SelectorType = S
 
         var content = node?.InnerText;
 
-        if(string.IsNullOrWhiteSpace(content)) {
+        if (string.IsNullOrWhiteSpace(content))
+        {
             throw new InvalidOperationException($"Cannot find element by selector ${Selector}.");
-            
+
         }
 
         return HtmlEntity.DeEntitize(content);

@@ -3,7 +3,7 @@ using HtmlAgilityPack;
 using WebReaper.Domain.Parsing;
 using WebReaper.Domain.Selectors;
 
-namespace WebReaper.Parsing;
+namespace WebReaper.Core.Schema;
 
 public record Url(string Field, string Selector, SelectorType? SelectorType = SelectorType.Css)
     : SchemaElement(Field, Selector, SelectorType)
@@ -14,7 +14,8 @@ public record Url(string Field, string Selector, SelectorType? SelectorType = Se
 
         var content = node?.GetAttributeValue("href", "");
 
-        if(string.IsNullOrWhiteSpace(content)) {
+        if (string.IsNullOrWhiteSpace(content))
+        {
             throw new InvalidOperationException($"No href attribute found by selector {Selector} in {node?.OuterHtml}.");
         }
 

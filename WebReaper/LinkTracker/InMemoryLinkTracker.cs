@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using WebReaper.LinkTracker.Abstract;
 
-namespace WebReaper.LinkTracker;
+namespace WebReaper.Core.LinkTracker;
 
 public class InMemoryCrawledLinkTracker : ICrawledLinkTracker
 {
@@ -11,13 +11,16 @@ public class InMemoryCrawledLinkTracker : ICrawledLinkTracker
     {
         var alreadyExists = visitedUrlsPerSite.TryGetValue(siteUrl, out var visitedSiteUrls);
 
-        if(alreadyExists)
+        if (alreadyExists)
         {
-            if(!visitedSiteUrls!.Contains(visitedLink)) {
+            if (!visitedSiteUrls!.Contains(visitedLink))
+            {
                 visitedSiteUrls!.Add(visitedLink);
             }
-        } else {
-            visitedUrlsPerSite.TryAdd(siteUrl, new ConcurrentBag<string> 
+        }
+        else
+        {
+            visitedUrlsPerSite.TryAdd(siteUrl, new ConcurrentBag<string>
             {
                 visitedLink
             });
@@ -45,7 +48,7 @@ public class InMemoryCrawledLinkTracker : ICrawledLinkTracker
     {
         var successful = visitedUrlsPerSite.TryGetValue(siteUrl, out var result);
 
-        if(!successful)
+        if (!successful)
         {
             return Task.FromResult(0L);
         }

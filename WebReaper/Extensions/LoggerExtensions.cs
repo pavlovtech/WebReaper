@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 
-namespace WebReaper.Extensions;
+namespace WebReaper.Core.Extensions;
 
 public static class LoggerExtensions
 {
@@ -56,8 +56,8 @@ public static class Counter
         _methodCounters.AddOrUpdate(callerName,
             (key) => 1, (key, value) => value + 1);
 
-         logger.LogInformation("{method} was called {invocationsCount} times",
-                callerName,
-                _methodCounters[callerName]);
+        logger.LogInformation("{method} was called {invocationsCount} times",
+               callerName,
+               _methodCounters[callerName]);
     }
 }
