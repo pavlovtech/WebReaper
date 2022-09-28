@@ -149,4 +149,9 @@ public class Scraper
 
         await Runner.Run(parallelismDegree);
     }
+
+    public async Task Stop()
+    {
+       await Runner.Stop();
+    }
 }
