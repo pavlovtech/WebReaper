@@ -4,10 +4,10 @@ using WebReaper.Domain.Parsing;
 
 namespace WebReaper.IntegrationTests
 {
-    public class UnitTest1
+    public class ScraperTests
     {
         [Fact]
-        public async Task Test1Async()
+        public async Task ListTest()
         {
             var scraper = new Scraper()
                 .WithStartUrl("https://kniga.io/books/pelevin-viktor-snuff0")
@@ -16,7 +16,7 @@ namespace WebReaper.IntegrationTests
                 })
                 .WriteToConsole();
 
-            await scraper?.Run(1);
+            await scraper.Run(1);
 
             await scraper.Stop();
         }
