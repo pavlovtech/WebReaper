@@ -3,7 +3,7 @@ using WebReaper.Domain.Selectors;
 using WebReaper.Domain.Parsing;
 using Microsoft.Extensions.Logging.Abstractions;
 
-namespace WebReaper.Core.Scraper;
+namespace WebReaper.Scraper;
 
 public class ScraperConfigBuilder
 {
@@ -60,6 +60,6 @@ public class ScraperConfigBuilder
 
     public ScraperConfig Build()
     {
-        return new ScraperConfig(schema, linkPathSelectors.ToArray(), startUrl, baseUrl);
+        return new ScraperConfig(this.schema, this.linkPathSelectors.ToArray(), startUrl, baseUrl);
     }
 }

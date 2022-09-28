@@ -2,9 +2,9 @@ using System.Net;
 using System.Text;
 using Microsoft.Extensions.Logging;
 using WebReaper.Abstractions.Loaders.PageLoader;
-using WebReaper.Core.Extensions;
+using WebReaper.Extensions;
 
-namespace WebReaper.Core.Loaders;
+namespace WebReaper.Loaders;
 
 public class HttpPageLoader : IPageLoader
 {
@@ -29,15 +29,12 @@ public class HttpPageLoader : IPageLoader
 
         var response = await HttpClient.GetAsync(url);
 
-        if (response.IsSuccessStatusCode)
-        {
+        if (response.IsSuccessStatusCode) {
             return await response.Content.ReadAsStringAsync();
-        }
-        else
-        {
+        } else {
             logger.LogError("Failed to load page {url}. Error code: {statusCode}", url, response.StatusCode);
 
-            throw new InvalidOperationException($"Failed to load page {url}. Error code: {response.StatusCode}")
+            throw new InvalidOperationException($"Failed to load page {url}. Error code: {response.StatusCode}") 
             {
                 Data = { ["url"] = url, ["statusCode"] = response.StatusCode }
             };

@@ -1,15 +1,15 @@
 ﻿using System.Collections.Immutable;
 using Microsoft.Extensions.Logging;
 using WebReaper.Domain;
+using WebReaper.Extensions;
 using WebReaper.LinkTracker.Abstract;
 using WebReaper.Abastracts.Spider;
 using WebReaper.Abstractions.Parsers;
 using WebReaper.Absctracts.Sinks;
 using WebReaper.Domain.Selectors;
 using WebReaper.Abstractions.Loaders.PageLoader;
-using WebReaper.Core.Extensions;
 
-namespace WebReaper.Core.Spiders;
+namespace WebReaper.Spiders;
 
 public class WebReaperSpider : ISpider
 {
@@ -50,7 +50,7 @@ public class WebReaperSpider : ISpider
     {
         if (UrlBlackList.Contains(job.Url)) return Enumerable.Empty<Job>();
 
-        if (await LinkTracker.GetVisitedLinksCount(job.BaseUrl) >= PageCrawlLimit)
+        if ((await LinkTracker.GetVisitedLinksCount(job.BaseUrl)) >= PageCrawlLimit)
         {
             return Enumerable.Empty<Job>();
         }
@@ -59,12 +59,10 @@ public class WebReaperSpider : ISpider
 
         string doc;
 
-        if (job.pageType == PageType.Static)
+        if (job.pageType == PageType.Static) 
         {
             doc = await StaticPageLoader.Load(job.Url);
-        }
-        else
-        {
+        } else {
             doc = await SpaPageLoader.Load(job.Url);
         }
 

@@ -2,7 +2,7 @@ using System.Collections.Concurrent;
 using Newtonsoft.Json.Linq;
 using WebReaper.Absctracts.Sinks;
 
-namespace WebReaper.Core.Sinks
+namespace WebReaper.Sinks
 {
     public class JsonFileSink : IScraperSink
     {
