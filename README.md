@@ -26,11 +26,14 @@ new Scraper()
 ```
 
 ### SPA parsing example
+
+Parsing single page applications is super simple, just specify page type as SPA: *pageType: PageType.SPA*
+
 ```C#
 scraper = new Scraper()
     .WithLogger(logger)
     .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
-    .FollowLinks("#cf-33 .forumlink>a", pageType: PageType.SPA)
+    .FollowLinks("#cf-33 .forumlink>a", pageType: PageType.SPA) // SPA page
     .FollowLinks(".forumlink>a", pageType: PageType.SPA)
     .FollowLinks("a.torTopic", ".pg", pageType: PageType.SPA)
     .Parse(new Schema {
@@ -52,7 +55,7 @@ scraper = new Scraper()
 * 🗒 Declarative parsing with a structured scheme
 * 💾 Saving data to any sinks such as JSON or CSV file, MongoDB, CosmosDB, Redis, etc.
 * :earth_americas: Distributed crawling support: run your web scraper on ony cloud VMs, serverless functions, on-prem servers, etc.
-* :octopus: Crowling and parsing Single Page Applications
+* :octopus: Crowling and parsing Single Page Applications as well as static
 * 🌀 Automatic reties
 
 ## Usage examples
