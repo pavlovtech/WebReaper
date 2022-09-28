@@ -54,4 +54,9 @@ public class ScraperRunner
             }
         });
     }
+
+    public async Task Stop()
+    {
+        await JobQueueWriter.CompleteAddingAsync();
+    }
 }
