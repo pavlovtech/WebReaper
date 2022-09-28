@@ -1,15 +1,15 @@
 using System.Collections.Concurrent;
 using Newtonsoft.Json.Linq;
-using WebReaper.Absctracts.Sinks;
+using WebReaper.Abstractions.Sinks;
 
-namespace WebReaper.Sinks
+namespace WebReaper.Core.Sinks
 {
     public class CsvFileSink : IScraperSink
     {
         private object _lock = new();
 
         private readonly string filePath;
-        
+
         BlockingCollection<JObject> entries = new();
 
         protected bool IsInitialized { get; set; } = false;
@@ -23,17 +23,18 @@ namespace WebReaper.Sinks
         {
             entries.Add(scrapedData);
 
-            if(!IsInitialized) {
-                
+            if (!IsInitialized)
+            {
+
                 lock (_lock)
                 {
-                    File.Delete(filePath);                    
+                    File.Delete(filePath);
                 }
 
                 var flattened = scrapedData
                         .Descendants()
                         .OfType<JValue>()
-                        .Select(jv => jv.Path.Remove(0, jv.Path.LastIndexOf(".")+1));
+                        .Select(jv => jv.Path.Remove(0, jv.Path.LastIndexOf(".") + 1));
 
                 var header = string.Join(",", flattened) + Environment.NewLine;
 
@@ -47,7 +48,8 @@ namespace WebReaper.Sinks
 
         protected async Task Handle()
         {
-            foreach(var entry in entries.GetConsumingEnumerable()) {
+            foreach (var entry in entries.GetConsumingEnumerable())
+            {
 
                 var flattened = entry
                     .Descendants()

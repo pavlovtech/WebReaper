@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebReaper", "WebReaper\WebReaper.csproj", "{72A004F0-3B30-4149-B33F-8C8220135A8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebReaper.Core", "WebReaper\WebReaper.Core.csproj", "{72A004F0-3B30-4149-B33F-8C8220135A8B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScraperWorkerService", "ScraperWorkerService\ScraperWorkerService.csproj", "{A9715581-1978-419A-A35E-66AC2A8A9D03}"
 EndProject
@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebReaper.Domain", "WebReap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DistributedScraperWorkerService", "DistributedScraperWorkerService\DistributedScraperWorkerService.csproj", "{99FFE504-8FF2-4102-90FC-BA8EBD5F8AAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebReaper.AzureFuncs", "WebReaper.AzureFuncs\WebReaper.AzureFuncs.csproj", "{C399AE3D-F9BD-4B5D-A642-C594925890BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebReaper.AzureFuncs", "WebReaper.AzureFuncs\WebReaper.AzureFuncs.csproj", "{C399AE3D-F9BD-4B5D-A642-C594925890BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

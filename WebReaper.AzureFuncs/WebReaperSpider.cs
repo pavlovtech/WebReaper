@@ -4,11 +4,11 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using StackExchange.Redis;
+using WebReaper.Abstractions.LinkTracker;
+using WebReaper.Core.Sinks;
 using WebReaper.Domain;
-using WebReaper.LinkTracker;
-using WebReaper.LinkTracker.Abstract;
-using WebReaper.Scraper;
-using WebReaper.Sinks;
+using WebReaper.Core.LinkTracker;
+using WebReaper.Core.Scraper;
 
 namespace WebReaper.AzureFuncs
 {
