@@ -1,7 +1,7 @@
 ﻿using Microsoft.Azure.Cosmos;
+using WebReaper.DOM;
 using WebReaper.Domain.Parsing;
 using WebReaper.LinkTracker;
-using WebReaper.Parsing;
 using WebReaper.Queue.AzureServiceBus;
 using WebReaper.Scraper;
 
