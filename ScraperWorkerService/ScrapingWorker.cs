@@ -41,9 +41,9 @@ public class ScrapingWorker : BackgroundService
         //scraper = new Scraper()
         //   .WithLogger(logger)
         //   .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
-        //   .FollowLinks("#cf-33 .forumlink>a", pageType: PageType.SPA)
-        //   .FollowLinks(".forumlink>a", pageType: PageType.SPA)
-        //   .FollowLinks("a.torTopic", ".pg", pageType: PageType.SPA)
+        //   .FollowSPALinks("#cf-33 .forumlink>a", pageType: PageType.SPA)
+        //   .FollowSPALinks(".forumlink>a", pageType: PageType.SPA)
+        //   .FollowSPALinks("a.torTopic", ".pg", pageType: PageType.SPA)
         //   .Parse(new Schema {
         //        new("name", "#topic-title"),
         //        new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
