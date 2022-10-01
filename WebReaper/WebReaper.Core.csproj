@@ -4,6 +4,18 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Authors>Alex Pavlov</Authors>
+    <Company>Alex Pavlov</Company>
+    <Product>WebReaper</Product>
+    <PackageId>WebReaper</PackageId>
+    <Description>Declarative high performance web scraper in C#. Easily crawl any web site and parse the data, save structed result to a file, DB, etc.</Description>
+    <Copyright>GPL-3.0 license</Copyright>
+    <PackageProjectUrl>https://github.com/pavlovtech/WebReaper</PackageProjectUrl>
+    <PackageIcon>167391357-edb02ce2-a63c-439b-be9b-69b4b4796b1c.png</PackageIcon>
+    <RepositoryUrl>https://github.com/pavlovtech/WebReaper</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>scraper, crawler, parser</PackageTags>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
@@ -32,5 +44,15 @@
   <ItemGroup>
     <Folder Include="Queue\InMemory\" />
     <Folder Include="Queue\AzureServiceBus\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Users\alexp\Downloads\167391357-edb02ce2-a63c-439b-be9b-69b4b4796b1c.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 </Project>
