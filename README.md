@@ -91,7 +91,7 @@ var config = new ScraperConfigBuilder()
 	.Build();
 ```
 
-Secondly, this function write the first web scraping job with startUrl to the Azure Service Bus queue:
+Secondly, this function writes the first web scraping job with startUrl to the Azure Service Bus queue:
 
 ```C#
 var jobQueueWriter = new AzureJobQueueWriter("connectionString", "jobqueue");
