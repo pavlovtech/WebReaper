@@ -161,6 +161,34 @@ foreach(var newJob in newJobs)
 }
 ```
 
+### Extensibility
+
+#### Adding a new sink to persist you data
+
+Out of the box there are 4 sinks you can send your parsed data to: ConsoleSink, CsvFileSink, JsonFileSink, CosmosSink (Azure Cosmos database).
+
+You can easly add your own by implementing the IScraperSink interface:
+
+```C#
+ public interface IScraperSink
+    {
+        public Task EmitAsync(JObject scrapedData);
+    }
+```
+Here is an example of the Console sink:
+
+```C#
+public class ConsoleSink : IScraperSink
+{
+    public Task EmitAsync(JObject scrapedData)
+    {
+        Console.WriteLine($"{scrapedData.ToString()}");
+        return Task.CompletedTask;
+    }
+}
+```
+
+
 ## Repository structure
 
 | Project                         | Description                                                                                                                                     |
