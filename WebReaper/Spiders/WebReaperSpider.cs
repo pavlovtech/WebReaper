@@ -75,6 +75,7 @@ public class WebReaperSpider : ISpider
         {
             Logger.LogInvocationCount("Handle on target page");
             var result = ContentParser.Parse(doc, job.schema);
+            result.Add("URL", job.Url);
 
             ScrapedData(result);
 

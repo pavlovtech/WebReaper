@@ -27,11 +27,11 @@ namespace WebReaper.IntegrationTests
 
             await Task.Delay(1000);
 
-            Assert.Equal(1, result.Count);
+            Assert.Single(result);
 
-            var prop = result.First().Properties().Select(p => p.Name).Single();
+            var props = result.First().Properties().Select(p => p.Name);
 
-            Assert.Equal(prop, "genres");
+            Assert.Contains("genres", props);
         }
     }
 }
