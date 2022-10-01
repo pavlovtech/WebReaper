@@ -243,15 +243,16 @@ For other ways to extend your functionality see the next section.
 
 ## Coming soon:
 
-- [ ] Proxy support
+- [ ] Nuget package
 - [X] Azure functions for the distributed crawling
+- [X] Parsing lists
+- [ ] Proxy support
 - [ ] Request throttling
 - [ ] Autotune for parallelism degree
 - [ ] Autothrottling
 - [ ] Flexible SPA manipulation
 - [ ] Ports to NodeJS and Go
 - [ ] Sitemap crawling support
-- [X] Parsing lists
 - [ ] Site API support
 
 See the [LICENSE](LICENSE.txt) file for license rights and limitations (GNU GPLv3).
