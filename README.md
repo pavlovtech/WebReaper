@@ -65,6 +65,78 @@ scraper = new Scraper()
             })
 ```
 
+### Distributed web scraping with Serverless approach
+
+In the Examples folder you can find the project called WebReaper.AzureFuncs. It demonstrates the use of WebReaper with Azure Functions. It consists of two serverless functions:
+
+#### StartScrapting
+First of all, this function uses ScraperConfigBuilder to build the scraper configuration e. g.:
+
+```C#
+var config = new ScraperConfigBuilder()
+	.WithLogger(_logger)
+	.WithStartUrl("https://rutracker.org/forum/index.php?c=33")
+	.FollowLinks("#cf-33 .forumlink>a")
+	.FollowLinks(".forumlink>a")
+	.FollowLinks("a.torTopic", ".pg")
+	.WithScheme(new Schema
+	{
+		 new("name", "#topic-title"),
+		 new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
+		 new("subcategory", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(5)"),
+		 new("torrentSize", "div.attach_link.guest>ul>li:nth-child(2)"),
+		 new Url("torrentLink", ".magnet-link"),
+		 new Image("coverImageUrl", ".postImg")
+	})
+	.Build();
+```
+
+Secondly, this function write the first web scraping job with startUrl to the Azure Service Bus queue:
+
+```C#
+var jobQueueWriter = new AzureJobQueueWriter("connectionString", "jobqueue");
+
+await jobQueueWriter.WriteAsync(new Job(
+config.ParsingScheme!,
+config.BaseUrl,
+config.StartUrl!,
+ImmutableQueue.Create(config.LinkPathSelectors.ToArray()),
+DepthLevel: 0));
+```
+
+#### WebReaperSpider
+
+This Azure function is triggered by messages sent to the Azure Service Bus queue. Messages represent web scraping job. 
+
+Firstly, this function builds the spider that is going to execute the job from the queue:
+
+```C#
+var spiderBuilder = new SpiderBuilder()
+	.WithLogger(log)
+	.IgnoreUrls(blackList)
+	.WithLinkTracker(LinkTracker)
+	.AddSink(CosmosSink)
+	.Build();
+```
+
+Secondly, it executes the job by loading the page, parsing content, saving to the database, etc:
+
+```C#
+var newJobs = await spiderBuilder.CrawlAsync(job);
+```
+
+CrawlAsync method returns new jobs that are produced as a result of handling the current job.
+
+Finally, it iterates through these new jobs and sends them the the Job queue:
+
+```C#
+foreach(var newJob in newJobs)
+{
+	log.LogInformation($"Adding to the queue: {newJob.Url}");
+	await outputSbQueue.AddAsync(SerializeToJson(newJob));
+}
+```
+
 ## Features:
 
 * :zap: It's extremly fast due to parallelism and asynchrony
