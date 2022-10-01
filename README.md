@@ -5,7 +5,7 @@
 
 ![DotNet](https://img.shields.io/badge/dotnet-6.0-blue)
 
-![csharp](https://img.shields.io/badge/dotnet-6.0-blue](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white)
+![csharp](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white)
 
 ![azurefuncs](https://img.shields.io/badge/Azure_Functions-0062AD?style=for-the-badge&logo=azure-functions&logoColor=white)
 
