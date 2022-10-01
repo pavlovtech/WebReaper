@@ -163,7 +163,7 @@ foreach(var newJob in newJobs)
 
 ### Extensibility
 
-#### Adding a new sink to persist you data
+#### Adding a new sink to persist your data
 
 Out of the box there are 4 sinks you can send your parsed data to: ConsoleSink, CsvFileSink, JsonFileSink, CosmosSink (Azure Cosmos database).
 
@@ -187,20 +187,23 @@ public class ConsoleSink : IScraperSink
     }
 }
 ```
+The scrapedData parameter is JSON object that contains scraped data that you specified in your schema.
 
+Adding your sink to the Scraper is simple, just call AddSink method on the Scraper:
 
-## Repository structure
+```C#
+scraper = new Scraper()
+	    .AddSink(new ConsoleSink());
+            .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
+            .FollowLinks("#cf-33 .forumlink>a")
+            .FollowLinks(".forumlink>a")
+            .FollowLinks("a.torTopic", ".pg")
+            .Parse(new Schema {
+                new("name", "#topic-title"),
+            });
+```
 
-| Project                         | Description                                                                                                                                     |
-| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| WebReaper.Core                  | Library for web scraping. It's the main project that you should use for your scraper.                                                           |
-| WebReaper.Domain                | Represents main entities such as a Job for web spiders, Schema for parsing, etc.                                                                |
-| WebReaper.Abstractions          | Interfaces for extensibility if you want to swap out default implementations such as the parser, crawled link tracker, queue reader and writer. |
-| ScraperWorkerService            | Example of using WebReaper library in a Worker Service .NET project.                                                                            |
-| DistributedScraperWorkerService | Example of using WebReaper library in a distributed way wih Azure Service Bus                                                                   |
-| WebReaper.AzureFuncs            | Example of using WebReaper library with serverless approach using Azure Functions                                                               |
-
-## Extensibility
+For other ways to extend your functionality see the next section.
 
 ### Intrefaces
 
@@ -222,6 +225,20 @@ public class ConsoleSink : IScraperSink
     * TransitPage any page on the path to target page that you want to parse
     * PageWithPagination - page with pagination such as a catalog of goods, blog posts with pagination, etc
     * TargetPage - page that you want to scrape and save the result
+
+
+
+## Repository structure
+
+| Project                         | Description                                                                                                                                     |
+| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| WebReaper.Core                  | Library for web scraping. It's the main project that you should use for your scraper.                                                           |
+| WebReaper.Domain                | Represents main entities such as a Job for web spiders, Schema for parsing, etc.                                                                |
+| WebReaper.Abstractions          | Interfaces for extensibility if you want to swap out default implementations such as the parser, crawled link tracker, queue reader and writer. |
+| ScraperWorkerService            | Example of using WebReaper library in a Worker Service .NET project.                                                                            |
+| DistributedScraperWorkerService | Example of using WebReaper library in a distributed way wih Azure Service Bus                                                                   |
+| WebReaper.AzureFuncs            | Example of using WebReaper library with serverless approach using Azure Functions                                                               |
+
 
 
 ## Coming soon:
