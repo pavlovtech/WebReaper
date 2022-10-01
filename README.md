@@ -257,6 +257,7 @@ For other ways to extend your functionality see the next section.
 - [X] Nuget package
 - [X] Azure functions for the distributed crawling
 - [X] Parsing lists
+- [ ] CRON for scheduling
 - [ ] Proxy support
 - [ ] Request throttling
 - [ ] Autotune for parallelism degree
