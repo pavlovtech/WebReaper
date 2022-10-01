@@ -3,6 +3,8 @@
 
 [![NuGet](https://img.shields.io/badge/Nuget-1.0-green)](https://www.nuget.org/packages/WebReaper)
 
+Declarative high performance web scraper in C#. Easily crawl any web site and parse the data, save structed result to a file, DB, etc.
+
 Tech stack:
 
 <p align="left">
@@ -12,8 +14,6 @@ Tech stack:
   <img src="https://img.shields.io/badge/redis-%23DD0031.svg?&style=for-the-badge&logo=redis&logoColor=white" />
 </p>
 
-
-Declarative high performance web scraper in C#. Easily crawl any web site and parse the data, save structed result to a file, DB, etc.
 
 :exclamation: This is work in progres! API is not stable and will change.
 
