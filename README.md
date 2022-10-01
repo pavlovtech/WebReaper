@@ -25,6 +25,30 @@ new Scraper()
     .Run(10); // 10 - degree of parallerism
 ```
 
+## Features:
+
+* :zap: It's extremly fast due to parallelism and asynchrony
+* 🗒 Declarative parsing with a structured scheme
+* 💾 Saving data to any sinks such as JSON or CSV file, MongoDB, CosmosDB, Redis, etc.
+* :earth_americas: Distributed crawling support: run your web scraper on ony cloud VMs, serverless functions, on-prem servers, etc.
+* :octopus: Crowling and parsing Single Page Applications as well as static
+* 🌀 Automatic reties
+
+## Usage examples
+
+* Data mining
+* Gathering data for machine learning
+* Online price change monitoring and price comparison
+* News aggregation
+* Product review scraping (to watch the competition)
+* Gathering real estate listings
+* Tracking online presence and reputation
+* Web mashup and web data integration
+* MAP compliance
+* Lead generation
+
+## API overview
+
 ### SPA parsing example
 
 Parsing single page applications is super simple, just specify page type as SPA: *pageType: PageType.SPA*
@@ -34,8 +58,8 @@ scraper = new Scraper()
     .WithLogger(logger)
     .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
     .FollowLinks("#cf-33 .forumlink>a", pageType: PageType.SPA) // SPA page
-    .FollowLinks(".forumlink>a", pageType: PageType.SPA)
-    .FollowLinks("a.torTopic", ".pg", pageType: PageType.SPA)
+    .FollowLinks(".forumlink>a", pageType: PageType.SPA)        // SPA page
+    .FollowLinks("a.torTopic", ".pg", pageType: PageType.SPA)   // SPA page
     .Parse(new Schema {
 		new("name", "#topic-title"),
         new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
@@ -44,9 +68,9 @@ scraper = new Scraper()
         new Url("torrentLink", ".magnet-link"),
 			new Image("coverImageUrl", ".postImg")
         })
-	.WriteToJsonFile("result.json")
-	.WriteToCsvFile("result.csv")
-	.IgnoreUrls(blackList);
+    .WriteToJsonFile("result.json")
+    .WriteToCsvFile("result.csv")
+    .IgnoreUrls(blackList);
 ```
 
 ### Authorization
@@ -136,28 +160,6 @@ foreach(var newJob in newJobs)
 	await outputSbQueue.AddAsync(SerializeToJson(newJob));
 }
 ```
-
-## Features:
-
-* :zap: It's extremly fast due to parallelism and asynchrony
-* 🗒 Declarative parsing with a structured scheme
-* 💾 Saving data to any sinks such as JSON or CSV file, MongoDB, CosmosDB, Redis, etc.
-* :earth_americas: Distributed crawling support: run your web scraper on ony cloud VMs, serverless functions, on-prem servers, etc.
-* :octopus: Crowling and parsing Single Page Applications as well as static
-* 🌀 Automatic reties
-
-## Usage examples
-
-* Data mining
-* Gathering data for machine learning
-* Online price change monitoring and price comparison
-* News aggregation
-* Product review scraping (to watch the competition)
-* Gathering real estate listings
-* Tracking online presence and reputation
-* Web mashup and web data integration
-* MAP compliance
-* Lead generation
 
 ## Repository structure
 
