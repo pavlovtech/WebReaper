@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Linq;
 using WebReaper.Abstractions.JobQueue;
 using WebReaper.Abstractions.LinkTracker;
 using WebReaper.Abstractions.Loaders;
@@ -20,6 +21,8 @@ public interface ISpider
     IContentParser ContentParser { get; init; }
 
     ICrawledLinkTracker LinkTracker { get; init; }
+
+    public event Action<JObject> ScrapedData;
 
     List<IScraperSink> Sinks { get; init; }
 

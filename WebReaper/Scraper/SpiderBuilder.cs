@@ -12,6 +12,7 @@ using Microsoft.Azure.Cosmos;
 using WebReaper.Abstractions.Spider;
 using WebReaper.Abstractions.Sinks;
 using WebReaper.Abstractions.LinkTracker;
+using Newtonsoft.Json.Linq;
 
 namespace WebReaper.Core.Scraper;
 
@@ -39,6 +40,8 @@ public class SpiderBuilder
     protected ICrawledLinkTracker SiteLinkTracker { get; set; }
 
     protected IContentParser ContentParser;
+
+    protected event Action<JObject> ScrapedData;
 
     protected static SocketsHttpHandler httpHandler = new()
     {
@@ -98,6 +101,12 @@ public class SpiderBuilder
 
     public SpiderBuilder WriteToConsole() => AddSink(new ConsoleSink());
 
+    public SpiderBuilder AddScrapedDataHandler(Action<JObject> eventHandler)
+    {
+        ScrapedData += eventHandler;
+        return this;
+    }
+
     public SpiderBuilder WriteToJsonFile(string filePath) => AddSink(new JsonFileSink(filePath));
 
     public SpiderBuilder WriteToCosmosDb(
@@ -126,6 +135,8 @@ public class SpiderBuilder
 
             PageCrawlLimit = limit
         };
+
+        spider.ScrapedData += ScrapedData;
 
         return spider;
     }
