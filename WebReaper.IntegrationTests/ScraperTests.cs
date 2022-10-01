@@ -8,7 +8,7 @@ namespace WebReaper.IntegrationTests
     public class ScraperTests
     {
         [Fact]
-        public async Task ListTest()
+        public async Task ElementListSchemaTest()
         {
             List<JObject> result = new List<JObject>();
 
@@ -21,13 +21,17 @@ namespace WebReaper.IntegrationTests
 
             _ = scraper.Run(1);
 
-            await Task.Delay(10000);
+            await Task.Delay(3000);
 
             await scraper.Stop();
 
             await Task.Delay(1000);
 
-            Assert.NotEmpty(result);
+            Assert.Equal(1, result.Count);
+
+            var prop = result.First().Properties().Select(p => p.Name).Single();
+
+            Assert.Equal(prop, "genres");
         }
     }
 }
