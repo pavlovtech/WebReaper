@@ -49,6 +49,22 @@ scraper = new Scraper()
 	.IgnoreUrls(blackList);
 ```
 
+### Authorization
+
+If you need to pass authorization before parsing the web site, you can call Authorize method on Scraper that has to return CookieContainer with all cookies required for authorization. You are responsible for performing the login operation with your credentials, the Scraper only uses the cookies that you provide.
+
+```C#
+scraper = new Scraper()
+            .WithLogger(logger)
+            .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
+            .Authorize(() =>
+            {
+                var container = new CookieContainer();
+                container.Add(new Cookie("AuthToken", "123");
+                return container;
+            })
+```
+
 ## Features:
 
 * :zap: It's extremly fast due to parallelism and asynchrony
