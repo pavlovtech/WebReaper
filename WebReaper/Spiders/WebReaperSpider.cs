@@ -8,6 +8,7 @@ using WebReaper.Abstractions.Spider;
 using WebReaper.Abstractions.Sinks;
 using WebReaper.Abstractions.LinkTracker;
 using WebReaper.Abstractions.Loaders;
+using Newtonsoft.Json.Linq;
 
 namespace WebReaper.Core.Spiders;
 
@@ -24,6 +25,8 @@ public class WebReaperSpider : ISpider
     public int PageCrawlLimit { get; set; } = int.MaxValue;
 
     public List<IScraperSink> Sinks { get; init; } = new();
+
+    public event Action<JObject> ScrapedData;
 
     protected ILogger Logger { get; init; }
 
@@ -72,6 +75,8 @@ public class WebReaperSpider : ISpider
         {
             Logger.LogInvocationCount("Handle on target page");
             var result = ContentParser.Parse(doc, job.schema);
+
+            ScrapedData(result);
 
             var sinkTasks = Sinks.Select(sink => sink.EmitAsync(result));
 

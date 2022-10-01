@@ -10,6 +10,7 @@ using WebReaper.Domain.Selectors;
 using System.Threading.Channels;
 using WebReaper.Abstractions.Sinks;
 using WebReaper.Abstractions.LinkTracker;
+using Newtonsoft.Json.Linq;
 
 namespace WebReaper.Core.Scraper;
 
@@ -76,6 +77,12 @@ public class Scraper
     public Scraper WriteToConsole()
     {
         SpiderBuilder.WriteToConsole();
+        return this;
+    }
+
+    public Scraper AddScrapedDataHandler(Action<JObject> eventHandler)
+    {
+        SpiderBuilder.AddScrapedDataHandler(eventHandler);
         return this;
     }
 
