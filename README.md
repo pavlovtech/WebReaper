@@ -3,7 +3,7 @@
 
 [![NuGet](https://img.shields.io/badge/Nuget-1.0-green)](https://www.nuget.org/packages/WebReaper)
 
-![DotNet](https://img.shields.io/badge/dotnet-6.0-blue)
+# Tech stack:
 
 ![csharp](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white)
 
