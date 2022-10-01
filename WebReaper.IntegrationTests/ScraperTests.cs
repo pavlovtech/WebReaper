@@ -16,9 +16,13 @@ namespace WebReaper.IntegrationTests
                 })
                 .WriteToConsole();
 
-            await scraper.Run(1);
+            _ = scraper.Run(1);
+
+            await Task.Delay(10000);
 
             await scraper.Stop();
+
+            await Task.Delay(1000);
         }
     }
 }
