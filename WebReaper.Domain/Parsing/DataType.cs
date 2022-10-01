@@ -2,7 +2,7 @@ namespace WebReaper.Domain.Parsing;
 
 public enum DataType
 {
-    Non = 0,
+    None = 0,
     Integer = 1,
     Float = 2,
     Boolean = 3,
