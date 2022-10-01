@@ -1,6 +1,7 @@
 
 # ![image](https://user-images.githubusercontent.com/6662454/167391357-edb02ce2-a63c-439b-be9b-69b4b4796b1c.png) WebReaper
 
+[![NuGet](https://img.shields.io/nuget/v/Fleck.svg)](https://www.nuget.org/packages/WebReaper)
 
 Declarative high performance web scraper in C#. Easily crawl any web site and parse the data, save structed result to a file, DB, etc.
 
@@ -243,7 +244,7 @@ For other ways to extend your functionality see the next section.
 
 ## Coming soon:
 
-- [ ] Nuget package
+- [X] Nuget package
 - [X] Azure functions for the distributed crawling
 - [X] Parsing lists
 - [ ] Proxy support
