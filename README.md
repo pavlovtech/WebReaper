@@ -182,9 +182,9 @@ You can easly add your own by implementing the IScraperSink interface:
 
 ```C#
  public interface IScraperSink
-    {
-        public Task EmitAsync(JObject scrapedData);
-    }
+{
+	public Task EmitAsync(JObject scrapedData);
+}
 ```
 Here is an example of the Console sink:
 
