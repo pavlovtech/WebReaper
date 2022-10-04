@@ -13,9 +13,6 @@
     <PackageReference Include="StackExchange.Redis" Version="2.6.66" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WebReaper\WebReaper.Core.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <None Update="host.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -26,5 +23,8 @@
   </ItemGroup>
   <ItemGroup>
     <FunctionsPreservedDependencies Include="System.Text.Encoding.CodePages.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\WebReaper\WebReaper.Core.csproj" />
   </ItemGroup>
 </Project>
