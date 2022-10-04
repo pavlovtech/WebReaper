@@ -39,16 +39,15 @@ public class ScraperConfigBuilder
 
     public ScraperConfigBuilder FollowLinks(
         string linkSelector,
-        SelectorType selectorType = SelectorType.Css,
-        PageType pageType = PageType.Static)
+        SelectorType selectorType = SelectorType.Css)
     {
-        linkPathSelectors.Add(new(linkSelector, SelectorType: selectorType, PageType: pageType));
+        linkPathSelectors.Add(new(linkSelector, SelectorType: selectorType));
         return this;
     }
 
-    public ScraperConfigBuilder FollowLinks(string linkSelector, string paginationSelector, SelectorType selectorType = SelectorType.Css, PageType pageType = PageType.Static)
+    public ScraperConfigBuilder FollowLinks(string linkSelector, string paginationSelector, SelectorType selectorType = SelectorType.Css)
     {
-        linkPathSelectors.Add(new(linkSelector, paginationSelector, pageType, selectorType));
+        linkPathSelectors.Add(new(linkSelector, paginationSelector));
         return this;
     }
 

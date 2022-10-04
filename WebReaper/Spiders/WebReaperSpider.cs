@@ -14,8 +14,7 @@ namespace WebReaper.Core.Spiders;
 
 public class WebReaperSpider : ISpider
 {
-    public IPageLoader StaticPageLoader { get; init; }
-    public IPageLoader SpaPageLoader { get; init; }
+    public IPageLoader PageLoader { get; init; }
     public ILinkParser LinkParser { get; init; }
     public IContentParser ContentParser { get; init; }
     public ICrawledLinkTracker LinkTracker { get; init; }
@@ -35,16 +34,14 @@ public class WebReaperSpider : ISpider
         ILinkParser linkParser,
         IContentParser contentParser,
         ICrawledLinkTracker linkTracker,
-        IPageLoader staticPageLoader,
-        IPageLoader spaPageLoader,
+        IPageLoader pageLoader,
         ILogger logger)
     {
         Sinks = sinks;
         LinkParser = linkParser;
         ContentParser = contentParser;
         LinkTracker = linkTracker;
-        StaticPageLoader = staticPageLoader;
-        SpaPageLoader = spaPageLoader;
+        PageLoader = pageLoader;
 
         Logger = logger;
     }
@@ -60,16 +57,7 @@ public class WebReaperSpider : ISpider
 
         await LinkTracker.AddVisitedLinkAsync(job.BaseUrl, job.Url);
 
-        string doc;
-
-        if (job.pageType == PageType.Static)
-        {
-            doc = await StaticPageLoader.Load(job.Url);
-        }
-        else
-        {
-            doc = await SpaPageLoader.Load(job.Url);
-        }
+        string doc = await PageLoader.Load(job.Url);
 
         if (job.PageCategory == PageCategory.TargetPage)
         {
