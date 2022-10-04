@@ -44,6 +44,8 @@
   <ItemGroup>
     <Folder Include="Queue\InMemory\" />
     <Folder Include="Queue\AzureServiceBus\" />
+    <Folder Include="Scraper\Dynamic\" />
+    <Folder Include="Scraper\Static\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Users\alexp\Downloads\167391357-edb02ce2-a63c-439b-be9b-69b4b4796b1c.png">

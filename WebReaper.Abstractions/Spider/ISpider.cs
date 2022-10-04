@@ -1,5 +1,4 @@
 using Newtonsoft.Json.Linq;
-using WebReaper.Abstractions.JobQueue;
 using WebReaper.Abstractions.LinkTracker;
 using WebReaper.Abstractions.Loaders;
 using WebReaper.Abstractions.Parsers;
@@ -12,9 +11,7 @@ public interface ISpider
 {
     Task<IEnumerable<Job>> CrawlAsync(Job job);
 
-    IPageLoader StaticPageLoader { get; init; }
-
-    IPageLoader SpaPageLoader { get; init; }
+    IPageLoader PageLoader { get; init; }
 
     ILinkParser LinkParser { get; init; }
 
