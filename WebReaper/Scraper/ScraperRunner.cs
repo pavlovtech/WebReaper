@@ -38,6 +38,7 @@ public class ScraperRunner
             DepthLevel: 0));
 
         var options = new ParallelOptions { MaxDegreeOfParallelism = parallelismDegree };
+
         await Parallel.ForEachAsync(JobQueueReader.ReadAsync(), options, async (job, token) =>
         {
             try
