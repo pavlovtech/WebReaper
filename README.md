@@ -63,15 +63,15 @@ new Scraper()
 
 ### SPA parsing example
 
-Parsing single page applications is super simple, just specify page type as SPA: *pageType: PageType.SPA*
+Parsing single page applications is super simple, just specify PageType.Dynamic
 
 ```C#
 scraper = new Scraper()
     .WithLogger(logger)
-    .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
-    .FollowLinks("#cf-33 .forumlink>a", pageType: PageType.SPA) // SPA page
-    .FollowLinks(".forumlink>a", pageType: PageType.SPA)        // SPA page
-    .FollowLinks("a.torTopic", ".pg", pageType: PageType.SPA)   // SPA page
+    .WithStartUrl("https://rutracker.org/forum/index.php?c=33", PageType.Dynamic)
+    .FollowLinks("#cf-33 .forumlink>a", PageType.Dynamic)
+    .FollowLinks(".forumlink>a", PageType.Dynamic)
+    .FollowLinks("a.torTopic", ".pg", PageType.Dynamic)
     .Parse(new Schema {
 		new("name", "#topic-title"),
         new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
@@ -84,6 +84,17 @@ scraper = new Scraper()
     .WriteToCsvFile("result.csv")
     .IgnoreUrls(blackList);
 ```
+
+Additionaly, you can run any JavaScript on dynamic pages as they are loaded with headless browser. In order to do that you need to pass the third parameter:
+
+```
+	.WithStartUrl("https://rutracker.org/forum/index.php?c=33", PageType.Dynamic, "alert('startPage')")
+        .FollowLinks("#cf-33 .forumlink>a", PageType.Dynamic, "alert('first level page')")
+        .FollowLinks(".forumlink>a", PageType.Dynamic, "alert('first second level page')")
+        .FollowLinks("a.torTopic", ".pg", PageType.Dynamic, "alert('third level page')")
+```
+
+It can be helpful if the required content is loaded only after some user interactions such as clicks, scrolls, etc.
 
 ### Authorization
 
