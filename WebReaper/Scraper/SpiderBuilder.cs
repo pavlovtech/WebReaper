@@ -8,7 +8,6 @@ using WebReaper.Core.LinkTracker;
 using WebReaper.Core.Loaders;
 using Microsoft.Extensions.Logging.Abstractions;
 using WebReaper.Core.Spiders;
-using Microsoft.Azure.Cosmos;
 using WebReaper.Abstractions.Spider;
 using WebReaper.Abstractions.Sinks;
 using WebReaper.Abstractions.LinkTracker;
@@ -27,7 +26,7 @@ public class SpiderBuilder
         LinkParser = new LinkParserByCssSelector();
         SiteLinkTracker = new InMemoryCrawledLinkTracker();
         StaticStaticPageLoader = new HttpStaticPageLoader(HttpClient.Value, Logger);
-        DynamicStaticPageLoader = new PuppeteerPageLoader(Logger);
+        DynamicStaticPageLoader = new PuppeteerPageLoader(Logger, Cookies);
     }
 
     public List<IScraperSink> Sinks { get; } = new();
@@ -42,8 +41,10 @@ public class SpiderBuilder
 
     protected IContentParser ContentParser { get; }
     
-    public IStaticPageLoader StaticStaticPageLoader { get; set; }
-    public IDynamicPageLoader DynamicStaticPageLoader { get; set; }
+    protected IStaticPageLoader StaticStaticPageLoader { get; set; }
+    protected IDynamicPageLoader DynamicStaticPageLoader { get; set; }
+
+    protected CookieContainer Cookies { get; } = new();
 
     protected event Action<JObject> ScrapedData;
 
@@ -80,6 +81,7 @@ public class SpiderBuilder
         var cookieContainer = authorize();
 
         httpHandler.CookieContainer = cookieContainer;
+        Cookies.Add(cookieContainer.GetAllCookies());
 
         return this;
     }
