@@ -129,9 +129,9 @@ public class SpiderBuilder
         return this;
     }
 
-    public SpiderBuilder WithBrowserPageLoader()
+    public SpiderBuilder WithBrowserPageLoader(IDynamicPageLoader dynamicPageLoader)
     {
-        DynamicStaticPageLoader = new PuppeteerPageLoader(Logger);
+        DynamicStaticPageLoader = dynamicPageLoader;
         return this;
     }
 
