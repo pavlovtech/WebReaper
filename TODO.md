@@ -1,6 +1,6 @@
 - [ ] Log html page for failing selectors
 - [ ] Save cookies to redis
-- [ ] Use cookie container for dynamic pages
+- [X] Use cookie container for dynamic pages
 - [X] Add support for saving url in schema
 - [X] Split up crawler builder and runner
 - [ ] Think about creating DataDiscoveryCrawler and DataExtractionCrawler

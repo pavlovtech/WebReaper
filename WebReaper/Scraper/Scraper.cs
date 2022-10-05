@@ -8,12 +8,9 @@ using Microsoft.Extensions.Logging.Abstractions;
 using WebReaper.Core.Queue.InMemory;
 using WebReaper.Domain.Selectors;
 using System.Threading.Channels;
-using Azure;
 using WebReaper.Abstractions.Sinks;
 using WebReaper.Abstractions.LinkTracker;
 using Newtonsoft.Json.Linq;
-using PuppeteerSharp;
-
 namespace WebReaper.Core.Scraper;
 
 public class Scraper

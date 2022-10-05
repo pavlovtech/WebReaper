@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.Extensions.Logging;
 using PuppeteerSharp;
 using WebReaper.Abstractions.Loaders;
@@ -7,10 +8,12 @@ namespace WebReaper.Core.Loaders;
 
 public class PuppeteerPageLoader : IDynamicPageLoader
 {
+    private readonly CookieContainer? _cookies;
     private ILogger Logger { get; }
 
-    public PuppeteerPageLoader(ILogger logger)
+    public PuppeteerPageLoader(ILogger logger, CookieContainer? cookies)
     {
+        _cookies = cookies;
         Logger = logger;
     }
 
@@ -32,6 +35,18 @@ public class PuppeteerPageLoader : IDynamicPageLoader
         });
         
         await using var page = await browser.NewPageAsync();
+
+        if (_cookies != null)
+        {
+            var cookieParams = _cookies.GetAllCookies().Select(c => new CookieParam
+            {
+                Name = c.Name,
+                Value = c.Value
+            }).ToArray();
+        
+            await page.SetCookieAsync(cookieParams);
+        }
+        
         await page.GoToAsync(url, WaitUntilNavigation.DOMContentLoaded);
 
         //await page.WaitForNetworkIdleAsync();
