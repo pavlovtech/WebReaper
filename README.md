@@ -87,7 +87,7 @@ scraper = new Scraper()
 
 Additionaly, you can run any JavaScript on dynamic pages as they are loaded with headless browser. In order to do that you need to pass the third parameter:
 
-```
+```C#
 	.WithStartUrl("https://rutracker.org/forum/index.php?c=33", PageType.Dynamic, "alert('startPage')")
         .FollowLinks("#cf-33 .forumlink>a", PageType.Dynamic, "alert('first level page')")
         .FollowLinks(".forumlink>a", PageType.Dynamic, "alert('first second level page')")
