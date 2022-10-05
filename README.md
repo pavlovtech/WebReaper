@@ -259,13 +259,13 @@ For other ways to extend your functionality see the next section.
 - [X] Azure functions for the distributed crawling
 - [X] Parsing lists
 - [ ] Loading pages with headless browser and flexible SPA page manipulations (clicks, scrolls, etc)
-- [ ] CRON for scheduling
 - [ ] Proxy support
+- [ ] Sitemap crawling support
+- [ ] Site API support
+- [ ] CRON for scheduling
 - [ ] Request throttling
 - [ ] Autotune for parallelism degree
 - [ ] Autothrottling
 - [ ] Ports to NodeJS and Go
-- [ ] Sitemap crawling support
-- [ ] Site API support
 
 See the [LICENSE](LICENSE.txt) file for license rights and limitations (GNU GPLv3).
