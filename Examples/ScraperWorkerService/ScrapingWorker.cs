@@ -21,10 +21,10 @@ public class ScrapingWorker : BackgroundService
 
         scraper = new Scraper()
             .WithLogger(logger)
-            .WithStartUrl("https://rutracker.org/forum/index.php?c=33", PageType.Dynamic)
-            .FollowLinks("#cf-33 .forumlink>a", PageType.Dynamic)
-            .FollowLinks(".forumlink>a", PageType.Dynamic)
-            .FollowLinks("a.torTopic", ".pg", PageType.Dynamic)
+            .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
+            .FollowLinks("#cf-33 .forumlink>a")
+            .FollowLinks(".forumlink>a")
+            .FollowLinks("a.torTopic", ".pg")
             .Parse(new Schema {
                 new("name", "#topic-title"),
                 new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
