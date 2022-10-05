@@ -11,7 +11,7 @@ public class ScrapingWorker : BackgroundService
 
     public ScrapingWorker(ILogger<ScrapingWorker> logger)
     {
-        var blackList = new string[] {
+        var blackList = new[] {
             "https://rutracker.org/forum/viewforum.php?f=396",
             "https://rutracker.org/forum/viewforum.php?f=2322",
             "https://rutracker.org/forum/viewforum.php?f=1993",
@@ -21,10 +21,10 @@ public class ScrapingWorker : BackgroundService
 
         scraper = new Scraper()
             .WithLogger(logger)
-            .WithStartUrl("https://rutracker.org/forum/index.php?c=33", PageType.Dynamic, "window.scrollTo(0, document.body.scrollHeight);")
-            .FollowLinks("#cf-33 .forumlink>a")
-            .FollowLinks(".forumlink>a")
-            .FollowLinks("a.torTopic", ".pg")
+            .WithStartUrl("https://rutracker.org/forum/index.php?c=33", PageType.Dynamic)
+            .FollowLinks("#cf-33 .forumlink>a", PageType.Dynamic)
+            .FollowLinks(".forumlink>a", PageType.Dynamic)
+            .FollowLinks("a.torTopic", ".pg", PageType.Dynamic)
             .Parse(new Schema {
                 new("name", "#topic-title"),
                 new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
@@ -40,7 +40,7 @@ public class ScrapingWorker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        await scraper.Run(100);
+        await scraper.Run(1);
     }
 }
 

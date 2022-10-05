@@ -68,7 +68,7 @@ public class WebReaperSpider : ISpider
         }
         else
         {
-            doc = await DynamicPageLoader.Load(job.Url, job.Script); // TODO: fix
+            doc = await DynamicPageLoader.Load(job.Url, job.Script);
         }
 
         if (job.PageCategory == PageCategory.TargetPage)
@@ -95,7 +95,7 @@ public class WebReaperSpider : ISpider
 
         var newJobs = new List<Job>();
 
-        newJobs.AddRange(CreateNextJobs(job, newLinkPathSelectors, links));
+        newJobs.AddRange(CreateNextJobs(job, currentSelector, newLinkPathSelectors, links));
 
         if (job.PageCategory == PageCategory.PageWithPagination)
         {
@@ -112,7 +112,7 @@ public class WebReaperSpider : ISpider
 
             var linksToPaginatedPages = await LinkTracker.GetNotVisitedLinks(job.BaseUrl, allLinks);
 
-            newJobs.AddRange(CreateNextJobs(job, job.LinkPathSelectors, linksToPaginatedPages));
+            newJobs.AddRange(CreateNextJobs(job, currentSelector, job.LinkPathSelectors, linksToPaginatedPages));
         }
 
         return newJobs;
@@ -120,12 +120,13 @@ public class WebReaperSpider : ISpider
 
     private IEnumerable<Job> CreateNextJobs(
         Job job,
+        LinkPathSelector currentSelector,
         ImmutableQueue<LinkPathSelector> selectors,
         IEnumerable<string> links)
     {
         foreach (var link in links)
         {
-            var newJob = job with { Url = link, LinkPathSelectors = selectors, Script = selectors.Peek().ScriptExpression };
+            var newJob = job with { Url = link, LinkPathSelectors = selectors, PageType = currentSelector.PageType, Script = currentSelector.ScriptExpression };
             yield return newJob;
         }
     }

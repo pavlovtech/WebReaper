@@ -14,7 +14,7 @@ public class PuppeteerPageLoader : IDynamicPageLoader
         _logger = logger;
     }
 
-    public async Task<string> Load(string url, string script)
+    public async Task<string> Load(string url, string? script)
     {
         using var _ = _logger.LogMethodDuration();
 
@@ -28,7 +28,7 @@ public class PuppeteerPageLoader : IDynamicPageLoader
         var browser = await Puppeteer.LaunchAsync(new LaunchOptions
         {
             Headless = false,
-            ExecutablePath = browserFetcher.RevisionInfo(BrowserFetcher.DefaultChromiumRevision.ToString()).ExecutablePath
+            ExecutablePath = browserFetcher.RevisionInfo(BrowserFetcher.DefaultChromiumRevision).ExecutablePath
         });
 
         await using var page = await browser.NewPageAsync();
@@ -36,7 +36,10 @@ public class PuppeteerPageLoader : IDynamicPageLoader
 
         //await page.WaitForNetworkIdleAsync();
 
-        await page.EvaluateExpressionAsync(script);
+        if (script != null)
+        {
+            await page.EvaluateExpressionAsync(script);
+        }
         
         var html = await page.GetContentAsync();
         return html;

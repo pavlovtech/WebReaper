@@ -124,22 +124,20 @@ public class Scraper
 
     public Scraper FollowLinks(
         string linkSelector,
-        SelectorType selectorType = SelectorType.Css,
         PageType pageType = PageType.Static,
         string? script = null)
     {
-        ConfigBuilder.FollowLinks(linkSelector, selectorType, pageType, script);
+        ConfigBuilder.FollowLinks(linkSelector, pageType, script);
         return this;
     }
 
     public Scraper FollowLinks(
         string linkSelector,
         string paginationSelector,
-        SelectorType selectorType = SelectorType.Css,
         PageType pageType = PageType.Static,
         string? script = null)
     {
-        ConfigBuilder.FollowLinks(linkSelector, paginationSelector, selectorType, pageType, script);
+        ConfigBuilder.FollowLinks(linkSelector, paginationSelector, pageType, script);
         return this;
     }
 
