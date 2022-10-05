@@ -8,11 +8,11 @@ using WebReaper.Core.LinkTracker;
 using WebReaper.Core.Loaders;
 using Microsoft.Extensions.Logging.Abstractions;
 using WebReaper.Core.Spiders;
+using Microsoft.Azure.Cosmos;
 using WebReaper.Abstractions.Spider;
 using WebReaper.Abstractions.Sinks;
 using WebReaper.Abstractions.LinkTracker;
 using Newtonsoft.Json.Linq;
-using WebReaper.Abstractions.Loaders;
 
 namespace WebReaper.Core.Scraper;
 
@@ -25,7 +25,6 @@ public class SpiderBuilder
         ContentParser = new ContentParser(Logger);
         LinkParser = new LinkParserByCssSelector();
         SiteLinkTracker = new InMemoryCrawledLinkTracker();
-        PageLoader = new HttpPageLoader(HttpClient.Value, Logger);
     }
 
     public List<IScraperSink> Sinks { get; protected set; } = new();
@@ -39,8 +38,6 @@ public class SpiderBuilder
     protected ILinkParser LinkParser { get; set; }
 
     protected ICrawledLinkTracker SiteLinkTracker { get; set; }
-
-    protected IPageLoader PageLoader { get; set; }
 
     protected IContentParser ContentParser;
 
@@ -58,7 +55,7 @@ public class SpiderBuilder
         PooledConnectionLifetime = Timeout.InfiniteTimeSpan
     };
 
-    protected Lazy<HttpClient> HttpClient = new(() => new(httpHandler));
+    protected Lazy<HttpClient> httpClient = new(() => new(httpHandler));
 
     protected List<string> urlBlackList = new();
 
@@ -71,18 +68,6 @@ public class SpiderBuilder
     public SpiderBuilder WithLinkTracker(ICrawledLinkTracker linkTracker)
     {
         SiteLinkTracker = linkTracker;
-        return this;
-    }
-
-    public SpiderBuilder WithPageLoader(IPageLoader pageLoader)
-    {
-        PageLoader = pageLoader;
-        return this;
-    }
-
-    public SpiderBuilder WithBrowserPageLoader()
-    {
-        PageLoader = new PuppeteerPageLoader(Logger);
         return this;
     }
 
@@ -142,7 +127,8 @@ public class SpiderBuilder
             LinkParser,
             new ContentParser(Logger),
             SiteLinkTracker,
-            PageLoader,
+            new HttpPageLoader(httpClient.Value, Logger),
+            new PuppeteerPageLoader(Logger),
             Logger)
         {
             UrlBlackList = urlBlackList.ToList(),
