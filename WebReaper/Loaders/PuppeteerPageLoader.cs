@@ -7,16 +7,16 @@ namespace WebReaper.Core.Loaders;
 
 public class PuppeteerPageLoader : IDynamicPageLoader
 {
-    private ILogger _logger { get; }
+    private ILogger Logger { get; }
 
     public PuppeteerPageLoader(ILogger logger)
     {
-        _logger = logger;
+        Logger = logger;
     }
 
     public async Task<string> Load(string url, string? script)
     {
-        using var _ = _logger.LogMethodDuration();
+        using var _ = Logger.LogMethodDuration();
 
         var browserFetcher = new BrowserFetcher(new BrowserFetcherOptions
         {
