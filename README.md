@@ -12,6 +12,7 @@ Tech stack:
   <img src="https://img.shields.io/badge/Azure_Functions-0062AD?style=for-the-badge&logo=azure-functions&logoColor=white" />
   <img src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white" />
   <img src="https://img.shields.io/badge/redis-%23DD0031.svg?&style=for-the-badge&logo=redis&logoColor=white" />
+  <img src="https://img.shields.io/badge/-Puppeteer-green?style=for-the-badge&logo=appveyor" />
 </p>
 
 
@@ -257,14 +258,14 @@ For other ways to extend your functionality see the next section.
 - [X] Nuget package
 - [X] Azure functions for the distributed crawling
 - [X] Parsing lists
-- [ ] CRON for scheduling
+- [ ] Loading pages with headless browser and flexible SPA page manipulations (clicks, scrolls, etc)
 - [ ] Proxy support
+- [ ] Sitemap crawling support
+- [ ] Site API support
+- [ ] CRON for scheduling
 - [ ] Request throttling
 - [ ] Autotune for parallelism degree
 - [ ] Autothrottling
-- [ ] Flexible SPA manipulation
 - [ ] Ports to NodeJS and Go
-- [ ] Sitemap crawling support
-- [ ] Site API support
 
 See the [LICENSE](LICENSE.txt) file for license rights and limitations (GNU GPLv3).
