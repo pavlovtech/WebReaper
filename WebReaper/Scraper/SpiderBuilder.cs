@@ -13,6 +13,7 @@ using WebReaper.Abstractions.Spider;
 using WebReaper.Abstractions.Sinks;
 using WebReaper.Abstractions.LinkTracker;
 using Newtonsoft.Json.Linq;
+using WebReaper.Abstractions.Loaders;
 
 namespace WebReaper.Core.Scraper;
 
@@ -25,13 +26,13 @@ public class SpiderBuilder
         ContentParser = new ContentParser(Logger);
         LinkParser = new LinkParserByCssSelector();
         SiteLinkTracker = new InMemoryCrawledLinkTracker();
+        StaticPageLoader = new HttpPageLoader(HttpClient.Value, Logger);
+        DynamicPageLoader = new PuppeteerPageLoader(Logger);
     }
 
-    public List<IScraperSink> Sinks { get; protected set; } = new();
+    public List<IScraperSink> Sinks { get; } = new();
 
     protected int limit = int.MaxValue;
-
-    protected string baseUrl = "";
 
     protected ILogger Logger { get; set; }
 
@@ -39,7 +40,10 @@ public class SpiderBuilder
 
     protected ICrawledLinkTracker SiteLinkTracker { get; set; }
 
-    protected IContentParser ContentParser;
+    protected IContentParser ContentParser { get; }
+    
+    public IPageLoader StaticPageLoader { get; set; }
+    public IPageLoader DynamicPageLoader { get; set; }
 
     protected event Action<JObject> ScrapedData;
 
@@ -55,9 +59,9 @@ public class SpiderBuilder
         PooledConnectionLifetime = Timeout.InfiniteTimeSpan
     };
 
-    protected Lazy<HttpClient> httpClient = new(() => new(httpHandler));
+    protected Lazy<HttpClient> HttpClient = new(() => new(httpHandler));
 
-    protected List<string> urlBlackList = new();
+    protected List<string> UrlBlackList = new();
 
     public SpiderBuilder WithLogger(ILogger logger)
     {
@@ -73,9 +77,9 @@ public class SpiderBuilder
 
     public SpiderBuilder Authorize(Func<CookieContainer> authorize)
     {
-        var CookieContainer = authorize();
+        var cookieContainer = authorize();
 
-        httpHandler.CookieContainer = CookieContainer;
+        httpHandler.CookieContainer = cookieContainer;
 
         return this;
     }
@@ -83,13 +87,12 @@ public class SpiderBuilder
     public SpiderBuilder AddSink(IScraperSink sink)
     {
         Sinks.Add(sink);
-
         return this;
     }
 
     public SpiderBuilder IgnoreUrls(params string[] urls)
     {
-        urlBlackList.AddRange(urls);
+        UrlBlackList.AddRange(urls);
         return this;
     }
 
@@ -117,6 +120,18 @@ public class SpiderBuilder
     {
         return AddSink(new CosmosSink(endpointUrl, authorizationKey, databaseId, containerId, Logger));
     }
+    
+    public SpiderBuilder WithStaticPageLoader(IPageLoader pageLoader)
+    {
+        StaticPageLoader = pageLoader;
+        return this;
+    }
+
+    public SpiderBuilder WithBrowserPageLoader()
+    {
+        DynamicPageLoader = new PuppeteerPageLoader(Logger);
+        return this;
+    }
 
     public SpiderBuilder WriteToCsvFile(string filePath) => AddSink(new CsvFileSink(filePath));
 
@@ -125,13 +140,13 @@ public class SpiderBuilder
         ISpider spider = new WebReaperSpider(
             Sinks,
             LinkParser,
-            new ContentParser(Logger),
+            ContentParser,
             SiteLinkTracker,
-            new HttpPageLoader(httpClient.Value, Logger),
-            new PuppeteerPageLoader(Logger),
+            StaticPageLoader,
+            DynamicPageLoader,
             Logger)
         {
-            UrlBlackList = urlBlackList.ToList(),
+            UrlBlackList = UrlBlackList.ToList(),
 
             PageCrawlLimit = limit
         };

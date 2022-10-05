@@ -22,6 +22,8 @@ public class ScrapingWorker : BackgroundService
         scraper = new Scraper()
             .WithLogger(logger)
             .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
+            //.Click(".link")
+            //.ScrollTo("#el")
             .FollowLinks("#cf-33 .forumlink>a")
             .FollowLinks(".forumlink>a")
             .FollowLinks("a.torTopic", ".pg")
@@ -36,25 +38,6 @@ public class ScrapingWorker : BackgroundService
             .WriteToJsonFile("result.json")
             .WriteToCsvFile("result.csv")
             .IgnoreUrls(blackList);
-
-        /* SPA scrapping example */
-        //scraper = new Scraper()
-        //   .WithLogger(logger)
-        //   .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
-        //   .FollowSPALinks("#cf-33 .forumlink>a", pageType: PageType.SPA)
-        //   .FollowSPALinks(".forumlink>a", pageType: PageType.SPA)
-        //   .FollowSPALinks("a.torTopic", ".pg", pageType: PageType.SPA)
-        //   .Parse(new Schema {
-        //        new("name", "#topic-title"),
-        //        new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
-        //        new("subcategory", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(5)"),
-        //        new("torrentSize", "div.attach_link.guest>ul>li:nth-child(2)"),
-        //        new Url("torrentLink", ".magnet-link"),
-        //        new Image("coverImageUrl", ".postImg")
-        //   })
-        //   .WriteToJsonFile("result.json")
-        //   .WriteToCsvFile("result.csv")
-        //   .IgnoreUrls(blackList);
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)

@@ -62,7 +62,7 @@ public class WebReaperSpider : ISpider
 
         string doc;
 
-        if (job.pageType == PageType.Static)
+        if (job.PageType == PageType.Static)
         {
             doc = await StaticPageLoader.Load(job.Url);
         }
@@ -74,7 +74,7 @@ public class WebReaperSpider : ISpider
         if (job.PageCategory == PageCategory.TargetPage)
         {
             Logger.LogInvocationCount("Handle on target page");
-            var result = ContentParser.Parse(doc, job.schema);
+            var result = ContentParser.Parse(doc, job.Schema);
             result.Add("URL", job.Url);
 
             ScrapedData(result);
@@ -125,7 +125,7 @@ public class WebReaperSpider : ISpider
     {
         foreach (var link in links)
         {
-            var newJob = new Job(job.schema, job.BaseUrl, link, selectors, job.DepthLevel + 1);
+            var newJob = new Job(job.Schema, job.BaseUrl, link, selectors, job.DepthLevel + 1);
             yield return newJob;
         }
     }

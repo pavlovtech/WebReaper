@@ -1,7 +1,7 @@
 - [ ] Log html page for failing selectors
 - [ ] Save cookies to redis
-- [ ] Add support for saving url in schema
-- [ ] Split up crawler builder and runner
+- [X] Add support for saving url in schema
+- [X] Split up crawler builder and runner
 - [ ] Think about creating DataDiscoveryCrawler and DataExtractionCrawler
 - [X] Use channels instead of blocking collection
 - [ ] Implement throttling
