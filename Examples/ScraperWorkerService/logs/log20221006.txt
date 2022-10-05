@@ -244,3 +244,6 @@ System.ArgumentNullException: Value cannot be null. (Parameter 'input')
 2022-10-06 01:15:38.952 +03:00 [INF] Application started. Press Ctrl+C to shut down.
 2022-10-06 01:15:39.070 +03:00 [INF] Hosting environment: Development
 2022-10-06 01:15:39.072 +03:00 [INF] Content root path: C:\Projects\WebReaper\Examples\ScraperWorkerService
+2022-10-06 01:22:22.394 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-10-06 01:22:22.517 +03:00 [INF] Hosting environment: Development
+2022-10-06 01:22:22.519 +03:00 [INF] Content root path: C:\Projects\WebReaper\Examples\ScraperWorkerService
