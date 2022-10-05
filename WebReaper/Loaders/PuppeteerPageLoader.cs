@@ -25,12 +25,12 @@ public class PuppeteerPageLoader : IDynamicPageLoader
 
         await browserFetcher.DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
 
-        var browser = await Puppeteer.LaunchAsync(new LaunchOptions
+        await using var browser = await Puppeteer.LaunchAsync(new LaunchOptions
         {
             Headless = false,
             ExecutablePath = browserFetcher.RevisionInfo(BrowserFetcher.DefaultChromiumRevision).ExecutablePath
         });
-
+        
         await using var page = await browser.NewPageAsync();
         await page.GoToAsync(url, WaitUntilNavigation.DOMContentLoaded);
 
@@ -42,6 +42,7 @@ public class PuppeteerPageLoader : IDynamicPageLoader
         }
         
         var html = await page.GetContentAsync();
+
         return html;
     }
 }
