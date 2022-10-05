@@ -1,6 +1,6 @@
 namespace WebReaper.Abstractions.Loaders;
 
-public interface IPageLoader
+public interface IStaticPageLoader
 {
     Task<string> Load(string url);
 }

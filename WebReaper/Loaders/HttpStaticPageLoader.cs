@@ -6,13 +6,13 @@ using WebReaper.Core.Extensions;
 
 namespace WebReaper.Core.Loaders;
 
-public class HttpPageLoader : IPageLoader
+public class HttpStaticPageLoader : IStaticPageLoader
 {
     private ILogger logger;
 
     protected HttpClient HttpClient { get; }
 
-    public HttpPageLoader(HttpClient httpClient, ILogger logger)
+    public HttpStaticPageLoader(HttpClient httpClient, ILogger logger)
     {
         ServicePointManager.DefaultConnectionLimit = int.MaxValue;
         ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;

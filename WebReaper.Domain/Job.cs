@@ -9,8 +9,8 @@ public record Job(
     string BaseUrl,
     string Url,
     ImmutableQueue<LinkPathSelector> LinkPathSelectors,
-    int DepthLevel = 0,
-    PageType PageType = PageType.Static)
+    PageType PageType = PageType.Static,
+    string? Script = null)
 {
     public PageCategory PageCategory => 
         (LinkPathSelectors.Count(), LinkPathSelectors.FirstOrDefault()?.HasPagination) switch

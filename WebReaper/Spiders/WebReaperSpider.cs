@@ -14,8 +14,8 @@ namespace WebReaper.Core.Spiders;
 
 public class WebReaperSpider : ISpider
 {
-    public IPageLoader StaticPageLoader { get; init; }
-    public IPageLoader SpaPageLoader { get; init; }
+    public IStaticPageLoader StaticStaticPageLoader { get; init; }
+    public IDynamicPageLoader DynamicPageLoader { get; init; }
     public ILinkParser LinkParser { get; init; }
     public IContentParser ContentParser { get; init; }
     public ICrawledLinkTracker LinkTracker { get; init; }
@@ -35,16 +35,16 @@ public class WebReaperSpider : ISpider
         ILinkParser linkParser,
         IContentParser contentParser,
         ICrawledLinkTracker linkTracker,
-        IPageLoader staticPageLoader,
-        IPageLoader spaPageLoader,
+        IStaticPageLoader staticPageLoader,
+        IDynamicPageLoader dynamicPageLoader,
         ILogger logger)
     {
         Sinks = sinks;
         LinkParser = linkParser;
         ContentParser = contentParser;
         LinkTracker = linkTracker;
-        StaticPageLoader = staticPageLoader;
-        SpaPageLoader = spaPageLoader;
+        StaticStaticPageLoader = staticPageLoader;
+        DynamicPageLoader = dynamicPageLoader;
 
         Logger = logger;
     }
@@ -64,11 +64,11 @@ public class WebReaperSpider : ISpider
 
         if (job.PageType == PageType.Static)
         {
-            doc = await StaticPageLoader.Load(job.Url);
+            doc = await StaticStaticPageLoader.Load(job.Url);
         }
         else
         {
-            doc = await SpaPageLoader.Load(job.Url);
+            doc = await DynamicPageLoader.Load(job.Url, job.Script); // TODO: fix
         }
 
         if (job.PageCategory == PageCategory.TargetPage)
@@ -125,7 +125,7 @@ public class WebReaperSpider : ISpider
     {
         foreach (var link in links)
         {
-            var newJob = new Job(job.Schema, job.BaseUrl, link, selectors, job.DepthLevel + 1);
+            var newJob = job with { Url = link, LinkPathSelectors = selectors, Script = selectors.Peek().ScriptExpression };
             yield return newJob;
         }
     }

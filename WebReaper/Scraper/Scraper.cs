@@ -8,9 +8,11 @@ using Microsoft.Extensions.Logging.Abstractions;
 using WebReaper.Core.Queue.InMemory;
 using WebReaper.Domain.Selectors;
 using System.Threading.Channels;
+using Azure;
 using WebReaper.Abstractions.Sinks;
 using WebReaper.Abstractions.LinkTracker;
 using Newtonsoft.Json.Linq;
+using PuppeteerSharp;
 
 namespace WebReaper.Core.Scraper;
 
@@ -114,31 +116,30 @@ public class Scraper
         return this;
     }
 
-    public Scraper WithStartUrl(string url)
+    public Scraper WithStartUrl(string url, PageType pageType = PageType.Static, string? initScript = null)
     {
-        ConfigBuilder.WithStartUrl(url);
+        ConfigBuilder.WithStartUrl(url, pageType, initScript);
         return this;
     }
 
     public Scraper FollowLinks(
         string linkSelector,
-        SelectorType selectorType = SelectorType.Css)
+        SelectorType selectorType = SelectorType.Css,
+        PageType pageType = PageType.Static,
+        string? script = null)
     {
-        ConfigBuilder.FollowLinks(linkSelector, selectorType, PageType.Static);
+        ConfigBuilder.FollowLinks(linkSelector, selectorType, pageType, script);
         return this;
     }
 
-    public Scraper FollowSPALinks(
+    public Scraper FollowLinks(
         string linkSelector,
-        SelectorType selectorType = SelectorType.Css)
+        string paginationSelector,
+        SelectorType selectorType = SelectorType.Css,
+        PageType pageType = PageType.Static,
+        string? script = null)
     {
-        ConfigBuilder.FollowLinks(linkSelector, selectorType, PageType.SPA);
-        return this;
-    }
-
-    public Scraper FollowLinks(string linkSelector, string paginationSelector, SelectorType selectorType = SelectorType.Css, PageType pageType = PageType.Static)
-    {
-        ConfigBuilder.FollowLinks(linkSelector, paginationSelector, selectorType, pageType);
+        ConfigBuilder.FollowLinks(linkSelector, paginationSelector, selectorType, pageType, script);
         return this;
     }
 

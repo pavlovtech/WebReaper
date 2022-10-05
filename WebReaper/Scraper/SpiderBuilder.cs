@@ -26,8 +26,8 @@ public class SpiderBuilder
         ContentParser = new ContentParser(Logger);
         LinkParser = new LinkParserByCssSelector();
         SiteLinkTracker = new InMemoryCrawledLinkTracker();
-        StaticPageLoader = new HttpPageLoader(HttpClient.Value, Logger);
-        DynamicPageLoader = new PuppeteerPageLoader(Logger);
+        StaticStaticPageLoader = new HttpStaticPageLoader(HttpClient.Value, Logger);
+        DynamicStaticPageLoader = new PuppeteerPageLoader(Logger);
     }
 
     public List<IScraperSink> Sinks { get; } = new();
@@ -42,8 +42,8 @@ public class SpiderBuilder
 
     protected IContentParser ContentParser { get; }
     
-    public IPageLoader StaticPageLoader { get; set; }
-    public IPageLoader DynamicPageLoader { get; set; }
+    public IStaticPageLoader StaticStaticPageLoader { get; set; }
+    public IDynamicPageLoader DynamicStaticPageLoader { get; set; }
 
     protected event Action<JObject> ScrapedData;
 
@@ -121,15 +121,15 @@ public class SpiderBuilder
         return AddSink(new CosmosSink(endpointUrl, authorizationKey, databaseId, containerId, Logger));
     }
     
-    public SpiderBuilder WithStaticPageLoader(IPageLoader pageLoader)
+    public SpiderBuilder WithStaticPageLoader(IStaticPageLoader staticPageLoader)
     {
-        StaticPageLoader = pageLoader;
+        StaticStaticPageLoader = staticPageLoader;
         return this;
     }
 
     public SpiderBuilder WithBrowserPageLoader()
     {
-        DynamicPageLoader = new PuppeteerPageLoader(Logger);
+        DynamicStaticPageLoader = new PuppeteerPageLoader(Logger);
         return this;
     }
 
@@ -142,8 +142,8 @@ public class SpiderBuilder
             LinkParser,
             ContentParser,
             SiteLinkTracker,
-            StaticPageLoader,
-            DynamicPageLoader,
+            StaticStaticPageLoader,
+            DynamicStaticPageLoader,
             Logger)
         {
             UrlBlackList = UrlBlackList.ToList(),

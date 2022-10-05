@@ -21,9 +21,7 @@ public class ScrapingWorker : BackgroundService
 
         scraper = new Scraper()
             .WithLogger(logger)
-            .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
-            //.Click(".link")
-            //.ScrollTo("#el")
+            .WithStartUrl("https://rutracker.org/forum/index.php?c=33", PageType.Dynamic, "window.scrollTo(0, document.body.scrollHeight);")
             .FollowLinks("#cf-33 .forumlink>a")
             .FollowLinks(".forumlink>a")
             .FollowLinks("a.torTopic", ".pg")
