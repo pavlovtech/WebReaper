@@ -11,8 +11,6 @@ using System.Threading.Channels;
 using WebReaper.Abstractions.Sinks;
 using WebReaper.Abstractions.LinkTracker;
 using Newtonsoft.Json.Linq;
-using WebReaper.Abstractions.Loaders;
-using WebReaper.Core.Loaders;
 
 namespace WebReaper.Core.Scraper;
 
@@ -23,8 +21,6 @@ public class Scraper
     protected ScraperRunner Runner { get; set; }
 
     protected ILogger Logger { get; set; } = NullLogger.Instance;
-
-    protected IPageLoader PageLoader { get; set; }
 
     protected IJobQueueReader JobQueueReader;
 
@@ -65,18 +61,6 @@ public class Scraper
     public Scraper WithLinkTracker(ICrawledLinkTracker linkTracker)
     {
         SpiderBuilder.WithLinkTracker(linkTracker);
-        return this;
-    }
-
-    public Scraper WithPageLoader(IPageLoader pageLoader)
-    {
-        SpiderBuilder.WithPageLoader(pageLoader);
-        return this;
-    }
-
-    public Scraper WithBrowserPageLoader()
-    {
-        PageLoader = new PuppeteerPageLoader(Logger);
         return this;
     }
 
@@ -140,13 +124,21 @@ public class Scraper
         string linkSelector,
         SelectorType selectorType = SelectorType.Css)
     {
-        ConfigBuilder.FollowLinks(linkSelector, selectorType);
+        ConfigBuilder.FollowLinks(linkSelector, selectorType, PageType.Static);
+        return this;
+    }
+
+    public Scraper FollowSPALinks(
+        string linkSelector,
+        SelectorType selectorType = SelectorType.Css)
+    {
+        ConfigBuilder.FollowLinks(linkSelector, selectorType, PageType.SPA);
         return this;
     }
 
     public Scraper FollowLinks(string linkSelector, string paginationSelector, SelectorType selectorType = SelectorType.Css, PageType pageType = PageType.Static)
     {
-        ConfigBuilder.FollowLinks(linkSelector, paginationSelector, selectorType);
+        ConfigBuilder.FollowLinks(linkSelector, paginationSelector, selectorType, pageType);
         return this;
     }
 
@@ -174,6 +166,6 @@ public class Scraper
 
     public async Task Stop()
     {
-        await Runner.Stop();
+       await Runner.Stop();
     }
 }
