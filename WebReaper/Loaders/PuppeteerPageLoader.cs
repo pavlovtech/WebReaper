@@ -35,7 +35,7 @@ public class PuppeteerPageLoader : IPageLoader
         await page.GoToAsync(url, WaitUntilNavigation.DOMContentLoaded);
 
         //await page.WaitForNetworkIdleAsync();
-
+        
         var html = await page.GetContentAsync();
         return html;
     }
