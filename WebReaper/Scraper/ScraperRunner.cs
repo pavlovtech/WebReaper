@@ -35,7 +35,8 @@ public class ScraperRunner
             Config.BaseUrl,
             Config.StartUrl!,
             ImmutableQueue.Create(Config.LinkPathSelectors.ToArray()),
-            DepthLevel: 0));
+            Config.StartPageType,
+            Config.initialScript));
 
         var options = new ParallelOptions { MaxDegreeOfParallelism = parallelismDegree };
 

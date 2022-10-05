@@ -5,7 +5,7 @@ using WebReaper.Core.Extensions;
 
 namespace WebReaper.Core.Loaders;
 
-public class PuppeteerPageLoader : IPageLoader
+public class PuppeteerPageLoader : IDynamicPageLoader
 {
     private ILogger _logger { get; }
 
@@ -14,7 +14,7 @@ public class PuppeteerPageLoader : IPageLoader
         _logger = logger;
     }
 
-    public async Task<string> Load(string url)
+    public async Task<string> Load(string url, string script)
     {
         using var _ = _logger.LogMethodDuration();
 
@@ -25,9 +25,9 @@ public class PuppeteerPageLoader : IPageLoader
 
         await browserFetcher.DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
 
-        Browser browser = await Puppeteer.LaunchAsync(new LaunchOptions
+        var browser = await Puppeteer.LaunchAsync(new LaunchOptions
         {
-            Headless = true,
+            Headless = false,
             ExecutablePath = browserFetcher.RevisionInfo(BrowserFetcher.DefaultChromiumRevision.ToString()).ExecutablePath
         });
 
@@ -35,6 +35,8 @@ public class PuppeteerPageLoader : IPageLoader
         await page.GoToAsync(url, WaitUntilNavigation.DOMContentLoaded);
 
         //await page.WaitForNetworkIdleAsync();
+
+        await page.EvaluateExpressionAsync(script);
         
         var html = await page.GetContentAsync();
         return html;

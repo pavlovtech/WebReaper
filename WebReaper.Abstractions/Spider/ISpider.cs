@@ -12,9 +12,9 @@ public interface ISpider
 {
     Task<IEnumerable<Job>> CrawlAsync(Job job);
 
-    IPageLoader StaticPageLoader { get; init; }
+    IStaticPageLoader StaticStaticPageLoader { get; init; }
 
-    IPageLoader SpaPageLoader { get; init; }
+    IDynamicPageLoader DynamicPageLoader { get; init; }
 
     ILinkParser LinkParser { get; init; }
 

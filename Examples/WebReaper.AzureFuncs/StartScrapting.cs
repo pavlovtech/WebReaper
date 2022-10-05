@@ -58,8 +58,7 @@ namespace WebReaper.AzureFuncs
 				config.ParsingScheme!,
 				config.BaseUrl,
 				config.StartUrl!,
-				ImmutableQueue.Create(config.LinkPathSelectors.ToArray()),
-				DepthLevel: 0));
+				ImmutableQueue.Create(config.LinkPathSelectors.ToArray())));
 
             return new OkObjectResult(new
             {

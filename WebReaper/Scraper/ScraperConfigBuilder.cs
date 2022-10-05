@@ -16,6 +16,8 @@ public class ScraperConfigBuilder
     protected Schema? schema;
 
     protected ILogger Logger = NullLogger.Instance;
+    protected PageType startPageType;
+    private string? initialScript;
 
     public ScraperConfigBuilder WithLogger(ILogger logger)
     {
@@ -23,7 +25,10 @@ public class ScraperConfigBuilder
         return this;
     }
 
-    public ScraperConfigBuilder WithStartUrl(string startUrl)
+    public ScraperConfigBuilder WithStartUrl(
+        string startUrl,
+        PageType pageType = PageType.Static,
+        string? initScript = null)
     {
         this.startUrl = startUrl;
 
@@ -34,21 +39,30 @@ public class ScraperConfigBuilder
 
         this.baseUrl = baseUrl + string.Join(string.Empty, segments.SkipLast(1));
 
+        startPageType = pageType;
+        initialScript = initScript;
+
         return this;
     }
 
     public ScraperConfigBuilder FollowLinks(
         string linkSelector,
         SelectorType selectorType = SelectorType.Css,
-        PageType pageType = PageType.Static)
+        PageType pageType = PageType.Static,
+        string? script = null)
     {
-        linkPathSelectors.Add(new(linkSelector, SelectorType: selectorType, PageType: pageType));
+        linkPathSelectors.Add(new LinkPathSelector(linkSelector, null, pageType, script, selectorType));
         return this;
     }
 
-    public ScraperConfigBuilder FollowLinks(string linkSelector, string paginationSelector, SelectorType selectorType = SelectorType.Css, PageType pageType = PageType.Static)
+    public ScraperConfigBuilder FollowLinks(
+        string linkSelector,
+        string paginationSelector,
+        SelectorType selectorType = SelectorType.Css,
+        PageType pageType = PageType.Static,
+        string? script = null)
     {
-        linkPathSelectors.Add(new(linkSelector, paginationSelector, pageType, selectorType));
+        linkPathSelectors.Add(new LinkPathSelector(linkSelector, paginationSelector, pageType, script, selectorType));
         return this;
     }
 
@@ -60,6 +74,6 @@ public class ScraperConfigBuilder
 
     public ScraperConfig Build()
     {
-        return new ScraperConfig(schema, linkPathSelectors.ToArray(), startUrl, baseUrl);
+        return new ScraperConfig(schema, linkPathSelectors.ToArray(), startUrl, startPageType, initialScript, baseUrl);
     }
 }
