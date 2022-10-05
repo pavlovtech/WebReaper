@@ -1,0 +1,246 @@
+2022-10-06 00:38:40.142 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-10-06 00:38:40.267 +03:00 [INF] Hosting environment: Development
+2022-10-06 00:38:40.270 +03:00 [INF] Content root path: C:\Projects\WebReaper\Examples\ScraperWorkerService
+2022-10-06 00:38:42.176 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.ArgumentNullException: Value cannot be null. (Parameter 'input')
+   at System.Text.RegularExpressions.ThrowHelper.ThrowArgumentNullException(ExceptionArgument arg)
+   at System.Text.RegularExpressions.Regex.IsMatch(String input)
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionInternalAsync(Boolean returnByValue, String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 145
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 72
+   at PuppeteerSharp.DOMWorld.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\DOMWorld.cs:line 123
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 39
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 42
+   at WebReaper.Core.Spiders.WebReaperSpider.CrawlAsync(Job job) in C:\Projects\WebReaper\WebReaper\Spiders\WebReaperSpider.cs:line 71
+   at WebReaper.Core.Scraper.ScraperRunner.<Run>b__21_0(Job job, CancellationToken token) in C:\Projects\WebReaper\WebReaper\Scraper\ScraperRunner.cs:line 47
+2022-10-06 00:38:43.640 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.ArgumentNullException: Value cannot be null. (Parameter 'input')
+   at System.Text.RegularExpressions.ThrowHelper.ThrowArgumentNullException(ExceptionArgument arg)
+   at System.Text.RegularExpressions.Regex.IsMatch(String input)
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionInternalAsync(Boolean returnByValue, String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 145
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 72
+   at PuppeteerSharp.DOMWorld.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\DOMWorld.cs:line 123
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 39
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 42
+   at WebReaper.Core.Spiders.WebReaperSpider.CrawlAsync(Job job) in C:\Projects\WebReaper\WebReaper\Spiders\WebReaperSpider.cs:line 71
+   at WebReaper.Core.Scraper.ScraperRunner.<Run>b__21_0(Job job, CancellationToken token) in C:\Projects\WebReaper\WebReaper\Scraper\ScraperRunner.cs:line 47
+2022-10-06 00:38:45.050 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.ArgumentNullException: Value cannot be null. (Parameter 'input')
+   at System.Text.RegularExpressions.ThrowHelper.ThrowArgumentNullException(ExceptionArgument arg)
+   at System.Text.RegularExpressions.Regex.IsMatch(String input)
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionInternalAsync(Boolean returnByValue, String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 145
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 72
+   at PuppeteerSharp.DOMWorld.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\DOMWorld.cs:line 123
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 39
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 42
+   at WebReaper.Core.Spiders.WebReaperSpider.CrawlAsync(Job job) in C:\Projects\WebReaper\WebReaper\Spiders\WebReaperSpider.cs:line 71
+   at WebReaper.Core.Scraper.ScraperRunner.<Run>b__21_0(Job job, CancellationToken token) in C:\Projects\WebReaper\WebReaper\Scraper\ScraperRunner.cs:line 47
+2022-10-06 00:38:46.475 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.ArgumentNullException: Value cannot be null. (Parameter 'input')
+   at System.Text.RegularExpressions.ThrowHelper.ThrowArgumentNullException(ExceptionArgument arg)
+   at System.Text.RegularExpressions.Regex.IsMatch(String input)
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionInternalAsync(Boolean returnByValue, String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 145
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 72
+   at PuppeteerSharp.DOMWorld.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\DOMWorld.cs:line 123
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 39
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 42
+   at WebReaper.Core.Spiders.WebReaperSpider.CrawlAsync(Job job) in C:\Projects\WebReaper\WebReaper\Spiders\WebReaperSpider.cs:line 71
+   at WebReaper.Core.Scraper.ScraperRunner.<Run>b__21_0(Job job, CancellationToken token) in C:\Projects\WebReaper\WebReaper\Scraper\ScraperRunner.cs:line 47
+2022-10-06 00:38:48.121 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.ArgumentNullException: Value cannot be null. (Parameter 'input')
+   at System.Text.RegularExpressions.ThrowHelper.ThrowArgumentNullException(ExceptionArgument arg)
+   at System.Text.RegularExpressions.Regex.IsMatch(String input)
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionInternalAsync(Boolean returnByValue, String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 145
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 72
+   at PuppeteerSharp.DOMWorld.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\DOMWorld.cs:line 123
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 39
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 42
+   at WebReaper.Core.Spiders.WebReaperSpider.CrawlAsync(Job job) in C:\Projects\WebReaper\WebReaper\Spiders\WebReaperSpider.cs:line 71
+   at WebReaper.Core.Scraper.ScraperRunner.<Run>b__21_0(Job job, CancellationToken token) in C:\Projects\WebReaper\WebReaper\Scraper\ScraperRunner.cs:line 47
+2022-10-06 00:38:49.522 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.ArgumentNullException: Value cannot be null. (Parameter 'input')
+   at System.Text.RegularExpressions.ThrowHelper.ThrowArgumentNullException(ExceptionArgument arg)
+   at System.Text.RegularExpressions.Regex.IsMatch(String input)
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionInternalAsync(Boolean returnByValue, String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 145
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 72
+   at PuppeteerSharp.DOMWorld.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\DOMWorld.cs:line 123
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 39
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 42
+   at WebReaper.Core.Spiders.WebReaperSpider.CrawlAsync(Job job) in C:\Projects\WebReaper\WebReaper\Spiders\WebReaperSpider.cs:line 71
+   at WebReaper.Core.Scraper.ScraperRunner.<Run>b__21_0(Job job, CancellationToken token) in C:\Projects\WebReaper\WebReaper\Scraper\ScraperRunner.cs:line 47
+2022-10-06 00:38:50.904 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.ArgumentNullException: Value cannot be null. (Parameter 'input')
+   at System.Text.RegularExpressions.ThrowHelper.ThrowArgumentNullException(ExceptionArgument arg)
+   at System.Text.RegularExpressions.Regex.IsMatch(String input)
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionInternalAsync(Boolean returnByValue, String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 145
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 72
+   at PuppeteerSharp.DOMWorld.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\DOMWorld.cs:line 123
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 39
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 42
+   at WebReaper.Core.Spiders.WebReaperSpider.CrawlAsync(Job job) in C:\Projects\WebReaper\WebReaper\Spiders\WebReaperSpider.cs:line 71
+   at WebReaper.Core.Scraper.ScraperRunner.<Run>b__21_0(Job job, CancellationToken token) in C:\Projects\WebReaper\WebReaper\Scraper\ScraperRunner.cs:line 47
+2022-10-06 00:38:52.282 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.ArgumentNullException: Value cannot be null. (Parameter 'input')
+   at System.Text.RegularExpressions.ThrowHelper.ThrowArgumentNullException(ExceptionArgument arg)
+   at System.Text.RegularExpressions.Regex.IsMatch(String input)
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionInternalAsync(Boolean returnByValue, String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 145
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 72
+   at PuppeteerSharp.DOMWorld.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\DOMWorld.cs:line 123
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 39
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 42
+   at WebReaper.Core.Spiders.WebReaperSpider.CrawlAsync(Job job) in C:\Projects\WebReaper\WebReaper\Spiders\WebReaperSpider.cs:line 71
+   at WebReaper.Core.Scraper.ScraperRunner.<Run>b__21_0(Job job, CancellationToken token) in C:\Projects\WebReaper\WebReaper\Scraper\ScraperRunner.cs:line 47
+2022-10-06 00:38:53.696 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.ArgumentNullException: Value cannot be null. (Parameter 'input')
+   at System.Text.RegularExpressions.ThrowHelper.ThrowArgumentNullException(ExceptionArgument arg)
+   at System.Text.RegularExpressions.Regex.IsMatch(String input)
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionInternalAsync(Boolean returnByValue, String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 145
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 72
+   at PuppeteerSharp.DOMWorld.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\DOMWorld.cs:line 123
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 39
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 42
+   at WebReaper.Core.Spiders.WebReaperSpider.CrawlAsync(Job job) in C:\Projects\WebReaper\WebReaper\Spiders\WebReaperSpider.cs:line 71
+   at WebReaper.Core.Scraper.ScraperRunner.<Run>b__21_0(Job job, CancellationToken token) in C:\Projects\WebReaper\WebReaper\Scraper\ScraperRunner.cs:line 47
+2022-10-06 00:38:55.098 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.ArgumentNullException: Value cannot be null. (Parameter 'input')
+   at System.Text.RegularExpressions.ThrowHelper.ThrowArgumentNullException(ExceptionArgument arg)
+   at System.Text.RegularExpressions.Regex.IsMatch(String input)
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionInternalAsync(Boolean returnByValue, String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 145
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 72
+   at PuppeteerSharp.DOMWorld.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\DOMWorld.cs:line 123
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 39
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 42
+   at WebReaper.Core.Spiders.WebReaperSpider.CrawlAsync(Job job) in C:\Projects\WebReaper\WebReaper\Spiders\WebReaperSpider.cs:line 71
+   at WebReaper.Core.Scraper.ScraperRunner.<Run>b__21_0(Job job, CancellationToken token) in C:\Projects\WebReaper\WebReaper\Scraper\ScraperRunner.cs:line 47
+2022-10-06 00:38:56.695 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.ArgumentNullException: Value cannot be null. (Parameter 'input')
+   at System.Text.RegularExpressions.ThrowHelper.ThrowArgumentNullException(ExceptionArgument arg)
+   at System.Text.RegularExpressions.Regex.IsMatch(String input)
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionInternalAsync(Boolean returnByValue, String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 145
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 72
+   at PuppeteerSharp.DOMWorld.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\DOMWorld.cs:line 123
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 39
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 42
+   at WebReaper.Core.Spiders.WebReaperSpider.CrawlAsync(Job job) in C:\Projects\WebReaper\WebReaper\Spiders\WebReaperSpider.cs:line 71
+   at WebReaper.Core.Scraper.ScraperRunner.<Run>b__21_0(Job job, CancellationToken token) in C:\Projects\WebReaper\WebReaper\Scraper\ScraperRunner.cs:line 47
+2022-10-06 00:38:58.233 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.ArgumentNullException: Value cannot be null. (Parameter 'input')
+   at System.Text.RegularExpressions.ThrowHelper.ThrowArgumentNullException(ExceptionArgument arg)
+   at System.Text.RegularExpressions.Regex.IsMatch(String input)
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionInternalAsync(Boolean returnByValue, String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 145
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 72
+   at PuppeteerSharp.DOMWorld.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\DOMWorld.cs:line 123
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 39
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 42
+   at WebReaper.Core.Spiders.WebReaperSpider.CrawlAsync(Job job) in C:\Projects\WebReaper\WebReaper\Spiders\WebReaperSpider.cs:line 71
+   at WebReaper.Core.Scraper.ScraperRunner.<Run>b__21_0(Job job, CancellationToken token) in C:\Projects\WebReaper\WebReaper\Scraper\ScraperRunner.cs:line 47
+2022-10-06 00:38:59.773 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.ArgumentNullException: Value cannot be null. (Parameter 'input')
+   at System.Text.RegularExpressions.ThrowHelper.ThrowArgumentNullException(ExceptionArgument arg)
+   at System.Text.RegularExpressions.Regex.IsMatch(String input)
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionInternalAsync(Boolean returnByValue, String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 145
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 72
+   at PuppeteerSharp.DOMWorld.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\DOMWorld.cs:line 123
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 39
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 42
+   at WebReaper.Core.Spiders.WebReaperSpider.CrawlAsync(Job job) in C:\Projects\WebReaper\WebReaper\Spiders\WebReaperSpider.cs:line 71
+   at WebReaper.Core.Scraper.ScraperRunner.<Run>b__21_0(Job job, CancellationToken token) in C:\Projects\WebReaper\WebReaper\Scraper\ScraperRunner.cs:line 47
+2022-10-06 00:39:01.353 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.ArgumentNullException: Value cannot be null. (Parameter 'input')
+   at System.Text.RegularExpressions.ThrowHelper.ThrowArgumentNullException(ExceptionArgument arg)
+   at System.Text.RegularExpressions.Regex.IsMatch(String input)
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionInternalAsync(Boolean returnByValue, String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 145
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 72
+   at PuppeteerSharp.DOMWorld.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\DOMWorld.cs:line 123
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 39
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 42
+   at WebReaper.Core.Spiders.WebReaperSpider.CrawlAsync(Job job) in C:\Projects\WebReaper\WebReaper\Spiders\WebReaperSpider.cs:line 71
+   at WebReaper.Core.Scraper.ScraperRunner.<Run>b__21_0(Job job, CancellationToken token) in C:\Projects\WebReaper\WebReaper\Scraper\ScraperRunner.cs:line 47
+2022-10-06 00:39:03.195 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.ArgumentNullException: Value cannot be null. (Parameter 'input')
+   at System.Text.RegularExpressions.ThrowHelper.ThrowArgumentNullException(ExceptionArgument arg)
+   at System.Text.RegularExpressions.Regex.IsMatch(String input)
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionInternalAsync(Boolean returnByValue, String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 145
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 72
+   at PuppeteerSharp.DOMWorld.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\DOMWorld.cs:line 123
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 39
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 42
+   at WebReaper.Core.Spiders.WebReaperSpider.CrawlAsync(Job job) in C:\Projects\WebReaper\WebReaper\Spiders\WebReaperSpider.cs:line 71
+   at WebReaper.Core.Scraper.ScraperRunner.<Run>b__21_0(Job job, CancellationToken token) in C:\Projects\WebReaper\WebReaper\Scraper\ScraperRunner.cs:line 47
+2022-10-06 00:39:05.336 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.ArgumentNullException: Value cannot be null. (Parameter 'input')
+   at System.Text.RegularExpressions.ThrowHelper.ThrowArgumentNullException(ExceptionArgument arg)
+   at System.Text.RegularExpressions.Regex.IsMatch(String input)
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionInternalAsync(Boolean returnByValue, String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 145
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 72
+   at PuppeteerSharp.DOMWorld.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\DOMWorld.cs:line 123
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 39
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 42
+   at WebReaper.Core.Spiders.WebReaperSpider.CrawlAsync(Job job) in C:\Projects\WebReaper\WebReaper\Spiders\WebReaperSpider.cs:line 71
+   at WebReaper.Core.Scraper.ScraperRunner.<Run>b__21_0(Job job, CancellationToken token) in C:\Projects\WebReaper\WebReaper\Scraper\ScraperRunner.cs:line 47
+2022-10-06 00:39:07.315 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.ArgumentNullException: Value cannot be null. (Parameter 'input')
+   at System.Text.RegularExpressions.ThrowHelper.ThrowArgumentNullException(ExceptionArgument arg)
+   at System.Text.RegularExpressions.Regex.IsMatch(String input)
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionInternalAsync(Boolean returnByValue, String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 145
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 72
+   at PuppeteerSharp.DOMWorld.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\DOMWorld.cs:line 123
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 39
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 42
+   at WebReaper.Core.Spiders.WebReaperSpider.CrawlAsync(Job job) in C:\Projects\WebReaper\WebReaper\Spiders\WebReaperSpider.cs:line 71
+   at WebReaper.Core.Scraper.ScraperRunner.<Run>b__21_0(Job job, CancellationToken token) in C:\Projects\WebReaper\WebReaper\Scraper\ScraperRunner.cs:line 47
+2022-10-06 00:39:09.376 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.ArgumentNullException: Value cannot be null. (Parameter 'input')
+   at System.Text.RegularExpressions.ThrowHelper.ThrowArgumentNullException(ExceptionArgument arg)
+   at System.Text.RegularExpressions.Regex.IsMatch(String input)
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionInternalAsync(Boolean returnByValue, String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 145
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 72
+   at PuppeteerSharp.DOMWorld.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\DOMWorld.cs:line 123
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 39
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 42
+   at WebReaper.Core.Spiders.WebReaperSpider.CrawlAsync(Job job) in C:\Projects\WebReaper\WebReaper\Spiders\WebReaperSpider.cs:line 71
+   at WebReaper.Core.Scraper.ScraperRunner.<Run>b__21_0(Job job, CancellationToken token) in C:\Projects\WebReaper\WebReaper\Scraper\ScraperRunner.cs:line 47
+2022-10-06 00:39:11.178 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.ArgumentNullException: Value cannot be null. (Parameter 'input')
+   at System.Text.RegularExpressions.ThrowHelper.ThrowArgumentNullException(ExceptionArgument arg)
+   at System.Text.RegularExpressions.Regex.IsMatch(String input)
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionInternalAsync(Boolean returnByValue, String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 145
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 72
+   at PuppeteerSharp.DOMWorld.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\DOMWorld.cs:line 123
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 39
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 42
+   at WebReaper.Core.Spiders.WebReaperSpider.CrawlAsync(Job job) in C:\Projects\WebReaper\WebReaper\Spiders\WebReaperSpider.cs:line 71
+   at WebReaper.Core.Scraper.ScraperRunner.<Run>b__21_0(Job job, CancellationToken token) in C:\Projects\WebReaper\WebReaper\Scraper\ScraperRunner.cs:line 47
+2022-10-06 00:39:12.915 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.ArgumentNullException: Value cannot be null. (Parameter 'input')
+   at System.Text.RegularExpressions.ThrowHelper.ThrowArgumentNullException(ExceptionArgument arg)
+   at System.Text.RegularExpressions.Regex.IsMatch(String input)
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionInternalAsync(Boolean returnByValue, String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 145
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 72
+   at PuppeteerSharp.DOMWorld.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\DOMWorld.cs:line 123
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 39
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 42
+   at WebReaper.Core.Spiders.WebReaperSpider.CrawlAsync(Job job) in C:\Projects\WebReaper\WebReaper\Spiders\WebReaperSpider.cs:line 71
+   at WebReaper.Core.Scraper.ScraperRunner.<Run>b__21_0(Job job, CancellationToken token) in C:\Projects\WebReaper\WebReaper\Scraper\ScraperRunner.cs:line 47
+2022-10-06 00:39:14.879 +03:00 [ERR] Error occurred when scraping https://rutracker.org/forum/index.php?c=33
+System.ArgumentNullException: Value cannot be null. (Parameter 'input')
+   at System.Text.RegularExpressions.ThrowHelper.ThrowArgumentNullException(ExceptionArgument arg)
+   at System.Text.RegularExpressions.Regex.IsMatch(String input)
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionInternalAsync(Boolean returnByValue, String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 145
+   at PuppeteerSharp.ExecutionContext.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\ExecutionContext.cs:line 72
+   at PuppeteerSharp.DOMWorld.EvaluateExpressionAsync[T](String script) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\DOMWorld.cs:line 123
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 39
+   at WebReaper.Core.Loaders.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\PuppeteerPageLoader.cs:line 42
+   at WebReaper.Core.Spiders.WebReaperSpider.CrawlAsync(Job job) in C:\Projects\WebReaper\WebReaper\Spiders\WebReaperSpider.cs:line 71
+   at WebReaper.Core.Scraper.ScraperRunner.<Run>b__21_0(Job job, CancellationToken token) in C:\Projects\WebReaper\WebReaper\Scraper\ScraperRunner.cs:line 47
+2022-10-06 00:44:16.216 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-10-06 00:44:16.337 +03:00 [INF] Hosting environment: Development
+2022-10-06 00:44:16.339 +03:00 [INF] Content root path: C:\Projects\WebReaper\Examples\ScraperWorkerService
+2022-10-06 00:49:52.866 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-10-06 00:49:52.988 +03:00 [INF] Hosting environment: Development
+2022-10-06 00:49:52.990 +03:00 [INF] Content root path: C:\Projects\WebReaper\Examples\ScraperWorkerService
+2022-10-06 00:52:30.525 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-10-06 00:52:30.645 +03:00 [INF] Hosting environment: Development
+2022-10-06 00:52:30.647 +03:00 [INF] Content root path: C:\Projects\WebReaper\Examples\ScraperWorkerService
+2022-10-06 01:15:38.952 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-10-06 01:15:39.070 +03:00 [INF] Hosting environment: Development
+2022-10-06 01:15:39.072 +03:00 [INF] Content root path: C:\Projects\WebReaper\Examples\ScraperWorkerService

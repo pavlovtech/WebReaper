@@ -5,8 +5,8 @@ using WebReaper.Domain.Selectors;
 
 namespace WebReaper.Core.DOM;
 
-public record Text(string Field, string Selector, SelectorType? SelectorType = SelectorType.Css)
-    : SchemaElement(Field, Selector, SelectorType)
+public record Text(string Field, string Selector)
+    : SchemaElement(Field, Selector)
 {
     public override string GetData(HtmlDocument doc)
     {

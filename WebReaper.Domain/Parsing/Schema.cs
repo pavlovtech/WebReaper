@@ -8,7 +8,6 @@ namespace WebReaper.Domain.Parsing;
 public record SchemaElement(
     string? Field,
     string? Selector = null,
-    SelectorType? SelectorType = SelectorType.Css,
     DataType? Type = null)
 {
     public virtual string GetData(HtmlDocument doc)
@@ -27,7 +26,7 @@ public record SchemaElement(
 }
 
 public record Schema(string? Field = null)
-    : SchemaElement(Field, null, null, null), ICollection<SchemaElement>
+    : SchemaElement(Field), ICollection<SchemaElement>
 {
     public Schema(): this(Field: null)
     {

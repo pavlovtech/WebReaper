@@ -6,8 +6,8 @@ using WebReaper.Domain.Selectors;
 
 namespace WebReaper.Core.DOM
 {
-    public record ElementList(string Field, string Selector, SelectorType? SelectorType = SelectorType.Css)
-    : SchemaElement(Field, Selector, SelectorType, DataType.List)
+    public record ElementList(string Field, string Selector)
+    : SchemaElement(Field, Selector, DataType.List)
     {
         public override string GetData(HtmlDocument doc)
         {

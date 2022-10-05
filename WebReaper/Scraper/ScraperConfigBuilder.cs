@@ -47,22 +47,20 @@ public class ScraperConfigBuilder
 
     public ScraperConfigBuilder FollowLinks(
         string linkSelector,
-        SelectorType selectorType = SelectorType.Css,
         PageType pageType = PageType.Static,
         string? script = null)
     {
-        linkPathSelectors.Add(new LinkPathSelector(linkSelector, null, pageType, script, selectorType));
+        linkPathSelectors.Add(new LinkPathSelector(linkSelector, null, pageType, script));
         return this;
     }
 
     public ScraperConfigBuilder FollowLinks(
         string linkSelector,
         string paginationSelector,
-        SelectorType selectorType = SelectorType.Css,
         PageType pageType = PageType.Static,
         string? script = null)
     {
-        linkPathSelectors.Add(new LinkPathSelector(linkSelector, paginationSelector, pageType, script, selectorType));
+        linkPathSelectors.Add(new LinkPathSelector(linkSelector, paginationSelector, pageType, script));
         return this;
     }
 
