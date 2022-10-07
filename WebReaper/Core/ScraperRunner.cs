@@ -1,10 +1,9 @@
 using System.Collections.Immutable;
 using Microsoft.Extensions.Logging;
-using WebReaper.Core.Domain;
-using WebReaper.Core.Queue.Abstract;
-using WebReaper.Core.Spiders.Abstract;
+using WebReaper.Domain;
+using WebReaper.Queue.Abstract;
 
-namespace WebReaper.Core.Scraper;
+namespace WebReaper.Core;
 
 public class ScraperRunner
 {

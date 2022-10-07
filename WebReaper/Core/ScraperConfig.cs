@@ -1,7 +1,7 @@
-using WebReaper.Core.Domain.Selectors;
-using WebReaper.Core.Domain.Parsing;
+using WebReaper.Domain.Selectors;
+using WebReaper.Domain.Parsing;
 
-namespace WebReaper.Core.Scraper;
+namespace WebReaper.Core;
 
 public record ScraperConfig(
     Schema ParsingScheme,

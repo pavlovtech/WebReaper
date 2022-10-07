@@ -1,7 +1,7 @@
 using Newtonsoft.Json.Linq;
-using WebReaper.Core.Domain.Parsing;
+using WebReaper.Domain.Parsing;
 
-namespace WebReaper.Core.Parser.Abstract;
+namespace WebReaper.Parser.Abstract;
 
 public interface IContentParser
 {

@@ -1,4 +1,4 @@
-namespace WebReaper.Core.Loaders.Abstract;
+namespace WebReaper.Loaders.Abstract;
 
 public interface IDynamicPageLoader
 {

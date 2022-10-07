@@ -3,16 +3,16 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System.Threading.Channels;
 using Newtonsoft.Json.Linq;
-using WebReaper.Core.Domain.Selectors;
-using WebReaper.Core.Queue.Abstract;
-using WebReaper.Core.Domain.Parsing;
-using WebReaper.Core.Domain;
-using WebReaper.Core.LinkTracker.Abstract;
-using WebReaper.Core.Sinks.Abstract;
-using WebReaper.Core.Queue.Concrete.InMemory;
-using WebReaper.Core.Sinks.Concrete;
+using WebReaper.Queue.Concrete.InMemory;
+using WebReaper.Sinks.Concrete;
+using WebReaper.Domain.Selectors;
+using WebReaper.Queue.Abstract;
+using WebReaper.Domain.Parsing;
+using WebReaper.Domain;
+using WebReaper.LinkTracker.Abstract;
+using WebReaper.Sinks.Abstract;
 
-namespace WebReaper.Core.Scraper;
+namespace WebReaper.Core;
 
 public class Scraper
 {
@@ -163,6 +163,6 @@ public class Scraper
 
     public async Task Stop()
     {
-       await Runner.Stop();
+        await Runner.Stop();
     }
 }

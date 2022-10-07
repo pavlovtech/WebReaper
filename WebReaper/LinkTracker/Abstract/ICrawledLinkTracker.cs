@@ -1,4 +1,4 @@
-namespace WebReaper.Core.LinkTracker.Abstract
+namespace WebReaper.LinkTracker.Abstract
 {
     public interface ICrawledLinkTracker
     {

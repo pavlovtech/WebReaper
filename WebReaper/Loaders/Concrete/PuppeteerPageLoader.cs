@@ -1,10 +1,10 @@
 using System.Net;
 using Microsoft.Extensions.Logging;
 using PuppeteerSharp;
-using WebReaper.Core.Extensions;
-using WebReaper.Core.Loaders.Abstract;
+using WebReaper.Extensions;
+using WebReaper.Loaders.Abstract;
 
-namespace WebReaper.Core.Loaders.Concrete;
+namespace WebReaper.Loaders.Concrete;
 
 public class PuppeteerPageLoader : IDynamicPageLoader
 {

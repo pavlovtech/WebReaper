@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 
-namespace WebReaper.Core.Extensions;
+namespace WebReaper.Extensions;
 
 public static class LoggerExtensions
 {

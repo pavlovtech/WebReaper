@@ -2,10 +2,10 @@ using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using WebReaper.Core.Scraper;
-using WebReaper.Core.Sinks.Concrete;
-using WebReaper.Core.Domain;
-using WebReaper.Core.LinkTracker.Abstract;
+using WebReaper.Core;
+using WebReaper.Sinks.Concrete;
+using WebReaper.Domain;
+using WebReaper.LinkTracker.Abstract;
 
 namespace WebReaper.AzureFuncs
 {

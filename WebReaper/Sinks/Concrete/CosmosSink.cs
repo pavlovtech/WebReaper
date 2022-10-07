@@ -1,9 +1,9 @@
 using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
-using WebReaper.Core.Sinks.Abstract;
+using WebReaper.Sinks.Abstract;
 
-namespace WebReaper.Core.Sinks.Concrete;
+namespace WebReaper.Sinks.Concrete;
 
 public class CosmosSink : IScraperSink
 {

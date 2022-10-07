@@ -1,8 +1,8 @@
 ﻿using System.Threading.Channels;
-using WebReaper.Core.Domain;
-using WebReaper.Core.Queue.Abstract;
+using WebReaper.Domain;
+using WebReaper.Queue.Abstract;
 
-namespace WebReaper.Core.Queue.Concrete.InMemory;
+namespace WebReaper.Queue.Concrete.InMemory;
 
 public class JobQueueReader : IJobQueueReader
 {

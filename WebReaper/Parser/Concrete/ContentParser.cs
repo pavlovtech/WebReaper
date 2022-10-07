@@ -1,10 +1,10 @@
 using HtmlAgilityPack;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
-using WebReaper.Core.Domain.Parsing;
-using WebReaper.Core.Parser.Abstract;
+using WebReaper.Domain.Parsing;
+using WebReaper.Parser.Abstract;
 
-namespace WebReaper.Core.Parser.Concrete
+namespace WebReaper.Parser.Concrete
 {
     public class ContentParser : IContentParser
     {

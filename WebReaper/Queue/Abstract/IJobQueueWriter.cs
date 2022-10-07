@@ -1,6 +1,6 @@
-﻿using WebReaper.Core.Domain;
+﻿using WebReaper.Domain;
 
-namespace WebReaper.Core.Queue.Abstract;
+namespace WebReaper.Queue.Abstract;
 
 public interface IJobQueueWriter
 {

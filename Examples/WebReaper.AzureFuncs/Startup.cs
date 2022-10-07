@@ -1,9 +1,9 @@
 ﻿using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using WebReaper.Core.Sinks.Concrete;
-using WebReaper.Core.LinkTracker.Abstract;
-using WebReaper.Core.LinkTracker.Concrete;
+using WebReaper.LinkTracker.Concrete;
+using WebReaper.LinkTracker.Abstract;
+using WebReaper.Sinks.Concrete;
 
 [assembly: FunctionsStartup(typeof(WebReaper.AzureFuncs.Startup))]
 
