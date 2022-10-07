@@ -1,5 +1,5 @@
-using WebReaper.Domain.Selectors;
-using WebReaper.Domain.Parsing;
+using WebReaper.Core.Domain.Selectors;
+using WebReaper.Core.Domain.Parsing;
 
 namespace WebReaper.Core.Scraper;
 

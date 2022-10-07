@@ -39,12 +39,8 @@
      <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.10.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WebReaper.Abstractions\WebReaper.Abstractions.csproj" />
-    <ProjectReference Include="..\WebReaper.Domain\WebReaper.Domain.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Queue\InMemory\" />
-    <Folder Include="Queue\AzureServiceBus\" />
+    <Folder Include="Queue\Concrete\InMemory\" />
+    <Folder Include="Queue\Concrete\AzureServiceBus\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Users\alexp\Downloads\167391357-edb02ce2-a63c-439b-be9b-69b4b4796b1c.png">

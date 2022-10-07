@@ -1,8 +1,8 @@
 using System.Collections.Immutable;
 using Microsoft.Extensions.Logging;
-using WebReaper.Abstractions.JobQueue;
-using WebReaper.Abstractions.Spider;
-using WebReaper.Domain;
+using WebReaper.Core.Domain;
+using WebReaper.Core.Queue.Abstract;
+using WebReaper.Core.Spiders.Abstract;
 
 namespace WebReaper.Core.Scraper;
 

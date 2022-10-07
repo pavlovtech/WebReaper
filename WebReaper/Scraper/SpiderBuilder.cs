@@ -1,18 +1,18 @@
 ﻿using System.Net;
 using Microsoft.Extensions.Logging;
 using System.Net.Security;
-using WebReaper.Abstractions.Parsers;
-using WebReaper.Core.Parser;
-using WebReaper.Core.Sinks;
-using WebReaper.Core.LinkTracker;
-using WebReaper.Core.Loaders;
 using Microsoft.Extensions.Logging.Abstractions;
-using WebReaper.Core.Spiders;
-using WebReaper.Abstractions.Spider;
-using WebReaper.Abstractions.Sinks;
-using WebReaper.Abstractions.LinkTracker;
 using Newtonsoft.Json.Linq;
-using WebReaper.Abstractions.Loaders;
+using WebReaper.Core.Spiders.Abstract;
+using WebReaper.Core.Parser.Abstract;
+using WebReaper.Core.Loaders.Abstract;
+using WebReaper.Core.LinkTracker.Abstract;
+using WebReaper.Core.Sinks.Abstract;
+using WebReaper.Core.Parser.Concrete;
+using WebReaper.Core.LinkTracker.Concrete;
+using WebReaper.Core.Loaders.Concrete;
+using WebReaper.Core.Sinks.Concrete;
+using WebReaper.Core.Spiders.Concrete;
 
 namespace WebReaper.Core.Scraper;
 
