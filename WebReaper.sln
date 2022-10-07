@@ -5,10 +5,6 @@ VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebReaper.Core", "WebReaper\WebReaper.Core.csproj", "{72A004F0-3B30-4149-B33F-8C8220135A8B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebReaper.Abstractions", "WebReaper.Abstractions\WebReaper.Abstractions.csproj", "{A7D15B7F-5102-4215-9A86-06F5C635B964}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebReaper.Domain", "WebReaper.Domain\WebReaper.Domain.csproj", "{9265842B-9D15-4B6C-99AE-8416F6B72035}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebReaper.IntegrationTests", "WebReaper.IntegrationTests\WebReaper.IntegrationTests.csproj", "{77C3F0E3-B5C0-40E5-912C-ADE7AC190DA5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{75C97094-26FC-484A-A354-E33BBD6355A8}"
@@ -29,14 +25,6 @@ Global
 		{72A004F0-3B30-4149-B33F-8C8220135A8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72A004F0-3B30-4149-B33F-8C8220135A8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72A004F0-3B30-4149-B33F-8C8220135A8B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A7D15B7F-5102-4215-9A86-06F5C635B964}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A7D15B7F-5102-4215-9A86-06F5C635B964}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A7D15B7F-5102-4215-9A86-06F5C635B964}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A7D15B7F-5102-4215-9A86-06F5C635B964}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9265842B-9D15-4B6C-99AE-8416F6B72035}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9265842B-9D15-4B6C-99AE-8416F6B72035}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9265842B-9D15-4B6C-99AE-8416F6B72035}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9265842B-9D15-4B6C-99AE-8416F6B72035}.Release|Any CPU.Build.0 = Release|Any CPU
 		{77C3F0E3-B5C0-40E5-912C-ADE7AC190DA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{77C3F0E3-B5C0-40E5-912C-ADE7AC190DA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77C3F0E3-B5C0-40E5-912C-ADE7AC190DA5}.Release|Any CPU.ActiveCfg = Release|Any CPU

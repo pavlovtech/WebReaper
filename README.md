@@ -255,9 +255,7 @@ For other ways to extend your functionality see the next section.
 
 | Project                         | Description                                                                                                                                     |
 | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| WebReaper.Core                  | Library for web scraping. It's the main project that you should use for your scraper.                                                           |
-| WebReaper.Domain                | Represents main entities such as a Job for web spiders, Schema for parsing, etc.                                                                |
-| WebReaper.Abstractions          | Interfaces for extensibility if you want to swap out default implementations such as the parser, crawled link tracker, queue reader and writer. |
+| WebReaper.Core                  | Library for web scraping                                                  |
 | ScraperWorkerService            | Example of using WebReaper library in a Worker Service .NET project.                                                                            |
 | DistributedScraperWorkerService | Example of using WebReaper library in a distributed way wih Azure Service Bus                                                                   |
 | WebReaper.AzureFuncs            | Example of using WebReaper library with serverless approach using Azure Functions                                                               |

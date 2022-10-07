@@ -1,8 +1,7 @@
 
 using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
-using WebReaper.Domain.Parsing;
-using WebReaper.Domain.Selectors;
+using WebReaper.Core.Domain.Parsing;
 
 namespace WebReaper.Core.DOM;
 

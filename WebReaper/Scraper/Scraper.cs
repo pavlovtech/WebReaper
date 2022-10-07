@@ -1,16 +1,17 @@
 ﻿using System.Net;
-using WebReaper.Domain;
 using Microsoft.Extensions.Logging;
-using WebReaper.Abstractions.JobQueue;
-using WebReaper.Core.Sinks;
-using WebReaper.Domain.Parsing;
 using Microsoft.Extensions.Logging.Abstractions;
-using WebReaper.Core.Queue.InMemory;
-using WebReaper.Domain.Selectors;
 using System.Threading.Channels;
-using WebReaper.Abstractions.Sinks;
-using WebReaper.Abstractions.LinkTracker;
 using Newtonsoft.Json.Linq;
+using WebReaper.Core.Domain.Selectors;
+using WebReaper.Core.Queue.Abstract;
+using WebReaper.Core.Domain.Parsing;
+using WebReaper.Core.Domain;
+using WebReaper.Core.LinkTracker.Abstract;
+using WebReaper.Core.Sinks.Abstract;
+using WebReaper.Core.Queue.Concrete.InMemory;
+using WebReaper.Core.Sinks.Concrete;
+
 namespace WebReaper.Core.Scraper;
 
 public class Scraper

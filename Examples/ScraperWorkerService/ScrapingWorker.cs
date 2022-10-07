@@ -1,7 +1,6 @@
 ﻿using WebReaper.Core.DOM;
+using WebReaper.Core.Domain.Parsing;
 using WebReaper.Core.Scraper;
-using WebReaper.Domain.Parsing;
-using WebReaper.Domain.Selectors;
 
 namespace ScraperWorkerService;
 

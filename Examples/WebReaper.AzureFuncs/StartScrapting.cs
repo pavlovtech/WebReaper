@@ -10,10 +10,10 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using WebReaper.Core.DOM;
+using WebReaper.Core.Domain;
+using WebReaper.Core.Domain.Parsing;
+using WebReaper.Core.Queue.Concrete.AzureServiceBus;
 using WebReaper.Core.Scraper;
-using WebReaper.Domain;
-using WebReaper.Domain.Parsing;
-using WebReaper.Core.Queue.AzureServiceBus;
 
 namespace WebReaper.AzureFuncs
 {

@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Logging;
-using WebReaper.Domain.Selectors;
-using WebReaper.Domain.Parsing;
 using Microsoft.Extensions.Logging.Abstractions;
+using WebReaper.Core.Domain.Selectors;
+using WebReaper.Core.Domain.Parsing;
 
 namespace WebReaper.Core.Scraper;
 

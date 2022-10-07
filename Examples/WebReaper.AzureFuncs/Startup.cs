@@ -1,11 +1,9 @@
-﻿using Microsoft.Azure.Cosmos;
-using Microsoft.Azure.Functions.Extensions.DependencyInjection;
+﻿using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
-using StackExchange.Redis;
 using Microsoft.Extensions.Logging;
-using WebReaper.Core.LinkTracker;
-using WebReaper.Core.Sinks;
-using WebReaper.Abstractions.LinkTracker;
+using WebReaper.Core.Sinks.Concrete;
+using WebReaper.Core.LinkTracker.Abstract;
+using WebReaper.Core.LinkTracker.Concrete;
 
 [assembly: FunctionsStartup(typeof(WebReaper.AzureFuncs.Startup))]
 

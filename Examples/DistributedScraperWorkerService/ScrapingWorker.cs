@@ -1,9 +1,10 @@
 ﻿using Microsoft.Azure.Cosmos;
 using WebReaper.Core.Scraper;
-using WebReaper.Domain.Parsing;
 using WebReaper.Core.LinkTracker;
-using WebReaper.Core.Queue.AzureServiceBus;
 using WebReaper.Core.DOM;
+using WebReaper.Core.Domain.Parsing;
+using WebReaper.Core.LinkTracker.Concrete;
+using WebReaper.Core.Queue.Concrete.AzureServiceBus;
 
 namespace DistributedScraperWorkerService;
 
