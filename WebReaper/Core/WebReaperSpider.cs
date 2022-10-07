@@ -1,16 +1,15 @@
 ﻿using System.Collections.Immutable;
 using Microsoft.Extensions.Logging;
-using WebReaper.Core.Extensions;
 using Newtonsoft.Json.Linq;
-using WebReaper.Core.Spiders.Abstract;
-using WebReaper.Core.Parser.Abstract;
-using WebReaper.Core.Domain.Selectors;
-using WebReaper.Core.Loaders.Abstract;
-using WebReaper.Core.Domain;
-using WebReaper.Core.LinkTracker.Abstract;
-using WebReaper.Core.Sinks.Abstract;
+using WebReaper.Parser.Abstract;
+using WebReaper.Domain.Selectors;
+using WebReaper.Loaders.Abstract;
+using WebReaper.Extensions;
+using WebReaper.Domain;
+using WebReaper.LinkTracker.Abstract;
+using WebReaper.Sinks.Abstract;
 
-namespace WebReaper.Core.Spiders.Concrete;
+namespace WebReaper.Core;
 
 public class WebReaperSpider : ISpider
 {

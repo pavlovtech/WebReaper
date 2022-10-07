@@ -1,8 +1,8 @@
 using System.Collections.Immutable;
-using WebReaper.Core.Domain.Parsing;
-using WebReaper.Core.Domain.Selectors;
+using WebReaper.Domain.Parsing;
+using WebReaper.Domain.Selectors;
 
-namespace WebReaper.Core.Domain;
+namespace WebReaper.Domain;
 
 public record Job(
     Schema Schema,

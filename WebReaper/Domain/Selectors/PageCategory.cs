@@ -1,4 +1,4 @@
-namespace WebReaper.Core.Domain.Selectors;
+namespace WebReaper.Domain.Selectors;
 
 public enum PageCategory
 {

@@ -1,11 +1,11 @@
 using Newtonsoft.Json.Linq;
-using WebReaper.Core.Domain;
-using WebReaper.Core.LinkTracker.Abstract;
-using WebReaper.Core.Loaders.Abstract;
-using WebReaper.Core.Parser.Abstract;
-using WebReaper.Core.Sinks.Abstract;
+using WebReaper.Domain;
+using WebReaper.LinkTracker.Abstract;
+using WebReaper.Loaders.Abstract;
+using WebReaper.Parser.Abstract;
+using WebReaper.Sinks.Abstract;
 
-namespace WebReaper.Core.Spiders.Abstract;
+namespace WebReaper.Core;
 
 public interface ISpider
 {

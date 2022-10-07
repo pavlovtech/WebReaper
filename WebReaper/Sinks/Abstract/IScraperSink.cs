@@ -1,6 +1,6 @@
 using Newtonsoft.Json.Linq;
 
-namespace WebReaper.Core.Sinks.Abstract
+namespace WebReaper.Sinks.Abstract
 {
     public interface IScraperSink
     {

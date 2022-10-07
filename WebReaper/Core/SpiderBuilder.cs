@@ -3,18 +3,16 @@ using Microsoft.Extensions.Logging;
 using System.Net.Security;
 using Microsoft.Extensions.Logging.Abstractions;
 using Newtonsoft.Json.Linq;
-using WebReaper.Core.Spiders.Abstract;
-using WebReaper.Core.Parser.Abstract;
-using WebReaper.Core.Loaders.Abstract;
-using WebReaper.Core.LinkTracker.Abstract;
-using WebReaper.Core.Sinks.Abstract;
-using WebReaper.Core.Parser.Concrete;
-using WebReaper.Core.LinkTracker.Concrete;
-using WebReaper.Core.Loaders.Concrete;
-using WebReaper.Core.Sinks.Concrete;
-using WebReaper.Core.Spiders.Concrete;
+using WebReaper.Parser.Concrete;
+using WebReaper.LinkTracker.Concrete;
+using WebReaper.Loaders.Concrete;
+using WebReaper.Sinks.Concrete;
+using WebReaper.Parser.Abstract;
+using WebReaper.Loaders.Abstract;
+using WebReaper.LinkTracker.Abstract;
+using WebReaper.Sinks.Abstract;
 
-namespace WebReaper.Core.Scraper;
+namespace WebReaper.Core;
 
 public class SpiderBuilder
 {
@@ -40,7 +38,7 @@ public class SpiderBuilder
     protected ICrawledLinkTracker SiteLinkTracker { get; set; }
 
     protected IContentParser ContentParser { get; }
-    
+
     protected IStaticPageLoader StaticStaticPageLoader { get; set; }
     protected IDynamicPageLoader DynamicStaticPageLoader { get; set; }
 
@@ -122,7 +120,7 @@ public class SpiderBuilder
     {
         return AddSink(new CosmosSink(endpointUrl, authorizationKey, databaseId, containerId, Logger));
     }
-    
+
     public SpiderBuilder WithStaticPageLoader(IStaticPageLoader staticPageLoader)
     {
         StaticStaticPageLoader = staticPageLoader;

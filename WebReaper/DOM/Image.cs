@@ -1,9 +1,9 @@
 
 using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
-using WebReaper.Core.Domain.Parsing;
+using WebReaper.Domain.Parsing;
 
-namespace WebReaper.Core.DOM;
+namespace WebReaper.DOM;
 
 public record Image(string Field, string Selector)
     : SchemaElement(Field, Selector)

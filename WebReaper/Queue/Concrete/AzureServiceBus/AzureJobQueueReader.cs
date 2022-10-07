@@ -1,9 +1,9 @@
 ﻿using Azure.Messaging.ServiceBus;
 using Newtonsoft.Json;
-using WebReaper.Core.Domain;
-using WebReaper.Core.Queue.Abstract;
+using WebReaper.Domain;
+using WebReaper.Queue.Abstract;
 
-namespace WebReaper.Core.Queue.Concrete.AzureServiceBus;
+namespace WebReaper.Queue.Concrete.AzureServiceBus;
 
 public class AzureJobQueueReader : IJobQueueReader
 {

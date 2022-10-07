@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebReaper.Core", "WebReaper\WebReaper.Core.csproj", "{72A004F0-3B30-4149-B33F-8C8220135A8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebReaper", "WebReaper\WebReaper.csproj", "{72A004F0-3B30-4149-B33F-8C8220135A8B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebReaper.IntegrationTests", "WebReaper.IntegrationTests\WebReaper.IntegrationTests.csproj", "{77C3F0E3-B5C0-40E5-912C-ADE7AC190DA5}"
 EndProject
@@ -14,6 +14,11 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebReaper.AzureFuncs", "Examples\WebReaper.AzureFuncs\WebReaper.AzureFuncs.csproj", "{D30AE8B5-970E-4397-9686-54D60BBE9EB7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DistributedScraperWorkerService", "Examples\DistributedScraperWorkerService\DistributedScraperWorkerService.csproj", "{5A74D0E0-7B2D-4C28-95A3-494CF465056D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{983A1641-DB89-4D12-973C-F5DE12B274D5}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

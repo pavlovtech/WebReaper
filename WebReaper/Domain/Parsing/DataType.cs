@@ -1,4 +1,4 @@
-namespace WebReaper.Core.Domain.Parsing;
+namespace WebReaper.Domain.Parsing;
 
 public enum DataType
 {

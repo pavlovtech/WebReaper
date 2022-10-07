@@ -1,4 +1,4 @@
-﻿namespace WebReaper.Core.Queue.Abstract
+﻿namespace WebReaper.Queue.Abstract
 {
     public interface IJobQueue
     {

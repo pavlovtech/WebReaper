@@ -1,4 +1,4 @@
-namespace WebReaper.Core.Parser.Abstract;
+namespace WebReaper.Parser.Abstract;
 
 public interface ILinkParser
 {

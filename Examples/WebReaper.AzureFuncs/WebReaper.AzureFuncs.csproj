@@ -25,6 +25,6 @@
     <FunctionsPreservedDependencies Include="System.Text.Encoding.CodePages.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\WebReaper\WebReaper.Core.csproj" />
+    <ProjectReference Include="..\..\WebReaper\WebReaper.csproj" />
   </ItemGroup>
 </Project>

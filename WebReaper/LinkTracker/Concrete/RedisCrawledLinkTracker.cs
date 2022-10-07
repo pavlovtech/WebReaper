@@ -1,7 +1,7 @@
 ﻿using StackExchange.Redis;
-using WebReaper.Core.LinkTracker.Abstract;
+using WebReaper.LinkTracker.Abstract;
 
-namespace WebReaper.Core.LinkTracker.Concrete;
+namespace WebReaper.LinkTracker.Concrete;
 
 public class RedisCrawledLinkTracker : ICrawledLinkTracker
 {

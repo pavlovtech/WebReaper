@@ -1,8 +1,8 @@
 using Newtonsoft.Json.Linq;
-using WebReaper.Core.DOM;
-using WebReaper.Core.Domain.Parsing;
-using WebReaper.Core.Domain.Selectors;
-using WebReaper.Core.Scraper;
+using WebReaper.Core;
+using WebReaper.DOM;
+using WebReaper.Domain.Parsing;
+using WebReaper.Domain.Selectors;
 
 namespace WebReaper.IntegrationTests
 {

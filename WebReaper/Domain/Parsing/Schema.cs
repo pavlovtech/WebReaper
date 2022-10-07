@@ -2,7 +2,7 @@
 using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
 
-namespace WebReaper.Core.Domain.Parsing;
+namespace WebReaper.Domain.Parsing;
 
 public record SchemaElement(
     string? Field,
