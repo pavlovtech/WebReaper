@@ -1,7 +1,7 @@
 
 # ![image](https://user-images.githubusercontent.com/6662454/167391357-edb02ce2-a63c-439b-be9b-69b4b4796b1c.png) WebReaper
 
-[![NuGet](https://img.shields.io/badge/Nuget-1.0-green)](https://www.nuget.org/packages/WebReaper)
+[![NuGet](https://img.shields.io/nuget/v/WebReaper)](https://www.nuget.org/packages/WebReaper)
 
 Declarative high performance web scraper in C#. Easily crawl any web site and parse the data, save structed result to a file, DB, etc.
 
@@ -73,12 +73,12 @@ scraper = new Scraper()
     .FollowLinks(".forumlink>a", PageType.Dynamic)
     .FollowLinks("a.torTopic", ".pg", PageType.Dynamic)
     .Parse(new Schema {
-		new("name", "#topic-title"),
+	new("name", "#topic-title"),
         new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
         new("subcategory", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(5)"),
         new("torrentSize", "div.attach_link.guest>ul>li:nth-child(2)"),
         new Url("torrentLink", ".magnet-link"),
-			new Image("coverImageUrl", ".postImg")
+		new Image("coverImageUrl", ".postImg")
         })
     .WriteToJsonFile("result.json")
     .WriteToCsvFile("result.csv")
@@ -88,10 +88,10 @@ scraper = new Scraper()
 Additionaly, you can run any JavaScript on dynamic pages as they are loaded with headless browser. In order to do that you need to pass the third parameter:
 
 ```C#
-	.WithStartUrl("https://rutracker.org/forum/index.php?c=33", PageType.Dynamic, "alert('startPage')")
-        .FollowLinks("#cf-33 .forumlink>a", PageType.Dynamic, "alert('first level page')")
-        .FollowLinks(".forumlink>a", PageType.Dynamic, "alert('first second level page')")
-        .FollowLinks("a.torTopic", ".pg", PageType.Dynamic, "alert('third level page')")
+.WithStartUrl("https://rutracker.org/forum/index.php?c=33", PageType.Dynamic, "alert('startPage')")
+.FollowLinks("#cf-33 .forumlink>a", PageType.Dynamic, "alert('first level page')")
+.FollowLinks(".forumlink>a", PageType.Dynamic, "alert('first second level page')")
+.FollowLinks("a.torTopic", ".pg", PageType.Dynamic, "alert('third level page')")
 ```
 
 It can be helpful if the required content is loaded only after some user interactions such as clicks, scrolls, etc.
@@ -195,7 +195,7 @@ You can easly add your own by implementing the IScraperSink interface:
 ```C#
  public interface IScraperSink
 {
-	public Task EmitAsync(JObject scrapedData);
+    public Task EmitAsync(JObject scrapedData);
 }
 ```
 Here is an example of the Console sink:
