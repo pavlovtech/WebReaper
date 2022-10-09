@@ -89,7 +89,7 @@ public class WebReaperSpider : ISpider
         var rawLinks = LinkParser.GetLinks(doc, currentSelector.Selector).ToList();
 
         var links = rawLinks
-            .Select(link => job.BaseUrl + link)
+            .Select(link => new Uri(new Uri(job.BaseUrl), link).ToString())
             .Except(await LinkTracker.GetVisitedLinksAsync(job.BaseUrl));
 
         var newJobs = new List<Job>();
