@@ -34,10 +34,7 @@ public class ScraperConfigBuilder
 
         var startUri = new Uri(startUrl);
 
-        var baseUrl = startUri.GetLeftPart(UriPartial.Authority);
-        var segments = startUri.Segments;
-
-        this.baseUrl = baseUrl + string.Join(string.Empty, segments.SkipLast(1));
+        this.baseUrl = startUri.ToString();
 
         startPageType = pageType;
         initialScript = initScript;

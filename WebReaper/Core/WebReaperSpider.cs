@@ -89,7 +89,7 @@ public class WebReaperSpider : ISpider
         var rawLinks = LinkParser.GetLinks(doc, currentSelector.Selector).ToList();
 
         var links = rawLinks
-            .Select(link => job.BaseUrl + link)
+            .Select(link => new Uri(new Uri(job.BaseUrl), link).ToString())
             .Except(await LinkTracker.GetVisitedLinksAsync(job.BaseUrl));
 
         var newJobs = new List<Job>();
@@ -107,7 +107,7 @@ public class WebReaperSpider : ISpider
                 Logger.LogInformation("No pages with pagination found with selector {selector} on {url}", currentSelector.PaginationSelector, job.Url);
             }
 
-            var allLinks = rawPaginatedLinks.Select(link => job.BaseUrl + link);
+            var allLinks = rawPaginatedLinks.Select(link => new Uri(new Uri(job.BaseUrl), link).ToString());
 
             var linksToPaginatedPages = await LinkTracker.GetNotVisitedLinks(job.BaseUrl, allLinks);
 
