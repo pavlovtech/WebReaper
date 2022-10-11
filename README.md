@@ -3,9 +3,23 @@
 
 [![NuGet](https://img.shields.io/nuget/v/WebReaper)](https://www.nuget.org/packages/WebReaper)
 
+
+
+# Overview
+
 Declarative high performance web scraper in C#. Easily crawl any web site and parse the data, save structed result to a file, DB, etc.
 
-Tech stack:
+# Install
+
+```
+dotnet add WebReaper
+```
+
+# Requirements
+
+.NET 6
+
+# Tech stack:
 
 <p align="left">
   <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white" />
