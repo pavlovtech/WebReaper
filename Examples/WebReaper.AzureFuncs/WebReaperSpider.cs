@@ -49,14 +49,14 @@ namespace WebReaper.AzureFuncs
                 "https://rutracker.org/forum/viewforum.php?f=2321"
             };
 
-            var spiderBuilder = new SpiderBuilder()
+            var spider = new SpiderBuilder()
                 .WithLogger(log)
                 .IgnoreUrls(blackList)
                 .WithLinkTracker(LinkTracker)
                 .AddSink(CosmosSink)
                 .Build();
 
-            var newJobs = await spiderBuilder.CrawlAsync(job);
+            var newJobs = await spider.CrawlAsync(job);
 
             foreach(var newJob in newJobs)
             {
