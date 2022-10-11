@@ -296,5 +296,6 @@ For other ways to extend your functionality see the next section.
 - [ ] CRON for scheduling
 - [ ] Request auto throttling
 - [ ] Add bloom filter for revisiting same urls
+- [ ] Improve architecture and refactor
 
 See the [LICENSE](LICENSE.txt) file for license rights and limitations (GNU GPLv3).
