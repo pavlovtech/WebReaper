@@ -11,7 +11,6 @@ var webReaper = new Scraper()
         new("text", "._3xX726aBn29LDbsDtzr_6E._1Ap4F5maDtT1E1YuCiaO0r.D3IL3FD0RFy_mkKLPwL4")
     })
     .WriteToJsonFile("output.json")
-    .WithLogger(new ColorConsoleLogger())
-    .Run(10);
+    .WithLogger(new ColorConsoleLogger());
 
-Console.ReadKey();
+await webReaper.Run(10);
