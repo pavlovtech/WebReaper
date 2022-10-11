@@ -78,8 +78,8 @@ scraper = new Scraper()
         new("subcategory", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(5)"),
         new("torrentSize", "div.attach_link.guest>ul>li:nth-child(2)"),
         new Url("torrentLink", ".magnet-link"),
-		new Image("coverImageUrl", ".postImg")
-        })
+	new Image("coverImageUrl", ".postImg")
+     })
     .WriteToJsonFile("result.json")
     .WriteToCsvFile("result.csv")
     .IgnoreUrls(blackList);
