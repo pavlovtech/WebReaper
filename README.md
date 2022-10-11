@@ -280,8 +280,7 @@ For other ways to extend your functionality see the next section.
 - [ ] Add LogTo method with Console and File support
 - [ ] Site API support
 - [ ] CRON for scheduling
-- [ ] Request throttling
-- [ ] Autotune for parallelism degree
+- [ ] Request auto throttling
 - [ ] Add bloom filter for revisiting same urls
 
 See the [LICENSE](LICENSE.txt) file for license rights and limitations (GNU GPLv3).
