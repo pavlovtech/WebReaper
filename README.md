@@ -269,16 +269,19 @@ For other ways to extend your functionality see the next section.
 - [X] Parsing lists
 - [X] Loading pages with headless browser and flexible SPA page manipulations (clicks, scrolls, etc)
 - [ ] Save auth cookies to redis
-- [ ] Saving logs to Seq
-- [ ] Add LogTo method with Console and File support
 - [ ] Rest API example for web craping
 - [ ] Proxy support
 - [ ] Sitemap crawling support
+- [ ] Ports to NodeJS and Go
+
+## Features under consideration
+- [ ] Create a scheduler that would be responsible for distributing crawling tasks
+- [ ] Saving logs to Seq
+- [ ] Add LogTo method with Console and File support
 - [ ] Site API support
 - [ ] CRON for scheduling
 - [ ] Request throttling
 - [ ] Autotune for parallelism degree
 - [ ] Add bloom filter for revisiting same urls
-- [ ] Ports to NodeJS and Go
 
 See the [LICENSE](LICENSE.txt) file for license rights and limitations (GNU GPLv3).
