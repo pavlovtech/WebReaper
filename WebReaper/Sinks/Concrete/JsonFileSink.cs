@@ -34,7 +34,7 @@ namespace WebReaper.Sinks.Concrete
 
             foreach (var entry in entries.GetConsumingEnumerable())
             {
-                await File.AppendAllTextAsync(filePath, $"{entry.ToString()},{Environment.NewLine}");
+                await File.AppendAllTextAsync(filePath, $"{entry},{Environment.NewLine}");
             }
 
             await File.AppendAllTextAsync(filePath, "]");

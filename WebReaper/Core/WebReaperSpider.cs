@@ -76,7 +76,7 @@ public class WebReaperSpider : ISpider
             var result = ContentParser.Parse(doc, job.Schema);
             result.Add("URL", job.Url);
 
-            ScrapedData(result);
+            ScrapedData?.Invoke(result);
 
             var sinkTasks = Sinks.Select(sink => sink.EmitAsync(result));
 
