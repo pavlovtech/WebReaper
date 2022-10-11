@@ -1,4 +1,5 @@
-﻿using WebReaper.Core;
+﻿using WebReaper.ConsoleApplication;
+using WebReaper.Core;
 using WebReaper.Domain.Parsing;
 
 var webReaper = new Scraper()
