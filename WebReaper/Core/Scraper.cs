@@ -1,14 +1,10 @@
 ﻿using System.Net;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using System.Threading.Channels;
 using Newtonsoft.Json.Linq;
-using WebReaper.Queue.Concrete.InMemory;
 using WebReaper.Sinks.Concrete;
 using WebReaper.Domain.Selectors;
-using WebReaper.Queue.Abstract;
 using WebReaper.Domain.Parsing;
-using WebReaper.Domain;
 using WebReaper.LinkTracker.Abstract;
 using WebReaper.Sinks.Abstract;
 
@@ -22,17 +18,7 @@ public class Scraper
 
     protected ILogger Logger { get; set; } = NullLogger.Instance;
 
-    protected IJobQueueReader JobQueueReader;
-
-    protected IJobQueueWriter JobQueueWriter;
-
-    private readonly Channel<Job> JobChannel = Channel.CreateUnbounded<Job>();
-
-    public Scraper()
-    {
-        JobQueueReader = new JobQueueReader(JobChannel.Reader);
-        JobQueueWriter = new JobQueueWriter(JobChannel.Writer);
-    }
+    protected IScheduler Scheduler = new InMemoryScheduler();
 
     public Scraper AddSink(IScraperSink sink)
     {
@@ -139,15 +125,9 @@ public class Scraper
         return this;
     }
 
-    public Scraper WithJobQueueWriter(IJobQueueWriter jobQueueWriter)
+    public Scraper WithScheduler(IScheduler scheduler)
     {
-        JobQueueWriter = jobQueueWriter;
-        return this;
-    }
-
-    public Scraper WithJobQueueReader(IJobQueueReader jobQueueReader)
-    {
-        JobQueueReader = jobQueueReader;
+        Scheduler = scheduler;
         return this;
     }
 
@@ -156,13 +136,8 @@ public class Scraper
         var config = ConfigBuilder.Build();
         var spider = SpiderBuilder.Build();
 
-        Runner = new ScraperRunner(config, JobQueueReader, JobQueueWriter, spider, Logger);
+        Runner = new ScraperRunner(config, Scheduler, spider, Logger);
 
         await Runner.Run(parallelismDegree);
-    }
-
-    public async Task Stop()
-    {
-        await Runner.Stop();
     }
 }

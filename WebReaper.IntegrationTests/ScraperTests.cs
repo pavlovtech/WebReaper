@@ -24,10 +24,6 @@ namespace WebReaper.IntegrationTests
 
             await Task.Delay(3000);
 
-            await scraper.Stop();
-
-            await Task.Delay(1000);
-
             Assert.Single(result);
 
             var props = result.First().Properties().Select(p => p.Name);
@@ -50,10 +46,6 @@ namespace WebReaper.IntegrationTests
             _ = scraper.Run(1);
 
             await Task.Delay(5000);
-
-            await scraper.Stop();
-
-            await Task.Delay(1000);
 
             Assert.Single(result);
 

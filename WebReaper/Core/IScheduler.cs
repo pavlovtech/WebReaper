@@ -4,8 +4,9 @@ namespace WebReaper.Core
 {
     public interface IScheduler
     {
-        void Enqueue(Job job);
-        void Enqueue(IEnumerable<Job> jobs);
-        Job Dequeue();
+        ValueTask Schedule(Job job);
+        ValueTask Schedule(IEnumerable<Job> jobs);
+        ValueTask<Job> Get();
+        IAsyncEnumerable<Job> GetAll();
     }
 }
