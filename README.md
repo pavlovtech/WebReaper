@@ -16,7 +16,7 @@ Tech stack:
 </p>
 
 
-:exclamation: This is work in progres! API is not stable and will change.
+:exclamation: This is work in progress! API is not stable and will change.
 
 ## 📋 Example:
 
