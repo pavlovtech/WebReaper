@@ -8,7 +8,7 @@ env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: Examples/WebReaper.AzureFuncs/publish
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 6.0.x
-  WORKING_DIRECTORY: WebReaper.AzureFuncs
+  WORKING_DIRECTORY: Examples/WebReaper.AzureFuncs
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
