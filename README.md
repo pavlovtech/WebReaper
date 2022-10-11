@@ -5,21 +5,21 @@
 
 
 
-# Overview
+## Overview
 
 Declarative high performance web scraper in C#. Easily crawl any web site and parse the data, save structed result to a file, DB, etc.
 
-# Install
+## Install
 
 ```
 dotnet add WebReaper
 ```
 
-# Requirements
+## Requirements
 
 .NET 6
 
-# Tech stack:
+## Tech stack:
 
 <p align="left">
   <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white" />
