@@ -2,6 +2,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using WebReaper.Domain.Selectors;
 using WebReaper.Domain.Parsing;
+using System.Collections.Immutable;
 
 namespace WebReaper.Core;
 
@@ -69,6 +70,6 @@ public class ScraperConfigBuilder
 
     public ScraperConfig Build()
     {
-        return new ScraperConfig(schema, linkPathSelectors.ToArray(), startUrl, startPageType, initialScript, baseUrl);
+        return new ScraperConfig(schema, ImmutableQueue.Create(linkPathSelectors.ToArray()), startUrl, startPageType, initialScript);
     }
 }

@@ -55,7 +55,6 @@ namespace WebReaper.AzureFuncs
 
 				await scheduler.Schedule(new Job(
 				config.ParsingScheme!,
-				config.BaseUrl,
 				config.StartUrl!,
 				ImmutableQueue.Create(config.LinkPathSelectors.ToArray())));
 

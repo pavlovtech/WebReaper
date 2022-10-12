@@ -20,12 +20,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Queue\**" />
+    <EmbeddedResource Remove="Queue\**" />
+    <None Remove="Queue\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Newtonsoft.Json" />
     <None Remove="Fizzler.Systems.HtmlAgilityPack" />
     <None Remove="Microsoft.Extensions.Logging.Abstractions" />
-    <None Remove="Queue\InMemory\" />
     <None Remove="Azure.Messaging.ServiceBus" />
-    <None Remove="Queue\AzureServiceBus\" />
   </ItemGroup>
   <ItemGroup>       
     <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.30.1" />       
@@ -37,10 +41,6 @@
      <PackageReference Include="Fizzler.Systems.HtmlAgilityPack" Version="1.2.1" />
      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.2" />
      <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.10.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Queue\Concrete\InMemory\" />
-    <Folder Include="Queue\Concrete\AzureServiceBus\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Users\alexp\Downloads\167391357-edb02ce2-a63c-439b-be9b-69b4b4796b1c.png">
