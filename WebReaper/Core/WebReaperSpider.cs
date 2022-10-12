@@ -52,12 +52,12 @@ public class WebReaperSpider : ISpider
     {
         if (UrlBlackList.Contains(job.Url)) return Enumerable.Empty<Job>();
 
-        if (await LinkTracker.GetVisitedLinksCount(job.BaseUrl) >= PageCrawlLimit)
+        if (await LinkTracker.GetVisitedLinksCount((new Uri(job.Url)).Host) >= PageCrawlLimit)
         {
             return Enumerable.Empty<Job>();
         }
 
-        await LinkTracker.AddVisitedLinkAsync(job.BaseUrl, job.Url);
+        await LinkTracker.AddVisitedLinkAsync((new Uri(job.Url)).Host, job.Url);
 
         string doc;
 
@@ -86,11 +86,10 @@ public class WebReaperSpider : ISpider
 
         var newLinkPathSelectors = job.LinkPathSelectors.Dequeue(out var currentSelector);
 
-        var rawLinks = LinkParser.GetLinks(doc, currentSelector.Selector).ToList();
+        var rawLinks = LinkParser.GetLinks(new Uri(job.Url), doc, currentSelector.Selector).ToList();
 
         var links = rawLinks
-            .Select(link => new Uri(new Uri(job.BaseUrl), link).ToString())
-            .Except(await LinkTracker.GetVisitedLinksAsync(job.BaseUrl));
+            .Except(await LinkTracker.GetVisitedLinksAsync((new Uri(job.Url)).Host));
 
         var newJobs = new List<Job>();
 
@@ -100,16 +99,14 @@ public class WebReaperSpider : ISpider
         {
             ArgumentNullException.ThrowIfNull(currentSelector.PaginationSelector);
 
-            var rawPaginatedLinks = LinkParser.GetLinks(doc, currentSelector.PaginationSelector);
+            var rawPaginatedLinks = LinkParser.GetLinks(new Uri(job.Url), doc, currentSelector.PaginationSelector);
 
             if (!rawPaginatedLinks.Any())
             {
                 Logger.LogInformation("No pages with pagination found with selector {selector} on {url}", currentSelector.PaginationSelector, job.Url);
             }
 
-            var allLinks = rawPaginatedLinks.Select(link => new Uri(new Uri(job.BaseUrl), link).ToString());
-
-            var linksToPaginatedPages = await LinkTracker.GetNotVisitedLinks(job.BaseUrl, allLinks);
+            var linksToPaginatedPages = await LinkTracker.GetNotVisitedLinks((new Uri(job.Url)).Host, rawPaginatedLinks);
 
             newJobs.AddRange(CreateNextJobs(job, currentSelector, job.LinkPathSelectors, linksToPaginatedPages));
         }

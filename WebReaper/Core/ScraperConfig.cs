@@ -1,13 +1,13 @@
 using WebReaper.Domain.Selectors;
 using WebReaper.Domain.Parsing;
+using System.Collections.Immutable;
 
 namespace WebReaper.Core;
 
 public record ScraperConfig(
     Schema ParsingScheme,
-    LinkPathSelector[] LinkPathSelectors,
+    ImmutableQueue<LinkPathSelector> LinkPathSelectors,
     string StartUrl,
     PageType StartPageType = PageType.Static,
-    string? initialScript = null,
-    string? BaseUrl = null
+    string? initialScript = null
 );

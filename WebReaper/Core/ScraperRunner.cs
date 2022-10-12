@@ -27,9 +27,8 @@ public class ScraperRunner
     {
         await Scheduler.Schedule(new Job(
             Config.ParsingScheme!,
-            Config.BaseUrl,
             Config.StartUrl!,
-            ImmutableQueue.Create(Config.LinkPathSelectors.ToArray()),
+            Config.LinkPathSelectors,
             Config.StartPageType,
             Config.initialScript));
 
