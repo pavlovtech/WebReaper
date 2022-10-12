@@ -297,5 +297,6 @@ For other ways to extend your functionality see the next section.
 - [ ] Request auto throttling
 - [ ] Add bloom filter for revisiting same urls
 - [ ] Improve architecture and refactor
+- [ ] Subscribe to logs with lambda expression
 
 See the [LICENSE](LICENSE.txt) file for license rights and limitations (GNU GPLv3).
