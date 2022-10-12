@@ -12,7 +12,6 @@ using Microsoft.OpenApi.Models;
 using WebReaper.DOM;
 using WebReaper.Domain;
 using WebReaper.Domain.Parsing;
-using WebReaper.Queue.Concrete.AzureServiceBus;
 using WebReaper.Core;
 
 namespace WebReaper.AzureFuncs
@@ -52,9 +51,9 @@ namespace WebReaper.AzureFuncs
 					})
 					.Build();
 
-				var jobQueueWriter = new AzureJobQueueWriter("Endpoint=sb://webreaper.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=g0AAACe/NXS+/qWVad4KUnnw6iGECmUTJTpfFOMfjms=", "jobqueue");
+				var scheduler = new AzureServiceBusScheduler("Endpoint=sb://webreaper.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=g0AAACe/NXS+/qWVad4KUnnw6iGECmUTJTpfFOMfjms=", "jobqueue");
 
-				await jobQueueWriter.WriteAsync(new Job(
+				await scheduler.Schedule(new Job(
 				config.ParsingScheme!,
 				config.BaseUrl,
 				config.StartUrl!,

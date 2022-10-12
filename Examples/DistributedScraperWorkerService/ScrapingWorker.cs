@@ -2,7 +2,6 @@
 using WebReaper.DOM;
 using WebReaper.Domain.Parsing;
 using WebReaper.LinkTracker.Concrete;
-using WebReaper.Queue.Concrete.AzureServiceBus;
 
 namespace DistributedScraperWorkerService;
 
@@ -45,8 +44,7 @@ public class ScrapingWorker : BackgroundService
                 "TssEjPIdgShphVKhFkxrAu6WJovPdIZLTFNshJWGdXuitWPIMlXTidc05WFqm20qFVz8leE8zc5JBOphlNmRYg==",
                 "DistributedWebReaper",
                 "Rutracker")
-            .WithJobQueueReader(new AzureJobQueueReader(azureSBConnectionString, queue))
-            .WithJobQueueWriter(new AzureJobQueueWriter(azureSBConnectionString, queue));
+            .WithScheduler(new AzureServiceBusScheduler(azureSBConnectionString, queue));
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
