@@ -2,6 +2,7 @@
 using WebReaper.DOM;
 using WebReaper.Domain.Parsing;
 using WebReaper.LinkTracker.Concrete;
+using WebReaper.Scheduler.Concrete;
 
 namespace DistributedScraperWorkerService;
 
