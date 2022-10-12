@@ -1,6 +1,7 @@
-using System.Collections.Immutable;
 using Microsoft.Extensions.Logging;
 using WebReaper.Domain;
+using WebReaper.Scheduler.Abstract;
+using WebReaper.Spider.Abstract;
 
 namespace WebReaper.Core;
 

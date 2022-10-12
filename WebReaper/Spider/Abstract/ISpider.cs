@@ -5,7 +5,7 @@ using WebReaper.Loaders.Abstract;
 using WebReaper.Parser.Abstract;
 using WebReaper.Sinks.Abstract;
 
-namespace WebReaper.Core;
+namespace WebReaper.Spider.Abstract;
 
 public interface ISpider
 {

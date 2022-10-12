@@ -1,7 +1,8 @@
 using System.Threading.Channels;
 using WebReaper.Domain;
+using WebReaper.Scheduler.Abstract;
 
-namespace WebReaper.Core;
+namespace WebReaper.Scheduler.Concrete;
 
 public class InMemoryScheduler : IScheduler
 {
@@ -24,7 +25,7 @@ public class InMemoryScheduler : IScheduler
 
     public async ValueTask Schedule(IEnumerable<Job> jobs)
     {
-        foreach(var job in jobs)
+        foreach (var job in jobs)
         {
             await JobChannel.Writer.WriteAsync(job);
         }

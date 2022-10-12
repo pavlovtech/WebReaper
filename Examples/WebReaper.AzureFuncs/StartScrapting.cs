@@ -1,5 +1,3 @@
-using System.Collections.Immutable;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -13,6 +11,7 @@ using WebReaper.DOM;
 using WebReaper.Domain;
 using WebReaper.Domain.Parsing;
 using WebReaper.Core;
+using WebReaper.Scheduler.Concrete;
 
 namespace WebReaper.AzureFuncs
 {
@@ -56,7 +55,7 @@ namespace WebReaper.AzureFuncs
 				await scheduler.Schedule(new Job(
 				config.ParsingScheme!,
 				config.StartUrl!,
-				ImmutableQueue.Create(config.LinkPathSelectors.ToArray())));
+				config.LinkPathSelectors));
 
             return new OkObjectResult(new
             {

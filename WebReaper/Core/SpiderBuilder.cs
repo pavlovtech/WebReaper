@@ -11,6 +11,8 @@ using WebReaper.Parser.Abstract;
 using WebReaper.Loaders.Abstract;
 using WebReaper.LinkTracker.Abstract;
 using WebReaper.Sinks.Abstract;
+using WebReaper.Spider.Abstract;
+using WebReaper.Spider.Concrete;
 
 namespace WebReaper.Core;
 
