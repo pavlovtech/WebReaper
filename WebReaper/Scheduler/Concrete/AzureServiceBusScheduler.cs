@@ -1,8 +1,9 @@
 using Azure.Messaging.ServiceBus;
 using Newtonsoft.Json;
 using WebReaper.Domain;
+using WebReaper.Scheduler.Abstract;
 
-namespace WebReaper.Core;
+namespace WebReaper.Scheduler.Concrete;
 
 public class AzureServiceBusScheduler : IScheduler
 {
@@ -30,9 +31,9 @@ public class AzureServiceBusScheduler : IScheduler
         await receiver.CompleteMessageAsync(msg);
         var stringBody = msg.Body.ToString();
         var job = JsonConvert.DeserializeObject<Job>(stringBody, new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Auto
-            });
+        {
+            TypeNameHandling = TypeNameHandling.Auto
+        });
 
         return job;
     }

@@ -1,6 +1,6 @@
 ﻿using WebReaper.Domain;
 
-namespace WebReaper.Core
+namespace WebReaper.Scheduler.Abstract
 {
     public interface IScheduler
     {
