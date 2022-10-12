@@ -6,7 +6,6 @@ using WebReaper.Domain.Selectors;
 using WebReaper.Loaders.Abstract;
 using WebReaper.Extensions;
 using WebReaper.Domain;
-using WebReaper.LinkTracker.Abstract;
 using WebReaper.Sinks.Abstract;
 using WebReaper.Spider.Abstract;
 
@@ -18,11 +17,8 @@ public class WebReaperSpider : ISpider
     public IDynamicPageLoader DynamicPageLoader { get; init; }
     public ILinkParser LinkParser { get; init; }
     public IContentParser ContentParser { get; init; }
-    public ICrawledLinkTracker LinkTracker { get; init; }
 
-    public List<string> UrlBlackList { get; set; } = new();
-
-    public int PageCrawlLimit { get; set; } = int.MaxValue;
+    public int Limit { get; set; } = int.MaxValue;
 
     public List<IScraperSink> Sinks { get; init; } = new();
 
@@ -34,7 +30,6 @@ public class WebReaperSpider : ISpider
         List<IScraperSink> sinks,
         ILinkParser linkParser,
         IContentParser contentParser,
-        ICrawledLinkTracker linkTracker,
         IStaticPageLoader staticPageLoader,
         IDynamicPageLoader dynamicPageLoader,
         ILogger logger)
@@ -42,7 +37,6 @@ public class WebReaperSpider : ISpider
         Sinks = sinks;
         LinkParser = linkParser;
         ContentParser = contentParser;
-        LinkTracker = linkTracker;
         StaticStaticPageLoader = staticPageLoader;
         DynamicPageLoader = dynamicPageLoader;
 
@@ -51,15 +45,6 @@ public class WebReaperSpider : ISpider
 
     public async Task<IEnumerable<Job>> CrawlAsync(Job job)
     {
-        if (UrlBlackList.Contains(job.Url)) return Enumerable.Empty<Job>();
-
-        if (await LinkTracker.GetVisitedLinksCount(new Uri(job.Url).Host) >= PageCrawlLimit)
-        {
-            return Enumerable.Empty<Job>();
-        }
-
-        await LinkTracker.AddVisitedLinkAsync(new Uri(job.Url).Host, job.Url);
-
         string doc;
 
         if (job.PageType == PageType.Static)
@@ -89,9 +74,6 @@ public class WebReaperSpider : ISpider
 
         var rawLinks = LinkParser.GetLinks(new Uri(job.Url), doc, currentSelector.Selector).ToList();
 
-        var links = rawLinks
-            .Except(await LinkTracker.GetVisitedLinksAsync(new Uri(job.Url).Host));
-
         var newJobs = new List<Job>();
 
         newJobs.AddRange(CreateNextJobs(job, currentSelector, newLinkPathSelectors, links));
@@ -107,9 +89,7 @@ public class WebReaperSpider : ISpider
                 Logger.LogInformation("No pages with pagination found with selector {selector} on {url}", currentSelector.PaginationSelector, job.Url);
             }
 
-            var linksToPaginatedPages = await LinkTracker.GetNotVisitedLinks(new Uri(job.Url).Host, rawPaginatedLinks);
-
-            newJobs.AddRange(CreateNextJobs(job, currentSelector, job.LinkPathSelectors, linksToPaginatedPages));
+            newJobs.AddRange(CreateNextJobs(job, currentSelector, job.LinkPathSelectors, rawPaginatedLinks));
         }
 
         return newJobs;

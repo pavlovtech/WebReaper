@@ -19,13 +19,11 @@ public interface ISpider
 
     IContentParser ContentParser { get; init; }
 
-    ICrawledLinkTracker LinkTracker { get; init; }
-
     public event Action<JObject> ScrapedData;
 
     List<IScraperSink> Sinks { get; init; }
 
     List<string> UrlBlackList { get; set; }
 
-    int PageCrawlLimit { get; set; }
+    int Limit { get; set; }
 }

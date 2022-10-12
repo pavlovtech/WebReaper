@@ -150,7 +150,7 @@ public class SpiderBuilder
         {
             UrlBlackList = UrlBlackList.ToList(),
 
-            PageCrawlLimit = limit
+            Limit = limit
         };
 
         spider.ScrapedData += ScrapedData;
