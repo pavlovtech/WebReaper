@@ -289,7 +289,6 @@ For other ways to extend your functionality see the next section.
 - [ ] Ports to NodeJS and Go
 
 ## Features under consideration
-- [ ] Create a scheduler that would be responsible for distributing crawling tasks
 - [ ] Saving logs to Seq
 - [ ] Add LogTo method with Console and File support
 - [ ] Site API support
