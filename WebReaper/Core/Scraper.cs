@@ -9,6 +9,7 @@ using WebReaper.LinkTracker.Abstract;
 using WebReaper.Sinks.Abstract;
 using WebReaper.Scheduler.Abstract;
 using WebReaper.Scheduler.Concrete;
+using MongoDB.Driver.Core.Configuration;
 
 namespace WebReaper.Core;
 
@@ -81,6 +82,12 @@ public class Scraper
         string containerId)
     {
         SpiderBuilder.AddSink(new CosmosSink(endpointUrl, authorizationKey, databaseId, containerId, Logger));
+        return this;
+    }
+
+    public Scraper WriteToMongoDb(string connectionString, string databaseName, string collectionName)
+    {
+        SpiderBuilder.AddSink(new MongoDbSink(connectionString, databaseName, collectionName, Logger));
         return this;
     }
 
