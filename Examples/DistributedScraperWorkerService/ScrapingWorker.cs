@@ -4,7 +4,7 @@ using WebReaper.Domain.Parsing;
 using WebReaper.LinkTracker.Concrete;
 using WebReaper.Scheduler.Concrete;
 
-namespace DistributedScraperWorkerService;
+namespace WebReaper.DistributedScraperWorkerService;
 
 public class ScrapingWorker : BackgroundService
 {
