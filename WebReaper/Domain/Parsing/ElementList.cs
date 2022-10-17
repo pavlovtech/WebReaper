@@ -1,8 +1,7 @@
 ﻿using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
-using WebReaper.Domain.Parsing;
 
-namespace WebReaper.DOM
+namespace WebReaper.Domain.Parsing
 {
     public record ElementList(string Field, string Selector)
     : SchemaElement(Field, Selector, DataType.List)

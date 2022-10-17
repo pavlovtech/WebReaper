@@ -1,22 +1,20 @@
 using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
-using WebReaper.Domain.Parsing;
 
-namespace WebReaper.DOM;
+namespace WebReaper.Domain.Parsing;
 
-public record Text(string Field, string Selector)
+public record Html(string Field, string Selector)
     : SchemaElement(Field, Selector)
 {
     public override string GetData(HtmlDocument doc)
     {
         var node = doc.DocumentNode.QuerySelector(Selector);
 
-        var content = node?.InnerText;
+        var content = node?.InnerHtml;
 
         if (string.IsNullOrWhiteSpace(content))
         {
-            throw new InvalidOperationException($"Cannot find element by selector ${Selector}.");
-
+            throw new InvalidOperationException($"No html found by selector {Selector} in {node?.OuterHtml}.");
         }
 
         return HtmlEntity.DeEntitize(content);
