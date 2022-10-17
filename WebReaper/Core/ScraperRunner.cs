@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using WebReaper.Domain;
+using WebReaper.Exceptions;
 using WebReaper.Scheduler.Abstract;
 using WebReaper.Spider.Abstract;
 
@@ -42,8 +43,12 @@ public class ScraperRunner
         {
             try
             {
+                /* This is checking if the scraping timeout has been reached. If it has, it will log
+                the information and return. If not, it will continue to crawl the page and schedule
+                the new jobs. */
                 if (scrapingTimeout != null && sw.Elapsed >= scrapingTimeout)
                 {
+                    Logger.LogInformation("Shutting down due to scraping timeout {timeout}", scrapingTimeout);
                     return;
                 }
 
@@ -52,8 +57,14 @@ public class ScraperRunner
 
                 if (token.IsCancellationRequested)
                 {
+                    Logger.LogInformation("Shutting down due to cancellation");
                     return;
                 }
+            }
+            catch (PageCrawlLimitException ex)
+            {
+                Logger.LogError(ex, "Shutting down due to page crawl limit {limit}", ex.PageCrawlLimit);
+                return;
             }
             catch (Exception ex)
             {

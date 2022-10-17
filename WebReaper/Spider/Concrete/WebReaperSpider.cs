@@ -9,6 +9,7 @@ using WebReaper.Domain;
 using WebReaper.LinkTracker.Abstract;
 using WebReaper.Sinks.Abstract;
 using WebReaper.Spider.Abstract;
+using WebReaper.Exceptions;
 
 namespace WebReaper.Spider.Concrete;
 
@@ -55,7 +56,10 @@ public class WebReaperSpider : ISpider
 
         if (await LinkTracker.GetVisitedLinksCount(new Uri(job.Url).Host) >= PageCrawlLimit)
         {
-            return Enumerable.Empty<Job>();
+            throw new PageCrawlLimitException("Page crawl limit has been reached.") 
+            {
+                PageCrawlLimit = this.PageCrawlLimit
+            };
         }
 
         await LinkTracker.AddVisitedLinkAsync(new Uri(job.Url).Host, job.Url);

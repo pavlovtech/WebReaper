@@ -16,7 +16,6 @@ public class Scraper
 {
     protected ScraperConfigBuilder ConfigBuilder { get; private set; } = new();
     protected SpiderBuilder SpiderBuilder { get; private set; } = new();
-    protected ScraperRunner Runner { get; private set; }
 
     protected ILogger Logger { get; set; } = NullLogger.Instance;
 
@@ -144,8 +143,8 @@ public class Scraper
         var config = ConfigBuilder.Build();
         var spider = SpiderBuilder.Build();
 
-        Runner = new ScraperRunner(config, Scheduler, spider, Logger);
+        var runner = new ScraperRunner(config, Scheduler, spider, Logger);
 
-        await Runner.Run(parallelismDegree, scrapingTimeout, cancellationToken);
+        await runner.Run(parallelismDegree, scrapingTimeout, cancellationToken);
     }
 }
