@@ -23,7 +23,7 @@ namespace WebReaper.Sinks.Concrete
             Logger = logger;
         }
 
-        public async Task EmitAsync(JObject scrapedData)
+        public async Task EmitAsync(JObject scrapedData, CancellationToken cancellationToken = default)
         {
             var database = Client.GetDatabase(DatabaseName);
 
@@ -31,7 +31,7 @@ namespace WebReaper.Sinks.Concrete
 
             var document = BsonDocument.Parse(scrapedData.ToString());
 
-            await collection.InsertOneAsync(document);
+            await collection.InsertOneAsync(document, null, cancellationToken);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace WebReaper.Sinks.Concrete
 
         public JsonFileSink(string filePath) => this.filePath = filePath;
 
-        public Task EmitAsync(JObject scrapedData)
+        public Task EmitAsync(JObject scrapedData, CancellationToken cancellationToken = default)
         {
             if (!IsInitialized)
             {
@@ -28,12 +28,17 @@ namespace WebReaper.Sinks.Concrete
             return Task.CompletedTask;
         }
 
-        public async Task HandleAsync()
+        public async Task HandleAsync(CancellationToken cancellationToken = default)
         {
             await File.AppendAllTextAsync(filePath, "[");
 
             foreach (var entry in entries.GetConsumingEnumerable())
             {
+                if(cancellationToken.IsCancellationRequested)
+                {
+                    break;
+                }
+
                 await File.AppendAllTextAsync(filePath, $"{entry},{Environment.NewLine}");
             }
 

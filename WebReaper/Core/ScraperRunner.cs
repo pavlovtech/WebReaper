@@ -24,23 +24,23 @@ public class ScraperRunner
         Logger = logger;
     }
 
-    public async Task Run(int parallelismDegree)
+    public async Task Run(int parallelismDegree, CancellationToken cancellationToken = default)
     {
         await Scheduler.Schedule(new Job(
             Config.ParsingScheme!,
             Config.StartUrl!,
             Config.LinkPathSelectors,
             Config.StartPageType,
-            Config.initialScript));
+            Config.initialScript), cancellationToken);
 
         var options = new ParallelOptions { MaxDegreeOfParallelism = parallelismDegree };
 
-        await Parallel.ForEachAsync(Scheduler.GetAll(), options, async (job, token) =>
+        await Parallel.ForEachAsync(Scheduler.GetAll(cancellationToken), options, async (job, token) =>
         {
             try
             {
                 var newJobs = await Spider.CrawlAsync(job);
-                await Scheduler.Schedule(newJobs);
+                await Scheduler.Schedule(newJobs, cancellationToken);
             }
             catch (Exception ex)
             {

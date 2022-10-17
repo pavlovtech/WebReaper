@@ -43,7 +43,7 @@ public class CosmosSink : IScraperSink
         Initialization = InitializeAsync();
     }
 
-    public async Task EmitAsync(JObject scrapedData)
+    public async Task EmitAsync(JObject scrapedData, CancellationToken cancellationToken = default)
     {
         await Initialization; // make sure that initialization finished
 
@@ -52,7 +52,7 @@ public class CosmosSink : IScraperSink
 
         try
         {
-            await Container!.CreateItemAsync(scrapedData, new PartitionKey(id));
+            await Container!.CreateItemAsync(scrapedData, new PartitionKey(id), null, cancellationToken);
         }
         catch (Exception ex)
         {

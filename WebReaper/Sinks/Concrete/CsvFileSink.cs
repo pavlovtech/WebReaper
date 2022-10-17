@@ -19,7 +19,7 @@ namespace WebReaper.Sinks.Concrete
             this.filePath = filePath;
         }
 
-        public async Task EmitAsync(JObject scrapedData)
+        public async Task EmitAsync(JObject scrapedData, CancellationToken cancellationToken = default)
         {
             entries.Add(scrapedData);
 
@@ -42,14 +42,19 @@ namespace WebReaper.Sinks.Concrete
 
                 IsInitialized = true;
 
-                _ = Handle();
+                _ = Handle(cancellationToken);
             }
         }
 
-        protected async Task Handle()
+        protected async Task Handle(CancellationToken cancellationToken = default)
         {
             foreach (var entry in entries.GetConsumingEnumerable())
             {
+
+                if(cancellationToken.IsCancellationRequested)
+                {
+                    break;
+                }
 
                 var flattened = entry
                     .Descendants()
