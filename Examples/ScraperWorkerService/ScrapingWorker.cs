@@ -2,7 +2,7 @@
 using WebReaper.DOM;
 using WebReaper.Domain.Parsing;
 
-namespace ScraperWorkerService;
+namespace WebReaper.ScraperWorkerService;
 
 public class ScrapingWorker : BackgroundService
 {
