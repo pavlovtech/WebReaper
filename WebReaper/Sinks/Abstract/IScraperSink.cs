@@ -4,6 +4,6 @@ namespace WebReaper.Sinks.Abstract
 {
     public interface IScraperSink
     {
-        public Task EmitAsync(JObject scrapedData);
+        public Task EmitAsync(JObject scrapedData, CancellationToken cancellationToken = default);
     }
 }

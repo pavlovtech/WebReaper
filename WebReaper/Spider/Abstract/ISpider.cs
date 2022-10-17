@@ -9,7 +9,7 @@ namespace WebReaper.Spider.Abstract;
 
 public interface ISpider
 {
-    Task<IEnumerable<Job>> CrawlAsync(Job job);
+    Task<IEnumerable<Job>> CrawlAsync(Job job, CancellationToken cancellationToken = default);
 
     IStaticPageLoader StaticStaticPageLoader { get; init; }
 

@@ -49,7 +49,7 @@ public class WebReaperSpider : ISpider
         Logger = logger;
     }
 
-    public async Task<IEnumerable<Job>> CrawlAsync(Job job)
+    public async Task<IEnumerable<Job>> CrawlAsync(Job job, CancellationToken cancellationToken = default)
     {
         if (UrlBlackList.Contains(job.Url)) return Enumerable.Empty<Job>();
 
@@ -79,7 +79,7 @@ public class WebReaperSpider : ISpider
 
             ScrapedData?.Invoke(result);
 
-            var sinkTasks = Sinks.Select(sink => sink.EmitAsync(result));
+            var sinkTasks = Sinks.Select(sink => sink.EmitAsync(result, cancellationToken));
 
             await Task.WhenAll(sinkTasks);
             return Enumerable.Empty<Job>();
@@ -94,7 +94,7 @@ public class WebReaperSpider : ISpider
 
         var newJobs = new List<Job>();
 
-        newJobs.AddRange(CreateNextJobs(job, currentSelector, newLinkPathSelectors, links));
+        newJobs.AddRange(CreateNextJobs(job, currentSelector, newLinkPathSelectors, links, cancellationToken));
 
         if (job.PageCategory == PageCategory.PageWithPagination)
         {
@@ -119,10 +119,16 @@ public class WebReaperSpider : ISpider
         Job job,
         LinkPathSelector currentSelector,
         ImmutableQueue<LinkPathSelector> selectors,
-        IEnumerable<string> links)
+        IEnumerable<string> links,
+        CancellationToken cancellationToken = default)
     {
         foreach (var link in links)
         {
+            if(cancellationToken.IsCancellationRequested)
+            {
+                break;
+            }
+
             var newJob = job with { Url = link, LinkPathSelectors = selectors, PageType = currentSelector.PageType, Script = currentSelector.ScriptExpression };
             yield return newJob;
         }

@@ -10,6 +10,7 @@ using WebReaper.Sinks.Abstract;
 using WebReaper.Scheduler.Abstract;
 using WebReaper.Scheduler.Concrete;
 using MongoDB.Driver.Core.Configuration;
+using System.Threading;
 
 namespace WebReaper.Core;
 
@@ -140,13 +141,13 @@ public class Scraper
         return this;
     }
 
-    public async Task Run(int parallelismDegree)
+    public async Task Run(int parallelismDegree, CancellationToken cancellationToken = default)
     {
         var config = ConfigBuilder.Build();
         var spider = SpiderBuilder.Build();
 
         Runner = new ScraperRunner(config, Scheduler, spider, Logger);
 
-        await Runner.Run(parallelismDegree);
+        await Runner.Run(parallelismDegree, cancellationToken);
     }
 }
