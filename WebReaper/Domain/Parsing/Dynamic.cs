@@ -1,8 +1,7 @@
 using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
-using WebReaper.Domain.Parsing;
 
-namespace WebReaper.DOM;
+namespace WebReaper.Domain.Parsing;
 
 public record Dynamic(
     string Field,

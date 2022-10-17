@@ -1,6 +1,5 @@
 using Newtonsoft.Json.Linq;
 using WebReaper.Core;
-using WebReaper.DOM;
 using WebReaper.Domain.Parsing;
 using WebReaper.Domain.Selectors;
 
