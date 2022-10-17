@@ -139,7 +139,7 @@ public class Scraper
         return this;
     }
 
-    public async Task Run(int parallelismDegree, TimeSpan? scrapingTimeout, CancellationToken cancellationToken = default)
+    public async Task Run(int parallelismDegree, TimeSpan? scrapingTimeout = null, CancellationToken cancellationToken = default)
     {
         var config = ConfigBuilder.Build();
         var spider = SpiderBuilder.Build();
