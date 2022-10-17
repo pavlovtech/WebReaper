@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 using WebReaper.Domain;
 using WebReaper.Scheduler.Abstract;
 using WebReaper.Spider.Abstract;
@@ -24,8 +25,10 @@ public class ScraperRunner
         Logger = logger;
     }
 
-    public async Task Run(int parallelismDegree, CancellationToken cancellationToken = default)
+    public async Task Run(int parallelismDegree, TimeSpan? scrapingTimeout, CancellationToken cancellationToken = default)
     {
+        Stopwatch sw = Stopwatch.StartNew();
+
         await Scheduler.Schedule(new Job(
             Config.ParsingScheme!,
             Config.StartUrl!,
@@ -33,21 +36,31 @@ public class ScraperRunner
             Config.StartPageType,
             Config.initialScript), cancellationToken);
 
-        var options = new ParallelOptions { MaxDegreeOfParallelism = parallelismDegree };
+        var options = new ParallelOptions { MaxDegreeOfParallelism = parallelismDegree, CancellationToken = cancellationToken };
 
         await Parallel.ForEachAsync(Scheduler.GetAll(cancellationToken), options, async (job, token) =>
         {
             try
             {
-                var newJobs = await Spider.CrawlAsync(job);
-                await Scheduler.Schedule(newJobs, cancellationToken);
+                if (scrapingTimeout != null && sw.Elapsed >= scrapingTimeout)
+                {
+                    return;
+                }
+
+                var newJobs = await Spider.CrawlAsync(job, token);
+                await Scheduler.Schedule(newJobs, token);
+
+                if (token.IsCancellationRequested)
+                {
+                    return;
+                }
             }
             catch (Exception ex)
             {
                 Logger.LogError(ex, "Error occurred when scraping {url}", job.Url);
 
                 // return job back to the queue
-                await Scheduler.Schedule(job);
+                await Scheduler.Schedule(job, token);
             }
         });
     }
