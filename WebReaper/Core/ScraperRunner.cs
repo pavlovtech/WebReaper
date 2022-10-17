@@ -12,7 +12,7 @@ public class ScraperRunner
     public IScheduler Scheduler { get; init; }
     public ISpider Spider { get; init; }
     public ILogger Logger { get; init; }
-
+      
     public ScraperRunner(
         ScraperConfig config,
         IScheduler jobScheduler,
