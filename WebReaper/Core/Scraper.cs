@@ -9,16 +9,14 @@ using WebReaper.LinkTracker.Abstract;
 using WebReaper.Sinks.Abstract;
 using WebReaper.Scheduler.Abstract;
 using WebReaper.Scheduler.Concrete;
-using MongoDB.Driver.Core.Configuration;
-using System.Threading;
 
 namespace WebReaper.Core;
 
 public class Scraper
 {
-    protected ScraperConfigBuilder ConfigBuilder { get; set; } = new();
-    protected SpiderBuilder SpiderBuilder { get; set; } = new();
-    protected ScraperRunner Runner { get; set; }
+    protected ScraperConfigBuilder ConfigBuilder { get; private set; } = new();
+    protected SpiderBuilder SpiderBuilder { get; private set; } = new();
+    protected ScraperRunner Runner { get; private set; }
 
     protected ILogger Logger { get; set; } = NullLogger.Instance;
 
@@ -141,13 +139,13 @@ public class Scraper
         return this;
     }
 
-    public async Task Run(int parallelismDegree, CancellationToken cancellationToken = default)
+    public async Task Run(int parallelismDegree, TimeSpan? scrapingTimeout, CancellationToken cancellationToken = default)
     {
         var config = ConfigBuilder.Build();
         var spider = SpiderBuilder.Build();
 
         Runner = new ScraperRunner(config, Scheduler, spider, Logger);
 
-        await Runner.Run(parallelismDegree, cancellationToken);
+        await Runner.Run(parallelismDegree, scrapingTimeout, cancellationToken);
     }
 }
