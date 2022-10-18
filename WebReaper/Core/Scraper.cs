@@ -97,7 +97,7 @@ public class Scraper
 
     public Scraper WriteToJsonFile(string filePath)
     {
-        SpiderBuilder.AddSink(new JsonFileSink(filePath));
+        SpiderBuilder.AddSink(new JsonLinesFileSink(filePath));
         return this;
     }
 
@@ -140,7 +140,6 @@ public class Scraper
 
     public async Task Run(
         int parallelismDegree,
-        TimeSpan? scrapingTimeout = null,
         CancellationToken cancellationToken = default
      )
     {
@@ -149,6 +148,6 @@ public class Scraper
 
         var runner = new ScraperRunner(config, Scheduler, spider, Logger);
 
-        await runner.Run(parallelismDegree, scrapingTimeout, cancellationToken);
+        await runner.Run(parallelismDegree, cancellationToken);
     }
 }

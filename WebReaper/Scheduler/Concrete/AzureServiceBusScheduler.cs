@@ -1,5 +1,7 @@
 using Azure.Messaging.ServiceBus;
+using Microsoft.Azure.Amqp.Framing;
 using Newtonsoft.Json;
+using System.Runtime.CompilerServices;
 using WebReaper.Domain;
 using WebReaper.Scheduler.Abstract;
 
@@ -25,7 +27,7 @@ public class AzureServiceBusScheduler : IScheduler
         sender = client.CreateSender(queueName);
     }
 
-    public async ValueTask<Job> Get(CancellationToken cancellationToken = default)
+    public async ValueTask<Job> GetAsync(CancellationToken cancellationToken = default)
     {
         var msg = await receiver.ReceiveMessageAsync(null, cancellationToken);
         await receiver.CompleteMessageAsync(msg, cancellationToken);
@@ -38,10 +40,15 @@ public class AzureServiceBusScheduler : IScheduler
         return job;
     }
 
-    public async IAsyncEnumerable<Job> GetAll(CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<Job> GetAllAsync([EnumeratorCancellation]CancellationToken cancellationToken = default)
     {
         await foreach (var msg in receiver.ReceiveMessagesAsync(cancellationToken))
         {
+            if (receiver.IsClosed)
+            {
+                break;
+            }
+
             await receiver.CompleteMessageAsync(msg, cancellationToken);
             var stringBody = msg.Body.ToString();
             var job = JsonConvert.DeserializeObject<Job>(stringBody, new JsonSerializerSettings
@@ -53,13 +60,13 @@ public class AzureServiceBusScheduler : IScheduler
         }
     }
 
-    public async ValueTask Schedule(Job job, CancellationToken cancellationToken = default)
+    public async ValueTask AddAsync(Job job, CancellationToken cancellationToken = default)
     {
         var msg = new ServiceBusMessage(SerializeToJson(job));
         await sender.SendMessageAsync(msg, cancellationToken);
     }
 
-    public async ValueTask Schedule(IEnumerable<Job> jobs, CancellationToken cancellationToken = default)
+    public async ValueTask AddAsync(IEnumerable<Job> jobs, CancellationToken cancellationToken = default)
     {
         var messages = jobs.Select(job => new ServiceBusMessage(SerializeToJson(job)));
         await sender.SendMessagesAsync(messages, cancellationToken);

@@ -112,7 +112,7 @@ public class SpiderBuilder
         return this;
     }
 
-    public SpiderBuilder WriteToJsonFile(string filePath) => AddSink(new JsonFileSink(filePath));
+    public SpiderBuilder WriteToJsonFile(string filePath) => AddSink(new JsonLinesFileSink(filePath));
 
     public SpiderBuilder WriteToCosmosDb(
         string endpointUrl,

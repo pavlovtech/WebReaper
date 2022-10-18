@@ -13,4 +13,8 @@ var webReaper = new Scraper()
     .WriteToJsonFile("output.json")
     .WithLogger(new ColorConsoleLogger());
 
-await webReaper.Run(10);
+var tokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+
+await webReaper.Run(10, tokenSource.Token);
+
+Console.ReadLine();
