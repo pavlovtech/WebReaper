@@ -1,10 +1,11 @@
 using System.Collections.Concurrent;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using WebReaper.Sinks.Abstract;
 
 namespace WebReaper.Sinks.Concrete
 {
-    public class JsonFileSink : IScraperSink
+    public class JsonLinesFileSink : IScraperSink
     {
         private object _lock = new();
 
@@ -14,38 +15,29 @@ namespace WebReaper.Sinks.Concrete
 
         public bool IsInitialized { get; set; } = false;
 
-        public JsonFileSink(string filePath) => this.filePath = filePath;
+        public JsonLinesFileSink(string filePath) => this.filePath = filePath;
 
         public Task EmitAsync(JObject scrapedData, CancellationToken cancellationToken = default)
         {
             if (!IsInitialized)
             {
-                Init();
+                Init(cancellationToken);
             }
 
-            entries.Add(scrapedData);
+            entries.Add(scrapedData, cancellationToken);
 
             return Task.CompletedTask;
         }
 
         public async Task HandleAsync(CancellationToken cancellationToken = default)
         {
-            await File.AppendAllTextAsync(filePath, "[");
-
-            foreach (var entry in entries.GetConsumingEnumerable())
+            foreach (var entry in entries.GetConsumingEnumerable(cancellationToken))
             {
-                if(cancellationToken.IsCancellationRequested)
-                {
-                    break;
-                }
-
-                await File.AppendAllTextAsync(filePath, $"{entry},{Environment.NewLine}");
+                await File.AppendAllTextAsync(filePath, $"{entry.ToString(Formatting.None)}{Environment.NewLine}", cancellationToken);
             }
-
-            await File.AppendAllTextAsync(filePath, "]");
         }
 
-        public void Init()
+        public void Init(CancellationToken cancellationToken = default)
         {
             lock (_lock)
             {
@@ -57,7 +49,7 @@ namespace WebReaper.Sinks.Concrete
                 File.Delete(filePath);
                 IsInitialized = true;
 
-                _ = HandleAsync();
+                _ = HandleAsync(cancellationToken);
             }
 
             return;

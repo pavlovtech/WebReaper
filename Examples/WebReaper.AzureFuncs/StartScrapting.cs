@@ -51,7 +51,7 @@ namespace WebReaper.AzureFuncs
 
 				var scheduler = new AzureServiceBusScheduler("Endpoint=sb://webreaper.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=g0AAACe/NXS+/qWVad4KUnnw6iGECmUTJTpfFOMfjms=", "jobqueue");
 
-				await scheduler.Schedule(new Job(
+				await scheduler.AddAsync(new Job(
 				config.ParsingScheme!,
 				config.StartUrl!,
 				config.LinkPathSelectors));
