@@ -227,7 +227,7 @@ For other ways to extend your functionality see the next section.
 - [ ] Add flexible conditions for ignoring or allowing certain pages
 - [ ] Breadth first traversal with priprity channels
 - [ ] Save auth cookies to redis
-- [ ] Rest API example for web craping
+- [ ] Rest API example for web scraping
 - [ ] Proxy support
 - [ ] Sitemap crawling support
 - [ ] Ports to NodeJS and Go
