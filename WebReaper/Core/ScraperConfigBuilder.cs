@@ -12,19 +12,11 @@ public class ScraperConfigBuilder
 
     private string? startUrl;
 
-    protected string baseUrl = "";
-
     protected Schema? schema;
 
     protected ILogger Logger = NullLogger.Instance;
     protected PageType startPageType;
     private string? initialScript;
-
-    public ScraperConfigBuilder WithLogger(ILogger logger)
-    {
-        Logger = logger;
-        return this;
-    }
 
     public ScraperConfigBuilder WithStartUrl(
         string startUrl,
@@ -34,8 +26,6 @@ public class ScraperConfigBuilder
         this.startUrl = startUrl;
 
         var startUri = new Uri(startUrl);
-
-        this.baseUrl = startUri.ToString();
 
         startPageType = pageType;
         initialScript = initScript;
