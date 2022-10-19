@@ -87,12 +87,12 @@ scraper = new Scraper()
     .FollowLinks(".forumlink>a", PageType.Dynamic)
     .FollowLinks("a.torTopic", ".pg", PageType.Dynamic)
     .Parse(new Schema {
-	    new("name", "#topic-title"),
+	new("name", "#topic-title"),
         new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
         new("subcategory", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(5)"),
         new("torrentSize", "div.attach_link.guest>ul>li:nth-child(2)"),
         new Url("torrentLink", ".magnet-link"),
-	    new Image("coverImageUrl", ".postImg")
+	new Image("coverImageUrl", ".postImg")
      })
     .WriteToJsonFile("result.json")
     .WriteToCsvFile("result.csv")
@@ -155,7 +155,7 @@ Out of the box there are 4 sinks you can send your parsed data to: ConsoleSink, 
 You can easly add your own by implementing the IScraperSink interface:
 
 ```C#
- public interface IScraperSink
+public interface IScraperSink
 {
     public Task EmitAsync(JObject scrapedData);
 }
