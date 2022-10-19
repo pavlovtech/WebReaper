@@ -116,14 +116,14 @@ If you need to pass authorization before parsing the web site, you can call Auth
 
 ```C#
 scraper = new Scraper()
-	.WithLogger(logger)
-	.WithStartUrl("https://rutracker.org/forum/index.php?c=33")
-	.Authorize(() =>
-	{
-		var container = new CookieContainer();
-		container.Add(new Cookie("AuthToken", "123");
-		return container;
-	})
+    .WithLogger(logger)
+    .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
+    .Authorize(() =>
+    {
+        var container = new CookieContainer();
+        container.Add(new Cookie("AuthToken", "123");
+        return container;
+    })
 ```
 
 ### Distributed web scraping with Serverless approach
@@ -135,21 +135,21 @@ First of all, this function uses ScraperConfigBuilder to build the scraper confi
 
 ```C#
 var config = new ScraperConfigBuilder()
-	.WithLogger(_logger)
-	.WithStartUrl("https://rutracker.org/forum/index.php?c=33")
-	.FollowLinks("#cf-33 .forumlink>a")
-	.FollowLinks(".forumlink>a")
-	.FollowLinks("a.torTopic", ".pg")
-	.WithScheme(new Schema
-	{
-		 new("name", "#topic-title"),
-		 new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
-		 new("subcategory", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(5)"),
-		 new("torrentSize", "div.attach_link.guest>ul>li:nth-child(2)"),
-		 new Url("torrentLink", ".magnet-link"),
-		 new Image("coverImageUrl", ".postImg")
-	})
-	.Build();
+    .WithLogger(_logger)
+    .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
+    .FollowLinks("#cf-33 .forumlink>a")
+    .FollowLinks(".forumlink>a")
+    .FollowLinks("a.torTopic", ".pg")
+    .WithScheme(new Schema
+    {
+        new("name", "#topic-title"),
+        new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
+        new("subcategory", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(5)"),
+        new("torrentSize", "div.attach_link.guest>ul>li:nth-child(2)"),
+        new Url("torrentLink", ".magnet-link"),
+        new Image("coverImageUrl", ".postImg")
+    })
+    .Build();
 ```
 
 Secondly, this function writes the first web scraping job with startUrl to the Azure Service Bus queue:
@@ -173,11 +173,11 @@ Firstly, this function builds the spider that is going to execute the job from t
 
 ```C#
 var spiderBuilder = new SpiderBuilder()
-	.WithLogger(log)
-	.IgnoreUrls(blackList)
-	.WithLinkTracker(LinkTracker)
-	.AddSink(CosmosSink)
-	.Build();
+    .WithLogger(log)
+    .IgnoreUrls(blackList)
+    .WithLinkTracker(LinkTracker)
+    .AddSink(CosmosSink)
+    .Build();
 ```
 
 Secondly, it executes the job by loading the page, parsing content, saving to the database, etc:
@@ -193,8 +193,8 @@ Finally, it iterates through these new jobs and sends them the the Job queue:
 ```C#
 foreach(var newJob in newJobs)
 {
-	log.LogInformation($"Adding to the queue: {newJob.Url}");
-	await outputSbQueue.AddAsync(SerializeToJson(newJob));
+    log.LogInformation($"Adding to the queue: {newJob.Url}");
+    await outputSbQueue.AddAsync(SerializeToJson(newJob));
 }
 ```
 
@@ -230,14 +230,14 @@ Adding your sink to the Scraper is simple, just call AddSink method on the Scrap
 
 ```C#
 scraper = new Scraper()
-	.AddSink(new ConsoleSink());
-	.WithStartUrl("https://rutracker.org/forum/index.php?c=33")
-	.FollowLinks("#cf-33 .forumlink>a")
-	.FollowLinks(".forumlink>a")
-	.FollowLinks("a.torTopic", ".pg")
-	.Parse(new Schema {
-		new("name", "#topic-title"),
-	});
+    .AddSink(new ConsoleSink());
+    .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
+    .FollowLinks("#cf-33 .forumlink>a")
+    .FollowLinks(".forumlink>a")
+    .FollowLinks("a.torTopic", ".pg")
+    .Parse(new Schema {
+        new("name", "#topic-title"),
+    });
 ```
 
 For other ways to extend your functionality see the next section.
