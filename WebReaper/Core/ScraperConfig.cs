@@ -9,5 +9,5 @@ public record ScraperConfig(
     ImmutableQueue<LinkPathSelector> LinkPathSelectors,
     string StartUrl,
     PageType StartPageType = PageType.Static,
-    string? initialScript = null
+    string? Script = null
 );

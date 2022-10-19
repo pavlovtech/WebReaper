@@ -40,7 +40,7 @@ public class AzureServiceBusScheduler : IScheduler
         return job;
     }
 
-    public async IAsyncEnumerable<Job> GetAllAsync([EnumeratorCancellation]CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<Job> GetAllAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         await foreach (var msg in receiver.ReceiveMessagesAsync(cancellationToken))
         {

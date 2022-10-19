@@ -31,7 +31,7 @@ namespace WebReaper.ConsoleApplication
             ConsoleColor originalColor = Console.ForegroundColor;
 
             Console.ForegroundColor = LogLevelToColorMap[logLevel];
-            Console.WriteLine($"[{eventId.Id,2}: {logLevel,-12}]");
+            Console.Write($"[ {logLevel} ] ");
 
             Console.ForegroundColor = LogLevelToColorMap[logLevel];
             Console.Write($"{formatter(state, exception)}");
