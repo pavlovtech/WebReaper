@@ -282,7 +282,8 @@ For other ways to extend your functionality see the next section.
 - [X] Azure functions for the distributed crawling
 - [X] Parsing lists
 - [X] Loading pages with headless browser and flexible SPA page manipulations (clicks, scrolls, etc)
-- [X] Add flexible conditions for ignoring or allowing certain pages
+- [ ] Add flexible conditions for ignoring or allowing certain pages
+- [ ] Breadth first traversal with priprity channels
 - [ ] Save auth cookies to redis
 - [ ] Rest API example for web craping
 - [ ] Proxy support
