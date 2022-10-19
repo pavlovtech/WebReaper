@@ -120,9 +120,9 @@ scraper = new Scraper()
 	.WithStartUrl("https://rutracker.org/forum/index.php?c=33")
 	.Authorize(() =>
 	{
-	var container = new CookieContainer();
-	container.Add(new Cookie("AuthToken", "123");
-	return container;
+		var container = new CookieContainer();
+		container.Add(new Cookie("AuthToken", "123");
+		return container;
 	})
 ```
 
