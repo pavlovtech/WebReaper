@@ -116,14 +116,14 @@ If you need to pass authorization before parsing the web site, you can call Auth
 
 ```C#
 scraper = new Scraper()
-            .WithLogger(logger)
-            .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
-            .Authorize(() =>
-            {
-                var container = new CookieContainer();
-                container.Add(new Cookie("AuthToken", "123");
-                return container;
-            })
+	.WithLogger(logger)
+	.WithStartUrl("https://rutracker.org/forum/index.php?c=33")
+	.Authorize(() =>
+	{
+	var container = new CookieContainer();
+	container.Add(new Cookie("AuthToken", "123");
+	return container;
+	})
 ```
 
 ### Distributed web scraping with Serverless approach
@@ -230,14 +230,14 @@ Adding your sink to the Scraper is simple, just call AddSink method on the Scrap
 
 ```C#
 scraper = new Scraper()
-	    .AddSink(new ConsoleSink());
-            .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
-            .FollowLinks("#cf-33 .forumlink>a")
-            .FollowLinks(".forumlink>a")
-            .FollowLinks("a.torTopic", ".pg")
-            .Parse(new Schema {
-                new("name", "#topic-title"),
-            });
+	.AddSink(new ConsoleSink());
+	.WithStartUrl("https://rutracker.org/forum/index.php?c=33")
+	.FollowLinks("#cf-33 .forumlink>a")
+	.FollowLinks(".forumlink>a")
+	.FollowLinks("a.torTopic", ".pg")
+	.Parse(new Schema {
+		new("name", "#topic-title"),
+	});
 ```
 
 For other ways to extend your functionality see the next section.
