@@ -54,7 +54,6 @@ public class Scraper
     public Scraper WithLogger(ILogger logger)
     {
         SpiderBuilder.WithLogger(logger);
-        ConfigBuilder.WithLogger(logger);
 
         Logger = logger;
 

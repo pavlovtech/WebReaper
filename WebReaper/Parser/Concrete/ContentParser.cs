@@ -77,7 +77,7 @@ namespace WebReaper.Parser.Concrete
                         result[item.Field] = float.Parse(data);
                         break;
                     case DataType.List:
-                        result[item.Field] = new JArray(data.Split("~"));
+                        result[item.Field] = new JArray(data.Split("~")); // TODO: find a better way
                         break;
                 }
             }
