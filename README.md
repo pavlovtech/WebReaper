@@ -87,12 +87,12 @@ scraper = new Scraper()
     .FollowLinks(".forumlink>a", PageType.Dynamic)
     .FollowLinks("a.torTopic", ".pg", PageType.Dynamic)
     .Parse(new Schema {
-	new("name", "#topic-title"),
+	    new("name", "#topic-title"),
         new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
         new("subcategory", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(5)"),
         new("torrentSize", "div.attach_link.guest>ul>li:nth-child(2)"),
         new Url("torrentLink", ".magnet-link"),
-	new Image("coverImageUrl", ".postImg")
+	    new Image("coverImageUrl", ".postImg")
      })
     .WriteToJsonFile("result.json")
     .WriteToCsvFile("result.csv")
@@ -133,70 +133,18 @@ In the Examples folder you can find the project called WebReaper.AzureFuncs. It 
 #### StartScrapting
 First of all, this function uses ScraperConfigBuilder to build the scraper configuration e. g.:
 
-```C#
-var config = new ScraperConfigBuilder()
-    .WithLogger(_logger)
-    .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
-    .FollowLinks("#cf-33 .forumlink>a")
-    .FollowLinks(".forumlink>a")
-    .FollowLinks("a.torTopic", ".pg")
-    .WithScheme(new Schema
-    {
-        new("name", "#topic-title"),
-        new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
-        new("subcategory", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(5)"),
-        new("torrentSize", "div.attach_link.guest>ul>li:nth-child(2)"),
-        new Url("torrentLink", ".magnet-link"),
-        new Image("coverImageUrl", ".postImg")
-    })
-    .Build();
-```
-
 Secondly, this function writes the first web scraping job with startUrl to the Azure Service Bus queue:
 
-```C#
-var jobQueueWriter = new AzureJobQueueWriter("connectionString", "jobqueue");
-
-await jobQueueWriter.WriteAsync(new Job(
-config.ParsingScheme!,
-config.BaseUrl,
-config.StartUrl!,
-ImmutableQueue.Create(config.LinkPathSelectors.ToArray()),
-DepthLevel: 0));
-```
 
 #### WebReaperSpider
 
 This Azure function is triggered by messages sent to the Azure Service Bus queue. Messages represent web scraping job. 
 
-Firstly, this function builds the spider that is going to execute the job from the queue:
+Firstly, this function builds the spider that is going to execute the job from the queue.
 
-```C#
-var spiderBuilder = new SpiderBuilder()
-    .WithLogger(log)
-    .IgnoreUrls(blackList)
-    .WithLinkTracker(LinkTracker)
-    .AddSink(CosmosSink)
-    .Build();
-```
+Secondly, it executes the job by loading the page, parsing content, saving to the database, etc.
 
-Secondly, it executes the job by loading the page, parsing content, saving to the database, etc:
-
-```C#
-var newJobs = await spiderBuilder.CrawlAsync(job);
-```
-
-CrawlAsync method returns new jobs that are produced as a result of handling the current job.
-
-Finally, it iterates through these new jobs and sends them the the Job queue:
-
-```C#
-foreach(var newJob in newJobs)
-{
-    log.LogInformation($"Adding to the queue: {newJob.Url}");
-    await outputSbQueue.AddAsync(SerializeToJson(newJob));
-}
-```
+Finally, it iterates through these new jobs and sends them the the Job queue.
 
 ### Extensibility
 
@@ -246,8 +194,7 @@ For other ways to extend your functionality see the next section.
 
 | Interface           | Description                                                                                                                                               |
 | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| IJobQueueReader     | Reading from the job queue. By default, the in-memory queue is used, but you can provider your implementation for RabbitMQ, Azure Service Bus queue, etc. |
-| IJobQueueWriter     | Writing to the job queue. By default, the in-memory queue is used, but you can provider your implementation for RabbitMQ, Azure Service Bus queue, etc.   |
+| IScheduler          | Reading and writing from the job queue. By default, the in-memory queue is used, but you can provider your implementation                                 |
 | ICrawledLinkTracker | Tracker of visited links. A default implementation is an in-memory tracker. You can provide your own for Redis, MongoDB, etc.                             |
 | IPageLoader         | Loader that takes URL and returns HTML of the page as a string                                                                                            |
 | IContentParser      | Takes HTML and schema and returns JSON representation (JObject).                                                                                          |
@@ -256,23 +203,18 @@ For other ways to extend your functionality see the next section.
 | ISpider             | A spider that does the crawling, parsing, and saving of the data                                                                                          |
 
 ### Main entities
+
 * Job - a record that represends a job for the spider
 * LinkPathSelector - represents a selector for links to be crawled
-* PageCategory enum. Calculated automatically based on job's fields. Possible values:
-    * TransitPage any page on the path to target page that you want to parse
-    * PageWithPagination - page with pagination such as a catalog of goods, blog posts with pagination, etc
-    * TargetPage - page that you want to scrape and save the result
-
-
 
 ## Repository structure
 
-| Project                         | Description                                                                                                                                     |
-| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| WebReaper.Core                  | Library for web scraping                                                  |
-| ScraperWorkerService            | Example of using WebReaper library in a Worker Service .NET project.                                                                            |
-| DistributedScraperWorkerService | Example of using WebReaper library in a distributed way wih Azure Service Bus                                                                   |
-| WebReaper.AzureFuncs            | Example of using WebReaper library with serverless approach using Azure Functions                                                               |
+| Project                                   | Description                                                                       |
+| ----------------------------------------- | --------------------------------------------------------------------------------- |
+| WebReaper                                 | Library for web scraping                                                          |
+| WebReaper.ScraperWorkerService            | Example of using WebReaper library in a Worker Service .NET project.              |
+| WebReaper.DistributedScraperWorkerService | Example of using WebReaper library in a distributed way wih Azure Service Bus     |
+| WebReaper.AzureFuncs                      | Example of using WebReaper library with serverless approach using Azure Functions |
 
 
 
