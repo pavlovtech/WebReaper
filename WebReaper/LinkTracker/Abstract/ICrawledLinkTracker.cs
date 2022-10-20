@@ -2,9 +2,9 @@ namespace WebReaper.LinkTracker.Abstract
 {
     public interface ICrawledLinkTracker
     {
-        Task AddVisitedLinkAsync(string siteUrl, string visitedLink);
-        Task<IEnumerable<string>> GetVisitedLinksAsync(string siteName);
-        Task<IEnumerable<string>> GetNotVisitedLinks(string siteUrl, IEnumerable<string> links);
-        Task<long> GetVisitedLinksCount(string siteUrl);
+        Task AddVisitedLinkAsync(string siteId, string visitedLink);
+        Task<IEnumerable<string>> GetVisitedLinksAsync(string siteId);
+        Task<IEnumerable<string>> GetNotVisitedLinks(string siteId, IEnumerable<string> links);
+        Task<long> GetVisitedLinksCount(string siteId);
     }
 }
