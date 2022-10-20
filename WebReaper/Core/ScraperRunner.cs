@@ -69,5 +69,10 @@ public class ScraperRunner
             Logger.LogWarning(ex, "Shutting down due to cancellation");
             return;
         }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Shutting down due to unhandled exception");
+            throw;
+        }
     }
 }
