@@ -2,7 +2,7 @@
 using WebReaper.Core;
 using WebReaper.Domain.Parsing;
 
-var webReaper = new Scraper()
+var webReaper = new Scraper("reddit")
     .WithStartUrl("https://www.reddit.com/r/dotnet/")
     .FollowLinks("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
     .Parse(new Schema

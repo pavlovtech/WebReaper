@@ -7,9 +7,9 @@ public class InMemoryCrawledLinkTracker : ICrawledLinkTracker
 {
     protected ConcurrentDictionary<string, ConcurrentBag<string>> visitedUrlsPerSite = new();
 
-    public Task AddVisitedLinkAsync(string siteUrl, string visitedLink)
+    public Task AddVisitedLinkAsync(string siteId, string visitedLink)
     {
-        var alreadyExists = visitedUrlsPerSite.TryGetValue(siteUrl, out var visitedSiteUrls);
+        var alreadyExists = visitedUrlsPerSite.TryGetValue(siteId, out var visitedSiteUrls);
 
         if (alreadyExists)
         {
@@ -20,7 +20,7 @@ public class InMemoryCrawledLinkTracker : ICrawledLinkTracker
         }
         else
         {
-            visitedUrlsPerSite.TryAdd(siteUrl, new ConcurrentBag<string>
+            visitedUrlsPerSite.TryAdd(siteId, new ConcurrentBag<string>
             {
                 visitedLink
             });
@@ -29,24 +29,24 @@ public class InMemoryCrawledLinkTracker : ICrawledLinkTracker
         return Task.CompletedTask;
     }
 
-    public Task<IEnumerable<string>> GetVisitedLinksAsync(string siteUrl)
+    public Task<IEnumerable<string>> GetVisitedLinksAsync(string siteId)
     {
-        var successful = visitedUrlsPerSite.TryGetValue(siteUrl, out var result);
+        var successful = visitedUrlsPerSite.TryGetValue(siteId, out var result);
 
         var visited = successful ? result! : Enumerable.Empty<string>();
 
         return Task.FromResult(visited);
     }
 
-    public async Task<IEnumerable<string>> GetNotVisitedLinks(string siteUrl, IEnumerable<string> links)
+    public async Task<IEnumerable<string>> GetNotVisitedLinks(string siteId, IEnumerable<string> links)
     {
-        var visited = await GetVisitedLinksAsync(siteUrl);
+        var visited = await GetVisitedLinksAsync(siteId);
         return links.Except(visited);
     }
 
-    public Task<long> GetVisitedLinksCount(string siteUrl)
+    public Task<long> GetVisitedLinksCount(string siteId)
     {
-        var successful = visitedUrlsPerSite.TryGetValue(siteUrl, out var result);
+        var successful = visitedUrlsPerSite.TryGetValue(siteId, out var result);
 
         if (!successful)
         {
