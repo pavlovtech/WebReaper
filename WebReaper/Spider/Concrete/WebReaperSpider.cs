@@ -54,7 +54,7 @@ public class WebReaperSpider : ISpider
     {
         if (UrlBlackList.Contains(job.Url)) return Enumerable.Empty<Job>();
 
-        if (await LinkTracker.GetVisitedLinksCount(job.GlobalId) >= PageCrawlLimit)
+        if (await LinkTracker.GetVisitedLinksCount(job.SiteId) >= PageCrawlLimit)
         {
             throw new PageCrawlLimitException("Page crawl limit has been reached.") 
             {
@@ -62,7 +62,7 @@ public class WebReaperSpider : ISpider
             };
         }
 
-        await LinkTracker.AddVisitedLinkAsync(job.GlobalId, job.Url);
+        await LinkTracker.AddVisitedLinkAsync(job.SiteId, job.Url);
 
         string doc;
 
@@ -94,7 +94,7 @@ public class WebReaperSpider : ISpider
         var rawLinks = LinkParser.GetLinks(new Uri(job.Url), doc, currentSelector.Selector).ToList();
 
         var links = rawLinks
-            .Except(await LinkTracker.GetVisitedLinksAsync(job.GlobalId));
+            .Except(await LinkTracker.GetVisitedLinksAsync(job.SiteId));
 
         var newJobs = new List<Job>();
 
@@ -111,7 +111,7 @@ public class WebReaperSpider : ISpider
                 Logger.LogInformation("No pages with pagination found with selector {selector} on {url}", currentSelector.PaginationSelector, job.Url);
             }
 
-            var linksToPaginatedPages = await LinkTracker.GetNotVisitedLinks(job.GlobalId, rawPaginatedLinks);
+            var linksToPaginatedPages = await LinkTracker.GetNotVisitedLinks(job.SiteId, rawPaginatedLinks);
 
             newJobs.AddRange(CreateNextJobs(job, currentSelector, job.LinkPathSelectors, linksToPaginatedPages));
         }
