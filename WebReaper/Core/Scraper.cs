@@ -21,11 +21,11 @@ public class Scraper
 
     protected IScheduler Scheduler = new InMemoryScheduler();
 
-    public string GlobalId { get; }
+    public string SiteId { get; }
 
-    public Scraper(string globalId)
+    public Scraper(string siteId)
     {
-        GlobalId = globalId;
+        SiteId = siteId;
     }
 
     public Scraper AddSink(IScraperSink sink)
@@ -152,7 +152,7 @@ public class Scraper
         var config = ConfigBuilder.Build();
         var spider = SpiderBuilder.Build();
 
-        var runner = new ScraperRunner(GlobalId, config, Scheduler, spider, Logger);
+        var runner = new ScraperRunner(SiteId, config, Scheduler, spider, Logger);
 
         await runner.Run(parallelismDegree, cancellationToken);
     }

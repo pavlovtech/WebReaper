@@ -57,7 +57,7 @@ namespace WebReaper.IntegrationTests
 
             _ = scraper.Run(1);
 
-            await Task.Delay(10000);
+            await Task.Delay(20000);
 
             Assert.NotEmpty(result);
         }
