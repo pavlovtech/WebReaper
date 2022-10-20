@@ -10,16 +10,19 @@ namespace WebReaper.Core;
 public class ScraperRunner
 {
     public ScraperConfig Config { get; init; }
+    public string GlobalId { get; }
     public IScheduler Scheduler { get; init; }
     public ISpider Spider { get; init; }
     public ILogger Logger { get; init; }
       
     public ScraperRunner(
+        string globalId,
         ScraperConfig config,
         IScheduler jobScheduler,
         ISpider spider,
         ILogger logger)
     {
+        GlobalId = globalId;
         Scheduler = jobScheduler;
         Config = config;
         Spider = spider;
@@ -29,13 +32,14 @@ public class ScraperRunner
     public async Task Run(int parallelismDegree, CancellationToken cancellationToken = default)
     {
         await Scheduler.AddAsync(new Job(
+            GlobalId,
             Config.ParsingScheme!,
             Config.StartUrl!,
             Config.LinkPathSelectors,
             Config.StartPageType,
             Config.Script), cancellationToken);
 
-        var options = new ParallelOptions { MaxDegreeOfParallelism = parallelismDegree, CancellationToken = cancellationToken };
+        var options = new ParallelOptions { MaxDegreeOfParallelism = parallelismDegree };
 
         try
         {
@@ -45,10 +49,13 @@ public class ScraperRunner
                 {
                     var newJobs = await Executor.RetryAsync(() => Spider.CrawlAsync(job, cancellationToken));
                     await Scheduler.AddAsync(newJobs, cancellationToken);
+
+                    int[] ids = new[] { 1, 2, 3, 4, 5 };
+                    await Parallel.ForEachAsync(ids, async (i,token) => await Task.Delay(1));
                 }
                 catch (Exception ex)
                 {
-                    Logger.LogError(ex, "Falind during scraping {job}", job.ToString());
+                    Logger.LogError(ex, "Failed during scraping {job}", job.ToString());
                 }
             });
         }
@@ -61,6 +68,11 @@ public class ScraperRunner
         {
             Logger.LogWarning(ex, "Shutting down due to cancellation");
             return;
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Shutting down due to unhandled exception");
+            throw;
         }
     }
 }

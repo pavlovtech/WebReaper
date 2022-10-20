@@ -17,7 +17,7 @@ public class ScrapingWorker : BackgroundService
             "https://rutracker.org/forum/viewforum.php?f=2321"
         };
 
-        scraper = new Scraper()
+        scraper = new Scraper("rutracker")
             .WithLogger(logger)
             .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
             .FollowLinks("#cf-33 .forumlink>a")

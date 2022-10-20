@@ -21,6 +21,13 @@ public class Scraper
 
     protected IScheduler Scheduler = new InMemoryScheduler();
 
+    public string SiteId { get; }
+
+    public Scraper(string siteId)
+    {
+        SiteId = siteId;
+    }
+
     public Scraper AddSink(IScraperSink sink)
     {
         SpiderBuilder.AddSink(sink);
@@ -140,12 +147,12 @@ public class Scraper
     public async Task Run(
         int parallelismDegree,
         CancellationToken cancellationToken = default
-     )
+    )
     {
         var config = ConfigBuilder.Build();
         var spider = SpiderBuilder.Build();
 
-        var runner = new ScraperRunner(config, Scheduler, spider, Logger);
+        var runner = new ScraperRunner(SiteId, config, Scheduler, spider, Logger);
 
         await runner.Run(parallelismDegree, cancellationToken);
     }
