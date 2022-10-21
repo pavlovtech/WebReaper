@@ -19,7 +19,9 @@ namespace WebReaper.Loaders.Concrete
         protected async Task<HttpClient> CreateClient()
         {
             var handler = await GetHttpHandler();
-            return new HttpClient(handler);
+            var client = new HttpClient(handler);
+            client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/535.7 (KHTML, like Gecko) Comodo_Dragon/16.1.1.0 Chrome/16.0.912.63 Safari/535.7");
+            return client;
         }
 
         public async Task<SocketsHttpHandler> GetHttpHandler()
