@@ -3,7 +3,7 @@ using Newtonsoft.Json.Linq;
 using System.Net;
 using WebReaper.Proxy.Abstract;
 
-namespace WebReaper.Proxy.Concrete
+namespace WebReaper.Proxy.Concrete.WebShareProxy
 {
 
     public class WebShareProxyProvider : IProxyProvider
@@ -12,9 +12,29 @@ namespace WebReaper.Proxy.Concrete
         private readonly string getProxiesUrl = "https://proxy.webshare.io/api/proxy/list/";
         static readonly HttpClient client = new HttpClient();
 
-        public WebProxy GetProxy()
+        private List<WebProxy> webProxies = new List<WebProxy>();
+        private Random rnd = new Random();
+
+        public Task Initialization { get; private set; }
+
+        public WebShareProxyProvider()
         {
-            throw new NotImplementedException();
+            Initialization = InitAsync();
+        }
+
+        async Task InitAsync()
+        {
+            var proxies = await GetWebProxies();
+            webProxies.AddRange(proxies);
+        }
+
+        public async Task<IWebProxy> GetProxyAsync()
+        {
+            await Initialization;
+
+            int index = rnd.Next(0, webProxies.Count);
+
+            return webProxies[index];
         }
 
         private async Task<List<Proxy>> GetProxies()
@@ -37,7 +57,7 @@ namespace WebReaper.Proxy.Concrete
             return proxies;
         }
 
-        private async Task<IEnumerable<WebProxy>> GetWebProxies()
+        private async Task<List<WebProxy>> GetWebProxies()
         {
             var proxiesRaw = await GetProxies();
 
@@ -53,7 +73,7 @@ namespace WebReaper.Proxy.Concrete
                 password: p.Password)
             });
 
-            return proxies;
+            return proxies.ToList();
         }
     }
 }

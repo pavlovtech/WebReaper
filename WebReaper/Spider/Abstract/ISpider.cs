@@ -2,6 +2,7 @@ using Newtonsoft.Json.Linq;
 using WebReaper.Domain;
 using WebReaper.LinkTracker.Abstract;
 using WebReaper.Loaders.Abstract;
+using WebReaper.Loaders.Concrete;
 using WebReaper.Parser.Abstract;
 using WebReaper.Sinks.Abstract;
 
