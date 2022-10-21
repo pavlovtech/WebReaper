@@ -1,0 +1,493 @@
+2022-10-22 00:50:52.764 +03:00 [INF] Worker running at: "2022-10-22T00:50:52.7543047+03:00"
+2022-10-22 00:50:52.843 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-10-22 00:50:52.845 +03:00 [INF] Hosting environment: Development
+2022-10-22 00:50:52.846 +03:00 [INF] Content root path: C:\Projects\brownsfashion\BrownsfashionScraper\BrownsfashionScraper
+2022-10-22 00:50:53.857 +03:00 [INF] Worker running at: "2022-10-22T00:50:53.8570767+03:00"
+2022-10-22 00:50:54.863 +03:00 [INF] Worker running at: "2022-10-22T00:50:54.8639546+03:00"
+2022-10-22 01:02:20.124 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-10-22 01:02:20.211 +03:00 [INF] Hosting environment: Development
+2022-10-22 01:02:20.215 +03:00 [INF] Content root path: C:\Projects\brownsfashion\BrownsfashionScraper\BrownsfashionScraper
+2022-10-22 01:02:22.065 +03:00 [ERR] Failed to load page https://www.brownsfashion.com/ua/shopping/man-clothing. Error code: "Forbidden"
+2022-10-22 01:02:22.074 +03:00 [INF] Load finished in 1900 ms
+2022-10-22 01:02:22.097 +03:00 [ERR] Failed to load page https://www.brownsfashion.com/ua/shopping/man-clothing. Error code: "Forbidden"
+2022-10-22 01:02:22.099 +03:00 [INF] Load finished in 17 ms
+2022-10-22 01:02:22.117 +03:00 [ERR] Failed to load page https://www.brownsfashion.com/ua/shopping/man-clothing. Error code: "Forbidden"
+2022-10-22 01:02:22.120 +03:00 [INF] Load finished in 17 ms
+2022-10-22 01:02:22.143 +03:00 [ERR] Failed to load page https://www.brownsfashion.com/ua/shopping/man-clothing. Error code: "Forbidden"
+2022-10-22 01:02:22.146 +03:00 [INF] Load finished in 22 ms
+2022-10-22 01:02:22.156 +03:00 [ERR] Failed during scraping Job { SiteId = Brownsfashion, Schema = Schema { Field = , Selector = , Type = , Children = System.Collections.Generic.List`1[WebReaper.Domain.Parsing.SchemaElement], Count = 3, IsReadOnly = False }, Url = https://www.brownsfashion.com/ua/shopping/man-clothing, LinkPathSelectors = System.Collections.Immutable.ImmutableQueue`1[WebReaper.Domain.Selectors.LinkPathSelector], PageType = Static, Script = , PageCategory = PageWithPagination }
+System.InvalidOperationException: Failed to load page https://www.brownsfashion.com/ua/shopping/man-clothing. Error code: Forbidden
+   at WebReaper.Loaders.Concrete.HttpStaticPageLoader.Load(String url)
+   at WebReaper.Spider.Concrete.WebReaperSpider.CrawlAsync(Job job, CancellationToken cancellationToken)
+   at WebReaper.Infra.Executor.<>c__DisplayClass8_0`1.<<RetryAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Polly.Retry.AsyncRetryEngine.ImplementationAsync[TResult](Func`3 action, Context context, CancellationToken cancellationToken, ExceptionPredicates shouldRetryExceptionPredicates, ResultPredicates`1 shouldRetryResultPredicates, Func`5 onRetryAsync, Int32 permittedRetryCount, IEnumerable`1 sleepDurationsEnumerable, Func`4 sleepDurationProvider, Boolean continueOnCapturedContext)
+   at Polly.AsyncPolicy.ExecuteAsync[TResult](Func`3 action, Context context, CancellationToken cancellationToken, Boolean continueOnCapturedContext)
+   at WebReaper.Infra.Executor.RetryAsync[T](Func`1 func)
+   at WebReaper.Core.ScraperRunner.<>c__DisplayClass20_0.<<Run>b__0>d.MoveNext()
+2022-10-22 01:02:57.495 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-10-22 01:02:57.601 +03:00 [INF] Hosting environment: Development
+2022-10-22 01:02:57.606 +03:00 [INF] Content root path: C:\Projects\brownsfashion\BrownsfashionScraper\BrownsfashionScraper
+2022-10-22 01:03:02.177 +03:00 [INF] Load finished in 4588 ms
+2022-10-22 01:03:02.373 +03:00 [INF] No pages with pagination found with selector .AlEkI on https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:04:28.076 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-10-22 01:04:28.223 +03:00 [INF] Hosting environment: Development
+2022-10-22 01:04:28.229 +03:00 [INF] Content root path: C:\Projects\brownsfashion\BrownsfashionScraper\BrownsfashionScraper
+2022-10-22 01:04:30.354 +03:00 [INF] Load finished in 2201 ms
+2022-10-22 01:04:30.503 +03:00 [INF] No pages with pagination found with selector .AlEkI on https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:18:03.119 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-10-22 01:18:12.760 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:18:12.793 +03:00 [INF] Hosting environment: Development
+2022-10-22 01:18:15.789 +03:00 [INF] Content root path: C:\Projects\WebReaper\Examples\BrownsfashionScraper
+2022-10-22 01:22:59.660 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-10-22 01:23:03.035 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:23:03.088 +03:00 [INF] Hosting environment: Development
+2022-10-22 01:23:03.090 +03:00 [INF] Content root path: C:\Projects\WebReaper\Examples\BrownsfashionScraper
+2022-10-22 01:23:03.588 +03:00 [INF] Load finished in 469 ms
+2022-10-22 01:23:03.679 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:23:04.052 +03:00 [INF] Load finished in 370 ms
+2022-10-22 01:23:04.143 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:23:04.522 +03:00 [INF] Load finished in 377 ms
+2022-10-22 01:23:04.607 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:23:04.921 +03:00 [INF] Load finished in 312 ms
+2022-10-22 01:23:05.127 +03:00 [ERR] Failed during scraping Job { SiteId = Brownsfashion, Schema = Schema { Field = , Selector = , Type = , Children = System.Collections.Generic.List`1[WebReaper.Domain.Parsing.SchemaElement], Count = 3, IsReadOnly = False }, Url = https://www.brownsfashion.com/ua/shopping/man-clothing, LinkPathSelectors = System.Collections.Immutable.ImmutableQueue`1[WebReaper.Domain.Selectors.LinkPathSelector], PageType = Dynamic, Script = , PageCategory = PageWithPagination }
+PuppeteerSharp.ProcessException: Failed to launch browser! [14468:13140:1022/012304.711:ERROR:resource_bundle.cc(983)] Failed to load C:\Users\alexp\AppData\Local\Temp\Win64-970485\chrome-win\chrome_100_percent.pak
+Some features may not be available.
+[14468:13140:1022/012304.711:FATAL:chrome_resource_bundle_helper.cc(102)] Check failed: !actual_locale.empty(). Locale could not be found for 
+Backtrace:
+	GetMainTargetServices [0x00007FFEF2CEC262+1161602]
+	GetMainTargetServices [0x00007FFEF2C60892+589746]
+	GetMainTargetServices [0x00007FFEF2C71027+657223]
+	GetMainTargetServices [0x00007FFEF2C72140+661600]
+	GetMainTargetServices [0x00007FFEF2C13BFC+275228]
+	ChromeMain [0x00007FFEEFC51619+1401]
+	ovly_debug_event [0x00007FFEF19D6A35+30950005]
+	ovly_debug_event [0x00007FFEF19D68DB+30949659]
+	ovly_debug_event [0x00007FFEF19D53EF+30944303]
+	ovly_debug_event [0x00007FFEF19D57C5+30945285]
+	ChromeMain [0x00007FFEEFC51294+500]
+	GetPakFileHashes [0x00007FF6BF5F26ED+5869]
+	GetPakFileHashes [0x00007FF6BF5F1A8D+2701]
+	GetHandleVerifier [0x00007FF6BF7557A2+949714]
+	BaseThreadInitThunk [0x00007FF80B5054E0+16]
+	RtlUserThreadStart [0x00007FF80B84485B+43]
+Crash keys:
+  "gwp-asan-malloc" = "646e002e8540"
+  "variations" = "8d569531-27a0c3c6,69d4ebd5-3f4a17df,"
+  "num-experiments" = "2"
+  "switch-27" = "about:blank"
+  "switch-26" = "--user-data-dir=C:\Users\alexp\AppData\Local\Temp\klg20jat.zgi"
+  "switch-25" = "--remote-debugging-port=0"
+  "switch-24" = "--enable-blink-features=IdleDetection"
+  "switch-23" = "--use-mock-keychain"
+  "switch-22" = "--password-store=basic"
+  "switch-21" = "--enable-automation"
+  "switch-20" = "--no-first-run"
+  "switch-19" = "--metrics-recording-only"
+  "switch-18" = "--force-color-profile=srgb"
+  "switch-17" = "--disable-sync"
+  "switch-16" = "--disable-renderer-backgrounding"
+  "switch-15" = "--disable-prompt-on-repost"
+  "switch-14" = "--disable-popup-blocking"
+  "switch-13" = "--disable-ipc-flooding-protection"
+  "switch-12" = "--disable-hang-monitor"
+  "switch-11" = "--disable-features=Translate"
+  "switch-10" = "--disable-extensions"
+  "switch-9" = "--disable-dev-shm-usage"
+  "switch-8" = "--disable-default-apps"
+  "switch-7" = "--disable-component-extensions-with-background-pages"
+  "switch-6" = "--disable-client-side-phishing-detection"
+  "switch-5" = "--disable-breakpad"
+  "switch-4" = "--disable-backgrounding-occluded-windows"
+  "switch-3" = "--disable-background-timer-throttling"
+  "switch-2" = "--enable-features=NetworkService,NetworkServiceInProcess"
+  "switch-1" = "--disable-background-networking"
+  "num-switches" = "27"
+
+
+   at PuppeteerSharp.States.ChromiumStartingState.StartCoreAsync(LauncherBase p) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\States\ChromiumStartingState.cs:line 83
+   at PuppeteerSharp.States.ChromiumStartingState.StartCoreAsync(LauncherBase p)
+   at PuppeteerSharp.Launcher.LaunchAsync(LaunchOptions options) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\Launcher.cs:line 61
+   at PuppeteerSharp.Launcher.LaunchAsync(LaunchOptions options) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\Launcher.cs:line 84
+   at WebReaper.Loaders.Concrete.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\Concrete\PuppeteerPageLoader.cs:line 35
+   at WebReaper.Spider.Concrete.WebReaperSpider.CrawlAsync(Job job, CancellationToken cancellationToken) in C:\Projects\WebReaper\WebReaper\Spider\Concrete\WebReaperSpider.cs:line 80
+   at WebReaper.Infra.Executor.<>c__DisplayClass8_0`1.<<RetryAsync>b__0>d.MoveNext() in C:\Projects\WebReaper\WebReaper\Infra\Executor.cs:line 12
+--- End of stack trace from previous location ---
+   at Polly.Retry.AsyncRetryEngine.ImplementationAsync[TResult](Func`3 action, Context context, CancellationToken cancellationToken, ExceptionPredicates shouldRetryExceptionPredicates, ResultPredicates`1 shouldRetryResultPredicates, Func`5 onRetryAsync, Int32 permittedRetryCount, IEnumerable`1 sleepDurationsEnumerable, Func`4 sleepDurationProvider, Boolean continueOnCapturedContext)
+   at Polly.AsyncPolicy.ExecuteAsync[TResult](Func`3 action, Context context, CancellationToken cancellationToken, Boolean continueOnCapturedContext)
+   at WebReaper.Infra.Executor.RetryAsync[T](Func`1 func) in C:\Projects\WebReaper\WebReaper\Infra\Executor.cs:line 12
+   at WebReaper.Core.ScraperRunner.<>c__DisplayClass20_0.<<Run>b__0>d.MoveNext() in C:\Projects\WebReaper\WebReaper\Core\ScraperRunner.cs:line 50
+2022-10-22 01:23:27.927 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-10-22 01:23:27.958 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:23:28.000 +03:00 [INF] Hosting environment: Development
+2022-10-22 01:23:28.001 +03:00 [INF] Content root path: C:\Projects\WebReaper\Examples\BrownsfashionScraper
+2022-10-22 01:23:28.524 +03:00 [INF] Load finished in 494 ms
+2022-10-22 01:23:28.648 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:23:29.109 +03:00 [INF] Load finished in 458 ms
+2022-10-22 01:23:29.221 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:23:29.679 +03:00 [INF] Load finished in 455 ms
+2022-10-22 01:23:29.784 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:23:30.123 +03:00 [INF] Load finished in 337 ms
+2022-10-22 01:23:30.338 +03:00 [ERR] Failed during scraping Job { SiteId = Brownsfashion, Schema = Schema { Field = , Selector = , Type = , Children = System.Collections.Generic.List`1[WebReaper.Domain.Parsing.SchemaElement], Count = 3, IsReadOnly = False }, Url = https://www.brownsfashion.com/ua/shopping/man-clothing, LinkPathSelectors = System.Collections.Immutable.ImmutableQueue`1[WebReaper.Domain.Selectors.LinkPathSelector], PageType = Dynamic, Script = , PageCategory = PageWithPagination }
+PuppeteerSharp.ProcessException: Failed to launch browser! [20112:17264:1022/012329.912:ERROR:resource_bundle.cc(983)] Failed to load C:\Users\alexp\AppData\Local\Temp\Win64-970485\chrome-win\chrome_100_percent.pak
+Some features may not be available.
+[20112:17264:1022/012329.913:FATAL:chrome_resource_bundle_helper.cc(102)] Check failed: !actual_locale.empty(). Locale could not be found for 
+Backtrace:
+	GetMainTargetServices [0x00007FFEF2CEC262+1161602]
+	GetMainTargetServices [0x00007FFEF2C60892+589746]
+	GetMainTargetServices [0x00007FFEF2C71027+657223]
+	GetMainTargetServices [0x00007FFEF2C72140+661600]
+	GetMainTargetServices [0x00007FFEF2C13BFC+275228]
+	ChromeMain [0x00007FFEEFC51619+1401]
+	ovly_debug_event [0x00007FFEF19D6A35+30950005]
+	ovly_debug_event [0x00007FFEF19D68DB+30949659]
+	ovly_debug_event [0x00007FFEF19D53EF+30944303]
+	ovly_debug_event [0x00007FFEF19D57C5+30945285]
+	ChromeMain [0x00007FFEEFC51294+500]
+	GetPakFileHashes [0x00007FF6BF5F26ED+5869]
+	GetPakFileHashes [0x00007FF6BF5F1A8D+2701]
+	GetHandleVerifier [0x00007FF6BF7557A2+949714]
+	BaseThreadInitThunk [0x00007FF80B5054E0+16]
+	RtlUserThreadStart [0x00007FF80B84485B+43]
+Crash keys:
+  "gwp-asan-partitionalloc" = "590002e88c0"
+  "gwp-asan-malloc" = "590002e8540"
+  "variations" = "8d569531-27a0c3c6,69d4ebd5-3f4a17df,"
+  "num-experiments" = "2"
+  "switch-27" = "about:blank"
+  "switch-26" = "--user-data-dir=C:\Users\alexp\AppData\Local\Temp\13vpoaul.zfs"
+  "switch-25" = "--remote-debugging-port=0"
+  "switch-24" = "--enable-blink-features=IdleDetection"
+  "switch-23" = "--use-mock-keychain"
+  "switch-22" = "--password-store=basic"
+  "switch-21" = "--enable-automation"
+  "switch-20" = "--no-first-run"
+  "switch-19" = "--metrics-recording-only"
+  "switch-18" = "--force-color-profile=srgb"
+  "switch-17" = "--disable-sync"
+  "switch-16" = "--disable-renderer-backgrounding"
+  "switch-15" = "--disable-prompt-on-repost"
+  "switch-14" = "--disable-popup-blocking"
+  "switch-13" = "--disable-ipc-flooding-protection"
+  "switch-12" = "--disable-hang-monitor"
+  "switch-11" = "--disable-features=Translate"
+  "switch-10" = "--disable-extensions"
+  "switch-9" = "--disable-dev-shm-usage"
+  "switch-8" = "--disable-default-apps"
+  "switch-7" = "--disable-component-extensions-with-background-pages"
+  "switch-6" = "--disable-client-side-phishing-detection"
+  "switch-5" = "--disable-breakpad"
+  "switch-4" = "--disable-backgrounding-occluded-windows"
+  "switch-3" = "--disable-background-timer-throttling"
+  "switch-2" = "--enable-features=NetworkService,NetworkServiceInProcess"
+  "switch-1" = "--disable-background-networking"
+  "num-switches" = "27"
+
+
+   at PuppeteerSharp.States.ChromiumStartingState.StartCoreAsync(LauncherBase p) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\States\ChromiumStartingState.cs:line 83
+   at PuppeteerSharp.States.ChromiumStartingState.StartCoreAsync(LauncherBase p)
+   at PuppeteerSharp.Launcher.LaunchAsync(LaunchOptions options) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\Launcher.cs:line 61
+   at PuppeteerSharp.Launcher.LaunchAsync(LaunchOptions options) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\Launcher.cs:line 84
+   at WebReaper.Loaders.Concrete.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\Concrete\PuppeteerPageLoader.cs:line 35
+   at WebReaper.Spider.Concrete.WebReaperSpider.CrawlAsync(Job job, CancellationToken cancellationToken) in C:\Projects\WebReaper\WebReaper\Spider\Concrete\WebReaperSpider.cs:line 80
+   at WebReaper.Infra.Executor.<>c__DisplayClass8_0`1.<<RetryAsync>b__0>d.MoveNext() in C:\Projects\WebReaper\WebReaper\Infra\Executor.cs:line 12
+--- End of stack trace from previous location ---
+   at Polly.Retry.AsyncRetryEngine.ImplementationAsync[TResult](Func`3 action, Context context, CancellationToken cancellationToken, ExceptionPredicates shouldRetryExceptionPredicates, ResultPredicates`1 shouldRetryResultPredicates, Func`5 onRetryAsync, Int32 permittedRetryCount, IEnumerable`1 sleepDurationsEnumerable, Func`4 sleepDurationProvider, Boolean continueOnCapturedContext)
+   at Polly.AsyncPolicy.ExecuteAsync[TResult](Func`3 action, Context context, CancellationToken cancellationToken, Boolean continueOnCapturedContext)
+   at WebReaper.Infra.Executor.RetryAsync[T](Func`1 func) in C:\Projects\WebReaper\WebReaper\Infra\Executor.cs:line 12
+   at WebReaper.Core.ScraperRunner.<>c__DisplayClass20_0.<<Run>b__0>d.MoveNext() in C:\Projects\WebReaper\WebReaper\Core\ScraperRunner.cs:line 50
+2022-10-22 01:23:43.919 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-10-22 01:23:43.945 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:23:43.988 +03:00 [INF] Hosting environment: Development
+2022-10-22 01:23:43.989 +03:00 [INF] Content root path: C:\Projects\WebReaper\Examples\BrownsfashionScraper
+2022-10-22 01:23:44.552 +03:00 [INF] Load finished in 534 ms
+2022-10-22 01:23:44.673 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:23:45.076 +03:00 [INF] Load finished in 399 ms
+2022-10-22 01:23:45.182 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:23:45.583 +03:00 [INF] Load finished in 399 ms
+2022-10-22 01:23:45.726 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:23:46.053 +03:00 [INF] Load finished in 324 ms
+2022-10-22 01:23:46.271 +03:00 [ERR] Failed during scraping Job { SiteId = Brownsfashion, Schema = Schema { Field = , Selector = , Type = , Children = System.Collections.Generic.List`1[WebReaper.Domain.Parsing.SchemaElement], Count = 3, IsReadOnly = False }, Url = https://www.brownsfashion.com/ua/shopping/man-clothing, LinkPathSelectors = System.Collections.Immutable.ImmutableQueue`1[WebReaper.Domain.Selectors.LinkPathSelector], PageType = Dynamic, Script = , PageCategory = PageWithPagination }
+PuppeteerSharp.ProcessException: Failed to launch browser! [16580:38272:1022/012345.842:ERROR:resource_bundle.cc(983)] Failed to load C:\Users\alexp\AppData\Local\Temp\Win64-970485\chrome-win\chrome_100_percent.pak
+Some features may not be available.
+[16580:38272:1022/012345.842:FATAL:chrome_resource_bundle_helper.cc(102)] Check failed: !actual_locale.empty(). Locale could not be found for 
+Backtrace:
+	GetMainTargetServices [0x00007FFEF2CEC262+1161602]
+	GetMainTargetServices [0x00007FFEF2C60892+589746]
+	GetMainTargetServices [0x00007FFEF2C71027+657223]
+	GetMainTargetServices [0x00007FFEF2C72140+661600]
+	GetMainTargetServices [0x00007FFEF2C13BFC+275228]
+	ChromeMain [0x00007FFEEFC51619+1401]
+	ovly_debug_event [0x00007FFEF19D6A35+30950005]
+	ovly_debug_event [0x00007FFEF19D68DB+30949659]
+	ovly_debug_event [0x00007FFEF19D53EF+30944303]
+	ovly_debug_event [0x00007FFEF19D57C5+30945285]
+	ChromeMain [0x00007FFEEFC51294+500]
+	GetPakFileHashes [0x00007FF6BF5F26ED+5869]
+	GetPakFileHashes [0x00007FF6BF5F1A8D+2701]
+	GetHandleVerifier [0x00007FF6BF7557A2+949714]
+	BaseThreadInitThunk [0x00007FF80B5054E0+16]
+	RtlUserThreadStart [0x00007FF80B84485B+43]
+Crash keys:
+  "variations" = "8d569531-27a0c3c6,69d4ebd5-3f4a17df,"
+  "num-experiments" = "2"
+  "switch-27" = "about:blank"
+  "switch-26" = "--user-data-dir=C:\Users\alexp\AppData\Local\Temp\yku4akhn.wp0"
+  "switch-25" = "--remote-debugging-port=0"
+  "switch-24" = "--enable-blink-features=IdleDetection"
+  "switch-23" = "--use-mock-keychain"
+  "switch-22" = "--password-store=basic"
+  "switch-21" = "--enable-automation"
+  "switch-20" = "--no-first-run"
+  "switch-19" = "--metrics-recording-only"
+  "switch-18" = "--force-color-profile=srgb"
+  "switch-17" = "--disable-sync"
+  "switch-16" = "--disable-renderer-backgrounding"
+  "switch-15" = "--disable-prompt-on-repost"
+  "switch-14" = "--disable-popup-blocking"
+  "switch-13" = "--disable-ipc-flooding-protection"
+  "switch-12" = "--disable-hang-monitor"
+  "switch-11" = "--disable-features=Translate"
+  "switch-10" = "--disable-extensions"
+  "switch-9" = "--disable-dev-shm-usage"
+  "switch-8" = "--disable-default-apps"
+  "switch-7" = "--disable-component-extensions-with-background-pages"
+  "switch-6" = "--disable-client-side-phishing-detection"
+  "switch-5" = "--disable-breakpad"
+  "switch-4" = "--disable-backgrounding-occluded-windows"
+  "switch-3" = "--disable-background-timer-throttling"
+  "switch-2" = "--enable-features=NetworkService,NetworkServiceInProcess"
+  "switch-1" = "--disable-background-networking"
+  "num-switches" = "27"
+
+
+   at PuppeteerSharp.States.ChromiumStartingState.StartCoreAsync(LauncherBase p) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\States\ChromiumStartingState.cs:line 83
+   at PuppeteerSharp.States.ChromiumStartingState.StartCoreAsync(LauncherBase p)
+   at PuppeteerSharp.Launcher.LaunchAsync(LaunchOptions options) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\Launcher.cs:line 61
+   at PuppeteerSharp.Launcher.LaunchAsync(LaunchOptions options) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\Launcher.cs:line 84
+   at WebReaper.Loaders.Concrete.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\Concrete\PuppeteerPageLoader.cs:line 35
+   at WebReaper.Spider.Concrete.WebReaperSpider.CrawlAsync(Job job, CancellationToken cancellationToken) in C:\Projects\WebReaper\WebReaper\Spider\Concrete\WebReaperSpider.cs:line 80
+   at WebReaper.Infra.Executor.<>c__DisplayClass8_0`1.<<RetryAsync>b__0>d.MoveNext() in C:\Projects\WebReaper\WebReaper\Infra\Executor.cs:line 12
+--- End of stack trace from previous location ---
+   at Polly.Retry.AsyncRetryEngine.ImplementationAsync[TResult](Func`3 action, Context context, CancellationToken cancellationToken, ExceptionPredicates shouldRetryExceptionPredicates, ResultPredicates`1 shouldRetryResultPredicates, Func`5 onRetryAsync, Int32 permittedRetryCount, IEnumerable`1 sleepDurationsEnumerable, Func`4 sleepDurationProvider, Boolean continueOnCapturedContext)
+   at Polly.AsyncPolicy.ExecuteAsync[TResult](Func`3 action, Context context, CancellationToken cancellationToken, Boolean continueOnCapturedContext)
+   at WebReaper.Infra.Executor.RetryAsync[T](Func`1 func) in C:\Projects\WebReaper\WebReaper\Infra\Executor.cs:line 12
+   at WebReaper.Core.ScraperRunner.<>c__DisplayClass20_0.<<Run>b__0>d.MoveNext() in C:\Projects\WebReaper\WebReaper\Core\ScraperRunner.cs:line 50
+2022-10-22 01:24:28.727 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-10-22 01:24:28.752 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:24:28.804 +03:00 [INF] Hosting environment: Development
+2022-10-22 01:24:28.806 +03:00 [INF] Content root path: C:\Projects\WebReaper\Examples\BrownsfashionScraper
+2022-10-22 01:24:29.421 +03:00 [INF] Load finished in 586 ms
+2022-10-22 01:24:29.569 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:24:30.016 +03:00 [INF] Load finished in 444 ms
+2022-10-22 01:24:30.116 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:24:30.535 +03:00 [INF] Load finished in 416 ms
+2022-10-22 01:24:30.627 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:24:30.967 +03:00 [INF] Load finished in 338 ms
+2022-10-22 01:24:31.188 +03:00 [ERR] Failed during scraping Job { SiteId = Brownsfashion, Schema = Schema { Field = , Selector = , Type = , Children = System.Collections.Generic.List`1[WebReaper.Domain.Parsing.SchemaElement], Count = 3, IsReadOnly = False }, Url = https://www.brownsfashion.com/ua/shopping/man-clothing, LinkPathSelectors = System.Collections.Immutable.ImmutableQueue`1[WebReaper.Domain.Selectors.LinkPathSelector], PageType = Dynamic, Script = , PageCategory = PageWithPagination }
+PuppeteerSharp.ProcessException: Failed to launch browser! [21708:25216:1022/012430.759:ERROR:resource_bundle.cc(983)] Failed to load C:\Users\alexp\AppData\Local\Temp\Win64-970485\chrome-win\chrome_100_percent.pak
+Some features may not be available.
+[21708:25216:1022/012430.759:FATAL:chrome_resource_bundle_helper.cc(102)] Check failed: !actual_locale.empty(). Locale could not be found for 
+Backtrace:
+	GetMainTargetServices [0x00007FFEF2CEC262+1161602]
+	GetMainTargetServices [0x00007FFEF2C60892+589746]
+	GetMainTargetServices [0x00007FFEF2C71027+657223]
+	GetMainTargetServices [0x00007FFEF2C72140+661600]
+	GetMainTargetServices [0x00007FFEF2C13BFC+275228]
+	ChromeMain [0x00007FFEEFC51619+1401]
+	ovly_debug_event [0x00007FFEF19D6A35+30950005]
+	ovly_debug_event [0x00007FFEF19D68DB+30949659]
+	ovly_debug_event [0x00007FFEF19D53EF+30944303]
+	ovly_debug_event [0x00007FFEF19D57C5+30945285]
+	ChromeMain [0x00007FFEEFC51294+500]
+	GetPakFileHashes [0x00007FF6BF5F26ED+5869]
+	GetPakFileHashes [0x00007FF6BF5F1A8D+2701]
+	GetHandleVerifier [0x00007FF6BF7557A2+949714]
+	BaseThreadInitThunk [0x00007FF80B5054E0+16]
+	RtlUserThreadStart [0x00007FF80B84485B+43]
+Crash keys:
+  "variations" = "8d569531-27a0c3c6,69d4ebd5-3f4a17df,"
+  "num-experiments" = "2"
+  "switch-27" = "about:blank"
+  "switch-26" = "--user-data-dir=C:\Users\alexp\AppData\Local\Temp\klxi5hcc.xgo"
+  "switch-25" = "--remote-debugging-port=0"
+  "switch-24" = "--enable-blink-features=IdleDetection"
+  "switch-23" = "--use-mock-keychain"
+  "switch-22" = "--password-store=basic"
+  "switch-21" = "--enable-automation"
+  "switch-20" = "--no-first-run"
+  "switch-19" = "--metrics-recording-only"
+  "switch-18" = "--force-color-profile=srgb"
+  "switch-17" = "--disable-sync"
+  "switch-16" = "--disable-renderer-backgrounding"
+  "switch-15" = "--disable-prompt-on-repost"
+  "switch-14" = "--disable-popup-blocking"
+  "switch-13" = "--disable-ipc-flooding-protection"
+  "switch-12" = "--disable-hang-monitor"
+  "switch-11" = "--disable-features=Translate"
+  "switch-10" = "--disable-extensions"
+  "switch-9" = "--disable-dev-shm-usage"
+  "switch-8" = "--disable-default-apps"
+  "switch-7" = "--disable-component-extensions-with-background-pages"
+  "switch-6" = "--disable-client-side-phishing-detection"
+  "switch-5" = "--disable-breakpad"
+  "switch-4" = "--disable-backgrounding-occluded-windows"
+  "switch-3" = "--disable-background-timer-throttling"
+  "switch-2" = "--enable-features=NetworkService,NetworkServiceInProcess"
+  "switch-1" = "--disable-background-networking"
+  "num-switches" = "27"
+
+
+   at PuppeteerSharp.States.ChromiumStartingState.StartCoreAsync(LauncherBase p) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\States\ChromiumStartingState.cs:line 83
+   at PuppeteerSharp.States.ChromiumStartingState.StartCoreAsync(LauncherBase p)
+   at PuppeteerSharp.Launcher.LaunchAsync(LaunchOptions options) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\Launcher.cs:line 61
+   at PuppeteerSharp.Launcher.LaunchAsync(LaunchOptions options) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\Launcher.cs:line 84
+   at WebReaper.Loaders.Concrete.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\Concrete\PuppeteerPageLoader.cs:line 35
+   at WebReaper.Spider.Concrete.WebReaperSpider.CrawlAsync(Job job, CancellationToken cancellationToken) in C:\Projects\WebReaper\WebReaper\Spider\Concrete\WebReaperSpider.cs:line 80
+   at WebReaper.Infra.Executor.<>c__DisplayClass8_0`1.<<RetryAsync>b__0>d.MoveNext() in C:\Projects\WebReaper\WebReaper\Infra\Executor.cs:line 12
+--- End of stack trace from previous location ---
+   at Polly.Retry.AsyncRetryEngine.ImplementationAsync[TResult](Func`3 action, Context context, CancellationToken cancellationToken, ExceptionPredicates shouldRetryExceptionPredicates, ResultPredicates`1 shouldRetryResultPredicates, Func`5 onRetryAsync, Int32 permittedRetryCount, IEnumerable`1 sleepDurationsEnumerable, Func`4 sleepDurationProvider, Boolean continueOnCapturedContext)
+   at Polly.AsyncPolicy.ExecuteAsync[TResult](Func`3 action, Context context, CancellationToken cancellationToken, Boolean continueOnCapturedContext)
+   at WebReaper.Infra.Executor.RetryAsync[T](Func`1 func) in C:\Projects\WebReaper\WebReaper\Infra\Executor.cs:line 12
+   at WebReaper.Core.ScraperRunner.<>c__DisplayClass20_0.<<Run>b__0>d.MoveNext() in C:\Projects\WebReaper\WebReaper\Core\ScraperRunner.cs:line 50
+2022-10-22 01:25:26.844 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-10-22 01:25:26.874 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:25:26.927 +03:00 [INF] Hosting environment: Development
+2022-10-22 01:25:26.929 +03:00 [INF] Content root path: C:\Projects\WebReaper\Examples\BrownsfashionScraper
+2022-10-22 01:25:29.821 +03:00 [INF] Load finished in 426 ms
+2022-10-22 01:25:29.918 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:25:31.456 +03:00 [INF] Load finished in 338 ms
+2022-10-22 01:25:31.541 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:25:32.490 +03:00 [INF] Load finished in 305 ms
+2022-10-22 01:25:32.573 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:25:33.569 +03:00 [INF] Load finished in 327 ms
+2022-10-22 01:25:33.776 +03:00 [ERR] Failed during scraping Job { SiteId = Brownsfashion, Schema = Schema { Field = , Selector = , Type = , Children = System.Collections.Generic.List`1[WebReaper.Domain.Parsing.SchemaElement], Count = 3, IsReadOnly = False }, Url = https://www.brownsfashion.com/ua/shopping/man-clothing, LinkPathSelectors = System.Collections.Immutable.ImmutableQueue`1[WebReaper.Domain.Selectors.LinkPathSelector], PageType = Dynamic, Script = , PageCategory = PageWithPagination }
+PuppeteerSharp.ProcessException: Failed to launch browser! [7748:18212:1022/012533.365:ERROR:resource_bundle.cc(983)] Failed to load C:\Users\alexp\AppData\Local\Temp\Win64-970485\chrome-win\chrome_100_percent.pak
+Some features may not be available.
+[7748:18212:1022/012533.366:FATAL:chrome_resource_bundle_helper.cc(102)] Check failed: !actual_locale.empty(). Locale could not be found for 
+Backtrace:
+	GetMainTargetServices [0x00007FFEF2CEC262+1161602]
+	GetMainTargetServices [0x00007FFEF2C60892+589746]
+	GetMainTargetServices [0x00007FFEF2C71027+657223]
+	GetMainTargetServices [0x00007FFEF2C72140+661600]
+	GetMainTargetServices [0x00007FFEF2C13BFC+275228]
+	ChromeMain [0x00007FFEEFC51619+1401]
+	ovly_debug_event [0x00007FFEF19D6A35+30950005]
+	ovly_debug_event [0x00007FFEF19D68DB+30949659]
+	ovly_debug_event [0x00007FFEF19D53EF+30944303]
+	ovly_debug_event [0x00007FFEF19D57C5+30945285]
+	ChromeMain [0x00007FFEEFC51294+500]
+	GetPakFileHashes [0x00007FF6BF5F26ED+5869]
+	GetPakFileHashes [0x00007FF6BF5F1A8D+2701]
+	GetHandleVerifier [0x00007FF6BF7557A2+949714]
+	BaseThreadInitThunk [0x00007FF80B5054E0+16]
+	RtlUserThreadStart [0x00007FF80B84485B+43]
+Crash keys:
+  "variations" = "8d569531-27a0c3c6,69d4ebd5-3f4a17df,"
+  "num-experiments" = "2"
+  "switch-27" = "about:blank"
+  "switch-26" = "--user-data-dir=C:\Users\alexp\AppData\Local\Temp\1tfyyqfp.xuq"
+  "switch-25" = "--remote-debugging-port=0"
+  "switch-24" = "--enable-blink-features=IdleDetection"
+  "switch-23" = "--use-mock-keychain"
+  "switch-22" = "--password-store=basic"
+  "switch-21" = "--enable-automation"
+  "switch-20" = "--no-first-run"
+  "switch-19" = "--metrics-recording-only"
+  "switch-18" = "--force-color-profile=srgb"
+  "switch-17" = "--disable-sync"
+  "switch-16" = "--disable-renderer-backgrounding"
+  "switch-15" = "--disable-prompt-on-repost"
+  "switch-14" = "--disable-popup-blocking"
+  "switch-13" = "--disable-ipc-flooding-protection"
+  "switch-12" = "--disable-hang-monitor"
+  "switch-11" = "--disable-features=Translate"
+  "switch-10" = "--disable-extensions"
+  "switch-9" = "--disable-dev-shm-usage"
+  "switch-8" = "--disable-default-apps"
+  "switch-7" = "--disable-component-extensions-with-background-pages"
+  "switch-6" = "--disable-client-side-phishing-detection"
+  "switch-5" = "--disable-breakpad"
+  "switch-4" = "--disable-backgrounding-occluded-windows"
+  "switch-3" = "--disable-background-timer-throttling"
+  "switch-2" = "--enable-features=NetworkService,NetworkServiceInProcess"
+  "switch-1" = "--disable-background-networking"
+  "num-switches" = "27"
+
+
+   at PuppeteerSharp.States.ChromiumStartingState.StartCoreAsync(LauncherBase p) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\States\ChromiumStartingState.cs:line 83
+   at PuppeteerSharp.States.ChromiumStartingState.StartCoreAsync(LauncherBase p)
+   at PuppeteerSharp.Launcher.LaunchAsync(LaunchOptions options) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\Launcher.cs:line 61
+   at PuppeteerSharp.Launcher.LaunchAsync(LaunchOptions options) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\Launcher.cs:line 84
+   at WebReaper.Loaders.Concrete.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\Concrete\PuppeteerPageLoader.cs:line 35
+   at WebReaper.Spider.Concrete.WebReaperSpider.CrawlAsync(Job job, CancellationToken cancellationToken) in C:\Projects\WebReaper\WebReaper\Spider\Concrete\WebReaperSpider.cs:line 80
+   at WebReaper.Infra.Executor.<>c__DisplayClass8_0`1.<<RetryAsync>b__0>d.MoveNext() in C:\Projects\WebReaper\WebReaper\Infra\Executor.cs:line 12
+--- End of stack trace from previous location ---
+   at Polly.Retry.AsyncRetryEngine.ImplementationAsync[TResult](Func`3 action, Context context, CancellationToken cancellationToken, ExceptionPredicates shouldRetryExceptionPredicates, ResultPredicates`1 shouldRetryResultPredicates, Func`5 onRetryAsync, Int32 permittedRetryCount, IEnumerable`1 sleepDurationsEnumerable, Func`4 sleepDurationProvider, Boolean continueOnCapturedContext)
+   at Polly.AsyncPolicy.ExecuteAsync[TResult](Func`3 action, Context context, CancellationToken cancellationToken, Boolean continueOnCapturedContext)
+   at WebReaper.Infra.Executor.RetryAsync[T](Func`1 func) in C:\Projects\WebReaper\WebReaper\Infra\Executor.cs:line 12
+   at WebReaper.Core.ScraperRunner.<>c__DisplayClass20_0.<<Run>b__0>d.MoveNext() in C:\Projects\WebReaper\WebReaper\Core\ScraperRunner.cs:line 50
+2022-10-22 01:26:34.434 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-10-22 01:26:34.464 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:26:34.511 +03:00 [INF] Hosting environment: Development
+2022-10-22 01:26:34.514 +03:00 [INF] Content root path: C:\Projects\WebReaper\Examples\BrownsfashionScraper
+2022-10-22 01:28:25.049 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-10-22 01:28:25.077 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:28:25.120 +03:00 [INF] Hosting environment: Development
+2022-10-22 01:28:25.122 +03:00 [INF] Content root path: C:\Projects\WebReaper\Examples\BrownsfashionScraper
+2022-10-22 01:28:57.479 +03:00 [INF] Load finished in 32329 ms
+2022-10-22 01:28:57.587 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:29:28.977 +03:00 [INF] Load finished in 31388 ms
+2022-10-22 01:29:29.068 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:30:00.495 +03:00 [INF] Load finished in 31424 ms
+2022-10-22 01:30:00.595 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:30:31.934 +03:00 [INF] Load finished in 31336 ms
+2022-10-22 01:30:32.160 +03:00 [ERR] Failed during scraping Job { SiteId = Brownsfashion, Schema = Schema { Field = , Selector = , Type = , Children = System.Collections.Generic.List`1[WebReaper.Domain.Parsing.SchemaElement], Count = 3, IsReadOnly = False }, Url = https://www.brownsfashion.com/ua/shopping/man-clothing, LinkPathSelectors = System.Collections.Immutable.ImmutableQueue`1[WebReaper.Domain.Selectors.LinkPathSelector], PageType = Dynamic, Script = , PageCategory = PageWithPagination }
+System.TimeoutException: Timeout of 30000 ms exceeded
+   at PuppeteerSharp.Helpers.TaskHelper.WithTimeout[T](Task`1 task, TimeSpan timeout, Func`2 exceptionFactory) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\Helpers\TaskHelper.cs:line 166
+   at PuppeteerSharp.Page.WaitForNetworkIdleAsync(WaitForNetworkIdleOptions options) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\Page.cs:line 1759
+   at WebReaper.Loaders.Concrete.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\Concrete\PuppeteerPageLoader.cs:line 56
+   at WebReaper.Loaders.Concrete.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\Concrete\PuppeteerPageLoader.cs:line 68
+   at WebReaper.Loaders.Concrete.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\Concrete\PuppeteerPageLoader.cs:line 68
+   at WebReaper.Spider.Concrete.WebReaperSpider.CrawlAsync(Job job, CancellationToken cancellationToken) in C:\Projects\WebReaper\WebReaper\Spider\Concrete\WebReaperSpider.cs:line 80
+   at WebReaper.Infra.Executor.<>c__DisplayClass8_0`1.<<RetryAsync>b__0>d.MoveNext() in C:\Projects\WebReaper\WebReaper\Infra\Executor.cs:line 12
+--- End of stack trace from previous location ---
+   at Polly.Retry.AsyncRetryEngine.ImplementationAsync[TResult](Func`3 action, Context context, CancellationToken cancellationToken, ExceptionPredicates shouldRetryExceptionPredicates, ResultPredicates`1 shouldRetryResultPredicates, Func`5 onRetryAsync, Int32 permittedRetryCount, IEnumerable`1 sleepDurationsEnumerable, Func`4 sleepDurationProvider, Boolean continueOnCapturedContext)
+   at Polly.AsyncPolicy.ExecuteAsync[TResult](Func`3 action, Context context, CancellationToken cancellationToken, Boolean continueOnCapturedContext)
+   at WebReaper.Infra.Executor.RetryAsync[T](Func`1 func) in C:\Projects\WebReaper\WebReaper\Infra\Executor.cs:line 12
+   at WebReaper.Core.ScraperRunner.<>c__DisplayClass20_0.<<Run>b__0>d.MoveNext() in C:\Projects\WebReaper\WebReaper\Core\ScraperRunner.cs:line 50
+2022-10-22 01:31:42.809 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-10-22 01:31:42.846 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:31:42.890 +03:00 [INF] Hosting environment: Development
+2022-10-22 01:31:42.894 +03:00 [INF] Content root path: C:\Projects\WebReaper\Examples\BrownsfashionScraper
+2022-10-22 01:32:15.325 +03:00 [INF] Load finished in 32386 ms
+2022-10-22 01:32:15.436 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:32:46.731 +03:00 [INF] Load finished in 31291 ms
+2022-10-22 01:32:46.827 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:33:18.169 +03:00 [INF] Load finished in 31339 ms
+2022-10-22 01:33:18.258 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:33:49.549 +03:00 [INF] Load finished in 31289 ms
+2022-10-22 01:33:49.775 +03:00 [ERR] Failed during scraping Job { SiteId = Brownsfashion, Schema = Schema { Field = , Selector = , Type = , Children = System.Collections.Generic.List`1[WebReaper.Domain.Parsing.SchemaElement], Count = 3, IsReadOnly = False }, Url = https://www.brownsfashion.com/ua/shopping/man-clothing, LinkPathSelectors = System.Collections.Immutable.ImmutableQueue`1[WebReaper.Domain.Selectors.LinkPathSelector], PageType = Dynamic, Script = , PageCategory = PageWithPagination }
+System.TimeoutException: Timeout of 30000 ms exceeded
+   at PuppeteerSharp.Helpers.TaskHelper.WithTimeout[T](Task`1 task, TimeSpan timeout, Func`2 exceptionFactory) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\Helpers\TaskHelper.cs:line 166
+   at PuppeteerSharp.Page.WaitForNetworkIdleAsync(WaitForNetworkIdleOptions options) in C:\projects\puppeteer-sharp\lib\PuppeteerSharp\Page.cs:line 1759
+   at WebReaper.Loaders.Concrete.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\Concrete\PuppeteerPageLoader.cs:line 56
+   at WebReaper.Loaders.Concrete.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\Concrete\PuppeteerPageLoader.cs:line 68
+   at WebReaper.Loaders.Concrete.PuppeteerPageLoader.Load(String url, String script) in C:\Projects\WebReaper\WebReaper\Loaders\Concrete\PuppeteerPageLoader.cs:line 68
+   at WebReaper.Spider.Concrete.WebReaperSpider.CrawlAsync(Job job, CancellationToken cancellationToken) in C:\Projects\WebReaper\WebReaper\Spider\Concrete\WebReaperSpider.cs:line 80
+   at WebReaper.Infra.Executor.<>c__DisplayClass8_0`1.<<RetryAsync>b__0>d.MoveNext() in C:\Projects\WebReaper\WebReaper\Infra\Executor.cs:line 12
+--- End of stack trace from previous location ---
+   at Polly.Retry.AsyncRetryEngine.ImplementationAsync[TResult](Func`3 action, Context context, CancellationToken cancellationToken, ExceptionPredicates shouldRetryExceptionPredicates, ResultPredicates`1 shouldRetryResultPredicates, Func`5 onRetryAsync, Int32 permittedRetryCount, IEnumerable`1 sleepDurationsEnumerable, Func`4 sleepDurationProvider, Boolean continueOnCapturedContext)
+   at Polly.AsyncPolicy.ExecuteAsync[TResult](Func`3 action, Context context, CancellationToken cancellationToken, Boolean continueOnCapturedContext)
+   at WebReaper.Infra.Executor.RetryAsync[T](Func`1 func) in C:\Projects\WebReaper\WebReaper\Infra\Executor.cs:line 12
+   at WebReaper.Core.ScraperRunner.<>c__DisplayClass20_0.<<Run>b__0>d.MoveNext() in C:\Projects\WebReaper\WebReaper\Core\ScraperRunner.cs:line 50
+2022-10-22 01:34:54.916 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-10-22 01:34:54.941 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:34:54.999 +03:00 [INF] Hosting environment: Development
+2022-10-22 01:34:55.001 +03:00 [INF] Content root path: C:\Projects\WebReaper\Examples\BrownsfashionScraper
+2022-10-22 01:35:38.455 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-10-22 01:35:38.485 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
+2022-10-22 01:35:38.536 +03:00 [INF] Hosting environment: Development
+2022-10-22 01:35:38.538 +03:00 [INF] Content root path: C:\Projects\WebReaper\Examples\BrownsfashionScraper
+2022-10-22 01:36:15.920 +03:00 [INF] Load finished in 37350 ms
+2022-10-22 01:36:16.037 +03:00 [INF] Loading dynamic page https://www.brownsfashion.com/ua/shopping/man-clothing
