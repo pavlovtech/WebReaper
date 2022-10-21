@@ -91,7 +91,7 @@ public class SpiderBuilder
 
     public SpiderBuilder WriteToConsole() => AddSink(new ConsoleSink());
 
-    public SpiderBuilder AddScrapedDataHandler(Action<JObject> eventHandler)
+    public SpiderBuilder AddSubscription(Action<JObject> eventHandler)
     {
         ScrapedData += eventHandler;
         return this;

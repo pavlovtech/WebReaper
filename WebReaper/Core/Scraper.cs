@@ -76,9 +76,9 @@ public class Scraper
         return this;
     }
 
-    public Scraper AddScrapedDataHandler(Action<JObject> eventHandler)
+    public Scraper Subscribe(Action<JObject> scrapingResultHandler)
     {
-        SpiderBuilder.AddScrapedDataHandler(eventHandler);
+        SpiderBuilder.AddSubscription(scrapingResultHandler);
         return this;
     }
 
