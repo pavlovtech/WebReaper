@@ -30,7 +30,7 @@ namespace WebReaper.IntegrationTests
                     new("text", "._3xX726aBn29LDbsDtzr_6E._1Ap4F5maDtT1E1YuCiaO0r.D3IL3FD0RFy_mkKLPwL4")
                 })
                 .WithLogger(new TestOutputLogger(this.output))
-                .AddScrapedDataHandler(x => result.Add(x));
+                .Subscribe(x => result.Add(x));
 
             _ = scraper.Run(1);
 
@@ -54,7 +54,7 @@ namespace WebReaper.IntegrationTests
                 })
                 .WithLogger(new TestOutputLogger(this.output))
                 .WithProxies(new WebShareProxyProvider())
-                .AddScrapedDataHandler(x => result.Add(x));
+                .Subscribe(x => result.Add(x));
 
             _ = scraper.Run(1);
 
@@ -77,7 +77,7 @@ namespace WebReaper.IntegrationTests
                     new("text", "._3xX726aBn29LDbsDtzr_6E._1Ap4F5maDtT1E1YuCiaO0r.D3IL3FD0RFy_mkKLPwL4")
                 })
                 .WithLogger(new TestOutputLogger(this.output))
-                .AddScrapedDataHandler(x => result.Add(x));
+                .Subscribe(x => result.Add(x));
 
             _ = scraper.Run(1);
 
