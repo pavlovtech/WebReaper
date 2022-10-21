@@ -10,6 +10,7 @@ using WebReaper.LinkTracker.Abstract;
 using WebReaper.Sinks.Abstract;
 using WebReaper.Spider.Abstract;
 using WebReaper.Exceptions;
+using WebReaper.Loaders.Concrete;
 
 namespace WebReaper.Spider.Concrete;
 

@@ -13,6 +13,7 @@ using WebReaper.LinkTracker.Abstract;
 using WebReaper.Sinks.Abstract;
 using WebReaper.Spider.Abstract;
 using WebReaper.Spider.Concrete;
+using WebReaper.Proxy.Abstract;
 
 namespace WebReaper.Core;
 
@@ -25,8 +26,6 @@ public class SpiderBuilder
         ContentParser = new ContentParser(Logger);
         LinkParser = new LinkParserByCssSelector();
         SiteLinkTracker = new InMemoryCrawledLinkTracker();
-        StaticStaticPageLoader = new HttpStaticPageLoader(HttpClient.Value, Logger);
-        DynamicStaticPageLoader = new PuppeteerPageLoader(Logger, Cookies);
     }
 
     public List<IScraperSink> Sinks { get; } = new();
@@ -41,26 +40,12 @@ public class SpiderBuilder
 
     protected IContentParser ContentParser { get; }
 
-    protected IStaticPageLoader StaticStaticPageLoader { get; set; }
-    protected IDynamicPageLoader DynamicStaticPageLoader { get; set; }
+    protected IStaticPageLoader StaticPageLoader { get; set; }
+    protected IDynamicPageLoader DynamicPageLoader { get; set; }
 
     protected CookieContainer Cookies { get; } = new();
 
     protected event Action<JObject> ScrapedData;
-
-    protected static SocketsHttpHandler httpHandler = new()
-    {
-        MaxConnectionsPerServer = 10000,
-        SslOptions = new SslClientAuthenticationOptions
-        {
-            // Leave certs unvalidated for debugging
-            RemoteCertificateValidationCallback = delegate { return true; },
-        },
-        PooledConnectionIdleTimeout = TimeSpan.FromMinutes(2),
-        PooledConnectionLifetime = Timeout.InfiniteTimeSpan
-    };
-
-    protected Lazy<HttpClient> HttpClient = new(() => new(httpHandler));
 
     protected List<string> UrlBlackList = new();
 
@@ -80,7 +65,7 @@ public class SpiderBuilder
     {
         var cookieContainer = authorize();
 
-        httpHandler.CookieContainer = cookieContainer;
+        //httpHandler.CookieContainer = cookieContainer;
         Cookies.Add(cookieContainer.GetAllCookies());
 
         return this;
@@ -106,7 +91,7 @@ public class SpiderBuilder
 
     public SpiderBuilder WriteToConsole() => AddSink(new ConsoleSink());
 
-    public SpiderBuilder AddScrapedDataHandler(Action<JObject> eventHandler)
+    public SpiderBuilder AddSubscription(Action<JObject> eventHandler)
     {
         ScrapedData += eventHandler;
         return this;
@@ -125,31 +110,51 @@ public class SpiderBuilder
 
     public SpiderBuilder WithStaticPageLoader(IStaticPageLoader staticPageLoader)
     {
-        StaticStaticPageLoader = staticPageLoader;
+        StaticPageLoader = staticPageLoader;
         return this;
     }
 
     public SpiderBuilder WithBrowserPageLoader(IDynamicPageLoader dynamicPageLoader)
     {
-        DynamicStaticPageLoader = dynamicPageLoader;
+        DynamicPageLoader = dynamicPageLoader;
+        return this;
+    }
+
+    public SpiderBuilder WithProxies(IProxyProvider proxyProvider)
+    {
+        ProxyProvider = proxyProvider;
         return this;
     }
 
     public SpiderBuilder WriteToCsvFile(string filePath) => AddSink(new CsvFileSink(filePath));
 
+    protected IProxyProvider ProxyProvider { get; set; }
+
     public ISpider Build()
     {
+        IHttpRequests req = new Requests();
+
+        if (ProxyProvider != null)
+        {
+            req = new RotatingProxyRequests(ProxyProvider);
+        }
+
+        req.CookieContainer = Cookies;
+
+        StaticPageLoader ??= new HttpStaticPageLoader(req, Logger);
+
+        DynamicPageLoader ??= new PuppeteerPageLoader(Logger, Cookies, ProxyProvider);
+
         ISpider spider = new WebReaperSpider(
             Sinks,
             LinkParser,
             ContentParser,
             SiteLinkTracker,
-            StaticStaticPageLoader,
-            DynamicStaticPageLoader,
+            StaticPageLoader,
+            DynamicPageLoader,
             Logger)
         {
             UrlBlackList = UrlBlackList.ToList(),
-
             PageCrawlLimit = limit
         };
 
