@@ -3,16 +3,20 @@ using Microsoft.Extensions.Logging;
 using PuppeteerSharp;
 using WebReaper.Extensions;
 using WebReaper.Loaders.Abstract;
+using WebReaper.Proxy.Abstract;
 
 namespace WebReaper.Loaders.Concrete;
 
 public class PuppeteerPageLoader : IDynamicPageLoader
 {
+    public IProxyProvider? ProxyProvider { get; set; }
+
     private readonly CookieContainer? _cookies;
     private ILogger Logger { get; }
 
-    public PuppeteerPageLoader(ILogger logger, CookieContainer? cookies)
+    public PuppeteerPageLoader(ILogger logger, CookieContainer? cookies, IProxyProvider? proxyProvider = null)
     {
+        ProxyProvider = proxyProvider;
         _cookies = cookies;
         Logger = logger;
     }

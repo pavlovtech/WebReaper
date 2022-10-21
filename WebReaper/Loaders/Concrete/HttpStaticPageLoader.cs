@@ -10,15 +10,15 @@ public class HttpStaticPageLoader : IStaticPageLoader
 {
     private ILogger logger;
 
-    protected HttpClient HttpClient { get; }
+    protected IHttpRequests Requests { get; }
 
-    public HttpStaticPageLoader(HttpClient httpClient, ILogger logger)
+    public HttpStaticPageLoader(IHttpRequests requests, ILogger logger)
     {
         ServicePointManager.DefaultConnectionLimit = int.MaxValue;
         ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-        HttpClient = httpClient;
+        Requests = requests;
         this.logger = logger;
     }
 
@@ -27,7 +27,7 @@ public class HttpStaticPageLoader : IStaticPageLoader
         using var _ = logger.LogMethodDuration();
         // return await HttpClient.GetStringAsync(url);
 
-        var response = await HttpClient.GetAsync(url);
+        var response = await Requests.GetAsync(url);
 
         if (response.IsSuccessStatusCode)
         {

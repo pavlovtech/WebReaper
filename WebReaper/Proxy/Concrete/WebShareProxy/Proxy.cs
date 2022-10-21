@@ -1,4 +1,4 @@
-﻿namespace WebReaper.Proxy.Concrete
+﻿namespace WebReaper.Proxy.Concrete.WebShareProxy
 {
     public class Proxy
     {

@@ -48,10 +48,8 @@ public class ScraperRunner
                 try
                 {
                     var newJobs = await Executor.RetryAsync(() => Spider.CrawlAsync(job, cancellationToken));
-                    await Scheduler.AddAsync(newJobs, cancellationToken);
 
-                    int[] ids = new[] { 1, 2, 3, 4, 5 };
-                    await Parallel.ForEachAsync(ids, async (i,token) => await Task.Delay(1));
+                    await Scheduler.AddAsync(newJobs, cancellationToken);
                 }
                 catch (Exception ex)
                 {

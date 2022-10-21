@@ -9,6 +9,7 @@ using WebReaper.LinkTracker.Abstract;
 using WebReaper.Sinks.Abstract;
 using WebReaper.Scheduler.Abstract;
 using WebReaper.Scheduler.Concrete;
+using WebReaper.Proxy.Abstract;
 
 namespace WebReaper.Core;
 
@@ -22,6 +23,8 @@ public class Scraper
     protected IScheduler Scheduler = new InMemoryScheduler();
 
     public string SiteId { get; }
+
+    protected IProxyProvider ProxyProvider { get; private set; }
 
     public Scraper(string siteId)
     {
@@ -104,6 +107,12 @@ public class Scraper
     public Scraper WriteToJsonFile(string filePath)
     {
         SpiderBuilder.AddSink(new JsonLinesFileSink(filePath));
+        return this;
+    }
+
+    public Scraper WithProxies(IProxyProvider proxyProvider)
+    {
+        SpiderBuilder.WithProxies(proxyProvider);
         return this;
     }
 
