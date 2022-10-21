@@ -22,6 +22,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebReaper.DistributedScrape
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebReaper.ScraperWorkerService", "Examples\WebReaper.ScraperWorkerService\WebReaper.ScraperWorkerService.csproj", "{E66A84BF-9A23-4BD5-A6EF-F9B3D812D602}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrownsfashionScraper", "Examples\BrownsfashionScraper\BrownsfashionScraper.csproj", "{EADAEFDF-224D-4859-BEF6-11E2052DC926}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +54,10 @@ Global
 		{E66A84BF-9A23-4BD5-A6EF-F9B3D812D602}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E66A84BF-9A23-4BD5-A6EF-F9B3D812D602}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E66A84BF-9A23-4BD5-A6EF-F9B3D812D602}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EADAEFDF-224D-4859-BEF6-11E2052DC926}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EADAEFDF-224D-4859-BEF6-11E2052DC926}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EADAEFDF-224D-4859-BEF6-11E2052DC926}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EADAEFDF-224D-4859-BEF6-11E2052DC926}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -61,6 +67,7 @@ Global
 		{A90860AA-CD89-4403-8964-698C9441E1CA} = {75C97094-26FC-484A-A354-E33BBD6355A8}
 		{39F3A538-9EC3-4735-A18E-09666AF1034D} = {75C97094-26FC-484A-A354-E33BBD6355A8}
 		{E66A84BF-9A23-4BD5-A6EF-F9B3D812D602} = {75C97094-26FC-484A-A354-E33BBD6355A8}
+		{EADAEFDF-224D-4859-BEF6-11E2052DC926} = {75C97094-26FC-484A-A354-E33BBD6355A8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8413198B-8D26-4E30-A5E2-E0FBC4DCEA59}

@@ -53,7 +53,7 @@ public class PuppeteerPageLoader : IDynamicPageLoader
 
         await page.GoToAsync(url, WaitUntilNavigation.DOMContentLoaded);
 
-        //await page.WaitForNetworkIdleAsync();
+        await page.WaitForNetworkIdleAsync();
 
         if (script != null)
         {

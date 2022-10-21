@@ -57,6 +57,8 @@ public class WebReaperSpider : ISpider
 
         if (await LinkTracker.GetVisitedLinksCount(job.SiteId) >= PageCrawlLimit)
         {
+            Logger.LogInformation("Page crawl limit has been reached.");
+
             throw new PageCrawlLimitException("Page crawl limit has been reached.") 
             {
                 PageCrawlLimit = this.PageCrawlLimit
@@ -69,12 +71,16 @@ public class WebReaperSpider : ISpider
 
         if (job.PageType == PageType.Static)
         {
+            Logger.LogInformation("Loading static page {URL}", job.Url);
             doc = await StaticStaticPageLoader.Load(job.Url);
         }
         else
         {
+            Logger.LogInformation("Loading dynamic page {URL}", job.Url);
             doc = await DynamicPageLoader.Load(job.Url, job.Script);
         }
+
+        //Logger.LogDebug(doc);
 
         if (job.PageCategory == PageCategory.TargetPage)
         {
@@ -84,6 +90,7 @@ public class WebReaperSpider : ISpider
 
             ScrapedData?.Invoke(result);
 
+            Logger.LogInformation("Sending scraped data to sinks...");
             var sinkTasks = Sinks.Select(sink => sink.EmitAsync(result, cancellationToken));
 
             await Task.WhenAll(sinkTasks);
@@ -92,7 +99,11 @@ public class WebReaperSpider : ISpider
 
         var newLinkPathSelectors = job.LinkPathSelectors.Dequeue(out var currentSelector);
 
-        var rawLinks = LinkParser.GetLinks(new Uri(job.Url), doc, currentSelector.Selector).ToList();
+        var baseUrl = new Uri(job.Url);
+
+        Logger.LogDebug("Base url: {baseUrl}", baseUrl);
+
+        var rawLinks = LinkParser.GetLinks(baseUrl, doc, currentSelector.Selector).ToList();
 
         var links = rawLinks
             .Except(await LinkTracker.GetVisitedLinksAsync(job.SiteId));
@@ -105,7 +116,9 @@ public class WebReaperSpider : ISpider
         {
             ArgumentNullException.ThrowIfNull(currentSelector.PaginationSelector);
 
-            var rawPaginatedLinks = LinkParser.GetLinks(new Uri(job.Url), doc, currentSelector.PaginationSelector);
+            var rawPaginatedLinks = LinkParser.GetLinks(baseUrl, doc, currentSelector.PaginationSelector);
+
+            Logger.LogInformation("Found {pages} with pagination", rawPaginatedLinks.Count());
 
             if (!rawPaginatedLinks.Any())
             {
