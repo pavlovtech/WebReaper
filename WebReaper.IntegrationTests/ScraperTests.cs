@@ -1,9 +1,8 @@
 using Newtonsoft.Json.Linq;
-using WebReaper.ConsoleApplication;
 using WebReaper.Core;
 using WebReaper.Domain.Parsing;
 using WebReaper.Domain.Selectors;
-using WebReaper.Proxy.Concrete.WebShareProxy;
+using WebReaper.IntegrationTests.WebShareProxy;
 using Xunit.Abstractions;
 
 namespace WebReaper.IntegrationTests
@@ -82,7 +81,7 @@ namespace WebReaper.IntegrationTests
 
             _ = scraper.Run(1);
 
-            await Task.Delay(60000);
+            await Task.Delay(120000);
 
             Assert.NotEmpty(result);
         }
