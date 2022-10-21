@@ -3,7 +3,7 @@ using Newtonsoft.Json.Linq;
 using System.Net;
 using WebReaper.Proxy.Abstract;
 
-namespace WebReaper.Proxy.Concrete.WebShareProxy
+namespace WebReaper.IntegrationTests.WebShareProxy
 {
 
     public class WebShareProxyProvider : IProxyProvider

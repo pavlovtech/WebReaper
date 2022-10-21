@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
 
-namespace WebReaper.ConsoleApplication
+namespace WebReaper.IntegrationTests
 {
 
     public sealed class TestOutputLogger : ILogger
