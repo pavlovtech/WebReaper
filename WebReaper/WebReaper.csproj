@@ -32,17 +32,18 @@
     <None Remove="Azure.Messaging.ServiceBus" />
   </ItemGroup>
   <ItemGroup>       
-    <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.30.1" />       
+    <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.31.0" />       
     <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />       
-    <PackageReference Include="MongoDB.Driver" Version="2.17.1" />       
+    <PackageReference Include="MongoDB.Driver" Version="2.18.0" />       
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />       
-    <PackageReference Include="Polly" Version="7.2.3" />
-    <PackageReference Include="PuppeteerSharp" Version="7.1.0" />
-    <PackageReference Include="StackExchange.Redis" Version="2.6.66" />
+    <PackageReference Include="Polly" Version="7.2.3" />       
+    <PackageReference Include="PuppeteerExtraSharp" Version="1.3.2" />
+    <PackageReference Include="PuppeteerSharp" Version="3.0.0" />
+    <PackageReference Include="StackExchange.Redis" Version="2.6.70" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="6.0.0" />
      <PackageReference Include="Fizzler.Systems.HtmlAgilityPack" Version="1.2.1" />
      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.2" />
-     <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.10.0" />
+     <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.11.0" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Users\alexp\Downloads\167391357-edb02ce2-a63c-439b-be9b-69b4b4796b1c.png">

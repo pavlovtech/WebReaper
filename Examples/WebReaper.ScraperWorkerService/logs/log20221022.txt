@@ -9793,3 +9793,166 @@
 2022-10-22 01:39:42.049 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=5289032
 2022-10-22 01:39:42.057 +03:00 [INF] Sending scraped data to sinks...
 2022-10-22 01:39:42.059 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=2431000
+2022-10-22 02:20:49.170 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-10-22 02:20:49.213 +03:00 [INF] Loading static page https://rutracker.org/forum/index.php?c=33
+2022-10-22 02:20:49.273 +03:00 [INF] Hosting environment: Development
+2022-10-22 02:20:49.275 +03:00 [INF] Content root path: C:\Projects\WebReaper\Examples\WebReaper.ScraperWorkerService
+2022-10-22 02:20:49.677 +03:00 [INF] Load finished in 401 ms
+2022-10-22 02:20:49.900 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=395
+2022-10-22 02:20:49.914 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2326
+2022-10-22 02:20:49.914 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2327
+2022-10-22 02:20:49.914 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2389
+2022-10-22 02:20:50.022 +03:00 [INF] Load finished in 107 ms
+2022-10-22 02:20:50.031 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2324
+2022-10-22 02:20:50.075 +03:00 [INF] Load finished in 160 ms
+2022-10-22 02:20:50.084 +03:00 [INF] Load finished in 159 ms
+2022-10-22 02:20:50.088 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2328
+2022-10-22 02:20:50.089 +03:00 [INF] Load finished in 124 ms
+2022-10-22 02:20:50.094 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=574
+2022-10-22 02:20:50.099 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=1036
+2022-10-22 02:20:50.121 +03:00 [INF] Load finished in 88 ms
+2022-10-22 02:20:50.124 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=400
+2022-10-22 02:20:50.181 +03:00 [INF] Load finished in 90 ms
+2022-10-22 02:20:50.185 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=695
+2022-10-22 02:20:50.270 +03:00 [INF] Load finished in 173 ms
+2022-10-22 02:20:50.278 +03:00 [INF] Load finished in 172 ms
+2022-10-22 02:20:50.292 +03:00 [INF] Load finished in 166 ms
+2022-10-22 02:20:50.357 +03:00 [INF] Found 5 with pagination
+2022-10-22 02:20:50.358 +03:00 [INF] Load finished in 171 ms
+2022-10-22 02:20:50.382 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=399
+2022-10-22 02:20:50.383 +03:00 [INF] Found 5 with pagination
+2022-10-22 02:20:50.413 +03:00 [INF] Found 5 with pagination
+2022-10-22 02:20:50.414 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=402
+2022-10-22 02:20:50.421 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=467
+2022-10-22 02:20:50.472 +03:00 [INF] Found 5 with pagination
+2022-10-22 02:20:50.476 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=490
+2022-10-22 02:20:50.553 +03:00 [INF] Load finished in 168 ms
+2022-10-22 02:20:50.574 +03:00 [INF] Found 5 with pagination
+2022-10-22 02:20:50.578 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=499
+2022-10-22 02:20:50.590 +03:00 [INF] Load finished in 172 ms
+2022-10-22 02:20:50.600 +03:00 [INF] Load finished in 176 ms
+2022-10-22 02:20:50.654 +03:00 [INF] Load finished in 175 ms
+2022-10-22 02:20:50.655 +03:00 [INF] Found 5 with pagination
+2022-10-22 02:20:50.658 +03:00 [INF] Found 5 with pagination
+2022-10-22 02:20:50.669 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2137
+2022-10-22 02:20:50.671 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2127
+2022-10-22 02:20:50.683 +03:00 [INF] Load finished in 102 ms
+2022-10-22 02:20:50.700 +03:00 [INF] Found 5 with pagination
+2022-10-22 02:20:50.705 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2388
+2022-10-22 02:20:50.745 +03:00 [INF] Found 5 with pagination
+2022-10-22 02:20:50.750 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2387
+2022-10-22 02:20:50.788 +03:00 [INF] Load finished in 110 ms
+2022-10-22 02:20:50.788 +03:00 [INF] Load finished in 117 ms
+2022-10-22 02:20:50.814 +03:00 [INF] Load finished in 105 ms
+2022-10-22 02:20:50.859 +03:00 [INF] Found 5 with pagination
+2022-10-22 02:20:50.861 +03:00 [INF] Found 5 with pagination
+2022-10-22 02:20:50.865 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=661
+2022-10-22 02:20:50.887 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2348
+2022-10-22 02:20:50.893 +03:00 [INF] Found 5 with pagination
+2022-10-22 02:20:50.899 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2325
+2022-10-22 02:20:50.920 +03:00 [INF] Load finished in 168 ms
+2022-10-22 02:20:50.958 +03:00 [INF] Found 5 with pagination
+2022-10-22 02:20:50.963 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2342
+2022-10-22 02:20:51.000 +03:00 [INF] Load finished in 110 ms
+2022-10-22 02:20:51.039 +03:00 [INF] Load finished in 171 ms
+2022-10-22 02:20:51.041 +03:00 [INF] Found 9 with pagination
+2022-10-22 02:20:51.048 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=530
+2022-10-22 02:20:51.075 +03:00 [INF] Found 5 with pagination
+2022-10-22 02:20:51.077 +03:00 [INF] Load finished in 177 ms
+2022-10-22 02:20:51.114 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2152
+2022-10-22 02:20:51.142 +03:00 [INF] Load finished in 176 ms
+2022-10-22 02:20:51.147 +03:00 [INF] Found 5 with pagination
+2022-10-22 02:20:51.161 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=1350
+2022-10-22 02:20:51.198 +03:00 [INF] Found 1 with pagination
+2022-10-22 02:20:51.205 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=403
+2022-10-22 02:20:51.234 +03:00 [INF] Load finished in 176 ms
+2022-10-22 02:20:51.255 +03:00 [INF] Found 7 with pagination
+2022-10-22 02:20:51.259 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=1279
+2022-10-22 02:20:51.286 +03:00 [INF] Load finished in 169 ms
+2022-10-22 02:20:51.308 +03:00 [INF] Found 5 with pagination
+2022-10-22 02:20:51.313 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=716
+2022-10-22 02:20:51.331 +03:00 [INF] Load finished in 168 ms
+2022-10-22 02:20:51.360 +03:00 [INF] Found 5 with pagination
+2022-10-22 02:20:51.364 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2165
+2022-10-22 02:20:51.377 +03:00 [INF] Load finished in 170 ms
+2022-10-22 02:20:51.420 +03:00 [INF] Found 5 with pagination
+2022-10-22 02:20:51.431 +03:00 [INF] Load finished in 169 ms
+2022-10-22 02:20:51.431 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=401
+2022-10-22 02:20:51.470 +03:00 [INF] Found 9 with pagination
+2022-10-22 02:20:51.476 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=6202692
+2022-10-22 02:20:51.487 +03:00 [INF] Load finished in 172 ms
+2022-10-22 02:20:51.520 +03:00 [INF] Found 5 with pagination
+2022-10-22 02:20:51.525 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=6272241
+2022-10-22 02:20:51.541 +03:00 [INF] Load finished in 175 ms
+2022-10-22 02:20:51.570 +03:00 [INF] Found 5 with pagination
+2022-10-22 02:20:51.571 +03:00 [INF] Load finished in 92 ms
+2022-10-22 02:20:51.575 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=5281537
+2022-10-22 02:20:51.586 +03:00 [INF] Handle on target page was called 1 times
+2022-10-22 02:20:51.609 +03:00 [INF] Load finished in 172 ms
+2022-10-22 02:20:51.614 +03:00 [INF] Sending scraped data to sinks...
+2022-10-22 02:20:51.617 +03:00 [INF] Load finished in 90 ms
+2022-10-22 02:20:51.635 +03:00 [INF] Handle on target page was called 2 times
+2022-10-22 02:20:51.639 +03:00 [INF] Sending scraped data to sinks...
+2022-10-22 02:20:51.644 +03:00 [INF] Found 7 with pagination
+2022-10-22 02:20:51.649 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=787072
+2022-10-22 02:20:51.679 +03:00 [INF] Load finished in 97 ms
+2022-10-22 02:20:51.682 +03:00 [INF] Handle on target page was called 3 times
+2022-10-22 02:20:51.684 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=1067927
+2022-10-22 02:20:51.699 +03:00 [INF] Sending scraped data to sinks...
+2022-10-22 02:20:51.702 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=1966403
+2022-10-22 02:20:51.731 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=841408
+2022-10-22 02:20:51.757 +03:00 [INF] Load finished in 96 ms
+2022-10-22 02:20:51.760 +03:00 [INF] Handle on target page was called 4 times
+2022-10-22 02:20:51.766 +03:00 [INF] Sending scraped data to sinks...
+2022-10-22 02:20:51.768 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=607964
+2022-10-22 02:20:51.798 +03:00 [INF] Load finished in 90 ms
+2022-10-22 02:20:51.800 +03:00 [INF] Handle on target page was called 5 times
+2022-10-22 02:20:51.808 +03:00 [INF] Sending scraped data to sinks...
+2022-10-22 02:20:51.809 +03:00 [INF] Load finished in 111 ms
+2022-10-22 02:20:51.809 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=3115052
+2022-10-22 02:20:51.812 +03:00 [INF] Handle on target page was called 6 times
+2022-10-22 02:20:51.829 +03:00 [INF] Load finished in 95 ms
+2022-10-22 02:20:51.835 +03:00 [INF] Handle on target page was called 7 times
+2022-10-22 02:20:51.836 +03:00 [INF] Sending scraped data to sinks...
+2022-10-22 02:20:51.842 +03:00 [INF] Sending scraped data to sinks...
+2022-10-22 02:20:51.843 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=5825271
+2022-10-22 02:20:51.848 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=841264
+2022-10-22 02:20:51.906 +03:00 [INF] Load finished in 88 ms
+2022-10-22 02:20:51.909 +03:00 [INF] Handle on target page was called 8 times
+2022-10-22 02:20:51.915 +03:00 [INF] Sending scraped data to sinks...
+2022-10-22 02:20:51.917 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=4298333
+2022-10-22 02:20:51.937 +03:00 [INF] Load finished in 166 ms
+2022-10-22 02:20:51.939 +03:00 [INF] Handle on target page was called 9 times
+2022-10-22 02:20:51.954 +03:00 [INF] Load finished in 101 ms
+2022-10-22 02:20:51.954 +03:00 [INF] Load finished in 98 ms
+2022-10-22 02:20:51.955 +03:00 [INF] Sending scraped data to sinks...
+2022-10-22 02:20:51.956 +03:00 [INF] Handle on target page was called 10 times
+2022-10-22 02:20:51.966 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=86998
+2022-10-22 02:20:51.962 +03:00 [INF] Handle on target page was called 11 times
+2022-10-22 02:20:51.971 +03:00 [INF] Sending scraped data to sinks...
+2022-10-22 02:20:51.978 +03:00 [INF] Sending scraped data to sinks...
+2022-10-22 02:20:51.979 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=6046488
+2022-10-22 02:20:51.980 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=4576948
+2022-10-22 02:20:52.016 +03:00 [INF] Load finished in 95 ms
+2022-10-22 02:20:52.018 +03:00 [INF] Handle on target page was called 12 times
+2022-10-22 02:20:52.023 +03:00 [INF] Sending scraped data to sinks...
+2022-10-22 02:20:52.024 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=5751484
+2022-10-22 02:20:52.071 +03:00 [INF] Load finished in 99 ms
+2022-10-22 02:20:52.073 +03:00 [INF] Handle on target page was called 13 times
+2022-10-22 02:20:52.078 +03:00 [INF] Load finished in 95 ms
+2022-10-22 02:20:52.080 +03:00 [INF] Handle on target page was called 14 times
+2022-10-22 02:20:52.082 +03:00 [INF] Sending scraped data to sinks...
+2022-10-22 02:20:52.084 +03:00 [INF] Sending scraped data to sinks...
+2022-10-22 02:20:52.085 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=1171033
+2022-10-22 02:20:52.087 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=5361346
+2022-10-22 18:31:20.183 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-10-22 18:31:20.220 +03:00 [INF] Loading dynamic page https://rutracker.org/forum/index.php?c=33
+2022-10-22 18:31:20.267 +03:00 [INF] Hosting environment: Development
+2022-10-22 18:31:20.268 +03:00 [INF] Content root path: C:\Projects\WebReaper\Examples\WebReaper.ScraperWorkerService
+2022-10-22 18:31:21.641 +03:00 [INF] Load finished in 1322 ms
+2022-10-22 18:31:21.720 +03:00 [INF] Loading dynamic page https://rutracker.org/forum/index.php?c=33
+2022-10-22 18:31:22.372 +03:00 [INF] Load finished in 649 ms
+2022-10-22 18:31:22.445 +03:00 [INF] Loading dynamic page https://rutracker.org/forum/index.php?c=33
+2022-10-22 18:31:23.080 +03:00 [INF] Load finished in 633 ms
+2022-10-22 18:31:23.150 +03:00 [INF] Loading dynamic page https://rutracker.org/forum/index.php?c=33
+2022-10-22 18:31:23.777 +03:00 [INF] Load finished in 625 ms
