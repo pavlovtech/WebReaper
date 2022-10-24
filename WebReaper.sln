@@ -24,6 +24,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebReaper.ScraperWorkerServ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrownsfashionScraper", "Examples\BrownsfashionScraper\BrownsfashionScraper.csproj", "{EADAEFDF-224D-4859-BEF6-11E2052DC926}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebReaper.ProxyProviders", "WebReaper.ProxyProviders\WebReaper.ProxyProviders.csproj", "{AF578B95-A2F8-4E21-B8FC-FE86FF5AB9FC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,10 @@ Global
 		{EADAEFDF-224D-4859-BEF6-11E2052DC926}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EADAEFDF-224D-4859-BEF6-11E2052DC926}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EADAEFDF-224D-4859-BEF6-11E2052DC926}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF578B95-A2F8-4E21-B8FC-FE86FF5AB9FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF578B95-A2F8-4E21-B8FC-FE86FF5AB9FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF578B95-A2F8-4E21-B8FC-FE86FF5AB9FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF578B95-A2F8-4E21-B8FC-FE86FF5AB9FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

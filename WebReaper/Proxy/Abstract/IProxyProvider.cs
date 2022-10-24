@@ -4,6 +4,6 @@ namespace WebReaper.Proxy.Abstract
 {
     public interface IProxyProvider
     {
-        Task<IWebProxy> GetProxyAsync();
+        Task<WebProxy> GetProxyAsync();
     }
 }

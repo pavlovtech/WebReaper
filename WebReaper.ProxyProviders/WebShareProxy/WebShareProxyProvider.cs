@@ -3,7 +3,7 @@ using Newtonsoft.Json.Linq;
 using System.Net;
 using WebReaper.Proxy.Abstract;
 
-namespace WebReaper.IntegrationTests.WebShareProxy
+namespace WebReaper.ProxyProviders.WebShareProxy
 {
 
     public class WebShareProxyProvider : IProxyProvider
@@ -28,7 +28,7 @@ namespace WebReaper.IntegrationTests.WebShareProxy
             webProxies.AddRange(proxies);
         }
 
-        public async Task<IWebProxy> GetProxyAsync()
+        public async Task<WebProxy> GetProxyAsync()
         {
             await Initialization;
 
