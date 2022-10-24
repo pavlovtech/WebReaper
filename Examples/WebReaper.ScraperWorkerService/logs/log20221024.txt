@@ -884,3 +884,426 @@
 2022-10-24 12:41:59.732 +03:00 [INF] Sending scraped data to sinks...
 2022-10-24 12:41:59.733 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=3468573
 2022-10-24 12:41:59.750 +03:00 [INF] Load finished in 95 ms
+2022-10-24 20:30:05.675 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-10-24 20:30:05.727 +03:00 [INF] Loading static page https://rutracker.org/forum/index.php?c=33
+2022-10-24 20:30:05.788 +03:00 [INF] Hosting environment: Development
+2022-10-24 20:30:05.792 +03:00 [INF] Content root path: C:\Projects\WebReaper\Examples\WebReaper.ScraperWorkerService
+2022-10-24 20:30:06.562 +03:00 [INF] Load finished in 771 ms
+2022-10-24 20:30:07.025 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=395
+2022-10-24 20:30:07.192 +03:00 [INF] Load finished in 163 ms
+2022-10-24 20:30:07.212 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2326
+2022-10-24 20:30:07.379 +03:00 [INF] Load finished in 161 ms
+2022-10-24 20:30:07.394 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2389
+2022-10-24 20:30:07.526 +03:00 [INF] Load finished in 130 ms
+2022-10-24 20:30:07.541 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2327
+2022-10-24 20:30:07.677 +03:00 [INF] Load finished in 134 ms
+2022-10-24 20:30:07.685 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2324
+2022-10-24 20:30:07.817 +03:00 [INF] Load finished in 129 ms
+2022-10-24 20:30:07.825 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2328
+2022-10-24 20:30:08.004 +03:00 [INF] Load finished in 177 ms
+2022-10-24 20:30:08.008 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=574
+2022-10-24 20:30:08.228 +03:00 [INF] Load finished in 217 ms
+2022-10-24 20:30:08.274 +03:00 [INF] Found 5 with pagination
+2022-10-24 20:30:08.307 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=1036
+2022-10-24 20:30:08.553 +03:00 [INF] Load finished in 243 ms
+2022-10-24 20:30:08.595 +03:00 [INF] Found 5 with pagination
+2022-10-24 20:30:08.607 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=400
+2022-10-24 20:30:08.816 +03:00 [INF] Load finished in 208 ms
+2022-10-24 20:30:08.846 +03:00 [INF] Found 5 with pagination
+2022-10-24 20:30:08.861 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2388
+2022-10-24 20:30:09.096 +03:00 [INF] Load finished in 233 ms
+2022-10-24 20:30:09.127 +03:00 [INF] Found 5 with pagination
+2022-10-24 20:30:09.130 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2387
+2022-10-24 20:30:09.354 +03:00 [INF] Load finished in 217 ms
+2022-10-24 20:30:09.401 +03:00 [INF] Found 5 with pagination
+2022-10-24 20:30:09.406 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=661
+2022-10-24 20:30:09.631 +03:00 [INF] Load finished in 223 ms
+2022-10-24 20:30:09.660 +03:00 [INF] Found 5 with pagination
+2022-10-24 20:30:09.665 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2348
+2022-10-24 20:30:09.888 +03:00 [INF] Load finished in 216 ms
+2022-10-24 20:30:09.948 +03:00 [INF] Found 9 with pagination
+2022-10-24 20:30:09.956 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=695
+2022-10-24 20:30:10.197 +03:00 [INF] Load finished in 239 ms
+2022-10-24 20:30:10.235 +03:00 [INF] Found 5 with pagination
+2022-10-24 20:30:10.242 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=399
+2022-10-24 20:30:10.453 +03:00 [INF] Load finished in 209 ms
+2022-10-24 20:30:10.506 +03:00 [INF] Found 5 with pagination
+2022-10-24 20:30:10.510 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=402
+2022-10-24 20:30:10.748 +03:00 [INF] Load finished in 236 ms
+2022-10-24 20:30:10.775 +03:00 [INF] Found 5 with pagination
+2022-10-24 20:30:10.779 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=467
+2022-10-24 20:30:10.947 +03:00 [INF] Load finished in 166 ms
+2022-10-24 20:30:11.011 +03:00 [INF] Found 5 with pagination
+2022-10-24 20:30:11.019 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=490
+2022-10-24 20:30:11.223 +03:00 [INF] Load finished in 200 ms
+2022-10-24 20:30:11.252 +03:00 [INF] Found 5 with pagination
+2022-10-24 20:30:11.258 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=499
+2022-10-24 20:30:11.408 +03:00 [INF] Load finished in 148 ms
+2022-10-24 20:30:11.462 +03:00 [INF] Found 5 with pagination
+2022-10-24 20:30:11.469 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2137
+2022-10-24 20:30:11.700 +03:00 [INF] Load finished in 228 ms
+2022-10-24 20:30:11.725 +03:00 [INF] Found 5 with pagination
+2022-10-24 20:30:11.729 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2127
+2022-10-24 20:30:11.879 +03:00 [INF] Load finished in 140 ms
+2022-10-24 20:30:11.926 +03:00 [INF] Found 5 with pagination
+2022-10-24 20:30:11.930 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2325
+2022-10-24 20:30:12.113 +03:00 [INF] Load finished in 174 ms
+2022-10-24 20:30:12.140 +03:00 [INF] Found 5 with pagination
+2022-10-24 20:30:12.144 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2342
+2022-10-24 20:30:12.363 +03:00 [INF] Load finished in 217 ms
+2022-10-24 20:30:12.419 +03:00 [INF] Found 1 with pagination
+2022-10-24 20:30:12.423 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=530
+2022-10-24 20:30:12.630 +03:00 [INF] Load finished in 204 ms
+2022-10-24 20:30:12.659 +03:00 [INF] Found 7 with pagination
+2022-10-24 20:30:12.664 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2152
+2022-10-24 20:30:12.892 +03:00 [INF] Load finished in 221 ms
+2022-10-24 20:30:12.946 +03:00 [INF] Found 5 with pagination
+2022-10-24 20:30:12.972 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=1350
+2022-10-24 20:30:13.180 +03:00 [INF] Load finished in 206 ms
+2022-10-24 20:30:13.210 +03:00 [INF] Found 5 with pagination
+2022-10-24 20:30:13.214 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=403
+2022-10-24 20:30:13.438 +03:00 [INF] Load finished in 216 ms
+2022-10-24 20:30:13.494 +03:00 [INF] Found 5 with pagination
+2022-10-24 20:30:13.499 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=1279
+2022-10-24 20:30:13.724 +03:00 [INF] Load finished in 218 ms
+2022-10-24 20:30:13.752 +03:00 [INF] Found 9 with pagination
+2022-10-24 20:30:13.758 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=716
+2022-10-24 20:30:13.979 +03:00 [INF] Load finished in 219 ms
+2022-10-24 20:30:14.039 +03:00 [INF] Found 5 with pagination
+2022-10-24 20:30:14.055 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2165
+2022-10-24 20:30:14.268 +03:00 [INF] Load finished in 211 ms
+2022-10-24 20:30:14.294 +03:00 [INF] Found 5 with pagination
+2022-10-24 20:30:14.299 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=401
+2022-10-24 20:30:14.454 +03:00 [INF] Load finished in 152 ms
+2022-10-24 20:30:14.508 +03:00 [INF] Found 7 with pagination
+2022-10-24 20:30:14.513 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=812128
+2022-10-24 20:30:14.657 +03:00 [INF] Load finished in 140 ms
+2022-10-24 20:30:14.666 +03:00 [INF] Handle on target page was called 1 times
+2022-10-24 20:30:14.693 +03:00 [INF] Sending scraped data to sinks...
+2022-10-24 21:32:04.446 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-10-24 21:32:04.515 +03:00 [INF] Loading static page https://rutracker.org/forum/index.php?c=33
+2022-10-24 21:32:04.610 +03:00 [INF] Hosting environment: Development
+2022-10-24 21:32:04.615 +03:00 [INF] Content root path: C:\Projects\WebReaper\Examples\WebReaper.ScraperWorkerService
+2022-10-24 21:32:05.975 +03:00 [INF] Load finished in 1362 ms
+2022-10-24 21:32:06.230 +03:00 [INF] Recievd 6 of new jobs
+2022-10-24 21:32:06.233 +03:00 [INF] Schedules 6 new jobs
+2022-10-24 21:32:06.239 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=395
+2022-10-24 21:32:06.604 +03:00 [INF] Load finished in 362 ms
+2022-10-24 21:32:06.611 +03:00 [INF] Recievd 5 of new jobs
+2022-10-24 21:32:06.612 +03:00 [INF] Schedules 5 new jobs
+2022-10-24 21:32:06.614 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2326
+2022-10-24 21:32:06.930 +03:00 [INF] Load finished in 311 ms
+2022-10-24 21:32:06.946 +03:00 [INF] Recievd 3 of new jobs
+2022-10-24 21:32:06.958 +03:00 [INF] Schedules 3 new jobs
+2022-10-24 21:32:06.961 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2389
+2022-10-24 21:32:07.262 +03:00 [INF] Load finished in 299 ms
+2022-10-24 21:32:07.268 +03:00 [INF] Recievd 4 of new jobs
+2022-10-24 21:32:07.272 +03:00 [INF] Schedules 4 new jobs
+2022-10-24 21:32:07.273 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2327
+2022-10-24 21:32:07.614 +03:00 [INF] Load finished in 339 ms
+2022-10-24 21:32:07.624 +03:00 [INF] Recievd 8 of new jobs
+2022-10-24 21:32:07.625 +03:00 [INF] Schedules 8 new jobs
+2022-10-24 21:32:07.627 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2324
+2022-10-24 21:32:07.930 +03:00 [INF] Load finished in 301 ms
+2022-10-24 21:32:07.941 +03:00 [INF] Recievd 4 of new jobs
+2022-10-24 21:32:07.943 +03:00 [INF] Schedules 4 new jobs
+2022-10-24 21:32:07.944 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2328
+2022-10-24 21:32:08.245 +03:00 [INF] Load finished in 299 ms
+2022-10-24 21:32:08.250 +03:00 [INF] Recievd 6 of new jobs
+2022-10-24 21:32:08.253 +03:00 [INF] Schedules 6 new jobs
+2022-10-24 21:32:08.256 +03:00 [INF] Recievd 0 of new jobs
+2022-10-24 21:32:08.262 +03:00 [INF] Schedules 0 new jobs
+2022-10-24 21:32:08.264 +03:00 [INF] Recievd 0 of new jobs
+2022-10-24 21:32:08.268 +03:00 [INF] Schedules 0 new jobs
+2022-10-24 21:32:08.273 +03:00 [INF] Recievd 0 of new jobs
+2022-10-24 21:32:08.276 +03:00 [INF] Schedules 0 new jobs
+2022-10-24 21:32:08.278 +03:00 [INF] Recievd 0 of new jobs
+2022-10-24 21:32:08.279 +03:00 [INF] Schedules 0 new jobs
+2022-10-24 21:32:08.281 +03:00 [INF] Recievd 0 of new jobs
+2022-10-24 21:32:08.287 +03:00 [INF] Schedules 0 new jobs
+2022-10-24 21:32:08.290 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=574
+2022-10-24 21:32:08.758 +03:00 [INF] Load finished in 466 ms
+2022-10-24 21:32:08.792 +03:00 [INF] Found 5 with pagination
+2022-10-24 21:32:08.814 +03:00 [INF] Recievd 55 of new jobs
+2022-10-24 21:32:08.822 +03:00 [INF] Schedules 55 new jobs
+2022-10-24 21:32:08.825 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=1036
+2022-10-24 21:32:09.291 +03:00 [INF] Load finished in 463 ms
+2022-10-24 21:32:09.323 +03:00 [INF] Found 5 with pagination
+2022-10-24 21:32:09.327 +03:00 [INF] Recievd 55 of new jobs
+2022-10-24 21:32:09.329 +03:00 [INF] Schedules 55 new jobs
+2022-10-24 21:32:09.331 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=400
+2022-10-24 21:32:09.813 +03:00 [INF] Load finished in 474 ms
+2022-10-24 21:32:09.858 +03:00 [INF] Found 5 with pagination
+2022-10-24 21:32:09.871 +03:00 [INF] Recievd 55 of new jobs
+2022-10-24 21:32:09.874 +03:00 [INF] Schedules 55 new jobs
+2022-10-24 21:32:09.876 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2388
+2022-10-24 21:32:10.329 +03:00 [INF] Load finished in 451 ms
+2022-10-24 21:32:10.361 +03:00 [INF] Found 5 with pagination
+2022-10-24 21:32:10.365 +03:00 [INF] Recievd 55 of new jobs
+2022-10-24 21:32:10.372 +03:00 [INF] Schedules 55 new jobs
+2022-10-24 21:32:10.374 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2387
+2022-10-24 21:32:10.829 +03:00 [INF] Load finished in 452 ms
+2022-10-24 21:32:10.874 +03:00 [INF] Found 5 with pagination
+2022-10-24 21:32:10.877 +03:00 [INF] Recievd 54 of new jobs
+2022-10-24 21:32:10.879 +03:00 [INF] Schedules 54 new jobs
+2022-10-24 21:32:10.882 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=661
+2022-10-24 21:32:11.343 +03:00 [INF] Load finished in 454 ms
+2022-10-24 21:32:11.369 +03:00 [INF] Found 5 with pagination
+2022-10-24 21:32:11.374 +03:00 [INF] Recievd 55 of new jobs
+2022-10-24 21:32:11.376 +03:00 [INF] Schedules 55 new jobs
+2022-10-24 21:32:11.378 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2348
+2022-10-24 21:32:11.840 +03:00 [INF] Load finished in 460 ms
+2022-10-24 21:32:11.876 +03:00 [INF] Found 9 with pagination
+2022-10-24 21:32:11.880 +03:00 [INF] Recievd 59 of new jobs
+2022-10-24 21:32:11.882 +03:00 [INF] Schedules 59 new jobs
+2022-10-24 21:32:11.888 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=695
+2022-10-24 21:32:12.344 +03:00 [INF] Load finished in 454 ms
+2022-10-24 21:32:12.373 +03:00 [INF] Found 5 with pagination
+2022-10-24 21:32:12.378 +03:00 [INF] Recievd 55 of new jobs
+2022-10-24 21:32:12.380 +03:00 [INF] Schedules 55 new jobs
+2022-10-24 21:32:12.389 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=399
+2022-10-24 21:32:12.844 +03:00 [INF] Load finished in 452 ms
+2022-10-24 21:32:12.893 +03:00 [INF] Found 5 with pagination
+2022-10-24 21:32:12.896 +03:00 [INF] Recievd 55 of new jobs
+2022-10-24 21:32:12.898 +03:00 [INF] Schedules 55 new jobs
+2022-10-24 21:32:12.905 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=402
+2022-10-24 21:32:13.360 +03:00 [INF] Load finished in 452 ms
+2022-10-24 21:32:13.384 +03:00 [INF] Found 5 with pagination
+2022-10-24 21:32:13.391 +03:00 [INF] Recievd 55 of new jobs
+2022-10-24 21:32:13.392 +03:00 [INF] Schedules 55 new jobs
+2022-10-24 21:32:13.394 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=467
+2022-10-24 21:32:13.742 +03:00 [INF] Load finished in 346 ms
+2022-10-24 21:32:13.775 +03:00 [INF] Found 5 with pagination
+2022-10-24 21:32:13.778 +03:00 [INF] Recievd 55 of new jobs
+2022-10-24 21:32:13.780 +03:00 [INF] Schedules 55 new jobs
+2022-10-24 21:32:13.781 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=490
+2022-10-24 21:32:14.246 +03:00 [INF] Load finished in 457 ms
+2022-10-24 21:32:14.288 +03:00 [INF] Found 5 with pagination
+2022-10-24 21:32:14.292 +03:00 [INF] Recievd 55 of new jobs
+2022-10-24 21:32:14.294 +03:00 [INF] Schedules 55 new jobs
+2022-10-24 21:32:14.296 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=499
+2022-10-24 21:32:14.785 +03:00 [INF] Load finished in 481 ms
+2022-10-24 21:32:14.828 +03:00 [INF] Found 5 with pagination
+2022-10-24 21:32:14.834 +03:00 [INF] Recievd 55 of new jobs
+2022-10-24 21:32:14.838 +03:00 [INF] Schedules 55 new jobs
+2022-10-24 21:32:14.841 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2137
+2022-10-24 21:32:15.305 +03:00 [INF] Load finished in 461 ms
+2022-10-24 21:32:15.327 +03:00 [INF] Found 5 with pagination
+2022-10-24 21:32:15.334 +03:00 [INF] Recievd 55 of new jobs
+2022-10-24 21:32:15.337 +03:00 [INF] Schedules 55 new jobs
+2022-10-24 21:32:15.339 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2127
+2022-10-24 21:32:15.660 +03:00 [INF] Load finished in 319 ms
+2022-10-24 21:32:15.725 +03:00 [INF] Found 5 with pagination
+2022-10-24 21:32:15.728 +03:00 [INF] Recievd 55 of new jobs
+2022-10-24 21:32:15.730 +03:00 [INF] Schedules 55 new jobs
+2022-10-24 21:32:15.739 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2325
+2022-10-24 21:32:16.206 +03:00 [INF] Load finished in 464 ms
+2022-10-24 21:32:16.230 +03:00 [INF] Found 5 with pagination
+2022-10-24 21:32:16.238 +03:00 [INF] Recievd 55 of new jobs
+2022-10-24 21:32:16.240 +03:00 [INF] Schedules 55 new jobs
+2022-10-24 21:32:16.243 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2342
+2022-10-24 21:32:16.842 +03:00 [INF] Load finished in 595 ms
+2022-10-24 21:32:16.873 +03:00 [INF] Found 1 with pagination
+2022-10-24 21:32:16.877 +03:00 [INF] Recievd 51 of new jobs
+2022-10-24 21:32:16.879 +03:00 [INF] Schedules 51 new jobs
+2022-10-24 21:32:16.888 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=530
+2022-10-24 21:32:17.346 +03:00 [INF] Load finished in 455 ms
+2022-10-24 21:32:17.379 +03:00 [INF] Found 7 with pagination
+2022-10-24 21:32:17.387 +03:00 [INF] Recievd 57 of new jobs
+2022-10-24 21:32:17.389 +03:00 [INF] Schedules 57 new jobs
+2022-10-24 21:32:17.392 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2152
+2022-10-24 21:32:17.998 +03:00 [INF] Load finished in 604 ms
+2022-10-24 21:32:18.042 +03:00 [INF] Found 5 with pagination
+2022-10-24 21:32:18.046 +03:00 [INF] Recievd 55 of new jobs
+2022-10-24 21:32:18.047 +03:00 [INF] Schedules 55 new jobs
+2022-10-24 21:32:18.054 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=1350
+2022-10-24 21:32:18.510 +03:00 [INF] Load finished in 453 ms
+2022-10-24 21:32:18.534 +03:00 [INF] Found 5 with pagination
+2022-10-24 21:32:18.541 +03:00 [INF] Recievd 55 of new jobs
+2022-10-24 21:32:18.542 +03:00 [INF] Schedules 55 new jobs
+2022-10-24 21:32:18.544 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=403
+2022-10-24 21:32:19.007 +03:00 [INF] Load finished in 460 ms
+2022-10-24 21:32:19.074 +03:00 [INF] Found 5 with pagination
+2022-10-24 21:32:19.078 +03:00 [INF] Recievd 55 of new jobs
+2022-10-24 21:32:19.080 +03:00 [INF] Schedules 55 new jobs
+2022-10-24 21:32:19.090 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=1279
+2022-10-24 21:32:19.556 +03:00 [INF] Load finished in 464 ms
+2022-10-24 21:32:19.579 +03:00 [INF] Found 9 with pagination
+2022-10-24 21:32:19.588 +03:00 [INF] Recievd 59 of new jobs
+2022-10-24 21:32:19.589 +03:00 [INF] Schedules 59 new jobs
+2022-10-24 21:32:19.592 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=716
+2022-10-24 21:32:20.074 +03:00 [INF] Load finished in 480 ms
+2022-10-24 21:32:20.107 +03:00 [INF] Found 5 with pagination
+2022-10-24 21:32:20.111 +03:00 [INF] Recievd 55 of new jobs
+2022-10-24 21:32:20.113 +03:00 [INF] Schedules 55 new jobs
+2022-10-24 21:32:20.122 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=2165
+2022-10-24 21:32:20.605 +03:00 [INF] Load finished in 480 ms
+2022-10-24 21:32:20.641 +03:00 [INF] Found 5 with pagination
+2022-10-24 21:32:20.646 +03:00 [INF] Recievd 55 of new jobs
+2022-10-24 21:32:20.648 +03:00 [INF] Schedules 55 new jobs
+2022-10-24 21:32:20.656 +03:00 [INF] Loading static page https://rutracker.org/forum/viewforum.php?f=401
+2022-10-24 21:32:21.114 +03:00 [INF] Load finished in 455 ms
+2022-10-24 21:32:21.155 +03:00 [INF] Found 7 with pagination
+2022-10-24 21:32:21.160 +03:00 [INF] Recievd 57 of new jobs
+2022-10-24 21:32:21.161 +03:00 [INF] Schedules 57 new jobs
+2022-10-24 21:32:21.163 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=812128
+2022-10-24 21:32:21.480 +03:00 [INF] Load finished in 309 ms
+2022-10-24 21:32:21.494 +03:00 [INF] Handle on target page was called 1 times
+2022-10-24 21:32:21.529 +03:00 [INF] Sending scraped data to sinks...
+2022-10-24 21:32:21.537 +03:00 [INF] Waiting for sinks ...
+2022-10-24 21:32:21.539 +03:00 [INF] Finished waiting for sinks
+2022-10-24 21:32:21.540 +03:00 [INF] Recievd 0 of new jobs
+2022-10-24 21:32:21.542 +03:00 [INF] Schedules 0 new jobs
+2022-10-24 21:32:21.544 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=2125967
+2022-10-24 21:32:21.853 +03:00 [INF] Load finished in 306 ms
+2022-10-24 21:32:21.858 +03:00 [INF] Handle on target page was called 2 times
+2022-10-24 21:32:21.863 +03:00 [INF] Sending scraped data to sinks...
+2022-10-24 21:32:21.865 +03:00 [INF] Waiting for sinks ...
+2022-10-24 21:32:21.872 +03:00 [INF] Finished waiting for sinks
+2022-10-24 21:32:21.875 +03:00 [INF] Recievd 0 of new jobs
+2022-10-24 21:32:21.877 +03:00 [INF] Schedules 0 new jobs
+2022-10-24 21:32:21.881 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=5215905
+2022-10-24 21:32:22.223 +03:00 [INF] Load finished in 333 ms
+2022-10-24 21:32:22.225 +03:00 [INF] Handle on target page was called 3 times
+2022-10-24 21:32:22.237 +03:00 [INF] Sending scraped data to sinks...
+2022-10-24 21:32:22.240 +03:00 [INF] Waiting for sinks ...
+2022-10-24 21:32:22.242 +03:00 [INF] Finished waiting for sinks
+2022-10-24 21:32:22.244 +03:00 [INF] Recievd 0 of new jobs
+2022-10-24 21:32:22.246 +03:00 [INF] Schedules 0 new jobs
+2022-10-24 21:32:22.256 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=126497
+2022-10-24 21:32:22.703 +03:00 [INF] Load finished in 445 ms
+2022-10-24 21:32:22.706 +03:00 [INF] Handle on target page was called 4 times
+2022-10-24 21:32:22.930 +03:00 [INF] Sending scraped data to sinks...
+2022-10-24 21:32:22.938 +03:00 [INF] Waiting for sinks ...
+2022-10-24 21:32:22.941 +03:00 [INF] Finished waiting for sinks
+2022-10-24 21:32:22.943 +03:00 [INF] Recievd 0 of new jobs
+2022-10-24 21:32:22.945 +03:00 [INF] Schedules 0 new jobs
+2022-10-24 21:32:22.948 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=446685
+2022-10-24 21:32:23.271 +03:00 [INF] Load finished in 314 ms
+2022-10-24 21:32:23.273 +03:00 [INF] Handle on target page was called 5 times
+2022-10-24 21:32:23.365 +03:00 [INF] Sending scraped data to sinks...
+2022-10-24 21:32:23.371 +03:00 [INF] Waiting for sinks ...
+2022-10-24 21:32:23.374 +03:00 [INF] Finished waiting for sinks
+2022-10-24 21:32:23.376 +03:00 [INF] Recievd 0 of new jobs
+2022-10-24 21:32:23.378 +03:00 [INF] Schedules 0 new jobs
+2022-10-24 21:32:23.380 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=2246792
+2022-10-24 21:32:23.854 +03:00 [INF] Load finished in 466 ms
+2022-10-24 21:32:23.857 +03:00 [INF] Handle on target page was called 6 times
+2022-10-24 21:32:23.867 +03:00 [INF] Sending scraped data to sinks...
+2022-10-24 21:32:23.869 +03:00 [INF] Waiting for sinks ...
+2022-10-24 21:32:23.873 +03:00 [INF] Finished waiting for sinks
+2022-10-24 21:32:23.875 +03:00 [INF] Recievd 0 of new jobs
+2022-10-24 21:32:23.879 +03:00 [INF] Schedules 0 new jobs
+2022-10-24 21:32:23.881 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=5181742
+2022-10-24 21:32:24.195 +03:00 [INF] Load finished in 306 ms
+2022-10-24 21:32:24.197 +03:00 [INF] Handle on target page was called 7 times
+2022-10-24 21:32:24.210 +03:00 [INF] Sending scraped data to sinks...
+2022-10-24 21:32:24.211 +03:00 [INF] Waiting for sinks ...
+2022-10-24 21:32:24.213 +03:00 [INF] Finished waiting for sinks
+2022-10-24 21:32:24.223 +03:00 [INF] Recievd 0 of new jobs
+2022-10-24 21:32:24.226 +03:00 [INF] Schedules 0 new jobs
+2022-10-24 21:32:24.228 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=1697791
+2022-10-24 21:32:24.678 +03:00 [INF] Load finished in 447 ms
+2022-10-24 21:32:24.680 +03:00 [INF] Handle on target page was called 8 times
+2022-10-24 21:32:24.705 +03:00 [INF] Sending scraped data to sinks...
+2022-10-24 21:32:24.706 +03:00 [INF] Waiting for sinks ...
+2022-10-24 21:32:24.708 +03:00 [INF] Finished waiting for sinks
+2022-10-24 21:32:24.710 +03:00 [INF] Recievd 0 of new jobs
+2022-10-24 21:32:24.712 +03:00 [INF] Schedules 0 new jobs
+2022-10-24 21:32:24.714 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=5319633
+2022-10-24 21:32:25.027 +03:00 [INF] Load finished in 303 ms
+2022-10-24 21:32:25.029 +03:00 [INF] Handle on target page was called 9 times
+2022-10-24 21:32:25.040 +03:00 [INF] Sending scraped data to sinks...
+2022-10-24 21:32:25.041 +03:00 [INF] Waiting for sinks ...
+2022-10-24 21:32:25.044 +03:00 [INF] Finished waiting for sinks
+2022-10-24 21:32:25.055 +03:00 [INF] Recievd 0 of new jobs
+2022-10-24 21:32:25.058 +03:00 [INF] Schedules 0 new jobs
+2022-10-24 21:32:25.061 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=3490364
+2022-10-24 21:32:25.402 +03:00 [INF] Load finished in 329 ms
+2022-10-24 21:32:25.404 +03:00 [INF] Handle on target page was called 10 times
+2022-10-24 21:32:25.409 +03:00 [INF] Sending scraped data to sinks...
+2022-10-24 21:32:25.410 +03:00 [INF] Waiting for sinks ...
+2022-10-24 21:32:25.412 +03:00 [INF] Finished waiting for sinks
+2022-10-24 21:32:25.414 +03:00 [INF] Recievd 0 of new jobs
+2022-10-24 21:32:25.418 +03:00 [INF] Schedules 0 new jobs
+2022-10-24 21:32:25.421 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=5825239
+2022-10-24 21:32:25.737 +03:00 [INF] Load finished in 312 ms
+2022-10-24 21:32:25.739 +03:00 [INF] Handle on target page was called 11 times
+2022-10-24 21:32:25.745 +03:00 [INF] Sending scraped data to sinks...
+2022-10-24 21:32:25.747 +03:00 [INF] Waiting for sinks ...
+2022-10-24 21:32:25.754 +03:00 [INF] Finished waiting for sinks
+2022-10-24 21:32:25.756 +03:00 [INF] Recievd 0 of new jobs
+2022-10-24 21:32:25.759 +03:00 [INF] Schedules 0 new jobs
+2022-10-24 21:32:25.761 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=2185541
+2022-10-24 21:32:26.073 +03:00 [INF] Load finished in 310 ms
+2022-10-24 21:32:26.075 +03:00 [INF] Handle on target page was called 12 times
+2022-10-24 21:32:26.088 +03:00 [INF] Sending scraped data to sinks...
+2022-10-24 21:32:26.089 +03:00 [INF] Waiting for sinks ...
+2022-10-24 21:32:26.091 +03:00 [INF] Finished waiting for sinks
+2022-10-24 21:32:26.093 +03:00 [INF] Recievd 0 of new jobs
+2022-10-24 21:32:26.096 +03:00 [INF] Schedules 0 new jobs
+2022-10-24 21:32:26.100 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=5232732
+2022-10-24 21:32:26.409 +03:00 [INF] Load finished in 302 ms
+2022-10-24 21:32:26.411 +03:00 [INF] Handle on target page was called 13 times
+2022-10-24 21:32:26.419 +03:00 [INF] Sending scraped data to sinks...
+2022-10-24 21:32:26.422 +03:00 [INF] Waiting for sinks ...
+2022-10-24 21:32:26.423 +03:00 [INF] Finished waiting for sinks
+2022-10-24 21:32:26.425 +03:00 [INF] Recievd 0 of new jobs
+2022-10-24 21:32:26.427 +03:00 [INF] Schedules 0 new jobs
+2022-10-24 21:32:26.429 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=1182236
+2022-10-24 21:32:26.755 +03:00 [INF] Load finished in 319 ms
+2022-10-24 21:32:26.757 +03:00 [INF] Handle on target page was called 14 times
+2022-10-24 21:32:26.763 +03:00 [INF] Sending scraped data to sinks...
+2022-10-24 21:32:26.765 +03:00 [INF] Waiting for sinks ...
+2022-10-24 21:32:26.769 +03:00 [INF] Finished waiting for sinks
+2022-10-24 21:32:26.772 +03:00 [INF] Recievd 0 of new jobs
+2022-10-24 21:32:26.777 +03:00 [INF] Schedules 0 new jobs
+2022-10-24 21:32:26.780 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=5847911
+2022-10-24 21:32:27.095 +03:00 [INF] Load finished in 310 ms
+2022-10-24 21:32:27.097 +03:00 [INF] Handle on target page was called 15 times
+2022-10-24 21:32:27.106 +03:00 [INF] Sending scraped data to sinks...
+2022-10-24 21:32:27.107 +03:00 [INF] Waiting for sinks ...
+2022-10-24 21:32:27.108 +03:00 [INF] Finished waiting for sinks
+2022-10-24 21:32:27.110 +03:00 [INF] Recievd 0 of new jobs
+2022-10-24 21:32:27.112 +03:00 [INF] Schedules 0 new jobs
+2022-10-24 21:32:27.119 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=4295386
+2022-10-24 21:32:27.428 +03:00 [INF] Load finished in 306 ms
+2022-10-24 21:32:27.432 +03:00 [INF] Handle on target page was called 16 times
+2022-10-24 21:32:27.441 +03:00 [INF] Sending scraped data to sinks...
+2022-10-24 21:32:27.443 +03:00 [INF] Waiting for sinks ...
+2022-10-24 21:32:27.445 +03:00 [INF] Finished waiting for sinks
+2022-10-24 21:32:27.447 +03:00 [INF] Recievd 0 of new jobs
+2022-10-24 21:32:27.454 +03:00 [INF] Schedules 0 new jobs
+2022-10-24 21:32:27.456 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=3332705
+2022-10-24 21:32:27.904 +03:00 [INF] Load finished in 446 ms
+2022-10-24 21:32:27.906 +03:00 [INF] Handle on target page was called 17 times
+2022-10-24 21:32:27.922 +03:00 [INF] Sending scraped data to sinks...
+2022-10-24 21:32:27.923 +03:00 [INF] Waiting for sinks ...
+2022-10-24 21:32:27.926 +03:00 [INF] Finished waiting for sinks
+2022-10-24 21:32:27.928 +03:00 [INF] Recievd 0 of new jobs
+2022-10-24 21:32:27.930 +03:00 [INF] Schedules 0 new jobs
+2022-10-24 21:32:27.937 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=5057060
+2022-10-24 21:32:28.246 +03:00 [INF] Load finished in 305 ms
+2022-10-24 21:32:28.251 +03:00 [INF] Handle on target page was called 18 times
+2022-10-24 21:32:28.257 +03:00 [INF] Sending scraped data to sinks...
+2022-10-24 21:32:28.258 +03:00 [INF] Waiting for sinks ...
+2022-10-24 21:32:28.260 +03:00 [INF] Finished waiting for sinks
+2022-10-24 21:32:28.262 +03:00 [INF] Recievd 0 of new jobs
+2022-10-24 21:32:28.270 +03:00 [INF] Schedules 0 new jobs
+2022-10-24 21:32:28.273 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=6238142
+2022-10-24 21:32:28.581 +03:00 [INF] Load finished in 306 ms
+2022-10-24 21:32:28.585 +03:00 [INF] Handle on target page was called 19 times
+2022-10-24 21:32:28.592 +03:00 [INF] Sending scraped data to sinks...
+2022-10-24 21:32:28.593 +03:00 [INF] Waiting for sinks ...
+2022-10-24 21:32:28.595 +03:00 [INF] Finished waiting for sinks
+2022-10-24 21:32:28.598 +03:00 [INF] Recievd 0 of new jobs
+2022-10-24 21:32:28.604 +03:00 [INF] Schedules 0 new jobs
+2022-10-24 21:32:28.606 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=1892355
+2022-10-24 21:32:28.910 +03:00 [INF] Load finished in 301 ms
+2022-10-24 21:32:28.912 +03:00 [INF] Handle on target page was called 20 times
+2022-10-24 21:32:28.924 +03:00 [INF] Sending scraped data to sinks...
+2022-10-24 21:32:28.926 +03:00 [INF] Waiting for sinks ...
+2022-10-24 21:32:28.929 +03:00 [INF] Finished waiting for sinks
+2022-10-24 21:32:28.938 +03:00 [INF] Recievd 0 of new jobs
+2022-10-24 21:32:28.942 +03:00 [INF] Schedules 0 new jobs
+2022-10-24 21:32:28.945 +03:00 [INF] Loading static page https://rutracker.org/forum/viewtopic.php?t=6251072

@@ -15,7 +15,11 @@ namespace WebReaper.Sinks.Concrete
 
         public bool IsInitialized { get; set; } = false;
 
-        public JsonLinesFileSink(string filePath) => this.filePath = filePath;
+        public JsonLinesFileSink(string filePath)
+        {
+            this.filePath = filePath;
+            Init();
+        }
 
         public Task EmitAsync(JObject scrapedData, CancellationToken cancellationToken = default)
         {
@@ -47,10 +51,11 @@ namespace WebReaper.Sinks.Concrete
                 }
 
                 File.Delete(filePath);
-                IsInitialized = true;
-
-                _ = HandleAsync(cancellationToken);
             }
+
+            _ = Task.Run(async() => await HandleAsync(cancellationToken));
+
+            IsInitialized = true;
 
             return;
         }

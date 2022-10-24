@@ -49,7 +49,10 @@ public class ScraperRunner
                 {
                     var newJobs = await Executor.RetryAsync(() => Spider.CrawlAsync(job, cancellationToken));
 
+                    Logger.LogInformation("Recievd {number} of new jobs", newJobs.Count());
                     await Scheduler.AddAsync(newJobs, cancellationToken);
+                    Logger.LogInformation("Schedules {number} new jobs", newJobs.Count());
+
                 }
                 catch (Exception ex)
                 {

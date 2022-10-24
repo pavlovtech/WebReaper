@@ -32,13 +32,12 @@ public class ScrapingWorker : BackgroundService
                 new Image("coverImageUrl", ".postImg")
             })
             .WriteToJsonFile("result.json")
-            .WriteToCsvFile("result.csv")
             .IgnoreUrls(blackList);
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        await scraper.Run(4);
+        await scraper.Run(10);
     }
 }
 

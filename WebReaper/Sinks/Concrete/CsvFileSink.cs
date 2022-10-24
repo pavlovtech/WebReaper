@@ -21,8 +21,13 @@ namespace WebReaper.Sinks.Concrete
 
         public async Task EmitAsync(JObject scrapedData, CancellationToken cancellationToken = default)
         {
-            entries.Add(scrapedData);
+            await Init(scrapedData, cancellationToken);
 
+            entries.Add(scrapedData, cancellationToken);
+        }
+
+        private async Task Init(JObject scrapedData, CancellationToken cancellationToken)
+        {
             if (!IsInitialized)
             {
 
@@ -38,24 +43,18 @@ namespace WebReaper.Sinks.Concrete
 
                 var header = string.Join(",", flattened) + Environment.NewLine;
 
-                await File.AppendAllTextAsync(filePath, header);
+                await File.AppendAllTextAsync(filePath, header, cancellationToken);
 
                 IsInitialized = true;
 
-                _ = Handle(cancellationToken);
+                _ = Task.Run(async () => await Handle(cancellationToken));
             }
         }
 
         protected async Task Handle(CancellationToken cancellationToken = default)
         {
-            foreach (var entry in entries.GetConsumingEnumerable())
+            foreach (var entry in entries.GetConsumingEnumerable(cancellationToken))
             {
-
-                if(cancellationToken.IsCancellationRequested)
-                {
-                    break;
-                }
-
                 var flattened = entry
                     .Descendants()
                     .OfType<JValue>()
@@ -63,10 +62,8 @@ namespace WebReaper.Sinks.Concrete
 
                 var csvLine = string.Join(",", flattened);
 
-                await File.AppendAllTextAsync(filePath, $"{csvLine}{Environment.NewLine}");
+                await File.AppendAllTextAsync(filePath, $"{csvLine}{Environment.NewLine}", cancellationToken);
             }
         }
-
-        public Task InitAsync() => Task.CompletedTask;
     }
 }
