@@ -93,7 +93,9 @@ public class WebReaperSpider : ISpider
             Logger.LogInformation("Sending scraped data to sinks...");
             var sinkTasks = Sinks.Select(sink => sink.EmitAsync(result, cancellationToken));
 
+            Logger.LogInformation("Waiting for sinks ...");
             await Task.WhenAll(sinkTasks);
+            Logger.LogInformation("Finished waiting for sinks");
             return Enumerable.Empty<Job>();
         }
 

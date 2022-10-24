@@ -72,12 +72,12 @@ namespace BrownsfashionScraper
                 new("subcategory2", "#modal-controller-container > main > nav > ol > li:nth-child(3) > a]"),
 
             })
-            .WriteToJsonFile("result.json");
+            .WriteToCsvFile("result.csv");
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await scraper.Run(20);
+            await scraper.Run(10);
         }
     }
 }
