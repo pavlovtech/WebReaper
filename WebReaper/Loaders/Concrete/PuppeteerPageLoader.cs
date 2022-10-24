@@ -1,15 +1,20 @@
 using System.Net;
 using Microsoft.Extensions.Logging;
+using PuppeteerExtraSharp.Plugins.ExtraStealth;
+using PuppeteerExtraSharp;
 using PuppeteerSharp;
 using WebReaper.Extensions;
 using WebReaper.Loaders.Abstract;
 using WebReaper.Proxy.Abstract;
+using PuppeteerExtraSharp.Plugins.AnonymizeUa;
 
 namespace WebReaper.Loaders.Concrete;
 
 public class PuppeteerPageLoader : IDynamicPageLoader
 {
     public IProxyProvider? ProxyProvider { get; set; }
+
+    private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
 
     private readonly CookieContainer? _cookies;
     private ILogger Logger { get; }
@@ -30,9 +35,19 @@ public class PuppeteerPageLoader : IDynamicPageLoader
             Path = Path.GetTempPath()
         });
 
-        await browserFetcher.DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
+        await _semaphore.WaitAsync();
+        try
+        {
+            await browserFetcher.DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
+        }
+        finally
+        {
+            _semaphore.Release();
+        }
 
-        await using var browser = await Puppeteer.LaunchAsync(new LaunchOptions
+        var puppeteerExtra = new PuppeteerExtra().Use(new StealthPlugin());
+
+        await using var browser = await puppeteerExtra.LaunchAsync(new LaunchOptions
         {
             Headless = true,
             ExecutablePath = browserFetcher.RevisionInfo(BrowserFetcher.DefaultChromiumRevision).ExecutablePath
@@ -45,20 +60,28 @@ public class PuppeteerPageLoader : IDynamicPageLoader
             var cookieParams = _cookies.GetAllCookies().Select(c => new CookieParam
             {
                 Name = c.Name,
-                Value = c.Value
+                Value = c.Value,
+                Domain = c.Domain,
+                Secure = c.Secure
             }).ToArray();
 
             await page.SetCookieAsync(cookieParams);
         }
 
-        await page.GoToAsync(url, WaitUntilNavigation.DOMContentLoaded);
-
-        await page.WaitForNetworkIdleAsync();
+        await page.GoToAsync(url, WaitUntilNavigation.Networkidle2);
 
         if (script != null)
         {
             await page.EvaluateExpressionAsync(script);
         }
+
+        //await page.EvaluateExpressionAsync("window.scrollTo(0, document.body.scrollHeight);");
+
+        //await page.EvaluateExpressionAsync("window.scrollTo(0, 0);");
+
+        //await page.WaitForNavigationAsync();
+
+        //await page.WaitForTimeoutAsync(2000);
 
         var html = await page.GetContentAsync();
 
