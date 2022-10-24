@@ -7,19 +7,16 @@ namespace WebReaper.Loaders.Concrete
 {
     public class ProxyRequests : IHttpRequests
     {
-        protected static HttpClient client;
+        private static HttpClient? client;
 
         protected IProxyProvider ProxyProvider { get; }
-        public CookieContainer CookieContainer { get; set; }
+        public CookieContainer CookieContainer { get; set; } = new CookieContainer();
 
         public ProxyRequests(IProxyProvider proxyProvider)
         {
             ProxyProvider = proxyProvider;
 
-            if (client == null)
-            {
-                client = CreateClient();
-            }
+            client ??= CreateClient();
         }
 
         protected HttpClient CreateClient()
@@ -54,7 +51,7 @@ namespace WebReaper.Loaders.Concrete
 
         public async Task<HttpResponseMessage> GetAsync(string url)
         {
-            return await client.GetAsync(url);
+            return await client!.GetAsync(url);
         }
     }
 }

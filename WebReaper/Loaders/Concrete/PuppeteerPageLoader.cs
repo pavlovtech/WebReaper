@@ -6,7 +6,7 @@ using PuppeteerSharp;
 using WebReaper.Extensions;
 using WebReaper.Loaders.Abstract;
 using WebReaper.Proxy.Abstract;
-using PuppeteerExtraSharp.Plugins.AnonymizeUa;
+using Azure;
 
 namespace WebReaper.Loaders.Concrete;
 
@@ -14,14 +14,15 @@ public class PuppeteerPageLoader : IDynamicPageLoader
 {
     public IProxyProvider? ProxyProvider { get; set; }
 
+    public bool IsProxyEnabled => ProxyProvider != null;
+
     private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
 
     private readonly CookieContainer? _cookies;
     private ILogger Logger { get; }
 
-    public PuppeteerPageLoader(ILogger logger, CookieContainer? cookies, IProxyProvider? proxyProvider = null)
+    public PuppeteerPageLoader(ILogger logger, CookieContainer? cookies)
     {
-        ProxyProvider = proxyProvider;
         _cookies = cookies;
         Logger = logger;
     }
@@ -45,43 +46,23 @@ public class PuppeteerPageLoader : IDynamicPageLoader
             _semaphore.Release();
         }
 
-        var test = browserFetcher.RevisionInfo(BrowserFetcher.DefaultChromiumRevision).ExecutablePath;
-
         var puppeteerExtra = new PuppeteerExtra().Use(new StealthPlugin());
 
-        WebProxy? proxy = null;
-        string proxyAddress = "";
-        if (ProxyProvider != null)
-        {
-            proxy = await ProxyProvider.GetProxyAsync();
-            proxyAddress = $"--proxy-server={proxy.Address.Host}:{proxy.Address.Port}";
+        Page page;
 
-        }
-
-        await using var browser = await puppeteerExtra.LaunchAsync(new LaunchOptions
+        if (IsProxyEnabled)
         {
-            Headless = false,
-            ExecutablePath = browserFetcher.RevisionInfo(BrowserFetcher.DefaultChromiumRevision).ExecutablePath,
-            Args = new string[]
+            page = await GetBrowserPageWithProxy(puppeteerExtra, browserFetcher);
+        } 
+        else
+        {
+            await using var browser = await puppeteerExtra.LaunchAsync(new LaunchOptions
             {
-                "--disable-dev-shm-usage",
-                "--no-sandbox",
-                "--disable-setuid-sandbox",
-                proxyAddress
-            }
-        });
-
-        await using var page = await browser.NewPageAsync();
-
-        if (ProxyProvider != null)
-        {
-            var creds = proxy?.Credentials?.GetCredential(new Uri(proxy.Address.ToString()), null);
-
-            await page.AuthenticateAsync(new Credentials()
-            {
-                Username = creds.UserName,
-                Password = creds.Password
+                Headless = false,
+                ExecutablePath = browserFetcher.RevisionInfo(BrowserFetcher.DefaultChromiumRevision).ExecutablePath,
             });
+
+            page = await browser.NewPageAsync();
         }
 
         if (_cookies != null)
@@ -106,6 +87,39 @@ public class PuppeteerPageLoader : IDynamicPageLoader
 
         var html = await page.GetContentAsync();
 
+        page.Dispose();
+
         return html;
+    }
+
+    private async Task<Page> GetBrowserPageWithProxy(PuppeteerExtra puppeteerExtra, BrowserFetcher browserFetcher)
+    {
+        var proxy = await ProxyProvider!.GetProxyAsync();
+        var proxyAddress = $"--proxy-server={proxy!.Address!.Host}:{proxy.Address.Port}";
+
+        await using var browser = await puppeteerExtra.LaunchAsync(new LaunchOptions
+        {
+            Headless = false,
+            ExecutablePath = browserFetcher.RevisionInfo(BrowserFetcher.DefaultChromiumRevision).ExecutablePath,
+            Args = new string[]
+            {
+                    "--disable-dev-shm-usage",
+                    "--no-sandbox",
+                    "--disable-setuid-sandbox",
+                    proxyAddress
+            }
+        });
+
+        var page = await browser.NewPageAsync();
+
+        var creds = proxy?.Credentials?.GetCredential(new Uri(proxy.Address.ToString()), string.Empty);
+
+        await page.AuthenticateAsync(new Credentials()
+        {
+            Username = creds?.UserName,
+            Password = creds?.Password
+        });
+
+        return page;
     }
 }

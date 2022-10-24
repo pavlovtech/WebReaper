@@ -143,7 +143,10 @@ public class SpiderBuilder
 
         StaticPageLoader ??= new HttpStaticPageLoader(req, Logger);
 
-        DynamicPageLoader ??= new PuppeteerPageLoader(Logger, Cookies, ProxyProvider);
+        DynamicPageLoader ??= new PuppeteerPageLoader(Logger, Cookies)
+        {
+            ProxyProvider = ProxyProvider
+        };
 
         ISpider spider = new WebReaperSpider(
             Sinks,
