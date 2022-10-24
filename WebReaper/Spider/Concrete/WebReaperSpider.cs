@@ -28,7 +28,7 @@ public class WebReaperSpider : ISpider
 
     public List<IScraperSink> Sinks { get; init; } = new();
 
-    public event Action<JObject> ScrapedData;
+    public event Action<JObject>? ScrapedData;
 
     protected ILogger Logger { get; init; }
 

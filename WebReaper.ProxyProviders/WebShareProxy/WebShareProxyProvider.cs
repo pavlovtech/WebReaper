@@ -49,9 +49,12 @@ namespace WebReaper.ProxyProviders.WebShareProxy
 
                 JObject json = JObject.Parse(await proxiesResp.Content.ReadAsStringAsync());
 
-                List<Proxy> m = JsonConvert.DeserializeObject<List<Proxy>>(json["results"].ToString());
+                List<Proxy>? m = JsonConvert.DeserializeObject<List<Proxy>>(json!["results"]!.ToString());
 
-                proxies.AddRange(m);
+                if (m != null)
+                {
+                    proxies.AddRange(m);
+                }
             }
 
             return proxies;

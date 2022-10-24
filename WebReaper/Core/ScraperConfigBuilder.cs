@@ -25,8 +25,6 @@ public class ScraperConfigBuilder
     {
         this.startUrl = startUrl;
 
-        var startUri = new Uri(startUrl);
-
         startPageType = pageType;
         initialScript = initScript;
 

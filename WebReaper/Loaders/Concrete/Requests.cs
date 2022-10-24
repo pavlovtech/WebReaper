@@ -6,7 +6,7 @@ namespace WebReaper.Loaders.Concrete
 {
     public class Requests : IHttpRequests
     {
-        protected static HttpClient client;
+        protected static HttpClient? client;
 
         public CookieContainer CookieContainer { get; set; }
 
@@ -44,7 +44,7 @@ namespace WebReaper.Loaders.Concrete
 
         public async Task<HttpResponseMessage> GetAsync(string url)
         {
-            return await client.GetAsync(url);
+            return await client!.GetAsync(url);
         }
     }
 }
