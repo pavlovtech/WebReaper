@@ -75,14 +75,6 @@ public class PuppeteerPageLoader : IDynamicPageLoader
             await page.EvaluateExpressionAsync(script);
         }
 
-        //await page.EvaluateExpressionAsync("window.scrollTo(0, document.body.scrollHeight);");
-
-        //await page.EvaluateExpressionAsync("window.scrollTo(0, 0);");
-
-        //await page.WaitForNavigationAsync();
-
-        //await page.WaitForTimeoutAsync(2000);
-
         var html = await page.GetContentAsync();
 
         return html;

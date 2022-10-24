@@ -36,19 +36,19 @@ dotnet add WebReaper
 
 ```C#
 
-new Scraper()
-    .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
-    .FollowLinks("#cf-33 .forumlink>a") // first level links
-    .FollowLinks(".forumlink>a").       // second level links
-    .FollowLinks("a.torTopic", ".pg").  // third level links to target pages
-    .Parse(new Schema {
-        new("name", "#topic-title"),
-        new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
-        new Url("torrentLink", ".magnet-link"), // get a link from <a> HTML tag (href attribute)
-        new Image("coverImageUrl", ".postImg")  // get a link to the image from HTML <img> tag (src attribute)
+var webReaper = new Scraper("reddit")
+    .WithStartUrl("https://www.reddit.com/r/dotnet/")
+    .FollowLinks("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
+    .Parse(new Schema
+    {
+        new("title", "._eYtD2XCVieq6emjKBH3m"),
+        new("text", "._3xX726aBn29LDbsDtzr_6E._1Ap4F5maDtT1E1YuCiaO0r.D3IL3FD0RFy_mkKLPwL4")
     })
-    .WriteToJsonFile("result.json")
-    .Run(10); // 10 - degree of parallerism
+    .WriteToJsonFile("output.json")
+    .WithLogger(new ColorConsoleLogger())
+    .Run(10);
+
+Console.ReadLine();
 ```
 
 ## Features:
@@ -57,7 +57,8 @@ new Scraper()
 * 🗒 Declarative parsing with a structured scheme
 * 💾 Saving data to any sinks such as JSON or CSV file, MongoDB, CosmosDB, Redis, etc.
 * :earth_americas: Distributed crawling support: run your web scraper on ony cloud VMs, serverless functions, on-prem servers, etc.
-* :octopus: Crowling and parsing Single Page Applications as well as static
+* :octopus: Crowling and parsing Single Page Applications with Puppeteer
+* 🖥 Proxy support
 * 🌀 Automatic reties
 
 ## Usage examples
@@ -77,35 +78,38 @@ new Scraper()
 
 ### SPA parsing example
 
-Parsing single page applications is super simple, just specify PageType.Dynamic
+Parsing single page applications is super simple, just specify PageType.Dynamic. In this case Puppeteer will be used to load the pages.
 
 ```C#
-scraper = new Scraper()
-    .WithLogger(logger)
-    .WithStartUrl("https://rutracker.org/forum/index.php?c=33", PageType.Dynamic)
-    .FollowLinks("#cf-33 .forumlink>a", PageType.Dynamic)
-    .FollowLinks(".forumlink>a", PageType.Dynamic)
-    .FollowLinks("a.torTopic", ".pg", PageType.Dynamic)
-    .Parse(new Schema {
-	new("name", "#topic-title"),
-        new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
-        new("subcategory", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(5)"),
-        new("torrentSize", "div.attach_link.guest>ul>li:nth-child(2)"),
-        new Url("torrentLink", ".magnet-link"),
-	new Image("coverImageUrl", ".postImg")
-     })
-    .WriteToJsonFile("result.json")
-    .WriteToCsvFile("result.csv")
-    .IgnoreUrls(blackList);
+var webReaper = new Scraper("reddit")
+    .WithStartUrl("https://www.reddit.com/r/dotnet/", PageType.Dynamic)
+    .FollowLinks("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE", PageType.Dynamic)
+    .Parse(new Schema
+    {
+        new("title", "._eYtD2XCVieq6emjKBH3m"),
+        new("text", "._3xX726aBn29LDbsDtzr_6E._1Ap4F5maDtT1E1YuCiaO0r.D3IL3FD0RFy_mkKLPwL4")
+    })
+    .WriteToJsonFile("output.json")
+    .WithLogger(new ColorConsoleLogger())
+    .Run(10);
+
+Console.ReadLine();
 ```
 
 Additionaly, you can run any JavaScript on dynamic pages as they are loaded with headless browser. In order to do that you need to pass the third parameter:
 
 ```C#
-.WithStartUrl("https://rutracker.org/forum/index.php?c=33", PageType.Dynamic, "alert('startPage')")
-.FollowLinks("#cf-33 .forumlink>a", PageType.Dynamic, "alert('first level page')")
-.FollowLinks(".forumlink>a", PageType.Dynamic, "alert('first second level page')")
-.FollowLinks("a.torTopic", ".pg", PageType.Dynamic, "alert('third level page')")
+var webReaper = new Scraper("reddit")
+    .WithStartUrl("https://www.reddit.com/r/dotnet/", PageType.Dynamic, "window.scrollTo(0, document.body.scrollHeight);")
+    .FollowLinks("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE", PageType.Dynamic, "window.scrollTo(0, document.body.scrollHeight);")
+    .Parse(new Schema
+    {
+        new("title", "._eYtD2XCVieq6emjKBH3m"),
+        new("text", "._3xX726aBn29LDbsDtzr_6E._1Ap4F5maDtT1E1YuCiaO0r.D3IL3FD0RFy_mkKLPwL4")
+    })
+    .WriteToJsonFile("output.json")
+    .WithLogger(new ColorConsoleLogger())
+    .Run(10);
 ```
 
 It can be helpful if the required content is loaded only after some user interactions such as clicks, scrolls, etc.
@@ -215,7 +219,7 @@ For other ways to extend your functionality see the next section.
 | WebReaper.ScraperWorkerService            | Example of using WebReaper library in a Worker Service .NET project.              |
 | WebReaper.DistributedScraperWorkerService | Example of using WebReaper library in a distributed way wih Azure Service Bus     |
 | WebReaper.AzureFuncs                      | Example of using WebReaper library with serverless approach using Azure Functions |
-
+| WebReaper.ConsoleApplication              | Example of using WebReaper library with in a console application                  |
 
 
 ## Coming soon:
@@ -224,11 +228,11 @@ For other ways to extend your functionality see the next section.
 - [X] Azure functions for the distributed crawling
 - [X] Parsing lists
 - [X] Loading pages with headless browser and flexible SPA page manipulations (clicks, scrolls, etc)
+- [ ] Proxy support
 - [ ] Add flexible conditions for ignoring or allowing certain pages
 - [ ] Breadth first traversal with priprity channels
 - [ ] Save auth cookies to redis
 - [ ] Rest API example for web scraping
-- [ ] Proxy support
 - [ ] Sitemap crawling support
 - [ ] Ports to NodeJS and Go
 
