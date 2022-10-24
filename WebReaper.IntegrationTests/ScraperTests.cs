@@ -2,7 +2,7 @@ using Newtonsoft.Json.Linq;
 using WebReaper.Core;
 using WebReaper.Domain.Parsing;
 using WebReaper.Domain.Selectors;
-using WebReaper.IntegrationTests.WebShareProxy;
+using WebReaper.ProxyProviders.WebShareProxy;
 using Xunit.Abstractions;
 
 namespace WebReaper.IntegrationTests

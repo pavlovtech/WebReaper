@@ -1,6 +1,7 @@
 ﻿using WebReaper.ConsoleApplication;
 using WebReaper.Core;
 using WebReaper.Domain.Parsing;
+using WebReaper.ProxyProviders.WebShareProxy;
 
 var webReaper = new Scraper("reddit")
     .WithStartUrl("https://www.reddit.com/r/dotnet/", WebReaper.Domain.Selectors.PageType.Dynamic)
@@ -11,10 +12,9 @@ var webReaper = new Scraper("reddit")
         new("text", "._3xX726aBn29LDbsDtzr_6E._1Ap4F5maDtT1E1YuCiaO0r.D3IL3FD0RFy_mkKLPwL4")
     })
     .WriteToJsonFile("output.json")
+    .WithProxies(new WebShareProxyProvider())
     .WithLogger(new ColorConsoleLogger());
 
-var tokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-
-await webReaper.Run(10, tokenSource.Token);
+await webReaper.Run(1);
 
 Console.ReadLine();

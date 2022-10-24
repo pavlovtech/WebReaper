@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\WebReaper.ProxyProviders\WebReaper.ProxyProviders.csproj" />
     <ProjectReference Include="..\..\WebReaper\WebReaper.csproj" />
   </ItemGroup>
 
