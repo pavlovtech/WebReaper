@@ -28,26 +28,28 @@ public class SpiderBuilder
         SiteLinkTracker = new InMemoryCrawledLinkTracker();
     }
 
-    public List<IScraperSink> Sinks { get; } = new();
+    private List<IScraperSink> Sinks { get; } = new();
 
-    protected int limit = int.MaxValue;
+    private int limit = int.MaxValue;
 
-    protected ILogger Logger { get; set; }
+    private ILogger Logger { get; set; }
 
-    protected ILinkParser LinkParser { get; set; }
+    private ILinkParser LinkParser { get; }
 
-    protected ICrawledLinkTracker SiteLinkTracker { get; set; }
+    private ICrawledLinkTracker SiteLinkTracker { get; set; }
 
-    protected IContentParser ContentParser { get; }
+    private IContentParser ContentParser { get; }
 
-    protected IStaticPageLoader StaticPageLoader { get; set; }
-    protected IDynamicPageLoader DynamicPageLoader { get; set; }
+    private IStaticPageLoader StaticPageLoader { get; set; }
+    private IDynamicPageLoader DynamicPageLoader { get; set; }
 
-    protected CookieContainer Cookies { get; } = new();
+    private IProxyProvider ProxyProvider { get; set; }
+
+    private CookieContainer Cookies { get; } = new();
 
     protected event Action<JObject> ScrapedData;
 
-    protected List<string> UrlBlackList = new();
+    private List<string> _urlBlackList = new();
 
     public SpiderBuilder WithLogger(ILogger logger)
     {
@@ -79,7 +81,7 @@ public class SpiderBuilder
 
     public SpiderBuilder IgnoreUrls(params string[] urls)
     {
-        UrlBlackList.AddRange(urls);
+        _urlBlackList.AddRange(urls);
         return this;
     }
 
@@ -128,8 +130,6 @@ public class SpiderBuilder
 
     public SpiderBuilder WriteToCsvFile(string filePath) => AddSink(new CsvFileSink(filePath));
 
-    protected IProxyProvider ProxyProvider { get; set; }
-
     public ISpider Build()
     {
         IHttpRequests req = new Requests();
@@ -157,7 +157,7 @@ public class SpiderBuilder
             DynamicPageLoader,
             Logger)
         {
-            UrlBlackList = UrlBlackList.ToList(),
+            UrlBlackList = _urlBlackList.ToList(),
             PageCrawlLimit = limit
         };
 

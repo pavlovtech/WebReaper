@@ -9,25 +9,19 @@ namespace WebReaper.Core;
 
 public class ScraperRunner
 {
-    public ScraperConfig Config { get; init; }
-    public string GlobalId { get; }
-    public IScheduler Scheduler { get; init; }
-    public ISpider Spider { get; init; }
-    public ILogger Logger { get; init; }
-      
+    private ScraperConfig Config { get; }
+    private string GlobalId { get; }
+    private IScheduler Scheduler { get; }
+    private ISpider Spider { get; }
+    private ILogger Logger { get; }
+
     public ScraperRunner(
         string globalId,
         ScraperConfig config,
         IScheduler jobScheduler,
         ISpider spider,
-        ILogger logger)
-    {
-        GlobalId = globalId;
-        Scheduler = jobScheduler;
-        Config = config;
-        Spider = spider;
-        Logger = logger;
-    }
+        ILogger logger) => (GlobalId, Scheduler, Config, Spider, Logger) =
+        (globalId, jobScheduler, config, spider, logger);
 
     public async Task Run(int parallelismDegree, CancellationToken cancellationToken = default)
     {

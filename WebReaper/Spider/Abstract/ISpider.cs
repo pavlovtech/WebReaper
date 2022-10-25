@@ -10,7 +10,7 @@ namespace WebReaper.Spider.Abstract;
 
 public interface ISpider
 {
-    Task<IEnumerable<Job>> CrawlAsync(Job job, CancellationToken cancellationToken = default);
+    Task<List<Job>> CrawlAsync(Job job, CancellationToken cancellationToken = default);
 
     IStaticPageLoader StaticStaticPageLoader { get; init; }
 
@@ -24,7 +24,7 @@ public interface ISpider
 
     public event Action<JObject> ScrapedData;
 
-    List<IScraperSink> Sinks { get; init; }
+    List<IScraperSink> Sinks { get; set; }
 
     List<string> UrlBlackList { get; set; }
 

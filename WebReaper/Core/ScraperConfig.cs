@@ -5,7 +5,7 @@ using System.Collections.Immutable;
 namespace WebReaper.Core;
 
 public record ScraperConfig(
-    Schema ParsingScheme,
+    Schema? ParsingScheme,
     ImmutableQueue<LinkPathSelector> LinkPathSelectors,
     string StartUrl,
     PageType StartPageType = PageType.Static,
