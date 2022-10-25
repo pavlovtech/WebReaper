@@ -16,7 +16,7 @@ public class PuppeteerPageLoader : IDynamicPageLoader
 
     public bool IsProxyEnabled => ProxyProvider != null;
 
-    private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
+    private readonly SemaphoreSlim _semaphore = new(1, 1);
 
     private readonly CookieContainer? _cookies;
     private ILogger Logger { get; }

@@ -3,6 +3,8 @@ using Microsoft.Extensions.Logging;
 using System.Net.Security;
 using Microsoft.Extensions.Logging.Abstractions;
 using Newtonsoft.Json.Linq;
+using WebReaper.HttpRequests.Abstract;
+using WebReaper.HttpRequests.Concrete;
 using WebReaper.Parser.Concrete;
 using WebReaper.LinkTracker.Concrete;
 using WebReaper.Loaders.Concrete;
