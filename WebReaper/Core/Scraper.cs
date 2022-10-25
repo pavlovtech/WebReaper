@@ -15,16 +15,16 @@ namespace WebReaper.Core;
 
 public class Scraper
 {
-    protected ScraperConfigBuilder ConfigBuilder { get; private set; } = new();
-    protected SpiderBuilder SpiderBuilder { get; private set; } = new();
+    private ScraperConfigBuilder ConfigBuilder { get; } = new();
+    private SpiderBuilder SpiderBuilder { get; } = new();
 
-    protected ILogger Logger { get; set; } = NullLogger.Instance;
+    private ILogger Logger { get; set; } = NullLogger.Instance;
 
-    protected IScheduler Scheduler = new InMemoryScheduler();
+    private IScheduler Scheduler { get; set; } = new InMemoryScheduler();
 
-    public string SiteId { get; }
+    private string SiteId { get; }
 
-    protected IProxyProvider ProxyProvider { get; private set; }
+    protected IProxyProvider ProxyProvider { get; set; }
 
     public Scraper(string siteId)
     {

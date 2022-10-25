@@ -8,25 +8,25 @@ namespace WebReaper.Core;
 
 public class ScraperConfigBuilder
 {
-    protected List<LinkPathSelector> linkPathSelectors = new();
+    private readonly List<LinkPathSelector> _linkPathSelectors = new();
 
-    private string? startUrl;
+    private string _startUrl;
 
-    protected Schema? schema;
+    private Schema? _schema;
 
     protected ILogger Logger = NullLogger.Instance;
-    protected PageType startPageType;
-    private string? initialScript;
+    private PageType _startPageType;
+    private string? _initialScript;
 
     public ScraperConfigBuilder WithStartUrl(
         string startUrl,
         PageType pageType = PageType.Static,
         string? initScript = null)
     {
-        this.startUrl = startUrl;
+        _startUrl = startUrl;
 
-        startPageType = pageType;
-        initialScript = initScript;
+        _startPageType = pageType;
+        _initialScript = initScript;
 
         return this;
     }
@@ -36,7 +36,7 @@ public class ScraperConfigBuilder
         PageType pageType = PageType.Static,
         string? script = null)
     {
-        linkPathSelectors.Add(new LinkPathSelector(linkSelector, null, pageType, script));
+        _linkPathSelectors.Add(new LinkPathSelector(linkSelector, null, pageType, script));
         return this;
     }
 
@@ -46,18 +46,20 @@ public class ScraperConfigBuilder
         PageType pageType = PageType.Static,
         string? script = null)
     {
-        linkPathSelectors.Add(new LinkPathSelector(linkSelector, paginationSelector, pageType, script));
+        _linkPathSelectors.Add(new LinkPathSelector(linkSelector, paginationSelector, pageType, script));
         return this;
     }
 
     public ScraperConfigBuilder WithScheme(Schema schema)
     {
-        this.schema = schema;
+        _schema = schema;
         return this;
     }
 
     public ScraperConfig Build()
     {
-        return new ScraperConfig(schema, ImmutableQueue.Create(linkPathSelectors.ToArray()), startUrl, startPageType, initialScript);
+        ArgumentNullException.ThrowIfNull(_startUrl);
+        ArgumentNullException.ThrowIfNull(_schema);
+        return new ScraperConfig(_schema, ImmutableQueue.Create(_linkPathSelectors.ToArray()), _startUrl, _startPageType, _initialScript);
     }
 }

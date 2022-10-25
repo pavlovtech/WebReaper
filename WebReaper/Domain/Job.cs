@@ -6,7 +6,7 @@ namespace WebReaper.Domain;
 
 public record Job(
     string SiteId,
-    Schema Schema,
+    Schema? Schema,
     string Url,
     ImmutableQueue<LinkPathSelector> LinkPathSelectors,
     PageType PageType = PageType.Static,
