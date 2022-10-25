@@ -2,6 +2,7 @@ using System.Net;
 using System.Text;
 using Microsoft.Extensions.Logging;
 using WebReaper.Extensions;
+using WebReaper.HttpRequests.Abstract;
 using WebReaper.Loaders.Abstract;
 
 namespace WebReaper.Loaders.Concrete;
