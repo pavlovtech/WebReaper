@@ -49,16 +49,17 @@ public class PuppeteerPageLoader : IDynamicPageLoader
         var puppeteerExtra = new PuppeteerExtra().Use(new StealthPlugin());
 
         Page page;
+        Browser browser;
 
         if (IsProxyEnabled)
         {
-            page = await GetBrowserPageWithProxy(puppeteerExtra, browserFetcher);
+            (page, browser) = await GetBrowserPageWithProxy(puppeteerExtra, browserFetcher);
         } 
         else
         {
-            await using var browser = await puppeteerExtra.LaunchAsync(new LaunchOptions
+            browser = await puppeteerExtra.LaunchAsync(new LaunchOptions
             {
-                Headless = false,
+                Headless = true,
                 ExecutablePath = browserFetcher.RevisionInfo(BrowserFetcher.DefaultChromiumRevision).ExecutablePath,
             });
 
@@ -88,25 +89,26 @@ public class PuppeteerPageLoader : IDynamicPageLoader
         var html = await page.GetContentAsync();
 
         page.Dispose();
+        browser.Dispose();
 
         return html;
     }
 
-    private async Task<Page> GetBrowserPageWithProxy(PuppeteerExtra puppeteerExtra, BrowserFetcher browserFetcher)
+    private async Task<(Page page, Browser browser)> GetBrowserPageWithProxy(PuppeteerExtra puppeteerExtra, BrowserFetcher browserFetcher)
     {
         var proxy = await ProxyProvider!.GetProxyAsync();
         var proxyAddress = $"--proxy-server={proxy!.Address!.Host}:{proxy.Address.Port}";
 
-        await using var browser = await puppeteerExtra.LaunchAsync(new LaunchOptions
+        var browser = await puppeteerExtra.LaunchAsync(new LaunchOptions
         {
-            Headless = false,
+            Headless = true,
             ExecutablePath = browserFetcher.RevisionInfo(BrowserFetcher.DefaultChromiumRevision).ExecutablePath,
             Args = new string[]
             {
-                    "--disable-dev-shm-usage",
-                    "--no-sandbox",
-                    "--disable-setuid-sandbox",
-                    proxyAddress
+                "--disable-dev-shm-usage",
+                "--no-sandbox",
+                "--disable-setuid-sandbox",
+                proxyAddress
             }
         });
 
@@ -120,6 +122,6 @@ public class PuppeteerPageLoader : IDynamicPageLoader
             Password = creds?.Password
         });
 
-        return page;
+        return (page, browser);
     }
 }
