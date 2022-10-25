@@ -7,6 +7,7 @@ namespace WebReaper.ConsoleApplication
     {
         public Dictionary<LogLevel, ConsoleColor> LogLevelToColorMap { get; set; } = new()
         {
+            [LogLevel.Debug] = ConsoleColor.Gray,
             [LogLevel.Information] = ConsoleColor.Green,
             [LogLevel.Warning] = ConsoleColor.Cyan,
             [LogLevel.Error] = ConsoleColor.Red,
