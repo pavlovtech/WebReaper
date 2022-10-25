@@ -134,23 +134,27 @@ public class SpiderBuilder
 
     public ISpider Build()
     {
-        IHttpRequests req = new Requests();
-
         if (ProxyProvider != null)
         {
-            req = new RotatingProxyRequests(ProxyProvider);
+            DynamicPageLoader ??= new PuppeteerPageLoaderWithProxies(Logger, ProxyProvider, Cookies);
+            
+            var req = new RotatingProxyRequests(ProxyProvider)
+            {
+                CookieContainer = Cookies
+            };
+            
+            StaticPageLoader ??= new HttpStaticPageLoader(req, Logger);
         }
-
-        req.CookieContainer = Cookies;
-
-        StaticPageLoader ??= new HttpStaticPageLoader(req, Logger);
-
-        DynamicPageLoader ??= new PuppeteerPageLoader(Logger, Cookies)
+        else
         {
-            ProxyProvider = ProxyProvider
-        };
-
-        ISpider spider = new WebReaperSpider(
+            var req = new Requests
+            {
+                CookieContainer = Cookies
+            };
+            StaticPageLoader ??= new HttpStaticPageLoader(req, Logger);
+        }
+        
+        var spider = new WebReaperSpider(
             Sinks,
             LinkParser,
             ContentParser,
