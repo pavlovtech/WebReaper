@@ -29,9 +29,6 @@ dotnet add WebReaper
   <img src="https://img.shields.io/badge/-Puppeteer-green?style=for-the-badge&logo=appveyor" />
 </p>
 
-
-:exclamation: This is work in progress! API is not stable and will change.
-
 ## 📋 Example:
 
 ```C#
