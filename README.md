@@ -3,7 +3,7 @@
 
 [![NuGet](https://img.shields.io/nuget/v/WebReaper)](https://www.nuget.org/packages/WebReaper)
 
-
+Please star this project if you find it useful!
 
 ## Overview
 
