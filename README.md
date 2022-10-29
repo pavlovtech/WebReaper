@@ -12,7 +12,7 @@ Declarative high performance web scraper in C#. Easily crawl any web site and pa
 ## Install
 
 ```
-dotnet add packageWebReaper
+dotnet add package WebReaper
 ```
 
 ## Requirements
