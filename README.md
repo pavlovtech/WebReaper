@@ -32,6 +32,8 @@ dotnet add package WebReaper
 ## 📋 Example:
 
 ```C#
+using WebReaper.Core;
+using WebReaper.Domain.Parsing;
 
 var webReaper = new Scraper("reddit")
     .WithStartUrl("https://www.reddit.com/r/dotnet/")
@@ -42,7 +44,6 @@ var webReaper = new Scraper("reddit")
         new("text", "._3xX726aBn29LDbsDtzr_6E._1Ap4F5maDtT1E1YuCiaO0r.D3IL3FD0RFy_mkKLPwL4")
     })
     .WriteToJsonFile("output.json")
-    .WithLogger(new ColorConsoleLogger())
     .Run(10);
 
 Console.ReadLine();
