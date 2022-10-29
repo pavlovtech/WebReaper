@@ -4,6 +4,9 @@ using WebReaper.Domain.Parsing;
 using WebReaper.Domain.Selectors;
 using WebReaper.ProxyProviders.WebShareProxy;
 using Xunit.Abstractions;
+using PuppeteerSharp;
+using Microsoft.Extensions.Logging;
+using System.Threading;
 
 namespace WebReaper.IntegrationTests
 {
@@ -66,6 +69,13 @@ namespace WebReaper.IntegrationTests
         [Fact]
         public async Task SimpleTestWithSPA()
         {
+            var browserFetcher = new BrowserFetcher(new BrowserFetcherOptions
+            {
+                Path = Path.GetTempPath()
+            });
+
+            await browserFetcher.DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
+
             List<JObject> result = new List<JObject>();
 
             var scraper = new Scraper("reddit")
@@ -79,9 +89,9 @@ namespace WebReaper.IntegrationTests
                 .WithLogger(new TestOutputLogger(this.output))
                 .Subscribe(x => result.Add(x));
 
-            _ = scraper.Run(1);
+            _ = scraper.Run(10);
 
-            await Task.Delay(120000);
+            await Task.Delay(20000);
 
             Assert.NotEmpty(result);
         }
