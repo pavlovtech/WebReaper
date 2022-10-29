@@ -152,6 +152,7 @@ public class SpiderBuilder
                 CookieContainer = Cookies
             };
             StaticPageLoader ??= new HttpStaticPageLoader(req, Logger);
+            DynamicPageLoader ??= new PuppeteerPageLoader(Logger, Cookies);
         }
         
         var spider = new WebReaperSpider(
