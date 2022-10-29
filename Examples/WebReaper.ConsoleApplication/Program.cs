@@ -1,10 +1,11 @@
 ﻿using WebReaper.ConsoleApplication;
 using WebReaper.Core;
 using WebReaper.Domain.Parsing;
+using WebReaper.Domain.Selectors;
 using WebReaper.ProxyProviders.WebShareProxy;
 
 var webReaper = new Scraper("reddit")
-    .WithStartUrl("https://www.reddit.com/r/dotnet/", WebReaper.Domain.Selectors.PageType.Dynamic)
+    .WithStartUrl("https://www.reddit.com/r/dotnet/", PageType.Dynamic)
     .FollowLinks("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
     .Parse(new Schema
     {
