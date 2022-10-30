@@ -4,7 +4,7 @@ using WebReaper.Domain.Parsing;
 using WebReaper.Domain.Selectors;
 using WebReaper.ProxyProviders.WebShareProxy;
 
-var webReaper = new Scraper("reddit")
+var engine = new Scraper("reddit")
     .WithStartUrl("https://www.reddit.com/r/dotnet/", PageType.Dynamic)
     .FollowLinks("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
     .Parse(new Schema
@@ -14,8 +14,9 @@ var webReaper = new Scraper("reddit")
     })
     .WriteToJsonFile("output.json")
     .WithProxies(new WebShareProxyProvider())
-    .WithLogger(new ColorConsoleLogger());
+    .WithLogger(new ColorConsoleLogger())
+    .Build();
 
-await webReaper.Run(1);
+await engine.Run(1);
 
 Console.ReadLine();

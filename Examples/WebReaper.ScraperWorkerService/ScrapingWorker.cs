@@ -5,7 +5,7 @@ namespace WebReaper.ScraperWorkerService;
 
 public class ScrapingWorker : BackgroundService
 {
-    private Scraper scraper;
+    private ScrapingEngine engine;
 
     public ScrapingWorker(ILogger<ScrapingWorker> logger)
     {
@@ -17,7 +17,7 @@ public class ScrapingWorker : BackgroundService
             "https://rutracker.org/forum/viewforum.php?f=2321"
         };
 
-        scraper = new Scraper("rutracker")
+        engine = new Scraper("rutracker")
             .WithLogger(logger)
             .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
             .FollowLinks("#cf-33 .forumlink>a")
@@ -32,12 +32,13 @@ public class ScrapingWorker : BackgroundService
                 new Image("coverImageUrl", ".postImg")
             })
             .WriteToJsonFile("result.json")
-            .IgnoreUrls(blackList);
+            .IgnoreUrls(blackList)
+            .Build();
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        await scraper.Run(10);
+        await engine.Run(10);
     }
 }
 
