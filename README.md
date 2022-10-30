@@ -7,7 +7,11 @@ Please star this project if you find it useful!
 
 ## Overview
 
-Declarative high performance web scraper in C#. Easily crawl any web site and parse the data, save structed result to a file, DB, etc.
+Declarative high performance web scraper in C#. Easily crawl any web site and parse the data, save structed result to a file, DB, or pretty much to anywhere you want.
+
+I did my best to create a simple yet extensible API for web scraping. This library is inspired by the following projects:
+* [Osmosis](https://github.com/rchipka/node-osmosis)
+* [x-ray](https://github.com/matthewmueller/x-ray)
 
 ## Install
 
