@@ -1,7 +1,4 @@
 using Newtonsoft.Json.Linq;
-using WebReaper.Core;
-using WebReaper.Domain.Parsing;
-using WebReaper.Domain.Selectors;
 using WebReaper.ProxyProviders.WebShareProxy;
 using Xunit.Abstractions;
 using PuppeteerSharp;
@@ -9,11 +6,11 @@ using WebReaper.Core.Builders;
 
 namespace WebReaper.IntegrationTests
 {
-    public class ScraperTests
+    public class ScraperEngineTests
     {
         private readonly ITestOutputHelper output;
 
-        public ScraperTests(ITestOutputHelper output)
+        public ScraperEngineTests(ITestOutputHelper output)
         {
             this.output = output;
         }
