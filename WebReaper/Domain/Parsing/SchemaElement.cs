@@ -10,7 +10,6 @@ public record SchemaElement(
 {
     public virtual string GetData(HtmlDocument doc)
     {
-        var test = doc.DocumentNode.InnerHtml;
         var node = doc.DocumentNode.QuerySelector(Selector);
 
         var content = node?.InnerText;
