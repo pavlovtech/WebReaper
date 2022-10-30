@@ -69,8 +69,6 @@ public class WebReaperSpider : ISpider
 
         string doc = await LoadPage(job);
 
-        //Logger.LogDebug(doc);
-
         if (job.PageCategory == PageCategory.TargetPage)
         {
             await ProcessTargetPage(job, cancellationToken, doc);
