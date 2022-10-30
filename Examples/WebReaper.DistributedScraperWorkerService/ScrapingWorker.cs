@@ -1,4 +1,5 @@
 ﻿using WebReaper.Core;
+using WebReaper.Core.Builders;
 using WebReaper.Domain.Parsing;
 using WebReaper.LinkTracker.Concrete;
 using WebReaper.Scheduler.Concrete;
@@ -23,13 +24,13 @@ public class ScrapingWorker : BackgroundService
         var azureSBConnectionString = "Endpoint=sb://webreaper.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=g0AAACe/NXS+/qWVad4KUnnw6iGECmUTJTpfFOMfjms=";
         var queue = "jobqueue";
 
-        engine = new ScrapingEngineBuilder("rutracker")
+        engine = new ScraperEngineBuilder("rutracker")
             .WithLogger(logger)
-            .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
+            .Get("https://rutracker.org/forum/index.php?c=33")
             .IgnoreUrls(blackList)
-            .FollowLinks("#cf-33 .forumlink>a")
-            .FollowLinks(".forumlink>a")
-            .FollowLinks("a.torTopic", ".pg")
+            .Follow("#cf-33 .forumlink>a")
+            .Follow(".forumlink>a")
+            .Paginate("a.torTopic", ".pg")
             .Parse(new Schema {
                 new("name", "#topic-title"),
                 new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),

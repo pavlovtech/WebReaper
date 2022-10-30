@@ -5,6 +5,7 @@ using WebReaper.Domain.Selectors;
 using WebReaper.ProxyProviders.WebShareProxy;
 using Xunit.Abstractions;
 using PuppeteerSharp;
+using WebReaper.Core.Builders;
 
 namespace WebReaper.IntegrationTests
 {
@@ -22,9 +23,9 @@ namespace WebReaper.IntegrationTests
         {
             List<JObject> result = new List<JObject>();
 
-            var engine = new ScrapingEngineBuilder("reddit")
-                .WithStartUrl("https://www.reddit.com/r/dotnet/")
-                .FollowLinks("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
+            var engine = new ScraperEngineBuilder("reddit")
+                .Get("https://www.reddit.com/r/dotnet/")
+                .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
                 .Parse(new Schema
                 {
                     new("title", "._eYtD2XCVieq6emjKBH3m"),
@@ -46,9 +47,9 @@ namespace WebReaper.IntegrationTests
         {
             List<JObject> result = new List<JObject>();
 
-            var scraper = new ScrapingEngineBuilder("reddit")
-                .WithStartUrl("https://www.reddit.com/r/dotnet/")
-                .FollowLinks("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
+            var scraper = new ScraperEngineBuilder("reddit")
+                .Get("https://www.reddit.com/r/dotnet/")
+                .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
                 .Parse(new Schema
                 {
                     new("title", "._eYtD2XCVieq6emjKBH3m"),
@@ -78,9 +79,9 @@ namespace WebReaper.IntegrationTests
 
             List<JObject> result = new List<JObject>();
 
-            var engine = new ScrapingEngineBuilder("reddit")
-                .WithStartUrl("https://www.reddit.com/r/dotnet/", PageType.Dynamic)
-                .FollowLinks("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE", PageType.Dynamic)
+            var engine = new ScraperEngineBuilder("reddit")
+                .Get("https://www.reddit.com/r/dotnet/", PageType.Dynamic)
+                .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE", PageType.Dynamic)
                 .Parse(new Schema
                 {
                     new("title", "._eYtD2XCVieq6emjKBH3m"),

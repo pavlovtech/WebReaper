@@ -1,5 +1,6 @@
 using System.Net;
 using WebReaper.Core;
+using WebReaper.Core.Builders;
 using WebReaper.Domain.Parsing;
 using WebReaper.Domain.Selectors;
 
@@ -11,7 +12,7 @@ namespace BrownsfashionScraper
 
         public ScrapingWorker(ILogger<ScrapingWorker> logger)
         {
-            scraper = new ScrapingEngineBuilder("Brownsfashion")
+            scraper = new ScraperEngineBuilder("Brownsfashion")
                 .WithLogger(logger)
                 .Authorize(() =>
                 {
@@ -54,8 +55,8 @@ namespace BrownsfashionScraper
 
                     return cookies;
                 })
-                .WithStartUrl("https://www.brownsfashion.com/ua/shopping/man-clothing")
-                .FollowLinks("._1GX2o>a", ".AlEkI", PageType.Dynamic)
+                .Get("https://www.brownsfashion.com/ua/shopping/man-clothing")
+                .Paginate("._1GX2o>a", ".AlEkI", PageType.Dynamic)
                 .Parse(new Schema
                 {
                     new("brand", "a[data-test=\"product-brand\"]"),

@@ -1,4 +1,5 @@
 ﻿using WebReaper.Core;
+using WebReaper.Core.Builders;
 using WebReaper.Domain.Parsing;
 
 namespace WebReaper.ScraperWorkerService;
@@ -17,12 +18,12 @@ public class ScrapingWorker : BackgroundService
             "https://rutracker.org/forum/viewforum.php?f=2321"
         };
 
-        engine = new ScrapingEngineBuilder("rutracker")
+        engine = new ScraperEngineBuilder("rutracker")
             .WithLogger(logger)
-            .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
-            .FollowLinks("#cf-33 .forumlink>a")
-            .FollowLinks(".forumlink>a")
-            .FollowLinks("a.torTopic", ".pg")
+            .Get("https://rutracker.org/forum/index.php?c=33")
+            .Follow("#cf-33 .forumlink>a")
+            .Follow(".forumlink>a")
+            .Paginate("a.torTopic", ".pg")
             .Parse(new Schema {
                 new("name", "#topic-title"),
                 new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),

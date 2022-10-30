@@ -11,6 +11,7 @@ using WebReaper.Domain;
 using WebReaper.Domain.Parsing;
 using WebReaper.Core;
 using WebReaper.Scheduler.Concrete;
+using WebReaper.Core.Builders;
 
 namespace WebReaper.AzureFuncs
 {

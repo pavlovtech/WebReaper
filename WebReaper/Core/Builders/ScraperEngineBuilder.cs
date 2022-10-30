@@ -24,7 +24,7 @@ public class ScraperEngineBuilder
 
     private string SiteId { get; }
 
-    protected IProxyProvider ProxyProvider { get; set; }
+    protected IProxyProvider? ProxyProvider { get; set; }
 
     public ScraperEngineBuilder(string siteId)
     {
@@ -122,13 +122,13 @@ public class ScraperEngineBuilder
         return this;
     }
 
-    public ScraperEngineBuilder WithStartUrl(string url, PageType pageType = PageType.Static, string? initScript = null)
+    public ScraperEngineBuilder Get(string url, PageType pageType = PageType.Static, string? initScript = null)
     {
         ConfigBuilder.WithStartUrl(url, pageType, initScript);
         return this;
     }
 
-    public ScraperEngineBuilder FollowLinks(
+    public ScraperEngineBuilder Follow(
         string linkSelector,
         PageType pageType = PageType.Static,
         string? script = null)
@@ -137,7 +137,7 @@ public class ScraperEngineBuilder
         return this;
     }
 
-    public ScraperEngineBuilder FollowLinks(
+    public ScraperEngineBuilder Paginate(
         string linkSelector,
         string paginationSelector,
         PageType pageType = PageType.Static,
