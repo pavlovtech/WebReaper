@@ -34,6 +34,11 @@ namespace WebReaper.Parser.Concrete
 
         private void FillOutput(JObject result, HtmlDocument doc, SchemaElement item)
         {
+            if(item.Field is null)
+            {
+                throw new InvalidOperationException("Schema is invalid");
+            }
+
             if (item is Schema container)
             {
                 var obj = new JObject();
@@ -76,14 +81,12 @@ namespace WebReaper.Parser.Concrete
                     case DataType.Float:
                         result[item.Field] = float.Parse(data);
                         break;
-                    case DataType.List:
-                        result[item.Field] = new JArray(data.Split("~")); // TODO: find a better way
-                        break;
                 }
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex.ToString());
+                Logger.LogError(ex, "Error during parsing phase");
+                throw;
             }
         }
     }

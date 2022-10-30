@@ -37,8 +37,8 @@ public class ScrapingWorker : BackgroundService
                 new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
                 new("subcategory", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(5)"),
                 new("torrentSize", "div.attach_link.guest>ul>li:nth-child(2)"),
-                new Url("torrentLink", ".magnet-link"),
-                new Image("coverImageUrl", ".postImg")
+                new("torrentLink", ".magnet-link", "href"),
+                new("coverImageUrl", ".postImg", "src")
             })
             .WithLinkTracker(new RedisCrawledLinkTracker(redisConnectionString))
             .WriteToCosmosDb(
