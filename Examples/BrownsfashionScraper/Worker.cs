@@ -7,11 +7,11 @@ namespace BrownsfashionScraper
 {
     public class ScrapingWorker : BackgroundService
     {
-        private ScrapingEngine scraper;
+        private ScraperEngine scraper;
 
         public ScrapingWorker(ILogger<ScrapingWorker> logger)
         {
-            scraper = new Scraper("Brownsfashion")
+            scraper = new ScrapingEngineBuilder("Brownsfashion")
                 .WithLogger(logger)
                 .Authorize(() =>
                 {

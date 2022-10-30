@@ -7,7 +7,7 @@ using WebReaper.Spider.Abstract;
 
 namespace WebReaper.Core;
 
-public class ScrapingEngine
+public class ScraperEngine
 {
     private ScraperConfig Config { get; }
     private string GlobalId { get; }
@@ -15,7 +15,7 @@ public class ScrapingEngine
     private ISpider Spider { get; }
     private ILogger Logger { get; }
 
-    public ScrapingEngine(
+    public ScraperEngine(
         string globalId,
         ScraperConfig config,
         IScheduler jobScheduler,
