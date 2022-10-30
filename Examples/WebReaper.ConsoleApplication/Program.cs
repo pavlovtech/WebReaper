@@ -1,12 +1,13 @@
 ﻿using WebReaper.ConsoleApplication;
 using WebReaper.Core;
+using WebReaper.Core.Builders;
 using WebReaper.Domain.Parsing;
 using WebReaper.Domain.Selectors;
 using WebReaper.ProxyProviders.WebShareProxy;
 
-var engine = new ScrapingEngineBuilder("reddit")
-    .WithStartUrl("https://www.reddit.com/r/dotnet/", PageType.Dynamic)
-    .FollowLinks("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
+var engine = new ScraperEngineBuilder("reddit")
+    .Get("https://www.reddit.com/r/dotnet/", PageType.Dynamic)
+    .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
     .Parse(new Schema
     {
         new("title", "._eYtD2XCVieq6emjKBH3m"),
