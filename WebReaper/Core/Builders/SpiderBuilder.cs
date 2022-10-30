@@ -17,7 +17,7 @@ using WebReaper.Spider.Abstract;
 using WebReaper.Spider.Concrete;
 using WebReaper.Proxy.Abstract;
 
-namespace WebReaper.Core;
+namespace WebReaper.Core.Builders;
 
 public class SpiderBuilder
 {
@@ -137,12 +137,12 @@ public class SpiderBuilder
         if (ProxyProvider != null)
         {
             DynamicPageLoader ??= new PuppeteerPageLoaderWithProxies(Logger, ProxyProvider, Cookies);
-            
+
             var req = new RotatingProxyRequests(ProxyProvider)
             {
                 CookieContainer = Cookies
             };
-            
+
             StaticPageLoader ??= new HttpStaticPageLoader(req, Logger);
         }
         else
@@ -154,7 +154,7 @@ public class SpiderBuilder
             StaticPageLoader ??= new HttpStaticPageLoader(req, Logger);
             DynamicPageLoader ??= new PuppeteerPageLoader(Logger, Cookies);
         }
-        
+
         var spider = new WebReaperSpider(
             Sinks,
             LinkParser,

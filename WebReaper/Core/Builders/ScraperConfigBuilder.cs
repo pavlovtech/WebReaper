@@ -4,7 +4,7 @@ using WebReaper.Domain.Selectors;
 using WebReaper.Domain.Parsing;
 using System.Collections.Immutable;
 
-namespace WebReaper.Core;
+namespace WebReaper.Core.Builders;
 
 public class ScraperConfigBuilder
 {

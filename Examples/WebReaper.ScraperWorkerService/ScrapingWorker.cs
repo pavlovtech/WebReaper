@@ -5,7 +5,7 @@ namespace WebReaper.ScraperWorkerService;
 
 public class ScrapingWorker : BackgroundService
 {
-    private ScrapingEngine engine;
+    private ScraperEngine engine;
 
     public ScrapingWorker(ILogger<ScrapingWorker> logger)
     {
@@ -17,7 +17,7 @@ public class ScrapingWorker : BackgroundService
             "https://rutracker.org/forum/viewforum.php?f=2321"
         };
 
-        engine = new Scraper("rutracker")
+        engine = new ScrapingEngineBuilder("rutracker")
             .WithLogger(logger)
             .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
             .FollowLinks("#cf-33 .forumlink>a")
