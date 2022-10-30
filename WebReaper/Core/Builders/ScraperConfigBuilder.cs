@@ -18,35 +18,61 @@ public class ScraperConfigBuilder
     private PageType _startPageType;
     private string? _initialScript;
 
-    public ScraperConfigBuilder WithStartUrl(
+    public ScraperConfigBuilder Get(
         string startUrl,
-        PageType pageType = PageType.Static,
-        string? initScript = null)
+        string? script = null)
     {
         _startUrl = startUrl;
 
-        _startPageType = pageType;
-        _initialScript = initScript;
+        _startPageType = PageType.Static;
+        _initialScript = script;
 
         return this;
     }
 
-    public ScraperConfigBuilder FollowLinks(
-        string linkSelector,
-        PageType pageType = PageType.Static,
+    public ScraperConfigBuilder GetWithBrowser(
+        string startUrl,
         string? script = null)
     {
-        _linkPathSelectors.Add(new LinkPathSelector(linkSelector, null, pageType, script));
+        _startUrl = startUrl;
+
+        _startPageType = PageType.Dynamic;
+        _initialScript = script;
+
         return this;
     }
 
-    public ScraperConfigBuilder FollowLinks(
+    public ScraperConfigBuilder Follow(
+        string linkSelector,
+        string? script = null)
+    {
+        _linkPathSelectors.Add(new LinkPathSelector(linkSelector, null, PageType.Static, script));
+        return this;
+    }
+
+    public ScraperConfigBuilder FollowWithBrowser(
+        string linkSelector,
+        string? script = null)
+    {
+        _linkPathSelectors.Add(new LinkPathSelector(linkSelector, null, PageType.Dynamic, script));
+        return this;
+    }
+
+    public ScraperConfigBuilder Paginate(
         string linkSelector,
         string paginationSelector,
-        PageType pageType = PageType.Static,
         string? script = null)
     {
-        _linkPathSelectors.Add(new LinkPathSelector(linkSelector, paginationSelector, pageType, script));
+        _linkPathSelectors.Add(new LinkPathSelector(linkSelector, paginationSelector, PageType.Static, script));
+        return this;
+    }
+
+    public ScraperConfigBuilder PaginateWithBrowser(
+        string linkSelector,
+        string paginationSelector,
+        string? script = null)
+    {
+        _linkPathSelectors.Add(new LinkPathSelector(linkSelector, paginationSelector, PageType.Dynamic, script));
         return this;
     }
 
@@ -60,6 +86,7 @@ public class ScraperConfigBuilder
     {
         ArgumentNullException.ThrowIfNull(_startUrl);
         ArgumentNullException.ThrowIfNull(_schema);
+
         return new ScraperConfig(_schema, ImmutableQueue.Create(_linkPathSelectors.ToArray()), _startUrl, _startPageType, _initialScript);
     }
 }

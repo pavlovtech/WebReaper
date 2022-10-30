@@ -24,7 +24,8 @@ public class ScrapingWorker : BackgroundService
             .Follow("#cf-33 .forumlink>a")
             .Follow(".forumlink>a")
             .Paginate("a.torTopic", ".pg")
-            .Parse(new Schema {
+            .Parse(new()
+            {
                 new("name", "#topic-title"),
                 new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
                 new("subcategory", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(5)"),

@@ -122,28 +122,49 @@ public class ScraperEngineBuilder
         return this;
     }
 
-    public ScraperEngineBuilder Get(string url, PageType pageType = PageType.Static, string? initScript = null)
+    public ScraperEngineBuilder Get(string url, string? script = null)
     {
-        ConfigBuilder.WithStartUrl(url, pageType, initScript);
+        ConfigBuilder.Get(url, script);
+        return this;
+    }
+
+    public ScraperEngineBuilder GetWithBrowser(string url, PageType pageType = PageType.Static, string? script = null)
+    {
+        ConfigBuilder.GetWithBrowser(url, script);
         return this;
     }
 
     public ScraperEngineBuilder Follow(
         string linkSelector,
-        PageType pageType = PageType.Static,
         string? script = null)
     {
-        ConfigBuilder.FollowLinks(linkSelector, pageType, script);
+        ConfigBuilder.Follow(linkSelector,  script);
+        return this;
+    }
+
+    public ScraperEngineBuilder FollowWithBrowser(
+    string linkSelector,
+    string? script = null)
+    {
+        ConfigBuilder.FollowWithBrowser(linkSelector, script);
         return this;
     }
 
     public ScraperEngineBuilder Paginate(
         string linkSelector,
         string paginationSelector,
-        PageType pageType = PageType.Static,
         string? script = null)
     {
-        ConfigBuilder.FollowLinks(linkSelector, paginationSelector, pageType, script);
+        ConfigBuilder.Paginate(linkSelector, paginationSelector, script);
+        return this;
+    }
+
+    public ScraperEngineBuilder PaginateWithBrowser(
+        string linkSelector,
+        string paginationSelector,
+        string? script = null)
+    {
+        ConfigBuilder.PaginateWithBrowser(linkSelector, paginationSelector, script);
         return this;
     }
 

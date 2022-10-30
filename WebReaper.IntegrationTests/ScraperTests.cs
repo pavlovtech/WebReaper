@@ -26,7 +26,7 @@ namespace WebReaper.IntegrationTests
             var engine = new ScraperEngineBuilder("reddit")
                 .Get("https://www.reddit.com/r/dotnet/")
                 .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
-                .Parse(new Schema
+                .Parse(new()
                 {
                     new("title", "._eYtD2XCVieq6emjKBH3m"),
                     new("text", "._3xX726aBn29LDbsDtzr_6E._1Ap4F5maDtT1E1YuCiaO0r.D3IL3FD0RFy_mkKLPwL4")
@@ -50,7 +50,7 @@ namespace WebReaper.IntegrationTests
             var scraper = new ScraperEngineBuilder("reddit")
                 .Get("https://www.reddit.com/r/dotnet/")
                 .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
-                .Parse(new Schema
+                .Parse(new()
                 {
                     new("title", "._eYtD2XCVieq6emjKBH3m"),
                     new("text", "._3xX726aBn29LDbsDtzr_6E._1Ap4F5maDtT1E1YuCiaO0r.D3IL3FD0RFy_mkKLPwL4")
@@ -80,9 +80,9 @@ namespace WebReaper.IntegrationTests
             List<JObject> result = new List<JObject>();
 
             var engine = new ScraperEngineBuilder("reddit")
-                .Get("https://www.reddit.com/r/dotnet/", PageType.Dynamic)
-                .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE", PageType.Dynamic)
-                .Parse(new Schema
+                .GetWithBrowser("https://www.reddit.com/r/dotnet/")
+                .FollowWithBrowser("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
+                .Parse(new()
                 {
                     new("title", "._eYtD2XCVieq6emjKBH3m"),
                     new("text", "._3xX726aBn29LDbsDtzr_6E._1Ap4F5maDtT1E1YuCiaO0r.D3IL3FD0RFy_mkKLPwL4")
