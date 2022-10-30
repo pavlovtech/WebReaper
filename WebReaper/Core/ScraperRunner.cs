@@ -7,7 +7,7 @@ using WebReaper.Spider.Abstract;
 
 namespace WebReaper.Core;
 
-public class ScraperRunner
+public class ScrapingEngine
 {
     private ScraperConfig Config { get; }
     private string GlobalId { get; }
@@ -15,7 +15,7 @@ public class ScraperRunner
     private ISpider Spider { get; }
     private ILogger Logger { get; }
 
-    public ScraperRunner(
+    public ScrapingEngine(
         string globalId,
         ScraperConfig config,
         IScheduler jobScheduler,
@@ -39,19 +39,9 @@ public class ScraperRunner
         {
             await Parallel.ForEachAsync(Scheduler.GetAllAsync(cancellationToken), options, async (job, token) =>
             {
-                try
-                {
-                    var newJobs = await Executor.RetryAsync(() => Spider.CrawlAsync(job, cancellationToken));
+                var newJobs = await Executor.RetryAsync(() => Spider.CrawlAsync(job, cancellationToken));
 
-                    Logger.LogInformation("Recievd {number} of new jobs", newJobs.Count());
-                    await Scheduler.AddAsync(newJobs, cancellationToken);
-                    Logger.LogInformation("Schedules {number} new jobs", newJobs.Count());
-
-                }
-                catch (Exception ex)
-                {
-                    Logger.LogError(ex, "Failed during scraping {job}", job.ToString());
-                }
+                await Scheduler.AddAsync(newJobs, cancellationToken);
             });
         }
         catch (PageCrawlLimitException ex)

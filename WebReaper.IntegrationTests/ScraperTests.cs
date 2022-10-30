@@ -5,8 +5,6 @@ using WebReaper.Domain.Selectors;
 using WebReaper.ProxyProviders.WebShareProxy;
 using Xunit.Abstractions;
 using PuppeteerSharp;
-using Microsoft.Extensions.Logging;
-using System.Threading;
 
 namespace WebReaper.IntegrationTests
 {
@@ -24,7 +22,7 @@ namespace WebReaper.IntegrationTests
         {
             List<JObject> result = new List<JObject>();
 
-            var scraper = new Scraper("reddit")
+            var engine = new Scraper("reddit")
                 .WithStartUrl("https://www.reddit.com/r/dotnet/")
                 .FollowLinks("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
                 .Parse(new Schema
@@ -33,9 +31,10 @@ namespace WebReaper.IntegrationTests
                     new("text", "._3xX726aBn29LDbsDtzr_6E._1Ap4F5maDtT1E1YuCiaO0r.D3IL3FD0RFy_mkKLPwL4")
                 })
                 .WithLogger(new TestOutputLogger(this.output))
-                .Subscribe(x => result.Add(x));
+                .Subscribe(x => result.Add(x))
+                .Build();
 
-            _ = scraper.Run(1);
+            _ = engine.Run(1);
 
             await Task.Delay(10000);
 
@@ -57,7 +56,8 @@ namespace WebReaper.IntegrationTests
                 })
                 .WithLogger(new TestOutputLogger(this.output))
                 .WithProxies(new WebShareProxyProvider())
-                .Subscribe(x => result.Add(x));
+                .Subscribe(x => result.Add(x))
+                .Build();
 
             _ = scraper.Run(1);
 
@@ -78,7 +78,7 @@ namespace WebReaper.IntegrationTests
 
             List<JObject> result = new List<JObject>();
 
-            var scraper = new Scraper("reddit")
+            var engine = new Scraper("reddit")
                 .WithStartUrl("https://www.reddit.com/r/dotnet/", PageType.Dynamic)
                 .FollowLinks("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE", PageType.Dynamic)
                 .Parse(new Schema
@@ -87,9 +87,10 @@ namespace WebReaper.IntegrationTests
                     new("text", "._3xX726aBn29LDbsDtzr_6E._1Ap4F5maDtT1E1YuCiaO0r.D3IL3FD0RFy_mkKLPwL4")
                 })
                 .WithLogger(new TestOutputLogger(this.output))
-                .Subscribe(x => result.Add(x));
+                .Subscribe(x => result.Add(x))
+                .Build();
 
-            _ = scraper.Run(10);
+            _ = engine.Run(10);
 
             await Task.Delay(20000);
 

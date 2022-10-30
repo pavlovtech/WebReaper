@@ -7,7 +7,7 @@ namespace WebReaper.DistributedScraperWorkerService;
 
 public class ScrapingWorker : BackgroundService
 {
-    private readonly Scraper scraper;
+    private readonly ScrapingEngine engine;
 
     public ScrapingWorker(ILogger<ScrapingWorker> logger)
     {
@@ -23,7 +23,7 @@ public class ScrapingWorker : BackgroundService
         var azureSBConnectionString = "Endpoint=sb://webreaper.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=g0AAACe/NXS+/qWVad4KUnnw6iGECmUTJTpfFOMfjms=";
         var queue = "jobqueue";
 
-        scraper = new Scraper("rutracker")
+        engine = new Scraper("rutracker")
             .WithLogger(logger)
             .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
             .IgnoreUrls(blackList)
@@ -44,12 +44,13 @@ public class ScrapingWorker : BackgroundService
                 "TssEjPIdgShphVKhFkxrAu6WJovPdIZLTFNshJWGdXuitWPIMlXTidc05WFqm20qFVz8leE8zc5JBOphlNmRYg==",
                 "DistributedWebReaper",
                 "Rutracker")
-            .WithScheduler(new AzureServiceBusScheduler(azureSBConnectionString, queue));
+            .WithScheduler(new AzureServiceBusScheduler(azureSBConnectionString, queue))
+            .Build();
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        await scraper.Run(10);
+        await engine.Run(10);
     }
 }
 

@@ -153,16 +153,11 @@ public class Scraper
         return this;
     }
 
-    public async Task Run(
-        int parallelismDegree,
-        CancellationToken cancellationToken = default
-    )
+    public ScrapingEngine Build()
     {
         var config = ConfigBuilder.Build();
         var spider = SpiderBuilder.Build();
 
-        var runner = new ScraperRunner(SiteId, config, Scheduler, spider, Logger);
-
-        await runner.Run(parallelismDegree, cancellationToken);
+        return new ScrapingEngine(SiteId, config, Scheduler, spider, Logger);
     }
 }
