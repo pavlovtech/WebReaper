@@ -1,7 +1,6 @@
 using System.Net;
 using WebReaper.Core;
 using WebReaper.Core.Builders;
-using WebReaper.Domain.Parsing;
 using WebReaper.Domain.Selectors;
 
 namespace BrownsfashionScraper
@@ -56,8 +55,8 @@ namespace BrownsfashionScraper
                     return cookies;
                 })
                 .Get("https://www.brownsfashion.com/ua/shopping/man-clothing")
-                .Paginate("._1GX2o>a", ".AlEkI", PageType.Dynamic)
-                .Parse(new Schema
+                .PaginateWithBrowser("._1GX2o>a", ".AlEkI")
+                .Parse(new()
                 {
                     new("brand", "a[data-test=\"product-brand\"]"),
                     new("product", "span[data-test=\"product-name\"]"),

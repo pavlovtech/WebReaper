@@ -36,11 +36,11 @@ namespace WebReaper.AzureFuncs
             _logger.LogInformation("C# HTTP trigger function processed a request.");
 
             var config = new ScraperConfigBuilder()
-                    .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
-                    .FollowLinks("#cf-33 .forumlink>a")
-                    .FollowLinks(".forumlink>a")
-                    .FollowLinks("a.torTopic", ".pg")
-                    .WithScheme(new Schema
+                    .Get("https://rutracker.org/forum/index.php?c=33")
+                    .Follow("#cf-33 .forumlink>a")
+                    .Follow(".forumlink>a")
+                    .Paginate("a.torTopic", ".pg")
+                    .WithScheme(new()
                     {
                          new("name", "#topic-title"),
                          new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
