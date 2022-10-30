@@ -5,16 +5,18 @@ using WebReaper.Domain.Parsing;
 using WebReaper.Domain.Selectors;
 using WebReaper.ProxyProviders.WebShareProxy;
 
-var engine = new ScraperEngineBuilder("reddit")
-    .GetWithBrowser("https://www.reddit.com/r/dotnet/")
-    .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
+var engine = new ScraperEngineBuilder("rutracker")
+    .Get("https://rutracker.org/forum/viewtopic.php?t=6273642")
     .Parse(new()
-    {
-        new("title", "._eYtD2XCVieq6emjKBH3m"),
-        new("text", "._3xX726aBn29LDbsDtzr_6E._1Ap4F5maDtT1E1YuCiaO0r.D3IL3FD0RFy_mkKLPwL4")
-    })
-    .WriteToJsonFile("output.json")
-    .WithProxies(new WebShareProxyProvider())
+            {
+                new("name", "#topic-title"),
+                new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
+                new("subcategory", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(5)"),
+                new("torrentSize", "div.attach_link.guest>ul>li:nth-child(2)"),
+                new("torrentLink", ".magnet-link", "href"),
+                new("coverImageUrl", ".postImg", "src")
+            })
+    .WriteToJsonFile("output1.json")
     .WithLogger(new ColorConsoleLogger())
     .Build();
 
