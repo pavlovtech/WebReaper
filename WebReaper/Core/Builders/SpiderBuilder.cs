@@ -1,9 +1,7 @@
 ﻿using System.Net;
 using Microsoft.Extensions.Logging;
-using System.Net.Security;
 using Microsoft.Extensions.Logging.Abstractions;
 using Newtonsoft.Json.Linq;
-using WebReaper.HttpRequests.Abstract;
 using WebReaper.HttpRequests.Concrete;
 using WebReaper.Parser.Concrete;
 using WebReaper.LinkTracker.Concrete;
@@ -43,7 +41,8 @@ public class SpiderBuilder
     private IContentParser ContentParser { get; }
 
     private IStaticPageLoader StaticPageLoader { get; set; }
-    private IDynamicPageLoader DynamicPageLoader { get; set; }
+
+    private IBrowserPageLoader BrowserPageLoader { get; set; }
 
     private IProxyProvider ProxyProvider { get; set; }
 
@@ -118,9 +117,9 @@ public class SpiderBuilder
         return this;
     }
 
-    public SpiderBuilder WithBrowserPageLoader(IDynamicPageLoader dynamicPageLoader)
+    public SpiderBuilder WithBrowserPageLoader(IBrowserPageLoader browserPageLoader)
     {
-        DynamicPageLoader = dynamicPageLoader;
+        BrowserPageLoader = browserPageLoader;
         return this;
     }
 
@@ -136,7 +135,7 @@ public class SpiderBuilder
     {
         if (ProxyProvider != null)
         {
-            DynamicPageLoader ??= new PuppeteerPageLoaderWithProxies(Logger, ProxyProvider, Cookies);
+            BrowserPageLoader ??= new PuppeteerPageLoaderWithProxies(Logger, ProxyProvider, Cookies);
 
             var req = new RotatingProxyRequests(ProxyProvider)
             {
@@ -152,7 +151,7 @@ public class SpiderBuilder
                 CookieContainer = Cookies
             };
             StaticPageLoader ??= new HttpStaticPageLoader(req, Logger);
-            DynamicPageLoader ??= new PuppeteerPageLoader(Logger, Cookies);
+            BrowserPageLoader ??= new PuppeteerPageLoader(Logger, Cookies);
         }
 
         var spider = new WebReaperSpider(
@@ -161,7 +160,7 @@ public class SpiderBuilder
             ContentParser,
             SiteLinkTracker,
             StaticPageLoader,
-            DynamicPageLoader,
+            BrowserPageLoader,
             Logger)
         {
             UrlBlackList = _urlBlackList.ToList(),

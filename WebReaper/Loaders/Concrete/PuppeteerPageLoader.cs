@@ -6,7 +6,7 @@ using WebReaper.Loaders.Abstract;
 
 namespace WebReaper.Loaders.Concrete;
 
-public class PuppeteerPageLoader : IDynamicPageLoader
+public class PuppeteerPageLoader : IBrowserPageLoader
 {
     private readonly CookieContainer? _cookies;
     private ILogger Logger { get; }

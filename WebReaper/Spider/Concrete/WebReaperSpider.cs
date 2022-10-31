@@ -16,7 +16,7 @@ namespace WebReaper.Spider.Concrete;
 public class WebReaperSpider : ISpider
 {
     public IStaticPageLoader StaticStaticPageLoader { get; init; }
-    public IDynamicPageLoader DynamicPageLoader { get; init; }
+    public IBrowserPageLoader BrowserPageLoader { get; init; }
     public ILinkParser LinkParser { get; init; }
     public IContentParser ContentParser { get; init; }
     public ICrawledLinkTracker LinkTracker { get; init; }
@@ -37,7 +37,7 @@ public class WebReaperSpider : ISpider
         IContentParser contentParser,
         ICrawledLinkTracker linkTracker,
         IStaticPageLoader staticPageLoader,
-        IDynamicPageLoader dynamicPageLoader,
+        IBrowserPageLoader dynamicPageLoader,
         ILogger logger)
     {
         Sinks = sinks;
@@ -45,7 +45,7 @@ public class WebReaperSpider : ISpider
         ContentParser = contentParser;
         LinkTracker = linkTracker;
         StaticStaticPageLoader = staticPageLoader;
-        DynamicPageLoader = dynamicPageLoader;
+        BrowserPageLoader = dynamicPageLoader;
 
         Logger = logger;
     }
@@ -126,7 +126,7 @@ public class WebReaperSpider : ISpider
         else
         {
             Logger.LogInformation("Loading dynamic page {URL}", job.Url);
-            doc = await DynamicPageLoader.Load(job.Url, job.Script);
+            doc = await BrowserPageLoader.Load(job.Url, job.Script);
         }
 
         return doc;

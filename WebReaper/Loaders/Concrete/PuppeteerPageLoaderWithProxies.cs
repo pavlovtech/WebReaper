@@ -10,7 +10,7 @@ using Azure;
 
 namespace WebReaper.Loaders.Concrete;
 
-public class PuppeteerPageLoaderWithProxies : IDynamicPageLoader
+public class PuppeteerPageLoaderWithProxies : IBrowserPageLoader
 {
     private readonly SemaphoreSlim _semaphore = new(1, 1);
 
