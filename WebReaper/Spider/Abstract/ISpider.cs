@@ -13,7 +13,7 @@ public interface ISpider
 
     IStaticPageLoader StaticStaticPageLoader { get; init; }
 
-    IDynamicPageLoader DynamicPageLoader { get; init; }
+    IBrowserPageLoader BrowserPageLoader { get; init; }
 
     ILinkParser LinkParser { get; init; }
 

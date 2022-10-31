@@ -35,7 +35,7 @@ namespace WebReaper.AzureFuncs
         {
             _logger.LogInformation("C# HTTP trigger function processed a request.");
 
-            var config = new ScraperConfigBuilder()
+            var config = new ConfigBuilder()
                 .Get("https://rutracker.org/forum/index.php?c=33")
                 .Follow("#cf-33 .forumlink>a")
                 .Follow(".forumlink>a")

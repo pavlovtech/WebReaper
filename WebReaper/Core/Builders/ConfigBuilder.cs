@@ -6,7 +6,7 @@ using System.Collections.Immutable;
 
 namespace WebReaper.Core.Builders;
 
-public class ScraperConfigBuilder
+public class ConfigBuilder
 {
     private readonly List<LinkPathSelector> _linkPathSelectors = new();
 
@@ -18,7 +18,7 @@ public class ScraperConfigBuilder
     private PageType _startPageType;
     private string? _initialScript;
 
-    public ScraperConfigBuilder Get(
+    public ConfigBuilder Get(
         string startUrl,
         string? script = null)
     {
@@ -30,7 +30,7 @@ public class ScraperConfigBuilder
         return this;
     }
 
-    public ScraperConfigBuilder GetWithBrowser(
+    public ConfigBuilder GetWithBrowser(
         string startUrl,
         string? script = null)
     {
@@ -42,7 +42,7 @@ public class ScraperConfigBuilder
         return this;
     }
 
-    public ScraperConfigBuilder Follow(
+    public ConfigBuilder Follow(
         string linkSelector,
         string? script = null)
     {
@@ -50,7 +50,7 @@ public class ScraperConfigBuilder
         return this;
     }
 
-    public ScraperConfigBuilder FollowWithBrowser(
+    public ConfigBuilder FollowWithBrowser(
         string linkSelector,
         string? script = null)
     {
@@ -58,7 +58,7 @@ public class ScraperConfigBuilder
         return this;
     }
 
-    public ScraperConfigBuilder Paginate(
+    public ConfigBuilder Paginate(
         string linkSelector,
         string paginationSelector,
         string? script = null)
@@ -67,7 +67,7 @@ public class ScraperConfigBuilder
         return this;
     }
 
-    public ScraperConfigBuilder PaginateWithBrowser(
+    public ConfigBuilder PaginateWithBrowser(
         string linkSelector,
         string paginationSelector,
         string? script = null)
@@ -76,7 +76,7 @@ public class ScraperConfigBuilder
         return this;
     }
 
-    public ScraperConfigBuilder WithScheme(Schema schema)
+    public ConfigBuilder WithScheme(Schema schema)
     {
         _schema = schema;
         return this;

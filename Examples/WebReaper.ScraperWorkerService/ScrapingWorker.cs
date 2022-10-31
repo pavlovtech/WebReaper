@@ -18,7 +18,7 @@ public class ScrapingWorker : BackgroundService
             "https://rutracker.org/forum/viewforum.php?f=2321"
         };
 
-        engine = new ScraperEngineBuilder("rutracker")
+        engine = new EngineBuilder("rutracker")
             .WithLogger(logger)
             .Get("https://rutracker.org/forum/index.php?c=33")
             .Follow("#cf-33 .forumlink>a")

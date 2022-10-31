@@ -14,9 +14,9 @@ using WebReaper.Logging;
 
 namespace WebReaper.Core.Builders;
 
-public class ScraperEngineBuilder
+public class EngineBuilder
 {
-    private ScraperConfigBuilder ConfigBuilder { get; } = new();
+    private ConfigBuilder ConfigBuilder { get; } = new();
     private SpiderBuilder SpiderBuilder { get; } = new();
 
     private ILogger Logger { get; set; } = NullLogger.Instance;
@@ -27,42 +27,42 @@ public class ScraperEngineBuilder
 
     protected IProxyProvider? ProxyProvider { get; set; }
 
-    public ScraperEngineBuilder(string siteId)
+    public EngineBuilder(string siteId)
     {
         SiteId = siteId;
     }
 
-    public ScraperEngineBuilder AddSink(IScraperSink sink)
+    public EngineBuilder AddSink(IScraperSink sink)
     {
         SpiderBuilder.AddSink(sink);
         return this;
     }
 
-    public ScraperEngineBuilder Authorize(Func<CookieContainer> authorize)
+    public EngineBuilder Authorize(Func<CookieContainer> authorize)
     {
         SpiderBuilder.Authorize(authorize);
         return this;
     }
 
-    public ScraperEngineBuilder IgnoreUrls(params string[] urls)
+    public EngineBuilder IgnoreUrls(params string[] urls)
     {
         SpiderBuilder.IgnoreUrls(urls);
         return this;
     }
 
-    public ScraperEngineBuilder Limit(int limit)
+    public EngineBuilder Limit(int limit)
     {
         SpiderBuilder.Limit(limit);
         return this;
     }
 
-    public ScraperEngineBuilder WithLinkTracker(ICrawledLinkTracker linkTracker)
+    public EngineBuilder WithLinkTracker(ICrawledLinkTracker linkTracker)
     {
         SpiderBuilder.WithLinkTracker(linkTracker);
         return this;
     }
 
-    public ScraperEngineBuilder WithLogger(ILogger logger)
+    public EngineBuilder WithLogger(ILogger logger)
     {
         SpiderBuilder.WithLogger(logger);
 
@@ -71,26 +71,26 @@ public class ScraperEngineBuilder
         return this;
     }
 
-    public ScraperEngineBuilder LogToConsole()
+    public EngineBuilder LogToConsole()
     {
         SpiderBuilder.WithLogger(new ColorConsoleLogger());
 
         return this;
     }
 
-    public ScraperEngineBuilder WriteToConsole()
+    public EngineBuilder WriteToConsole()
     {
         SpiderBuilder.WriteToConsole();
         return this;
     }
 
-    public ScraperEngineBuilder Subscribe(Action<JObject> scrapingResultHandler)
+    public EngineBuilder Subscribe(Action<JObject> scrapingResultHandler)
     {
         SpiderBuilder.AddSubscription(scrapingResultHandler);
         return this;
     }
 
-    public ScraperEngineBuilder WriteToCosmosDb(
+    public EngineBuilder WriteToCosmosDb(
         string endpointUrl,
         string authorizationKey,
         string databaseId,
@@ -100,49 +100,49 @@ public class ScraperEngineBuilder
         return this;
     }
 
-    public ScraperEngineBuilder WriteToMongoDb(string connectionString, string databaseName, string collectionName)
+    public EngineBuilder WriteToMongoDb(string connectionString, string databaseName, string collectionName)
     {
         SpiderBuilder.AddSink(new MongoDbSink(connectionString, databaseName, collectionName, Logger));
         return this;
     }
 
-    public ScraperEngineBuilder WriteToCsvFile(string filePath)
+    public EngineBuilder WriteToCsvFile(string filePath)
     {
         SpiderBuilder.AddSink(new CsvFileSink(filePath));
         return this;
     }
 
-    public ScraperEngineBuilder WriteToJsonFile(string filePath)
+    public EngineBuilder WriteToJsonFile(string filePath)
     {
         SpiderBuilder.AddSink(new JsonLinesFileSink(filePath));
         return this;
     }
 
-    public ScraperEngineBuilder WithProxies(IProxyProvider proxyProvider)
+    public EngineBuilder WithProxies(IProxyProvider proxyProvider)
     {
         SpiderBuilder.WithProxies(proxyProvider);
         return this;
     }
 
-    public ScraperEngineBuilder Parse(Schema schema)
+    public EngineBuilder Parse(Schema schema)
     {
         ConfigBuilder.WithScheme(schema);
         return this;
     }
 
-    public ScraperEngineBuilder Get(string url, string? script = null)
+    public EngineBuilder Get(string url, string? script = null)
     {
         ConfigBuilder.Get(url, script);
         return this;
     }
 
-    public ScraperEngineBuilder GetWithBrowser(string url, PageType pageType = PageType.Static, string? script = null)
+    public EngineBuilder GetWithBrowser(string url, PageType pageType = PageType.Static, string? script = null)
     {
         ConfigBuilder.GetWithBrowser(url, script);
         return this;
     }
 
-    public ScraperEngineBuilder Follow(
+    public EngineBuilder Follow(
         string linkSelector,
         string? script = null)
     {
@@ -150,7 +150,7 @@ public class ScraperEngineBuilder
         return this;
     }
 
-    public ScraperEngineBuilder FollowWithBrowser(
+    public EngineBuilder FollowWithBrowser(
     string linkSelector,
     string? script = null)
     {
@@ -158,7 +158,7 @@ public class ScraperEngineBuilder
         return this;
     }
 
-    public ScraperEngineBuilder Paginate(
+    public EngineBuilder Paginate(
         string linkSelector,
         string paginationSelector,
         string? script = null)
@@ -167,7 +167,7 @@ public class ScraperEngineBuilder
         return this;
     }
 
-    public ScraperEngineBuilder PaginateWithBrowser(
+    public EngineBuilder PaginateWithBrowser(
         string linkSelector,
         string paginationSelector,
         string? script = null)
@@ -176,7 +176,7 @@ public class ScraperEngineBuilder
         return this;
     }
 
-    public ScraperEngineBuilder WithScheduler(IScheduler scheduler)
+    public EngineBuilder WithScheduler(IScheduler scheduler)
     {
         Scheduler = scheduler;
         return this;

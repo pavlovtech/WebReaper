@@ -32,7 +32,7 @@
     <None Remove="Azure.Messaging.ServiceBus" />
   </ItemGroup>
   <ItemGroup>       
-    <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.31.0" />       
+    <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.31.1" />       
     <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />       
     <PackageReference Include="MongoDB.Driver" Version="2.18.0" />       
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />       
