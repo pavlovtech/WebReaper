@@ -10,6 +10,7 @@ using WebReaper.Sinks.Abstract;
 using WebReaper.Scheduler.Abstract;
 using WebReaper.Scheduler.Concrete;
 using WebReaper.Proxy.Abstract;
+using WebReaper.Logging;
 
 namespace WebReaper.Core.Builders;
 
@@ -66,6 +67,13 @@ public class ScraperEngineBuilder
         SpiderBuilder.WithLogger(logger);
 
         Logger = logger;
+
+        return this;
+    }
+
+    public ScraperEngineBuilder LogToConsole()
+    {
+        SpiderBuilder.WithLogger(new ColorConsoleLogger());
 
         return this;
     }
