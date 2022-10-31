@@ -3,11 +3,11 @@ using WebReaper.LinkTracker.Abstract;
 
 namespace WebReaper.LinkTracker.Concrete;
 
-public class RedisCrawledLinkTracker : ICrawledLinkTracker
+public class RedisVisitedLinkTracker : IVisitedLinkTracker
 {
     private static ConnectionMultiplexer? redis;
 
-    public RedisCrawledLinkTracker(string connectionString)
+    public RedisVisitedLinkTracker(string connectionString)
     {
         redis = ConnectionMultiplexer.Connect(connectionString, config =>
         {

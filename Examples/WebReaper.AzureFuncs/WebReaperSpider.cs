@@ -12,10 +12,10 @@ namespace WebReaper.AzureFuncs
 {
     public class WebReaperSpider
     {
-        public ICrawledLinkTracker LinkTracker { get; }
+        public IVisitedLinkTracker LinkTracker { get; }
         public CosmosSink CosmosSink { get; }
 
-        public WebReaperSpider(ICrawledLinkTracker linkTracker, CosmosSink cosmosSink)
+        public WebReaperSpider(IVisitedLinkTracker linkTracker, CosmosSink cosmosSink)
         {
             LinkTracker = linkTracker;
             CosmosSink = cosmosSink;

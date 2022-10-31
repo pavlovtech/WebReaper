@@ -19,7 +19,7 @@ public interface ISpider
 
     IContentParser ContentParser { get; init; }
 
-    ICrawledLinkTracker LinkTracker { get; init; }
+    IVisitedLinkTracker LinkTracker { get; init; }
 
     public event Action<JObject> ScrapedData;
 
