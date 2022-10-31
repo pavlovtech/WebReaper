@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WebReaper\WebReaper.csproj" />
+    <ProjectReference Include="..\..\WebReaper\WebReaper.csproj" />
   </ItemGroup>
 
 </Project>

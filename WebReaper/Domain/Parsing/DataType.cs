@@ -8,6 +8,5 @@ public enum DataType
     Boolean = 3,
     String = 4,
     DataTime = 5,
-    Object = 6,
-    List = 7
+    Object = 6
 }

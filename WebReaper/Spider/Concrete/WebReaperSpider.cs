@@ -10,7 +10,6 @@ using WebReaper.LinkTracker.Abstract;
 using WebReaper.Sinks.Abstract;
 using WebReaper.Spider.Abstract;
 using WebReaper.Exceptions;
-using WebReaper.Loaders.Concrete;
 
 namespace WebReaper.Spider.Concrete;
 
@@ -68,8 +67,6 @@ public class WebReaperSpider : ISpider
         await LinkTracker.AddVisitedLinkAsync(job.SiteId, job.Url);
 
         string doc = await LoadPage(job);
-
-        //Logger.LogDebug(doc);
 
         if (job.PageCategory == PageCategory.TargetPage)
         {
