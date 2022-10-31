@@ -70,12 +70,12 @@ Console.ReadLine();
 
 ### SPA parsing example
 
-Parsing single page applications is super simple, just use the GetWithBrowser method. In this case Puppeteer will be used to load the pages.
+Parsing single page applications is super simple, just use the GetWithBrowser and/or FollowWithBrowser method. In this case Puppeteer will be used to load the pages.
 
 ```C#
 _ = new ScraperEngineBuilder("reddit")
     .GetWithBrowser("https://www.reddit.com/r/dotnet/")
-    .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
+    .FollowWithBrowser("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
     .Parse(new()
     {
         new("title", "._eYtD2XCVieq6emjKBH3m"),
@@ -92,7 +92,7 @@ Additionaly, you can run any JavaScript on dynamic pages as they are loaded with
 ```C#
 _ = new ScraperEngineBuilder("reddit")
     .GetWithBrowser("https://www.reddit.com/r/dotnet/", "window.scrollTo(0, document.body.scrollHeight);")
-    .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
+    .FollowWithBrowser("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
     .Parse(new()
     {
         new("title", "._eYtD2XCVieq6emjKBH3m"),
