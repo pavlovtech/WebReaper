@@ -86,7 +86,6 @@ namespace WebReaper.Parser.Concrete
             catch (Exception ex)
             {
                 Logger.LogError(ex, "Error during parsing phase");
-                throw;
             }
         }
     }
