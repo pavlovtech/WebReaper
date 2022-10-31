@@ -47,9 +47,9 @@ namespace WebReaper.UnitTests
                 new("link", ".attach_link.guest", true)
             });
 
-            var expectedHtml = "\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<ul class=\"inlined middot-separated\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<li>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<a href=\"magnet:?xt=urn:btih:462F275C47EA0608B25BB8DFB1E202BDAFC68DE7&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet\" class=\"magnet-link\" data-topic_id=\"6273642\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<img src=\"https://static.t-ru.org/templates/v1/images/magnet_1.svg\" alt=\"\">Скачать раздачу по magnet-ссылке\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</a>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</li>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<li>1.07 GB</li>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</ul>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t";
+            var expectedHtml = "<ul class=\"inlined middot-separated\">";
 
-            Assert.Equal(expectedHtml, result["link"]?.ToString());
+            Assert.Contains(expectedHtml, result["link"]?.ToString());
         }
     }
 }
