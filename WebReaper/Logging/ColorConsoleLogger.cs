@@ -1,16 +1,19 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace WebReaper.ConsoleApplication
+namespace WebReaper.Logging
 {
 
     public sealed class ColorConsoleLogger : ILogger
     {
         public Dictionary<LogLevel, ConsoleColor> LogLevelToColorMap { get; set; } = new()
         {
+            [LogLevel.Trace] = ConsoleColor.DarkGray,
             [LogLevel.Debug] = ConsoleColor.Gray,
             [LogLevel.Information] = ConsoleColor.Green,
             [LogLevel.Warning] = ConsoleColor.Cyan,
             [LogLevel.Error] = ConsoleColor.Red,
+            [LogLevel.Critical] = ConsoleColor.Red,
+            [LogLevel.None] = ConsoleColor.Gray
         };
 
         public IDisposable BeginScope<TState>(TState state) => default!;
@@ -37,7 +40,7 @@ namespace WebReaper.ConsoleApplication
             Console.ForegroundColor = LogLevelToColorMap[logLevel];
             Console.Write($"{formatter(state, exception)}");
 
-            if(exception != null)
+            if (exception != null)
             {
                 Console.WriteLine($"\n\n{exception}");
             }
