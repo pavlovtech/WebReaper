@@ -113,7 +113,7 @@ If you need to pass authorization before parsing the web site, you can call Auth
 ```C#
 _ = new ScraperEngineBuilder("rutracker")
     .WithLogger(logger)
-    .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
+    .Get("https://rutracker.org/forum/index.php?c=33")
     .Authorize(() =>
     {
         var container = new CookieContainer();
