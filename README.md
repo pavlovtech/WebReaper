@@ -1,8 +1,8 @@
-
 # ![image](https://user-images.githubusercontent.com/6662454/167391357-edb02ce2-a63c-439b-be9b-69b4b4796b1c.png) WebReaper
 
 [![NuGet](https://img.shields.io/nuget/v/WebReaper)](https://www.nuget.org/packages/WebReaper)
 [![build status](https://github.com/pavlovtech/WebReaper/actions/workflows/dotnet.yml/badge.svg)](https://github.com/pavlovtech/WebReaper/actions/workflows/dotnet.yml)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fpavlovtech%2FWebReaper.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fpavlovtech%2FWebReaper?ref=badge_shield)
 
 Please star this project if you find it useful!
 
@@ -241,3 +241,7 @@ For other ways to extend your functionality see the next section.
 - [ ] Subscribe to logs with lambda expression
 
 See the [LICENSE](LICENSE.txt) file for license rights and limitations (GNU GPLv3).
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fpavlovtech%2FWebReaper.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fpavlovtech%2FWebReaper?ref=badge_large)
