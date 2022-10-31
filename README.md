@@ -2,6 +2,7 @@
 # ![image](https://user-images.githubusercontent.com/6662454/167391357-edb02ce2-a63c-439b-be9b-69b4b4796b1c.png) WebReaper
 
 [![NuGet](https://img.shields.io/nuget/v/WebReaper)](https://www.nuget.org/packages/WebReaper)
+[![build status](https://github.com/pavlovtech/WebReaper/actions/workflows/dotnet.yml/badge.svg)](https://github.com/pavlovtech/WebReaper/actions/workflows/dotnet.yml)
 
 Please star this project if you find it useful!
 
