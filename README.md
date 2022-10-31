@@ -24,19 +24,21 @@ dotnet add package WebReaper
 ## 📋 Example:
 
 ```C#
-using WebReaper.Core;
-using WebReaper.Domain.Parsing;
+using WebReaper.ConsoleApplication;
+using WebReaper.Core.Builders;
 
-var webReaper = new Scraper("reddit")
-    .WithStartUrl("https://www.reddit.com/r/dotnet/")
-    .FollowLinks("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
-    .Parse(new Schema
+_ = new ScraperEngineBuilder("reddit")
+    .Get("https://www.reddit.com/r/dotnet/")
+    .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
+    .Parse(new()
     {
         new("title", "._eYtD2XCVieq6emjKBH3m"),
         new("text", "._3xX726aBn29LDbsDtzr_6E._1Ap4F5maDtT1E1YuCiaO0r.D3IL3FD0RFy_mkKLPwL4")
     })
     .WriteToJsonFile("output.json")
-    .Run(10);
+    .WithLogger(new ColorConsoleLogger())
+    .Build()
+    .Run();
 
 Console.ReadLine();
 ```
@@ -68,38 +70,38 @@ Console.ReadLine();
 
 ### SPA parsing example
 
-Parsing single page applications is super simple, just specify PageType.Dynamic. In this case Puppeteer will be used to load the pages.
+Parsing single page applications is super simple, just use the GetWithBrowser method. In this case Puppeteer will be used to load the pages.
 
 ```C#
-var webReaper = new Scraper("reddit")
-    .WithStartUrl("https://www.reddit.com/r/dotnet/", PageType.Dynamic)
-    .FollowLinks("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE", PageType.Dynamic)
-    .Parse(new Schema
+_ = new ScraperEngineBuilder("reddit")
+    .GetWithBrowser("https://www.reddit.com/r/dotnet/")
+    .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
+    .Parse(new()
     {
         new("title", "._eYtD2XCVieq6emjKBH3m"),
         new("text", "._3xX726aBn29LDbsDtzr_6E._1Ap4F5maDtT1E1YuCiaO0r.D3IL3FD0RFy_mkKLPwL4")
     })
     .WriteToJsonFile("output.json")
     .WithLogger(new ColorConsoleLogger())
-    .Run(10);
-
-Console.ReadLine();
+    .Build()
+    .Run();
 ```
 
 Additionaly, you can run any JavaScript on dynamic pages as they are loaded with headless browser. In order to do that you need to pass the third parameter:
 
 ```C#
-var webReaper = new Scraper("reddit")
-    .WithStartUrl("https://www.reddit.com/r/dotnet/", PageType.Dynamic, "window.scrollTo(0, document.body.scrollHeight);")
-    .FollowLinks("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE", PageType.Dynamic, "window.scrollTo(0, document.body.scrollHeight);")
-    .Parse(new Schema
+_ = new ScraperEngineBuilder("reddit")
+    .GetWithBrowser("https://www.reddit.com/r/dotnet/", "window.scrollTo(0, document.body.scrollHeight);")
+    .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
+    .Parse(new()
     {
         new("title", "._eYtD2XCVieq6emjKBH3m"),
         new("text", "._3xX726aBn29LDbsDtzr_6E._1Ap4F5maDtT1E1YuCiaO0r.D3IL3FD0RFy_mkKLPwL4")
     })
     .WriteToJsonFile("output.json")
     .WithLogger(new ColorConsoleLogger())
-    .Run(10);
+    .Build()
+    .Run();
 ```
 
 It can be helpful if the required content is loaded only after some user interactions such as clicks, scrolls, etc.
@@ -109,7 +111,7 @@ It can be helpful if the required content is loaded only after some user interac
 If you need to pass authorization before parsing the web site, you can call Authorize method on Scraper that has to return CookieContainer with all cookies required for authorization. You are responsible for performing the login operation with your credentials, the Scraper only uses the cookies that you provide.
 
 ```C#
-scraper = new Scraper()
+_ = new ScraperEngineBuilder("rutracker")
     .WithLogger(logger)
     .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
     .Authorize(() =>
@@ -171,13 +173,13 @@ The scrapedData parameter is JSON object that contains scraped data that you spe
 Adding your sink to the Scraper is simple, just call AddSink method on the Scraper:
 
 ```C#
-scraper = new Scraper()
+_ = new ScraperEngineBuilder("rutracker")
     .AddSink(new ConsoleSink());
-    .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
-    .FollowLinks("#cf-33 .forumlink>a")
-    .FollowLinks(".forumlink>a")
-    .FollowLinks("a.torTopic", ".pg")
-    .Parse(new Schema {
+    .Get("https://rutracker.org/forum/index.php?c=33")
+    .Follow("#cf-33 .forumlink>a")
+    .Follow(".forumlink>a")
+    .Paginate("a.torTopic", ".pg")
+    .Parse(new() {
         new("name", "#topic-title"),
     });
 ```
