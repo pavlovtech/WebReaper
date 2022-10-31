@@ -41,7 +41,7 @@ namespace WebReaper.UnitTests
         public void ParserSimpleHtmlParsingTest()
         {
             var parser = new ContentParser(logger);
-            var page = File.ReadAllText("TestData\\TestPage.html", Encoding.GetEncoding("windows-1251"));
+            var page = File.ReadAllText("TestData/TestPage.html", Encoding.GetEncoding("windows-1251"));
             var result = parser.Parse(page, new()
             {
                 new("link", ".attach_link.guest", true)
