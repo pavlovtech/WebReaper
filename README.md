@@ -1,8 +1,8 @@
 # ![image](https://user-images.githubusercontent.com/6662454/167391357-edb02ce2-a63c-439b-be9b-69b4b4796b1c.png) WebReaper
 
 [![NuGet](https://img.shields.io/nuget/v/WebReaper)](https://www.nuget.org/packages/WebReaper)
-[![build status](https://github.com/pavlovtech/WebReaper/actions/workflows/dotnet.yml/badge.svg)](https://github.com/pavlovtech/WebReaper/actions/workflows/dotnet.yml)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fpavlovtech%2FWebReaper.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fpavlovtech%2FWebReaper?ref=badge_shield)
+[![build status](https://github.com/pavlovtech/WebReaper/actions/workflows/CI.yml/badge.svg)](https://github.com/pavlovtech/WebReaper/actions/workflows/CI.yml)
 
 Please star this project if you find it useful!
 
@@ -25,7 +25,6 @@ dotnet add package WebReaper
 ## 📋 Example:
 
 ```C#
-using WebReaper.ConsoleApplication;
 using WebReaper.Core.Builders;
 
 _ = new ScraperEngineBuilder("reddit")
@@ -71,12 +70,12 @@ Console.ReadLine();
 
 ### SPA parsing example
 
-Parsing single page applications is super simple, just use the GetWithBrowser method. In this case Puppeteer will be used to load the pages.
+Parsing single page applications is super simple, just use the GetWithBrowser and/or FollowWithBrowser method. In this case Puppeteer will be used to load the pages.
 
 ```C#
 _ = new ScraperEngineBuilder("reddit")
     .GetWithBrowser("https://www.reddit.com/r/dotnet/")
-    .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
+    .FollowWithBrowser("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
     .Parse(new()
     {
         new("title", "._eYtD2XCVieq6emjKBH3m"),
@@ -88,12 +87,12 @@ _ = new ScraperEngineBuilder("reddit")
     .Run();
 ```
 
-Additionaly, you can run any JavaScript on dynamic pages as they are loaded with headless browser. In order to do that you need to pass the third parameter:
+Additionaly, you can run any JavaScript on dynamic pages as they are loaded with headless browser. In order to do that you need to pass the script parameter:
 
 ```C#
 _ = new ScraperEngineBuilder("reddit")
     .GetWithBrowser("https://www.reddit.com/r/dotnet/", "window.scrollTo(0, document.body.scrollHeight);")
-    .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
+    .FollowWithBrowser("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
     .Parse(new()
     {
         new("title", "._eYtD2XCVieq6emjKBH3m"),
