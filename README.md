@@ -87,7 +87,7 @@ _ = new ScraperEngineBuilder("reddit")
     .Run();
 ```
 
-Additionaly, you can run any JavaScript on dynamic pages as they are loaded with headless browser. In order to do that you need to pass the third parameter:
+Additionaly, you can run any JavaScript on dynamic pages as they are loaded with headless browser. In order to do that you need to pass the script parameter:
 
 ```C#
 _ = new ScraperEngineBuilder("reddit")
