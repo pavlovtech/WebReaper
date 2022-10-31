@@ -25,7 +25,7 @@ public class SpiderBuilder
         Logger = NullLogger.Instance;
         ContentParser = new ContentParser(Logger);
         LinkParser = new LinkParserByCssSelector();
-        SiteLinkTracker = new InMemoryCrawledLinkTracker();
+        SiteLinkTracker = new InMemoryVisitedLinkTracker();
     }
 
     private List<IScraperSink> Sinks { get; } = new();
@@ -36,7 +36,7 @@ public class SpiderBuilder
 
     private ILinkParser LinkParser { get; }
 
-    private ICrawledLinkTracker SiteLinkTracker { get; set; }
+    private IVisitedLinkTracker SiteLinkTracker { get; set; }
 
     private IContentParser ContentParser { get; }
 
@@ -58,7 +58,7 @@ public class SpiderBuilder
         return this;
     }
 
-    public SpiderBuilder WithLinkTracker(ICrawledLinkTracker linkTracker)
+    public SpiderBuilder WithLinkTracker(IVisitedLinkTracker linkTracker)
     {
         SiteLinkTracker = linkTracker;
         return this;

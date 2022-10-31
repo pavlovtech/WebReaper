@@ -19,7 +19,7 @@ namespace WebReaper.AzureFuncs
                 "Rutracker",
                 sp.GetService<ILogger>()));
 
-            builder.Services.AddSingleton<ICrawledLinkTracker>(sp => new RedisCrawledLinkTracker("webreaper.redis.cache.windows.net:6380,password=etUgOS0XUTTpZqNGlSlmaczrDKTeySPBWAzCaAMhsVU=,ssl=True,abortConnect=False"));
+            builder.Services.AddSingleton<IVisitedLinkTracker>(sp => new RedisVisitedLinkTracker("webreaper.redis.cache.windows.net:6380,password=etUgOS0XUTTpZqNGlSlmaczrDKTeySPBWAzCaAMhsVU=,ssl=True,abortConnect=False"));
         }
     }
 }

@@ -19,7 +19,7 @@ public class WebReaperSpider : ISpider
     public IBrowserPageLoader BrowserPageLoader { get; init; }
     public ILinkParser LinkParser { get; init; }
     public IContentParser ContentParser { get; init; }
-    public ICrawledLinkTracker LinkTracker { get; init; }
+    public IVisitedLinkTracker LinkTracker { get; init; }
 
     public List<string> UrlBlackList { get; set; } = new();
 
@@ -35,7 +35,7 @@ public class WebReaperSpider : ISpider
         List<IScraperSink> sinks,
         ILinkParser linkParser,
         IContentParser contentParser,
-        ICrawledLinkTracker linkTracker,
+        IVisitedLinkTracker linkTracker,
         IStaticPageLoader staticPageLoader,
         IBrowserPageLoader dynamicPageLoader,
         ILogger logger)

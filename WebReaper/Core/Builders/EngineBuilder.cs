@@ -56,7 +56,7 @@ public class EngineBuilder
         return this;
     }
 
-    public EngineBuilder WithLinkTracker(ICrawledLinkTracker linkTracker)
+    public EngineBuilder WithLinkTracker(IVisitedLinkTracker linkTracker)
     {
         SpiderBuilder.WithLinkTracker(linkTracker);
         return this;
