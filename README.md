@@ -25,7 +25,6 @@ dotnet add package WebReaper
 ## 📋 Example:
 
 ```C#
-using WebReaper.ConsoleApplication;
 using WebReaper.Core.Builders;
 
 _ = new ScraperEngineBuilder("reddit")
