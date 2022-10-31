@@ -19,26 +19,17 @@ namespace WebReaper.Core.Builders;
 
 public class SpiderBuilder
 {
-    public SpiderBuilder()
-    {
-        // default implementations
-        Logger = NullLogger.Instance;
-        ContentParser = new ContentParser(Logger);
-        LinkParser = new LinkParserByCssSelector();
-        SiteLinkTracker = new InMemoryVisitedLinkTracker();
-    }
-
     private List<IScraperSink> Sinks { get; } = new();
 
     private int limit = int.MaxValue;
 
     private ILogger Logger { get; set; }
 
-    private ILinkParser LinkParser { get; }
+    private ILinkParser LinkParser { get; set; }
 
     private IVisitedLinkTracker SiteLinkTracker { get; set; }
 
-    private IContentParser ContentParser { get; }
+    private IContentParser ContentParser { get; set; }
 
     private IStaticPageLoader StaticPageLoader { get; set; }
 
@@ -46,7 +37,7 @@ public class SpiderBuilder
 
     private IProxyProvider ProxyProvider { get; set; }
 
-    private CookieContainer Cookies { get; } = new();
+    private CookieContainer Cookies { get; set; } = new();
 
     protected event Action<JObject> ScrapedData;
 
@@ -133,6 +124,12 @@ public class SpiderBuilder
 
     public ISpider Build()
     {
+        // default implementations
+        Logger ??= NullLogger.Instance;
+        ContentParser ??= new ContentParser(Logger);
+        LinkParser ??= new LinkParserByCssSelector();
+        SiteLinkTracker ??= new InMemoryVisitedLinkTracker();
+
         if (ProxyProvider != null)
         {
             BrowserPageLoader ??= new PuppeteerPageLoaderWithProxies(Logger, ProxyProvider, Cookies);
