@@ -1,4 +1,5 @@
 using System.Net;
+using System.Reflection;
 using Microsoft.Extensions.Logging;
 using PuppeteerSharp;
 using WebReaper.Extensions;
@@ -25,7 +26,7 @@ public class PuppeteerPageLoader : IBrowserPageLoader
 
         var browserFetcher = new BrowserFetcher(new BrowserFetcherOptions
         {
-            Path = Path.GetTempPath()
+            Path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
         });
 
         await _semaphore.WaitAsync();

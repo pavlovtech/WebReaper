@@ -11,6 +11,6 @@ _ = new EngineBuilder("reddit")
     .WriteToJsonFile("output.json")
     .LogToConsole()
     .Build()
-    .Run();
+    .Run(1);
 
 Console.ReadLine();
