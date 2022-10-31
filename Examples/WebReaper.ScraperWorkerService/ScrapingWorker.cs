@@ -1,11 +1,12 @@
 ﻿using WebReaper.Core;
+using WebReaper.Core.Builders;
 using WebReaper.Domain.Parsing;
 
 namespace WebReaper.ScraperWorkerService;
 
 public class ScrapingWorker : BackgroundService
 {
-    private Scraper scraper;
+    private ScraperEngine engine;
 
     public ScrapingWorker(ILogger<ScrapingWorker> logger)
     {
@@ -17,27 +18,29 @@ public class ScrapingWorker : BackgroundService
             "https://rutracker.org/forum/viewforum.php?f=2321"
         };
 
-        scraper = new Scraper("rutracker")
+        engine = new ScraperEngineBuilder("rutracker")
             .WithLogger(logger)
-            .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
-            .FollowLinks("#cf-33 .forumlink>a")
-            .FollowLinks(".forumlink>a")
-            .FollowLinks("a.torTopic", ".pg")
-            .Parse(new Schema {
+            .Get("https://rutracker.org/forum/index.php?c=33")
+            .Follow("#cf-33 .forumlink>a")
+            .Follow(".forumlink>a")
+            .Paginate("a.torTopic", ".pg")
+            .Parse(new()
+            {
                 new("name", "#topic-title"),
                 new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
                 new("subcategory", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(5)"),
                 new("torrentSize", "div.attach_link.guest>ul>li:nth-child(2)"),
-                new Url("torrentLink", ".magnet-link"),
-                new Image("coverImageUrl", ".postImg")
+                new("torrentLink", ".magnet-link", "href"),
+                new("coverImageUrl", ".postImg", "src")
             })
             .WriteToJsonFile("result.json")
-            .IgnoreUrls(blackList);
+            .IgnoreUrls(blackList)
+            .Build();
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        await scraper.Run(10);
+        await engine.Run(10);
     }
 }
 

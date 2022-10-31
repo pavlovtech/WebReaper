@@ -11,6 +11,7 @@ using WebReaper.Domain;
 using WebReaper.Domain.Parsing;
 using WebReaper.Core;
 using WebReaper.Scheduler.Concrete;
+using WebReaper.Core.Builders;
 
 namespace WebReaper.AzureFuncs
 {
@@ -35,20 +36,20 @@ namespace WebReaper.AzureFuncs
             _logger.LogInformation("C# HTTP trigger function processed a request.");
 
             var config = new ScraperConfigBuilder()
-                    .WithStartUrl("https://rutracker.org/forum/index.php?c=33")
-                    .FollowLinks("#cf-33 .forumlink>a")
-                    .FollowLinks(".forumlink>a")
-                    .FollowLinks("a.torTopic", ".pg")
-                    .WithScheme(new Schema
-                    {
-                         new("name", "#topic-title"),
-                         new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
-                         new("subcategory", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(5)"),
-                         new("torrentSize", "div.attach_link.guest>ul>li:nth-child(2)"),
-                         new Url("torrentLink", ".magnet-link"),
-                         new Image("coverImageUrl", ".postImg")
-                    })
-                    .Build();
+                .Get("https://rutracker.org/forum/index.php?c=33")
+                .Follow("#cf-33 .forumlink>a")
+                .Follow(".forumlink>a")
+                .Paginate("a.torTopic", ".pg")
+                .WithScheme(new()
+                {
+                        new("name", "#topic-title"),
+                        new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
+                        new("subcategory", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(5)"),
+                        new("torrentSize", "div.attach_link.guest>ul>li:nth-child(2)"),
+                        new("torrentLink", ".magnet-link", "href"),
+                        new("coverImageUrl", ".postImg", "src")
+                })
+                .Build();
 
             await ScheduleFirstJobWithStartUrl("rutracker", config);
 

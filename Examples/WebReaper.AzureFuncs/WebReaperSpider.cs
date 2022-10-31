@@ -6,6 +6,7 @@ using WebReaper.Core;
 using WebReaper.Sinks.Concrete;
 using WebReaper.Domain;
 using WebReaper.LinkTracker.Abstract;
+using WebReaper.Core.Builders;
 
 namespace WebReaper.AzureFuncs
 {
