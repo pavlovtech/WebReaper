@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using WebReaper.Domain.Selectors;
 using WebReaper.Domain.Parsing;
 using System.Collections.Immutable;
+using WebReaper.PageActions;
 
 namespace WebReaper.Core.Builders;
 
@@ -16,63 +17,57 @@ public class ConfigBuilder
 
     protected ILogger Logger = NullLogger.Instance;
     private PageType _startPageType;
-    private string? _initialScript;
 
-    public ConfigBuilder Get(
-        string startUrl,
-        string? script = null)
+    private ImmutableQueue<PageAction>? _pageActions = null;
+
+    public ConfigBuilder Get(string startUrl)
     {
         _startUrl = startUrl;
-
         _startPageType = PageType.Static;
-        _initialScript = script;
 
         return this;
     }
 
     public ConfigBuilder GetWithBrowser(
         string startUrl,
-        string? script = null)
+        ImmutableQueue<PageAction>? pageActions = null)
     {
         _startUrl = startUrl;
 
         _startPageType = PageType.Dynamic;
-        _initialScript = script;
+        _pageActions = pageActions;
 
         return this;
     }
 
-    public ConfigBuilder Follow(
-        string linkSelector,
-        string? script = null)
+    public ConfigBuilder Follow(string linkSelector)
     {
-        _linkPathSelectors.Add(new LinkPathSelector(linkSelector, null, PageType.Static, script));
+        _linkPathSelectors.Add(new LinkPathSelector(linkSelector, null, PageType.Static));
         return this;
     }
 
     public ConfigBuilder FollowWithBrowser(
         string linkSelector,
-        string? script = null)
+        ImmutableQueue<PageAction>? pageActions = null)
     {
-        _linkPathSelectors.Add(new LinkPathSelector(linkSelector, null, PageType.Dynamic, script));
+        _linkPathSelectors.Add(new LinkPathSelector(linkSelector, null, PageType.Dynamic, pageActions));
         return this;
     }
 
     public ConfigBuilder Paginate(
         string linkSelector,
-        string paginationSelector,
-        string? script = null)
+        string paginationSelector)
     {
-        _linkPathSelectors.Add(new LinkPathSelector(linkSelector, paginationSelector, PageType.Static, script));
+        _linkPathSelectors.Add(new LinkPathSelector(linkSelector, paginationSelector, PageType.Static));
         return this;
     }
 
     public ConfigBuilder PaginateWithBrowser(
         string linkSelector,
         string paginationSelector,
-        string? script = null)
+        ImmutableQueue<PageAction>? pageActions = null)
     {
-        _linkPathSelectors.Add(new LinkPathSelector(linkSelector, paginationSelector, PageType.Dynamic, script));
+        _linkPathSelectors.Add(new LinkPathSelector(linkSelector, paginationSelector, PageType.Dynamic, pageActions));
         return this;
     }
 
@@ -87,6 +82,6 @@ public class ConfigBuilder
         ArgumentNullException.ThrowIfNull(_startUrl);
         ArgumentNullException.ThrowIfNull(_schema);
 
-        return new ScraperConfig(_schema, ImmutableQueue.Create(_linkPathSelectors.ToArray()), _startUrl, _startPageType, _initialScript);
+        return new ScraperConfig(_schema, ImmutableQueue.Create(_linkPathSelectors.ToArray()), _startUrl, _startPageType, _pageActions);
     }
 }

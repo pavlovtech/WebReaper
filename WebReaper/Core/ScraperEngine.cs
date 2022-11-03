@@ -31,7 +31,7 @@ public class ScraperEngine
             Config.StartUrl!,
             Config.LinkPathSelectors,
             Config.StartPageType,
-            Config.Script), cancellationToken);
+            Config.PageActions), cancellationToken);
 
         var options = new ParallelOptions { MaxDegreeOfParallelism = parallelismDegree };
 

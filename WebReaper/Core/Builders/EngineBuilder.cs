@@ -11,6 +11,8 @@ using WebReaper.Scheduler.Abstract;
 using WebReaper.Scheduler.Concrete;
 using WebReaper.Proxy.Abstract;
 using WebReaper.Logging;
+using System.Collections.Immutable;
+using WebReaper.PageActions;
 
 namespace WebReaper.Core.Builders;
 
@@ -130,49 +132,48 @@ public class EngineBuilder
         return this;
     }
 
-    public EngineBuilder Get(string url, string? script = null)
+    public EngineBuilder Get(string url)
     {
-        ConfigBuilder.Get(url, script);
+        ConfigBuilder.Get(url);
         return this;
     }
 
-    public EngineBuilder GetWithBrowser(string url, PageType pageType = PageType.Static, string? script = null)
+    public EngineBuilder GetWithBrowser(
+        string url,
+        Func<PageActionBuilder, ImmutableQueue<PageAction>> actionBuilder)
     {
-        ConfigBuilder.GetWithBrowser(url, script);
+        ConfigBuilder.GetWithBrowser(url, actionBuilder(new()));
         return this;
     }
 
-    public EngineBuilder Follow(
-        string linkSelector,
-        string? script = null)
+    public EngineBuilder Follow(string linkSelector)
     {
-        ConfigBuilder.Follow(linkSelector,  script);
+        ConfigBuilder.Follow(linkSelector);
         return this;
     }
 
     public EngineBuilder FollowWithBrowser(
-    string linkSelector,
-    string? script = null)
+        string linkSelector,
+        Func<PageActionBuilder, ImmutableQueue<PageAction>> actionBuilder)
     {
-        ConfigBuilder.FollowWithBrowser(linkSelector, script);
+        ConfigBuilder.FollowWithBrowser(linkSelector, actionBuilder(new()));
         return this;
     }
 
     public EngineBuilder Paginate(
         string linkSelector,
-        string paginationSelector,
-        string? script = null)
+        string paginationSelector)
     {
-        ConfigBuilder.Paginate(linkSelector, paginationSelector, script);
+        ConfigBuilder.Paginate(linkSelector, paginationSelector);
         return this;
     }
 
     public EngineBuilder PaginateWithBrowser(
         string linkSelector,
         string paginationSelector,
-        string? script = null)
+        Func<PageActionBuilder, ImmutableQueue<PageAction>> actionBuilder)
     {
-        ConfigBuilder.PaginateWithBrowser(linkSelector, paginationSelector, script);
+        ConfigBuilder.PaginateWithBrowser(linkSelector, paginationSelector, actionBuilder(new()));
         return this;
     }
 

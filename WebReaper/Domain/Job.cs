@@ -1,6 +1,7 @@
 using System.Collections.Immutable;
 using WebReaper.Domain.Parsing;
 using WebReaper.Domain.Selectors;
+using WebReaper.PageActions;
 
 namespace WebReaper.Domain;
 
@@ -10,7 +11,7 @@ public record Job(
     string Url,
     ImmutableQueue<LinkPathSelector> LinkPathSelectors,
     PageType PageType = PageType.Static,
-    string? Script = null)
+    ImmutableQueue<PageAction>? PageActions = null)
 {
     public PageCategory PageCategory =>
         (LinkPathSelectors.Count(), LinkPathSelectors.FirstOrDefault()?.HasPagination) switch
