@@ -12,7 +12,7 @@ using WebReaper.PageActions;
 
 namespace WebReaper.Loaders.Concrete;
 
-public class PuppeteerPageLoaderWithProxies : IBrowserPageLoader
+public class PuppeteerPageLoaderWithProxies : BrowserPageLoader, IBrowserPageLoader
 {
     private readonly SemaphoreSlim _semaphore = new(1, 1);
 
@@ -20,14 +20,13 @@ public class PuppeteerPageLoaderWithProxies : IBrowserPageLoader
     private readonly CookieContainer? _cookies;
     private ILogger Logger { get; }
 
-    public PuppeteerPageLoaderWithProxies(ILogger logger, IProxyProvider proxyProvider, CookieContainer? cookies)
+    public PuppeteerPageLoaderWithProxies(ILogger logger, IProxyProvider proxyProvider, CookieContainer? cookies):base(logger)
     {
         _proxyProvider = proxyProvider;
         _cookies = cookies;
-        Logger = logger;
     }
 
-    public async Task<string> Load(string url, ImmutableQueue<PageAction>? PageActions = null)
+    public async Task<string> Load(string url, ImmutableQueue<PageAction>? pageActions = null)
     {
         using var _ = Logger.LogMethodDuration();
 
@@ -88,6 +87,14 @@ public class PuppeteerPageLoaderWithProxies : IBrowserPageLoader
         }
 
         await page.GoToAsync(url, WaitUntilNavigation.Networkidle2);
+
+        if (pageActions != null)
+        {
+            foreach (var action in pageActions)
+            {
+                await PageActions[action.Type](page, action.Parameters);
+            }
+        }
 
         var html = await page.GetContentAsync();
 

@@ -26,13 +26,31 @@ namespace WebReaper.PageActions
 
         public PageActionBuilder RepeatWithDelay(int times, int milliseconds)
         {
+            var lastEl = _pageActions[^1];
 
             _pageActions.AddRange(
                 Enumerable.Range(1, times)
                 .Select(_ => new PageAction[] 
-                { 
-                    _pageActions[^1],
+                {
+                    lastEl,
                     new PageAction(PageActionType.Wait, milliseconds) 
+                })
+                .SelectMany(x => x));
+
+            return this;
+        }
+
+        public PageActionBuilder RepeatAndWaitForNetworkIdle(int times)
+        {
+
+            var lastEl = _pageActions[^1];
+
+            _pageActions.AddRange(
+                Enumerable.Range(1, times)
+                .Select(_ => new PageAction[]
+                {
+                    lastEl,
+                    new PageAction(PageActionType.WaitForNetworkIdle)
                 })
                 .SelectMany(x => x));
 
@@ -54,6 +72,12 @@ namespace WebReaper.PageActions
         public PageActionBuilder WaitForSelector(string selector, int timeout)
         {
             _pageActions.Add(new(PageActionType.WaitForSelector, selector, timeout));
+            return this;
+        }
+
+        public PageActionBuilder WaitForNetworkIdle()
+        {
+            _pageActions.Add(new(PageActionType.WaitForSelector));
             return this;
         }
 

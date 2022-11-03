@@ -9,17 +9,15 @@ using WebReaper.PageActions;
 
 namespace WebReaper.Loaders.Concrete;
 
-public class PuppeteerPageLoader : IBrowserPageLoader
+public class PuppeteerPageLoader : BrowserPageLoader, IBrowserPageLoader
 {
     private readonly CookieContainer? _cookies;
-    private ILogger Logger { get; }
     
     private readonly SemaphoreSlim _semaphore = new(1, 1);
 
-    public PuppeteerPageLoader(ILogger logger, CookieContainer? cookies)
+    public PuppeteerPageLoader(ILogger logger, CookieContainer? cookies): base(logger)
     {
         _cookies = cookies;
-        Logger = logger;
     }
 
     public async Task<string> Load(string url, ImmutableQueue<PageAction>? pageActions = null)
@@ -43,7 +41,7 @@ public class PuppeteerPageLoader : IBrowserPageLoader
 
         await using var browser = await Puppeteer.LaunchAsync(new LaunchOptions
         {
-            Headless = true,
+            Headless = false,
             ExecutablePath = browserFetcher.RevisionInfo(BrowserFetcher.DefaultChromiumRevision).ExecutablePath
         });
 
@@ -69,7 +67,7 @@ public class PuppeteerPageLoader : IBrowserPageLoader
         {
             foreach (var action in pageActions)
             {
-                await _actionTypeToAction[action.Type](page, action.Parameters);
+                await PageActions[action.Type](page, action.Parameters);
             }
         }
 

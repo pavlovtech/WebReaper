@@ -3,7 +3,7 @@
 _ = new EngineBuilder("reddit")
     .GetWithBrowser("https://www.reddit.com/r/dotnet/", actions => actions
         .ScrollToEnd()
-        .RepeatWithDelay(10, 1000)
+        .RepeatAndWaitForNetworkIdle(30)
         .Build())
     .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
     .Parse(new()
