@@ -16,13 +16,6 @@ public class PuppeteerPageLoader : IBrowserPageLoader
     
     private readonly SemaphoreSlim _semaphore = new(1, 1);
 
-    private Dictionary<PageActionType, Func<Page, object[], Task>> _actionTypeToAction = new()
-    {
-        { PageActionType.ScrollToEnd, async (page, data) => await page.EvaluateExpressionAsync("") },
-        { PageActionType.Wait, async (page, data) => await Task.Delay((int)data.First()) },
-        { PageActionType.Repeat, async (page, data) => await Task.Delay((int)data.First()) }
-    };
-
     public PuppeteerPageLoader(ILogger logger, CookieContainer? cookies)
     {
         _cookies = cookies;
@@ -66,17 +59,6 @@ public class PuppeteerPageLoader : IBrowserPageLoader
 
             await page.SetCookieAsync(cookieParams);
         }
-
-        /*
-        page
-	.Click('.test')
-	.Wait(100)
-	.ScrollToEnd()
-	.RepeatWithDelay(10, 1000)
-	.EvaluateExpression()
-	.ScrollTo('fdas')
-	.WaitForSelector('dfs')
-        */
 
         await page.GoToAsync(url, WaitUntilNavigation.DOMContentLoaded);
 

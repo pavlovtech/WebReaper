@@ -26,13 +26,22 @@ namespace WebReaper.PageActions
 
         public PageActionBuilder RepeatWithDelay(int times, int milliseconds)
         {
-            _pageActions.Add(new(PageActionType.RepeatWithDelay, times, milliseconds));
+
+            _pageActions.AddRange(
+                Enumerable.Range(1, times)
+                .Select(_ => new PageAction[] 
+                { 
+                    _pageActions[^1],
+                    new PageAction(PageActionType.Wait, milliseconds) 
+                })
+                .SelectMany(x => x));
+
             return this;
         }
 
         public PageActionBuilder Repeat(int times)
         {
-            _pageActions.Add(new(PageActionType.Repeat, times));
+            _pageActions.AddRange(Enumerable.Range(1, times).Select(_ => _pageActions[^1]));
             return this;
         }
 

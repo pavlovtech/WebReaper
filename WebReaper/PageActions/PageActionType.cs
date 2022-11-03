@@ -5,8 +5,6 @@
         Click,
         Wait,
         ScrollToEnd,
-        Repeat,
-        RepeatWithDelay,
         EvaluateExpression,
         WaitForSelector
     }
