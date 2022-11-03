@@ -7,6 +7,8 @@ using WebReaper.Extensions;
 using WebReaper.Loaders.Abstract;
 using WebReaper.Proxy.Abstract;
 using Azure;
+using System.Collections.Immutable;
+using WebReaper.PageActions;
 
 namespace WebReaper.Loaders.Concrete;
 
@@ -25,7 +27,7 @@ public class PuppeteerPageLoaderWithProxies : IBrowserPageLoader
         Logger = logger;
     }
 
-    public async Task<string> Load(string url, string? script)
+    public async Task<string> Load(string url, ImmutableQueue<PageAction>? PageActions = null)
     {
         using var _ = Logger.LogMethodDuration();
 
@@ -86,11 +88,6 @@ public class PuppeteerPageLoaderWithProxies : IBrowserPageLoader
         }
 
         await page.GoToAsync(url, WaitUntilNavigation.Networkidle2);
-
-        if (script != null)
-        {
-            await page.EvaluateExpressionAsync(script);
-        }
 
         var html = await page.GetContentAsync();
 

@@ -126,7 +126,7 @@ public class WebReaperSpider : ISpider
         else
         {
             Logger.LogInformation("Loading dynamic page {URL}", job.Url);
-            doc = await BrowserPageLoader.Load(job.Url, job.Script);
+            doc = await BrowserPageLoader.Load(job.Url, job.PageActions);
         }
 
         return doc;
@@ -163,7 +163,7 @@ public class WebReaperSpider : ISpider
     {
         return links
             .TakeWhile(link => !cancellationToken.IsCancellationRequested)
-            .Select(link => job with { Url = link, LinkPathSelectors = selectors, PageType = currentSelector.PageType, Script = currentSelector.ScriptExpression })
+            .Select(link => job with { Url = link, LinkPathSelectors = selectors, PageType = currentSelector.PageType, PageActions = currentSelector.PageActions })
             .ToList();
     }
 }
