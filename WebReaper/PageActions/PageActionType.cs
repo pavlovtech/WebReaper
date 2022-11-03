@@ -6,6 +6,7 @@
         Wait,
         ScrollToEnd,
         EvaluateExpression,
-        WaitForSelector
+        WaitForSelector,
+        WaitForNetworkIdle
     }
 }
