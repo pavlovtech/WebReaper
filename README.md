@@ -27,7 +27,7 @@ dotnet add package WebReaper
 ```C#
 using WebReaper.Core.Builders;
 
-_ = new ScraperEngineBuilder("reddit")
+_ = new EngineBuilder("reddit")
     .Get("https://www.reddit.com/r/dotnet/")
     .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
     .Parse(new()
@@ -36,7 +36,7 @@ _ = new ScraperEngineBuilder("reddit")
         new("text", "._3xX726aBn29LDbsDtzr_6E._1Ap4F5maDtT1E1YuCiaO0r.D3IL3FD0RFy_mkKLPwL4")
     })
     .WriteToJsonFile("output.json")
-    .WithLogger(new ColorConsoleLogger())
+    .LogToConsole()
     .Build()
     .Run();
 
@@ -73,35 +73,41 @@ Console.ReadLine();
 Parsing single page applications is super simple, just use the GetWithBrowser and/or FollowWithBrowser method. In this case Puppeteer will be used to load the pages.
 
 ```C#
-_ = new ScraperEngineBuilder("reddit")
+_ = new EngineBuilder("reddit")
     .GetWithBrowser("https://www.reddit.com/r/dotnet/")
-    .FollowWithBrowser("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
+    .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
     .Parse(new()
     {
         new("title", "._eYtD2XCVieq6emjKBH3m"),
         new("text", "._3xX726aBn29LDbsDtzr_6E._1Ap4F5maDtT1E1YuCiaO0r.D3IL3FD0RFy_mkKLPwL4")
     })
     .WriteToJsonFile("output.json")
-    .WithLogger(new ColorConsoleLogger())
+    .LogToConsole()
     .Build()
-    .Run();
+    .Run(1);
 ```
 
-Additionaly, you can run any JavaScript on dynamic pages as they are loaded with headless browser. In order to do that you need to pass the script parameter:
+Additionaly, you can run any JavaScript on dynamic pages as they are loaded with headless browser. In order to do that you need to add some page actions:
 
 ```C#
-_ = new ScraperEngineBuilder("reddit")
-    .GetWithBrowser("https://www.reddit.com/r/dotnet/", "window.scrollTo(0, document.body.scrollHeight);")
-    .FollowWithBrowser("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
+using WebReaper.Core.Builders;
+
+_ = new EngineBuilder("reddit")
+    .GetWithBrowser("https://www.reddit.com/r/dotnet/", actions => actions
+        .ScrollToEnd()
+        .Build())
+    .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
     .Parse(new()
     {
         new("title", "._eYtD2XCVieq6emjKBH3m"),
         new("text", "._3xX726aBn29LDbsDtzr_6E._1Ap4F5maDtT1E1YuCiaO0r.D3IL3FD0RFy_mkKLPwL4")
     })
     .WriteToJsonFile("output.json")
-    .WithLogger(new ColorConsoleLogger())
+    .LogToConsole()
     .Build()
-    .Run();
+    .Run(1);
+
+Console.ReadLine();
 ```
 
 It can be helpful if the required content is loaded only after some user interactions such as clicks, scrolls, etc.
