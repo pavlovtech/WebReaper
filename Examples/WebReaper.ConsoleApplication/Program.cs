@@ -1,4 +1,5 @@
 ﻿using WebReaper.Core.Builders;
+using WebReaper.ProxyProviders.WebShareProxy;
 
 _ = new EngineBuilder("reddit")
     .GetWithBrowser("https://www.reddit.com/r/dotnet/", actions => actions
@@ -13,6 +14,7 @@ _ = new EngineBuilder("reddit")
     })
     .WriteToJsonFile("output.json")
     .LogToConsole()
+    .WithProxies(new WebShareProxyProvider())
     .Build()
     .Run(1);
 

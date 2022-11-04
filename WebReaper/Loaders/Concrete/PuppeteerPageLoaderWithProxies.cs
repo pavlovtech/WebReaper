@@ -6,9 +6,9 @@ using PuppeteerSharp;
 using WebReaper.Extensions;
 using WebReaper.Loaders.Abstract;
 using WebReaper.Proxy.Abstract;
-using Azure;
 using System.Collections.Immutable;
 using WebReaper.PageActions;
+using System.Reflection;
 
 namespace WebReaper.Loaders.Concrete;
 
@@ -18,7 +18,6 @@ public class PuppeteerPageLoaderWithProxies : BrowserPageLoader, IBrowserPageLoa
 
     private readonly IProxyProvider _proxyProvider;
     private readonly CookieContainer? _cookies;
-    private ILogger Logger { get; }
 
     public PuppeteerPageLoaderWithProxies(ILogger logger, IProxyProvider proxyProvider, CookieContainer? cookies):base(logger)
     {
@@ -32,7 +31,7 @@ public class PuppeteerPageLoaderWithProxies : BrowserPageLoader, IBrowserPageLoa
 
         var browserFetcher = new BrowserFetcher(new BrowserFetcherOptions
         {
-            Path = Path.GetTempPath()
+            Path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
         });
 
         await _semaphore.WaitAsync();
@@ -52,7 +51,7 @@ public class PuppeteerPageLoaderWithProxies : BrowserPageLoader, IBrowserPageLoa
 
         await using var browser = await puppeteerExtra.LaunchAsync(new LaunchOptions
         {
-            Headless = true,
+            Headless = false,
             ExecutablePath = browserFetcher.RevisionInfo(BrowserFetcher.DefaultChromiumRevision).ExecutablePath,
             Args = new[]
             {
