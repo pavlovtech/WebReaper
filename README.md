@@ -10,7 +10,7 @@ Please star this project if you find it useful!
 
 Declarative high performance web scraper in C#. Easily crawl any web site and parse the data, save structed result to a file, DB, or pretty much to anywhere you want.
 
-It provides a simple yet extensible API to make web scrapig a breeze.
+It provides a simple yet extensible API to make web scraping a breeze.
 
 ## Install
 
