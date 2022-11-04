@@ -41,7 +41,7 @@ public class PuppeteerPageLoader : BrowserPageLoader, IBrowserPageLoader
 
         await using var browser = await Puppeteer.LaunchAsync(new LaunchOptions
         {
-            Headless = false,
+            Headless = true,
             ExecutablePath = browserFetcher.RevisionInfo(BrowserFetcher.DefaultChromiumRevision).ExecutablePath
         });
 

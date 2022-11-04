@@ -32,7 +32,7 @@ namespace WebReaper.IntegrationTests
                 .Subscribe(x => result.Add(x))
                 .Build();
 
-            _ = engine.Run(1);
+            _ = engine.Run(2);
 
             await Task.Delay(10000);
 
@@ -57,7 +57,7 @@ namespace WebReaper.IntegrationTests
                 .Subscribe(x => result.Add(x))
                 .Build();
 
-            _ = scraper.Run(1);
+            _ = scraper.Run(2);
 
             await Task.Delay(20000);
 

@@ -51,7 +51,7 @@ public class PuppeteerPageLoaderWithProxies : BrowserPageLoader, IBrowserPageLoa
 
         await using var browser = await puppeteerExtra.LaunchAsync(new LaunchOptions
         {
-            Headless = false,
+            Headless = true,
             ExecutablePath = browserFetcher.RevisionInfo(BrowserFetcher.DefaultChromiumRevision).ExecutablePath,
             Args = new[]
             {
