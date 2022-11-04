@@ -140,9 +140,9 @@ public class EngineBuilder
 
     public EngineBuilder GetWithBrowser(
         string url,
-        Func<PageActionBuilder, ImmutableQueue<PageAction>> actionBuilder)
+        Func<PageActionBuilder, ImmutableQueue<PageAction>>? actionBuilder = null)
     {
-        ConfigBuilder.GetWithBrowser(url, actionBuilder(new()));
+        ConfigBuilder.GetWithBrowser(url, actionBuilder?.Invoke(new()));
         return this;
     }
 
@@ -154,9 +154,9 @@ public class EngineBuilder
 
     public EngineBuilder FollowWithBrowser(
         string linkSelector,
-        Func<PageActionBuilder, ImmutableQueue<PageAction>> actionBuilder)
+        Func<PageActionBuilder, ImmutableQueue<PageAction>>? actionBuilder = null)
     {
-        ConfigBuilder.FollowWithBrowser(linkSelector, actionBuilder(new()));
+        ConfigBuilder.FollowWithBrowser(linkSelector, actionBuilder?.Invoke(new()));
         return this;
     }
 
@@ -171,9 +171,9 @@ public class EngineBuilder
     public EngineBuilder PaginateWithBrowser(
         string linkSelector,
         string paginationSelector,
-        Func<PageActionBuilder, ImmutableQueue<PageAction>> actionBuilder)
+        Func<PageActionBuilder, ImmutableQueue<PageAction>>? actionBuilder = null)
     {
-        ConfigBuilder.PaginateWithBrowser(linkSelector, paginationSelector, actionBuilder(new()));
+        ConfigBuilder.PaginateWithBrowser(linkSelector, paginationSelector, actionBuilder?.Invoke(new()));
         return this;
     }
 
