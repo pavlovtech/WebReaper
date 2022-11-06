@@ -1,6 +1,5 @@
 ﻿using WebReaper.Core;
 using WebReaper.Core.Builders;
-using WebReaper.Domain.Parsing;
 
 namespace WebReaper.ScraperWorkerService;
 
