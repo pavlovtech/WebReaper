@@ -7,7 +7,7 @@ public class ConsoleSink : IScraperSink
 {
     public Task EmitAsync(JObject scrapedData, CancellationToken cancellationToken = default)
     {
-        Console.WriteLine($"{scrapedData.ToString()}");
+        Console.WriteLine($"{scrapedData}");
         return Task.CompletedTask;
     }
 }

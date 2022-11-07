@@ -5,7 +5,7 @@ namespace WebReaper.Logging
 
     public sealed class ColorConsoleLogger : ILogger
     {
-        public Dictionary<LogLevel, ConsoleColor> LogLevelToColorMap { get; set; } = new()
+        private Dictionary<LogLevel, ConsoleColor> LogLevelToColorMap { get; set; } = new()
         {
             [LogLevel.Trace] = ConsoleColor.DarkGray,
             [LogLevel.Debug] = ConsoleColor.Gray,

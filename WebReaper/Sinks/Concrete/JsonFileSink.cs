@@ -7,11 +7,11 @@ namespace WebReaper.Sinks.Concrete
 {
     public class JsonLinesFileSink : IScraperSink
     {
-        private object _lock = new();
+        private readonly object _lock = new();
 
         private readonly string filePath;
 
-        BlockingCollection<JObject> entries = new();
+        private readonly BlockingCollection<JObject> entries = new();
 
         public bool IsInitialized { get; set; } = false;
 
@@ -33,7 +33,7 @@ namespace WebReaper.Sinks.Concrete
             return Task.CompletedTask;
         }
 
-        public async Task HandleAsync(CancellationToken cancellationToken = default)
+        private async Task HandleAsync(CancellationToken cancellationToken = default)
         {
             foreach (var entry in entries.GetConsumingEnumerable(cancellationToken))
             {
@@ -41,7 +41,7 @@ namespace WebReaper.Sinks.Concrete
             }
         }
 
-        public void Init(CancellationToken cancellationToken = default)
+        private void Init(CancellationToken cancellationToken = default)
         {
             lock (_lock)
             {

@@ -6,13 +6,13 @@ namespace WebReaper.Sinks.Concrete
 {
     public class CsvFileSink : IScraperSink
     {
-        private object _lock = new();
+        private readonly object _lock = new();
 
         private readonly string filePath;
 
-        BlockingCollection<JObject> entries = new();
+        private readonly BlockingCollection<JObject> entries = new();
 
-        protected bool IsInitialized { get; set; } = false;
+        private bool IsInitialized { get; set; } = false;
 
         public CsvFileSink(string filePath)
         {
@@ -47,11 +47,11 @@ namespace WebReaper.Sinks.Concrete
 
                 IsInitialized = true;
 
-                _ = Task.Run(async () => await Handle(cancellationToken));
+                _ = Task.Run(async () => await Handle(cancellationToken), cancellationToken);
             }
         }
 
-        protected async Task Handle(CancellationToken cancellationToken = default)
+        private async Task Handle(CancellationToken cancellationToken = default)
         {
             foreach (var entry in entries.GetConsumingEnumerable(cancellationToken))
             {

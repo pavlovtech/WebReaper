@@ -8,7 +8,7 @@ namespace WebReaper.Loaders.Abstract
     {
         protected ILogger Logger { get; }
 
-        protected Dictionary<PageActionType, Func<Page, object[], Task>> PageActions = new()
+        protected readonly Dictionary<PageActionType, Func<Page, object[], Task>> PageActions = new()
         {
             { PageActionType.ScrollToEnd, async (page, data) => await page.EvaluateExpressionAsync("window.scrollTo(0, document.body.scrollHeight);") },
             { PageActionType.Wait, async (page, data) => await Task.Delay((int)data.First()) },

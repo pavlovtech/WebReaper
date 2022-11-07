@@ -9,9 +9,9 @@ namespace WebReaper.Loaders.Concrete;
 
 public class HttpStaticPageLoader : IStaticPageLoader
 {
-    private ILogger logger;
+    private readonly ILogger _logger;
 
-    protected IHttpRequests Requests { get; }
+    private IHttpRequests Requests { get; }
 
     public HttpStaticPageLoader(IHttpRequests requests, ILogger logger)
     {
@@ -20,12 +20,12 @@ public class HttpStaticPageLoader : IStaticPageLoader
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
         Requests = requests;
-        this.logger = logger;
+        this._logger = logger;
     }
 
     public async Task<string> Load(string url)
     {
-        using var _ = logger.LogMethodDuration();
+        using var _ = _logger.LogMethodDuration();
         // return await HttpClient.GetStringAsync(url);
 
         var response = await Requests.GetAsync(url);
@@ -36,7 +36,7 @@ public class HttpStaticPageLoader : IStaticPageLoader
         }
         else
         {
-            logger.LogError("Failed to load page {url}. Error code: {statusCode}", url, response.StatusCode);
+            _logger.LogError("Failed to load page {url}. Error code: {statusCode}", url, response.StatusCode);
 
             throw new InvalidOperationException($"Failed to load page {url}. Error code: {response.StatusCode}")
             {

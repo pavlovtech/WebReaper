@@ -5,5 +5,5 @@ namespace WebReaper.Loaders.Abstract;
 
 public interface IBrowserPageLoader
 {
-    Task<string> Load(string url, ImmutableQueue<PageAction>? PageActions = null);
+    Task<string> Load(string url, ImmutableQueue<PageAction>? pageActions = null);
 }

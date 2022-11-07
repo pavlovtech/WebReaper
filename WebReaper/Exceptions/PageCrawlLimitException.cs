@@ -2,7 +2,7 @@ namespace WebReaper.Exceptions;
 
 public class PageCrawlLimitException : Exception
 {
-    public int PageCrawlLimit { get; set; }
+    public int PageCrawlLimit { get; init; }
 
     public PageCrawlLimitException()
     {
