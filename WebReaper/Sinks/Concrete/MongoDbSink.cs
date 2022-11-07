@@ -8,11 +8,11 @@ namespace WebReaper.Sinks.Concrete
 {
     public class MongoDbSink : IScraperSink
     {
-        public string ConnectionString { get; }
-        public string CollectionName { get; }
-        public string DatabaseName { get; }
-        protected MongoClient Client { get; }
-        protected ILogger Logger { get; }
+        private string ConnectionString { get; }
+        private string CollectionName { get; }
+        private string DatabaseName { get; }
+        private MongoClient Client { get; }
+        private ILogger Logger { get; }
 
         public MongoDbSink(string connectionString, string databaseName, string collectionName, ILogger logger)
         {

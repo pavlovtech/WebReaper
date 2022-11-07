@@ -8,7 +8,7 @@ namespace WebReaper.Parser.Concrete
 {
     public class ContentParser : IContentParser
     {
-        protected ILogger Logger { get; }
+        private ILogger Logger { get; }
 
         public ContentParser(ILogger logger) => Logger = logger;
 
@@ -64,24 +64,15 @@ namespace WebReaper.Parser.Concrete
                     return;
                 }
 
-                switch (item.Type)
+                result[item.Field] = item.Type switch
                 {
-                    case DataType.Integer:
-                        result[item.Field] = int.Parse(data);
-                        break;
-                    case DataType.Boolean:
-                        result[item.Field] = bool.Parse(data);
-                        break;
-                    case DataType.DataTime:
-                        result[item.Field] = DateTime.Parse(data);
-                        break;
-                    case DataType.String:
-                        result[item.Field] = data;
-                        break;
-                    case DataType.Float:
-                        result[item.Field] = float.Parse(data);
-                        break;
-                }
+                    DataType.Integer => int.Parse(data),
+                    DataType.Boolean => bool.Parse(data),
+                    DataType.DataTime => DateTime.Parse(data),
+                    DataType.String => data,
+                    DataType.Float => float.Parse(data),
+                    _ => result[item.Field]
+                };
             }
             catch (Exception ex)
             {

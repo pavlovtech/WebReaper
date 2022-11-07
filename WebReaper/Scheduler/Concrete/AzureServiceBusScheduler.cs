@@ -9,28 +9,28 @@ namespace WebReaper.Scheduler.Concrete;
 
 public class AzureServiceBusScheduler : IScheduler
 {
-    protected ServiceBusClient client;
+    private readonly ServiceBusClient _client;
 
-    protected ServiceBusReceiver receiver;
+    private readonly ServiceBusReceiver _receiver;
 
-    protected ServiceBusSender sender;
+    private readonly ServiceBusSender _sender;
 
     public AzureServiceBusScheduler(string serviceBusConnectionString, string queueName)
     {
-        client = new(serviceBusConnectionString);
+        _client = new(serviceBusConnectionString);
 
-        receiver = client.CreateReceiver(queueName, new ServiceBusReceiverOptions()
+        _receiver = _client.CreateReceiver(queueName, new ServiceBusReceiverOptions()
         {
             PrefetchCount = 10
         });
 
-        sender = client.CreateSender(queueName);
+        _sender = _client.CreateSender(queueName);
     }
 
     public async ValueTask<Job> GetAsync(CancellationToken cancellationToken = default)
     {
-        var msg = await receiver.ReceiveMessageAsync(null, cancellationToken);
-        await receiver.CompleteMessageAsync(msg, cancellationToken);
+        var msg = await _receiver.ReceiveMessageAsync(null, cancellationToken);
+        await _receiver.CompleteMessageAsync(msg, cancellationToken);
         var stringBody = msg.Body.ToString();
         var job = JsonConvert.DeserializeObject<Job>(stringBody, new JsonSerializerSettings
         {
@@ -42,14 +42,14 @@ public class AzureServiceBusScheduler : IScheduler
 
     public async IAsyncEnumerable<Job> GetAllAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        await foreach (var msg in receiver.ReceiveMessagesAsync(cancellationToken))
+        await foreach (var msg in _receiver.ReceiveMessagesAsync(cancellationToken))
         {
-            if (receiver.IsClosed)
+            if (_receiver.IsClosed)
             {
                 break;
             }
 
-            await receiver.CompleteMessageAsync(msg, cancellationToken);
+            await _receiver.CompleteMessageAsync(msg, cancellationToken);
             var stringBody = msg.Body.ToString();
             var job = JsonConvert.DeserializeObject<Job>(stringBody, new JsonSerializerSettings
             {
@@ -68,22 +68,22 @@ public class AzureServiceBusScheduler : IScheduler
     public async ValueTask AddAsync(Job job, CancellationToken cancellationToken = default)
     {
         var msg = new ServiceBusMessage(SerializeToJson(job));
-        await sender.SendMessageAsync(msg, cancellationToken);
+        await _sender.SendMessageAsync(msg, cancellationToken);
     }
 
     public async ValueTask AddAsync(IEnumerable<Job> jobs, CancellationToken cancellationToken = default)
     {
         var messages = jobs.Select(job => new ServiceBusMessage(SerializeToJson(job)));
-        await sender.SendMessagesAsync(messages, cancellationToken);
+        await _sender.SendMessagesAsync(messages, cancellationToken);
     }
 
     public async ValueTask DisposeAsync()
     {
-        await sender.DisposeAsync();
-        await client.DisposeAsync();
+        await _sender.DisposeAsync();
+        await _client.DisposeAsync();
     }
 
-    protected string SerializeToJson(Job job)
+    private string SerializeToJson(Job job)
     {
         var json = JsonConvert.SerializeObject(job, Formatting.Indented, new JsonSerializerSettings
         {

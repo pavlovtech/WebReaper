@@ -7,19 +7,19 @@ namespace WebReaper.Sinks.Concrete;
 
 public class CosmosSink : IScraperSink
 {
-    protected string EndpointUrl { get; init; }
-    protected string AuthorizationKey { get; init; }
-    protected string DatabaseId { get; init; }
-    protected string ContainerId { get; init; }
-    protected ILogger Logger { get; }
-    protected Container? Container { get; set; }
+    private string EndpointUrl { get; init; }
+    private string AuthorizationKey { get; init; }
+    private string DatabaseId { get; init; }
+    private string ContainerId { get; init; }
+    private ILogger Logger { get; }
+    private Container? Container { get; set; }
 
     public Task Initialization { get; private set; }
 
     private async Task InitializeAsync()
     {
-        var CosmosClient = new CosmosClient(EndpointUrl, AuthorizationKey);
-        var databaseResponse = await CosmosClient.CreateDatabaseIfNotExistsAsync(DatabaseId);
+        var cosmosClient = new CosmosClient(EndpointUrl, AuthorizationKey);
+        var databaseResponse = await cosmosClient.CreateDatabaseIfNotExistsAsync(DatabaseId);
         var database = databaseResponse.Database;
 
         // create container
