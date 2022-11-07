@@ -5,7 +5,7 @@ namespace WebReaper.LinkTracker.Concrete;
 
 public class InMemoryVisitedLinkTracker : IVisitedLinkTracker
 {
-    protected ConcurrentDictionary<string, ConcurrentBag<string>> visitedUrlsPerSite = new();
+    private readonly ConcurrentDictionary<string, ConcurrentBag<string>> visitedUrlsPerSite = new();
 
     public Task AddVisitedLinkAsync(string siteId, string visitedLink)
     {
