@@ -7,10 +7,20 @@ public class FileVisitedLinkedTracker : IVisitedLinkTracker
 {
     private readonly string _fileName;
     private readonly ConcurrentBag<string> _visitedLinks;
+    
+    private readonly SemaphoreSlim _semaphore = new(1, 1);
 
     public FileVisitedLinkedTracker(string fileName)
     {
         _fileName = fileName;
+
+        if (!File.Exists(fileName))
+        {
+            _visitedLinks = new ConcurrentBag<string>();
+            File.Create(fileName);
+            return;
+        }
+        
         var allLinks = File.ReadLines(fileName);
         _visitedLinks = new ConcurrentBag<string>(allLinks);
     }
@@ -18,7 +28,16 @@ public class FileVisitedLinkedTracker : IVisitedLinkTracker
     public async Task AddVisitedLinkAsync(string siteId, string visitedLink)
     {
         _visitedLinks.Add(visitedLink);
-        await File.AppendAllTextAsync(visitedLink, _fileName);
+        
+        await _semaphore.WaitAsync();
+        try
+        {
+            await File.AppendAllTextAsync(_fileName, visitedLink + Environment.NewLine);
+        }
+        finally
+        {
+            _semaphore.Release();
+        }
     }
 
     public Task<List<string>> GetVisitedLinksAsync(string siteId) => Task.FromResult(_visitedLinks.ToList());
