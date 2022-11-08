@@ -74,7 +74,7 @@ namespace WebReaper.IntegrationTests
 
             await browserFetcher.DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
 
-            List<JObject> result = new List<JObject>();
+            var result = new List<JObject>();
 
             var engine = new EngineBuilder("reddit")
                 .GetWithBrowser("https://www.reddit.com/r/dotnet/")

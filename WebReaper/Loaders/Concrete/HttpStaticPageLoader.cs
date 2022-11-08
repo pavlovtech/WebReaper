@@ -20,7 +20,7 @@ public class HttpStaticPageLoader : IStaticPageLoader
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
         Requests = requests;
-        this._logger = logger;
+        _logger = logger;
     }
 
     public async Task<string> Load(string url)
