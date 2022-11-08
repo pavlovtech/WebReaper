@@ -26,20 +26,20 @@ public class RedisVisitedLinkTracker : IVisitedLinkTracker
         await db.SetAddAsync(siteId, visitedLink);
     }
 
-    public async Task<IEnumerable<string>> GetVisitedLinksAsync(string siteId)
+    public async Task<List<string>> GetVisitedLinksAsync(string siteId)
     {
         IDatabase db = redis!.GetDatabase();
         var result = await db.SetMembersAsync(siteId);
 
-        return result.Select(x => x.ToString());
+        return result.Select(x => x.ToString()).ToList();
     }
 
-    public Task<IEnumerable<string>> GetNotVisitedLinks(string siteId, IEnumerable<string> links)
+    public Task<List<string>> GetNotVisitedLinks(string siteId, IEnumerable<string> links)
     {
         IDatabase db = redis!.GetDatabase();
         var result = links.Where(x => !db.SetContains(siteId, x));
 
-        return Task.FromResult(result);
+        return Task.FromResult(result.ToList());
     }
 
     public async Task<long> GetVisitedLinksCount(string siteId)
