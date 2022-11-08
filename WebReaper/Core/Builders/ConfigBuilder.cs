@@ -14,8 +14,7 @@ public class ConfigBuilder
     private string _startUrl;
 
     private Schema? _schema;
-
-    protected ILogger Logger = NullLogger.Instance;
+    
     private PageType _startPageType;
 
     private ImmutableQueue<PageAction>? _pageActions = null;

@@ -40,7 +40,7 @@ public class ScrapingWorker : BackgroundService
                 new("torrentLink", ".magnet-link", "href"),
                 new("coverImageUrl", ".postImg", "src")
             })
-            .WithLinkTracker(new RedisVisitedLinkTracker(redisConnectionString))
+            .TrackVisitedLinksInRedis(redisConnectionString)
             .WriteToCosmosDb(
                 "https://webreaperdbserverless.documents.azure.com:443/",
                 "TssEjPIdgShphVKhFkxrAu6WJovPdIZLTFNshJWGdXuitWPIMlXTidc05WFqm20qFVz8leE8zc5JBOphlNmRYg==",
