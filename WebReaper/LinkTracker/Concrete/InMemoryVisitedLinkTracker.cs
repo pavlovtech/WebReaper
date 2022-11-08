@@ -17,14 +17,13 @@ public class InMemoryVisitedLinkTracker : IVisitedLinkTracker
             {
                 visitedSiteUrls!.Add(visitedLink);
             }
+            return Task.CompletedTask;
         }
-        else
+        
+        visitedUrlsPerSite.TryAdd(siteId, new ConcurrentBag<string>
         {
-            visitedUrlsPerSite.TryAdd(siteId, new ConcurrentBag<string>
-            {
-                visitedLink
-            });
-        }
+            visitedLink
+        });
 
         return Task.CompletedTask;
     }

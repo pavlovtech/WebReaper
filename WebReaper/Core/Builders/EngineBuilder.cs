@@ -12,6 +12,7 @@ using WebReaper.Scheduler.Concrete;
 using WebReaper.Proxy.Abstract;
 using WebReaper.Logging;
 using System.Collections.Immutable;
+using WebReaper.LinkTracker.Concrete;
 using WebReaper.PageActions;
 
 namespace WebReaper.Core.Builders;
@@ -61,6 +62,18 @@ public class EngineBuilder
     public EngineBuilder WithLinkTracker(IVisitedLinkTracker linkTracker)
     {
         SpiderBuilder.WithLinkTracker(linkTracker);
+        return this;
+    }
+    
+    public EngineBuilder TrackVisitedLinksInFile(string fileName)
+    {
+        SpiderBuilder.WithLinkTracker(new FileVisitedLinkedTracker(fileName));
+        return this;
+    }
+    
+    public EngineBuilder TrackVisitedLinksInRedis(string connectionString)
+    {
+        SpiderBuilder.WithLinkTracker(new RedisVisitedLinkTracker(connectionString));
         return this;
     }
 
