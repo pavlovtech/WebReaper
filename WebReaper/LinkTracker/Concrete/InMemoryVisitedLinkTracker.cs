@@ -29,19 +29,19 @@ public class InMemoryVisitedLinkTracker : IVisitedLinkTracker
         return Task.CompletedTask;
     }
 
-    public Task<IEnumerable<string>> GetVisitedLinksAsync(string siteId)
+    public Task<List<string>> GetVisitedLinksAsync(string siteId)
     {
         var successful = visitedUrlsPerSite.TryGetValue(siteId, out var result);
 
         var visited = successful ? result! : Enumerable.Empty<string>();
 
-        return Task.FromResult(visited);
+        return Task.FromResult(visited.ToList());
     }
 
-    public async Task<IEnumerable<string>> GetNotVisitedLinks(string siteId, IEnumerable<string> links)
+    public async Task<List<string>> GetNotVisitedLinks(string siteId, IEnumerable<string> links)
     {
         var visited = await GetVisitedLinksAsync(siteId);
-        return links.Except(visited);
+        return links.Except(visited).ToList();
     }
 
     public Task<long> GetVisitedLinksCount(string siteId)

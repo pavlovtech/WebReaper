@@ -18,17 +18,17 @@ public class FileVisitedLinkedTracker : IVisitedLinkTracker
     public async Task AddVisitedLinkAsync(string siteId, string visitedLink)
     {
         _visitedLinks.Add(visitedLink);
-        await File.AppendAllTextAsync(visitedLink, $"{siteId}.txt");
+        await File.AppendAllTextAsync(visitedLink, _fileName);
     }
 
-    public Task<IEnumerable<string>> GetVisitedLinksAsync(string siteId)
+    public Task<List<string>> GetVisitedLinksAsync(string siteId)
     {
-        return Task.FromResult(_visitedLinks.AsEnumerable());
+        return Task.FromResult(_visitedLinks.ToList());
     }
 
-    public Task<IEnumerable<string>> GetNotVisitedLinks(string siteId, IEnumerable<string> links)
+    public Task<List<string>> GetNotVisitedLinks(string siteId, IEnumerable<string> links)
     {
-        return Task.FromResult(links.Except(_visitedLinks));
+        return Task.FromResult(links.Except(_visitedLinks).ToList());
     }
 
     public Task<long> GetVisitedLinksCount(string siteId)
