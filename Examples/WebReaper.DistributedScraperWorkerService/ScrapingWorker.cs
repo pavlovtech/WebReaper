@@ -52,7 +52,7 @@ public class ScrapingWorker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        await engine.Run(10);
+        await engine.Run(10, stoppingToken);
     }
 }
 

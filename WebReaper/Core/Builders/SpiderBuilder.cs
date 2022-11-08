@@ -23,25 +23,25 @@ public class SpiderBuilder
 
     private int limit = int.MaxValue;
 
-    private ILogger Logger { get; set; }
+    private ILogger Logger { get; set; } = NullLogger.Instance;
 
-    private ILinkParser LinkParser { get; set; }
+    private ILinkParser LinkParser { get; set; } = new LinkParserByCssSelector();
 
-    private IVisitedLinkTracker SiteLinkTracker { get; set; }
+    private IVisitedLinkTracker SiteLinkTracker { get; set; } = new InMemoryVisitedLinkTracker();
 
-    private IContentParser ContentParser { get; set; }
+    private IContentParser? ContentParser { get; set; }
 
-    private IStaticPageLoader StaticPageLoader { get; set; }
+    private IStaticPageLoader? StaticPageLoader { get; set; }
 
-    private IBrowserPageLoader BrowserPageLoader { get; set; }
+    private IBrowserPageLoader? BrowserPageLoader { get; set; }
 
-    private IProxyProvider ProxyProvider { get; set; }
+    private IProxyProvider? ProxyProvider { get; set; }
 
     private CookieContainer Cookies { get; set; } = new();
 
     protected event Action<JObject> ScrapedData;
 
-    private List<string> _urlBlackList = new();
+    private readonly List<string> _urlBlackList = new();
 
     public SpiderBuilder WithLogger(ILogger logger)
     {
@@ -125,10 +125,7 @@ public class SpiderBuilder
     public ISpider Build()
     {
         // default implementations
-        Logger ??= NullLogger.Instance;
         ContentParser ??= new ContentParser(Logger);
-        LinkParser ??= new LinkParserByCssSelector();
-        SiteLinkTracker ??= new InMemoryVisitedLinkTracker();
 
         if (ProxyProvider != null)
         {

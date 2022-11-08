@@ -46,13 +46,11 @@ public class ScraperEngine
         }
         catch (PageCrawlLimitException ex)
         {
-            Logger.LogWarning(ex, "Shutting down due to page crawl limit {limit}", ex.PageCrawlLimit);
-            return;
+            Logger.LogWarning(ex, "Shutting down due to page crawl limit {Limit}", ex.PageCrawlLimit);
         }
         catch (TaskCanceledException ex)
         {
             Logger.LogWarning(ex, "Shutting down due to cancellation");
-            return;
         }
         catch (Exception ex)
         {
