@@ -1,29 +1,33 @@
 ﻿using System.Net;
 using System.Net.Security;
 using WebReaper.HttpRequests.Abstract;
+using WebReaper.Proxy.Abstract;
 
 namespace WebReaper.HttpRequests.Concrete;
 
-public class Requests : IHttpRequests
+public class ProxyPageRequester : IPageRequester
 {
-    protected static HttpClient? client;
+    private static HttpClient? client;
 
-    public CookieContainer CookieContainer { get; set; }
+    private IProxyProvider ProxyProvider { get; }
+    public CookieContainer CookieContainer { get; set; } = new CookieContainer();
 
-    public Requests()
+    public ProxyPageRequester(IProxyProvider proxyProvider)
     {
-        client = CreateClient();
+        ProxyProvider = proxyProvider;
+
+        client ??= CreateClient();
     }
 
-    protected HttpClient CreateClient()
+    private HttpClient CreateClient()
     {
         var handler = GetHttpHandler();
         var client = new HttpClient(handler);
-        client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36");
+        client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/535.7 (KHTML, like Gecko) Comodo_Dragon/16.1.1.0 Chrome/16.0.912.63 Safari/535.7");
         return client;
     }
 
-    protected SocketsHttpHandler GetHttpHandler()
+    private SocketsHttpHandler GetHttpHandler()
     {
         var handler = new SocketsHttpHandler()
         {
@@ -35,8 +39,10 @@ public class Requests : IHttpRequests
             },
             PooledConnectionIdleTimeout = TimeSpan.FromMinutes(2),
             PooledConnectionLifetime = Timeout.InfiniteTimeSpan,
+            UseProxy = true,
+            UseCookies = true,
             CookieContainer = CookieContainer,
-            UseCookies = true
+            Proxy = ProxyProvider.GetProxyAsync().GetAwaiter().GetResult()
         };
 
         return handler;

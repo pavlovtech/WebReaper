@@ -11,9 +11,9 @@ public class HttpStaticPageLoader : IStaticPageLoader
 {
     private readonly ILogger _logger;
 
-    private IHttpRequests Requests { get; }
+    private IPageRequester Requests { get; }
 
-    public HttpStaticPageLoader(IHttpRequests requests, ILogger logger)
+    public HttpStaticPageLoader(IPageRequester requests, ILogger logger)
     {
         ServicePointManager.DefaultConnectionLimit = int.MaxValue;
         ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;

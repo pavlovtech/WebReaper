@@ -56,7 +56,7 @@ public class AzureServiceBusScheduler : IScheduler
                 TypeNameHandling = TypeNameHandling.Auto
             });
 
-            if(job is null)
+            if (job is null)
             {
                 continue;
             }

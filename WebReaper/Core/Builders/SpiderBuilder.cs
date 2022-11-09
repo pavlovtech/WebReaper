@@ -131,7 +131,7 @@ public class SpiderBuilder
         {
             BrowserPageLoader ??= new PuppeteerPageLoaderWithProxies(Logger, ProxyProvider, Cookies);
 
-            var req = new RotatingProxyRequests(ProxyProvider)
+            var req = new RotatingProxyPageRequester(ProxyProvider)
             {
                 CookieContainer = Cookies
             };
@@ -140,7 +140,7 @@ public class SpiderBuilder
         }
         else
         {
-            var req = new Requests
+            var req = new PageRequester
             {
                 CookieContainer = Cookies
             };

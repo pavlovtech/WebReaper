@@ -5,13 +5,13 @@ using WebReaper.Proxy.Abstract;
 
 namespace WebReaper.HttpRequests.Concrete;
 
-public class RotatingProxyRequests : IHttpRequests
+public class RotatingProxyPageRequester : IPageRequester
 {
     public IProxyProvider ProxyProvider { get; }
 
     public CookieContainer CookieContainer { get; set; }
 
-    public RotatingProxyRequests(IProxyProvider proxyProvider)
+    public RotatingProxyPageRequester(IProxyProvider proxyProvider)
     {
         ProxyProvider = proxyProvider;
     }
