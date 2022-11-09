@@ -1,9 +1,8 @@
 using Newtonsoft.Json.Linq;
 
-namespace WebReaper.Sinks.Abstract
+namespace WebReaper.Sinks.Abstract;
+
+public interface IScraperSink
 {
-    public interface IScraperSink
-    {
-        public Task EmitAsync(JObject scrapedData, CancellationToken cancellationToken = default);
-    }
+    public Task EmitAsync(JObject scrapedData, CancellationToken cancellationToken = default);
 }

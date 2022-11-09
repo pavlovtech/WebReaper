@@ -1,9 +1,8 @@
 ﻿using System.Net;
 
-namespace WebReaper.Proxy.Abstract
+namespace WebReaper.Proxy.Abstract;
+
+public interface IProxyProvider
 {
-    public interface IProxyProvider
-    {
-        Task<WebProxy> GetProxyAsync();
-    }
+    Task<WebProxy> GetProxyAsync();
 }

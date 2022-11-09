@@ -1,12 +1,11 @@
-﻿namespace WebReaper.PageActions
+﻿namespace WebReaper.PageActions;
+
+public enum PageActionType
 {
-    public enum PageActionType
-    {
-        Click,
-        Wait,
-        ScrollToEnd,
-        EvaluateExpression,
-        WaitForSelector,
-        WaitForNetworkIdle
-    }
+    Click,
+    Wait,
+    ScrollToEnd,
+    EvaluateExpression,
+    WaitForSelector,
+    WaitForNetworkIdle
 }

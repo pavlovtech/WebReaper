@@ -2,23 +2,22 @@
 using PuppeteerSharp;
 using WebReaper.PageActions;
 
-namespace WebReaper.Loaders.Abstract
+namespace WebReaper.Loaders.Abstract;
+
+public abstract class BrowserPageLoader
 {
-    public abstract class BrowserPageLoader
+    protected ILogger Logger { get; }
+
+    protected readonly Dictionary<PageActionType, Func<Page, object[], Task>> PageActions = new()
     {
-        protected ILogger Logger { get; }
+        { PageActionType.ScrollToEnd, async (page, data) => await page.EvaluateExpressionAsync("window.scrollTo(0, document.body.scrollHeight);") },
+        { PageActionType.Wait, async (page, data) => await Task.Delay((int)data.First()) },
+        { PageActionType.WaitForNetworkIdle, async (page, data) => await page.WaitForNetworkIdleAsync() },
+        { PageActionType.Click, async (page, data) => await page.ClickAsync((string)data.First()) }
+    };
 
-        protected readonly Dictionary<PageActionType, Func<Page, object[], Task>> PageActions = new()
-        {
-            { PageActionType.ScrollToEnd, async (page, data) => await page.EvaluateExpressionAsync("window.scrollTo(0, document.body.scrollHeight);") },
-            { PageActionType.Wait, async (page, data) => await Task.Delay((int)data.First()) },
-            { PageActionType.WaitForNetworkIdle, async (page, data) => await page.WaitForNetworkIdleAsync() },
-            { PageActionType.Click, async (page, data) => await page.ClickAsync((string)data.First()) }
-        };
-
-        public BrowserPageLoader(ILogger logger)
-        {
-            Logger = logger;
-        }
+    public BrowserPageLoader(ILogger logger)
+    {
+        Logger = logger;
     }
 }

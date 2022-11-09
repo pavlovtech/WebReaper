@@ -1,5 +1,4 @@
 using Azure.Messaging.ServiceBus;
-using Microsoft.Azure.Amqp.Framing;
 using Newtonsoft.Json;
 using System.Runtime.CompilerServices;
 using WebReaper.Domain;

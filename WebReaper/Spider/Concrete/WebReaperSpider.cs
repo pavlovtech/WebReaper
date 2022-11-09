@@ -56,7 +56,7 @@ public class WebReaperSpider : ISpider
 
         if (await LinkTracker.GetVisitedLinksCount(job.SiteId) >= PageCrawlLimit)
         {
-            Logger.LogInformation("Page crawl limit has been reached.");
+            Logger.LogInformation("Page crawl limit has been reached");
 
             throw new PageCrawlLimitException("Page crawl limit has been reached.") 
             {
@@ -70,7 +70,7 @@ public class WebReaperSpider : ISpider
 
         if (job.PageCategory == PageCategory.TargetPage)
         {
-            await ProcessTargetPage(job, cancellationToken, doc);
+            await ProcessTargetPage(job, doc, cancellationToken);
 
             return Enumerable.Empty<Job>().ToList();
         }
@@ -99,9 +99,9 @@ public class WebReaperSpider : ISpider
         return newJobs;
     }
 
-    private async Task ProcessTargetPage(Job job, CancellationToken cancellationToken, string doc)
+    private async Task ProcessTargetPage(Job job, string doc, CancellationToken cancellationToken)
     {
-        Logger.LogInvocationCount("Handle on target page");
+        Logger.LogInvocationCount();
         var result = ContentParser.Parse(doc, job.Schema);
         result.Add("URL", job.Url);
 
@@ -120,12 +120,12 @@ public class WebReaperSpider : ISpider
         string doc;
         if (job.PageType == PageType.Static)
         {
-            Logger.LogInformation("Loading static page {URL}", job.Url);
+            Logger.LogInformation("Loading static page {Url}", job.Url);
             doc = await StaticStaticPageLoader.Load(job.Url);
         }
         else
         {
-            Logger.LogInformation("Loading dynamic page {URL}", job.Url);
+            Logger.LogInformation("Loading dynamic page {Url}", job.Url);
             doc = await BrowserPageLoader.Load(job.Url, job.PageActions);
         }
 
@@ -162,7 +162,7 @@ public class WebReaperSpider : ISpider
         CancellationToken cancellationToken = default)
     {
         return links
-            .TakeWhile(link => !cancellationToken.IsCancellationRequested)
+            .TakeWhile(_ => !cancellationToken.IsCancellationRequested)
             .Select(link => job with { Url = link, LinkPathSelectors = selectors, PageType = currentSelector.PageType, PageActions = currentSelector.PageActions })
             .ToList();
     }
