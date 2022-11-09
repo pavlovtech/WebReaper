@@ -57,7 +57,7 @@ namespace WebReaper.Parser.Concrete
             {
                 var data = item.GetData(doc);
 
-                if (item.Type == null)
+                if (item.Type is null)
                 {
                     result[item.Field] = data;
 
