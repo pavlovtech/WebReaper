@@ -1,35 +1,35 @@
 ﻿using System.Collections.Immutable;
 
-namespace WebReaper.PageActions
+namespace WebReaper.PageActions;
+
+public class PageActionBuilder
 {
-    public class PageActionBuilder
+    private readonly List<PageAction> _pageActions = new();
+
+    public PageActionBuilder Click(string selector)
     {
-        private readonly List<PageAction> _pageActions = new();
+        _pageActions.Add(new(PageActionType.Click, selector));
+        return this;
+    }
 
-        public PageActionBuilder Click(string selector)
-        {
-            _pageActions.Add(new(PageActionType.Click, selector));
-            return this;
-        }
+    public PageActionBuilder Wait(int milliseconds)
+    {
+        _pageActions.Add(new(PageActionType.Wait, milliseconds));
+        return this;
+    }
 
-        public PageActionBuilder Wait(int milliseconds)
-        {
-            _pageActions.Add(new(PageActionType.Wait, milliseconds));
-            return this;
-        }
+    public PageActionBuilder ScrollToEnd()
+    {
+        _pageActions.Add(new(PageActionType.ScrollToEnd));
+        return this;
+    }
 
-        public PageActionBuilder ScrollToEnd()
-        {
-            _pageActions.Add(new(PageActionType.ScrollToEnd));
-            return this;
-        }
+    public PageActionBuilder RepeatWithDelay(int times, int milliseconds)
+    {
+        var lastEl = _pageActions[^1];
 
-        public PageActionBuilder RepeatWithDelay(int times, int milliseconds)
-        {
-            var lastEl = _pageActions[^1];
-
-            _pageActions.AddRange(
-                Enumerable.Range(1, times)
+        _pageActions.AddRange(
+            Enumerable.Range(1, times)
                 .Select(_ => new PageAction[] 
                 {
                     lastEl,
@@ -37,16 +37,16 @@ namespace WebReaper.PageActions
                 })
                 .SelectMany(x => x));
 
-            return this;
-        }
+        return this;
+    }
 
-        public PageActionBuilder RepeatAndWaitForNetworkIdle(int times)
-        {
+    public PageActionBuilder RepeatAndWaitForNetworkIdle(int times)
+    {
 
-            var lastEl = _pageActions[^1];
+        var lastEl = _pageActions[^1];
 
-            _pageActions.AddRange(
-                Enumerable.Range(1, times)
+        _pageActions.AddRange(
+            Enumerable.Range(1, times)
                 .Select(_ => new PageAction[]
                 {
                     lastEl,
@@ -54,36 +54,35 @@ namespace WebReaper.PageActions
                 })
                 .SelectMany(x => x));
 
-            return this;
-        }
+        return this;
+    }
 
-        public PageActionBuilder Repeat(int times)
-        {
-            _pageActions.AddRange(Enumerable.Range(1, times).Select(_ => _pageActions[^1]));
-            return this;
-        }
+    public PageActionBuilder Repeat(int times)
+    {
+        _pageActions.AddRange(Enumerable.Range(1, times).Select(_ => _pageActions[^1]));
+        return this;
+    }
 
-        public PageActionBuilder EvaluateExpression(string expression)
-        {
-            _pageActions.Add(new(PageActionType.EvaluateExpression, expression));
-            return this;
-        }
+    public PageActionBuilder EvaluateExpression(string expression)
+    {
+        _pageActions.Add(new(PageActionType.EvaluateExpression, expression));
+        return this;
+    }
 
-        public PageActionBuilder WaitForSelector(string selector, int timeout)
-        {
-            _pageActions.Add(new(PageActionType.WaitForSelector, selector, timeout));
-            return this;
-        }
+    public PageActionBuilder WaitForSelector(string selector, int timeout)
+    {
+        _pageActions.Add(new(PageActionType.WaitForSelector, selector, timeout));
+        return this;
+    }
 
-        public PageActionBuilder WaitForNetworkIdle()
-        {
-            _pageActions.Add(new(PageActionType.WaitForSelector));
-            return this;
-        }
+    public PageActionBuilder WaitForNetworkIdle()
+    {
+        _pageActions.Add(new(PageActionType.WaitForSelector));
+        return this;
+    }
 
-        public ImmutableQueue<PageAction> Build()
-        {
-            return ImmutableQueue.Create(_pageActions.ToArray());
-        }
+    public ImmutableQueue<PageAction> Build()
+    {
+        return ImmutableQueue.Create(_pageActions.ToArray());
     }
 }

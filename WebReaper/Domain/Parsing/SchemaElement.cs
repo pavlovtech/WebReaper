@@ -34,14 +34,7 @@ public record SchemaElement()
 
         if (Attr is not null)
         {
-            if (Attr is not "src")
-            {
-                content = node?.GetAttributeValue(Attr, "");
-            }
-            else
-            {
-                content = node?.GetAttributeValue("title", ""); // HTML Agility Pack workaround
-            }
+            content = node?.GetAttributeValue(Attr is not "src" ? Attr : "title", ""); // HTML Agility Pack workaround
         }
         else if (GetHtml == false)
         {

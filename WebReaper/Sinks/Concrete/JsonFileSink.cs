@@ -3,61 +3,58 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using WebReaper.Sinks.Abstract;
 
-namespace WebReaper.Sinks.Concrete
+namespace WebReaper.Sinks.Concrete;
+
+public class JsonLinesFileSink : IScraperSink
 {
-    public class JsonLinesFileSink : IScraperSink
+    private readonly object _lock = new();
+
+    private readonly string filePath;
+
+    private readonly BlockingCollection<JObject> entries = new();
+
+    private bool IsInitialized { get; set; }
+
+    public JsonLinesFileSink(string filePath)
     {
-        private readonly object _lock = new();
+        this.filePath = filePath;
+        Init();
+    }
 
-        private readonly string filePath;
-
-        private readonly BlockingCollection<JObject> entries = new();
-
-        public bool IsInitialized { get; set; } = false;
-
-        public JsonLinesFileSink(string filePath)
+    public Task EmitAsync(JObject scrapedData, CancellationToken cancellationToken = default)
+    {
+        if (!IsInitialized)
         {
-            this.filePath = filePath;
-            Init();
+            Init(cancellationToken);
         }
 
-        public Task EmitAsync(JObject scrapedData, CancellationToken cancellationToken = default)
+        entries.Add(scrapedData, cancellationToken);
+
+        return Task.CompletedTask;
+    }
+
+    private async Task HandleAsync(CancellationToken cancellationToken = default)
+    {
+        foreach (var entry in entries.GetConsumingEnumerable(cancellationToken))
         {
-            if (!IsInitialized)
+            await File.AppendAllTextAsync(filePath, $"{entry.ToString(Formatting.None)}{Environment.NewLine}", cancellationToken);
+        }
+    }
+
+    private void Init(CancellationToken cancellationToken = default)
+    {
+        lock (_lock)
+        {
+            if (IsInitialized)
             {
-                Init(cancellationToken);
+                return;
             }
 
-            entries.Add(scrapedData, cancellationToken);
-
-            return Task.CompletedTask;
+            File.Delete(filePath);
         }
 
-        private async Task HandleAsync(CancellationToken cancellationToken = default)
-        {
-            foreach (var entry in entries.GetConsumingEnumerable(cancellationToken))
-            {
-                await File.AppendAllTextAsync(filePath, $"{entry.ToString(Formatting.None)}{Environment.NewLine}", cancellationToken);
-            }
-        }
+        _ = Task.Run(async() => await HandleAsync(cancellationToken));
 
-        private void Init(CancellationToken cancellationToken = default)
-        {
-            lock (_lock)
-            {
-                if (IsInitialized)
-                {
-                    return;
-                }
-
-                File.Delete(filePath);
-            }
-
-            _ = Task.Run(async() => await HandleAsync(cancellationToken));
-
-            IsInitialized = true;
-
-            return;
-        }
+        IsInitialized = true;
     }
 }

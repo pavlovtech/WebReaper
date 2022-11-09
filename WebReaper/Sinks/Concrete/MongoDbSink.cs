@@ -4,34 +4,35 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using Microsoft.Extensions.Logging;
 
-namespace WebReaper.Sinks.Concrete
+namespace WebReaper.Sinks.Concrete;
+
+public class MongoDbSink : IScraperSink
 {
-    public class MongoDbSink : IScraperSink
+    private string ConnectionString { get; }
+    private string CollectionName { get; }
+    private string DatabaseName { get; }
+    private MongoClient Client { get; }
+    private ILogger Logger { get; }
+
+    public MongoDbSink(string connectionString, string databaseName, string collectionName, ILogger logger)
     {
-        private string ConnectionString { get; }
-        private string CollectionName { get; }
-        private string DatabaseName { get; }
-        private MongoClient Client { get; }
-        private ILogger Logger { get; }
+        ConnectionString = connectionString;
+        CollectionName = collectionName;
+        DatabaseName = databaseName;
+        Client = new MongoClient(ConnectionString);
+        Logger = logger;
+    }
 
-        public MongoDbSink(string connectionString, string databaseName, string collectionName, ILogger logger)
-        {
-            ConnectionString = connectionString;
-            CollectionName = collectionName;
-            DatabaseName = databaseName;
-            Client = new MongoClient(ConnectionString);
-            Logger = logger;
-        }
+    public async Task EmitAsync(JObject scrapedData, CancellationToken cancellationToken = default)
+    {
+        Logger.LogDebug($"Started {nameof(MongoDbSink)}.{nameof(EmitAsync)}");
+            
+        var database = Client.GetDatabase(DatabaseName);
 
-        public async Task EmitAsync(JObject scrapedData, CancellationToken cancellationToken = default)
-        {
-            var database = Client.GetDatabase(DatabaseName);
+        var collection = database.GetCollection<BsonDocument>(CollectionName);
 
-            var collection = database.GetCollection<BsonDocument>(CollectionName);
+        var document = BsonDocument.Parse(scrapedData.ToString());
 
-            var document = BsonDocument.Parse(scrapedData.ToString());
-
-            await collection.InsertOneAsync(document, null, cancellationToken);
-        }
+        await collection.InsertOneAsync(document, null, cancellationToken);
     }
 }

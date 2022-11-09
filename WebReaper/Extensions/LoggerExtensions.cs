@@ -18,11 +18,11 @@ public static class LoggerExtensions
 
 public class Timer : IDisposable
 {
-    private string callerName = "";
-    private ILogger _logger;
+    private readonly string callerName = "";
+    private readonly ILogger _logger;
 
 
-    Stopwatch watch = new();
+    private readonly Stopwatch watch = new();
 
     public Timer(
         ILogger logger,
@@ -47,7 +47,7 @@ public class Timer : IDisposable
 
 public static class Counter
 {
-    private static ConcurrentDictionary<string, int> _methodCounters = new();
+    private static readonly ConcurrentDictionary<string, int> _methodCounters = new();
 
     public static void LogCount(
         ILogger logger,
