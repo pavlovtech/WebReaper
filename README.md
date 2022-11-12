@@ -114,7 +114,7 @@ It can be helpful if the required content is loaded only after some user interac
 
 ### Persist the progress locally
 
-If you want to persist the vistited links and job queue locally, so that you can start crawling where you left off you can use the following code:
+If you want to persist the vistited links and job queue locally, so that you can start crawling where you left off you can use ScheduleWithTextFile and TrackVisitedLinksInFile methods:
 
 var engine = new EngineBuilder("rutracker")
             .WithLogger(logger)
