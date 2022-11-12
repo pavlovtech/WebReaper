@@ -115,7 +115,7 @@ It can be helpful if the required content is loaded only after some user interac
 ### Persist the progress locally
 
 If you want to persist the vistited links and job queue locally, so that you can start crawling where you left off you can use ScheduleWithTextFile and TrackVisitedLinksInFile methods:
-
+```C#
 var engine = new EngineBuilder("rutracker")
             .WithLogger(logger)
             .Get("https://rutracker.org/forum/index.php?c=33")
@@ -136,7 +136,7 @@ var engine = new EngineBuilder("rutracker")
             .ScheduleWithTextFile("jobs.txt", "progress.txt")
             .TrackVisitedLinksInFile("links.txt")
             .Build();
-
+```
 ### Authorization
 
 If you need to pass authorization before parsing the web site, you can call Authorize method on Scraper that has to return CookieContainer with all cookies required for authorization. You are responsible for performing the login operation with your credentials, the Scraper only uses the cookies that you provide.
