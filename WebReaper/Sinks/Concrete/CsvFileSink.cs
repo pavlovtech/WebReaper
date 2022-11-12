@@ -31,10 +31,10 @@ public class CsvFileSink : IScraperSink
         if (!IsInitialized)
         {
 
-            lock (_lock)
-            {
-                File.Delete(filePath);
-            }
+            // lock (_lock)
+            // {
+            //     File.Delete(filePath);
+            // }
 
             var flattened = scrapedData
                 .Descendants()

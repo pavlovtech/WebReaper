@@ -50,10 +50,10 @@ public class JsonLinesFileSink : IScraperSink
                 return;
             }
 
-            File.Delete(filePath);
+            //File.Delete(filePath);
         }
 
-        _ = Task.Run(async() => await HandleAsync(cancellationToken));
+        _ = Task.Run(async() => await HandleAsync(cancellationToken), cancellationToken);
 
         IsInitialized = true;
     }

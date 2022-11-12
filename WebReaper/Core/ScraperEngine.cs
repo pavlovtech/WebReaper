@@ -25,6 +25,8 @@ public class ScraperEngine
 
     public async Task Run(int parallelismDegree = 4, CancellationToken cancellationToken = default)
     {
+        Logger.LogInformation($"Start {nameof(ScraperEngine)}.{nameof(Run)}");
+        
         await Scheduler.AddAsync(new Job(
             GlobalId,
             Config.ParsingScheme!,
@@ -39,7 +41,11 @@ public class ScraperEngine
         {
             await Parallel.ForEachAsync(Scheduler.GetAllAsync(cancellationToken), options, async (job, token) =>
             {
-                var newJobs = await Executor.RetryAsync(() => Spider.CrawlAsync(job, cancellationToken));
+                Logger.LogInformation("Start crawling url {Url}", job.Url);
+                
+                var newJobs = await Spider.CrawlAsync(job, cancellationToken);
+                
+                Logger.LogInformation("Received {JobsCount} new jobs", newJobs.Count);
 
                 await Scheduler.AddAsync(newJobs, cancellationToken);
             });
