@@ -195,6 +195,18 @@ public class EngineBuilder
         Scheduler = scheduler;
         return this;
     }
+    
+    public EngineBuilder WithAzureServiceBusScheduler(string connectionString, string queueName)
+    {
+        Scheduler = new AzureServiceBusScheduler(connectionString, queueName);
+        return this;
+    }
+    
+    public EngineBuilder ScheduleWithTextFile(string fileName, string currentJobPositionFileName)
+    {
+        Scheduler = new FileScheduler(fileName, currentJobPositionFileName, Logger);
+        return this;
+    }
 
     public ScraperEngine Build()
     {

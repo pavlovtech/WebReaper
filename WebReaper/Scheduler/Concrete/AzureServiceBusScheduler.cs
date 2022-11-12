@@ -26,19 +26,6 @@ public class AzureServiceBusScheduler : IScheduler
         _sender = _client.CreateSender(queueName);
     }
 
-    public async ValueTask<Job> GetAsync(CancellationToken cancellationToken = default)
-    {
-        var msg = await _receiver.ReceiveMessageAsync(null, cancellationToken);
-        await _receiver.CompleteMessageAsync(msg, cancellationToken);
-        var stringBody = msg.Body.ToString();
-        var job = JsonConvert.DeserializeObject<Job>(stringBody, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Auto
-        });
-
-        return job;
-    }
-
     public async IAsyncEnumerable<Job> GetAllAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         await foreach (var msg in _receiver.ReceiveMessagesAsync(cancellationToken))

@@ -17,7 +17,8 @@ public class FileVisitedLinkedTracker : IVisitedLinkTracker
         if (!File.Exists(fileName))
         {
             _visitedLinks = new ConcurrentBag<string>();
-            File.Create(fileName);
+            var file = File.Create(fileName);
+            file.Close();
             return;
         }
         

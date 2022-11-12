@@ -7,9 +7,7 @@ namespace WebReaper.Scheduler.Concrete;
 public class InMemoryScheduler : IScheduler
 {
     private readonly Channel<Job> _jobChannel = Channel.CreateUnbounded<Job>();
-
-    public async ValueTask<Job> GetAsync(CancellationToken cancellationToken) => await _jobChannel.Reader.ReadAsync(cancellationToken);
-
+    
     public IAsyncEnumerable<Job> GetAllAsync(CancellationToken cancellationToken = default) => _jobChannel.Reader.ReadAllAsync(cancellationToken);
 
     public async ValueTask AddAsync(Job job, CancellationToken cancellationToken = default) => await _jobChannel.Writer.WriteAsync(job, cancellationToken);
