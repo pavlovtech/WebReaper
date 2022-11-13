@@ -33,12 +33,17 @@ public class RedisScheduler : IScheduler
         _logger.LogInformation($"Start {nameof(RedisScheduler)}.{nameof(GetAllAsync)}");
         
         IDatabase db = redis!.GetDatabase();
-        
-        var rawResult = await db.ListLeftPopAsync(_queueName);
 
-        while (rawResult != RedisValue.Null)
+        while (!cancellationToken.IsCancellationRequested)
         {
-            rawResult = await db.ListLeftPopAsync(_queueName);
+            var rawResult = await db.ListLeftPopAsync(_queueName);
+
+            if (!rawResult.HasValue)
+            {
+                await Task.Delay(300, cancellationToken);
+                continue;
+            }
+            
             var job = JsonConvert.DeserializeObject<Job>(rawResult);
 
             yield return job;
