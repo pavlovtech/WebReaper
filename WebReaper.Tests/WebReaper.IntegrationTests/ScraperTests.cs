@@ -1,3 +1,4 @@
+using System.Reflection;
 using Newtonsoft.Json.Linq;
 using WebReaper.ProxyProviders.WebShareProxy;
 using Xunit.Abstractions;
@@ -39,7 +40,7 @@ namespace WebReaper.IntegrationTests
             Assert.NotEmpty(result);
         }
 
-        [Fact]
+        [Fact (Skip = "No stable proxy at the moment")]
         public async Task SimpleTestWithProxy()
         {
             List<JObject> result = new List<JObject>();
@@ -69,7 +70,7 @@ namespace WebReaper.IntegrationTests
         {
             var browserFetcher = new BrowserFetcher(new BrowserFetcherOptions
             {
-                Path = Path.GetTempPath()
+                Path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
             });
 
             await browserFetcher.DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
