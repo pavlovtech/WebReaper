@@ -34,8 +34,8 @@ public class ScrapingWorker : BackgroundService
             })
             .WriteToJsonFile("result.json")
             .IgnoreUrls(blackList)
-            .WithTextFileScheduler("jobs.txt", "progress.txt")
-            .TrackVisitedLinksInFile("links.txt")
+            .WithRedisScheduler("localhost:6379", "jobs")
+            .TrackVisitedLinksInRedis("localhost:6379")
             .Build();
     }
 
