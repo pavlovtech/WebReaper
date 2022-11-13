@@ -17,7 +17,7 @@ using WebReaper.PageActions;
 
 namespace WebReaper.Core.Builders;
 
-public class EngineBuilder
+public class WebReaperBuilder
 {
     private ConfigBuilder ConfigBuilder { get; } = new();
     private SpiderBuilder SpiderBuilder { get; } = new();
@@ -30,54 +30,54 @@ public class EngineBuilder
 
     protected IProxyProvider? ProxyProvider { get; set; }
 
-    public EngineBuilder(string siteId)
+    public WebReaperBuilder(string siteId)
     {
         SiteId = siteId;
     }
 
-    public EngineBuilder AddSink(IScraperSink sink)
+    public WebReaperBuilder AddSink(IScraperSink sink)
     {
         SpiderBuilder.AddSink(sink);
         return this;
     }
 
-    public EngineBuilder Authorize(Func<CookieContainer> authorize)
+    public WebReaperBuilder Authorize(Func<CookieContainer> authorize)
     {
         SpiderBuilder.Authorize(authorize);
         return this;
     }
 
-    public EngineBuilder IgnoreUrls(params string[] urls)
+    public WebReaperBuilder IgnoreUrls(params string[] urls)
     {
         SpiderBuilder.IgnoreUrls(urls);
         return this;
     }
 
-    public EngineBuilder Limit(int limit)
+    public WebReaperBuilder Limit(int limit)
     {
         SpiderBuilder.Limit(limit);
         return this;
     }
 
-    public EngineBuilder WithLinkTracker(IVisitedLinkTracker linkTracker)
+    public WebReaperBuilder WithLinkTracker(IVisitedLinkTracker linkTracker)
     {
         SpiderBuilder.WithLinkTracker(linkTracker);
         return this;
     }
     
-    public EngineBuilder TrackVisitedLinksInFile(string fileName)
+    public WebReaperBuilder TrackVisitedLinksInFile(string fileName)
     {
         SpiderBuilder.WithLinkTracker(new FileVisitedLinkedTracker(fileName));
         return this;
     }
     
-    public EngineBuilder TrackVisitedLinksInRedis(string connectionString)
+    public WebReaperBuilder TrackVisitedLinksInRedis(string connectionString)
     {
         SpiderBuilder.WithLinkTracker(new RedisVisitedLinkTracker(connectionString));
         return this;
     }
 
-    public EngineBuilder WithLogger(ILogger logger)
+    public WebReaperBuilder WithLogger(ILogger logger)
     {
         SpiderBuilder.WithLogger(logger);
 
@@ -86,26 +86,26 @@ public class EngineBuilder
         return this;
     }
 
-    public EngineBuilder LogToConsole()
+    public WebReaperBuilder LogToConsole()
     {
         SpiderBuilder.WithLogger(new ColorConsoleLogger());
 
         return this;
     }
 
-    public EngineBuilder WriteToConsole()
+    public WebReaperBuilder WriteToConsole()
     {
         SpiderBuilder.WriteToConsole();
         return this;
     }
 
-    public EngineBuilder Subscribe(Action<JObject> scrapingResultHandler)
+    public WebReaperBuilder Subscribe(Action<JObject> scrapingResultHandler)
     {
         SpiderBuilder.AddSubscription(scrapingResultHandler);
         return this;
     }
 
-    public EngineBuilder WriteToCosmosDb(
+    public WebReaperBuilder WriteToCosmosDb(
         string endpointUrl,
         string authorizationKey,
         string databaseId,
@@ -115,43 +115,43 @@ public class EngineBuilder
         return this;
     }
 
-    public EngineBuilder WriteToMongoDb(string connectionString, string databaseName, string collectionName)
+    public WebReaperBuilder WriteToMongoDb(string connectionString, string databaseName, string collectionName)
     {
         SpiderBuilder.AddSink(new MongoDbSink(connectionString, databaseName, collectionName, Logger));
         return this;
     }
 
-    public EngineBuilder WriteToCsvFile(string filePath)
+    public WebReaperBuilder WriteToCsvFile(string filePath)
     {
         SpiderBuilder.AddSink(new CsvFileSink(filePath));
         return this;
     }
 
-    public EngineBuilder WriteToJsonFile(string filePath)
+    public WebReaperBuilder WriteToJsonFile(string filePath)
     {
         SpiderBuilder.AddSink(new JsonLinesFileSink(filePath));
         return this;
     }
 
-    public EngineBuilder WithProxies(IProxyProvider proxyProvider)
+    public WebReaperBuilder WithProxies(IProxyProvider proxyProvider)
     {
         SpiderBuilder.WithProxies(proxyProvider);
         return this;
     }
 
-    public EngineBuilder Parse(Schema schema)
+    public WebReaperBuilder Parse(Schema schema)
     {
         ConfigBuilder.WithScheme(schema);
         return this;
     }
 
-    public EngineBuilder Get(string url)
+    public WebReaperBuilder Get(string url)
     {
         ConfigBuilder.Get(url);
         return this;
     }
 
-    public EngineBuilder GetWithBrowser(
+    public WebReaperBuilder GetWithBrowser(
         string url,
         Func<PageActionBuilder, ImmutableQueue<PageAction>>? actionBuilder = null)
     {
@@ -159,13 +159,13 @@ public class EngineBuilder
         return this;
     }
 
-    public EngineBuilder Follow(string linkSelector)
+    public WebReaperBuilder Follow(string linkSelector)
     {
         ConfigBuilder.Follow(linkSelector);
         return this;
     }
 
-    public EngineBuilder FollowWithBrowser(
+    public WebReaperBuilder FollowWithBrowser(
         string linkSelector,
         Func<PageActionBuilder, ImmutableQueue<PageAction>>? actionBuilder = null)
     {
@@ -173,7 +173,7 @@ public class EngineBuilder
         return this;
     }
 
-    public EngineBuilder Paginate(
+    public WebReaperBuilder Paginate(
         string linkSelector,
         string paginationSelector)
     {
@@ -181,7 +181,7 @@ public class EngineBuilder
         return this;
     }
 
-    public EngineBuilder PaginateWithBrowser(
+    public WebReaperBuilder PaginateWithBrowser(
         string linkSelector,
         string paginationSelector,
         Func<PageActionBuilder, ImmutableQueue<PageAction>>? actionBuilder = null)
@@ -190,19 +190,19 @@ public class EngineBuilder
         return this;
     }
 
-    public EngineBuilder WithScheduler(IScheduler scheduler)
+    public WebReaperBuilder WithScheduler(IScheduler scheduler)
     {
         Scheduler = scheduler;
         return this;
     }
     
-    public EngineBuilder WithAzureServiceBusScheduler(string connectionString, string queueName)
+    public WebReaperBuilder WithAzureServiceBusScheduler(string connectionString, string queueName)
     {
         Scheduler = new AzureServiceBusScheduler(connectionString, queueName);
         return this;
     }
     
-    public EngineBuilder ScheduleWithTextFile(string fileName, string currentJobPositionFileName)
+    public WebReaperBuilder ScheduleWithTextFile(string fileName, string currentJobPositionFileName)
     {
         Scheduler = new FileScheduler(fileName, currentJobPositionFileName, Logger);
         return this;

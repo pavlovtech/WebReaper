@@ -24,7 +24,7 @@ public class ScrapingWorker : BackgroundService
         var azureSBConnectionString = "Endpoint=sb://webreaper.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=g0AAACe/NXS+/qWVad4KUnnw6iGECmUTJTpfFOMfjms=";
         var queue = "jobqueue";
 
-        engine = new EngineBuilder("rutracker")
+        engine = new WebReaperBuilder("rutracker")
             .WithLogger(logger)
             .Get("https://rutracker.org/forum/index.php?c=33")
             .IgnoreUrls(blackList)

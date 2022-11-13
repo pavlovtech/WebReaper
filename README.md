@@ -27,7 +27,7 @@ dotnet add package WebReaper
 ```C#
 using WebReaper.Core.Builders;
 
-_ = new EngineBuilder("reddit")
+_ = new WebReaperBuilder("reddit")
     .Get("https://www.reddit.com/r/dotnet/")
     .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
     .Parse(new()
@@ -73,7 +73,7 @@ Console.ReadLine();
 Parsing single page applications is super simple, just use the GetWithBrowser and/or FollowWithBrowser method. In this case Puppeteer will be used to load the pages.
 
 ```C#
-_ = new EngineBuilder("reddit")
+_ = new WebReaperBuilder("reddit")
     .GetWithBrowser("https://www.reddit.com/r/dotnet/")
     .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
     .Parse(new()
@@ -92,7 +92,7 @@ Additionaly, you can run any JavaScript on dynamic pages as they are loaded with
 ```C#
 using WebReaper.Core.Builders;
 
-_ = new EngineBuilder("reddit")
+_ = new WebReaperBuilder("reddit")
     .GetWithBrowser("https://www.reddit.com/r/dotnet/", actions => actions
         .ScrollToEnd()
         .Build())
@@ -116,7 +116,7 @@ It can be helpful if the required content is loaded only after some user interac
 
 If you want to persist the vistited links and job queue locally, so that you can start crawling where you left off you can use ScheduleWithTextFile and TrackVisitedLinksInFile methods:
 ```C#
-var engine = new EngineBuilder("rutracker")
+var engine = new WebReaperBuilder("rutracker")
             .WithLogger(logger)
             .Get("https://rutracker.org/forum/index.php?c=33")
             .Follow("#cf-33 .forumlink>a")
@@ -142,7 +142,7 @@ var engine = new EngineBuilder("rutracker")
 If you need to pass authorization before parsing the web site, you can call Authorize method on Scraper that has to return CookieContainer with all cookies required for authorization. You are responsible for performing the login operation with your credentials, the Scraper only uses the cookies that you provide.
 
 ```C#
-_ = new ScraperEngineBuilder("rutracker")
+_ = new WebReaperBuilder("rutracker")
     .WithLogger(logger)
     .Get("https://rutracker.org/forum/index.php?c=33")
     .Authorize(() =>
@@ -204,7 +204,7 @@ The scrapedData parameter is JSON object that contains scraped data that you spe
 Adding your sink to the Scraper is simple, just call AddSink method on the Scraper:
 
 ```C#
-_ = new ScraperEngineBuilder("rutracker")
+_ = new WebReaperBuilder("rutracker")
     .AddSink(new ConsoleSink());
     .Get("https://rutracker.org/forum/index.php?c=33")
     .Follow("#cf-33 .forumlink>a")
@@ -219,15 +219,15 @@ For other ways to extend your functionality see the next section.
 
 ### Intrefaces
 
-| Interface           | Description                                                                                                                                               |
-| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| IScheduler          | Reading and writing from the job queue. By default, the in-memory queue is used, but you can provider your implementation                                 |
-| ICrawledLinkTracker | Tracker of visited links. A default implementation is an in-memory tracker. You can provide your own for Redis, MongoDB, etc.                             |
-| IPageLoader         | Loader that takes URL and returns HTML of the page as a string                                                                                            |
-| IContentParser      | Takes HTML and schema and returns JSON representation (JObject).                                                                                          |
-| ILinkParser         | Takes HTML as a string and returns page links                                                                                                             |
-| IScraperSink        | Represents a data store for writing the results of web scraping. Takes the JObject as parameter                                                           |
-| ISpider             | A spider that does the crawling, parsing, and saving of the data                                                                                          |
+| Interface           | Description                                                                                                                   |
+|---------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| IScheduler          | Reading and writing from the job queue. By default, the in-memory queue is used, but you can provider your implementation     |
+| ICrawledLinkTracker | Tracker of visited links. A default implementation is an in-memory tracker. You can provide your own for Redis, MongoDB, etc. |
+| IPageLoader         | Loader that takes URL and returns HTML of the page as a string                                                                |
+| IContentParser      | Takes HTML and schema and returns JSON representation (JObject).                                                              |
+| ILinkParser         | Takes HTML as a string and returns page links                                                                                 |
+| IScraperSink        | Represents a data store for writing the results of web scraping. Takes the JObject as parameter                               |
+| ISpider             | A spider that does the crawling, parsing, and saving of the data                                                              |
 
 ### Main entities
 
@@ -237,7 +237,7 @@ For other ways to extend your functionality see the next section.
 ## Repository structure
 
 | Project                                   | Description                                                                       |
-| ----------------------------------------- | --------------------------------------------------------------------------------- |
+|-------------------------------------------|-----------------------------------------------------------------------------------|
 | WebReaper                                 | Library for web scraping                                                          |
 | WebReaper.ScraperWorkerService            | Example of using WebReaper library in a Worker Service .NET project.              |
 | WebReaper.DistributedScraperWorkerService | Example of using WebReaper library in a distributed way wih Azure Service Bus     |
