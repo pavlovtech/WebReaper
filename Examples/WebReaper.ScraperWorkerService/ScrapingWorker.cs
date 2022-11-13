@@ -34,7 +34,7 @@ public class ScrapingWorker : BackgroundService
             })
             .WriteToJsonFile("result.json")
             .IgnoreUrls(blackList)
-            .ScheduleWithTextFile("jobs.txt", "progress.txt")
+            .WithTextFileScheduler("jobs.txt", "progress.txt")
             .TrackVisitedLinksInFile("links.txt")
             .Build();
     }

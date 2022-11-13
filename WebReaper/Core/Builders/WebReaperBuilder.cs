@@ -202,9 +202,15 @@ public class WebReaperBuilder
         return this;
     }
     
-    public WebReaperBuilder ScheduleWithTextFile(string fileName, string currentJobPositionFileName)
+    public WebReaperBuilder WithTextFileScheduler(string fileName, string currentJobPositionFileName)
     {
         Scheduler = new FileScheduler(fileName, currentJobPositionFileName, Logger);
+        return this;
+    }
+    
+    public WebReaperBuilder WithRedisScheduler(string connectionString, string queueName)
+    {
+        Scheduler = new RedisScheduler(connectionString, queueName, Logger);
         return this;
     }
 
