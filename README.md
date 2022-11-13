@@ -27,7 +27,7 @@ dotnet add package WebReaper
 ```C#
 using WebReaper.Core.Builders;
 
-_ = new WebReaperBuilder("reddit")
+_ = new ScraperEngineBuilder("reddit")
     .Get("https://www.reddit.com/r/dotnet/")
     .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
     .Parse(new()
@@ -73,7 +73,7 @@ Console.ReadLine();
 Parsing single page applications is super simple, just use the GetWithBrowser and/or FollowWithBrowser method. In this case Puppeteer will be used to load the pages.
 
 ```C#
-_ = new WebReaperBuilder("reddit")
+_ = new ScraperEngineBuilder("reddit")
     .GetWithBrowser("https://www.reddit.com/r/dotnet/")
     .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
     .Parse(new()
@@ -92,7 +92,7 @@ Additionaly, you can run any JavaScript on dynamic pages as they are loaded with
 ```C#
 using WebReaper.Core.Builders;
 
-_ = new WebReaperBuilder("reddit")
+_ = new ScraperEngineBuilder("reddit")
     .GetWithBrowser("https://www.reddit.com/r/dotnet/", actions => actions
         .ScrollToEnd()
         .Build())
@@ -116,7 +116,7 @@ It can be helpful if the required content is loaded only after some user interac
 
 If you want to persist the vistited links and job queue locally, so that you can start crawling where you left off you can use ScheduleWithTextFile and TrackVisitedLinksInFile methods:
 ```C#
-var engine = new WebReaperBuilder("rutracker")
+var engine = new ScraperEngineBuilder("rutracker")
             .WithLogger(logger)
             .Get("https://rutracker.org/forum/index.php?c=33")
             .Follow("#cf-33 .forumlink>a")
@@ -142,7 +142,7 @@ var engine = new WebReaperBuilder("rutracker")
 If you need to pass authorization before parsing the web site, you can call Authorize method on Scraper that has to return CookieContainer with all cookies required for authorization. You are responsible for performing the login operation with your credentials, the Scraper only uses the cookies that you provide.
 
 ```C#
-_ = new WebReaperBuilder("rutracker")
+_ = new ScraperEngineBuilder("rutracker")
     .WithLogger(logger)
     .Get("https://rutracker.org/forum/index.php?c=33")
     .Authorize(() =>
@@ -204,7 +204,7 @@ The scrapedData parameter is JSON object that contains scraped data that you spe
 Adding your sink to the Scraper is simple, just call AddSink method on the Scraper:
 
 ```C#
-_ = new WebReaperBuilder("rutracker")
+_ = new ScraperEngineBuilder("rutracker")
     .AddSink(new ConsoleSink());
     .Get("https://rutracker.org/forum/index.php?c=33")
     .Follow("#cf-33 .forumlink>a")

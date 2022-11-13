@@ -1,7 +1,7 @@
 ﻿using WebReaper.Core.Builders;
 using WebReaper.ProxyProviders.WebShareProxy;
 
-_ = new WebReaperBuilder("reddit")
+_ = new ScraperEngineBuilder("reddit")
     .GetWithBrowser("https://www.reddit.com/r/dotnet/", actions => actions
         .ScrollToEnd()
         .RepeatWithDelay(1000,2000)
