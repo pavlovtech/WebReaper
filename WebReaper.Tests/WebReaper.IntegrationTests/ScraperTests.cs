@@ -20,7 +20,7 @@ namespace WebReaper.IntegrationTests
         {
             List<JObject> result = new List<JObject>();
 
-            var engine = new EngineBuilder("reddit")
+            var engine = new WebReaperBuilder("reddit")
                 .Get("https://www.reddit.com/r/dotnet/")
                 .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
                 .Parse(new()
@@ -44,7 +44,7 @@ namespace WebReaper.IntegrationTests
         {
             List<JObject> result = new List<JObject>();
 
-            var scraper = new EngineBuilder("reddit")
+            var scraper = new WebReaperBuilder("reddit")
                 .Get("https://www.reddit.com/r/dotnet/")
                 .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
                 .Parse(new()
@@ -59,7 +59,7 @@ namespace WebReaper.IntegrationTests
 
             _ = scraper.Run(2);
 
-            await Task.Delay(20000);
+            await Task.Delay(30000);
 
             Assert.NotEmpty(result);
         }
@@ -76,7 +76,7 @@ namespace WebReaper.IntegrationTests
 
             var result = new List<JObject>();
 
-            var engine = new EngineBuilder("reddit")
+            var engine = new WebReaperBuilder("reddit")
                 .GetWithBrowser("https://www.reddit.com/r/dotnet/")
                 .FollowWithBrowser("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
                 .Parse(new()

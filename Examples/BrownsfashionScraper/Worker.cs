@@ -11,7 +11,7 @@ namespace BrownsfashionScraper
 
         public ScrapingWorker(ILogger<ScrapingWorker> logger)
         {
-            scraper = new EngineBuilder("Brownsfashion")
+            scraper = new WebReaperBuilder("Brownsfashion")
                 .WithLogger(logger)
                 .Authorize(() =>
                 {

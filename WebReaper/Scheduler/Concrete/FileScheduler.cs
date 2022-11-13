@@ -66,7 +66,7 @@ public class FileScheduler : IScheduler
             
             await WriteAllTextAsync(_currentJobPositionFileName, $"{_currentJobPosition++}", cancellationToken);
             
-            _logger.LogInformation("Deserializing the job and returning to consumer");
+            _logger.LogInformation("Deserializing the job and returning it to consumer");
 
             var job = JsonConvert.DeserializeObject<Job>(jobLine);
             yield return job;
