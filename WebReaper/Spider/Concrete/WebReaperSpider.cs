@@ -10,6 +10,7 @@ using WebReaper.LinkTracker.Abstract;
 using WebReaper.Sinks.Abstract;
 using WebReaper.Spider.Abstract;
 using WebReaper.Exceptions;
+using WebReaper.Sinks.Models;
 
 namespace WebReaper.Spider.Concrete;
 
@@ -27,7 +28,7 @@ public class WebReaperSpider : ISpider
 
     public List<IScraperSink> Sinks { get; set; }
 
-    public event Action<JObject>? ScrapedData;
+    public event Action<ParsedData>? ScrapedData;
 
     private ILogger Logger { get; }
 
@@ -102,8 +103,9 @@ public class WebReaperSpider : ISpider
     private async Task ProcessTargetPage(Job job, string doc, CancellationToken cancellationToken)
     {
         Logger.LogInvocationCount();
-        var result = ContentParser.Parse(doc, job.Schema);
-        result.Add("URL", job.Url);
+        var rowResult = ContentParser.Parse(doc, job.Schema);
+
+        var result = new ParsedData(job.SiteId, job.Url, rowResult);
 
         ScrapedData?.Invoke(result);
 

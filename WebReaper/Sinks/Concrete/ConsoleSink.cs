@@ -1,13 +1,14 @@
 using Newtonsoft.Json.Linq;
 using WebReaper.Sinks.Abstract;
+using WebReaper.Sinks.Models;
 
 namespace WebReaper.Sinks.Concrete;
 
 public class ConsoleSink : IScraperSink
 {
-    public Task EmitAsync(JObject scrapedData, CancellationToken cancellationToken = default)
+    public Task EmitAsync(ParsedData data, CancellationToken cancellationToken = default)
     {
-        Console.WriteLine($"{scrapedData}");
+        Console.WriteLine($"{data.Data}");
         return Task.CompletedTask;
     }
 }

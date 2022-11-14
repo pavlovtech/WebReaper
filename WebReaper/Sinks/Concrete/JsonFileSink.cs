@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using WebReaper.Sinks.Abstract;
+using WebReaper.Sinks.Models;
 
 namespace WebReaper.Sinks.Concrete;
 
@@ -21,14 +22,17 @@ public class JsonLinesFileSink : IScraperSink
         Init();
     }
 
-    public Task EmitAsync(JObject scrapedData, CancellationToken cancellationToken = default)
+    public Task EmitAsync(ParsedData parsedData, CancellationToken cancellationToken = default)
     {
         if (!IsInitialized)
         {
             Init(cancellationToken);
         }
-
-        entries.Add(scrapedData, cancellationToken);
+        
+        parsedData.Data["url"] = parsedData.Url;
+        parsedData.Data["siteId"] = parsedData.SiteId;
+        
+        entries.Add(parsedData.Data, cancellationToken);
 
         return Task.CompletedTask;
     }

@@ -4,6 +4,7 @@ using WebReaper.ProxyProviders.WebShareProxy;
 using Xunit.Abstractions;
 using PuppeteerSharp;
 using WebReaper.Core.Builders;
+using WebReaper.Sinks.Models;
 
 namespace WebReaper.IntegrationTests
 {
@@ -19,7 +20,7 @@ namespace WebReaper.IntegrationTests
         [Fact]
         public async Task SimpleTest()
         {
-            List<JObject> result = new List<JObject>();
+            var result = new List<ParsedData>();
 
             var engine = new ScraperEngineBuilder("reddit")
                 .Get("https://www.reddit.com/r/dotnet/")
@@ -43,7 +44,7 @@ namespace WebReaper.IntegrationTests
         [Fact (Skip = "No stable proxy at the moment")]
         public async Task SimpleTestWithProxy()
         {
-            List<JObject> result = new List<JObject>();
+            var result = new List<ParsedData>();
 
             var scraper = new ScraperEngineBuilder("reddit")
                 .Get("https://www.reddit.com/r/dotnet/")
@@ -75,7 +76,7 @@ namespace WebReaper.IntegrationTests
 
             await browserFetcher.DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
 
-            var result = new List<JObject>();
+            var result = new List<ParsedData>();
 
             var engine = new ScraperEngineBuilder("reddit")
                 .GetWithBrowser("https://www.reddit.com/r/dotnet/")
