@@ -145,11 +145,9 @@ If you need to pass authorization before parsing the web site, you can call Auth
 _ = new ScraperEngineBuilder()
     .WithLogger(logger)
     .Get("https://rutracker.org/forum/index.php?c=33")
-    .Authorize(() =>
+    .Authorize(container =>
     {
-        var container = new CookieContainer();
         container.Add(new Cookie("AuthToken", "123");
-        return container;
     })
 ```
 
@@ -199,7 +197,6 @@ public class ConsoleSink : IScraperSink
     }
 }
 ```
-The scrapedData parameter is JSON object that contains scraped data that you specified in your schema.
 
 Adding your sink to the Scraper is simple, just call AddSink method on the Scraper:
 
