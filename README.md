@@ -139,15 +139,15 @@ var engine = new ScraperEngineBuilder()
 ```
 ### Authorization
 
-If you need to pass authorization before parsing the web site, you can call Authorize method on Scraper that has to return CookieContainer with all cookies required for authorization. You are responsible for performing the login operation with your credentials, the Scraper only uses the cookies that you provide.
+If you need to pass authorization before parsing the web site, you can call SetCookies method on Scraper that has to fill CookieContainer with all cookies required for authorization. You are responsible for performing the login operation with your credentials, the Scraper only uses the cookies that you provide.
 
 ```C#
 _ = new ScraperEngineBuilder()
     .WithLogger(logger)
     .Get("https://rutracker.org/forum/index.php?c=33")
-    .Authorize(container =>
+    .SetCookies(cookies =>
     {
-        container.Add(new Cookie("AuthToken", "123");
+        cookies.Add(new Cookie("AuthToken", "123");
     })
 ```
 

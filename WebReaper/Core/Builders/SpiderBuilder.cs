@@ -56,7 +56,7 @@ public class SpiderBuilder
         return this;
     }
 
-    public SpiderBuilder Authorize(Action<CookieContainer> authorize)
+    public SpiderBuilder SetCookies(Action<CookieContainer> authorize)
     {
         authorize(Cookies);
         return this;
