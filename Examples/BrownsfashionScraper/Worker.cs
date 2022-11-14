@@ -11,7 +11,7 @@ namespace BrownsfashionScraper
 
         public ScrapingWorker(ILogger<ScrapingWorker> logger)
         {
-            scraper = new ScraperEngineBuilder("Brownsfashion")
+            scraper = new ScraperEngineBuilder()
                 .WithLogger(logger)
                 .Authorize(cookies =>
                 {

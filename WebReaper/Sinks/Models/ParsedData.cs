@@ -2,4 +2,4 @@
 
 namespace WebReaper.Sinks.Models;
 
-public record ParsedData(string SiteId, string Url, JObject Data);
+public record ParsedData(string Url, JObject Data);

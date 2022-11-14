@@ -6,7 +6,6 @@ using WebReaper.PageActions;
 namespace WebReaper.Domain;
 
 public record Job(
-    string SiteId,
     Schema? Schema,
     string Url,
     ImmutableQueue<LinkPathSelector> LinkPathSelectors,

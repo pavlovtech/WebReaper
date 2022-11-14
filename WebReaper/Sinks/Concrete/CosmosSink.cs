@@ -16,7 +16,7 @@ public class CosmosSink : IScraperSink
     private Container? Container { get; set; }
 
     public Task Initialization { get; private set; }
-
+    
     private async Task InitializeAsync()
     {
         var cosmosClient = new CosmosClient(EndpointUrl, AuthorizationKey);
@@ -43,7 +43,7 @@ public class CosmosSink : IScraperSink
 
         Initialization = InitializeAsync();
     }
-
+    
     public async Task EmitAsync(ParsedData parsedData, CancellationToken cancellationToken = default)
     {
         await Initialization; // make sure that initialization finished
@@ -51,7 +51,6 @@ public class CosmosSink : IScraperSink
         var id = Guid.NewGuid().ToString();
         parsedData.Data["id"] = id;
         parsedData.Data["url"] = parsedData.Url;
-        parsedData.Data["siteId"] = parsedData.SiteId;
 
         try
         {

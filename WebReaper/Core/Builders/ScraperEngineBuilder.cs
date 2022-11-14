@@ -25,15 +25,8 @@ public class ScraperEngineBuilder
 
     private IScheduler Scheduler { get; set; } = new InMemoryScheduler();
 
-    private string SiteId { get; }
-
     protected IProxyProvider? ProxyProvider { get; set; }
-
-    public ScraperEngineBuilder(string siteId)
-    {
-        SiteId = siteId;
-    }
-
+    
     public ScraperEngineBuilder AddSink(IScraperSink sink)
     {
         SpiderBuilder.AddSink(sink);
@@ -70,9 +63,9 @@ public class ScraperEngineBuilder
         return this;
     }
     
-    public ScraperEngineBuilder TrackVisitedLinksInRedis(string connectionString)
+    public ScraperEngineBuilder TrackVisitedLinksInRedis(string connectionString, string redisKey)
     {
-        SpiderBuilder.WithLinkTracker(new RedisVisitedLinkTracker(connectionString));
+        SpiderBuilder.WithLinkTracker(new RedisVisitedLinkTracker(connectionString, redisKey));
         return this;
     }
 
@@ -218,6 +211,6 @@ public class ScraperEngineBuilder
         var config = ConfigBuilder.Build();
         var spider = SpiderBuilder.Build();
 
-        return new ScraperEngine(SiteId, config, Scheduler, spider, Logger);
+        return new ScraperEngine(config, Scheduler, spider, Logger);
     }
 }

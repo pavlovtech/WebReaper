@@ -26,7 +26,7 @@ public class FileVisitedLinkedTracker : IVisitedLinkTracker
         _visitedLinks = new ConcurrentBag<string>(allLinks);
     }
     
-    public async Task AddVisitedLinkAsync(string siteId, string visitedLink)
+    public async Task AddVisitedLinkAsync(string visitedLink)
     {
         _visitedLinks.Add(visitedLink);
         
@@ -41,10 +41,10 @@ public class FileVisitedLinkedTracker : IVisitedLinkTracker
         }
     }
 
-    public Task<List<string>> GetVisitedLinksAsync(string siteId) => Task.FromResult(_visitedLinks.ToList());
+    public Task<List<string>> GetVisitedLinksAsync() => Task.FromResult(_visitedLinks.ToList());
 
-    public Task<List<string>> GetNotVisitedLinks(string siteId, IEnumerable<string> links) =>
+    public Task<List<string>> GetNotVisitedLinks(IEnumerable<string> links) =>
         Task.FromResult(links.Except(_visitedLinks).ToList());
 
-    public Task<long> GetVisitedLinksCount(string siteId) => Task.FromResult((long)_visitedLinks.Count);
+    public Task<long> GetVisitedLinksCount() => Task.FromResult((long)_visitedLinks.Count);
 }

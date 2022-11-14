@@ -23,7 +23,7 @@ public class MongoDbSink : IScraperSink
         Client = new MongoClient(ConnectionString);
         Logger = logger;
     }
-
+    
     public async Task EmitAsync(ParsedData parsedData, CancellationToken cancellationToken = default)
     {
         Logger.LogDebug($"Started {nameof(MongoDbSink)}.{nameof(EmitAsync)}");
@@ -33,7 +33,6 @@ public class MongoDbSink : IScraperSink
         var collection = database.GetCollection<BsonDocument>(CollectionName);
         
         parsedData.Data["url"] = parsedData.Url;
-        parsedData.Data["siteId"] = parsedData.SiteId;
 
         var document = BsonDocument.Parse(parsedData.Data.ToString());
 
