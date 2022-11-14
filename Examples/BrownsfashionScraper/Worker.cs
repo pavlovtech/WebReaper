@@ -13,7 +13,7 @@ namespace BrownsfashionScraper
         {
             scraper = new ScraperEngineBuilder()
                 .WithLogger(logger)
-                .Authorize(cookies =>
+                .SetCookies(cookies =>
                 {
                     cookies.Add(new CookieCollection
                     {
