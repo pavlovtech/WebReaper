@@ -13,10 +13,8 @@ namespace BrownsfashionScraper
         {
             scraper = new ScraperEngineBuilder("Brownsfashion")
                 .WithLogger(logger)
-                .Authorize(() =>
+                .Authorize(cookies =>
                 {
-                    var cookies = new CookieContainer();
-
                     cookies.Add(new CookieCollection
                     {
                         new Cookie("cf_clearance", "db1e4fa31a72a24313e520e2551757ae4977a8ca-1666375170-0-150", "/", ".brownsfashion.com"),
@@ -51,8 +49,6 @@ namespace BrownsfashionScraper
                         new Cookie("_clck", "1pm5gys|1|f5z|0", "/", ".brownsfashion.com"),
                         new Cookie("_clsk", "uhygul|1666602933570|1|1|e.clarity.ms/collect", "/", ".brownsfashion.com")
                     });
-
-                    return cookies;
                 })
                 .Get("https://www.brownsfashion.com/ua/shopping/man-clothing")
                 .PaginateWithBrowser("._1GX2o>a", ".AlEkI")
