@@ -56,13 +56,9 @@ public class SpiderBuilder
         return this;
     }
 
-    public SpiderBuilder Authorize(Func<CookieContainer> authorize)
+    public SpiderBuilder Authorize(Action<CookieContainer> authorize)
     {
-        var cookieContainer = authorize();
-
-        //httpHandler.CookieContainer = cookieContainer;
-        Cookies.Add(cookieContainer.GetAllCookies());
-
+        authorize(Cookies);
         return this;
     }
 

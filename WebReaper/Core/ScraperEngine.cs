@@ -23,7 +23,7 @@ public class ScraperEngine
         ILogger logger) => (GlobalId, Scheduler, Config, Spider, Logger) =
         (globalId, jobScheduler, config, spider, logger);
 
-    public async Task Run(int parallelismDegree = 4, CancellationToken cancellationToken = default)
+    public async Task Run(int parallelismDegree = 8, CancellationToken cancellationToken = default)
     {
         Logger.LogInformation($"Start {nameof(ScraperEngine)}.{nameof(Run)}");
         

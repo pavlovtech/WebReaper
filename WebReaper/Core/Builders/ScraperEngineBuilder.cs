@@ -1,9 +1,7 @@
 ﻿using System.Net;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using Newtonsoft.Json.Linq;
 using WebReaper.Sinks.Concrete;
-using WebReaper.Domain.Selectors;
 using WebReaper.Domain.Parsing;
 using WebReaper.LinkTracker.Abstract;
 using WebReaper.Sinks.Abstract;
@@ -42,7 +40,7 @@ public class ScraperEngineBuilder
         return this;
     }
 
-    public ScraperEngineBuilder Authorize(Func<CookieContainer> authorize)
+    public ScraperEngineBuilder Authorize(Action<CookieContainer> authorize)
     {
         SpiderBuilder.Authorize(authorize);
         return this;
