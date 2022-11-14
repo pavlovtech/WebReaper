@@ -249,12 +249,11 @@ For other ways to extend your functionality see the next section.
 
 - [X] Nuget package
 - [X] Azure functions for the distributed crawling
-- [X] Parsing lists
 - [X] Loading pages with headless browser and flexible SPA page manipulations (clicks, scrolls, etc)
 - [X] Proxy support
 - [ ] Add flexible conditions for ignoring or allowing certain pages
 - [ ] Breadth first traversal with priprity channels
-- [ ] Save auth cookies to redis
+- [ ] Save auth cookies to redis, mongo, etc.
 - [ ] Rest API example for web scraping
 - [ ] Sitemap crawling support
 - [ ] Ports to NodeJS and Go
