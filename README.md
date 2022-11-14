@@ -254,15 +254,12 @@ For other ways to extend your functionality see the next section.
 - [ ] Add flexible conditions for ignoring or allowing certain pages
 - [ ] Breadth first traversal with priprity channels
 - [ ] Save auth cookies to redis, mongo, etc.
-- [ ] Rest API example for web scraping
+- [ ] Separate nuget packages for MaongoDb, Cosmos Db, Redis, etc.
 - [ ] Sitemap crawling support
-- [ ] Ports to NodeJS and Go
 
 ## Features under consideration
 - [ ] Imbedded http server for monitoring, logs and statistics
-- [ ] Saving logs to Seq
 - [ ] Add LogTo method with Console and File support
-- [ ] Site API support
 - [ ] CRON for scheduling
 - [ ] Request auto throttling
 - [ ] Add bloom filter for revisiting same urls
