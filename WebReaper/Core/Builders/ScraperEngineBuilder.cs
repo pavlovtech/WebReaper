@@ -10,6 +10,8 @@ using WebReaper.Scheduler.Concrete;
 using WebReaper.Proxy.Abstract;
 using WebReaper.Logging;
 using System.Collections.Immutable;
+using WebReaper.CookieStorage.Abstract;
+using WebReaper.CookieStorage.Concrete;
 using WebReaper.LinkTracker.Concrete;
 using WebReaper.PageActions;
 using WebReaper.Sinks.Models;
@@ -27,15 +29,17 @@ public class ScraperEngineBuilder
 
     protected IProxyProvider? ProxyProvider { get; set; }
     
+    private ICookiesStorage CookieStorage { get; set; }
+    
     public ScraperEngineBuilder AddSink(IScraperSink sink)
     {
         SpiderBuilder.AddSink(sink);
         return this;
     }
 
-    public ScraperEngineBuilder Authorize(Action<CookieContainer> authorize)
+    public ScraperEngineBuilder SetCookies(Action<CookieContainer> authorize)
     {
-        SpiderBuilder.Authorize(authorize);
+        SpiderBuilder.SetCookies(authorize);
         return this;
     }
 
@@ -203,6 +207,12 @@ public class ScraperEngineBuilder
     public ScraperEngineBuilder WithRedisScheduler(string connectionString, string queueName)
     {
         Scheduler = new RedisScheduler(connectionString, queueName, Logger);
+        return this;
+    }
+    
+    public ScraperEngineBuilder WithRedisCookieStorage(string connectionString, string redisKey)
+    {
+        CookieStorage = new RedisCookeStorage(connectionString, redisKey, Logger);
         return this;
     }
 
