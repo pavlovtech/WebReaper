@@ -6,7 +6,7 @@ using WebReaper.Scheduler.Abstract;
 
 namespace WebReaper.Scheduler.Concrete;
 
-public class AzureServiceBusScheduler : IScheduler
+public class AzureServiceBusScheduler : IScheduler, IAsyncDisposable
 {
     private readonly ServiceBusClient _client;
 
@@ -51,13 +51,13 @@ public class AzureServiceBusScheduler : IScheduler
         }
     }
 
-    public async ValueTask AddAsync(Job job, CancellationToken cancellationToken = default)
+    public async Task AddAsync(Job job, CancellationToken cancellationToken = default)
     {
         var msg = new ServiceBusMessage(SerializeToJson(job));
         await _sender.SendMessageAsync(msg, cancellationToken);
     }
 
-    public async ValueTask AddAsync(IEnumerable<Job> jobs, CancellationToken cancellationToken = default)
+    public async Task AddAsync(IEnumerable<Job> jobs, CancellationToken cancellationToken = default)
     {
         var messages = jobs.Select(job => new ServiceBusMessage(SerializeToJson(job)));
         await _sender.SendMessagesAsync(messages, cancellationToken);
@@ -65,6 +65,7 @@ public class AzureServiceBusScheduler : IScheduler
 
     public async ValueTask DisposeAsync()
     {
+        GC.SuppressFinalize(this);
         await _sender.DisposeAsync();
         await _client.DisposeAsync();
     }

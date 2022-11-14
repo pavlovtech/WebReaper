@@ -50,7 +50,7 @@ public class RedisScheduler : IScheduler
         }
     }
 
-    public async ValueTask AddAsync(Job job, CancellationToken cancellationToken = default)
+    public async Task AddAsync(Job job, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation($"Start {nameof(RedisScheduler)}.{nameof(AddAsync)}");
         
@@ -58,7 +58,7 @@ public class RedisScheduler : IScheduler
         await db.ListRightPushAsync(_queueName, SerializeToJson(job));
     }
 
-    public async ValueTask AddAsync(IEnumerable<Job> jobs, CancellationToken cancellationToken = default)
+    public async Task AddAsync(IEnumerable<Job> jobs, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation($"Start {nameof(RedisScheduler)}.{nameof(AddAsync)} with multiple jobs");
         

@@ -10,7 +10,7 @@ public class InMemoryVisitedLinkTracker : IVisitedLinkTracker
 
     public Task AddVisitedLinkAsync(string visitedLink)
     {
-        visitedUrls = visitedUrls.Add(visitedLink);
+        ImmutableInterlocked.Update(ref visitedUrls, set => set.Add(visitedLink));
 
         return Task.CompletedTask;
     }
@@ -20,9 +20,9 @@ public class InMemoryVisitedLinkTracker : IVisitedLinkTracker
         return Task.FromResult(visitedUrls.ToList());
     }
 
-    public async Task<List<string>> GetNotVisitedLinks(IEnumerable<string> links)
+    public Task<List<string>> GetNotVisitedLinks(IEnumerable<string> links)
     {
-        return links.Except(visitedUrls).ToList();
+        return Task.FromResult(links.Except(visitedUrls).ToList());
     }
 
     public Task<long> GetVisitedLinksCount()

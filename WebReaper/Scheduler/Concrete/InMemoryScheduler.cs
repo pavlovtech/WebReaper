@@ -10,9 +10,9 @@ public class InMemoryScheduler : IScheduler
     
     public IAsyncEnumerable<Job> GetAllAsync(CancellationToken cancellationToken = default) => _jobChannel.Reader.ReadAllAsync(cancellationToken);
 
-    public async ValueTask AddAsync(Job job, CancellationToken cancellationToken = default) => await _jobChannel.Writer.WriteAsync(job, cancellationToken);
+    public async Task AddAsync(Job job, CancellationToken cancellationToken = default) => await _jobChannel.Writer.WriteAsync(job, cancellationToken);
 
-    public async ValueTask AddAsync(IEnumerable<Job> jobs, CancellationToken cancellationToken = default)
+    public async Task AddAsync(IEnumerable<Job> jobs, CancellationToken cancellationToken = default)
     {
         foreach (var job in jobs)
         {

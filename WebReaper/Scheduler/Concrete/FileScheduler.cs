@@ -73,7 +73,7 @@ public class FileScheduler : IScheduler
         }
     }
 
-    public async ValueTask AddAsync(Job job, CancellationToken cancellationToken = default)
+    public async Task AddAsync(Job job, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation($"Start {nameof(FileScheduler)}.{nameof(AddAsync)} with one job");
         
@@ -88,7 +88,7 @@ public class FileScheduler : IScheduler
         }
     }
 
-    public async ValueTask AddAsync(IEnumerable<Job> jobs, CancellationToken cancellationToken = default)
+    public async Task AddAsync(IEnumerable<Job> jobs, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation($"Start {nameof(FileScheduler)}.{nameof(AddAsync)} with multiple jobs");
         
