@@ -2,6 +2,7 @@ using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using WebReaper.Sinks.Abstract;
+using WebReaper.Sinks.Models;
 
 namespace WebReaper.Sinks.Concrete;
 
@@ -43,16 +44,18 @@ public class CosmosSink : IScraperSink
         Initialization = InitializeAsync();
     }
 
-    public async Task EmitAsync(JObject scrapedData, CancellationToken cancellationToken = default)
+    public async Task EmitAsync(ParsedData parsedData, CancellationToken cancellationToken = default)
     {
         await Initialization; // make sure that initialization finished
 
         var id = Guid.NewGuid().ToString();
-        scrapedData["id"] = id;
+        parsedData.Data["id"] = id;
+        parsedData.Data["url"] = parsedData.Url;
+        parsedData.Data["siteId"] = parsedData.SiteId;
 
         try
         {
-            await Container!.CreateItemAsync(scrapedData, new PartitionKey(id), null, cancellationToken);
+            await Container!.CreateItemAsync(parsedData.Data, new PartitionKey(id), null, cancellationToken);
         }
         catch (Exception ex)
         {

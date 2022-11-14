@@ -14,6 +14,7 @@ using WebReaper.Logging;
 using System.Collections.Immutable;
 using WebReaper.LinkTracker.Concrete;
 using WebReaper.PageActions;
+using WebReaper.Sinks.Models;
 
 namespace WebReaper.Core.Builders;
 
@@ -99,7 +100,7 @@ public class ScraperEngineBuilder
         return this;
     }
 
-    public ScraperEngineBuilder Subscribe(Action<JObject> scrapingResultHandler)
+    public ScraperEngineBuilder Subscribe(Action<ParsedData> scrapingResultHandler)
     {
         SpiderBuilder.AddSubscription(scrapingResultHandler);
         return this;

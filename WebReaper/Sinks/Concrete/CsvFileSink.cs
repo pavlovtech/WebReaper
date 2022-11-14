@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using Newtonsoft.Json.Linq;
 using WebReaper.Sinks.Abstract;
+using WebReaper.Sinks.Models;
 
 namespace WebReaper.Sinks.Concrete;
 
@@ -19,11 +20,14 @@ public class CsvFileSink : IScraperSink
         this.filePath = filePath;
     }
 
-    public async Task EmitAsync(JObject scrapedData, CancellationToken cancellationToken = default)
+    public async Task EmitAsync(ParsedData parsedData, CancellationToken cancellationToken = default)
     {
-        await Init(scrapedData, cancellationToken);
+        parsedData.Data["url"] = parsedData.Url;
+        parsedData.Data["siteId"] = parsedData.SiteId;
+        
+        await Init(parsedData.Data, cancellationToken);
 
-        entries.Add(scrapedData, cancellationToken);
+        entries.Add(parsedData.Data, cancellationToken);
     }
 
     private async Task Init(JObject scrapedData, CancellationToken cancellationToken)

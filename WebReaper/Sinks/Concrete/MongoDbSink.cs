@@ -3,6 +3,7 @@ using WebReaper.Sinks.Abstract;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Microsoft.Extensions.Logging;
+using WebReaper.Sinks.Models;
 
 namespace WebReaper.Sinks.Concrete;
 
@@ -23,15 +24,18 @@ public class MongoDbSink : IScraperSink
         Logger = logger;
     }
 
-    public async Task EmitAsync(JObject scrapedData, CancellationToken cancellationToken = default)
+    public async Task EmitAsync(ParsedData parsedData, CancellationToken cancellationToken = default)
     {
         Logger.LogDebug($"Started {nameof(MongoDbSink)}.{nameof(EmitAsync)}");
             
         var database = Client.GetDatabase(DatabaseName);
 
         var collection = database.GetCollection<BsonDocument>(CollectionName);
+        
+        parsedData.Data["url"] = parsedData.Url;
+        parsedData.Data["siteId"] = parsedData.SiteId;
 
-        var document = BsonDocument.Parse(scrapedData.ToString());
+        var document = BsonDocument.Parse(parsedData.Data.ToString());
 
         await collection.InsertOneAsync(document, null, cancellationToken);
     }

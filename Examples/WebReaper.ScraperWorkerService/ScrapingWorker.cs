@@ -33,6 +33,7 @@ public class ScrapingWorker : BackgroundService
                 new("coverImageUrl", ".postImg", "src")
             })
             .WriteToJsonFile("result.json")
+            .WriteToMongoDb("mongodb://localhost:27017", "WebReaper", "Rutracker")
             .IgnoreUrls(blackList)
             .WithRedisScheduler("localhost:6379", "jobs")
             .TrackVisitedLinksInRedis("localhost:6379")

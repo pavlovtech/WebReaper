@@ -1,9 +1,9 @@
 using Microsoft.Extensions.Logging;
 using WebReaper.Domain;
 using WebReaper.Exceptions;
-using WebReaper.Infra;
 using WebReaper.Scheduler.Abstract;
 using WebReaper.Spider.Abstract;
+using static WebReaper.Infra.Executor;
 
 namespace WebReaper.Core;
 
@@ -43,7 +43,7 @@ public class ScraperEngine
             {
                 Logger.LogInformation("Start crawling url {Url}", job.Url);
                 
-                var newJobs = await Spider.CrawlAsync(job, cancellationToken);
+                var newJobs = await RetryAsync(() => Spider.CrawlAsync(job, cancellationToken));
                 
                 Logger.LogInformation("Received {JobsCount} new jobs", newJobs.Count);
 

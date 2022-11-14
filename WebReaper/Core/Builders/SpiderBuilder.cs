@@ -14,6 +14,7 @@ using WebReaper.Sinks.Abstract;
 using WebReaper.Spider.Abstract;
 using WebReaper.Spider.Concrete;
 using WebReaper.Proxy.Abstract;
+using WebReaper.Sinks.Models;
 
 namespace WebReaper.Core.Builders;
 
@@ -39,7 +40,7 @@ public class SpiderBuilder
 
     private CookieContainer Cookies { get; set; } = new();
 
-    protected event Action<JObject> ScrapedData;
+    protected event Action<ParsedData> ScrapedData;
 
     private readonly List<string> _urlBlackList = new();
 
@@ -85,7 +86,7 @@ public class SpiderBuilder
 
     public SpiderBuilder WriteToConsole() => AddSink(new ConsoleSink());
 
-    public SpiderBuilder AddSubscription(Action<JObject> eventHandler)
+    public SpiderBuilder AddSubscription(Action<ParsedData> eventHandler)
     {
         ScrapedData += eventHandler;
         return this;
