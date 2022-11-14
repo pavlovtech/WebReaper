@@ -14,7 +14,7 @@ namespace WebReaper.IntegrationTests
         }
 
         [Fact]
-        public async Task FileCookieStorage_Serializes_And_Deserializes()
+        public async Task FileCookieStorageSerializesAndDeserializes()
         {
             var storage = new FileCookieStorage("cookies.txt", logger);
 

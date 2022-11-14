@@ -8,11 +8,13 @@ namespace WebReaper.CookieStorage.Concrete;
 
 public class RedisCookeStorage: ICookiesStorage
 {
+    private readonly string _redisKey;
     private readonly ILogger _logger;
     private static ConnectionMultiplexer? redis;
     
-    public RedisCookeStorage(string connectionString, ILogger logger)
+    public RedisCookeStorage(string connectionString, string redisKey, ILogger logger)
     {
+        _redisKey = redisKey;
         _logger = logger;
         redis = ConnectionMultiplexer.Connect(connectionString, config =>
         {
@@ -29,13 +31,13 @@ public class RedisCookeStorage: ICookiesStorage
     {
         IDatabase db = redis!.GetDatabase();
 
-        await db.StringSetAsync($"cookies", JsonConvert.SerializeObject(cookieContainer));
+        await db.StringSetAsync(_redisKey, JsonConvert.SerializeObject(cookieContainer));
     }
 
     public async Task<CookieContainer> GetAsync()
     {
         IDatabase db = redis!.GetDatabase();
-        var json = db.StringGetAsync("cookies");
+        var json = db.StringGetAsync(_redisKey);
 
         var result = JsonConvert.DeserializeObject<CookieContainer>(json.ToString());
         return result;
