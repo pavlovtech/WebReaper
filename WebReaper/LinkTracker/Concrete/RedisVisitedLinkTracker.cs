@@ -5,10 +5,12 @@ namespace WebReaper.LinkTracker.Concrete;
 
 public class RedisVisitedLinkTracker : IVisitedLinkTracker
 {
+    private readonly string _redisKey;
     private static ConnectionMultiplexer? redis;
 
-    public RedisVisitedLinkTracker(string connectionString)
+    public RedisVisitedLinkTracker(string connectionString, string redisKey)
     {
+        _redisKey = redisKey;
         redis = ConnectionMultiplexer.Connect(connectionString, config =>
         {
             config.AbortOnConnectFail = false;
@@ -20,31 +22,31 @@ public class RedisVisitedLinkTracker : IVisitedLinkTracker
         });
     }
 
-    public async Task AddVisitedLinkAsync(string siteId, string visitedLink)
+    public async Task AddVisitedLinkAsync(string visitedLink)
     {
         IDatabase db = redis!.GetDatabase();
-        await db.SetAddAsync(siteId, visitedLink);
+        await db.SetAddAsync(_redisKey, visitedLink);
     }
 
-    public async Task<List<string>> GetVisitedLinksAsync(string siteId)
+    public async Task<List<string>> GetVisitedLinksAsync()
     {
         IDatabase db = redis!.GetDatabase();
-        var result = await db.SetMembersAsync(siteId);
+        var result = await db.SetMembersAsync(_redisKey);
 
         return result.Select(x => x.ToString()).ToList();
     }
 
-    public Task<List<string>> GetNotVisitedLinks(string siteId, IEnumerable<string> links)
+    public Task<List<string>> GetNotVisitedLinks(IEnumerable<string> links)
     {
         IDatabase db = redis!.GetDatabase();
-        var result = links.Where(x => !db.SetContains(siteId, x));
+        var result = links.Where(x => !db.SetContains(_redisKey, x));
 
         return Task.FromResult(result.ToList());
     }
 
-    public async Task<long> GetVisitedLinksCount(string siteId)
+    public async Task<long> GetVisitedLinksCount()
     {
         IDatabase db = redis!.GetDatabase();
-        return await db.SetLengthAsync(siteId);
+        return await db.SetLengthAsync(_redisKey);
     }
 }

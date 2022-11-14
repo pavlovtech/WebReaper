@@ -10,25 +10,22 @@ namespace WebReaper.Core;
 public class ScraperEngine
 {
     private ScraperConfig Config { get; }
-    private string GlobalId { get; }
     private IScheduler Scheduler { get; }
     private ISpider Spider { get; }
     private ILogger Logger { get; }
 
     public ScraperEngine(
-        string globalId,
         ScraperConfig config,
         IScheduler jobScheduler,
         ISpider spider,
-        ILogger logger) => (GlobalId, Scheduler, Config, Spider, Logger) =
-        (globalId, jobScheduler, config, spider, logger);
+        ILogger logger) => (Scheduler, Config, Spider, Logger) =
+        (jobScheduler, config, spider, logger);
 
     public async Task Run(int parallelismDegree = 8, CancellationToken cancellationToken = default)
     {
         Logger.LogInformation($"Start {nameof(ScraperEngine)}.{nameof(Run)}");
         
         await Scheduler.AddAsync(new Job(
-            GlobalId,
             Config.ParsingScheme!,
             Config.StartUrl!,
             Config.LinkPathSelectors,

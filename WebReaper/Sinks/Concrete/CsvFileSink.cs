@@ -23,8 +23,7 @@ public class CsvFileSink : IScraperSink
     public async Task EmitAsync(ParsedData parsedData, CancellationToken cancellationToken = default)
     {
         parsedData.Data["url"] = parsedData.Url;
-        parsedData.Data["siteId"] = parsedData.SiteId;
-        
+
         await Init(parsedData.Data, cancellationToken);
 
         entries.Add(parsedData.Data, cancellationToken);

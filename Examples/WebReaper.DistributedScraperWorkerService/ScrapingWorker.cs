@@ -24,7 +24,7 @@ public class ScrapingWorker : BackgroundService
         var azureSBConnectionString = "Endpoint=sb://webreaper.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=g0AAACe/NXS+/qWVad4KUnnw6iGECmUTJTpfFOMfjms=";
         var queue = "jobqueue";
 
-        engine = new ScraperEngineBuilder("rutracker")
+        engine = new ScraperEngineBuilder()
             .WithLogger(logger)
             .Get("https://rutracker.org/forum/index.php?c=33")
             .IgnoreUrls(blackList)
@@ -40,7 +40,7 @@ public class ScrapingWorker : BackgroundService
                 new("torrentLink", ".magnet-link", "href"),
                 new("coverImageUrl", ".postImg", "src")
             })
-            .TrackVisitedLinksInRedis(redisConnectionString)
+            .TrackVisitedLinksInRedis(redisConnectionString, "rutracker-visited-links")
             .WriteToCosmosDb(
                 "https://webreaperdbserverless.documents.azure.com:443/",
                 "TssEjPIdgShphVKhFkxrAu6WJovPdIZLTFNshJWGdXuitWPIMlXTidc05WFqm20qFVz8leE8zc5JBOphlNmRYg==",

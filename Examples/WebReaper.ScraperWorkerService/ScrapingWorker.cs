@@ -17,7 +17,7 @@ public class ScrapingWorker : BackgroundService
             "https://rutracker.org/forum/viewforum.php?f=2321"
         };
 
-        engine = new ScraperEngineBuilder("rutracker")
+        engine = new ScraperEngineBuilder()
             .WithLogger(logger)
             .Get("https://rutracker.org/forum/index.php?c=33")
             .Follow("#cf-33 .forumlink>a")
@@ -36,7 +36,7 @@ public class ScrapingWorker : BackgroundService
             .WriteToMongoDb("mongodb://localhost:27017", "WebReaper", "Rutracker")
             .IgnoreUrls(blackList)
             .WithRedisScheduler("localhost:6379", "jobs")
-            .TrackVisitedLinksInRedis("localhost:6379")
+            .TrackVisitedLinksInRedis("localhost:6379", "rutracker-visited-links")
             .Build();
     }
 

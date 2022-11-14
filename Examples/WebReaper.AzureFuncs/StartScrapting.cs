@@ -51,7 +51,7 @@ namespace WebReaper.AzureFuncs
                 })
                 .Build();
 
-            await ScheduleFirstJobWithStartUrl("rutracker", config);
+            await ScheduleFirstJobWithStartUrl(config);
 
             return new OkObjectResult(new
             {
@@ -59,11 +59,10 @@ namespace WebReaper.AzureFuncs
             });
         }
 
-        private async Task ScheduleFirstJobWithStartUrl(string globalId, ScraperConfig config)
+        private async Task ScheduleFirstJobWithStartUrl(ScraperConfig config)
         {
             await _scheduler.AddAsync(new Job(
-            globalId,
-            config.ParsingScheme!,
+                config.ParsingScheme!,
             config.StartUrl!,
             config.LinkPathSelectors));
         }

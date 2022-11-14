@@ -30,8 +30,7 @@ public class JsonLinesFileSink : IScraperSink
         }
         
         parsedData.Data["url"] = parsedData.Url;
-        parsedData.Data["siteId"] = parsedData.SiteId;
-        
+
         entries.Add(parsedData.Data, cancellationToken);
 
         return Task.CompletedTask;

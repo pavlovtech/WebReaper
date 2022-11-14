@@ -1,5 +1,4 @@
 using System.Reflection;
-using Newtonsoft.Json.Linq;
 using WebReaper.ProxyProviders.WebShareProxy;
 using Xunit.Abstractions;
 using PuppeteerSharp;
@@ -22,7 +21,7 @@ namespace WebReaper.IntegrationTests
         {
             var result = new List<ParsedData>();
 
-            var engine = new ScraperEngineBuilder("reddit")
+            var engine = new ScraperEngineBuilder()
                 .Get("https://www.reddit.com/r/dotnet/")
                 .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
                 .Parse(new()
@@ -46,7 +45,7 @@ namespace WebReaper.IntegrationTests
         {
             var result = new List<ParsedData>();
 
-            var scraper = new ScraperEngineBuilder("reddit")
+            var scraper = new ScraperEngineBuilder()
                 .Get("https://www.reddit.com/r/dotnet/")
                 .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
                 .Parse(new()
@@ -78,7 +77,7 @@ namespace WebReaper.IntegrationTests
 
             var result = new List<ParsedData>();
 
-            var engine = new ScraperEngineBuilder("reddit")
+            var engine = new ScraperEngineBuilder()
                 .GetWithBrowser("https://www.reddit.com/r/dotnet/")
                 .FollowWithBrowser("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
                 .Parse(new()
