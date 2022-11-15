@@ -11,7 +11,7 @@ public class RedisScheduler : IScheduler
 {
     private readonly string _queueName;
     private readonly ILogger _logger;
-    private static ConnectionMultiplexer? redis;
+    private static ConnectionMultiplexer redis;
     
     public RedisScheduler(string connectionString, string queueName, ILogger logger)
     {
@@ -32,7 +32,7 @@ public class RedisScheduler : IScheduler
     {
         _logger.LogInformation($"Start {nameof(RedisScheduler)}.{nameof(GetAllAsync)}");
         
-        IDatabase db = redis!.GetDatabase();
+        var db = redis.GetDatabase();
 
         while (!cancellationToken.IsCancellationRequested)
         {
@@ -54,7 +54,7 @@ public class RedisScheduler : IScheduler
     {
         _logger.LogInformation($"Start {nameof(RedisScheduler)}.{nameof(AddAsync)}");
         
-        IDatabase db = redis!.GetDatabase();
+        var db = redis.GetDatabase();
         await db.ListRightPushAsync(_queueName, SerializeToJson(job));
     }
 
