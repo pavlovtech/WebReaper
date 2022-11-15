@@ -20,13 +20,13 @@ public class CsvFileSink : IScraperSink
         this.filePath = filePath;
     }
 
-    public async Task EmitAsync(ParsedData parsedData, CancellationToken cancellationToken = default)
+    public async Task EmitAsync(ParsedData entity, CancellationToken cancellationToken = default)
     {
-        parsedData.Data["url"] = parsedData.Url;
+        entity.Data["url"] = entity.Url;
 
-        await Init(parsedData.Data, cancellationToken);
+        await Init(entity.Data, cancellationToken);
 
-        entries.Add(parsedData.Data, cancellationToken);
+        entries.Add(entity.Data, cancellationToken);
     }
 
     private async Task Init(JObject scrapedData, CancellationToken cancellationToken)

@@ -94,6 +94,12 @@ public class ScraperEngineBuilder
         SpiderBuilder.WriteToConsole();
         return this;
     }
+    
+    public ScraperEngineBuilder WriteToRedis(string connectionString, string redisKey)
+    {
+        SpiderBuilder.WriteToRedis(connectionString, redisKey);
+        return this;
+    }
 
     public ScraperEngineBuilder Subscribe(Action<ParsedData> scrapingResultHandler)
     {

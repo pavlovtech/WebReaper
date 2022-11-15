@@ -22,16 +22,16 @@ public class JsonLinesFileSink : IScraperSink
         Init();
     }
 
-    public Task EmitAsync(ParsedData parsedData, CancellationToken cancellationToken = default)
+    public Task EmitAsync(ParsedData entity, CancellationToken cancellationToken = default)
     {
         if (!IsInitialized)
         {
             Init(cancellationToken);
         }
         
-        parsedData.Data["url"] = parsedData.Url;
+        entity.Data["url"] = entity.Url;
 
-        entries.Add(parsedData.Data, cancellationToken);
+        entries.Add(entity.Data, cancellationToken);
 
         return Task.CompletedTask;
     }

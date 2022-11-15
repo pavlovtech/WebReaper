@@ -6,9 +6,9 @@ namespace WebReaper.Sinks.Concrete;
 
 public class ConsoleSink : IScraperSink
 {
-    public Task EmitAsync(ParsedData data, CancellationToken cancellationToken = default)
+    public Task EmitAsync(ParsedData entity, CancellationToken cancellationToken = default)
     {
-        Console.WriteLine($"{data.Data}");
+        Console.WriteLine($"{entity.Data}");
         return Task.CompletedTask;
     }
 }
