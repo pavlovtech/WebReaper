@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using WebReaper.Sinks.Abstract;
+﻿using WebReaper.Sinks.Abstract;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Microsoft.Extensions.Logging;
@@ -24,7 +23,7 @@ public class MongoDbSink : IScraperSink
         Logger = logger;
     }
     
-    public async Task EmitAsync(ParsedData parsedData, CancellationToken cancellationToken = default)
+    public async Task EmitAsync(ParsedData entity, CancellationToken cancellationToken = default)
     {
         Logger.LogDebug($"Started {nameof(MongoDbSink)}.{nameof(EmitAsync)}");
             
@@ -32,9 +31,9 @@ public class MongoDbSink : IScraperSink
 
         var collection = database.GetCollection<BsonDocument>(CollectionName);
         
-        parsedData.Data["url"] = parsedData.Url;
+        entity.Data["url"] = entity.Url;
 
-        var document = BsonDocument.Parse(parsedData.Data.ToString());
+        var document = BsonDocument.Parse(entity.Data.ToString());
 
         await collection.InsertOneAsync(document, null, cancellationToken);
     }

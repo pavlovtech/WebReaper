@@ -44,17 +44,17 @@ public class CosmosSink : IScraperSink
         Initialization = InitializeAsync();
     }
     
-    public async Task EmitAsync(ParsedData parsedData, CancellationToken cancellationToken = default)
+    public async Task EmitAsync(ParsedData entity, CancellationToken cancellationToken = default)
     {
         await Initialization; // make sure that initialization finished
 
         var id = Guid.NewGuid().ToString();
-        parsedData.Data["id"] = id;
-        parsedData.Data["url"] = parsedData.Url;
+        entity.Data["id"] = id;
+        entity.Data["url"] = entity.Url;
 
         try
         {
-            await Container!.CreateItemAsync(parsedData.Data, new PartitionKey(id), null, cancellationToken);
+            await Container!.CreateItemAsync(entity.Data, new PartitionKey(id), null, cancellationToken);
         }
         catch (Exception ex)
         {

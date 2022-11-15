@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using WebReaper.Core;
 using WebReaper.Sinks.Concrete;
 using WebReaper.Domain;
 using WebReaper.LinkTracker.Abstract;
