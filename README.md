@@ -248,6 +248,7 @@ For other ways to extend your functionality see the next section.
 - [X] Azure functions for the distributed crawling
 - [X] Loading pages with headless browser and flexible SPA page manipulations (clicks, scrolls, etc)
 - [X] Proxy support
+- [ ] Add caching of html pages
 - [ ] Add flexible conditions for ignoring or allowing certain pages
 - [ ] Breadth first traversal with priority channels
 - [ ] Save auth cookies to redis, mongo, etc.
