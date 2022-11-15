@@ -1,6 +1,7 @@
 using System.Net;
 using System.Text;
 using Microsoft.Extensions.Logging;
+using WebReaper.CookieStorage.Abstract;
 using WebReaper.Extensions;
 using WebReaper.HttpRequests.Abstract;
 using WebReaper.Loaders.Abstract;
@@ -9,17 +10,20 @@ namespace WebReaper.Loaders.Concrete;
 
 public class HttpStaticPageLoader : IStaticPageLoader
 {
+    private readonly ICookiesStorage _cookiesStorage;
     private readonly ILogger _logger;
 
-    private IPageRequester Requests { get; }
+    private IPageRequester PageRequester { get; }
 
-    public HttpStaticPageLoader(IPageRequester requests, ILogger logger)
+    public HttpStaticPageLoader(IPageRequester pageRequester, ICookiesStorage cookiesStorage, ILogger logger)
     {
         ServicePointManager.DefaultConnectionLimit = int.MaxValue;
         ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-        Requests = requests;
+        PageRequester = pageRequester;
+        
+        _cookiesStorage = cookiesStorage;
         _logger = logger;
     }
 
@@ -27,8 +31,10 @@ public class HttpStaticPageLoader : IStaticPageLoader
     {
         using var _ = _logger.LogMethodDuration();
         // return await HttpClient.GetStringAsync(url);
-
-        var response = await Requests.GetAsync(url);
+        
+        PageRequester.CookieContainer = await _cookiesStorage.GetAsync(); // TODO move to init factory func
+        
+        var response = await PageRequester.GetAsync(url);
 
         if (response.IsSuccessStatusCode)
         {

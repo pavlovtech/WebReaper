@@ -1,7 +1,8 @@
 ﻿using System.Net;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using Newtonsoft.Json.Linq;
+using WebReaper.CookieStorage.Abstract;
+using WebReaper.CookieStorage.Concrete;
 using WebReaper.HttpRequests.Concrete;
 using WebReaper.Parser.Concrete;
 using WebReaper.LinkTracker.Concrete;
@@ -40,6 +41,8 @@ public class SpiderBuilder
 
     private CookieContainer Cookies { get; set; } = new();
 
+    private ICookiesStorage CookieStorage { get; set; } = new InMemoryCookieStorage();
+
     protected event Action<ParsedData> ScrapedData;
 
     private readonly List<string> _urlBlackList = new();
@@ -56,9 +59,9 @@ public class SpiderBuilder
         return this;
     }
 
-    public SpiderBuilder SetCookies(Action<CookieContainer> authorize)
+    public SpiderBuilder SetCookies(Action<CookieContainer> setCookies)
     {
-        authorize(Cookies);
+        setCookies(Cookies);
         return this;
     }
 
@@ -118,6 +121,12 @@ public class SpiderBuilder
     }
 
     public SpiderBuilder WriteToCsvFile(string filePath) => AddSink(new CsvFileSink(filePath));
+    
+    public SpiderBuilder WithRedisCookieStorage(string connectionString, string redisKey)
+    {
+        CookieStorage = new RedisCookieStorage(connectionString, redisKey, Logger);
+        return this;
+    }
 
     public ISpider Build()
     {
@@ -126,24 +135,21 @@ public class SpiderBuilder
 
         if (ProxyProvider != null)
         {
-            BrowserPageLoader ??= new PuppeteerPageLoaderWithProxies(Logger, ProxyProvider, Cookies);
+            BrowserPageLoader ??= new PuppeteerPageLoaderWithProxies(Logger, ProxyProvider, CookieStorage);
 
-            var req = new RotatingProxyPageRequester(ProxyProvider)
-            {
-                CookieContainer = Cookies
-            };
+            var pageRequester = new RotatingProxyPageRequester(ProxyProvider);
 
-            StaticPageLoader ??= new HttpStaticPageLoader(req, Logger);
+            StaticPageLoader ??= new HttpStaticPageLoader(pageRequester, CookieStorage, Logger);
         }
         else
         {
-            var req = new PageRequester
-            {
-                CookieContainer = Cookies
-            };
-            StaticPageLoader ??= new HttpStaticPageLoader(req, Logger);
-            BrowserPageLoader ??= new PuppeteerPageLoader(Logger, Cookies);
+            var pageRequester = new PageRequester();
+            
+            StaticPageLoader ??= new HttpStaticPageLoader(pageRequester, CookieStorage, Logger);
+            BrowserPageLoader ??= new PuppeteerPageLoader(Logger, CookieStorage);
         }
+
+        CookieStorage.AddAsync(Cookies, TimeSpan.FromHours(4));
 
         var spider = new WebReaperSpider(
             Sinks,

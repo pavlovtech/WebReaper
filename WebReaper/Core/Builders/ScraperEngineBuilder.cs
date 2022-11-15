@@ -28,8 +28,8 @@ public class ScraperEngineBuilder
     private IScheduler Scheduler { get; set; } = new InMemoryScheduler();
 
     protected IProxyProvider? ProxyProvider { get; set; }
-    
-    private ICookiesStorage CookieStorage { get; set; }
+
+    private ICookiesStorage CookieStorage { get; set; } = new InMemoryCookieStorage();
     
     public ScraperEngineBuilder AddSink(IScraperSink sink)
     {
@@ -212,7 +212,7 @@ public class ScraperEngineBuilder
     
     public ScraperEngineBuilder WithRedisCookieStorage(string connectionString, string redisKey)
     {
-        CookieStorage = new RedisCookeStorage(connectionString, redisKey, Logger);
+        SpiderBuilder.WithRedisCookieStorage(connectionString, redisKey);
         return this;
     }
 

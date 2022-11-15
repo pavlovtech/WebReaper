@@ -6,13 +6,13 @@ using WebReaper.CookieStorage.Abstract;
 
 namespace WebReaper.CookieStorage.Concrete;
 
-public class RedisCookeStorage: ICookiesStorage
+public class RedisCookieStorage: ICookiesStorage
 {
     private readonly string _redisKey;
     private readonly ILogger _logger;
     private static ConnectionMultiplexer? redis;
     
-    public RedisCookeStorage(string connectionString, string redisKey, ILogger logger)
+    public RedisCookieStorage(string connectionString, string redisKey, ILogger logger)
     {
         _redisKey = redisKey;
         _logger = logger;

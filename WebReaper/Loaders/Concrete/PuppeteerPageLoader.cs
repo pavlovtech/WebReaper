@@ -3,6 +3,7 @@ using System.Net;
 using System.Reflection;
 using Microsoft.Extensions.Logging;
 using PuppeteerSharp;
+using WebReaper.CookieStorage.Abstract;
 using WebReaper.Extensions;
 using WebReaper.Loaders.Abstract;
 using WebReaper.PageActions;
@@ -11,13 +12,12 @@ namespace WebReaper.Loaders.Concrete;
 
 public class PuppeteerPageLoader : BrowserPageLoader, IBrowserPageLoader
 {
-    private readonly CookieContainer? _cookies;
-    
+    private readonly ICookiesStorage _cookiesStorage;
     private readonly SemaphoreSlim _semaphore = new(1, 1);
 
-    public PuppeteerPageLoader(ILogger logger, CookieContainer? cookies): base(logger)
+    public PuppeteerPageLoader(ILogger logger, ICookiesStorage cookiesStorage): base(logger)
     {
-        _cookies = cookies;
+        _cookiesStorage = cookiesStorage;
     }
 
     public async Task<string> Load(string url, ImmutableQueue<PageAction>? pageActions = null)
@@ -47,9 +47,11 @@ public class PuppeteerPageLoader : BrowserPageLoader, IBrowserPageLoader
 
         await using var page = await browser.NewPageAsync();
 
-        if (_cookies != null)
+        var cookies = await _cookiesStorage.GetAsync();
+
+        if (cookies != null)
         {
-            var cookieParams = _cookies.GetAllCookies().Select(c => new CookieParam
+            var cookieParams = cookies.GetAllCookies().Select(c => new CookieParam
             {
                 Name = c.Name,
                 Value = c.Value
