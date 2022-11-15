@@ -32,11 +32,10 @@ public class ScrapingWorker : BackgroundService
                 new("torrentLink", ".magnet-link", "href"),
                 new("coverImageUrl", ".postImg", "src")
             })
-            .WriteToJsonFile("result.json")
-            .WriteToMongoDb("mongodb://localhost:27017", "WebReaper", "Rutracker")
             .IgnoreUrls(blackList)
             .WithRedisScheduler("localhost:6379", "jobs")
             .TrackVisitedLinksInRedis("localhost:6379", "rutracker-visited-links")
+            .WriteToRedis("localhost:6379", "rutracker-audiobooks")
             .Build();
     }
 

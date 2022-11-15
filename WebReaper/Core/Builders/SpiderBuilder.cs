@@ -99,7 +99,12 @@ public class SpiderBuilder
         string databaseId,
         string containerId)
     {
-        return AddSink(new CosmosSink(endpointUrl, authorizationKey, databaseId, containerId, Logger));
+        return AddSink(new CosmosSink(endpointUrl, authorizationKey, databaseId, containerId, Logger)); // possible NullLogger here
+    }
+    
+    public SpiderBuilder WriteToRedis(string connectionString, string redisKey)
+    {
+        return AddSink(new RedisSink(connectionString, redisKey, Logger)); // possible NullLogger here
     }
 
     public SpiderBuilder WithStaticPageLoader(IStaticPageLoader staticPageLoader)
