@@ -5,5 +5,5 @@ namespace WebReaper.Sinks.Abstract;
 
 public interface IScraperSink
 {
-    public Task EmitAsync(ParsedData data, CancellationToken cancellationToken = default);
+    public Task EmitAsync(ParsedData entity, CancellationToken cancellationToken = default);
 }
