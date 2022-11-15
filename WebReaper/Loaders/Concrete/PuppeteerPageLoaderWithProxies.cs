@@ -9,6 +9,7 @@ using WebReaper.Proxy.Abstract;
 using System.Collections.Immutable;
 using WebReaper.PageActions;
 using System.Reflection;
+using WebReaper.CookieStorage.Abstract;
 
 namespace WebReaper.Loaders.Concrete;
 
@@ -17,12 +18,12 @@ public class PuppeteerPageLoaderWithProxies : BrowserPageLoader, IBrowserPageLoa
     private readonly SemaphoreSlim _semaphore = new(1, 1);
 
     private readonly IProxyProvider _proxyProvider;
-    private readonly CookieContainer? _cookies;
+    private readonly ICookiesStorage _cookiesStorage;
 
-    public PuppeteerPageLoaderWithProxies(ILogger logger, IProxyProvider proxyProvider, CookieContainer? cookies):base(logger)
+    public PuppeteerPageLoaderWithProxies(ILogger logger, IProxyProvider proxyProvider, ICookiesStorage cookiesStorage): base(logger)
     {
         _proxyProvider = proxyProvider;
-        _cookies = cookies;
+        _cookiesStorage = cookiesStorage;
     }
 
     public async Task<string> Load(string url, ImmutableQueue<PageAction>? pageActions = null)
@@ -72,9 +73,11 @@ public class PuppeteerPageLoaderWithProxies : BrowserPageLoader, IBrowserPageLoa
             Password = creds?.Password
         });
 
-        if (_cookies != null)
+        var cookies = await _cookiesStorage.GetAsync();
+        
+        if (cookies != null)
         {
-            var cookieParams = _cookies.GetAllCookies().Select(c => new CookieParam
+            var cookieParams = cookies.GetAllCookies().Select(c => new CookieParam
             {
                 Name = c.Name,
                 Value = c.Value,
