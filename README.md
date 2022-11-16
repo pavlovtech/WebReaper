@@ -254,11 +254,9 @@ For other ways to extend your functionality see the next section.
 - [ ] Save auth cookies to redis, mongo, etc.
 - [ ] Separate nuget packages for MaongoDb, Cosmos Db, Redis, etc.
 - [ ] Sitemap crawling support
+- [ ] Add LogTo method with Console and File support
 
 ## Features under consideration
-- [ ] Imbedded http server for monitoring, logs and statistics
-- [ ] Add LogTo method with Console and File support
-- [ ] CRON for scheduling
 - [ ] Request auto throttling
 - [ ] Add bloom filter for revisiting same urls
 - [ ] Simplify WebReaperSpider class
