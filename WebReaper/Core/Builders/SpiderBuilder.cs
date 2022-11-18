@@ -154,7 +154,7 @@ public class SpiderBuilder
             BrowserPageLoader ??= new PuppeteerPageLoader(Logger, CookieStorage);
         }
 
-        CookieStorage.AddAsync(Cookies, TimeSpan.FromHours(4));
+        CookieStorage.AddAsync(Cookies);
 
         var spider = new WebReaperSpider(
             Sinks,

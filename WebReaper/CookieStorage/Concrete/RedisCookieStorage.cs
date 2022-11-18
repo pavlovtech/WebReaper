@@ -27,7 +27,7 @@ public class RedisCookieStorage: ICookiesStorage
         });
     }
     
-    public async Task AddAsync(CookieContainer cookieContainer, TimeSpan timeToLive)
+    public async Task AddAsync(CookieContainer cookieContainer)
     {
         IDatabase db = redis!.GetDatabase();
 

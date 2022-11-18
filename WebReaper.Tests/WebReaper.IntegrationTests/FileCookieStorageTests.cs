@@ -24,7 +24,7 @@ namespace WebReaper.IntegrationTests
                 Domain = "localhost"
             });
             
-            await storage.AddAsync(cookies, TimeSpan.FromMinutes(1));
+            await storage.AddAsync(cookies);
             var result = await storage.GetAsync();
             
             Assert.Equal(1,result.Count);
