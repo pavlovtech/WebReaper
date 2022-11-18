@@ -9,7 +9,7 @@ Please star this project if you find it useful!
 
 ## Overview
 
-Exoscan is a declarative high performance web scraper, crawler and parser in C#. Designed as simple, declarative and scalable web scraping solution. Easily crawl any web site and parse the data, save structed result to a file, DB, or pretty much to anywhere you want.
+Exoscan is a declarative high performance web scraper, crawler and parser in C#. Designed as simple, extensible and scalable web scraping solution. Easily crawl any web site and parse the data, save structed result to a file, DB, or pretty much to anywhere you want.
 
 It provides a simple yet extensible API to make web scraping a breeze.
 
