@@ -22,6 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\WebReaper\WebReaper.csproj" />
+    <ProjectReference Include="..\..\Exoscan\Exoscan.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="logs" />
   </ItemGroup>
 </Project>

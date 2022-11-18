@@ -1,7 +1,7 @@
 using System.Net;
-using WebReaper.Core;
-using WebReaper.Core.Builders;
-using WebReaper.Domain.Selectors;
+using Exoscan.Core;
+using Exoscan.Core.Builders;
+using Exoscan.Domain.Selectors;
 
 namespace BrownsfashionScraper
 {
