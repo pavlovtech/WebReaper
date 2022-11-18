@@ -1,4 +1,4 @@
-# ![image](https://user-images.githubusercontent.com/6662454/167391357-edb02ce2-a63c-439b-be9b-69b4b4796b1c.png) WebReaper
+# Exoscan
 
 [![NuGet](https://img.shields.io/nuget/v/WebReaper)](https://www.nuget.org/packages/WebReaper)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fpavlovtech%2FWebReaper.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fpavlovtech%2FWebReaper?ref=badge_shield)
@@ -15,7 +15,7 @@ It provides a simple yet extensible API to make web scraping a breeze.
 ## Install
 
 ```
-dotnet add package WebReaper
+dotnet add package Exoscan
 ```
 
 ## Requirements
@@ -25,7 +25,7 @@ dotnet add package WebReaper
 ## 📋 Example:
 
 ```C#
-using WebReaper.Core.Builders;
+using Exoscan.Core.Builders;
 
 _ = new ScraperEngineBuilder()
     .Get("https://www.reddit.com/r/dotnet/")
@@ -90,7 +90,7 @@ _ = new ScraperEngineBuilder()
 Additionaly, you can run any JavaScript on dynamic pages as they are loaded with headless browser. In order to do that you need to add some page actions:
 
 ```C#
-using WebReaper.Core.Builders;
+using Exoscan.Core.Builders;
 
 _ = new ScraperEngineBuilder()
     .GetWithBrowser("https://www.reddit.com/r/dotnet/", actions => actions
@@ -153,7 +153,7 @@ _ = new ScraperEngineBuilder()
 
 ### Distributed web scraping with Serverless approach
 
-In the Examples folder you can find the project called WebReaper.AzureFuncs. It demonstrates the use of WebReaper with Azure Functions. It consists of two serverless functions:
+In the Examples folder you can find the project called Exoscan.AzureFuncs. It demonstrates the use of Exoscan with Azure Functions. It consists of two serverless functions:
 
 #### StartScrapting
 First of all, this function uses ScraperConfigBuilder to build the scraper configuration e. g.:
@@ -161,7 +161,7 @@ First of all, this function uses ScraperConfigBuilder to build the scraper confi
 Secondly, this function writes the first web scraping job with startUrl to the Azure Service Bus queue:
 
 
-#### WebReaperSpider
+#### ExoscanSpider
 
 This Azure function is triggered by messages sent to the Azure Service Bus queue. Messages represent web scraping job. 
 
@@ -235,11 +235,11 @@ For other ways to extend your functionality see the next section.
 
 | Project                                   | Description                                                                       |
 |-------------------------------------------|-----------------------------------------------------------------------------------|
-| WebReaper                                 | Library for web scraping                                                          |
-| WebReaper.ScraperWorkerService            | Example of using WebReaper library in a Worker Service .NET project.              |
-| WebReaper.DistributedScraperWorkerService | Example of using WebReaper library in a distributed way wih Azure Service Bus     |
-| WebReaper.AzureFuncs                      | Example of using WebReaper library with serverless approach using Azure Functions |
-| WebReaper.ConsoleApplication              | Example of using WebReaper library with in a console application                  |
+| Exoscan                                 | Library for web scraping                                                          |
+| Exoscan.ScraperWorkerService            | Example of using Exoscan library in a Worker Service .NET project.              |
+| Exoscan.DistributedScraperWorkerService | Example of using Exoscan library in a distributed way wih Azure Service Bus     |
+| Exoscan.AzureFuncs                      | Example of using Exoscan library with serverless approach using Azure Functions |
+| Exoscan.ConsoleApplication              | Example of using Exoscan library with in a console application                  |
 
 
 ## Coming soon:
@@ -259,11 +259,7 @@ For other ways to extend your functionality see the next section.
 ## Features under consideration
 - [ ] Request auto throttling
 - [ ] Add bloom filter for revisiting same urls
-- [ ] Simplify WebReaperSpider class
+- [ ] Simplify ExoscanSpider class
 - [ ] Subscribe to logs with lambda expression
 
 See the [LICENSE](LICENSE.txt) file for license rights and limitations (GNU GPLv3).
-
-
-## License
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fpavlovtech%2FWebReaper.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fpavlovtech%2FWebReaper?ref=badge_large)
