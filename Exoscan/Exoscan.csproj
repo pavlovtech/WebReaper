@@ -11,12 +11,12 @@
     <Description>Declarative high performance web scraper in C#. Easily crawl any web site and parse the data, save structed result to a file, DB, etc.</Description>
     <Copyright>GPL-3.0 license</Copyright>
     <PackageProjectUrl>https://github.com/pavlovtech/Exoscan</PackageProjectUrl>
-    <PackageIcon>167391357-edb02ce2-a63c-439b-be9b-69b4b4796b1c.png</PackageIcon>
+    <PackageIcon>logo.png</PackageIcon>
     <RepositoryUrl>https://github.com/pavlovtech/Exoscan</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>scraper, crawler, parser</PackageTags>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
-    <Version>3.0.8</Version>
+    <Version>4.0.1</Version>
     <RootNamespace>Exoscan</RootNamespace>
   </PropertyGroup>
 
@@ -48,6 +48,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="logo.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
