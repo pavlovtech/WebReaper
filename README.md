@@ -1,14 +1,15 @@
-# Exoscan
+![logo2](https://user-images.githubusercontent.com/6662454/202812194-f1189d24-5b9f-465d-9a7e-32ebfa537e21.png)
 
-[![NuGet](https://img.shields.io/nuget/v/WebReaper)](https://www.nuget.org/packages/WebReaper)
+
+[![NuGet](https://img.shields.io/nuget/v/Exoscan)](https://www.nuget.org/packages/Exoscan)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fpavlovtech%2FWebReaper.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fpavlovtech%2FWebReaper?ref=badge_shield)
-[![build status](https://github.com/pavlovtech/WebReaper/actions/workflows/CI.yml/badge.svg)](https://github.com/pavlovtech/WebReaper/actions/workflows/CI.yml)
+[![build status](https://github.com/pavlovtech/WebReaper/actions/workflows/CI.yml/badge.svg)](https://github.com/pavlovtech/Exoscan/actions/workflows/CI.yml)
 
 Please star this project if you find it useful!
 
 ## Overview
 
-Declarative high performance web scraper, crawler and parser in C#. Designed as simple, declarative and scalable web scraping solution. Easily crawl any web site and parse the data, save structed result to a file, DB, or pretty much to anywhere you want.
+Exoscan is a declarative high performance web scraper, crawler and parser in C#. Designed as simple, declarative and scalable web scraping solution. Easily crawl any web site and parse the data, save structed result to a file, DB, or pretty much to anywhere you want.
 
 It provides a simple yet extensible API to make web scraping a breeze.
 
