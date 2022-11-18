@@ -4,6 +4,6 @@ namespace WebReaper.CookieStorage.Abstract;
 
 public interface ICookiesStorage
 {
-    Task AddAsync(CookieContainer cookieCollection, TimeSpan timeToLive);
+    Task AddAsync(CookieContainer cookieCollection);
     Task<CookieContainer> GetAsync();
 }

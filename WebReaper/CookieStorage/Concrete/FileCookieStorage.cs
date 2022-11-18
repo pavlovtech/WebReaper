@@ -16,7 +16,7 @@ public class FileCookieStorage: ICookiesStorage
         _logger = logger;
     }
     
-    public async Task AddAsync(CookieContainer cookieContainer, TimeSpan timeToLive)
+    public async Task AddAsync(CookieContainer cookieContainer)
     {
         await File.WriteAllTextAsync(_fileName, JsonConvert.SerializeObject(cookieContainer.GetAllCookies()));
     }
