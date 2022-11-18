@@ -1,8 +1,9 @@
-![logo](https://user-images.githubusercontent.com/6662454/202811732-a867bdc0-9252-4804-8f37-406fa0835b1b.png)
+![logo2](https://user-images.githubusercontent.com/6662454/202812194-f1189d24-5b9f-465d-9a7e-32ebfa537e21.png)
 
-[![NuGet](https://img.shields.io/nuget/v/WebReaper)](https://www.nuget.org/packages/WebReaper)
+
+[![NuGet](https://img.shields.io/nuget/v/Exoscan)](https://www.nuget.org/packages/Exoscan)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fpavlovtech%2FWebReaper.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fpavlovtech%2FWebReaper?ref=badge_shield)
-[![build status](https://github.com/pavlovtech/WebReaper/actions/workflows/CI.yml/badge.svg)](https://github.com/pavlovtech/WebReaper/actions/workflows/CI.yml)
+[![build status](https://github.com/pavlovtech/WebReaper/actions/workflows/CI.yml/badge.svg)](https://github.com/pavlovtech/Exoscan/actions/workflows/CI.yml)
 
 Please star this project if you find it useful!
 
