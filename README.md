@@ -104,7 +104,7 @@ _ = new ScraperEngineBuilder()
     .WriteToJsonFile("output.json")
     .LogToConsole()
     .Build()
-    .Run(1);
+    .Run();
 
 Console.ReadLine();
 ```
@@ -232,9 +232,9 @@ For other ways to extend your functionality see the next section.
 
 ## Repository structure
 
-| Project                                   | Description                                                                       |
-|-------------------------------------------|-----------------------------------------------------------------------------------|
-| Exoscan                                 | Library for web scraping                                                          |
+| Project                                 | Description                                                                     |
+|-----------------------------------------|---------------------------------------------------------------------------------|
+| Exoscan                                 | Library for web scraping                                                        |
 | Exoscan.ScraperWorkerService            | Example of using Exoscan library in a Worker Service .NET project.              |
 | Exoscan.DistributedScraperWorkerService | Example of using Exoscan library in a distributed way wih Azure Service Bus     |
 | Exoscan.AzureFuncs                      | Example of using Exoscan library with serverless approach using Azure Functions |
@@ -251,7 +251,7 @@ For other ways to extend your functionality see the next section.
 - [ ] Add flexible conditions for ignoring or allowing certain pages
 - [ ] Breadth first traversal with priority channels
 - [ ] Save auth cookies to redis, mongo, etc.
-- [ ] Separate nuget packages for MaongoDb, Cosmos Db, Redis, etc.
+- [ ] Separate nuget packages for MongoDb, Cosmos Db, Redis, etc.
 - [ ] Sitemap crawling support
 - [ ] Add LogTo method with Console and File support
 
