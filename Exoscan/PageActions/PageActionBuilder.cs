@@ -81,8 +81,5 @@ public class PageActionBuilder
         return this;
     }
 
-    public ImmutableQueue<PageAction> Build()
-    {
-        return ImmutableQueue.Create(_pageActions.ToArray());
-    }
+    public List<PageAction> Build() => _pageActions;
 }

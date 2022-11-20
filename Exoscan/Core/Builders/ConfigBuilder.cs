@@ -17,7 +17,7 @@ public class ConfigBuilder
     
     private PageType _startPageType;
 
-    private ImmutableQueue<PageAction>? _pageActions = null;
+    private List<PageAction>? _pageActions = null;
 
     public ConfigBuilder Get(string startUrl)
     {
@@ -29,7 +29,7 @@ public class ConfigBuilder
 
     public ConfigBuilder GetWithBrowser(
         string startUrl,
-        ImmutableQueue<PageAction>? pageActions = null)
+        List<PageAction>? pageActions = null)
     {
         _startUrl = startUrl;
 
@@ -47,7 +47,7 @@ public class ConfigBuilder
 
     public ConfigBuilder FollowWithBrowser(
         string linkSelector,
-        ImmutableQueue<PageAction>? pageActions = null)
+        List<PageAction>? pageActions = null)
     {
         _linkPathSelectors.Add(new LinkPathSelector(linkSelector, null, PageType.Dynamic, pageActions));
         return this;
@@ -64,7 +64,7 @@ public class ConfigBuilder
     public ConfigBuilder PaginateWithBrowser(
         string linkSelector,
         string paginationSelector,
-        ImmutableQueue<PageAction>? pageActions = null)
+        List<PageAction>? pageActions = null)
     {
         _linkPathSelectors.Add(new LinkPathSelector(linkSelector, paginationSelector, PageType.Dynamic, pageActions));
         return this;

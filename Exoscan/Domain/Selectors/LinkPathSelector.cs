@@ -7,7 +7,7 @@ public record LinkPathSelector(
     string Selector,
     string? PaginationSelector = null,
     PageType PageType = PageType.Static,
-    ImmutableQueue<PageAction>? PageActions = null)
+    List<PageAction>? PageActions = null)
 {
     public bool HasPagination => PaginationSelector != null;
 };

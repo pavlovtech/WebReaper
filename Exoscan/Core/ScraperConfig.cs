@@ -10,5 +10,5 @@ public record ScraperConfig(
     ImmutableQueue<LinkPathSelector> LinkPathSelectors,
     string StartUrl,
     PageType StartPageType = PageType.Static,
-    ImmutableQueue<PageAction>? PageActions = null
+    List<PageAction>? PageActions = null
 );
