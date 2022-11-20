@@ -155,7 +155,7 @@ public class ScraperEngineBuilder
 
     public ScraperEngineBuilder GetWithBrowser(
         string url,
-        Func<PageActionBuilder, ImmutableQueue<PageAction>>? actionBuilder = null)
+        Func<PageActionBuilder, List<PageAction>>? actionBuilder = null)
     {
         ConfigBuilder.GetWithBrowser(url, actionBuilder?.Invoke(new()));
         return this;
@@ -169,7 +169,7 @@ public class ScraperEngineBuilder
 
     public ScraperEngineBuilder FollowWithBrowser(
         string linkSelector,
-        Func<PageActionBuilder, ImmutableQueue<PageAction>>? actionBuilder = null)
+        Func<PageActionBuilder, List<PageAction>>? actionBuilder = null)
     {
         ConfigBuilder.FollowWithBrowser(linkSelector, actionBuilder?.Invoke(new()));
         return this;
@@ -186,7 +186,7 @@ public class ScraperEngineBuilder
     public ScraperEngineBuilder PaginateWithBrowser(
         string linkSelector,
         string paginationSelector,
-        Func<PageActionBuilder, ImmutableQueue<PageAction>>? actionBuilder = null)
+        Func<PageActionBuilder, List<PageAction>>? actionBuilder = null)
     {
         ConfigBuilder.PaginateWithBrowser(linkSelector, paginationSelector, actionBuilder?.Invoke(new()));
         return this;

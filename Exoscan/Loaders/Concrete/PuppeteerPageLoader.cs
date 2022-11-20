@@ -20,7 +20,7 @@ public class PuppeteerPageLoader : BrowserPageLoader, IBrowserPageLoader
         _cookiesStorage = cookiesStorage;
     }
 
-    public async Task<string> Load(string url, ImmutableQueue<PageAction>? pageActions = null)
+    public async Task<string> Load(string url, List<PageAction>? pageActions = null)
     {
         using var _ = Logger.LogMethodDuration();
 

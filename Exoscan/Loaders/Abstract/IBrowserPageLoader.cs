@@ -5,5 +5,5 @@ namespace Exoscan.Loaders.Abstract;
 
 public interface IBrowserPageLoader
 {
-    Task<string> Load(string url, ImmutableQueue<PageAction>? pageActions = null);
+    Task<string> Load(string url, List<PageAction>? pageActions = null);
 }

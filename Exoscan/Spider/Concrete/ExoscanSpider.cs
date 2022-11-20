@@ -9,7 +9,6 @@ using Exoscan.Sinks.Abstract;
 using Exoscan.Sinks.Models;
 using Exoscan.Spider.Abstract;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
 using Exoscan.Extensions;
 
 namespace Exoscan.Spider.Concrete;

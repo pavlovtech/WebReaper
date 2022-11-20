@@ -240,25 +240,4 @@ For other ways to extend your functionality see the next section.
 | Exoscan.AzureFuncs                      | Example of using Exoscan library with serverless approach using Azure Functions |
 | Exoscan.ConsoleApplication              | Example of using Exoscan library with in a console application                  |
 
-
-## Coming soon:
-
-- [X] Nuget package
-- [X] Azure functions for the distributed crawling
-- [X] Loading pages with headless browser and flexible SPA page manipulations (clicks, scrolls, etc)
-- [X] Proxy support
-- [ ] Add caching of html pages
-- [ ] Add flexible conditions for ignoring or allowing certain pages
-- [ ] Breadth first traversal with priority channels
-- [ ] Save auth cookies to redis, mongo, etc.
-- [ ] Separate nuget packages for MongoDb, Cosmos Db, Redis, etc.
-- [ ] Sitemap crawling support
-- [ ] Add LogTo method with Console and File support
-
-## Features under consideration
-- [ ] Request auto throttling
-- [ ] Add bloom filter for revisiting same urls
-- [ ] Simplify ExoscanSpider class
-- [ ] Subscribe to logs with lambda expression
-
 See the [LICENSE](LICENSE.txt) file for license rights and limitations (GNU GPLv3).
