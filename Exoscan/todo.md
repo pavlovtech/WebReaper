@@ -2,6 +2,7 @@
 - [ ] Separate the config from the job
 - [ ] Move url black list to the config
 - [ ] Create a way to grap info from prev pages
+- [ ] Add support for xpath and regex
 - [ ] Add caching of html pages
 - [ ] Add flexible conditions for ignoring or allowing certain pages
 - [ ] Breadth first traversal with priority channels
