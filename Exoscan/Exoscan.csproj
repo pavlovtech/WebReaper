@@ -19,6 +19,7 @@
     <Version>4.0.1</Version>
     <RootNamespace>Exoscan</RootNamespace>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DocumentationFile>$(MSBuildProjectDirectory)\API.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -46,6 +47,10 @@
      <PackageReference Include="Fizzler.Systems.HtmlAgilityPack" Version="1.2.1" />
      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.2" />
      <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.11.0" />
+     <PackageReference Include="Vsxmd" Version="1.4.5">
+       <PrivateAssets>all</PrivateAssets>
+       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+     </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">
