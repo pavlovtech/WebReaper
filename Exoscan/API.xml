@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Exoscan</name>
+    </assembly>
+    <members>
+        <member name="T:Exoscan.Core.Builders.ScraperEngineBuilder">
+            <summary>
+            Builds a web scraper engine responsible for creating and reciving crawling jobs and running a spider on them
+            </summary>
+        </member>
+    </members>
+</doc>

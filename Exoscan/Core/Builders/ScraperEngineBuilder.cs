@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using System.Collections.Immutable;
 using Exoscan.CookieStorage.Abstract;
 using Exoscan.CookieStorage.Concrete;
 using Exoscan.Domain.Parsing;
@@ -18,6 +17,9 @@ using Exoscan.Sinks.Models;
 
 namespace Exoscan.Core.Builders;
 
+/// <summary>
+/// Builds a web scraper engine responsible for creating and reciving crawling jobs and running a spider on them
+/// </summary>
 public class ScraperEngineBuilder
 {
     private ConfigBuilder ConfigBuilder { get; } = new();
