@@ -100,7 +100,7 @@ public class ExoscanSpider : ISpider
         return newJobs;
     }
 
-    private async Task ProcessTargetPage(Job job, string doc, CancellationToken cancellationToken)
+    private async Task ProcessTargetPage(Job job, string doc, CancellationToken cancellationToken = default)
     {
         Logger.LogInvocationCount();
         var rowResult = ContentParser.Parse(doc, job.Schema);
@@ -134,7 +134,10 @@ public class ExoscanSpider : ISpider
         return doc;
     }
 
-    private async Task<List<Job>> CreateJobsForPagesWithPagination(Job job, LinkPathSelector currentSelector, Uri baseUrl, string doc,
+    private async Task<List<Job>> CreateJobsForPagesWithPagination(
+        Job job,
+        LinkPathSelector currentSelector,
+        Uri baseUrl, string doc,
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(currentSelector.PaginationSelector);
