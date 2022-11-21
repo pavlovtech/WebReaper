@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Exoscan.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Exoscan.CookieStorage.Abstract;
@@ -14,11 +15,12 @@ using Exoscan.Scheduler.Concrete;
 using Exoscan.Sinks.Abstract;
 using Exoscan.Sinks.Concrete;
 using Exoscan.Sinks.Models;
+using Exoscan.Configuration.Concrete;
 
 namespace Exoscan.Core.Builders;
 
 /// <summary>
-/// Builds a web scraper engine responsible for creating and reciving crawling jobs and running a spider on them
+/// Builds a web scraper engine responsible for creating and receiving crawling jobs and running a spider on them
 /// </summary>
 public class ScraperEngineBuilder
 {
@@ -32,7 +34,9 @@ public class ScraperEngineBuilder
     protected IProxyProvider? ProxyProvider { get; set; }
 
     private ICookiesStorage CookieStorage { get; set; } = new InMemoryCookieStorage();
-    
+
+    private IScraperConfigStorage ConfigStorage { get; set; }
+
     public ScraperEngineBuilder AddSink(IScraperSink sink)
     {
         SpiderBuilder.AddSink(sink);
@@ -218,17 +222,43 @@ public class ScraperEngineBuilder
         return this;
     }
     
+    public ScraperEngineBuilder WithCookieStorage(ICookiesStorage cookiesStorage)
+    {
+        SpiderBuilder.WithCookieStorage(cookiesStorage);
+        return this;
+    }
+    
     public ScraperEngineBuilder WithRedisCookieStorage(string connectionString, string redisKey)
     {
         SpiderBuilder.WithRedisCookieStorage(connectionString, redisKey);
         return this;
     }
 
+    public ScraperEngineBuilder WithConfigStorage(IScraperConfigStorage configStorage)
+    {
+        ConfigStorage = configStorage;
+        return this;
+    }
+
+    public ScraperEngineBuilder WithFileConfigStorage(string fileName)
+    {
+        ConfigStorage = new FileScraperConfigStorage(fileName);
+        SpiderBuilder.WithFileConfigStorage(fileName);
+
+        return this;
+    }
+
     public ScraperEngine Build()
     {
+        if (ConfigStorage is null)
+        {
+            ConfigStorage = new InMemoryScraperConfigStorage();
+            SpiderBuilder.WithConfigStorage(ConfigStorage);
+        }
+
         var config = ConfigBuilder.Build();
         var spider = SpiderBuilder.Build();
 
-        return new ScraperEngine(config, Scheduler, spider, Logger);
+        return new ScraperEngine(config, ConfigStorage, Scheduler, spider, Logger);
     }
 }

@@ -1,4 +1,7 @@
 ﻿# TODO
+- [ ] Web hook sink
+- [ ] Clean up on start
+- [ ] Add the ability to start with a list of predefined urls
 - [ ] Separate the config from the job
 - [ ] Move url black list to the config
 - [ ] Create a way to grap info from prev pages

@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System.Collections.Immutable;
+using Exoscan.Configuration;
 using Exoscan.Domain.Parsing;
 using Exoscan.Domain.Selectors;
 using Exoscan.PageActions;

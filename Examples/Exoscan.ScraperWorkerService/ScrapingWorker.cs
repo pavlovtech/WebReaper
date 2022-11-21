@@ -36,6 +36,7 @@ public class ScrapingWorker : BackgroundService
             .WithRedisScheduler("localhost:6379", "jobs")
             .TrackVisitedLinksInRedis("localhost:6379", "rutracker-visited-links")
             .WriteToRedis("localhost:6379", "rutracker-audiobooks")
+            
             .Build();
     }
 
