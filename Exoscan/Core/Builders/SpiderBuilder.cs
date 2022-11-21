@@ -1,4 +1,6 @@
 ﻿using System.Net;
+using Exoscan.Configuration;
+using Exoscan.Configuration.Concrete;
 using Exoscan.CookieStorage.Abstract;
 using Exoscan.CookieStorage.Concrete;
 using Exoscan.HttpRequests.Concrete;
@@ -29,6 +31,8 @@ public class SpiderBuilder
 
     private ILinkParser LinkParser { get; set; } = new LinkParserByCssSelector();
 
+    private IScraperConfigStorage ScraperConfigStorage { get; set; } = new InMemoryScraperConfigStorage();
+
     private IVisitedLinkTracker SiteLinkTracker { get; set; } = new InMemoryVisitedLinkTracker();
 
     private IContentParser? ContentParser { get; set; }
@@ -56,6 +60,18 @@ public class SpiderBuilder
     public SpiderBuilder WithLinkTracker(IVisitedLinkTracker linkTracker)
     {
         SiteLinkTracker = linkTracker;
+        return this;
+    }
+    
+    public SpiderBuilder WithConfigStorage(IScraperConfigStorage scraperConfigStorage)
+    {
+        ScraperConfigStorage = scraperConfigStorage;
+        return this;
+    }
+    
+    public SpiderBuilder WithFileConfigStorage(string fileName)
+    {
+        ScraperConfigStorage = new FileScraperConfigStorage(fileName);
         return this;
     }
 
@@ -132,6 +148,12 @@ public class SpiderBuilder
         CookieStorage = new RedisCookieStorage(connectionString, redisKey, Logger);
         return this;
     }
+    
+    public SpiderBuilder WithCookieStorage(ICookiesStorage cookiesStorage)
+    {
+        CookieStorage = cookiesStorage;
+        return this;
+    }
 
     public ISpider Build()
     {
@@ -156,13 +178,14 @@ public class SpiderBuilder
 
         CookieStorage.AddAsync(Cookies);
 
-        var spider = new ExoscanSpider(
+        var spider = new Spider.Concrete.Spider(
             Sinks,
             LinkParser,
             ContentParser,
             SiteLinkTracker,
             StaticPageLoader,
             BrowserPageLoader,
+            ScraperConfigStorage,
             Logger)
         {
             UrlBlackList = _urlBlackList.ToList(),

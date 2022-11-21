@@ -1,4 +1,5 @@
 ﻿using System.Collections.Immutable;
+using Exoscan.Configuration;
 using Exoscan.Domain;
 using Exoscan.Domain.Selectors;
 using Exoscan.Exceptions;
@@ -13,31 +14,35 @@ using Exoscan.Extensions;
 
 namespace Exoscan.Spider.Concrete;
 
-public class ExoscanSpider : ISpider
+public class Spider : ISpider
 {
-    public IStaticPageLoader StaticStaticPageLoader { get; init; }
-    public IBrowserPageLoader BrowserPageLoader { get; init; }
-    public ILinkParser LinkParser { get; init; }
-    public IContentParser ContentParser { get; init; }
-    public IVisitedLinkTracker LinkTracker { get; init; }
+    private IStaticPageLoader StaticStaticPageLoader { get; init; }
+    private IBrowserPageLoader BrowserPageLoader { get; init; }
+    private ILinkParser LinkParser { get; init; }
+    private IContentParser ContentParser { get; init; }
+    
+    private IVisitedLinkTracker LinkTracker { get; init; }
+    
+    private IScraperConfigStorage ScraperConfigStorage { get; init; }
 
-    public List<string> UrlBlackList { get; set; } = new();
+    public List<string> UrlBlackList { get; init; } = new();
 
-    public int PageCrawlLimit { get; set; } = int.MaxValue;
+    public int PageCrawlLimit { get; init; } = int.MaxValue;
 
-    public List<IScraperSink> Sinks { get; set; }
+    private List<IScraperSink> Sinks { get; set; }
 
     public event Action<ParsedData>? ScrapedData;
 
     private ILogger Logger { get; }
 
-    public ExoscanSpider(
+    public Spider(
         List<IScraperSink> sinks,
         ILinkParser linkParser,
         IContentParser contentParser,
         IVisitedLinkTracker linkTracker,
         IStaticPageLoader staticPageLoader,
         IBrowserPageLoader dynamicPageLoader,
+        IScraperConfigStorage configStorage,
         ILogger logger)
     {
         Sinks = sinks;
@@ -46,7 +51,7 @@ public class ExoscanSpider : ISpider
         LinkTracker = linkTracker;
         StaticStaticPageLoader = staticPageLoader;
         BrowserPageLoader = dynamicPageLoader;
-
+        ScraperConfigStorage = configStorage;
         Logger = logger;
     }
 
@@ -102,7 +107,10 @@ public class ExoscanSpider : ISpider
     private async Task ProcessTargetPage(Job job, string doc, CancellationToken cancellationToken = default)
     {
         Logger.LogInvocationCount();
-        var rowResult = ContentParser.Parse(doc, job.Schema);
+
+        var config = await ScraperConfigStorage.GetConfigAsync();
+        
+        var rowResult = ContentParser.Parse(doc, config.ParsingScheme);
 
         var result = new ParsedData(job.Url, rowResult);
 
