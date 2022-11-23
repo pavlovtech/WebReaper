@@ -1,4 +1,6 @@
 ﻿# TODO
+
+- [ ] Unify persistance configuration with single methods in ScraperEngineBuilder
 - [ ] Web hook sink
 - [ ] Clean up on start
 - [ ] Add the ability to start with a list of predefined urls
