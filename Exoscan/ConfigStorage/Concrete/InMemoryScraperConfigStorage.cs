@@ -1,4 +1,6 @@
-﻿namespace Exoscan.Configuration.Concrete;
+﻿using Exoscan.ConfigStorage.Abstract;
+
+namespace Exoscan.ConfigStorage.Concrete;
 
 public class InMemoryScraperConfigStorage: IScraperConfigStorage
 {

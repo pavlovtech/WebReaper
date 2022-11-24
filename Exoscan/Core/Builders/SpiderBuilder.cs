@@ -1,6 +1,6 @@
 ﻿using System.Net;
-using Exoscan.Configuration;
-using Exoscan.Configuration.Concrete;
+using Exoscan.ConfigStorage.Abstract;
+using Exoscan.ConfigStorage.Concrete;
 using Exoscan.CookieStorage.Abstract;
 using Exoscan.CookieStorage.Concrete;
 using Exoscan.HttpRequests.Concrete;

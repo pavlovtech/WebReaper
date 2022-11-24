@@ -1,4 +1,4 @@
-﻿namespace Exoscan.Configuration;
+﻿namespace Exoscan.ConfigStorage.Abstract;
 
 public interface IScraperConfigStorage
 {

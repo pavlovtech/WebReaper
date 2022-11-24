@@ -1,6 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using Exoscan.ConfigStorage.Abstract;
+using Newtonsoft.Json;
 
-namespace Exoscan.Configuration.Concrete;
+namespace Exoscan.ConfigStorage.Concrete;
 
 public class FileScraperConfigStorage: IScraperConfigStorage
 {

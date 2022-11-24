@@ -4,7 +4,7 @@ using Exoscan.Domain.Selectors;
 using Exoscan.PageActions;
 using Newtonsoft.Json;
 
-namespace Exoscan.Configuration;
+namespace Exoscan.ConfigStorage;
 
 public record ScraperConfig(
     Schema? ParsingScheme,
