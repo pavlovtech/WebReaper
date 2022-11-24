@@ -14,12 +14,24 @@ public class FileScraperConfigStorage: IScraperConfigStorage
     
     public async Task CreateConfigAsync(ScraperConfig config)
     {
-        await File.WriteAllTextAsync(_fileName, config.ToJson());
+        await File.WriteAllTextAsync(_fileName, SerializeToJson(config));
     }
 
     public async Task<ScraperConfig> GetConfigAsync()
     {
         var text = await File.ReadAllTextAsync(_fileName);
         return JsonConvert.DeserializeObject<ScraperConfig>(text);
+    }
+    
+    private string SerializeToJson(ScraperConfig config)
+    {
+        var json = JsonConvert.SerializeObject(config, Formatting.Indented, new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Auto,
+            NullValueHandling = NullValueHandling.Ignore,
+            TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple
+        });
+
+        return json;
     }
 }

@@ -1,6 +1,8 @@
 ﻿# TODO
 
-- [ ] Unify persistance configuration with single methods in ScraperEngineBuilder
+- [ ] Refactor DAL classes with a repository pattern or Unit of Work
+- [ ] Redo the async initialization with factory pattern (static ctr)
+- [ ] Unify persistence configuration with single methods in ScraperEngineBuilder
 - [ ] Web hook sink
 - [ ] Clean up on start
 - [ ] Add the ability to start with a list of predefined urls
