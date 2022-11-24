@@ -1,5 +1,5 @@
-﻿using Exoscan.Configuration;
-using Exoscan.Configuration.Concrete;
+﻿using Exoscan.ConfigStorage.Abstract;
+using Exoscan.ConfigStorage.Concrete;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

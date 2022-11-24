@@ -1,6 +1,7 @@
 using System.Net;
 using System.Threading.Tasks;
-using Exoscan.Configuration;
+using Exoscan.ConfigStorage;
+using Exoscan.ConfigStorage.Abstract;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;

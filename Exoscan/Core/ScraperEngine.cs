@@ -1,4 +1,5 @@
-using Exoscan.Configuration;
+using Exoscan.ConfigStorage;
+using Exoscan.ConfigStorage.Abstract;
 using Exoscan.Domain;
 using Exoscan.Exceptions;
 using Exoscan.Scheduler.Abstract;

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Immutable;
-using Exoscan.Configuration;
+using Exoscan.ConfigStorage.Abstract;
 using Exoscan.Domain;
 using Exoscan.Domain.Selectors;
 using Exoscan.Exceptions;

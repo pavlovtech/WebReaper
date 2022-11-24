@@ -1,5 +1,6 @@
 ﻿using System.Net;
-using Exoscan.Configuration;
+using Exoscan.ConfigStorage.Abstract;
+using Exoscan.ConfigStorage.Concrete;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Exoscan.CookieStorage.Abstract;
@@ -15,7 +16,6 @@ using Exoscan.Scheduler.Concrete;
 using Exoscan.Sinks.Abstract;
 using Exoscan.Sinks.Concrete;
 using Exoscan.Sinks.Models;
-using Exoscan.Configuration.Concrete;
 
 namespace Exoscan.Core.Builders;
 
