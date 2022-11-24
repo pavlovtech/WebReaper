@@ -247,14 +247,21 @@ public class ScraperEngineBuilder
 
         return this;
     }
+    
+    public ScraperEngineBuilder WithRedisConfigStorage(string connectionString, string key)
+    {
+        ConfigStorage = new RedisScraperConfigStorage(connectionString, key, this.Logger);
+        return this;
+    }
 
     public ScraperEngine Build()
     {
         if (ConfigStorage is null)
         {
             ConfigStorage = new InMemoryScraperConfigStorage();
-            SpiderBuilder.WithConfigStorage(ConfigStorage);
         }
+        
+        SpiderBuilder.WithConfigStorage(ConfigStorage);
 
         var config = ConfigBuilder.Build();
         var spider = SpiderBuilder.Build();

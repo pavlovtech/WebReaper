@@ -18,6 +18,7 @@ using Exoscan.Spider.Abstract;
 using Exoscan.Spider.Concrete;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
+using PuppeteerSharp.Input;
 
 namespace Exoscan.Core.Builders;
 
@@ -72,6 +73,12 @@ public class SpiderBuilder
     public SpiderBuilder WithFileConfigStorage(string fileName)
     {
         ScraperConfigStorage = new FileScraperConfigStorage(fileName);
+        return this;
+    }
+    
+    public SpiderBuilder WithRedisConfigStorage(string key, string connectionString)
+    {
+        ScraperConfigStorage = new RedisScraperConfigStorage(connectionString, key, this.Logger);
         return this;
     }
 

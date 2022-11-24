@@ -12,20 +12,4 @@ public record ScraperConfig(
     string StartUrl,
     PageType StartPageType = PageType.Static,
     List<PageAction>? PageActions = null
-)
-{
-    public string ToJson()
-    {
-        return SerializeToJson();
-    }
-    
-    private string SerializeToJson()
-    {
-        var json = JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Auto
-        });
-
-        return json;
-    }
-};
+);
