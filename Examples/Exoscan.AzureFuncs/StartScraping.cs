@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using System.Net;
 using System.Threading.Tasks;
 using Exoscan.ConfigStorage;
@@ -76,9 +77,9 @@ namespace Exoscan.AzureFuncs
 
         private async Task ScheduleFirstJobWithStartUrl(ScraperConfig config)
         {
-            await _scheduler.AddAsync(new Job(
-                config.StartUrl!,
-            config.LinkPathSelectors));
+            await _scheduler.AddAsync(
+                new Job(config.StartUrl!, config.LinkPathSelectors,
+                    ImmutableQueue.Create<string>()));
         }
     }
 }
