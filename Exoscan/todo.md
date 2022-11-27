@@ -1,8 +1,8 @@
 ﻿# TODO
 
-- [ ] Separate the config from the job
-- [ ] Create a way to grap info from prev pages
 - [ ] Move url black list to the config
+- [ ] Separate the config from the job
+- [ ] Create a way to grab info from prev pages
 - [ ] Separate nuget packages for MongoDb, Cosmos Db, Redis, etc.
 - [ ] Clean up on start
 - [ ] Add support for xpath and regex

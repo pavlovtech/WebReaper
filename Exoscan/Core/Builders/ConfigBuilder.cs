@@ -18,7 +18,10 @@ public class ConfigBuilder
     
     private PageType _startPageType;
 
+    private IEnumerable<string> _blockedUrls = Enumerable.Empty<string>();
+
     private List<PageAction>? _pageActions = null;
+    private int _pageCrawlLimit;
 
     public ConfigBuilder Get(string startUrl)
     {
@@ -53,6 +56,18 @@ public class ConfigBuilder
         _linkPathSelectors.Add(new LinkPathSelector(linkSelector, null, PageType.Dynamic, pageActions));
         return this;
     }
+    
+    public ConfigBuilder IgnoreUrls(IEnumerable<string> urls)
+    {
+        this._blockedUrls = urls;
+        return this;
+    }
+    
+    public ConfigBuilder WithPageCrawlLimit(int limit)
+    {
+        this._pageCrawlLimit = limit;
+        return this;
+    }
 
     public ConfigBuilder Paginate(
         string linkSelector,
@@ -79,9 +94,16 @@ public class ConfigBuilder
 
     public ScraperConfig Build()
     {
-        if (_startUrl is null) throw new InvalidOperationException($"StartUrl is missing. You must call the {nameof(Get)} or {nameof(GetWithBrowser)} method");
-        if (_schema is null) throw new InvalidOperationException($"You must call the {nameof(WithScheme)} method to set the parsing scheme.");
+        if (_startUrl is null) throw new InvalidOperationException($"Start Url is missing. You must call the {nameof(Get)} or {nameof(GetWithBrowser)} method");
+        if (_schema is null) throw new InvalidOperationException($"You must call the {nameof(WithScheme)} method to set the parsing scheme");
 
-        return new ScraperConfig(_schema, ImmutableQueue.Create(_linkPathSelectors.ToArray()), _startUrl, _startPageType, _pageActions);
+        return new ScraperConfig(
+            _schema,
+            ImmutableQueue.Create(_linkPathSelectors.ToArray()),
+            _startUrl,
+            _blockedUrls,
+            _pageCrawlLimit,
+            _startPageType,
+            _pageActions);
     }
 }

@@ -38,20 +38,11 @@ namespace Exoscan.AzureFuncs
             
             var job = JsonConvert.DeserializeObject<Job>(myQueueItem, new JsonSerializerSettings
             {
-                TypeNameHandling = TypeNameHandling.Auto
+                NullValueHandling = NullValueHandling.Ignore
             });
-
-            var blackList = new string[] {
-                "https://rutracker.org/forum/viewforum.php?f=396",
-                "https://rutracker.org/forum/viewforum.php?f=2322",
-                "https://rutracker.org/forum/viewforum.php?f=1993",
-                "https://rutracker.org/forum/viewforum.php?f=2167",
-                "https://rutracker.org/forum/viewforum.php?f=2321"
-            };
 
             var spider = new SpiderBuilder()
                 .WithLogger(log)
-                .IgnoreUrls(blackList)
                 .WithLinkTracker(LinkTracker)
                 .AddSink(CosmosSink)
                 .Build();
