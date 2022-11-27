@@ -1,0 +1,72 @@
+{
+  "ParsingScheme": [
+    {
+      "Field": "name",
+      "Selector": "#topic-title",
+      "Attr": null,
+      "Type": null,
+      "GetHtml": false
+    },
+    {
+      "Field": "category",
+      "Selector": "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)",
+      "Attr": null,
+      "Type": null,
+      "GetHtml": false
+    },
+    {
+      "Field": "subcategory",
+      "Selector": "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(5)",
+      "Attr": null,
+      "Type": null,
+      "GetHtml": false
+    },
+    {
+      "Field": "torrentSize",
+      "Selector": "div.attach_link.guest>ul>li:nth-child(2)",
+      "Attr": null,
+      "Type": null,
+      "GetHtml": false
+    },
+    {
+      "Field": "torrentLink",
+      "Selector": ".magnet-link",
+      "Attr": "href",
+      "Type": null,
+      "GetHtml": false
+    },
+    {
+      "Field": "coverImageUrl",
+      "Selector": ".postImg",
+      "Attr": "src",
+      "Type": null,
+      "GetHtml": false
+    }
+  ],
+  "LinkPathSelectors": [
+    {
+      "Selector": "#cf-33 .forumlink>a",
+      "PaginationSelector": null,
+      "PageType": 1,
+      "PageActions": null,
+      "HasPagination": false
+    },
+    {
+      "Selector": ".forumlink>a",
+      "PaginationSelector": null,
+      "PageType": 1,
+      "PageActions": null,
+      "HasPagination": false
+    },
+    {
+      "Selector": "a.torTopic",
+      "PaginationSelector": ".pg",
+      "PageType": 1,
+      "PageActions": null,
+      "HasPagination": true
+    }
+  ],
+  "StartUrl": "https://rutracker.org/forum/index.php?c=33",
+  "StartPageType": 1,
+  "PageActions": null
+}

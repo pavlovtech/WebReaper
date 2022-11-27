@@ -2,8 +2,9 @@ using System.Collections.Immutable;
 using Exoscan.Domain.Parsing;
 using Exoscan.Domain.Selectors;
 using Exoscan.PageActions;
+using Newtonsoft.Json;
 
-namespace Exoscan.Core;
+namespace Exoscan.ConfigStorage;
 
 public record ScraperConfig(
     Schema? ParsingScheme,

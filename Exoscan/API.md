@@ -14,4 +14,4 @@ Exoscan.Core.Builders
 
 ##### Summary
 
-Builds a web scraper engine responsible for creating and reciving crawling jobs and running a spider on them
+Builds a web scraper engine responsible for creating and receiving crawling jobs and running a spider on them
