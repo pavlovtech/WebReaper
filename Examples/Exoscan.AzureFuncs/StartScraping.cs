@@ -39,6 +39,14 @@ namespace Exoscan.AzureFuncs
         {
             _logger.LogInformation("C# HTTP trigger function processed a request.");
 
+            var blackList = new string[] {
+                "https://rutracker.org/forum/viewforum.php?f=396",
+                "https://rutracker.org/forum/viewforum.php?f=2322",
+                "https://rutracker.org/forum/viewforum.php?f=1993",
+                "https://rutracker.org/forum/viewforum.php?f=2167",
+                "https://rutracker.org/forum/viewforum.php?f=2321"
+            };
+            
             var config = new ConfigBuilder()
                 .Get("https://rutracker.org/forum/index.php?c=33")
                 .Follow("#cf-33 .forumlink>a")
@@ -53,6 +61,7 @@ namespace Exoscan.AzureFuncs
                         new("torrentLink", ".magnet-link", "href"),
                         new("coverImageUrl", ".postImg", "src")
                 })
+                .IgnoreUrls(blackList)
                 .Build();
 
             await _configStorage.CreateConfigAsync(config);
