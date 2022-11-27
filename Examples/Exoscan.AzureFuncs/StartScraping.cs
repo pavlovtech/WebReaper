@@ -1,5 +1,7 @@
 using System.Net;
 using System.Threading.Tasks;
+using Exoscan.ConfigStorage;
+using Exoscan.ConfigStorage.Abstract;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -17,11 +19,13 @@ namespace Exoscan.AzureFuncs
 {
     public class StartScraping
     {
+        private readonly IScraperConfigStorage _configStorage;
         private readonly ILogger<StartScraping> _logger;
         private readonly AzureServiceBusScheduler _scheduler;
 
-        public StartScraping(ILogger<StartScraping> log)
+        public StartScraping(IScraperConfigStorage configStorage, ILogger<StartScraping> log)
         {
+            _configStorage = configStorage;
             _logger = log;
             _scheduler = new AzureServiceBusScheduler("", "jobqueue"); //TODO: move to config
         }
@@ -51,6 +55,8 @@ namespace Exoscan.AzureFuncs
                 })
                 .Build();
 
+            await _configStorage.CreateConfigAsync(config);
+
             await ScheduleFirstJobWithStartUrl(config);
 
             return new OkObjectResult(new
@@ -62,8 +68,7 @@ namespace Exoscan.AzureFuncs
         private async Task ScheduleFirstJobWithStartUrl(ScraperConfig config)
         {
             await _scheduler.AddAsync(new Job(
-                config.ParsingScheme!,
-            config.StartUrl!,
+                config.StartUrl!,
             config.LinkPathSelectors));
         }
     }

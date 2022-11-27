@@ -1,4 +1,6 @@
 ﻿using System.Net;
+using Exoscan.ConfigStorage.Abstract;
+using Exoscan.ConfigStorage.Concrete;
 using Exoscan.CookieStorage.Abstract;
 using Exoscan.CookieStorage.Concrete;
 using Exoscan.HttpRequests.Concrete;
@@ -16,6 +18,7 @@ using Exoscan.Spider.Abstract;
 using Exoscan.Spider.Concrete;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
+using PuppeteerSharp.Input;
 
 namespace Exoscan.Core.Builders;
 
@@ -28,6 +31,8 @@ public class SpiderBuilder
     private ILogger Logger { get; set; } = NullLogger.Instance;
 
     private ILinkParser LinkParser { get; set; } = new LinkParserByCssSelector();
+
+    private IScraperConfigStorage ScraperConfigStorage { get; set; } = new InMemoryScraperConfigStorage();
 
     private IVisitedLinkTracker SiteLinkTracker { get; set; } = new InMemoryVisitedLinkTracker();
 
@@ -56,6 +61,35 @@ public class SpiderBuilder
     public SpiderBuilder WithLinkTracker(IVisitedLinkTracker linkTracker)
     {
         SiteLinkTracker = linkTracker;
+        return this;
+    }
+    
+    public SpiderBuilder WithConfigStorage(IScraperConfigStorage scraperConfigStorage)
+    {
+        ScraperConfigStorage = scraperConfigStorage;
+        return this;
+    }
+    
+    public SpiderBuilder WithFileConfigStorage(string fileName)
+    {
+        ScraperConfigStorage = new FileScraperConfigStorage(fileName);
+        return this;
+    }
+    
+    public SpiderBuilder WithMongoDbConfigStorage(
+        string connectionString,
+        string databaseName,
+        string collectionName,
+        string configId,
+        ILogger logger)
+    {
+        ScraperConfigStorage = new MongoDbScraperConfigStorage(connectionString, databaseName, collectionName, configId, logger);
+        return this;
+    }
+    
+    public SpiderBuilder WithRedisConfigStorage(string key, string connectionString)
+    {
+        ScraperConfigStorage = new RedisScraperConfigStorage(connectionString, key, this.Logger);
         return this;
     }
 
@@ -132,6 +166,23 @@ public class SpiderBuilder
         CookieStorage = new RedisCookieStorage(connectionString, redisKey, Logger);
         return this;
     }
+    
+    public SpiderBuilder WithMongoDbCookieStorage(
+        string connectionString,
+        string databaseName,
+        string collectionName,
+        string cookieCollectionId,
+        ILogger logger)
+    {
+        CookieStorage = new MongoDbCookieStorage(connectionString, databaseName, collectionName, cookieCollectionId, logger);
+        return this;
+    }
+    
+    public SpiderBuilder WithCookieStorage(ICookiesStorage cookiesStorage)
+    {
+        CookieStorage = cookiesStorage;
+        return this;
+    }
 
     public ISpider Build()
     {
@@ -156,13 +207,14 @@ public class SpiderBuilder
 
         CookieStorage.AddAsync(Cookies);
 
-        var spider = new ExoscanSpider(
+        var spider = new Spider.Concrete.Spider(
             Sinks,
             LinkParser,
             ContentParser,
             SiteLinkTracker,
             StaticPageLoader,
             BrowserPageLoader,
+            ScraperConfigStorage,
             Logger)
         {
             UrlBlackList = _urlBlackList.ToList(),

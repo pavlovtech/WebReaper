@@ -1,12 +1,10 @@
 using System.Collections.Immutable;
-using Exoscan.Domain.Parsing;
 using Exoscan.Domain.Selectors;
 using Exoscan.PageActions;
 
 namespace Exoscan.Domain;
 
 public record Job(
-    Schema? Schema,
     string Url,
     ImmutableQueue<LinkPathSelector> LinkPathSelectors,
     PageType PageType = PageType.Static,
