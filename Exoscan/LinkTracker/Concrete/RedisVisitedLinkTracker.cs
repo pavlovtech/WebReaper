@@ -1,36 +1,27 @@
-﻿using Exoscan.LinkTracker.Abstract;
+﻿using Exoscan.DataAccess;
+using Exoscan.LinkTracker.Abstract;
 using StackExchange.Redis;
 
 namespace Exoscan.LinkTracker.Concrete;
 
-public class RedisVisitedLinkTracker : IVisitedLinkTracker
+public class RedisVisitedLinkTracker : RedisBase, IVisitedLinkTracker
 {
     private readonly string _redisKey;
-    private static ConnectionMultiplexer? redis;
 
-    public RedisVisitedLinkTracker(string connectionString, string redisKey)
+    public RedisVisitedLinkTracker(string connectionString, string redisKey): base(connectionString)
     {
         _redisKey = redisKey;
-        redis = ConnectionMultiplexer.Connect(connectionString, config =>
-        {
-            config.AbortOnConnectFail = false;
-
-            config.AsyncTimeout = 180000;
-            config.SyncTimeout = 180000;
-
-            config.ReconnectRetryPolicy = new ExponentialRetry(10000);
-        });
     }
 
     public async Task AddVisitedLinkAsync(string visitedLink)
     {
-        IDatabase db = redis!.GetDatabase();
+        IDatabase db = Redis!.GetDatabase();
         await db.SetAddAsync(_redisKey, visitedLink);
     }
 
     public async Task<List<string>> GetVisitedLinksAsync()
     {
-        IDatabase db = redis!.GetDatabase();
+        IDatabase db = Redis!.GetDatabase();
         var result = await db.SetMembersAsync(_redisKey);
 
         return result.Select(x => x.ToString()).ToList();
@@ -38,7 +29,7 @@ public class RedisVisitedLinkTracker : IVisitedLinkTracker
 
     public Task<List<string>> GetNotVisitedLinks(IEnumerable<string> links)
     {
-        IDatabase db = redis!.GetDatabase();
+        IDatabase db = Redis!.GetDatabase();
         var result = links.Where(x => !db.SetContains(_redisKey, x));
 
         return Task.FromResult(result.ToList());
@@ -46,7 +37,7 @@ public class RedisVisitedLinkTracker : IVisitedLinkTracker
 
     public async Task<long> GetVisitedLinksCount()
     {
-        IDatabase db = redis!.GetDatabase();
+        IDatabase db = Redis!.GetDatabase();
         return await db.SetLengthAsync(_redisKey);
     }
 }

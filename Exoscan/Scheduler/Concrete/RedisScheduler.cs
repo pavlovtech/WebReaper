@@ -1,4 +1,5 @@
 using System.Threading.Channels;
+using Exoscan.DataAccess;
 using Exoscan.Domain;
 using Exoscan.Scheduler.Abstract;
 using Microsoft.Extensions.Logging;
@@ -7,32 +8,22 @@ using StackExchange.Redis;
 
 namespace Exoscan.Scheduler.Concrete;
 
-public class RedisScheduler : IScheduler
+public class RedisScheduler : RedisBase, IScheduler
 {
     private readonly string _queueName;
     private readonly ILogger _logger;
-    private static ConnectionMultiplexer redis;
-    
-    public RedisScheduler(string connectionString, string queueName, ILogger logger)
+
+    public RedisScheduler(string connectionString, string queueName, ILogger logger): base(connectionString)
     {
         _queueName = queueName;
         _logger = logger;
-        redis = ConnectionMultiplexer.Connect(connectionString, config =>
-        {
-            config.AbortOnConnectFail = false;
-
-            config.AsyncTimeout = 180000;
-            config.SyncTimeout = 180000;
-
-            config.ReconnectRetryPolicy = new ExponentialRetry(10000);
-        });
     }
 
     public async IAsyncEnumerable<Job> GetAllAsync(CancellationToken cancellationToken = default)
     {
         _logger.LogInformation($"Start {nameof(RedisScheduler)}.{nameof(GetAllAsync)}");
         
-        var db = redis.GetDatabase();
+        var db = Redis.GetDatabase();
 
         while (!cancellationToken.IsCancellationRequested)
         {
@@ -54,7 +45,7 @@ public class RedisScheduler : IScheduler
     {
         _logger.LogInformation($"Start {nameof(RedisScheduler)}.{nameof(AddAsync)}");
         
-        var db = redis.GetDatabase();
+        var db = Redis.GetDatabase();
         await db.ListRightPushAsync(_queueName, SerializeToJson(job));
     }
 
@@ -62,7 +53,7 @@ public class RedisScheduler : IScheduler
     {
         _logger.LogInformation($"Start {nameof(RedisScheduler)}.{nameof(AddAsync)} with multiple jobs");
         
-        IDatabase db = redis!.GetDatabase();
+        IDatabase db = Redis!.GetDatabase();
         
         foreach (var job in jobs)
         {

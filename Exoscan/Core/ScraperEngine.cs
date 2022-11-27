@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using Exoscan.ConfigStorage;
 using Exoscan.ConfigStorage.Abstract;
 using Exoscan.Domain;
@@ -36,18 +37,22 @@ public class ScraperEngine
 
     public async Task Run(int parallelismDegree = 8, CancellationToken cancellationToken = default)
     {
-        Logger.LogInformation($"Start {nameof(ScraperEngine)}.{nameof(Run)}");
+        Logger.LogInformation("Start {class}.{method}", nameof(ScraperEngine), nameof(Run));
 
         var config = await ConfigStorage.GetConfigAsync();
 
         if (config == null)
         {
             await ConfigStorage.CreateConfigAsync(Config);
+            config = await ConfigStorage.GetConfigAsync();
         }
+        
+        Logger.LogInformation("Scheduling the initial scraping job with start url {startUrl}", config.StartUrl);
         
         await Scheduler.AddAsync(new Job(
             Config.StartUrl!,
             Config.LinkPathSelectors,
+            ImmutableQueue.Create<string>(),
             Config.StartPageType,
             Config.PageActions), cancellationToken);
 
@@ -55,6 +60,8 @@ public class ScraperEngine
 
         try
         {
+            Logger.LogInformation("Start consuming the scraping jobs", config.StartUrl);
+            
             await Parallel.ForEachAsync(Scheduler.GetAllAsync(cancellationToken), options, async (job, token) =>
             {
                 Logger.LogInformation("Start crawling url {Url}", job.Url);
