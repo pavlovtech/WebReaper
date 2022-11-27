@@ -79,8 +79,8 @@ public class ConfigBuilder
 
     public ScraperConfig Build()
     {
-        ArgumentNullException.ThrowIfNull(_startUrl);
-        ArgumentNullException.ThrowIfNull(_schema);
+        if (_startUrl is null) throw new InvalidOperationException($"StartUrl is missing. You must call the {nameof(Get)} or {nameof(GetWithBrowser)} method");
+        if (_schema is null) throw new InvalidOperationException($"You must call the {nameof(WithScheme)} method to set the parsing scheme.");
 
         return new ScraperConfig(_schema, ImmutableQueue.Create(_linkPathSelectors.ToArray()), _startUrl, _startPageType, _pageActions);
     }
