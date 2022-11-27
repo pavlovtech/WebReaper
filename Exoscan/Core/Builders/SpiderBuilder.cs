@@ -76,6 +76,17 @@ public class SpiderBuilder
         return this;
     }
     
+    public SpiderBuilder WithMongoDbConfigStorage(
+        string connectionString,
+        string databaseName,
+        string collectionName,
+        string configId,
+        ILogger logger)
+    {
+        ScraperConfigStorage = new MongoDbScraperConfigStorage(connectionString, databaseName, collectionName, configId, logger);
+        return this;
+    }
+    
     public SpiderBuilder WithRedisConfigStorage(string key, string connectionString)
     {
         ScraperConfigStorage = new RedisScraperConfigStorage(connectionString, key, this.Logger);
@@ -153,6 +164,17 @@ public class SpiderBuilder
     public SpiderBuilder WithRedisCookieStorage(string connectionString, string redisKey)
     {
         CookieStorage = new RedisCookieStorage(connectionString, redisKey, Logger);
+        return this;
+    }
+    
+    public SpiderBuilder WithMongoDbCookieStorage(
+        string connectionString,
+        string databaseName,
+        string collectionName,
+        string cookieCollectionId,
+        ILogger logger)
+    {
+        CookieStorage = new MongoDbCookieStorage(connectionString, databaseName, collectionName, cookieCollectionId, logger);
         return this;
     }
     

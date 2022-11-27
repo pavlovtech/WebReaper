@@ -38,7 +38,12 @@ public class ScraperEngine
     {
         Logger.LogInformation($"Start {nameof(ScraperEngine)}.{nameof(Run)}");
 
-        await ConfigStorage.CreateConfigAsync(Config);
+        var config = await ConfigStorage.GetConfigAsync();
+
+        if (config == null)
+        {
+            await ConfigStorage.CreateConfigAsync(Config);
+        }
         
         await Scheduler.AddAsync(new Job(
             Config.StartUrl!,
