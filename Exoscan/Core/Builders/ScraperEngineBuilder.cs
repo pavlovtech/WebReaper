@@ -233,6 +233,12 @@ public class ScraperEngineBuilder
         SpiderBuilder.WithRedisCookieStorage(connectionString, redisKey);
         return this;
     }
+    
+    public ScraperEngineBuilder WithMongoDbCookieStorage(string connectionString, string databaseName, string collectionName, string cookieCollectionId, ILogger logger)
+    {
+        SpiderBuilder.WithMongoDbCookieStorage(connectionString, databaseName, collectionName, cookieCollectionId, logger);
+        return this;
+    }
 
     public ScraperEngineBuilder WithConfigStorage(IScraperConfigStorage configStorage)
     {
@@ -250,7 +256,21 @@ public class ScraperEngineBuilder
     
     public ScraperEngineBuilder WithRedisConfigStorage(string connectionString, string key)
     {
-        ConfigStorage = new RedisScraperConfigStorage(connectionString, key, this.Logger);
+        ConfigStorage = new RedisScraperConfigStorage(connectionString, key, Logger);
+        SpiderBuilder.WithRedisConfigStorage(connectionString, key);
+        
+        return this;
+    }
+    
+    public ScraperEngineBuilder WithMongoDbConfigStorage(
+        string connectionString,
+        string databaseName,
+        string collectionName,
+        string configId)
+    {
+        ConfigStorage = new MongoDbScraperConfigStorage(connectionString, databaseName, collectionName, configId, Logger);
+        SpiderBuilder.WithMongoDbConfigStorage(connectionString, databaseName, collectionName, configId, Logger);
+        
         return this;
     }
 
