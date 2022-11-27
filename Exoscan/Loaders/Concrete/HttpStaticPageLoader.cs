@@ -36,18 +36,16 @@ public class HttpStaticPageLoader : IStaticPageLoader
         
         var response = await PageRequester.GetAsync(url);
 
-        if (response.IsSuccessStatusCode)
+        if (!response.IsSuccessStatusCode)
         {
             return await response.Content.ReadAsStringAsync();
         }
-        else
-        {
-            _logger.LogError("Failed to load page {url}. Error code: {statusCode}", url, response.StatusCode);
+       
+        _logger.LogError("Failed to load page {url}. Error code: {statusCode}", url, response.StatusCode);
 
-            throw new InvalidOperationException($"Failed to load page {url}. Error code: {response.StatusCode}")
-            {
-                Data = { ["url"] = url, ["statusCode"] = response.StatusCode }
-            };
-        }
+        throw new InvalidOperationException($"Failed to load page {url}. Error code: {response.StatusCode}")
+        {
+            Data = { ["url"] = url, ["statusCode"] = response.StatusCode }
+        };
     }
 }
