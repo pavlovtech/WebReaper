@@ -21,7 +21,7 @@ public class ConfigBuilder
     private IEnumerable<string> _blockedUrls = Enumerable.Empty<string>();
 
     private List<PageAction>? _pageActions = null;
-    private int _pageCrawlLimit;
+    private int _pageCrawlLimit = Int32.MaxValue;
 
     public ConfigBuilder Get(string startUrl)
     {

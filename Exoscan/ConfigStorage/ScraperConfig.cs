@@ -11,7 +11,7 @@ public record ScraperConfig(
     ImmutableQueue<LinkPathSelector> LinkPathSelectors,
     string StartUrl,
     IEnumerable<string> UrlBlackList,
-    int PageCrawlLimit = 0,
+    int PageCrawlLimit = int.MaxValue,
     PageType StartPageType = PageType.Static,
     List<PageAction>? PageActions = null
 );
