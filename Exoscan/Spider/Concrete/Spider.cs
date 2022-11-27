@@ -173,7 +173,14 @@ public class Spider : ISpider
     {
         return links
             .TakeWhile(_ => !cancellationToken.IsCancellationRequested)
-            .Select(link => job with { Url = link, LinkPathSelectors = selectors, PageType = currentSelector.PageType, PageActions = currentSelector.PageActions })
+            .Select(link => job with
+            {
+                Url = link,
+                LinkPathSelectors = selectors,
+                parentBackLinks = job.parentBackLinks.Enqueue(job.Url),
+                PageType = currentSelector.PageType,
+                PageActions = currentSelector.PageActions
+            })
             .ToList();
     }
 }

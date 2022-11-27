@@ -85,9 +85,9 @@ public class SpiderBuilder
         return this;
     }
     
-    public SpiderBuilder WithRedisConfigStorage(string key, string connectionString)
+    public SpiderBuilder WithRedisConfigStorage(string connectionString, string key)
     {
-        ScraperConfigStorage = new RedisScraperConfigStorage(connectionString, key, this.Logger);
+        ScraperConfigStorage = new RedisScraperConfigStorage(connectionString, key, Logger);
         return this;
     }
 

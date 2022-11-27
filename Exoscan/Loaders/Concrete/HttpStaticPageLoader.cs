@@ -36,7 +36,7 @@ public class HttpStaticPageLoader : IStaticPageLoader
         
         var response = await PageRequester.GetAsync(url);
 
-        if (!response.IsSuccessStatusCode)
+        if (response.IsSuccessStatusCode)
         {
             return await response.Content.ReadAsStringAsync();
         }
