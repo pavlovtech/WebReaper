@@ -26,8 +26,6 @@ public class SpiderBuilder
 {
     private List<IScraperSink> Sinks { get; } = new();
 
-    private int limit = int.MaxValue;
-
     private ILogger Logger { get; set; } = NullLogger.Instance;
 
     private ILinkParser LinkParser { get; set; } = new LinkParserByCssSelector();
@@ -104,19 +102,7 @@ public class SpiderBuilder
         Sinks.Add(sink);
         return this;
     }
-
-    public SpiderBuilder IgnoreUrls(params string[] urls)
-    {
-        _urlBlackList.AddRange(urls);
-        return this;
-    }
-
-    public SpiderBuilder Limit(int limit)
-    {
-        this.limit = limit;
-        return this;
-    }
-
+    
     public SpiderBuilder WriteToConsole() => AddSink(new ConsoleSink());
 
     public SpiderBuilder AddSubscription(Action<ParsedData> eventHandler)
@@ -215,11 +201,7 @@ public class SpiderBuilder
             StaticPageLoader,
             BrowserPageLoader,
             ScraperConfigStorage,
-            Logger)
-        {
-            UrlBlackList = _urlBlackList.ToList(),
-            PageCrawlLimit = limit
-        };
+            Logger);
 
         spider.ScrapedData += ScrapedData;
 

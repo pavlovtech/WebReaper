@@ -51,13 +51,13 @@ public class ScraperEngineBuilder
 
     public ScraperEngineBuilder IgnoreUrls(params string[] urls)
     {
-        SpiderBuilder.IgnoreUrls(urls);
+        ConfigBuilder.IgnoreUrls(urls);
         return this;
     }
 
     public ScraperEngineBuilder Limit(int limit)
     {
-        SpiderBuilder.Limit(limit);
+        ConfigBuilder.WithPageCrawlLimit(limit);
         return this;
     }
 

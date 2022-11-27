@@ -25,10 +25,6 @@ public class Spider : ISpider
     
     private IScraperConfigStorage ScraperConfigStorage { get; init; }
 
-    public List<string> UrlBlackList { get; init; } = new();
-
-    public int PageCrawlLimit { get; init; } = int.MaxValue;
-
     private List<IScraperSink> Sinks { get; set; }
 
     public event Action<ParsedData>? ScrapedData;
@@ -57,15 +53,17 @@ public class Spider : ISpider
 
     public async Task<List<Job>> CrawlAsync(Job job, CancellationToken cancellationToken = default)
     {
-        if (UrlBlackList.Contains(job.Url)) return Enumerable.Empty<Job>().ToList();
+        var config = await ScraperConfigStorage.GetConfigAsync();
+        
+        if (config.UrlBlackList.Contains(job.Url)) return Enumerable.Empty<Job>().ToList();
 
-        if (await LinkTracker.GetVisitedLinksCount() >= PageCrawlLimit)
+        if (await LinkTracker.GetVisitedLinksCount() >= config.PageCrawlLimit)
         {
             Logger.LogInformation("Page crawl limit has been reached");
 
             throw new PageCrawlLimitException("Page crawl limit has been reached.") 
             {
-                PageCrawlLimit = this.PageCrawlLimit
+                PageCrawlLimit = config.PageCrawlLimit
             };
         }
 

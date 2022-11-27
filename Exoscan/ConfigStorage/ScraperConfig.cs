@@ -10,6 +10,8 @@ public record ScraperConfig(
     Schema? ParsingScheme,
     ImmutableQueue<LinkPathSelector> LinkPathSelectors,
     string StartUrl,
+    IEnumerable<string> UrlBlackList,
+    int PageCrawlLimit = 0,
     PageType StartPageType = PageType.Static,
     List<PageAction>? PageActions = null
 );
