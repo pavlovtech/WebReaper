@@ -7,7 +7,7 @@ namespace Exoscan.Domain;
 public record Job(
     string Url,
     ImmutableQueue<LinkPathSelector> LinkPathSelectors,
-    ImmutableQueue<string> parentBackLinks,
+    ImmutableQueue<string> ParentBacklinks,
     PageType PageType = PageType.Static,
     List<PageAction>? PageActions = null)
 {

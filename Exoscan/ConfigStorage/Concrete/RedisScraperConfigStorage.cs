@@ -50,7 +50,7 @@ public class RedisScraperConfigStorage: RedisBase, IScraperConfigStorage
     {
         var json = JsonConvert.SerializeObject(config, Formatting.Indented, new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.Auto,
+            TypeNameHandling = TypeNameHandling.None,
             NullValueHandling = NullValueHandling.Ignore,
             TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple
         });
