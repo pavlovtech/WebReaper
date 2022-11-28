@@ -8,10 +8,16 @@ public class RedisBase
     
     private static readonly object _syncRoot = new();
 
+    private static bool isInitialized = false;
+
     protected RedisBase(string connectionString)
     {
-        lock (_syncRoot)
+        if (isInitialized) return;
+
+            lock (_syncRoot)
         {
+            if (isInitialized) return;
+            
             Redis = ConnectionMultiplexer.Connect(connectionString, config =>
             {
                 config.AbortOnConnectFail = false;
@@ -21,6 +27,8 @@ public class RedisBase
 
                 config.ReconnectRetryPolicy = new ExponentialRetry(10000);
             });
+
+            isInitialized = true;
         }
     }
 }

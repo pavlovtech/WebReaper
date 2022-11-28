@@ -1,5 +1,9 @@
-﻿namespace Exoscan.PageActions;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
+namespace Exoscan.PageActions;
+
+[JsonConverter(typeof(StringEnumConverter))]
 public enum PageActionType
 {
     Click,

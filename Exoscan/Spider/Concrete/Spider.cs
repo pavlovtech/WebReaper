@@ -177,7 +177,7 @@ public class Spider : ISpider
             {
                 Url = link,
                 LinkPathSelectors = selectors,
-                parentBackLinks = job.parentBackLinks.Enqueue(job.Url),
+                ParentBacklinks = job.ParentBacklinks.Enqueue(job.Url),
                 PageType = currentSelector.PageType,
                 PageActions = currentSelector.PageActions
             })

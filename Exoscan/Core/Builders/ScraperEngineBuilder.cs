@@ -254,10 +254,10 @@ public class ScraperEngineBuilder
         return this;
     }
     
-    public ScraperEngineBuilder WithRedisConfigStorage(string connectionString, string key)
+    public ScraperEngineBuilder WithRedisConfigStorage(string connectionString, string redisKey)
     {
-        ConfigStorage = new RedisScraperConfigStorage(connectionString, key, Logger);
-        SpiderBuilder.WithRedisConfigStorage(connectionString, key);
+        ConfigStorage = new RedisScraperConfigStorage(connectionString, redisKey, Logger);
+        SpiderBuilder.WithRedisConfigStorage(connectionString, redisKey);
         
         return this;
     }
