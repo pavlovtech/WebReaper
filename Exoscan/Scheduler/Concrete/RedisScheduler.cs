@@ -60,6 +60,4 @@ public class RedisScheduler : RedisBase, IScheduler
             await db.ListRightPushAsync(_queueName, SerializeToJson(job));
         }
     }
-    
-    private static string SerializeToJson(Job job) => JsonConvert.SerializeObject(job, Formatting.None);
 }

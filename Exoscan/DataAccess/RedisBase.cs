@@ -1,4 +1,6 @@
-﻿using StackExchange.Redis;
+﻿using Exoscan.ConfigStorage;
+using Newtonsoft.Json;
+using StackExchange.Redis;
 
 namespace Exoscan.DataAccess;
 
@@ -30,5 +32,17 @@ public class RedisBase
 
             isInitialized = true;
         }
+    }
+    
+    protected static string SerializeToJson(object config)
+    {
+        var json = JsonConvert.SerializeObject(config, Formatting.Indented, new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.None,
+            NullValueHandling = NullValueHandling.Ignore,
+            TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple
+        });
+
+        return json;
     }
 }
