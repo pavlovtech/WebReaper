@@ -45,16 +45,4 @@ public class RedisScraperConfigStorage: RedisBase, IScraperConfigStorage
         return result;
 
     }
-    
-    private string SerializeToJson(ScraperConfig config)
-    {
-        var json = JsonConvert.SerializeObject(config, Formatting.Indented, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.None,
-            NullValueHandling = NullValueHandling.Ignore,
-            TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple
-        });
-
-        return json;
-    }
 }

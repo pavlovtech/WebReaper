@@ -22,7 +22,7 @@ public class RedisCookieStorage: RedisBase, ICookiesStorage
     {
         IDatabase db = Redis!.GetDatabase();
 
-        await db.StringSetAsync(_redisKey, JsonConvert.SerializeObject(cookieContainer));
+        await db.StringSetAsync(_redisKey, SerializeToJson(cookieContainer));
     }
 
     public async Task<CookieContainer> GetAsync()
