@@ -16,7 +16,7 @@ public class RedisBase
     {
         if (isInitialized) return;
 
-            lock (_syncRoot)
+        lock (_syncRoot)
         {
             if (isInitialized) return;
             
