@@ -5,6 +5,8 @@
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fpavlovtech%2FWebReaper.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fpavlovtech%2FWebReaper?ref=badge_shield)
 [![build status](https://github.com/pavlovtech/WebReaper/actions/workflows/CI.yml/badge.svg)](https://github.com/pavlovtech/Exoscan/actions/workflows/CI.yml)
 
+Please star this project if you find it useful!
+
 ## Overview
 
 Exoscan is a declarative high performance web scraper, crawler and parser in C#. Designed as simple, extensible and scalable web scraping solution. Easily crawl any web site and parse the data, save structed result to a file, DB, or pretty much to anywhere you want.
