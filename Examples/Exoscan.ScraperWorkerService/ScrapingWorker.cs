@@ -1,5 +1,7 @@
 ﻿using Exoscan.Core;
 using Exoscan.Core.Builders;
+using Exoscan.Domain;
+using Newtonsoft.Json.Linq;
 
 namespace Exoscan.ScraperWorkerService;
 
@@ -33,7 +35,10 @@ public class ScrapingWorker : BackgroundService
                 new("coverImageUrl", ".postImg", "src")
             })
             .IgnoreUrls(blackList)
-            //.PostProcess(() => )
+            .PostProcess((Metadata meta, JObject result) =>
+            {
+                return;
+            })
             .WithRedisScheduler("localhost:6379", "jobs")
             .TrackVisitedLinksInRedis("localhost:6379", "rutracker-visited-links")
             .WriteToRedis("localhost:6379", "rutracker-audiobooks")

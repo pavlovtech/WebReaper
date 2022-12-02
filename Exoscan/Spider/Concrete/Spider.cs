@@ -11,6 +11,7 @@ using Exoscan.Sinks.Models;
 using Exoscan.Spider.Abstract;
 using Microsoft.Extensions.Logging;
 using Exoscan.Extensions;
+using Newtonsoft.Json.Linq;
 
 namespace Exoscan.Spider.Concrete;
 
@@ -28,6 +29,8 @@ public class Spider : ISpider
     private List<IScraperSink> Sinks { get; set; }
 
     public event Action<ParsedData>? ScrapedData;
+
+    public event Action<Metadata, JObject>? PostProcessor;
 
     private ILogger Logger { get; }
 
@@ -111,7 +114,8 @@ public class Spider : ISpider
         var rowResult = ContentParser.Parse(doc, config.ParsingScheme);
 
         var result = new ParsedData(job.Url, rowResult);
-
+        
+        PostProcessor?.Invoke(new Metadata(job.ParentBacklinks.ToList(), job.Url, doc), result.Data);
         ScrapedData?.Invoke(result);
 
         Logger.LogInformation("Sending scraped data to sinks...");
