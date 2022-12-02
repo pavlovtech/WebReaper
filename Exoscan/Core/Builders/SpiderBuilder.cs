@@ -3,6 +3,7 @@ using Exoscan.ConfigStorage.Abstract;
 using Exoscan.ConfigStorage.Concrete;
 using Exoscan.CookieStorage.Abstract;
 using Exoscan.CookieStorage.Concrete;
+using Exoscan.Domain;
 using Exoscan.HttpRequests.Concrete;
 using Exoscan.LinkTracker.Abstract;
 using Exoscan.LinkTracker.Concrete;
@@ -18,12 +19,15 @@ using Exoscan.Spider.Abstract;
 using Exoscan.Spider.Concrete;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
+using Newtonsoft.Json.Linq;
 using PuppeteerSharp.Input;
 
 namespace Exoscan.Core.Builders;
 
 public class SpiderBuilder
 {
+    private Action<Metadata,JObject> PostProcessor { get; set; }
+    
     private List<IScraperSink> Sinks { get; } = new();
 
     private ILogger Logger { get; set; } = NullLogger.Instance;
@@ -169,6 +173,11 @@ public class SpiderBuilder
         CookieStorage = cookiesStorage;
         return this;
     }
+    
+    public void PostProcess(Action<Metadata, JObject> action)
+    {
+        this.PostProcessor = action;
+    }
 
     public ISpider Build()
     {
@@ -204,6 +213,7 @@ public class SpiderBuilder
             Logger);
 
         spider.ScrapedData += ScrapedData;
+        spider.PostProcessor += PostProcessor;
 
         return spider;
     }

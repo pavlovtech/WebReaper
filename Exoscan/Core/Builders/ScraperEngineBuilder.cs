@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Exoscan.CookieStorage.Abstract;
 using Exoscan.CookieStorage.Concrete;
+using Exoscan.Domain;
 using Exoscan.Domain.Parsing;
 using Exoscan.LinkTracker.Abstract;
 using Exoscan.LinkTracker.Concrete;
@@ -16,6 +17,7 @@ using Exoscan.Scheduler.Concrete;
 using Exoscan.Sinks.Abstract;
 using Exoscan.Sinks.Concrete;
 using Exoscan.Sinks.Models;
+using Newtonsoft.Json.Linq;
 
 namespace Exoscan.Core.Builders;
 
@@ -271,6 +273,12 @@ public class ScraperEngineBuilder
         ConfigStorage = new MongoDbScraperConfigStorage(connectionString, databaseName, collectionName, configId, Logger);
         SpiderBuilder.WithMongoDbConfigStorage(connectionString, databaseName, collectionName, configId, Logger);
         
+        return this;
+    }
+    
+    public ScraperEngineBuilder PostProcess(Action<Metadata, JObject> action)
+    {
+        SpiderBuilder.PostProcess(action);
         return this;
     }
 
