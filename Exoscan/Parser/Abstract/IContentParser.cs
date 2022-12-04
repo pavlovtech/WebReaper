@@ -5,5 +5,5 @@ namespace Exoscan.Parser.Abstract;
 
 public interface IContentParser
 {
-    JObject Parse(string html, Schema? schema);
+    Task<JObject> ParseAsync(string html, Schema? schema);
 }
