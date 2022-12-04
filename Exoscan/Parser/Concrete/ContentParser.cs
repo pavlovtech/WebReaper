@@ -1,6 +1,7 @@
+using AngleSharp;
+using AngleSharp.Dom;
 using Exoscan.Domain.Parsing;
 using Exoscan.Parser.Abstract;
-using HtmlAgilityPack;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 
@@ -12,19 +13,23 @@ public class ContentParser : IContentParser
 
     public ContentParser(ILogger logger) => Logger = logger;
 
-    public JObject Parse(string html, Schema schema)
+    public async Task<JObject> ParseAsync(string html, Schema schema) // TODO: consider passing url or headers... or http response
     {
         ArgumentNullException.ThrowIfNull(schema);
+        
+        var config = Configuration.Default.WithDefaultLoader();
 
-        var doc = new HtmlDocument();
-        doc.LoadHtml(html);
+        var context = BrowsingContext.New(config);
+        
+        // TODO temp fix
+        using var doc = await context.OpenAsync(resp => resp.Header("Content-Type", "text/html; charset=utf-8").Content(html));
 
         return GetJson(doc, schema);
     }
 
-    private JObject GetJson(HtmlDocument doc, Schema schema)
+    private JObject GetJson(IDocument doc, Schema schema)
     {
-        JObject output = new JObject();
+        var output = new JObject();
 
         foreach (var item in schema.Children)
         {
@@ -34,7 +39,7 @@ public class ContentParser : IContentParser
         return output;
     }
 
-    private void FillOutput(JObject result, HtmlDocument doc, SchemaElement item)
+    private void FillOutput(JObject result, IDocument doc, SchemaElement item)
     {
         if(item.Field is null)
         {
