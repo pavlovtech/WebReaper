@@ -3,12 +3,13 @@
 - [X] Move url black list to the config
 - [X] Separate the config from the job
 - [X] Create a way to grab info from prev pages
-- [ ] Remove tight coupling with HtmlAgilityPack
+- [X] Remove tight coupling with HtmlAgilityPack
+- [X] Save auth cookies to redis, mongo, etc.
+- [ ] Add flag for headless/not headless chrome
 - [ ] Separate nuget packages for MongoDb, Cosmos Db, Redis, etc.
 - [ ] Clean up on start
 - [ ] Add support for xpath and regex
 - [ ] Add caching of html pages
-- [ ] Save auth cookies to redis, mongo, etc.
 - [ ] Breadth first traversal with priority channels
 - [ ] Add the ability to start with a list of predefined urls
 - [ ] Refactor DAL classes with a repository pattern or Unit of Work or Facade
