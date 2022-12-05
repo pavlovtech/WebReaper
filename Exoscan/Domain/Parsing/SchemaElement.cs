@@ -18,36 +18,4 @@ public record SchemaElement()
     public SchemaElement(string field, string selector, string attr) : this(field, selector) => Attr = attr;
 
     public SchemaElement(string field, string selector, bool getHtml) : this(field, selector) => GetHtml = getHtml;
-
-    public virtual string GetData(IDocument  doc)
-    {
-        var node = doc.QuerySelector(Selector);
-
-        if (node is null)
-        {
-            throw new InvalidOperationException($"Cannot find element by selector {Selector}.");
-        }
-
-        string? content = null;
-
-        if (Attr is not null)
-        {
-            if (Attr == "src")
-            {
-                Attr = "title";
-            }
-            
-            content = node?.GetAttribute(Attr);
-        }
-        else if (GetHtml == false)
-        {
-            content = node?.Text();
-        }
-        else
-        {
-            content = node?.InnerHtml;
-        }
-
-        return content;
-    }
 }
