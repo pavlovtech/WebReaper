@@ -26,7 +26,7 @@ namespace Exoscan.Core.Builders;
 
 public class SpiderBuilder
 {
-    private Action<Metadata,JObject> PostProcessor { get; set; }
+    private Func<Metadata,JObject,Task> PostProcessor { get; set; }
     
     private List<IScraperSink> Sinks { get; } = new();
 
@@ -174,9 +174,9 @@ public class SpiderBuilder
         return this;
     }
     
-    public void PostProcess(Action<Metadata, JObject> action)
+    public void PostProcess(Func<Metadata, JObject, Task> callback)
     {
-        this.PostProcessor = action;
+        this.PostProcessor = callback;
     }
 
     public ISpider Build()

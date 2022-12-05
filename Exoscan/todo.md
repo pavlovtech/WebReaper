@@ -2,7 +2,7 @@
 
 - [X] Move url black list to the config
 - [X] Separate the config from the job
-- [ ] Create a way to grab info from prev pages
+- [X] Create a way to grab info from prev pages
 - [ ] Remove tight coupling with HtmlAgilityPack
 - [ ] Separate nuget packages for MongoDb, Cosmos Db, Redis, etc.
 - [ ] Clean up on start

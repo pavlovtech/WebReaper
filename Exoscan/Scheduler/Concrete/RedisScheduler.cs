@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Threading.Channels;
 using Exoscan.DataAccess;
 using Exoscan.Domain;
@@ -19,7 +20,7 @@ public class RedisScheduler : RedisBase, IScheduler
         _logger = logger;
     }
 
-    public async IAsyncEnumerable<Job> GetAllAsync(CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<Job> GetAllAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         _logger.LogInformation($"Start {nameof(RedisScheduler)}.{nameof(GetAllAsync)}");
         

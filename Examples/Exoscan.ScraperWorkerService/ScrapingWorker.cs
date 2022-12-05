@@ -1,4 +1,5 @@
-﻿using Exoscan.Core;
+﻿using AngleSharp;
+using Exoscan.Core;
 using Exoscan.Core.Builders;
 using Exoscan.Domain;
 using Newtonsoft.Json.Linq;
@@ -35,10 +36,7 @@ public class ScrapingWorker : BackgroundService
                 new("coverImageUrl", ".postImg", "src")
             })
             .IgnoreUrls(blackList)
-            .PostProcess((Metadata meta, JObject result) =>
-            {
-                return;
-            })
+            .PostProcess(async (meta, result) => await ParseTorrentStats(meta, result) )
             .WithRedisScheduler("localhost:6379", "jobs")
             .TrackVisitedLinksInRedis("localhost:6379", "rutracker-visited-links")
             .WriteToRedis("localhost:6379", "rutracker-audiobooks")
@@ -46,9 +44,35 @@ public class ScrapingWorker : BackgroundService
             .Build();
     }
 
+    private static async Task ParseTorrentStats(Metadata meta, JObject result)
+    {
+        var config = Configuration.Default.WithDefaultLoader();
+        var context = BrowsingContext.New(config);
+
+        var document = await context.OpenAsync(meta.BackLinks.Last());
+
+        var torrentRow = document
+            .QuerySelectorAll("tr.hl-tr")
+            .FirstOrDefault(e => e.QuerySelector($".torTopic>a[href*='{new Uri(meta.Url).Query}']") != null);
+
+        bool seedsParsed = int.TryParse(torrentRow?.QuerySelector(".seedmed")?.TextContent, out var seeds);
+        bool leechesParsed = int.TryParse(torrentRow?.QuerySelector(".leechmed")?.TextContent, out var leeches);
+        bool replaysCountParsed =
+            int.TryParse(torrentRow?.QuerySelector("span[title='Ответов']")?.TextContent, out var replaysCount);
+        bool downloadsCountParsed =
+            int.TryParse(
+                torrentRow?.QuerySelector("td.vf-col-replies")?.QuerySelector("p:nth-child(2)")?.TextContent
+                    .Replace(",", ""), out int downloadsCount);
+
+        result["seeds"] = seedsParsed ? seeds : null;
+        result["leeches"] = leechesParsed ? leeches : null;
+        result["downloads"] = downloadsCountParsed ? downloadsCount : null;
+        result["replays"] = replaysCountParsed ? replaysCount : null;
+    }
+
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        await engine.Run(10, stoppingToken);
+        await engine.Run(20, stoppingToken);
     }
 }
 

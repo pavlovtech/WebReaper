@@ -37,7 +37,7 @@ public class ScraperEngineBuilder
 
     private ICookiesStorage CookieStorage { get; set; } = new InMemoryCookieStorage();
 
-    private IScraperConfigStorage ConfigStorage { get; set; }
+    private IScraperConfigStorage? ConfigStorage { get; set; }
 
     public ScraperEngineBuilder AddSink(IScraperSink sink)
     {
@@ -276,7 +276,7 @@ public class ScraperEngineBuilder
         return this;
     }
     
-    public ScraperEngineBuilder PostProcess(Action<Metadata, JObject> action)
+    public ScraperEngineBuilder PostProcess(Func<Metadata, JObject, Task> action)
     {
         SpiderBuilder.PostProcess(action);
         return this;
@@ -284,10 +284,7 @@ public class ScraperEngineBuilder
 
     public ScraperEngine Build()
     {
-        if (ConfigStorage is null)
-        {
-            ConfigStorage = new InMemoryScraperConfigStorage();
-        }
+        ConfigStorage ??= new InMemoryScraperConfigStorage();
         
         SpiderBuilder.WithConfigStorage(ConfigStorage);
 

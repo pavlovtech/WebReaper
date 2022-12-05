@@ -15,11 +15,11 @@ namespace Exoscan.UnitTests
         }
 
         [Fact]
-        public void ParserSimpleTest()
+        public async Task ParserSimpleTest()
         {
             var parser = new ContentParser(logger);
-            var page = File.ReadAllText("TestData/TestPage.html", Encoding.GetEncoding("windows-1251"));
-            var result = parser.Parse(page, new()
+            var page = await File.ReadAllTextAsync("TestData/TestPage.html", Encoding.GetEncoding("windows-1251"));
+            var result = await parser.ParseAsync(page, new()
             {
                 new("name", "#topic-title"),
                 new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
@@ -38,11 +38,11 @@ namespace Exoscan.UnitTests
         }
 
         [Fact]
-        public void ParserSimpleHtmlParsingTest()
+        public async Task ParserSimpleHtmlParsingTest()
         {
             var parser = new ContentParser(logger);
-            var page = File.ReadAllText("TestData/TestPage.html", Encoding.GetEncoding("windows-1251"));
-            var result = parser.Parse(page, new()
+            var page = await File.ReadAllTextAsync("TestData/TestPage.html", Encoding.GetEncoding("windows-1251"));
+            var result = await parser.ParseAsync(page, new()
             {
                 new("link", ".attach_link.guest", true)
             });

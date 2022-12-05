@@ -28,7 +28,7 @@ public class RedisCookieStorage: RedisBase, ICookiesStorage
     public async Task<CookieContainer> GetAsync()
     {
         IDatabase db = Redis!.GetDatabase();
-        var json = db.StringGetAsync(_redisKey);
+        var json = await db.StringGetAsync(_redisKey);
 
         var result = JsonConvert.DeserializeObject<CookieContainer>(json.ToString());
         return result;

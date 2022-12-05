@@ -30,7 +30,7 @@ public class Spider : ISpider
 
     public event Action<ParsedData>? ScrapedData;
 
-    public event Action<Metadata, JObject>? PostProcessor;
+    public event Func<Metadata, JObject, Task>? PostProcessor;
 
     private ILogger Logger { get; }
 
@@ -87,7 +87,7 @@ public class Spider : ISpider
 
         Logger.LogDebug("Base url: {BaseUrl}", baseUrl);
 
-        var rawLinks = LinkParser.GetLinks(baseUrl, doc, currentSelector.Selector);
+        var rawLinks = await LinkParser.GetLinksAsync(baseUrl, doc, currentSelector.Selector);
 
         var links = rawLinks
             .Except(await LinkTracker.GetVisitedLinksAsync());
@@ -111,11 +111,15 @@ public class Spider : ISpider
 
         var config = await ScraperConfigStorage.GetConfigAsync();
         
-        var rowResult = ContentParser.Parse(doc, config.ParsingScheme);
+        var rowResult = await ContentParser.ParseAsync(doc, config.ParsingScheme);
 
         var result = new ParsedData(job.Url, rowResult);
+
+        if (PostProcessor is not null)
+        {
+            await PostProcessor.Invoke(new Metadata(job.ParentBacklinks.ToList(), job.Url, doc), result.Data);
+        }
         
-        PostProcessor?.Invoke(new Metadata(job.ParentBacklinks.ToList(), job.Url, doc), result.Data);
         ScrapedData?.Invoke(result);
 
         Logger.LogInformation("Sending scraped data to sinks...");
@@ -151,7 +155,7 @@ public class Spider : ISpider
     {
         ArgumentNullException.ThrowIfNull(currentSelector.PaginationSelector);
 
-        var rawPaginatedLinks = LinkParser.GetLinks(baseUrl, doc, currentSelector.PaginationSelector);
+        var rawPaginatedLinks = await LinkParser.GetLinksAsync(baseUrl, doc, currentSelector.PaginationSelector);
 
         Logger.LogInformation("Found {Pages} with pagination", rawPaginatedLinks.Count);
 
