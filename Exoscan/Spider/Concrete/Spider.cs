@@ -30,7 +30,7 @@ public class Spider : ISpider
 
     public event Action<ParsedData>? ScrapedData;
 
-    public event Action<Metadata, JObject>? PostProcessor;
+    public event Func<Metadata, JObject, Task>? PostProcessor;
 
     private ILogger Logger { get; }
 
@@ -114,8 +114,12 @@ public class Spider : ISpider
         var rowResult = await ContentParser.ParseAsync(doc, config.ParsingScheme);
 
         var result = new ParsedData(job.Url, rowResult);
+
+        if (PostProcessor is not null)
+        {
+            await PostProcessor.Invoke(new Metadata(job.ParentBacklinks.ToList(), job.Url, doc), result.Data);
+        }
         
-        PostProcessor?.Invoke(new Metadata(job.ParentBacklinks.ToList(), job.Url, doc), result.Data);
         ScrapedData?.Invoke(result);
 
         Logger.LogInformation("Sending scraped data to sinks...");

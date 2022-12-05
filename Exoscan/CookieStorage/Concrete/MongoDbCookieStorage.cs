@@ -39,7 +39,7 @@ public class MongoDbCookieStorage: ICookiesStorage
     {
         var database = Client.GetDatabase(DatabaseName);
         var collection = database.GetCollection<BsonDocument>(CollectionName);
-        var config = collection.FindAsync(c => c["id"] == _cookieCollectionId);
+        var config = await collection.FindAsync(c => c["id"] == _cookieCollectionId);
 
         var json = config.ToJson();
         
