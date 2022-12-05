@@ -25,24 +25,7 @@ dotnet add package Exoscan
 
 ## 📋 Example:
 
-```C#
-using Exoscan.Core.Builders;
-
-_ = new ScraperEngineBuilder()
-    .Get("https://www.reddit.com/r/dotnet/")
-    .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
-    .Parse(new()
-    {
-        new("title", "._eYtD2XCVieq6emjKBH3m"),
-        new("text", "._3xX726aBn29LDbsDtzr_6E._1Ap4F5maDtT1E1YuCiaO0r.D3IL3FD0RFy_mkKLPwL4")
-    })
-    .WriteToJsonFile("output.json")
-    .LogToConsole()
-    .Build()
-    .Run();
-
-Console.ReadLine();
-```
+<img width="758" alt="raycast-untitled (4)" src="https://user-images.githubusercontent.com/6662454/205595931-e7e9c764-3d6a-42d0-92fc-152592fefc81.png">
 
 ## Features:
 
