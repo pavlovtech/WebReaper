@@ -6,7 +6,14 @@ public class InMemoryScraperConfigStorage: IScraperConfigStorage
 {
     private ScraperConfig _config;
 
-    public async Task CreateConfigAsync(ScraperConfig config) => _config = config;
+    public Task CreateConfigAsync(ScraperConfig config)
+    {
+        _config = config;
+        return Task.CompletedTask;
+    }
 
-    public async Task<ScraperConfig> GetConfigAsync() => _config;
+    public Task<ScraperConfig> GetConfigAsync()
+    {
+        return Task.FromResult(_config);
+    }
 }

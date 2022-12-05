@@ -25,14 +25,19 @@ public record SchemaElement()
 
         if (node is null)
         {
-            throw new InvalidOperationException($"Cannot find element by selector ${Selector}.");
+            throw new InvalidOperationException($"Cannot find element by selector {Selector}.");
         }
 
         string? content = null;
 
         if (Attr is not null)
         {
-            content = node?.GetAttribute(Attr is not "src" ? Attr : "title", ""); // workaround
+            if (Attr == "src")
+            {
+                Attr = "title";
+            }
+            
+            content = node?.GetAttribute(Attr);
         }
         else if (GetHtml == false)
         {

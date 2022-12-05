@@ -10,5 +10,5 @@ public class InMemoryCookieStorage: ICookiesStorage
     public async Task AddAsync(CookieContainer cookieContainer) =>
         _cookieContainer = cookieContainer;
 
-    public async Task<CookieContainer> GetAsync() => _cookieContainer;
+    public Task<CookieContainer> GetAsync() => Task.FromResult(_cookieContainer);
 }
