@@ -182,7 +182,7 @@ public class SpiderBuilder
     public ISpider Build()
     {
         // default implementations
-        ContentParser ??= new ContentParser(Logger);
+        ContentParser ??= new AngleSharpContentParser(Logger);
 
         if (ProxyProvider != null)
         {

@@ -7,11 +7,11 @@ using Newtonsoft.Json.Linq;
 
 namespace Exoscan.Parser.Concrete;
 
-public class ContentParser : IContentParser
+public class AngleSharpContentParser : IContentParser
 {
     private ILogger Logger { get; }
 
-    public ContentParser(ILogger logger) => Logger = logger;
+    public AngleSharpContentParser(ILogger logger) => Logger = logger;
 
     public async Task<JObject> ParseAsync(string html, Schema schema) // TODO: consider passing url or headers... or http response
     {
@@ -62,7 +62,7 @@ public class ContentParser : IContentParser
 
         try
         {
-            var data = item.GetData(doc);
+            var data = GetData(doc, item);
 
             if (item.Type is null)
             {
@@ -85,5 +85,37 @@ public class ContentParser : IContentParser
         {
             Logger.LogError(ex, "Error during parsing phase");
         }
+    }
+    
+    string GetData(IDocument  doc, SchemaElement el)
+    {
+        var node = doc.QuerySelector(el.Selector);
+
+        if (node is null)
+        {
+            throw new InvalidOperationException($"Cannot find element by selector {el.Selector}.");
+        }
+
+        string? content = null;
+
+        if (el.Attr is not null)
+        {
+            if (el.Attr == "src")
+            {
+                el.Attr = "title";
+            }
+            
+            content = node?.GetAttribute(el.Attr);
+        }
+        else if (el.GetHtml == false)
+        {
+            content = node?.Text();
+        }
+        else
+        {
+            content = node?.InnerHtml;
+        }
+
+        return content;
     }
 }

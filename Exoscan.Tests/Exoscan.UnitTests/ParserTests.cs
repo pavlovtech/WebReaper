@@ -17,7 +17,7 @@ namespace Exoscan.UnitTests
         [Fact]
         public async Task ParserSimpleTest()
         {
-            var parser = new ContentParser(logger);
+            var parser = new AngleSharpContentParser(logger);
             var page = await File.ReadAllTextAsync("TestData/TestPage.html", Encoding.GetEncoding("windows-1251"));
             var result = await parser.ParseAsync(page, new()
             {
@@ -40,7 +40,7 @@ namespace Exoscan.UnitTests
         [Fact]
         public async Task ParserSimpleHtmlParsingTest()
         {
-            var parser = new ContentParser(logger);
+            var parser = new AngleSharpContentParser(logger);
             var page = await File.ReadAllTextAsync("TestData/TestPage.html", Encoding.GetEncoding("windows-1251"));
             var result = await parser.ParseAsync(page, new()
             {
