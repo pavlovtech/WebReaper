@@ -1,18 +1,19 @@
+using AngleSharp;
 using Exoscan.Parser.Abstract;
-using Fizzler.Systems.HtmlAgilityPack;
-using HtmlAgilityPack;
 
 namespace Exoscan.Parser.Concrete;
 
 public class LinkParserByCssSelector : ILinkParser
 {
-    public List<string> GetLinks(Uri baseUrl, string html, string cssSelector)
+    public async Task<List<string>> GetLinksAsync(Uri baseUrl, string html, string cssSelector)
     {
-        var htmlDoc = new HtmlDocument();
-        htmlDoc.LoadHtml(html);
-        return htmlDoc.DocumentNode
+        var config = Configuration.Default.WithDefaultLoader();
+        var context = BrowsingContext.New(config);
+        using var doc = await context.OpenAsync(req => req.Content(html));
+        
+        return doc
             .QuerySelectorAll(cssSelector)
-            .Select(e => HtmlEntity.DeEntitize(e.GetAttributeValue("href", null)))
+            .Select(e => e.Attributes["href"]?.Value)
             .Select(l => new Uri(baseUrl, l).ToString())
             .Distinct()
             .ToList();

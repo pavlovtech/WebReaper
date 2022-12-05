@@ -1,8 +1,6 @@
-﻿using Fizzler.Systems.HtmlAgilityPack;
-using HtmlAgilityPack;
+﻿using AngleSharp.Dom;
 
 namespace Exoscan.Domain.Parsing;
-
 public record SchemaElement()
 {
     public string? Field { get; set; }
@@ -21,30 +19,35 @@ public record SchemaElement()
 
     public SchemaElement(string field, string selector, bool getHtml) : this(field, selector) => GetHtml = getHtml;
 
-    public virtual string GetData(HtmlDocument doc)
+    public virtual string GetData(IDocument  doc)
     {
-        var node = doc.DocumentNode.QuerySelector(Selector);
+        var node = doc.QuerySelector(Selector);
 
         if (node is null)
         {
-            throw new InvalidOperationException($"Cannot find element by selector ${Selector}.");
+            throw new InvalidOperationException($"Cannot find element by selector {Selector}.");
         }
 
         string? content = null;
 
         if (Attr is not null)
         {
-            content = node?.GetAttributeValue(Attr is not "src" ? Attr : "title", ""); // HTML Agility Pack workaround
+            if (Attr == "src")
+            {
+                Attr = "title";
+            }
+            
+            content = node?.GetAttribute(Attr);
         }
         else if (GetHtml == false)
         {
-            content = node?.InnerText;
+            content = node?.Text();
         }
         else
         {
             content = node?.InnerHtml;
         }
 
-        return HtmlEntity.DeEntitize(content);
+        return content;
     }
 }
