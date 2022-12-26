@@ -5,13 +5,13 @@
 - [X] Create a way to grab info from prev pages
 - [X] Remove tight coupling with HtmlAgilityPack
 - [X] Save auth cookies to redis, mongo, etc.
+- [ ] Add the ability to start with a list of predefined urls
 - [ ] Add flag for headless/not headless chrome
 - [ ] Separate nuget packages for MongoDb, Cosmos Db, Redis, etc.
 - [ ] Clean up on start
 - [ ] Add support for xpath and regex
 - [ ] Add caching of html pages
 - [ ] Breadth first traversal with priority channels
-- [ ] Add the ability to start with a list of predefined urls
 - [ ] Refactor DAL classes with a repository pattern or Unit of Work or Facade
 - [ ] Redo the async initialization with factory pattern (static ctr)
 - [ ] Unify persistence configuration with single methods in ScraperEngineBuilder
@@ -20,4 +20,4 @@
 - [ ] Sitemap crawling support
 - [ ] Add LogTo method with Console and File support
 - [ ] Request auto throttling
-- [ ] Add bloom filter for revisiting same urls
+- [ ] Add bloom filter for revisiting same urls  
