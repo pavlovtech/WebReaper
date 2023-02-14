@@ -1,7 +1,7 @@
 using System.Net;
-using Exoscan.Core;
-using Exoscan.Core.Builders;
-using Exoscan.Domain.Selectors;
+using ExoScraper.Core;
+using ExoScraper.Core.Builders;
+using ExoScraper.Domain.Selectors;
 
 namespace BrownsfashionScraper
 {

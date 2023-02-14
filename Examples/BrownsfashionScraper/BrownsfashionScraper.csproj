@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Exoscan\Exoscan.csproj" />
+    <ProjectReference Include="..\..\ExoScraper\ExoScraper.csproj" />
   </ItemGroup>
 
   <ItemGroup>
