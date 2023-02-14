@@ -1,5 +1,4 @@
 [![NuGet](https://img.shields.io/nuget/v/ExoScraper)](https://www.nuget.org/packages/ExoScraper)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fpavlovtech%2FWebReaper.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fpavlovtech%2FWebReaper?ref=badge_shield)
 [![build status](https://github.com/pavlovtech/WebReaper/actions/workflows/CI.yml/badge.svg)](https://github.com/pavlovtech/Exoscan/actions/workflows/CI.yml)
 
 ## Overview
