@@ -16,7 +16,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>scraper, crawler, parser</PackageTags>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
-    <Version>4.0.2</Version>
+    <Version>0.1</Version>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <DocumentationFile>$(MSBuildProjectDirectory)\API.xml</DocumentationFile>
   </PropertyGroup>
