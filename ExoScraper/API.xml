@@ -4,10 +4,37 @@
         <name>ExoScraper</name>
     </assembly>
     <members>
+        <member name="T:ExoScraper.ConfigStorage.Concrete.FileScraperConfigStorage">
+            <inheritdoc />
+        </member>
+        <member name="T:ExoScraper.CookieStorage.Concrete.InMemoryCookieStorage">
+            <inheritdoc />
+        </member>
         <member name="T:ExoScraper.Core.Builders.ScraperEngineBuilder">
             <summary>
             Builds a web scraper engine responsible for creating and receiving crawling jobs and running a spider on them
             </summary>
+        </member>
+        <member name="T:ExoScraper.Loaders.Abstract.BrowserPageLoader">
+            <summary>
+            Base class for implementing a browser page loader
+            </summary>
+        </member>
+        <member name="P:ExoScraper.Loaders.Abstract.BrowserPageLoader.Logger">
+            <summary>
+            Logger
+            </summary>
+        </member>
+        <member name="F:ExoScraper.Loaders.Abstract.BrowserPageLoader.PageActions">
+            <summary>
+            Interactive browser actions that can be performed on the page
+            </summary>
+        </member>
+        <member name="M:ExoScraper.Loaders.Abstract.BrowserPageLoader.#ctor(Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Constructor that takes ILogger argument
+            </summary>
+            <param name="logger"></param>
         </member>
     </members>
 </doc>
