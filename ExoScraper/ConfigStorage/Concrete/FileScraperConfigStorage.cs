@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 
 namespace ExoScraper.ConfigStorage.Concrete;
 
+/// <inheritdoc />
 public class FileScraperConfigStorage: IScraperConfigStorage
 {
     private readonly string _fileName;
@@ -16,11 +17,16 @@ public class FileScraperConfigStorage: IScraperConfigStorage
     {
         await File.WriteAllTextAsync(_fileName, SerializeToJson(config));
     }
-
+    
     public async Task<ScraperConfig> GetConfigAsync()
     {
         var text = await File.ReadAllTextAsync(_fileName);
-        return JsonConvert.DeserializeObject<ScraperConfig>(text);
+        var config = JsonConvert.DeserializeObject<ScraperConfig>(text);
+
+        if (config is null)
+            throw new NullReferenceException($"Error during config deserialization from {_fileName}");
+        
+        return config;
     }
     
     private string SerializeToJson(ScraperConfig config)
