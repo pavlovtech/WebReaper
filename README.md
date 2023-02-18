@@ -10,7 +10,7 @@ It provides a simple yet extensible API to make web scraping a breeze.
 ## Install
 
 ```
-dotnet add package Exoscan
+dotnet add package ExoScraper
 ```
 
 ## Requirements
