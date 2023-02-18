@@ -3,7 +3,7 @@
 
 ## Overview
 
-Exoscan is a declarative high performance web scraper, crawler and parser in C#. Designed as simple, extensible and scalable web scraping solution. Easily crawl any web site and parse the data, save structed result to a file, DB, or pretty much to anywhere you want.
+ExoScraper is a declarative high performance web scraper, crawler and parser in C#. Designed as simple, extensible and scalable web scraping solution. Easily crawl any web site and parse the data, save structed result to a file, DB, or pretty much to anywhere you want.
 
 It provides a simple yet extensible API to make web scraping a breeze.
 
@@ -68,7 +68,7 @@ _ = new ScraperEngineBuilder()
 Additionaly, you can run any JavaScript on dynamic pages as they are loaded with headless browser. In order to do that you need to add some page actions:
 
 ```C#
-using Exoscan.Core.Builders;
+using ExoScraper.Core.Builders;
 
 _ = new ScraperEngineBuilder()
     .GetWithBrowser("https://www.reddit.com/r/dotnet/", actions => actions
@@ -139,7 +139,7 @@ First of all, this function uses ScraperConfigBuilder to build the scraper confi
 Secondly, this function writes the first web scraping job with startUrl to the Azure Service Bus queue:
 
 
-#### ExoscanSpider
+#### ExoScraperSpider
 
 This Azure function is triggered by messages sent to the Azure Service Bus queue. Messages represent web scraping job. 
 
@@ -211,12 +211,12 @@ For other ways to extend your functionality see the next section.
 
 ## Repository structure
 
-| Project                                 | Description                                                                     |
-|-----------------------------------------|---------------------------------------------------------------------------------|
-| Exoscan                                 | Library for web scraping                                                        |
-| Exoscan.ScraperWorkerService            | Example of using Exoscan library in a Worker Service .NET project.              |
-| Exoscan.DistributedScraperWorkerService | Example of using Exoscan library in a distributed way wih Azure Service Bus     |
-| Exoscan.AzureFuncs                      | Example of using Exoscan library with serverless approach using Azure Functions |
-| Exoscan.ConsoleApplication              | Example of using Exoscan library with in a console application                  |
+| Project                                    | Description                                                                     |
+|--------------------------------------------|---------------------------------------------------------------------------------|
+| ExoScraper                                 | Library for web scraping                                                        |
+| ExoScraper.ScraperWorkerService            | Example of using Exoscan library in a Worker Service .NET project.              |
+| ExoScraper.DistributedScraperWorkerService | Example of using Exoscan library in a distributed way wih Azure Service Bus     |
+| ExoScraper.AzureFuncs                      | Example of using Exoscan library with serverless approach using Azure Functions |
+| ExoScraper.ConsoleApplication              | Example of using Exoscan library with in a console application                  |
 
 See the [LICENSE](LICENSE.txt) file for license rights and limitations (GNU GPLv3).
