@@ -1,16 +1,16 @@
-[![NuGet](https://img.shields.io/nuget/v/ExoScraper)](https://www.nuget.org/packages/ExoScraper)
-[![build status](https://github.com/pavlovtech/WebReaper/actions/workflows/CI.yml/badge.svg)](https://github.com/pavlovtech/Exoscan/actions/workflows/CI.yml)
+[![NuGet](https://img.shields.io/nuget/v/WebReaper)](https://www.nuget.org/packages/WebReaper)
+[![build status](https://github.com/pavlovtech/WebReaper/actions/workflows/CI.yml/badge.svg)](https://github.com/pavlovtech/WebReaper/actions/workflows/CI.yml)
 
 ## Overview
 
-ExoScraper is a declarative high performance web scraper, crawler and parser in C#. Designed as simple, extensible and scalable web scraping solution. Easily crawl any web site and parse the data, save structed result to a file, DB, or pretty much to anywhere you want.
+WebReaper is a declarative high performance web scraper, crawler and parser in C#. Designed as simple, extensible and scalable web scraping solution. Easily crawl any web site and parse the data, save structed result to a file, DB, or pretty much to anywhere you want.
 
 It provides a simple yet extensible API to make web scraping a breeze.
 
 ## Install
 
 ```
-dotnet add package ExoScraper
+dotnet add package WebReaper
 ```
 
 ## Requirements
@@ -23,11 +23,11 @@ dotnet add package ExoScraper
 
 ## Features:
 
-* :zap: It's extremly fast due to parallelism and asynchrony
+* :zap: It's extremely fast due to parallelism and asynchrony
 * 🗒 Declarative parsing with a structured scheme
 * 💾 Saving data to any sinks such as JSON or CSV file, MongoDB, CosmosDB, Redis, etc.
 * :earth_americas: Distributed crawling support: run your web scraper on ony cloud VMs, serverless functions, on-prem servers, etc.
-* :octopus: Crowling and parsing Single Page Applications with Puppeteer
+* :octopus: Crawling and parsing Single Page Applications with Puppeteer
 * 🖥 Proxy support
 * 🌀 Automatic reties
 
@@ -65,10 +65,10 @@ _ = new ScraperEngineBuilder()
     .Run(1);
 ```
 
-Additionaly, you can run any JavaScript on dynamic pages as they are loaded with headless browser. In order to do that you need to add some page actions:
+Additionally, you can run any JavaScript on dynamic pages as they are loaded with headless browser. In order to do that you need to add some page actions:
 
 ```C#
-using ExoScraper.Core.Builders;
+using WebReaper.Core.Builders;
 
 _ = new ScraperEngineBuilder()
     .GetWithBrowser("https://www.reddit.com/r/dotnet/", actions => actions
@@ -131,7 +131,7 @@ _ = new ScraperEngineBuilder()
 
 ### Distributed web scraping with Serverless approach
 
-In the Examples folder you can find the project called Exoscan.AzureFuncs. It demonstrates the use of Exoscan with Azure Functions. It consists of two serverless functions:
+In the Examples folder you can find the project called WebReaper.AzureFuncs. It demonstrates the use of WebReaper with Azure Functions. It consists of two serverless functions:
 
 #### StartScrapting
 First of all, this function uses ScraperConfigBuilder to build the scraper configuration e. g.:
@@ -139,7 +139,7 @@ First of all, this function uses ScraperConfigBuilder to build the scraper confi
 Secondly, this function writes the first web scraping job with startUrl to the Azure Service Bus queue:
 
 
-#### ExoScraperSpider
+#### WebReaperSpider
 
 This Azure function is triggered by messages sent to the Azure Service Bus queue. Messages represent web scraping job. 
 
@@ -211,12 +211,12 @@ For other ways to extend your functionality see the next section.
 
 ## Repository structure
 
-| Project                                    | Description                                                                     |
-|--------------------------------------------|---------------------------------------------------------------------------------|
-| ExoScraper                                 | Library for web scraping                                                        |
-| ExoScraper.ScraperWorkerService            | Example of using Exoscan library in a Worker Service .NET project.              |
-| ExoScraper.DistributedScraperWorkerService | Example of using Exoscan library in a distributed way wih Azure Service Bus     |
-| ExoScraper.AzureFuncs                      | Example of using Exoscan library with serverless approach using Azure Functions |
-| ExoScraper.ConsoleApplication              | Example of using Exoscan library with in a console application                  |
+| Project                                   | Description                                                                     |
+|-------------------------------------------|---------------------------------------------------------------------------------|
+| WebReaper                                 | Library for web scraping                                                        |
+| WebReaper.ScraperWorkerService            | Example of using WebReaper library in a Worker Service .NET project.              |
+| WebReaper.DistributedScraperWorkerService | Example of using WebReaper library in a distributed way wih Azure Service Bus     |
+| WebReaper.AzureFuncs                      | Example of using WebReaper library with serverless approach using Azure Functions |
+| WebReaper.ConsoleApplication              | Example of using WebReaper library with in a console application                  |
 
 See the [LICENSE](LICENSE.txt) file for license rights and limitations (GNU GPLv3).
