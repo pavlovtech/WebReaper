@@ -1,7 +1,7 @@
 using System.Net;
-using ExoScraper.Core;
-using ExoScraper.Core.Builders;
-using ExoScraper.Domain.Selectors;
+using WebReaper.Core;
+using WebReaper.Core.Builders;
+using WebReaper.Domain.Selectors;
 
 namespace BrownsfashionScraper
 {
