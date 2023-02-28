@@ -10,22 +10,27 @@
     <PackageId>WebReaper</PackageId>
     <Description>Declarative high performance web scraper in C#. Easily crawl any web site and parse the data, save structed result to a file, DB, etc.</Description>
     <Copyright>GPL-3.0 license</Copyright>
-    <PackageProjectUrl>https://github.com/pavlovtech/ExoScraper</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/pavlovtech/WebReaper</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
     <RepositoryUrl>https://github.com/pavlovtech/ExoScraper</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>scraper, crawler, parser</PackageTags>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
-    <Version>0.1</Version>
+    <Version>3.1</Version>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <DocumentationFile>$(MSBuildProjectDirectory)\API.xml</DocumentationFile>
     <LangVersion>11</LangVersion>
+    <Title>WebReaper</Title>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="Queue\**" />
     <EmbeddedResource Remove="Queue\**" />
     <None Remove="Queue\**" />
+    <None Update="logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -54,12 +59,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="logo.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
