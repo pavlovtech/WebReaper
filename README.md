@@ -19,7 +19,7 @@ dotnet add package WebReaper
 
 ## Requirements
 
-.NET 6
+.NET 7
 
 ## 📋 Example:
 
