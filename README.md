@@ -1,3 +1,7 @@
+![logo](https://user-images.githubusercontent.com/6662454/221978697-3f35564a-f442-46e6-9182-f2604a17e1f6.png)
+
+# WebReaper
+
 [![NuGet](https://img.shields.io/nuget/v/WebReaper)](https://www.nuget.org/packages/WebReaper)
 [![build status](https://github.com/pavlovtech/WebReaper/actions/workflows/CI.yml/badge.svg)](https://github.com/pavlovtech/WebReaper/actions/workflows/CI.yml)
 
