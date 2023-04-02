@@ -1,10 +1,5 @@
 ﻿# TODO
 
-- [X] Move url black list to the config
-- [X] Separate the config from the job
-- [X] Create a way to grab info from prev pages
-- [X] Remove tight coupling with HtmlAgilityPack
-- [X] Save auth cookies to redis, mongo, etc.
 - [ ] Add the ability to start with a list of predefined urls
 - [ ] Add flag for headless/not headless chrome
 - [ ] Separate nuget packages for MongoDb, Cosmos Db, Redis, etc.

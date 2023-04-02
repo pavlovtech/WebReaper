@@ -2,7 +2,7 @@ using System.Reflection;
 using WebReaper.ProxyProviders.WebShareProxy;
 using Xunit.Abstractions;
 using PuppeteerSharp;
-using WebReaper.Core.Builders;
+using WebReaper.Builders;
 using WebReaper.Sinks.Models;
 
 namespace WebReaper.IntegrationTests

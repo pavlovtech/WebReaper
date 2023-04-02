@@ -3,6 +3,7 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using Newtonsoft.Json;
 using WebReaper.ConfigStorage.Abstract;
+using WebReaper.Domain;
 
 namespace WebReaper.ConfigStorage.Concrete;
 

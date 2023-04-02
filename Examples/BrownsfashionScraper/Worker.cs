@@ -1,6 +1,6 @@
 using System.Net;
+using WebReaper.Builders;
 using WebReaper.Core;
-using WebReaper.Core.Builders;
 using WebReaper.Domain.Selectors;
 
 namespace BrownsfashionScraper
