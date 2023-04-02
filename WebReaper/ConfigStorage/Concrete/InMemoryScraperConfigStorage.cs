@@ -1,4 +1,5 @@
 ﻿using WebReaper.ConfigStorage.Abstract;
+using WebReaper.Domain;
 
 namespace WebReaper.ConfigStorage.Concrete;
 

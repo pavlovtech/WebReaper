@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using StackExchange.Redis;
 using WebReaper.ConfigStorage.Abstract;
 using WebReaper.DataAccess;
+using WebReaper.Domain;
 
 namespace WebReaper.ConfigStorage.Concrete;
 

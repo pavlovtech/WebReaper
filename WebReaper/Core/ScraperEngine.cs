@@ -2,10 +2,10 @@ using System.Collections.Immutable;
 using Microsoft.Extensions.Logging;
 using WebReaper.ConfigStorage;
 using WebReaper.ConfigStorage.Abstract;
+using WebReaper.Core.Scheduler.Abstract;
+using WebReaper.Core.Spider.Abstract;
 using WebReaper.Domain;
 using WebReaper.Exceptions;
-using WebReaper.Scheduler.Abstract;
-using WebReaper.Spider.Abstract;
 using static WebReaper.Infra.Executor;
 
 namespace WebReaper.Core;

@@ -1,4 +1,4 @@
-﻿using WebReaper.Core.Builders;
+﻿using WebReaper.Builders;
 using WebReaper.ProxyProviders.WebShareProxy;
 
 _ = new ScraperEngineBuilder()

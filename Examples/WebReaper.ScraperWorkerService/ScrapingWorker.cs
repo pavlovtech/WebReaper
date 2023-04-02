@@ -1,8 +1,8 @@
 ﻿using AngleSharp;
 using WebReaper.Core;
-using WebReaper.Core.Builders;
 using WebReaper.Domain;
 using Newtonsoft.Json.Linq;
+using WebReaper.Builders;
 
 namespace WebReaper.ScraperWorkerService;
 

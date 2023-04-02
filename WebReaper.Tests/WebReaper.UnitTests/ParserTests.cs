@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using WebReaper.Parser.Concrete;
+using WebReaper.Core.Parser.Concrete;
 using Xunit.Abstractions;
 
 namespace WebReaper.UnitTests

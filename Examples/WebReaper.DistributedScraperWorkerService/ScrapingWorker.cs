@@ -1,8 +1,6 @@
-﻿using WebReaper.Core;
-using WebReaper.Core.Builders;
+﻿using WebReaper.Builders;
+using WebReaper.Core;
 using WebReaper.Domain.Parsing;
-using WebReaper.LinkTracker.Concrete;
-using WebReaper.Scheduler.Concrete;
 
 namespace WebReaper.DistributedScraperWorkerService;
 
