@@ -66,7 +66,7 @@ _ = new ScraperEngineBuilder()
     .WriteToJsonFile("output.json")
     .LogToConsole()
     .Build()
-    .Run(1);
+    .Run();
 ```
 
 Additionally, you can run any JavaScript on dynamic pages as they are loaded with headless browser. In order to do that you need to add some page actions:
