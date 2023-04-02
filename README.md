@@ -147,7 +147,7 @@ _ = new ScraperEngineBuilder()
 
 ```
 
-### How to clean prevously scraped during the next web scrapping run
+### How to clean prevously scraped data during the next web scrapping run
 
 You may want to clean the data recived during the previous scraping to start you web scraping from scratch. In this case use dataCleanupOnStart when adding a new sink:
 
