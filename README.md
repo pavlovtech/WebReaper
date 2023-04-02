@@ -156,9 +156,9 @@ You may want to clean the data recived during the previous scraping to start you
 _ = new ScraperEngineBuilder()
     .Get("https://www.reddit.com/r/dotnet/")
     .WriteToJsonFile("output.json", dataCleanupOnStart: true)
-
-This parameter is present for all sinks, e.g. MongoDbSink, RedisSink, CosmosSink, etc.
 ```
+
+This dataCleanupOnStart parameter is present for all sinks, e.g. MongoDbSink, RedisSink, CosmosSink, etc.
 
 ### Distributed web scraping with Serverless approach
 
