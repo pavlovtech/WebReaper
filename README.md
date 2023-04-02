@@ -99,25 +99,25 @@ It can be helpful if the required content is loaded only after some user interac
 If you want to persist the vistited links and job queue locally, so that you can start crawling where you left off you can use ScheduleWithTextFile and TrackVisitedLinksInFile methods:
 ```C#
 var engine = new ScraperEngineBuilder()
-            .WithLogger(logger)
-            .Get("https://rutracker.org/forum/index.php?c=33")
-            .Follow("#cf-33 .forumlink>a")
-            .Follow(".forumlink>a")
-            .Paginate("a.torTopic", ".pg")
-            .Parse(new()
-            {
-                new("name", "#topic-title"),
-                new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
-                new("subcategory", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(5)"),
-                new("torrentSize", "div.attach_link.guest>ul>li:nth-child(2)"),
-                new("torrentLink", ".magnet-link", "href"),
-                new("coverImageUrl", ".postImg", "src")
-            })
-            .WriteToJsonFile("result.json")
-            .IgnoreUrls(blackList)
-            .ScheduleWithTextFile("jobs.txt", "progress.txt")
-            .TrackVisitedLinksInFile("links.txt")
-            .Build();
+	.WithLogger(logger)
+	.Get("https://rutracker.org/forum/index.php?c=33")
+	.Follow("#cf-33 .forumlink>a")
+	.Follow(".forumlink>a")
+	.Paginate("a.torTopic", ".pg")
+	.Parse(new()
+	{
+		new("name", "#topic-title"),
+		new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
+		new("subcategory", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(5)"),
+		new("torrentSize", "div.attach_link.guest>ul>li:nth-child(2)"),
+		new("torrentLink", ".magnet-link", "href"),
+		new("coverImageUrl", ".postImg", "src")
+	})
+	.WriteToJsonFile("result.json")
+	.IgnoreUrls(blackList)
+	.ScheduleWithTextFile("jobs.txt", "progress.txt")
+	.TrackVisitedLinksInFile("links.txt")
+	.Build();
 ```
 ### Authorization
 
