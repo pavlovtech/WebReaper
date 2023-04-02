@@ -1,12 +1,12 @@
 using System.Net;
 using System.Text;
 using Microsoft.Extensions.Logging;
-using WebReaper.Extensions;
 using WebReaper.CookieStorage.Abstract;
+using WebReaper.Core.Loaders.Abstract;
+using WebReaper.Extensions;
 using WebReaper.HttpRequests.Abstract;
-using WebReaper.Loaders.Abstract;
 
-namespace WebReaper.Loaders.Concrete;
+namespace WebReaper.Core.Loaders.Concrete;
 
 public class HttpStaticPageLoader : IStaticPageLoader
 {

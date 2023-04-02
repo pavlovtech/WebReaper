@@ -1,6 +1,6 @@
-﻿using System.Collections.Immutable;
+﻿using WebReaper.Domain.PageActions;
 
-namespace WebReaper.PageActions;
+namespace WebReaper.Builders;
 
 public class PageActionBuilder
 {
