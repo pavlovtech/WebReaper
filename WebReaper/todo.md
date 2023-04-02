@@ -3,7 +3,8 @@
 - [X] Add the ability to start with a list of predefined urls
 - [X] Add flag for headless/not headless chrome
 - [X] Clean up on start
-- [ ] Use factory for async object creation
+- [ ] Remove nested builders
+- [ ] ~~Use factory for async object creation~~
 - [ ] Write tests using specflow
 - [ ] Separate nuget packages for MongoDb, Cosmos Db, Redis, etc.
 - [ ] Add support for xpath and regex
