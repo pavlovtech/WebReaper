@@ -1,17 +1,15 @@
-using System.Net;
-using Microsoft.Extensions.Logging;
-using PuppeteerExtraSharp.Plugins.ExtraStealth;
-using PuppeteerExtraSharp;
-using PuppeteerSharp;
-using WebReaper.Extensions;
-using System.Collections.Immutable;
 using System.Reflection;
+using Microsoft.Extensions.Logging;
+using PuppeteerExtraSharp;
+using PuppeteerExtraSharp.Plugins.ExtraStealth;
+using PuppeteerSharp;
 using WebReaper.CookieStorage.Abstract;
-using WebReaper.Loaders.Abstract;
-using WebReaper.PageActions;
+using WebReaper.Core.Loaders.Abstract;
+using WebReaper.Domain.PageActions;
+using WebReaper.Extensions;
 using WebReaper.Proxy.Abstract;
 
-namespace WebReaper.Loaders.Concrete;
+namespace WebReaper.Core.Loaders.Concrete;
 
 public class PuppeteerPageLoaderWithProxies : BrowserPageLoader, IBrowserPageLoader
 {

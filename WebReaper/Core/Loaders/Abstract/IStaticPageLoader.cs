@@ -1,4 +1,4 @@
-namespace WebReaper.Loaders.Abstract;
+namespace WebReaper.Core.Loaders.Abstract;
 
 public interface IStaticPageLoader
 {

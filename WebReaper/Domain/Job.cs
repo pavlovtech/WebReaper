@@ -1,6 +1,6 @@
 using System.Collections.Immutable;
+using WebReaper.Domain.PageActions;
 using WebReaper.Domain.Selectors;
-using WebReaper.PageActions;
 
 namespace WebReaper.Domain;
 

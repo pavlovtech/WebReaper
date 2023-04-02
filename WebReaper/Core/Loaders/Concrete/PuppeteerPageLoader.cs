@@ -1,14 +1,12 @@
-using System.Collections.Immutable;
-using System.Net;
 using System.Reflection;
 using Microsoft.Extensions.Logging;
 using PuppeteerSharp;
-using WebReaper.Extensions;
 using WebReaper.CookieStorage.Abstract;
-using WebReaper.Loaders.Abstract;
-using WebReaper.PageActions;
+using WebReaper.Core.Loaders.Abstract;
+using WebReaper.Domain.PageActions;
+using WebReaper.Extensions;
 
-namespace WebReaper.Loaders.Concrete;
+namespace WebReaper.Core.Loaders.Concrete;
 
 public class PuppeteerPageLoader : BrowserPageLoader, IBrowserPageLoader
 {

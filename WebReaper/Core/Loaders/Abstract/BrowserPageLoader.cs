@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using PuppeteerSharp;
-using WebReaper.PageActions;
+using WebReaper.Domain.PageActions;
 
-namespace WebReaper.Loaders.Abstract;
+namespace WebReaper.Core.Loaders.Abstract;
 
 /// <summary>
 /// Base class for implementing a browser page loader

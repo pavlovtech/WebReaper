@@ -1,5 +1,5 @@
 using System.Collections.Immutable;
-using WebReaper.PageActions;
+using WebReaper.Domain.PageActions;
 
 namespace WebReaper.Domain.Selectors;
 

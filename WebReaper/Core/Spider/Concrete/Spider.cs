@@ -3,13 +3,13 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using WebReaper.ConfigStorage.Abstract;
 using WebReaper.Core.LinkTracker.Abstract;
+using WebReaper.Core.Loaders.Abstract;
 using WebReaper.Core.Parser.Abstract;
 using WebReaper.Core.Spider.Abstract;
 using WebReaper.Domain;
 using WebReaper.Domain.Selectors;
 using WebReaper.Exceptions;
 using WebReaper.Extensions;
-using WebReaper.Loaders.Abstract;
 using WebReaper.Sinks.Abstract;
 using WebReaper.Sinks.Models;
 

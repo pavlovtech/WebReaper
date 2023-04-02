@@ -1,7 +1,6 @@
-using System.Collections.Immutable;
-using WebReaper.PageActions;
+using WebReaper.Domain.PageActions;
 
-namespace WebReaper.Loaders.Abstract;
+namespace WebReaper.Core.Loaders.Abstract;
 
 public interface IBrowserPageLoader
 {
