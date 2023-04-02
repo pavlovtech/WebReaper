@@ -18,4 +18,4 @@ public record Job(
             (1, true) => PageCategory.PageWithPagination,
             _ => PageCategory.TransitPage
         };
-};
+}

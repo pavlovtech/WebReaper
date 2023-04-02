@@ -3,7 +3,7 @@ using WebReaper.Domain;
 
 namespace WebReaper.ConfigStorage.Concrete;
 
-public class InMemoryScraperConfigStorage: IScraperConfigStorage
+public class InMemoryScraperConfigStorage : IScraperConfigStorage
 {
     private ScraperConfig _config;
 

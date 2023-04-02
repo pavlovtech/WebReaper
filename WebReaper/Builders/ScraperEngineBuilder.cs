@@ -23,7 +23,7 @@ using WebReaper.Sinks.Models;
 namespace WebReaper.Builders;
 
 /// <summary>
-/// Builds a web scraper engine responsible for creating and receiving crawling jobs and running a spider on them
+///     Builds a web scraper engine responsible for creating and receiving crawling jobs and running a spider on them
 /// </summary>
 public class ScraperEngineBuilder
 {
@@ -63,7 +63,7 @@ public class ScraperEngineBuilder
         ConfigBuilder.WithPageCrawlLimit(limit);
         return this;
     }
-    
+
     public ScraperEngineBuilder HeadlessMode(bool headless)
     {
         ConfigBuilder.HeadlessMode(headless);
@@ -75,13 +75,13 @@ public class ScraperEngineBuilder
         SpiderBuilder.WithLinkTracker(linkTracker);
         return this;
     }
-    
+
     public ScraperEngineBuilder TrackVisitedLinksInFile(string fileName)
     {
         SpiderBuilder.WithLinkTracker(new FileVisitedLinkedTracker(fileName));
         return this;
     }
-    
+
     public ScraperEngineBuilder TrackVisitedLinksInRedis(string connectionString, string redisKey)
     {
         SpiderBuilder.WithLinkTracker(new RedisVisitedLinkTracker(connectionString, redisKey));
@@ -109,8 +109,8 @@ public class ScraperEngineBuilder
         SpiderBuilder.WriteToConsole();
         return this;
     }
-    
-    
+
+
     public ScraperEngineBuilder WriteToRedis(string connectionString, string redisKey, bool dataCleanupOnStart)
     {
         SpiderBuilder.WriteToRedis(connectionString, redisKey, dataCleanupOnStart);
@@ -141,7 +141,8 @@ public class ScraperEngineBuilder
         string collectionName,
         bool dataCleanupOnStart)
     {
-        SpiderBuilder.AddSink(new MongoDbSink(connectionString, databaseName, collectionName, dataCleanupOnStart, Logger));
+        SpiderBuilder.AddSink(new MongoDbSink(connectionString, databaseName, collectionName, dataCleanupOnStart,
+            Logger));
         return this;
     }
 
@@ -179,7 +180,7 @@ public class ScraperEngineBuilder
         IEnumerable<string> startUrls,
         Func<PageActionBuilder, List<PageAction>>? actionBuilder = null)
     {
-        ConfigBuilder.GetWithBrowser(startUrls, actionBuilder?.Invoke(new()));
+        ConfigBuilder.GetWithBrowser(startUrls, actionBuilder?.Invoke(new PageActionBuilder()));
         return this;
     }
 
@@ -193,7 +194,7 @@ public class ScraperEngineBuilder
         string linkSelector,
         Func<PageActionBuilder, List<PageAction>>? actionBuilder = null)
     {
-        ConfigBuilder.FollowWithBrowser(linkSelector, actionBuilder?.Invoke(new()));
+        ConfigBuilder.FollowWithBrowser(linkSelector, actionBuilder?.Invoke(new PageActionBuilder()));
         return this;
     }
 
@@ -210,7 +211,8 @@ public class ScraperEngineBuilder
         string paginationSelector,
         Func<PageActionBuilder, List<PageAction>>? actionBuilder = null)
     {
-        ConfigBuilder.PaginateWithBrowser(linkSelector, paginationSelector, actionBuilder?.Invoke(new()));
+        ConfigBuilder.PaginateWithBrowser(linkSelector, paginationSelector,
+            actionBuilder?.Invoke(new PageActionBuilder()));
         return this;
     }
 
@@ -219,40 +221,42 @@ public class ScraperEngineBuilder
         Scheduler = scheduler;
         return this;
     }
-    
+
     public ScraperEngineBuilder WithAzureServiceBusScheduler(string connectionString, string queueName)
     {
         Scheduler = new AzureServiceBusScheduler(connectionString, queueName);
         return this;
     }
-    
+
     public ScraperEngineBuilder WithTextFileScheduler(string fileName, string currentJobPositionFileName)
     {
         Scheduler = new FileScheduler(fileName, currentJobPositionFileName, Logger);
         return this;
     }
-    
+
     public ScraperEngineBuilder WithRedisScheduler(string connectionString, string queueName)
     {
         Scheduler = new RedisScheduler(connectionString, queueName, Logger);
         return this;
     }
-    
+
     public ScraperEngineBuilder WithCookieStorage(ICookiesStorage cookiesStorage)
     {
         SpiderBuilder.WithCookieStorage(cookiesStorage);
         return this;
     }
-    
+
     public ScraperEngineBuilder WithRedisCookieStorage(string connectionString, string redisKey)
     {
         SpiderBuilder.WithRedisCookieStorage(connectionString, redisKey);
         return this;
     }
-    
-    public ScraperEngineBuilder WithMongoDbCookieStorage(string connectionString, string databaseName, string collectionName, string cookieCollectionId, ILogger logger)
+
+    public ScraperEngineBuilder WithMongoDbCookieStorage(string connectionString, string databaseName,
+        string collectionName, string cookieCollectionId, ILogger logger)
     {
-        SpiderBuilder.WithMongoDbCookieStorage(connectionString, databaseName, collectionName, cookieCollectionId, logger);
+        SpiderBuilder.WithMongoDbCookieStorage(connectionString, databaseName, collectionName, cookieCollectionId,
+            logger);
         return this;
     }
 
@@ -269,27 +273,28 @@ public class ScraperEngineBuilder
 
         return this;
     }
-    
+
     public ScraperEngineBuilder WithRedisConfigStorage(string connectionString, string redisKey)
     {
         ConfigStorage = new RedisScraperConfigStorage(connectionString, redisKey, Logger);
         SpiderBuilder.WithRedisConfigStorage(connectionString, redisKey);
-        
+
         return this;
     }
-    
+
     public ScraperEngineBuilder WithMongoDbConfigStorage(
         string connectionString,
         string databaseName,
         string collectionName,
         string configId)
     {
-        ConfigStorage = new MongoDbScraperConfigStorage(connectionString, databaseName, collectionName, configId, Logger);
+        ConfigStorage =
+            new MongoDbScraperConfigStorage(connectionString, databaseName, collectionName, configId, Logger);
         SpiderBuilder.WithMongoDbConfigStorage(connectionString, databaseName, collectionName, configId, Logger);
-        
+
         return this;
     }
-    
+
     public ScraperEngineBuilder PostProcess(Func<Metadata, JObject, Task> action)
     {
         SpiderBuilder.PostProcess(action);
@@ -299,7 +304,7 @@ public class ScraperEngineBuilder
     public ScraperEngine Build()
     {
         ConfigStorage ??= new InMemoryScraperConfigStorage();
-        
+
         SpiderBuilder.WithConfigStorage(ConfigStorage);
 
         var config = ConfigBuilder.Build();

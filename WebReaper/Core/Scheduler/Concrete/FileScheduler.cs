@@ -9,41 +9,40 @@ namespace WebReaper.Core.Scheduler.Concrete;
 
 public class FileScheduler : IScheduler
 {
-    private readonly string _fileName;
     private readonly string _currentJobPositionFileName;
+    private readonly string _fileName;
     private readonly ILogger _logger;
-    private long _currentJobPosition = 0;
-    
+
     private readonly SemaphoreSlim _semaphore = new(1, 1);
+    private long _currentJobPosition;
 
     public FileScheduler(string fileName, string currentJobPositionFileName, ILogger logger)
     {
         _fileName = fileName;
         _currentJobPositionFileName = currentJobPositionFileName;
         _logger = logger;
-        if (File.Exists(_currentJobPositionFileName))
-        {
+        if (Exists(_currentJobPositionFileName))
             _currentJobPosition = int.Parse(ReadAllText(_currentJobPositionFileName));
-        }
     }
-    
-    public async IAsyncEnumerable<Job> GetAllAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
+
+    public async IAsyncEnumerable<Job> GetAllAsync(
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         _logger.LogInformation($"Start {nameof(FileScheduler)}.{nameof(GetAllAsync)}");
-        
+
         using var sr = new StreamReader(_fileName, new FileStreamOptions
         {
             Access = FileAccess.Read,
             Share = FileShare.ReadWrite
         });
 
-        for (int i = 0; i < _currentJobPosition; i++)
+        for (var i = 0; i < _currentJobPosition; i++)
         {
             _logger.LogInformation("Skipping {Count} line", i);
             await sr.ReadLineAsync();
         }
 
-        while(true)
+        while (true)
         {
             await _semaphore.WaitAsync(cancellationToken);
             string? jobLine;
@@ -64,9 +63,9 @@ public class FileScheduler : IScheduler
             }
 
             _logger.LogInformation("Writing current job position to file");
-            
+
             await WriteAllTextAsync(_currentJobPositionFileName, $"{_currentJobPosition++}", cancellationToken);
-            
+
             _logger.LogInformation("Deserializing the job and returning it to consumer");
 
             var job = JsonConvert.DeserializeObject<Job>(jobLine);
@@ -77,7 +76,7 @@ public class FileScheduler : IScheduler
     public async Task AddAsync(Job job, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation($"Start {nameof(FileScheduler)}.{nameof(AddAsync)} with one job");
-        
+
         await _semaphore.WaitAsync(cancellationToken);
         try
         {
@@ -92,7 +91,7 @@ public class FileScheduler : IScheduler
     public async Task AddAsync(IEnumerable<Job> jobs, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation($"Start {nameof(FileScheduler)}.{nameof(AddAsync)} with multiple jobs");
-        
+
         var serializedJobs = jobs.Select(SerializeToJson);
 
         await _semaphore.WaitAsync(cancellationToken);
@@ -106,5 +105,8 @@ public class FileScheduler : IScheduler
         }
     }
 
-    private static string SerializeToJson(Job job) => JsonConvert.SerializeObject(job, Formatting.None);
+    private static string SerializeToJson(Job job)
+    {
+        return JsonConvert.SerializeObject(job, Formatting.None);
+    }
 }

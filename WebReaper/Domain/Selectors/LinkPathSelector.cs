@@ -1,4 +1,3 @@
-using System.Collections.Immutable;
 using WebReaper.Domain.PageActions;
 
 namespace WebReaper.Domain.Selectors;
@@ -10,4 +9,4 @@ public record LinkPathSelector(
     List<PageAction>? PageActions = null)
 {
     public bool HasPagination => PaginationSelector != null;
-};
+}

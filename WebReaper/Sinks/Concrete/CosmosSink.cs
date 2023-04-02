@@ -1,6 +1,5 @@
 using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
 using WebReaper.Sinks.Abstract;
 using WebReaper.Sinks.Models;
 
@@ -8,32 +7,6 @@ namespace WebReaper.Sinks.Concrete;
 
 public class CosmosSink : IScraperSink
 {
-    private string EndpointUrl { get; init; }
-    private string AuthorizationKey { get; init; }
-    private string DatabaseId { get; init; }
-    private string ContainerId { get; init; }
-    private ILogger Logger { get; }
-    private Container? Container { get; set; }
-
-    public Task Initialization { get; private set; }
-    
-    private async Task InitializeAsync()
-    {
-        var cosmosClient = new CosmosClient(EndpointUrl, AuthorizationKey);
-        var databaseResponse = await cosmosClient.CreateDatabaseIfNotExistsAsync(DatabaseId);
-        var database = databaseResponse.Database;
-
-        if (DataCleanupOnStart)
-        {
-            var container = database.GetContainer(ContainerId);
-            container?.DeleteContainerAsync();
-        }
-
-        // create container
-        var containerResp = await database.CreateContainerIfNotExistsAsync(ContainerId, "/id");
-        Container = containerResp.Container;
-    }
-
     public CosmosSink(
         string endpointUrl,
         string authorizationKey,
@@ -51,6 +24,15 @@ public class CosmosSink : IScraperSink
 
         Initialization = InitializeAsync();
     }
+
+    private string EndpointUrl { get; }
+    private string AuthorizationKey { get; }
+    private string DatabaseId { get; }
+    private string ContainerId { get; }
+    private ILogger Logger { get; }
+    private Container? Container { get; set; }
+
+    public Task Initialization { get; }
 
     public bool DataCleanupOnStart { get; set; }
 
@@ -71,5 +53,22 @@ public class CosmosSink : IScraperSink
             Logger.LogError(ex, "Error writing to CosmosDB");
             throw;
         }
+    }
+
+    private async Task InitializeAsync()
+    {
+        var cosmosClient = new CosmosClient(EndpointUrl, AuthorizationKey);
+        var databaseResponse = await cosmosClient.CreateDatabaseIfNotExistsAsync(DatabaseId);
+        var database = databaseResponse.Database;
+
+        if (DataCleanupOnStart)
+        {
+            var container = database.GetContainer(ContainerId);
+            container?.DeleteContainerAsync();
+        }
+
+        // create container
+        var containerResp = await database.CreateContainerIfNotExistsAsync(ContainerId, "/id");
+        Container = containerResp.Container;
     }
 }

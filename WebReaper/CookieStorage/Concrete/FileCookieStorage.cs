@@ -5,7 +5,7 @@ using WebReaper.CookieStorage.Abstract;
 
 namespace WebReaper.CookieStorage.Concrete;
 
-public class FileCookieStorage: ICookiesStorage
+public class FileCookieStorage : ICookiesStorage
 {
     private readonly string _fileName;
     private readonly ILogger _logger;
@@ -15,7 +15,7 @@ public class FileCookieStorage: ICookiesStorage
         _fileName = fileName;
         _logger = logger;
     }
-    
+
     public async Task AddAsync(CookieContainer cookieContainer)
     {
         await File.WriteAllTextAsync(_fileName, JsonConvert.SerializeObject(cookieContainer.GetAllCookies()));

@@ -13,7 +13,7 @@ public class PuppeteerPageLoader : BrowserPageLoader, IBrowserPageLoader
     private readonly ICookiesStorage _cookiesStorage;
     private readonly SemaphoreSlim _semaphore = new(1, 1);
 
-    public PuppeteerPageLoader(ILogger logger, ICookiesStorage cookiesStorage): base(logger)
+    public PuppeteerPageLoader(ILogger logger, ICookiesStorage cookiesStorage) : base(logger)
     {
         _cookiesStorage = cookiesStorage;
     }
@@ -63,13 +63,9 @@ public class PuppeteerPageLoader : BrowserPageLoader, IBrowserPageLoader
         //await page.WaitForNetworkIdleAsync();
 
 
-        if(pageActions != null)
-        {
+        if (pageActions != null)
             foreach (var action in pageActions)
-            {
                 await PageActions[action.Type](page, action.Parameters);
-            }
-        }
 
         var html = await page.GetContentAsync();
 

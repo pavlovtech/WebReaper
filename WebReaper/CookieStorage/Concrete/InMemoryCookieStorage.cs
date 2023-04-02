@@ -4,7 +4,7 @@ using WebReaper.CookieStorage.Abstract;
 namespace WebReaper.CookieStorage.Concrete;
 
 /// <inheritdoc />
-public class InMemoryCookieStorage: ICookiesStorage
+public class InMemoryCookieStorage : ICookiesStorage
 {
     private CookieContainer _cookieContainer = new();
 
@@ -14,5 +14,8 @@ public class InMemoryCookieStorage: ICookiesStorage
         return Task.CompletedTask;
     }
 
-    public Task<CookieContainer> GetAsync() => Task.FromResult(_cookieContainer);
+    public Task<CookieContainer> GetAsync()
+    {
+        return Task.FromResult(_cookieContainer);
+    }
 }

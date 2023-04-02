@@ -6,14 +6,14 @@
     <members>
         <member name="M:WebReaper.Builders.ConfigBuilder.Get(System.String[])">
             <summary>
-            This method can be called only one time to specify urls to start crawling with.
+                This method can be called only one time to specify urls to start crawling with.
             </summary>
             <param name="startUrls">Initial urls for crawling</param>
             <returns>instance of ConfigBuilder</returns>
         </member>
         <member name="M:WebReaper.Builders.ConfigBuilder.GetWithBrowser(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.List{WebReaper.Domain.PageActions.PageAction})">
             <summary>
-            This method can be called only one time to specify urls to start crawling with.
+                This method can be called only one time to specify urls to start crawling with.
             </summary>
             <param name="startUrls">Initial urls for crawling</param>
             <param name="pageActions">Actions to perform on the page via a browser</param>
@@ -21,33 +21,34 @@
         </member>
         <member name="T:WebReaper.Builders.ScraperEngineBuilder">
             <summary>
-            Builds a web scraper engine responsible for creating and receiving crawling jobs and running a spider on them
+                Builds a web scraper engine responsible for creating and receiving crawling jobs and running a spider on
+                them
             </summary>
         </member>
         <member name="T:WebReaper.ConfigStorage.Concrete.FileScraperConfigStorage">
-            <inheritdoc />
+            <inheritdoc/>
         </member>
         <member name="T:WebReaper.CookieStorage.Concrete.InMemoryCookieStorage">
-            <inheritdoc />
+            <inheritdoc/>
         </member>
         <member name="T:WebReaper.Core.Loaders.Abstract.BrowserPageLoader">
             <summary>
-            Base class for implementing a browser page loader
+                Base class for implementing a browser page loader
             </summary>
         </member>
         <member name="P:WebReaper.Core.Loaders.Abstract.BrowserPageLoader.Logger">
             <summary>
-            Logger
+                Logger
             </summary>
         </member>
         <member name="F:WebReaper.Core.Loaders.Abstract.BrowserPageLoader.PageActions">
             <summary>
-            Interactive browser actions that can be performed on the page
+                Interactive browser actions that can be performed on the page
             </summary>
         </member>
         <member name="M:WebReaper.Core.Loaders.Abstract.BrowserPageLoader.#ctor(Microsoft.Extensions.Logging.ILogger)">
             <summary>
-            Constructor that takes ILogger argument
+                Constructor that takes ILogger argument
             </summary>
             <param name="logger"></param>
         </member>

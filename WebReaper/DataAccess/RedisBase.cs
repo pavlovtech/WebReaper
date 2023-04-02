@@ -1,5 +1,4 @@
-﻿using WebReaper.ConfigStorage;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using StackExchange.Redis;
 
 namespace WebReaper.DataAccess;
@@ -7,10 +6,10 @@ namespace WebReaper.DataAccess;
 public class RedisBase
 {
     protected static ConnectionMultiplexer? Redis;
-    
+
     private static readonly object _syncRoot = new();
 
-    private static bool isInitialized = false;
+    private static bool isInitialized;
 
     protected RedisBase(string connectionString)
     {
@@ -19,7 +18,7 @@ public class RedisBase
         lock (_syncRoot)
         {
             if (isInitialized) return;
-            
+
             Redis = ConnectionMultiplexer.Connect(connectionString, config =>
             {
                 config.AbortOnConnectFail = false;
@@ -33,7 +32,7 @@ public class RedisBase
             isInitialized = true;
         }
     }
-    
+
     protected static string SerializeToJson(object config)
     {
         var json = JsonConvert.SerializeObject(config, Formatting.Indented, new JsonSerializerSettings

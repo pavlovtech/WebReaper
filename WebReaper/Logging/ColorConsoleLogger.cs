@@ -15,9 +15,15 @@ public sealed class ColorConsoleLogger : ILogger
         [LogLevel.None] = ConsoleColor.Gray
     };
 
-    public IDisposable BeginScope<TState>(TState state) => default!;
+    public IDisposable BeginScope<TState>(TState state)
+    {
+        return default!;
+    }
 
-    public bool IsEnabled(LogLevel logLevel) => true;
+    public bool IsEnabled(LogLevel logLevel)
+    {
+        return true;
+    }
 
     public void Log<TState>(
         LogLevel logLevel,
@@ -26,10 +32,7 @@ public sealed class ColorConsoleLogger : ILogger
         Exception? exception,
         Func<TState, Exception?, string> formatter)
     {
-        if (!IsEnabled(logLevel))
-        {
-            return;
-        }
+        if (!IsEnabled(logLevel)) return;
 
         var originalColor = Console.ForegroundColor;
 
@@ -39,10 +42,7 @@ public sealed class ColorConsoleLogger : ILogger
         Console.ForegroundColor = LogLevelToColorMap[logLevel];
         Console.Write($"{formatter(state, exception)}");
 
-        if (exception != null)
-        {
-            Console.WriteLine($"\n\n{exception}");
-        }
+        if (exception != null) Console.WriteLine($"\n\n{exception}");
 
         Console.ForegroundColor = originalColor;
         Console.WriteLine();
