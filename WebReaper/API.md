@@ -7,6 +7,9 @@
   - [#ctor(logger)](#M-WebReaper-Loaders-Abstract-BrowserPageLoader-#ctor-Microsoft-Extensions-Logging-ILogger- 'WebReaper.Loaders.Abstract.BrowserPageLoader.#ctor(Microsoft.Extensions.Logging.ILogger)')
   - [PageActions](#F-WebReaper-Loaders-Abstract-BrowserPageLoader-PageActions 'WebReaper.Loaders.Abstract.BrowserPageLoader.PageActions')
   - [Logger](#P-WebReaper-Loaders-Abstract-BrowserPageLoader-Logger 'WebReaper.Loaders.Abstract.BrowserPageLoader.Logger')
+- [ConfigBuilder](#T-WebReaper-Builders-ConfigBuilder 'WebReaper.Builders.ConfigBuilder')
+  - [Get(startUrls)](#M-WebReaper-Builders-ConfigBuilder-Get-System-String[]- 'WebReaper.Builders.ConfigBuilder.Get(System.String[])')
+  - [GetWithBrowser(startUrls,pageActions)](#M-WebReaper-Builders-ConfigBuilder-GetWithBrowser-System-Collections-Generic-IEnumerable{System-String},System-Collections-Generic-List{WebReaper-PageActions-PageAction}- 'WebReaper.Builders.ConfigBuilder.GetWithBrowser(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.List{WebReaper.PageActions.PageAction})')
 - [FileScraperConfigStorage](#T-WebReaper-ConfigStorage-Concrete-FileScraperConfigStorage 'WebReaper.ConfigStorage.Concrete.FileScraperConfigStorage')
 - [InMemoryCookieStorage](#T-WebReaper-CookieStorage-Concrete-InMemoryCookieStorage 'WebReaper.CookieStorage.Concrete.InMemoryCookieStorage')
 - [ScraperEngineBuilder](#T-WebReaper-Builders-ScraperEngineBuilder 'WebReaper.Builders.ScraperEngineBuilder')
@@ -48,6 +51,48 @@ Interactive browser actions that can be performed on the page
 ##### Summary
 
 Logger
+
+<a name='T-WebReaper-Builders-ConfigBuilder'></a>
+## ConfigBuilder `type`
+
+##### Namespace
+
+WebReaper.Builders
+
+<a name='M-WebReaper-Builders-ConfigBuilder-Get-System-String[]-'></a>
+### Get(startUrls) `method`
+
+##### Summary
+
+This method can be called only one time to specify urls to start crawling with.
+
+##### Returns
+
+instance of ConfigBuilder
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| startUrls | [System.String[]](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String[] 'System.String[]') | Initial urls for crawling |
+
+<a name='M-WebReaper-Builders-ConfigBuilder-GetWithBrowser-System-Collections-Generic-IEnumerable{System-String},System-Collections-Generic-List{WebReaper-PageActions-PageAction}-'></a>
+### GetWithBrowser(startUrls,pageActions) `method`
+
+##### Summary
+
+This method can be called only one time to specify urls to start crawling with.
+
+##### Returns
+
+instance of ConfigBuilder
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| startUrls | [System.Collections.Generic.IEnumerable{System.String}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Collections.Generic.IEnumerable 'System.Collections.Generic.IEnumerable{System.String}') | Initial urls for crawling |
+| pageActions | [System.Collections.Generic.List{WebReaper.PageActions.PageAction}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Collections.Generic.List 'System.Collections.Generic.List{WebReaper.PageActions.PageAction}') | Actions to perform on the page via a browser |
 
 <a name='T-WebReaper-ConfigStorage-Concrete-FileScraperConfigStorage'></a>
 ## FileScraperConfigStorage `type`

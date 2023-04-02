@@ -67,7 +67,7 @@ namespace WebReaper.AzureFuncs
 
             await _configStorage.CreateConfigAsync(config);
 
-            await ScheduleFirstJobWithStartUrl(config);
+            await ScheduleFirstJobsWithStartUrls(config);
 
             return new OkObjectResult(new
             {
@@ -75,11 +75,14 @@ namespace WebReaper.AzureFuncs
             });
         }
 
-        private async Task ScheduleFirstJobWithStartUrl(ScraperConfig config)
+        private async Task ScheduleFirstJobsWithStartUrls(ScraperConfig config)
         {
-            await _scheduler.AddAsync(
-                new Job(config.StartUrl!, config.LinkPathSelectors,
-                    ImmutableQueue.Create<string>()));
+            foreach (var url in config.StartUrls)
+            {
+                await _scheduler.AddAsync(
+                    new Job(url, config.LinkPathSelectors,
+                        ImmutableQueue.Create<string>()));
+            }
         }
     }
 }

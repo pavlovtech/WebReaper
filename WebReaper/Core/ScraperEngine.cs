@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using AngleSharp.Dom;
 using Microsoft.Extensions.Logging;
 using WebReaper.ConfigStorage;
 using WebReaper.ConfigStorage.Abstract;
@@ -46,26 +47,30 @@ public class ScraperEngine
             await ConfigStorage.CreateConfigAsync(Config);
             config = await ConfigStorage.GetConfigAsync();
         }
-        
-        Logger.LogInformation("Scheduling the initial scraping job with start url {startUrl}", config.StartUrl);
-        
-        await Scheduler.AddAsync(new Job(
-            Config.StartUrl!,
-            Config.LinkPathSelectors,
-            ImmutableQueue.Create<string>(),
-            Config.StartPageType,
-            Config.PageActions), cancellationToken);
+
+        foreach (var startUrl in Config.StartUrls)
+        {
+            Logger.LogInformation("Scheduling the initial scraping job with start url {startUrl}", startUrl);
+            
+            await Scheduler.AddAsync(new Job(
+                startUrl,
+                Config.LinkPathSelectors,
+                ImmutableQueue.Create<string>(),
+                Config.StartPageType,
+                Config.PageActions), cancellationToken);   
+        }
 
         var options = new ParallelOptions { MaxDegreeOfParallelism = parallelismDegree };
 
         try
         {
-            Logger.LogInformation("Start consuming the scraping jobs", config.StartUrl);
+            Logger.LogInformation("Start consuming the scraping jobs");
             
             await Parallel.ForEachAsync(Scheduler.GetAllAsync(cancellationToken), options, async (job, token) =>
             {
                 Logger.LogInformation("Start crawling url {Url}", job.Url);
                 
+                //var newJobs = await RetryAsync(async() => await Spider.CrawlAsync(job, cancellationToken));
                 var newJobs = await RetryAsync(() => Spider.CrawlAsync(job, cancellationToken));
                 
                 Logger.LogInformation("Received {JobsCount} new jobs", newJobs.Count);
@@ -76,10 +81,12 @@ public class ScraperEngine
         catch (PageCrawlLimitException ex)
         {
             Logger.LogWarning(ex, "Shutting down due to page crawl limit {Limit}", ex.PageCrawlLimit);
+            throw;
         }
         catch (TaskCanceledException ex)
         {
             Logger.LogWarning(ex, "Shutting down due to cancellation");
+            throw;
         }
         catch (Exception ex)
         {

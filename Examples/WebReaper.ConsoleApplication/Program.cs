@@ -2,9 +2,11 @@
 using WebReaper.ProxyProviders.WebShareProxy;
 
 _ = new ScraperEngineBuilder()
-    .GetWithBrowser("https://www.reddit.com/r/dotnet/", actions => actions
+    .GetWithBrowser(
+        new []{ "https://www.reddit.com/r/dotnet/" },
+        actions => actions
         .ScrollToEnd()
-        .RepeatWithDelay(1000,2000)
+        .RepeatWithDelay(10,2000)
         .Build())
     .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
     .Parse(new()
@@ -14,8 +16,8 @@ _ = new ScraperEngineBuilder()
     })
     .WriteToJsonFile("output.json")
     .LogToConsole()
-    .WithProxies(new WebShareProxyProvider())
+    .PageCrawlLimit(10)
     .Build()
-    .Run(1);
+    .Run();
 
 Console.ReadLine();

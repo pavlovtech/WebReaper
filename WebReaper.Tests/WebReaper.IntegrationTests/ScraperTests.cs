@@ -17,6 +17,40 @@ namespace WebReaper.IntegrationTests
         }
 
         [Fact]
+        public async Task StartScrapingWithMultipleStartUrls()
+        {
+            var result = new List<ParsedData>();
+
+            var startUrls = new string[]
+            {
+                "https://www.reddit.com/r/dotnet/",
+                "https://www.reddit.com/r/worldnews/",
+                "https://www.reddit.com/r/ukraine/"
+            };
+            
+            var engine = new ScraperEngineBuilder()
+                .Get(startUrls)
+                .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
+                .Parse(new()
+                {
+                    new("title", "._eYtD2XCVieq6emjKBH3m"),
+                    new("text", "._3xX726aBn29LDbsDtzr_6E._1Ap4F5maDtT1E1YuCiaO0r.D3IL3FD0RFy_mkKLPwL4")
+                })
+                .WithLogger(new TestOutputLogger(this.output))
+                .Subscribe(x => result.Add(x))
+                .Build();
+
+            _ = engine.Run();
+
+            await Task.Delay(15000);
+
+            Assert.NotEmpty(result);
+            Assert.True(result.Any(r => r.Url.StartsWith(startUrls[0])));
+            Assert.True(result.Any(r => r.Url.StartsWith(startUrls[1])));
+            Assert.True(result.Any(r => r.Url.StartsWith(startUrls[2])));
+        }
+        
+        [Fact]
         public async Task SimpleTest()
         {
             var result = new List<ParsedData>();
@@ -78,7 +112,7 @@ namespace WebReaper.IntegrationTests
             var result = new List<ParsedData>();
 
             var engine = new ScraperEngineBuilder()
-                .GetWithBrowser("https://www.reddit.com/r/dotnet/")
+                .GetWithBrowser(new []{"https://www.reddit.com/r/dotnet/"})
                 .FollowWithBrowser("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
                 .Parse(new()
                 {

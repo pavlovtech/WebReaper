@@ -13,7 +13,7 @@ public class ConfigBuilder
 
     private IEnumerable<string> _blockedUrls = Enumerable.Empty<string>();
     
-    private string _startUrl;
+    private IEnumerable<string> _startUrls;
 
     private Schema? _schema;
     
@@ -23,20 +23,30 @@ public class ConfigBuilder
     
     private int _pageCrawlLimit = Int32.MaxValue;
 
-    public ConfigBuilder Get(string startUrl)
+    /// <summary>
+    /// This method can be called only one time to specify urls to start crawling with.
+    /// </summary>
+    /// <param name="startUrls">Initial urls for crawling</param>
+    /// <returns>instance of ConfigBuilder</returns>
+    public ConfigBuilder Get(params string[] startUrls)
     {
-        _startUrl = startUrl;
+        _startUrls = startUrls;
         _startPageType = PageType.Static;
 
         return this;
     }
 
+    /// <summary>
+    /// This method can be called only one time to specify urls to start crawling with.
+    /// </summary>
+    /// <param name="startUrls">Initial urls for crawling</param>
+    /// <param name="pageActions">Actions to perform on the page via a browser</param>
+    /// <returns>instance of ConfigBuilder</returns>
     public ConfigBuilder GetWithBrowser(
-        string startUrl,
+        IEnumerable<string> startUrls,
         List<PageAction>? pageActions = null)
     {
-        _startUrl = startUrl;
-
+        _startUrls = startUrls;
         _startPageType = PageType.Dynamic;
         _pageActions = pageActions;
 
@@ -94,13 +104,13 @@ public class ConfigBuilder
 
     public ScraperConfig Build()
     {
-        if (_startUrl is null) throw new InvalidOperationException($"Start Url is missing. You must call the {nameof(Get)} or {nameof(GetWithBrowser)} method");
+        if (_startUrls is null) throw new InvalidOperationException($"Start Url is missing. You must call the {nameof(Get)} or {nameof(GetWithBrowser)} method");
         if (_schema is null) throw new InvalidOperationException($"You must call the {nameof(WithScheme)} method to set the parsing scheme");
 
         return new ScraperConfig(
             _schema,
             ImmutableQueue.Create(_linkPathSelectors.ToArray()),
-            _startUrl,
+            _startUrls,
             _blockedUrls,
             _pageCrawlLimit,
             _startPageType,

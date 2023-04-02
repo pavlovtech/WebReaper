@@ -58,7 +58,7 @@ public class ScraperEngineBuilder
         return this;
     }
 
-    public ScraperEngineBuilder Limit(int limit)
+    public ScraperEngineBuilder PageCrawlLimit(int limit)
     {
         ConfigBuilder.WithPageCrawlLimit(limit);
         return this;
@@ -156,17 +156,17 @@ public class ScraperEngineBuilder
         return this;
     }
 
-    public ScraperEngineBuilder Get(string url)
+    public ScraperEngineBuilder Get(params string[] startUrls)
     {
-        ConfigBuilder.Get(url);
+        ConfigBuilder.Get(startUrls);
         return this;
     }
 
     public ScraperEngineBuilder GetWithBrowser(
-        string url,
+        IEnumerable<string> startUrls,
         Func<PageActionBuilder, List<PageAction>>? actionBuilder = null)
     {
-        ConfigBuilder.GetWithBrowser(url, actionBuilder?.Invoke(new()));
+        ConfigBuilder.GetWithBrowser(startUrls, actionBuilder?.Invoke(new()));
         return this;
     }
 
