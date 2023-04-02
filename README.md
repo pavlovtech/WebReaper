@@ -133,6 +133,34 @@ _ = new ScraperEngineBuilder()
     })
 ```
 
+### How to disable headless mode
+
+If you scrape pages with a browser using GetWithBrowser and FollowWithBrowser methods, the default mode is headless meaning that you won't see the browser during scraping. However, seeing the browser during scraping for debugging or troubleshooting may be useful. To disable headless mode you the .HeadlessMode(false) method call.
+
+```C#
+
+_ = new ScraperEngineBuilder()
+    .GetWithBrowser("https://www.reddit.com/r/dotnet/", actions => actions
+        .ScrollToEnd()
+        .Build())
+	.HeadlessMode(false)
+
+```
+
+### How to clean prevously scraped during the next web scrapping run
+
+You may want to clean the data recived during the previous scraping to start you web scraping from scratch. In this case use dataCleanupOnStart when adding a new sink:
+
+```C#
+
+_ = new ScraperEngineBuilder()
+    .Get("https://www.reddit.com/r/dotnet/")
+	.WriteToJsonFile("output.json", dataCleanupOnStart: true)
+
+This parameter is present for all sinks, e.g. MongoDbSink, RedisSink, CosmosSink, etc.
+
+```
+
 ### Distributed web scraping with Serverless approach
 
 In the Examples folder you can find the project called WebReaper.AzureFuncs. It demonstrates the use of WebReaper with Azure Functions. It consists of two serverless functions:

@@ -21,7 +21,7 @@ namespace WebReaper.IntegrationTests
         {
             var result = new List<ParsedData>();
 
-            var startUrls = new string[]
+            var startUrls = new[]
             {
                 "https://www.reddit.com/r/dotnet/",
                 "https://www.reddit.com/r/worldnews/",
