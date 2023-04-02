@@ -7,7 +7,9 @@
 
 ## Overview
 
-WebReaper is a declarative high performance web scraper, crawler and parser in C#. Designed as simple, extensible and scalable web scraping solution. Easily crawl any web site and parse the data, save structed result to a file, DB, or pretty much to anywhere you want.
+WebReaper is a declarative high performance web scraper, crawler and parser in C#. Designed as simple, extensible and
+scalable web scraping solution. Easily crawl any web site and parse the data, save structed result to a file, DB, or
+pretty much to anywhere you want.
 
 It provides a simple yet extensible API to make web scraping a breeze.
 
@@ -30,7 +32,8 @@ dotnet add package WebReaper
 * :zap: It's extremely fast due to parallelism and asynchrony
 * 🗒 Declarative parsing with a structured scheme
 * 💾 Saving data to any sinks such as JSON or CSV file, MongoDB, CosmosDB, Redis, etc.
-* :earth_americas: Distributed crawling support: run your web scraper on ony cloud VMs, serverless functions, on-prem servers, etc.
+* :earth_americas: Distributed crawling support: run your web scraper on ony cloud VMs, serverless functions, on-prem
+  servers, etc.
 * :octopus: Crawling and parsing Single Page Applications with Puppeteer
 * 🖥 Proxy support
 * 🌀 Automatic reties
@@ -52,7 +55,8 @@ dotnet add package WebReaper
 
 ### SPA parsing example
 
-Parsing single page applications is super simple, just use the GetWithBrowser and/or FollowWithBrowser method. In this case Puppeteer will be used to load the pages.
+Parsing single page applications is super simple, just use the GetWithBrowser and/or FollowWithBrowser method. In this
+case Puppeteer will be used to load the pages.
 
 ```C#
 _ = new ScraperEngineBuilder()
@@ -69,7 +73,8 @@ _ = new ScraperEngineBuilder()
     .Run();
 ```
 
-Additionally, you can run any JavaScript on dynamic pages as they are loaded with headless browser. In order to do that you need to add some page actions:
+Additionally, you can run any JavaScript on dynamic pages as they are loaded with headless browser. In order to do that
+you need to add some page actions:
 
 ```C#
 using WebReaper.Core.Builders;
@@ -96,7 +101,9 @@ It can be helpful if the required content is loaded only after some user interac
 
 ### Persist the progress locally
 
-If you want to persist the vistited links and job queue locally, so that you can start crawling where you left off you can use ScheduleWithTextFile and TrackVisitedLinksInFile methods:
+If you want to persist the vistited links and job queue locally, so that you can start crawling where you left off you
+can use ScheduleWithTextFile and TrackVisitedLinksInFile methods:
+
 ```C#
 var engine = new ScraperEngineBuilder()
 	.WithLogger(logger)
@@ -119,9 +126,12 @@ var engine = new ScraperEngineBuilder()
 	.TrackVisitedLinksInFile("links.txt")
 	.Build();
 ```
+
 ### Authorization
 
-If you need to pass authorization before parsing the web site, you can call SetCookies method on Scraper that has to fill CookieContainer with all cookies required for authorization. You are responsible for performing the login operation with your credentials, the Scraper only uses the cookies that you provide.
+If you need to pass authorization before parsing the web site, you can call SetCookies method on Scraper that has to
+fill CookieContainer with all cookies required for authorization. You are responsible for performing the login operation
+with your credentials, the Scraper only uses the cookies that you provide.
 
 ```C#
 _ = new ScraperEngineBuilder()
@@ -135,7 +145,9 @@ _ = new ScraperEngineBuilder()
 
 ### How to disable headless mode
 
-If you scrape pages with a browser using GetWithBrowser and FollowWithBrowser methods, the default mode is headless meaning that you won't see the browser during scraping. However, seeing the browser during scraping for debugging or troubleshooting may be useful. To disable headless mode you the .HeadlessMode(false) method call.
+If you scrape pages with a browser using GetWithBrowser and FollowWithBrowser methods, the default mode is headless
+meaning that you won't see the browser during scraping. However, seeing the browser during scraping for debugging or
+troubleshooting may be useful. To disable headless mode you the .HeadlessMode(false) method call.
 
 ```C#
 
@@ -149,7 +161,8 @@ _ = new ScraperEngineBuilder()
 
 ### How to clean prevously scraped data during the next web scrapping run
 
-You may want to clean the data recived during the previous scraping to start you web scraping from scratch. In this case use dataCleanupOnStart when adding a new sink:
+You may want to clean the data recived during the previous scraping to start you web scraping from scratch. In this case
+use dataCleanupOnStart when adding a new sink:
 
 ```C#
 
@@ -162,17 +175,18 @@ This dataCleanupOnStart parameter is present for all sinks, e.g. MongoDbSink, Re
 
 ### Distributed web scraping with Serverless approach
 
-In the Examples folder you can find the project called WebReaper.AzureFuncs. It demonstrates the use of WebReaper with Azure Functions. It consists of two serverless functions:
+In the Examples folder you can find the project called WebReaper.AzureFuncs. It demonstrates the use of WebReaper with
+Azure Functions. It consists of two serverless functions:
 
 #### StartScrapting
+
 First of all, this function uses ScraperConfigBuilder to build the scraper configuration e. g.:
 
 Secondly, this function writes the first web scraping job with startUrl to the Azure Service Bus queue:
 
-
 #### WebReaperSpider
 
-This Azure function is triggered by messages sent to the Azure Service Bus queue. Messages represent web scraping job. 
+This Azure function is triggered by messages sent to the Azure Service Bus queue. Messages represent web scraping job.
 
 Firstly, this function builds the spider that is going to execute the job from the queue.
 
@@ -184,7 +198,8 @@ Finally, it iterates through these new jobs and sends them the the Job queue.
 
 #### Adding a new sink to persist your data
 
-Out of the box there are 4 sinks you can send your parsed data to: ConsoleSink, CsvFileSink, JsonFileSink, CosmosSink (Azure Cosmos database).
+Out of the box there are 4 sinks you can send your parsed data to: ConsoleSink, CsvFileSink, JsonFileSink, CosmosSink (
+Azure Cosmos database).
 
 You can easly add your own by implementing the IScraperSink interface:
 
@@ -194,6 +209,7 @@ public interface IScraperSink
     public Task EmitAsync(ParsedData data);
 }
 ```
+
 Here is an example of the Console sink:
 
 ```C#
@@ -242,9 +258,9 @@ For other ways to extend your functionality see the next section.
 
 ## Repository structure
 
-| Project                                   | Description                                                                     |
-|-------------------------------------------|---------------------------------------------------------------------------------|
-| WebReaper                                 | Library for web scraping                                                        |
+| Project                                   | Description                                                                       |
+|-------------------------------------------|-----------------------------------------------------------------------------------|
+| WebReaper                                 | Library for web scraping                                                          |
 | WebReaper.ScraperWorkerService            | Example of using WebReaper library in a Worker Service .NET project.              |
 | WebReaper.DistributedScraperWorkerService | Example of using WebReaper library in a distributed way wih Azure Service Bus     |
 | WebReaper.AzureFuncs                      | Example of using WebReaper library with serverless approach using Azure Functions |
