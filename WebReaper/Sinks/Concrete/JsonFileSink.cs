@@ -16,11 +16,14 @@ public class JsonLinesFileSink : IScraperSink
 
     private bool IsInitialized { get; set; }
 
-    public JsonLinesFileSink(string filePath)
+    public JsonLinesFileSink(string filePath, bool dataCleanupOnStart)
     {
+        DataCleanupOnStart = dataCleanupOnStart;
         this.filePath = filePath;
         Init();
     }
+
+    public bool DataCleanupOnStart { get; set; }
 
     public Task EmitAsync(ParsedData entity, CancellationToken cancellationToken = default)
     {
@@ -46,14 +49,15 @@ public class JsonLinesFileSink : IScraperSink
 
     private void Init(CancellationToken cancellationToken = default)
     {
-        lock (_lock)
-        {
-            if (IsInitialized)
-            {
-                return;
-            }
+        if (IsInitialized)
+            return;
 
-            //File.Delete(filePath);
+        if (DataCleanupOnStart)
+        {
+            lock (_lock)
+            {
+                File.Delete(filePath);
+            }
         }
 
         _ = Task.Run(async() => await HandleAsync(cancellationToken), cancellationToken);

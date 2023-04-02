@@ -39,7 +39,7 @@ public class ScrapingWorker : BackgroundService
             .PostProcess(async (meta, result) => await ParseTorrentStats(meta, result) )
             .WithRedisScheduler("localhost:6379", "jobs")
             .TrackVisitedLinksInRedis("localhost:6379", "rutracker-visited-links")
-            .WriteToRedis("localhost:6379", "rutracker-audiobooks")
+            .WriteToRedis("localhost:6379", "rutracker-audiobooks", true)
             .WithRedisConfigStorage("localhost:6379", "rutracker-scraper-config")
             .Build();
     }

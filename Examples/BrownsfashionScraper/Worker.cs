@@ -63,7 +63,7 @@ namespace BrownsfashionScraper
                     new("subcategory2", "#modal-controller-container > main > nav > ol > li:nth-child(3) > a]"),
 
                 })
-                .WriteToCsvFile("result.csv")
+                .WriteToCsvFile("result.csv", true)
                 .WithLogger(logger)
                 .Build();
         }

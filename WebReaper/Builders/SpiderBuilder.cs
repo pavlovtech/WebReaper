@@ -114,20 +114,22 @@ public class SpiderBuilder
         return this;
     }
 
-    public SpiderBuilder WriteToJsonFile(string filePath) => AddSink(new JsonLinesFileSink(filePath));
+    public SpiderBuilder WriteToJsonFile(string filePath, bool dataCleanupOnStart) =>
+        AddSink(new JsonLinesFileSink(filePath, dataCleanupOnStart));
 
     public SpiderBuilder WriteToCosmosDb(
         string endpointUrl,
         string authorizationKey,
         string databaseId,
-        string containerId)
+        string containerId,
+        bool dataCleanupOnStart)
     {
-        return AddSink(new CosmosSink(endpointUrl, authorizationKey, databaseId, containerId, Logger)); // possible NullLogger here
+        return AddSink(new CosmosSink(endpointUrl, authorizationKey, databaseId, containerId, dataCleanupOnStart, Logger)); // possible NullLogger here
     }
     
-    public SpiderBuilder WriteToRedis(string connectionString, string redisKey)
+    public SpiderBuilder WriteToRedis(string connectionString, string redisKey, bool dataCleanupOnStart)
     {
-        return AddSink(new RedisSink(connectionString, redisKey, Logger)); // possible NullLogger here
+        return AddSink(new RedisSink(connectionString, redisKey, dataCleanupOnStart, Logger)); // possible NullLogger here
     }
 
     public SpiderBuilder WithStaticPageLoader(IStaticPageLoader staticPageLoader)
@@ -148,7 +150,8 @@ public class SpiderBuilder
         return this;
     }
 
-    public SpiderBuilder WriteToCsvFile(string filePath) => AddSink(new CsvFileSink(filePath));
+    public SpiderBuilder WriteToCsvFile(string filePath, bool dataCleanupOnStart) =>
+        AddSink(new CsvFileSink(filePath, dataCleanupOnStart));
     
     public SpiderBuilder WithRedisCookieStorage(string connectionString, string redisKey)
     {

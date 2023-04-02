@@ -15,10 +15,13 @@ public class CsvFileSink : IScraperSink
 
     private bool IsInitialized { get; set; }
 
-    public CsvFileSink(string filePath)
+    public CsvFileSink(string filePath, bool dataCleanupOnStart)
     {
+        DataCleanupOnStart = dataCleanupOnStart;
         this.filePath = filePath;
     }
+
+    public bool DataCleanupOnStart { get; set; }
 
     public async Task EmitAsync(ParsedData entity, CancellationToken cancellationToken = default)
     {
@@ -31,27 +34,29 @@ public class CsvFileSink : IScraperSink
 
     private async Task Init(JObject scrapedData, CancellationToken cancellationToken)
     {
-        if (!IsInitialized)
+        if (IsInitialized)
+            return;
+
+        if (DataCleanupOnStart)
         {
-
-            // lock (_lock)
-            // {
-            //     File.Delete(filePath);
-            // }
-
-            var flattened = scrapedData
-                .Descendants()
-                .OfType<JValue>()
-                .Select(jv => jv.Path.Remove(0, jv.Path.LastIndexOf(".", StringComparison.Ordinal) + 1));
-
-            var header = string.Join(",", flattened) + Environment.NewLine;
-
-            await File.AppendAllTextAsync(filePath, header, cancellationToken);
-
-            IsInitialized = true;
-
-            _ = Task.Run(async () => await Handle(cancellationToken), cancellationToken);
+            lock (_lock)
+            { 
+                File.Delete(filePath);
+            }
         }
+
+        var flattened = scrapedData
+            .Descendants()
+            .OfType<JValue>()
+            .Select(jv => jv.Path.Remove(0, jv.Path.LastIndexOf(".", StringComparison.Ordinal) + 1));
+
+        var header = string.Join(",", flattened) + Environment.NewLine;
+
+        await File.AppendAllTextAsync(filePath, header, cancellationToken);
+
+        IsInitialized = true;
+
+        _ = Task.Run(async () => await Handle(cancellationToken), cancellationToken);
     }
 
     private async Task Handle(CancellationToken cancellationToken = default)
