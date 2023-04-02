@@ -7,13 +7,23 @@ namespace WebReaper.HttpRequests.Concrete;
 
 public class RotatingProxyPageRequester : IPageRequester
 {
+    public RotatingProxyPageRequester(IProxyProvider proxyProvider)
+    {
+        ProxyProvider = proxyProvider;
+    }
+
     public IProxyProvider ProxyProvider { get; }
 
     public CookieContainer CookieContainer { get; set; }
 
-    public RotatingProxyPageRequester(IProxyProvider proxyProvider)
+    public async Task<HttpResponseMessage> GetAsync(string url)
     {
-        ProxyProvider = proxyProvider;
+        var client = await CreateClient();
+        var resp = await client.GetAsync(url);
+
+        client.Dispose();
+
+        return resp;
     }
 
     private async Task<HttpClient> CreateClient()
@@ -27,12 +37,12 @@ public class RotatingProxyPageRequester : IPageRequester
 
     public async Task<SocketsHttpHandler> GetHttpHandler()
     {
-        var handler = new SocketsHttpHandler()
+        var handler = new SocketsHttpHandler
         {
             SslOptions = new SslClientAuthenticationOptions
             {
                 // Leave certs unvalidated for debugging
-                RemoteCertificateValidationCallback = delegate { return true; },
+                RemoteCertificateValidationCallback = delegate { return true; }
             },
             PooledConnectionIdleTimeout = TimeSpan.FromSeconds(5),
             PooledConnectionLifetime = TimeSpan.FromTicks(0),
@@ -43,15 +53,5 @@ public class RotatingProxyPageRequester : IPageRequester
         };
 
         return handler;
-    }
-
-    public async Task<HttpResponseMessage> GetAsync(string url)
-    {
-        var client = await CreateClient();
-        var resp = await client.GetAsync(url);
-
-        client.Dispose();
-
-        return resp;
     }
 }

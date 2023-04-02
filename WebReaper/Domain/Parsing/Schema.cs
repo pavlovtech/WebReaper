@@ -7,7 +7,6 @@ public record Schema(string? Field = null)
 {
     public Schema() : this(Field: null)
     {
-
     }
 
     public List<SchemaElement> Children { get; set; } = new();
@@ -16,7 +15,10 @@ public record Schema(string? Field = null)
 
     public bool IsReadOnly => false;
 
-    public virtual void Add(SchemaElement element) => Children.Add(element);
+    public virtual void Add(SchemaElement element)
+    {
+        Children.Add(element);
+    }
 
     public void Clear()
     {
@@ -33,12 +35,18 @@ public record Schema(string? Field = null)
         Children.ToArray().CopyTo(array, arrayIndex);
     }
 
-    public IEnumerator<SchemaElement> GetEnumerator() => Children.GetEnumerator();
+    public IEnumerator<SchemaElement> GetEnumerator()
+    {
+        return Children.GetEnumerator();
+    }
 
     public bool Remove(SchemaElement item)
     {
         return Children.Remove(item);
     }
 
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
 }

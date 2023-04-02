@@ -10,7 +10,7 @@ public class LinkParserByCssSelector : ILinkParser
         var config = Configuration.Default.WithDefaultLoader();
         var context = BrowsingContext.New(config);
         using var doc = await context.OpenAsync(req => req.Content(html));
-        
+
         return doc
             .QuerySelectorAll(cssSelector)
             .Select(e => e.Attributes["href"]?.Value)

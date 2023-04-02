@@ -6,9 +6,9 @@ namespace WebReaper.Core.LinkTracker.Concrete;
 public class FileVisitedLinkedTracker : IVisitedLinkTracker
 {
     private readonly string _fileName;
-    private readonly ConcurrentBag<string> _visitedLinks;
-    
+
     private readonly SemaphoreSlim _semaphore = new(1, 1);
+    private readonly ConcurrentBag<string> _visitedLinks;
 
     public FileVisitedLinkedTracker(string fileName)
     {
@@ -21,15 +21,15 @@ public class FileVisitedLinkedTracker : IVisitedLinkTracker
             file.Close();
             return;
         }
-        
+
         var allLinks = File.ReadLines(fileName);
         _visitedLinks = new ConcurrentBag<string>(allLinks);
     }
-    
+
     public async Task AddVisitedLinkAsync(string visitedLink)
     {
         _visitedLinks.Add(visitedLink);
-        
+
         await _semaphore.WaitAsync();
         try
         {
@@ -41,10 +41,18 @@ public class FileVisitedLinkedTracker : IVisitedLinkTracker
         }
     }
 
-    public Task<List<string>> GetVisitedLinksAsync() => Task.FromResult(_visitedLinks.ToList());
+    public Task<List<string>> GetVisitedLinksAsync()
+    {
+        return Task.FromResult(_visitedLinks.ToList());
+    }
 
-    public Task<List<string>> GetNotVisitedLinks(IEnumerable<string> links) =>
-        Task.FromResult(links.Except(_visitedLinks).ToList());
+    public Task<List<string>> GetNotVisitedLinks(IEnumerable<string> links)
+    {
+        return Task.FromResult(links.Except(_visitedLinks).ToList());
+    }
 
-    public Task<long> GetVisitedLinksCount() => Task.FromResult((long)_visitedLinks.Count);
+    public Task<long> GetVisitedLinksCount()
+    {
+        return Task.FromResult((long)_visitedLinks.Count);
+    }
 }

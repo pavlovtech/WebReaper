@@ -7,16 +7,12 @@ using WebReaper.CookieStorage.Abstract;
 
 namespace WebReaper.CookieStorage.Concrete;
 
-public class MongoDbCookieStorage: ICookiesStorage
+public class MongoDbCookieStorage : ICookiesStorage
 {
     private readonly string _cookieCollectionId;
-    private string ConnectionString { get; }
-    private string CollectionName { get; }
-    private string DatabaseName { get; }
-    private MongoClient Client { get; }
-    private ILogger Logger { get; }
-    
-    public MongoDbCookieStorage(string connectionString, string databaseName, string collectionName, string cookieCollectionId, ILogger logger)
+
+    public MongoDbCookieStorage(string connectionString, string databaseName, string collectionName,
+        string cookieCollectionId, ILogger logger)
     {
         _cookieCollectionId = cookieCollectionId;
         ConnectionString = connectionString;
@@ -25,6 +21,12 @@ public class MongoDbCookieStorage: ICookiesStorage
         Client = new MongoClient(ConnectionString);
         Logger = logger;
     }
+
+    private string ConnectionString { get; }
+    private string CollectionName { get; }
+    private string DatabaseName { get; }
+    private MongoClient Client { get; }
+    private ILogger Logger { get; }
 
     public async Task AddAsync(CookieContainer cookieContainer)
     {
@@ -42,7 +44,7 @@ public class MongoDbCookieStorage: ICookiesStorage
         var config = await collection.FindAsync(c => c["id"] == _cookieCollectionId);
 
         var json = config.ToJson();
-        
+
         var result = JsonConvert.DeserializeObject<CookieContainer>(json);
 
         return result;

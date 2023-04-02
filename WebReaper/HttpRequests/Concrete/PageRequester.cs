@@ -8,11 +8,16 @@ public class PageRequester : IPageRequester
 {
     private static HttpClient? client;
 
-    public CookieContainer CookieContainer { get; set; }
-
     public PageRequester()
     {
         client = CreateClient();
+    }
+
+    public CookieContainer CookieContainer { get; set; }
+
+    public async Task<HttpResponseMessage> GetAsync(string url)
+    {
+        return await client!.GetAsync(url);
     }
 
     private HttpClient CreateClient()
@@ -26,13 +31,13 @@ public class PageRequester : IPageRequester
 
     private SocketsHttpHandler GetHttpHandler()
     {
-        var handler = new SocketsHttpHandler()
+        var handler = new SocketsHttpHandler
         {
             MaxConnectionsPerServer = 10000,
             SslOptions = new SslClientAuthenticationOptions
             {
                 // Leave certs unvalidated for debugging
-                RemoteCertificateValidationCallback = delegate { return true; },
+                RemoteCertificateValidationCallback = delegate { return true; }
             },
             PooledConnectionIdleTimeout = TimeSpan.FromMinutes(2),
             PooledConnectionLifetime = Timeout.InfiniteTimeSpan,
@@ -41,10 +46,5 @@ public class PageRequester : IPageRequester
         };
 
         return handler;
-    }
-
-    public async Task<HttpResponseMessage> GetAsync(string url)
-    {
-        return await client!.GetAsync(url);
     }
 }

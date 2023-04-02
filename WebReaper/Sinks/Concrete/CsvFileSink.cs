@@ -9,17 +9,17 @@ public class CsvFileSink : IScraperSink
 {
     private readonly object _lock = new();
 
-    private readonly string filePath;
-
     private readonly BlockingCollection<JObject> entries = new();
 
-    private bool IsInitialized { get; set; }
+    private readonly string filePath;
 
     public CsvFileSink(string filePath, bool dataCleanupOnStart)
     {
         DataCleanupOnStart = dataCleanupOnStart;
         this.filePath = filePath;
     }
+
+    private bool IsInitialized { get; set; }
 
     public bool DataCleanupOnStart { get; set; }
 
@@ -38,12 +38,10 @@ public class CsvFileSink : IScraperSink
             return;
 
         if (DataCleanupOnStart)
-        {
             lock (_lock)
-            { 
+            {
                 File.Delete(filePath);
             }
-        }
 
         var flattened = scrapedData
             .Descendants()

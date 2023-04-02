@@ -17,23 +17,6 @@ namespace WebReaper.Core.Spider.Concrete;
 
 public class Spider : ISpider
 {
-    private IStaticPageLoader StaticStaticPageLoader { get; init; }
-    private IBrowserPageLoader BrowserPageLoader { get; init; }
-    private ILinkParser LinkParser { get; init; }
-    private IContentParser ContentParser { get; init; }
-    
-    private IVisitedLinkTracker LinkTracker { get; init; }
-    
-    private IScraperConfigStorage ScraperConfigStorage { get; init; }
- 
-    private List<IScraperSink> Sinks { get; set; }
-
-    public event Action<ParsedData>? ScrapedData;
-
-    public event Func<Metadata, JObject, Task>? PostProcessor;
-
-    private ILogger Logger { get; }
-
     public Spider(
         List<IScraperSink> sinks,
         ILinkParser linkParser,
@@ -54,17 +37,30 @@ public class Spider : ISpider
         Logger = logger;
     }
 
+    private IStaticPageLoader StaticStaticPageLoader { get; }
+    private IBrowserPageLoader BrowserPageLoader { get; }
+    private ILinkParser LinkParser { get; }
+    private IContentParser ContentParser { get; }
+
+    private IVisitedLinkTracker LinkTracker { get; }
+
+    private IScraperConfigStorage ScraperConfigStorage { get; }
+
+    private List<IScraperSink> Sinks { get; }
+
+    private ILogger Logger { get; }
+
     public async Task<List<Job>> CrawlAsync(Job job, CancellationToken cancellationToken = default)
     {
         var config = await ScraperConfigStorage.GetConfigAsync();
-        
+
         if (config.UrlBlackList.Contains(job.Url)) return Enumerable.Empty<Job>().ToList();
 
         if (await LinkTracker.GetVisitedLinksCount() >= config.PageCrawlLimit)
         {
             Logger.LogInformation("Page crawl limit has been reached");
 
-            throw new PageCrawlLimitException("Page crawl limit has been reached.") 
+            throw new PageCrawlLimitException("Page crawl limit has been reached.")
             {
                 PageCrawlLimit = config.PageCrawlLimit
             };
@@ -74,15 +70,10 @@ public class Spider : ISpider
 
         string doc = null;
         if (job.PageType == PageType.Static)
-        {
             doc = await LoadStaticPage(job);
-        }
         else
-        {
             doc = await LoadDynamicPage(job, config.Headless);
-        }
-        
-        
+
 
         if (job.PageCategory == PageCategory.TargetPage)
         {
@@ -107,7 +98,7 @@ public class Spider : ISpider
         newJobs.AddRange(CreateNextJobs(job, currentSelector, newLinkPathSelectors, links, cancellationToken));
 
         if (job.PageCategory != PageCategory.PageWithPagination) return newJobs;
-        
+
         var nextJobs = await CreateJobsForPagesWithPagination(job, currentSelector, baseUrl, doc, cancellationToken);
 
         newJobs.AddRange(nextJobs);
@@ -115,21 +106,23 @@ public class Spider : ISpider
         return newJobs;
     }
 
+    public event Action<ParsedData>? ScrapedData;
+
+    public event Func<Metadata, JObject, Task>? PostProcessor;
+
     private async Task ProcessTargetPage(Job job, string doc, CancellationToken cancellationToken = default)
     {
         Logger.LogInvocationCount();
 
         var config = await ScraperConfigStorage.GetConfigAsync();
-        
+
         var rowResult = await ContentParser.ParseAsync(doc, config.ParsingScheme);
 
         var result = new ParsedData(job.Url, rowResult);
 
         if (PostProcessor is not null)
-        {
             await PostProcessor.Invoke(new Metadata(job.ParentBacklinks.ToList(), job.Url, doc), result.Data);
-        }
-        
+
         ScrapedData?.Invoke(result);
 
         Logger.LogInformation("Sending scraped data to sinks...");
@@ -147,7 +140,7 @@ public class Spider : ISpider
 
         return doc;
     }
-    
+
     private async Task<string> LoadDynamicPage(Job job, bool headless)
     {
         Logger.LogInformation("Loading dynamic page {Url}", job.Url);
@@ -169,10 +162,8 @@ public class Spider : ISpider
         Logger.LogInformation("Found {Pages} with pagination", rawPaginatedLinks.Count);
 
         if (!rawPaginatedLinks.Any())
-        {
             Logger.LogInformation("No pages with pagination found with selector {Selector} on {Url}",
                 currentSelector.PaginationSelector, job.Url);
-        }
 
         var linksToPaginatedPages = await LinkTracker.GetNotVisitedLinks(rawPaginatedLinks);
 

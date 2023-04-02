@@ -11,22 +11,22 @@ public class ConfigBuilder
     private readonly List<LinkPathSelector> _linkPathSelectors = new();
 
     private IEnumerable<string> _blockedUrls = Enumerable.Empty<string>();
-    
-    private IEnumerable<string> _startUrls;
-
-    private Schema? _schema;
-    
-    private PageType _startPageType;
-
-    private List<PageAction>? _pageActions = null;
-    
-    private int _pageCrawlLimit = Int32.MaxValue;
+    private bool _dataCleanupOnStart;
 
     private bool _headless = true;
-    private bool _dataCleanupOnStart = false;
+
+    private List<PageAction>? _pageActions;
+
+    private int _pageCrawlLimit = int.MaxValue;
+
+    private Schema? _schema;
+
+    private PageType _startPageType;
+
+    private IEnumerable<string> _startUrls;
 
     /// <summary>
-    /// This method can be called only one time to specify urls to start crawling with.
+    ///     This method can be called only one time to specify urls to start crawling with.
     /// </summary>
     /// <param name="startUrls">Initial urls for crawling</param>
     /// <returns>instance of ConfigBuilder</returns>
@@ -39,7 +39,7 @@ public class ConfigBuilder
     }
 
     /// <summary>
-    /// This method can be called only one time to specify urls to start crawling with.
+    ///     This method can be called only one time to specify urls to start crawling with.
     /// </summary>
     /// <param name="startUrls">Initial urls for crawling</param>
     /// <param name="pageActions">Actions to perform on the page via a browser</param>
@@ -57,7 +57,7 @@ public class ConfigBuilder
 
     public ConfigBuilder Follow(string linkSelector)
     {
-        _linkPathSelectors.Add(new LinkPathSelector(linkSelector, null, PageType.Static));
+        _linkPathSelectors.Add(new LinkPathSelector(linkSelector));
         return this;
     }
 
@@ -68,25 +68,25 @@ public class ConfigBuilder
         _linkPathSelectors.Add(new LinkPathSelector(linkSelector, null, PageType.Dynamic, pageActions));
         return this;
     }
-    
+
     public ConfigBuilder HeadlessMode(bool headless)
     {
         _headless = headless;
         return this;
     }
-    
+
     public ConfigBuilder DataCleanupOnStart(bool dataCleanup)
     {
         _dataCleanupOnStart = dataCleanup;
         return this;
     }
-    
+
     public ConfigBuilder IgnoreUrls(IEnumerable<string> urls)
     {
         _blockedUrls = urls;
         return this;
     }
-    
+
     public ConfigBuilder WithPageCrawlLimit(int limit)
     {
         _pageCrawlLimit = limit;
@@ -97,7 +97,7 @@ public class ConfigBuilder
         string linkSelector,
         string paginationSelector)
     {
-        _linkPathSelectors.Add(new LinkPathSelector(linkSelector, paginationSelector, PageType.Static));
+        _linkPathSelectors.Add(new LinkPathSelector(linkSelector, paginationSelector));
         return this;
     }
 
@@ -118,8 +118,12 @@ public class ConfigBuilder
 
     public ScraperConfig Build()
     {
-        if (_startUrls is null) throw new InvalidOperationException($"Start Url is missing. You must call the {nameof(Get)} or {nameof(GetWithBrowser)} method");
-        if (_schema is null) throw new InvalidOperationException($"You must call the {nameof(WithScheme)} method to set the parsing scheme");
+        if (_startUrls is null)
+            throw new InvalidOperationException(
+                $"Start Url is missing. You must call the {nameof(Get)} or {nameof(GetWithBrowser)} method");
+        if (_schema is null)
+            throw new InvalidOperationException(
+                $"You must call the {nameof(WithScheme)} method to set the parsing scheme");
 
         return new ScraperConfig(
             _schema,

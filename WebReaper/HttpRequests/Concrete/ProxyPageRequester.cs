@@ -9,14 +9,19 @@ public class ProxyPageRequester : IPageRequester
 {
     private static HttpClient? client;
 
-    private IProxyProvider ProxyProvider { get; }
-    public CookieContainer CookieContainer { get; set; } = new CookieContainer();
-
     public ProxyPageRequester(IProxyProvider proxyProvider)
     {
         ProxyProvider = proxyProvider;
 
         client ??= CreateClient();
+    }
+
+    private IProxyProvider ProxyProvider { get; }
+    public CookieContainer CookieContainer { get; set; } = new();
+
+    public async Task<HttpResponseMessage> GetAsync(string url)
+    {
+        return await client!.GetAsync(url);
     }
 
     private HttpClient CreateClient()
@@ -30,13 +35,13 @@ public class ProxyPageRequester : IPageRequester
 
     private SocketsHttpHandler GetHttpHandler()
     {
-        var handler = new SocketsHttpHandler()
+        var handler = new SocketsHttpHandler
         {
             MaxConnectionsPerServer = 10000,
             SslOptions = new SslClientAuthenticationOptions
             {
                 // Leave certs unvalidated for debugging
-                RemoteCertificateValidationCallback = delegate { return true; },
+                RemoteCertificateValidationCallback = delegate { return true; }
             },
             PooledConnectionIdleTimeout = TimeSpan.FromMinutes(2),
             PooledConnectionLifetime = Timeout.InfiniteTimeSpan,
@@ -47,10 +52,5 @@ public class ProxyPageRequester : IPageRequester
         };
 
         return handler;
-    }
-
-    public async Task<HttpResponseMessage> GetAsync(string url)
-    {
-        return await client!.GetAsync(url);
     }
 }

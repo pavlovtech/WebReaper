@@ -13,12 +13,13 @@ namespace WebReaper.Core.Loaders.Concrete;
 
 public class PuppeteerPageLoaderWithProxies : BrowserPageLoader, IBrowserPageLoader
 {
-    private readonly SemaphoreSlim _semaphore = new(1, 1);
-
-    private readonly IProxyProvider _proxyProvider;
     private readonly ICookiesStorage _cookiesStorage;
 
-    public PuppeteerPageLoaderWithProxies(ILogger logger, IProxyProvider proxyProvider, ICookiesStorage cookiesStorage): base(logger)
+    private readonly IProxyProvider _proxyProvider;
+    private readonly SemaphoreSlim _semaphore = new(1, 1);
+
+    public PuppeteerPageLoaderWithProxies(ILogger logger, IProxyProvider proxyProvider, ICookiesStorage cookiesStorage)
+        : base(logger)
     {
         _proxyProvider = proxyProvider;
         _cookiesStorage = cookiesStorage;
@@ -44,7 +45,7 @@ public class PuppeteerPageLoaderWithProxies : BrowserPageLoader, IBrowserPageLoa
         }
 
         var puppeteerExtra = new PuppeteerExtra().Use(new StealthPlugin());
-        
+
         var proxy = await _proxyProvider.GetProxyAsync();
         var proxyAddress = $"--proxy-server={proxy!.Address!.Host}:{proxy.Address.Port}";
 
@@ -62,7 +63,7 @@ public class PuppeteerPageLoaderWithProxies : BrowserPageLoader, IBrowserPageLoa
         });
 
         await using var page = await browser.NewPageAsync();
-        
+
         var creds = proxy.Credentials?.GetCredential(new Uri(proxy.Address.ToString()), string.Empty);
 
         await page.AuthenticateAsync(new Credentials
@@ -72,7 +73,7 @@ public class PuppeteerPageLoaderWithProxies : BrowserPageLoader, IBrowserPageLoa
         });
 
         var cookies = await _cookiesStorage.GetAsync();
-        
+
         if (cookies != null)
         {
             var cookieParams = cookies.GetAllCookies().Select(c => new CookieParam
@@ -89,12 +90,8 @@ public class PuppeteerPageLoaderWithProxies : BrowserPageLoader, IBrowserPageLoa
         await page.GoToAsync(url, WaitUntilNavigation.Networkidle2);
 
         if (pageActions != null)
-        {
             foreach (var action in pageActions)
-            {
                 await PageActions[action.Type](page, action.Parameters);
-            }
-        }
 
         var html = await page.GetContentAsync();
 

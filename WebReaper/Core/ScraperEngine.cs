@@ -11,12 +11,6 @@ namespace WebReaper.Core;
 
 public class ScraperEngine
 {
-    private IScraperConfigStorage ConfigStorage { get; }
-    private ScraperConfig Config { get; }
-    private IScheduler Scheduler { get; }
-    private ISpider Spider { get; }
-    private ILogger Logger { get; }
-
     public ScraperEngine(
         ScraperConfig config,
         IScraperConfigStorage configStorage,
@@ -34,6 +28,12 @@ public class ScraperEngine
             (jobScheduler, config, spider, logger, configStorage);
     }
 
+    private IScraperConfigStorage ConfigStorage { get; }
+    private ScraperConfig Config { get; }
+    private IScheduler Scheduler { get; }
+    private ISpider Spider { get; }
+    private ILogger Logger { get; }
+
     public async Task Run(int parallelismDegree = 8, CancellationToken cancellationToken = default)
     {
         Logger.LogInformation("Start {class}.{method}", nameof(ScraperEngine), nameof(Run));
@@ -49,13 +49,13 @@ public class ScraperEngine
         foreach (var startUrl in Config.StartUrls)
         {
             Logger.LogInformation("Scheduling the initial scraping job with start url {startUrl}", startUrl);
-            
+
             await Scheduler.AddAsync(new Job(
                 startUrl,
                 Config.LinkPathSelectors,
                 ImmutableQueue.Create<string>(),
                 Config.StartPageType,
-                Config.PageActions), cancellationToken);   
+                Config.PageActions), cancellationToken);
         }
 
         var options = new ParallelOptions { MaxDegreeOfParallelism = parallelismDegree };
@@ -63,14 +63,14 @@ public class ScraperEngine
         try
         {
             Logger.LogInformation("Start consuming the scraping jobs");
-            
+
             await Parallel.ForEachAsync(Scheduler.GetAllAsync(cancellationToken), options, async (job, token) =>
             {
                 Logger.LogInformation("Start crawling url {Url}", job.Url);
-                
+
                 //var newJobs = await RetryAsync(async() => await Spider.CrawlAsync(job, cancellationToken));
                 var newJobs = await RetryAsync(() => Spider.CrawlAsync(job, cancellationToken));
-                
+
                 Logger.LogInformation("Received {JobsCount} new jobs", newJobs.Count);
 
                 await Scheduler.AddAsync(newJobs, cancellationToken);

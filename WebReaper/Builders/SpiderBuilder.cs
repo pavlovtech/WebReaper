@@ -25,13 +25,14 @@ namespace WebReaper.Builders;
 
 public class SpiderBuilder
 {
-    private Func<Metadata,JObject,Task> PostProcessor { get; set; }
-    
+    private readonly List<string> _urlBlackList = new();
+    private Func<Metadata, JObject, Task> PostProcessor { get; set; }
+
     private List<IScraperSink> Sinks { get; } = new();
 
     private ILogger Logger { get; set; } = NullLogger.Instance;
 
-    private ILinkParser LinkParser { get; set; } = new LinkParserByCssSelector();
+    private ILinkParser LinkParser { get; } = new LinkParserByCssSelector();
 
     private IScraperConfigStorage ScraperConfigStorage { get; set; } = new InMemoryScraperConfigStorage();
 
@@ -45,13 +46,11 @@ public class SpiderBuilder
 
     private IProxyProvider? ProxyProvider { get; set; }
 
-    private CookieContainer Cookies { get; set; } = new();
+    private CookieContainer Cookies { get; } = new();
 
     private ICookiesStorage CookieStorage { get; set; } = new InMemoryCookieStorage();
 
     protected event Action<ParsedData> ScrapedData;
-
-    private readonly List<string> _urlBlackList = new();
 
     public SpiderBuilder WithLogger(ILogger logger)
     {
@@ -64,19 +63,19 @@ public class SpiderBuilder
         SiteLinkTracker = linkTracker;
         return this;
     }
-    
+
     public SpiderBuilder WithConfigStorage(IScraperConfigStorage scraperConfigStorage)
     {
         ScraperConfigStorage = scraperConfigStorage;
         return this;
     }
-    
+
     public SpiderBuilder WithFileConfigStorage(string fileName)
     {
         ScraperConfigStorage = new FileScraperConfigStorage(fileName);
         return this;
     }
-    
+
     public SpiderBuilder WithMongoDbConfigStorage(
         string connectionString,
         string databaseName,
@@ -84,10 +83,11 @@ public class SpiderBuilder
         string configId,
         ILogger logger)
     {
-        ScraperConfigStorage = new MongoDbScraperConfigStorage(connectionString, databaseName, collectionName, configId, logger);
+        ScraperConfigStorage =
+            new MongoDbScraperConfigStorage(connectionString, databaseName, collectionName, configId, logger);
         return this;
     }
-    
+
     public SpiderBuilder WithRedisConfigStorage(string connectionString, string key)
     {
         ScraperConfigStorage = new RedisScraperConfigStorage(connectionString, key, Logger);
@@ -105,8 +105,11 @@ public class SpiderBuilder
         Sinks.Add(sink);
         return this;
     }
-    
-    public SpiderBuilder WriteToConsole() => AddSink(new ConsoleSink());
+
+    public SpiderBuilder WriteToConsole()
+    {
+        return AddSink(new ConsoleSink());
+    }
 
     public SpiderBuilder AddSubscription(Action<ParsedData> eventHandler)
     {
@@ -114,8 +117,10 @@ public class SpiderBuilder
         return this;
     }
 
-    public SpiderBuilder WriteToJsonFile(string filePath, bool dataCleanupOnStart) =>
-        AddSink(new JsonLinesFileSink(filePath, dataCleanupOnStart));
+    public SpiderBuilder WriteToJsonFile(string filePath, bool dataCleanupOnStart)
+    {
+        return AddSink(new JsonLinesFileSink(filePath, dataCleanupOnStart));
+    }
 
     public SpiderBuilder WriteToCosmosDb(
         string endpointUrl,
@@ -124,12 +129,14 @@ public class SpiderBuilder
         string containerId,
         bool dataCleanupOnStart)
     {
-        return AddSink(new CosmosSink(endpointUrl, authorizationKey, databaseId, containerId, dataCleanupOnStart, Logger)); // possible NullLogger here
+        return AddSink(new CosmosSink(endpointUrl, authorizationKey, databaseId, containerId, dataCleanupOnStart,
+            Logger)); // possible NullLogger here
     }
-    
+
     public SpiderBuilder WriteToRedis(string connectionString, string redisKey, bool dataCleanupOnStart)
     {
-        return AddSink(new RedisSink(connectionString, redisKey, dataCleanupOnStart, Logger)); // possible NullLogger here
+        return AddSink(new RedisSink(connectionString, redisKey, dataCleanupOnStart,
+            Logger)); // possible NullLogger here
     }
 
     public SpiderBuilder WithStaticPageLoader(IStaticPageLoader staticPageLoader)
@@ -150,15 +157,17 @@ public class SpiderBuilder
         return this;
     }
 
-    public SpiderBuilder WriteToCsvFile(string filePath, bool dataCleanupOnStart) =>
-        AddSink(new CsvFileSink(filePath, dataCleanupOnStart));
-    
+    public SpiderBuilder WriteToCsvFile(string filePath, bool dataCleanupOnStart)
+    {
+        return AddSink(new CsvFileSink(filePath, dataCleanupOnStart));
+    }
+
     public SpiderBuilder WithRedisCookieStorage(string connectionString, string redisKey)
     {
         CookieStorage = new RedisCookieStorage(connectionString, redisKey, Logger);
         return this;
     }
-    
+
     public SpiderBuilder WithMongoDbCookieStorage(
         string connectionString,
         string databaseName,
@@ -166,19 +175,20 @@ public class SpiderBuilder
         string cookieCollectionId,
         ILogger logger)
     {
-        CookieStorage = new MongoDbCookieStorage(connectionString, databaseName, collectionName, cookieCollectionId, logger);
+        CookieStorage =
+            new MongoDbCookieStorage(connectionString, databaseName, collectionName, cookieCollectionId, logger);
         return this;
     }
-    
+
     public SpiderBuilder WithCookieStorage(ICookiesStorage cookiesStorage)
     {
         CookieStorage = cookiesStorage;
         return this;
     }
-    
+
     public void PostProcess(Func<Metadata, JObject, Task> callback)
     {
-        this.PostProcessor = callback;
+        PostProcessor = callback;
     }
 
     public ISpider Build()
@@ -197,7 +207,7 @@ public class SpiderBuilder
         else
         {
             var pageRequester = new PageRequester();
-            
+
             StaticPageLoader ??= new HttpStaticPageLoader(pageRequester, CookieStorage, Logger);
             BrowserPageLoader ??= new PuppeteerPageLoader(Logger, CookieStorage);
         }

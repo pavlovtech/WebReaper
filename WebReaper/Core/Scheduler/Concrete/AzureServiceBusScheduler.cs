@@ -16,9 +16,9 @@ public class AzureServiceBusScheduler : IScheduler, IAsyncDisposable
 
     public AzureServiceBusScheduler(string serviceBusConnectionString, string queueName)
     {
-        _client = new(serviceBusConnectionString);
+        _client = new ServiceBusClient(serviceBusConnectionString);
 
-        _receiver = _client.CreateReceiver(queueName, new ServiceBusReceiverOptions()
+        _receiver = _client.CreateReceiver(queueName, new ServiceBusReceiverOptions
         {
             PrefetchCount = 10
         });
@@ -26,14 +26,19 @@ public class AzureServiceBusScheduler : IScheduler, IAsyncDisposable
         _sender = _client.CreateSender(queueName);
     }
 
-    public async IAsyncEnumerable<Job> GetAllAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
+    public async ValueTask DisposeAsync()
+    {
+        GC.SuppressFinalize(this);
+        await _sender.DisposeAsync();
+        await _client.DisposeAsync();
+    }
+
+    public async IAsyncEnumerable<Job> GetAllAsync(
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         await foreach (var msg in _receiver.ReceiveMessagesAsync(cancellationToken))
         {
-            if (_receiver.IsClosed)
-            {
-                break;
-            }
+            if (_receiver.IsClosed) break;
 
             await _receiver.CompleteMessageAsync(msg, cancellationToken);
             var stringBody = msg.Body.ToString();
@@ -42,10 +47,7 @@ public class AzureServiceBusScheduler : IScheduler, IAsyncDisposable
                 TypeNameHandling = TypeNameHandling.Auto
             });
 
-            if (job is null)
-            {
-                continue;
-            }
+            if (job is null) continue;
 
             yield return job;
         }
@@ -61,13 +63,6 @@ public class AzureServiceBusScheduler : IScheduler, IAsyncDisposable
     {
         var messages = jobs.Select(job => new ServiceBusMessage(SerializeToJson(job)));
         await _sender.SendMessagesAsync(messages, cancellationToken);
-    }
-
-    public async ValueTask DisposeAsync()
-    {
-        GC.SuppressFinalize(this);
-        await _sender.DisposeAsync();
-        await _client.DisposeAsync();
     }
 
     private string SerializeToJson(Job job)
