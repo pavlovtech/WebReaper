@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Immutable;
 using WebReaper.Domain.PageActions;
 using WebReaper.Domain.Parsing;
@@ -13,5 +12,6 @@ public record ScraperConfig(
     IEnumerable<string> UrlBlackList,
     int PageCrawlLimit = int.MaxValue,
     PageType StartPageType = PageType.Static,
-    List<PageAction>? PageActions = null
+    List<PageAction>? PageActions = null,
+    bool Headless = true
 );

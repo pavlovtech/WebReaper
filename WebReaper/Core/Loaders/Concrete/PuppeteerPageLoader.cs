@@ -18,7 +18,7 @@ public class PuppeteerPageLoader : BrowserPageLoader, IBrowserPageLoader
         _cookiesStorage = cookiesStorage;
     }
 
-    public async Task<string> Load(string url, List<PageAction>? pageActions = null)
+    public async Task<string> Load(string url, List<PageAction>? pageActions = null, bool headless = true)
     {
         using var _ = Logger.LogMethodDuration();
 
@@ -39,7 +39,7 @@ public class PuppeteerPageLoader : BrowserPageLoader, IBrowserPageLoader
 
         await using var browser = await Puppeteer.LaunchAsync(new LaunchOptions
         {
-            Headless = true,
+            Headless = headless,
             ExecutablePath = browserFetcher.RevisionInfo(BrowserFetcher.DefaultChromiumRevision).ExecutablePath
         });
 

@@ -72,7 +72,17 @@ public class Spider : ISpider
 
         await LinkTracker.AddVisitedLinkAsync(job.Url);
 
-        string doc = await LoadPage(job);
+        string doc = null;
+        if (job.PageType == PageType.Static)
+        {
+            doc = await LoadStaticPage(job);
+        }
+        else
+        {
+            doc = await LoadDynamicPage(job, config.Headless);
+        }
+        
+        
 
         if (job.PageCategory == PageCategory.TargetPage)
         {
@@ -130,19 +140,18 @@ public class Spider : ISpider
         Logger.LogInformation("Finished waiting for sinks");
     }
 
-    private async Task<string> LoadPage(Job job)
+    private async Task<string> LoadStaticPage(Job job)
     {
-        string doc;
-        if (job.PageType == PageType.Static)
-        {
-            Logger.LogInformation("Loading static page {Url}", job.Url);
-            doc = await StaticStaticPageLoader.Load(job.Url);
-        }
-        else
-        {
-            Logger.LogInformation("Loading dynamic page {Url}", job.Url);
-            doc = await BrowserPageLoader.Load(job.Url, job.PageActions);
-        }
+        Logger.LogInformation("Loading static page {Url}", job.Url);
+        var doc = await StaticStaticPageLoader.Load(job.Url);
+
+        return doc;
+    }
+    
+    private async Task<string> LoadDynamicPage(Job job, bool headless)
+    {
+        Logger.LogInformation("Loading dynamic page {Url}", job.Url);
+        var doc = await BrowserPageLoader.Load(job.Url, job.PageActions, headless);
 
         return doc;
     }
