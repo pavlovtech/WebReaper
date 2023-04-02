@@ -13,5 +13,6 @@ public record ScraperConfig(
     int PageCrawlLimit = int.MaxValue,
     PageType StartPageType = PageType.Static,
     List<PageAction>? PageActions = null,
-    bool Headless = true
+    bool Headless = true,
+    bool DataCleanupOnStart = false
 );

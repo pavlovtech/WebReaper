@@ -1,5 +1,4 @@
 using System.Collections.Immutable;
-using WebReaper.ConfigStorage;
 using WebReaper.Domain;
 using WebReaper.Domain.PageActions;
 using WebReaper.Domain.Parsing;
@@ -24,6 +23,7 @@ public class ConfigBuilder
     private int _pageCrawlLimit = Int32.MaxValue;
 
     private bool _headless = true;
+    private bool _dataCleanupOnStart = false;
 
     /// <summary>
     /// This method can be called only one time to specify urls to start crawling with.
@@ -75,6 +75,12 @@ public class ConfigBuilder
         return this;
     }
     
+    public ConfigBuilder DataCleanupOnStart(bool dataCleanup)
+    {
+        _dataCleanupOnStart = dataCleanup;
+        return this;
+    }
+    
     public ConfigBuilder IgnoreUrls(IEnumerable<string> urls)
     {
         _blockedUrls = urls;
@@ -123,6 +129,7 @@ public class ConfigBuilder
             _pageCrawlLimit,
             _startPageType,
             _pageActions,
-            _headless);
+            _headless,
+            _dataCleanupOnStart);
     }
 }

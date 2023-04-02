@@ -19,6 +19,7 @@ namespace WebReaper.AzureFuncs
                 "",
                 "WebReaper",
                 "container",
+                false,
                 sp.GetService<ILogger>()));
 
             builder.Services.AddSingleton<IVisitedLinkTracker>(sp => new RedisVisitedLinkTracker("", "rutracker-visited-links"));

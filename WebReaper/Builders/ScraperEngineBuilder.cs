@@ -110,9 +110,10 @@ public class ScraperEngineBuilder
         return this;
     }
     
-    public ScraperEngineBuilder WriteToRedis(string connectionString, string redisKey)
+    
+    public ScraperEngineBuilder WriteToRedis(string connectionString, string redisKey, bool dataCleanupOnStart)
     {
-        SpiderBuilder.WriteToRedis(connectionString, redisKey);
+        SpiderBuilder.WriteToRedis(connectionString, redisKey, dataCleanupOnStart);
         return this;
     }
 
@@ -126,27 +127,33 @@ public class ScraperEngineBuilder
         string endpointUrl,
         string authorizationKey,
         string databaseId,
-        string containerId)
+        string containerId,
+        bool dataCleanupOnStart)
     {
-        SpiderBuilder.AddSink(new CosmosSink(endpointUrl, authorizationKey, databaseId, containerId, Logger));
+        //SpiderBuilder.AddSink(new CosmosSink(endpointUrl, authorizationKey, databaseId, containerId, _dataCleanupOnStart, Logger));
+        SpiderBuilder.WriteToCosmosDb(endpointUrl, authorizationKey, databaseId, containerId, dataCleanupOnStart);
         return this;
     }
 
-    public ScraperEngineBuilder WriteToMongoDb(string connectionString, string databaseName, string collectionName)
+    public ScraperEngineBuilder WriteToMongoDb(
+        string connectionString,
+        string databaseName,
+        string collectionName,
+        bool dataCleanupOnStart)
     {
-        SpiderBuilder.AddSink(new MongoDbSink(connectionString, databaseName, collectionName, Logger));
+        SpiderBuilder.AddSink(new MongoDbSink(connectionString, databaseName, collectionName, dataCleanupOnStart, Logger));
         return this;
     }
 
-    public ScraperEngineBuilder WriteToCsvFile(string filePath)
+    public ScraperEngineBuilder WriteToCsvFile(string filePath, bool dataCleanupOnStart)
     {
-        SpiderBuilder.AddSink(new CsvFileSink(filePath));
+        SpiderBuilder.WriteToCsvFile(filePath, dataCleanupOnStart);
         return this;
     }
 
-    public ScraperEngineBuilder WriteToJsonFile(string filePath)
+    public ScraperEngineBuilder WriteToJsonFile(string filePath, bool dataCleanupOnStart)
     {
-        SpiderBuilder.AddSink(new JsonLinesFileSink(filePath));
+        SpiderBuilder.WriteToJsonFile(filePath, dataCleanupOnStart);
         return this;
     }
 

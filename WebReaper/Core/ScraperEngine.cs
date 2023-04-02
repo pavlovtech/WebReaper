@@ -1,7 +1,5 @@
 using System.Collections.Immutable;
-using AngleSharp.Dom;
 using Microsoft.Extensions.Logging;
-using WebReaper.ConfigStorage;
 using WebReaper.ConfigStorage.Abstract;
 using WebReaper.Core.Scheduler.Abstract;
 using WebReaper.Core.Spider.Abstract;

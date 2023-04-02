@@ -43,7 +43,8 @@ public class ScrapingWorker : BackgroundService
                 "",
                 "TssEjPIdgShphVKhFkxrAu6WJovPdIZLTFNshJWGdXuitWPIMlXTidc05WFqm20qFVz8leE8zc5JBOphlNmRYg==",
                 "DistributedScraper",
-                "Rutracker")
+                "Rutracker",
+                true)
             .WithAzureServiceBusScheduler(azureSBConnectionString, queue)
             .Build();
     }

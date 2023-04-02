@@ -23,6 +23,12 @@ public class CosmosSink : IScraperSink
         var databaseResponse = await cosmosClient.CreateDatabaseIfNotExistsAsync(DatabaseId);
         var database = databaseResponse.Database;
 
+        if (DataCleanupOnStart)
+        {
+            var container = database.GetContainer(ContainerId);
+            container?.DeleteContainerAsync();
+        }
+
         // create container
         var containerResp = await database.CreateContainerIfNotExistsAsync(ContainerId, "/id");
         Container = containerResp.Container;
@@ -33,17 +39,21 @@ public class CosmosSink : IScraperSink
         string authorizationKey,
         string databaseId,
         string containerId,
+        bool dataCleanupOnStart,
         ILogger logger)
     {
         EndpointUrl = endpointUrl;
         AuthorizationKey = authorizationKey;
         DatabaseId = databaseId;
         ContainerId = containerId;
+        DataCleanupOnStart = dataCleanupOnStart;
         Logger = logger;
 
         Initialization = InitializeAsync();
     }
-    
+
+    public bool DataCleanupOnStart { get; set; }
+
     public async Task EmitAsync(ParsedData entity, CancellationToken cancellationToken = default)
     {
         await Initialization; // make sure that initialization finished
