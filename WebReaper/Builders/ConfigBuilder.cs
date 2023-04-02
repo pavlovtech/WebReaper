@@ -11,15 +11,16 @@ public class ConfigBuilder
 {
     private readonly List<LinkPathSelector> _linkPathSelectors = new();
 
+    private IEnumerable<string> _blockedUrls = Enumerable.Empty<string>();
+    
     private string _startUrl;
 
     private Schema? _schema;
     
     private PageType _startPageType;
 
-    private IEnumerable<string> _blockedUrls = Enumerable.Empty<string>();
-
     private List<PageAction>? _pageActions = null;
+    
     private int _pageCrawlLimit = Int32.MaxValue;
 
     public ConfigBuilder Get(string startUrl)
@@ -58,13 +59,13 @@ public class ConfigBuilder
     
     public ConfigBuilder IgnoreUrls(IEnumerable<string> urls)
     {
-        this._blockedUrls = urls;
+        _blockedUrls = urls;
         return this;
     }
     
     public ConfigBuilder WithPageCrawlLimit(int limit)
     {
-        this._pageCrawlLimit = limit;
+        _pageCrawlLimit = limit;
         return this;
     }
 

@@ -9,7 +9,7 @@
   - [Logger](#P-WebReaper-Loaders-Abstract-BrowserPageLoader-Logger 'WebReaper.Loaders.Abstract.BrowserPageLoader.Logger')
 - [FileScraperConfigStorage](#T-WebReaper-ConfigStorage-Concrete-FileScraperConfigStorage 'WebReaper.ConfigStorage.Concrete.FileScraperConfigStorage')
 - [InMemoryCookieStorage](#T-WebReaper-CookieStorage-Concrete-InMemoryCookieStorage 'WebReaper.CookieStorage.Concrete.InMemoryCookieStorage')
-- [ScraperEngineBuilder](#T-WebReaper-Core-Builders-ScraperEngineBuilder 'WebReaper.Core.Builders.ScraperEngineBuilder')
+- [ScraperEngineBuilder](#T-WebReaper-Builders-ScraperEngineBuilder 'WebReaper.Builders.ScraperEngineBuilder')
 
 <a name='T-WebReaper-Loaders-Abstract-BrowserPageLoader'></a>
 ## BrowserPageLoader `type`
@@ -71,12 +71,12 @@ WebReaper.CookieStorage.Concrete
 
 *Inherit from parent.*
 
-<a name='T-WebReaper-Core-Builders-ScraperEngineBuilder'></a>
+<a name='T-WebReaper-Builders-ScraperEngineBuilder'></a>
 ## ScraperEngineBuilder `type`
 
 ##### Namespace
 
-WebReaper.Core.Builders
+WebReaper.Builders
 
 ##### Summary
 

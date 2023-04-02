@@ -4,16 +4,16 @@
         <name>WebReaper</name>
     </assembly>
     <members>
+        <member name="T:WebReaper.Builders.ScraperEngineBuilder">
+            <summary>
+            Builds a web scraper engine responsible for creating and receiving crawling jobs and running a spider on them
+            </summary>
+        </member>
         <member name="T:WebReaper.ConfigStorage.Concrete.FileScraperConfigStorage">
             <inheritdoc />
         </member>
         <member name="T:WebReaper.CookieStorage.Concrete.InMemoryCookieStorage">
             <inheritdoc />
-        </member>
-        <member name="T:WebReaper.Core.Builders.ScraperEngineBuilder">
-            <summary>
-            Builds a web scraper engine responsible for creating and receiving crawling jobs and running a spider on them
-            </summary>
         </member>
         <member name="T:WebReaper.Loaders.Abstract.BrowserPageLoader">
             <summary>
