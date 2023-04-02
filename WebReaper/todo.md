@@ -1,7 +1,7 @@
 ﻿# TODO
 
 - [X] Add the ability to start with a list of predefined urls
-- [ ] Add flag for headless/not headless chrome
+- [X] Add flag for headless/not headless chrome
 - [ ] Separate nuget packages for MongoDb, Cosmos Db, Redis, etc.
 - [ ] Clean up on start
 - [ ] Add support for xpath and regex
