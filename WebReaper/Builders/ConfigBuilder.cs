@@ -23,6 +23,8 @@ public class ConfigBuilder
     
     private int _pageCrawlLimit = Int32.MaxValue;
 
+    private bool _headless = true;
+
     /// <summary>
     /// This method can be called only one time to specify urls to start crawling with.
     /// </summary>
@@ -64,6 +66,12 @@ public class ConfigBuilder
         List<PageAction>? pageActions = null)
     {
         _linkPathSelectors.Add(new LinkPathSelector(linkSelector, null, PageType.Dynamic, pageActions));
+        return this;
+    }
+    
+    public ConfigBuilder HeadlessMode(bool headless)
+    {
+        _headless = headless;
         return this;
     }
     
@@ -114,6 +122,7 @@ public class ConfigBuilder
             _blockedUrls,
             _pageCrawlLimit,
             _startPageType,
-            _pageActions);
+            _pageActions,
+            _headless);
     }
 }

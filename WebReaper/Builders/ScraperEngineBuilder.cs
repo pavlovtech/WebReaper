@@ -63,6 +63,12 @@ public class ScraperEngineBuilder
         ConfigBuilder.WithPageCrawlLimit(limit);
         return this;
     }
+    
+    public ScraperEngineBuilder HeadlessMode(bool headless)
+    {
+        ConfigBuilder.HeadlessMode(headless);
+        return this;
+    }
 
     public ScraperEngineBuilder WithLinkTracker(IVisitedLinkTracker linkTracker)
     {
