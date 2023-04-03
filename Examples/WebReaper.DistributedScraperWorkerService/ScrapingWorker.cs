@@ -6,9 +6,15 @@ namespace WebReaper.DistributedScraperWorkerService;
 
 public class ScrapingWorker : BackgroundService
 {
-    private readonly ScraperEngine engine;
+    private readonly ILogger<ScrapingWorker> _logger;
+    private ScraperEngine engine;
 
     public ScrapingWorker(ILogger<ScrapingWorker> logger)
+    {
+        _logger = logger;
+    }
+
+    public override async Task StartAsync(CancellationToken cancellationToken)
     {
         var blackList = new string[] {
             "https://rutracker.org/forum/viewforum.php?f=396",
@@ -22,8 +28,8 @@ public class ScrapingWorker : BackgroundService
         var azureSBConnectionString = "";
         var queue = "jobqueue";
 
-        engine = new ScraperEngineBuilder()
-            .WithLogger(logger)
+        engine = await new ScraperEngineBuilder()
+            .WithLogger(_logger)
             .Get("https://rutracker.org/forum/index.php?c=33")
             .IgnoreUrls(blackList)
             .Follow("#cf-33 .forumlink>a")
@@ -46,12 +52,12 @@ public class ScrapingWorker : BackgroundService
                 "Rutracker",
                 true)
             .WithAzureServiceBusScheduler(azureSBConnectionString, queue)
-            .Build();
+            .BuildAsync();
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        await engine.Run(10, stoppingToken);
+        await engine.RunAsync(10, stoppingToken);
     }
 }
 

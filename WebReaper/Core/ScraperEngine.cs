@@ -12,50 +12,41 @@ namespace WebReaper.Core;
 public class ScraperEngine
 {
     public ScraperEngine(
-        ScraperConfig config,
         IScraperConfigStorage configStorage,
         IScheduler jobScheduler,
         ISpider spider,
         ILogger logger)
     {
-        ArgumentNullException.ThrowIfNull(config);
         ArgumentNullException.ThrowIfNull(configStorage);
         ArgumentNullException.ThrowIfNull(jobScheduler);
         ArgumentNullException.ThrowIfNull(spider);
         ArgumentNullException.ThrowIfNull(logger);
 
-        (Scheduler, Config, Spider, Logger, ConfigStorage) =
-            (jobScheduler, config, spider, logger, configStorage);
+        (Scheduler, Spider, Logger, ConfigStorage) =
+            (jobScheduler, spider, logger, configStorage);
     }
 
     private IScraperConfigStorage ConfigStorage { get; }
-    private ScraperConfig Config { get; }
     private IScheduler Scheduler { get; }
     private ISpider Spider { get; }
     private ILogger Logger { get; }
 
-    public async Task Run(int parallelismDegree = 8, CancellationToken cancellationToken = default)
+    public async Task RunAsync(int parallelismDegree = 8, CancellationToken cancellationToken = default)
     {
-        Logger.LogInformation("Start {class}.{method}", nameof(ScraperEngine), nameof(Run));
+        Logger.LogInformation("Start {class}.{method}", nameof(ScraperEngine), nameof(RunAsync));
 
         var config = await ConfigStorage.GetConfigAsync();
 
-        if (config == null)
-        {
-            await ConfigStorage.CreateConfigAsync(Config);
-            config = await ConfigStorage.GetConfigAsync();
-        }
-
-        foreach (var startUrl in Config.StartUrls)
+        foreach (var startUrl in config.StartUrls)
         {
             Logger.LogInformation("Scheduling the initial scraping job with start url {startUrl}", startUrl);
 
             await Scheduler.AddAsync(new Job(
                 startUrl,
-                Config.LinkPathSelectors,
+                config.LinkPathSelectors,
                 ImmutableQueue.Create<string>(),
-                Config.StartPageType,
-                Config.PageActions), cancellationToken);
+                config.StartPageType,
+                config.PageActions), cancellationToken);
         }
 
         var options = new ParallelOptions { MaxDegreeOfParallelism = parallelismDegree };
@@ -88,7 +79,7 @@ public class ScraperEngine
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex, "Shutting down due to unhandled exception");
+            Logger.LogError(ex, "Shutting down due to unhandled exception: {ex}", ex);
             throw;
         }
     }

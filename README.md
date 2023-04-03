@@ -59,7 +59,7 @@ Parsing single page applications is super simple, just use the GetWithBrowser an
 case Puppeteer will be used to load the pages.
 
 ```C#
-_ = new ScraperEngineBuilder()
+var engine = await new ScraperEngineBuilder()
     .GetWithBrowser("https://www.reddit.com/r/dotnet/")
     .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
     .Parse(new()
@@ -69,8 +69,9 @@ _ = new ScraperEngineBuilder()
     })
     .WriteToJsonFile("output.json")
     .LogToConsole()
-    .Build()
-    .Run();
+    .BuildAsync()
+
+await engine.RunAsync();
 ```
 
 Additionally, you can run any JavaScript on dynamic pages as they are loaded with headless browser. In order to do that
@@ -79,7 +80,7 @@ you need to add some page actions:
 ```C#
 using WebReaper.Core.Builders;
 
-_ = new ScraperEngineBuilder()
+var engine = await new ScraperEngineBuilder()
     .GetWithBrowser("https://www.reddit.com/r/dotnet/", actions => actions
         .ScrollToEnd()
         .Build())
@@ -91,8 +92,9 @@ _ = new ScraperEngineBuilder()
     })
     .WriteToJsonFile("output.json")
     .LogToConsole()
-    .Build()
-    .Run();
+    .BuildAsync()
+
+await engine.RunAsync();
 
 Console.ReadLine();
 ```
@@ -105,7 +107,7 @@ If you want to persist the vistited links and job queue locally, so that you can
 can use ScheduleWithTextFile and TrackVisitedLinksInFile methods:
 
 ```C#
-var engine = new ScraperEngineBuilder()
+var engine = await new ScraperEngineBuilder()
 	.WithLogger(logger)
 	.Get("https://rutracker.org/forum/index.php?c=33")
 	.Follow("#cf-33 .forumlink>a")
@@ -124,7 +126,7 @@ var engine = new ScraperEngineBuilder()
 	.IgnoreUrls(blackList)
 	.ScheduleWithTextFile("jobs.txt", "progress.txt")
 	.TrackVisitedLinksInFile("links.txt")
-	.Build();
+	.BuildAsync();
 ```
 
 ### Authorization
@@ -134,13 +136,14 @@ fill CookieContainer with all cookies required for authorization. You are respon
 with your credentials, the Scraper only uses the cookies that you provide.
 
 ```C#
-_ = new ScraperEngineBuilder()
+var engine = await new ScraperEngineBuilder()
     .WithLogger(logger)
     .Get("https://rutracker.org/forum/index.php?c=33")
     .SetCookies(cookies =>
     {
         cookies.Add(new Cookie("AuthToken", "123");
     })
+	...
 ```
 
 ### How to disable headless mode
@@ -151,12 +154,12 @@ troubleshooting may be useful. To disable headless mode you the .HeadlessMode(fa
 
 ```C#
 
-_ = new ScraperEngineBuilder()
+var engine = await new ScraperEngineBuilder()
     .GetWithBrowser("https://www.reddit.com/r/dotnet/", actions => actions
         .ScrollToEnd()
         .Build())
     .HeadlessMode(false)
-
+	...
 ```
 
 ### How to clean prevously scraped data during the next web scrapping run
@@ -166,7 +169,7 @@ use dataCleanupOnStart when adding a new sink:
 
 ```C#
 
-_ = new ScraperEngineBuilder()
+var engine = await new ScraperEngineBuilder()
     .Get("https://www.reddit.com/r/dotnet/")
     .WriteToJsonFile("output.json", dataCleanupOnStart: true)
 ```

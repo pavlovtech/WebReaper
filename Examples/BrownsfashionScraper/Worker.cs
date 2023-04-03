@@ -7,12 +7,18 @@ namespace BrownsfashionScraper
 {
     public class ScrapingWorker : BackgroundService
     {
-        private ScraperEngine scraper;
+        private readonly ILogger<ScrapingWorker> _logger;
+        private ScraperEngine _scraper;
 
         public ScrapingWorker(ILogger<ScrapingWorker> logger)
         {
-            scraper = new ScraperEngineBuilder()
-                .WithLogger(logger)
+            _logger = logger;
+        }
+
+        public override async Task StartAsync(CancellationToken cancellationToken)
+        {
+             _scraper = await new ScraperEngineBuilder()
+                .WithLogger(_logger)
                 .SetCookies(cookies =>
                 {
                     cookies.Add(new CookieCollection
@@ -64,13 +70,12 @@ namespace BrownsfashionScraper
 
                 })
                 .WriteToCsvFile("result.csv", true)
-                .WithLogger(logger)
-                .Build();
+                .BuildAsync();
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await scraper.Run(10);
+            await _scraper.RunAsync(10, stoppingToken);
         }
     }
 }

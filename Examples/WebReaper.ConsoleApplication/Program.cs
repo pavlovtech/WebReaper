@@ -1,12 +1,12 @@
 ﻿using WebReaper.Builders;
 
-_ = new ScraperEngineBuilder()
+var engine = await new ScraperEngineBuilder()
     .GetWithBrowser(
-        new []{ "https://www.reddit.com/r/dotnet/" },
+        new[] { "https://www.reddit.com/r/dotnet/" },
         actions => actions
-        .ScrollToEnd()
-        .RepeatWithDelay(10,2000)
-        .Build())
+            .ScrollToEnd()
+            .RepeatWithDelay(10, 2000)
+            .Build())
     .FollowWithBrowser("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
     .Parse(new()
     {
@@ -17,7 +17,8 @@ _ = new ScraperEngineBuilder()
     .LogToConsole()
     .PageCrawlLimit(10)
     .HeadlessMode(false)
-    .Build()
-    .Run();
+    .BuildAsync();
+
+await engine.RunAsync();
 
 Console.ReadLine();

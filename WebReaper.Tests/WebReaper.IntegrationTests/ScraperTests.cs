@@ -28,7 +28,7 @@ namespace WebReaper.IntegrationTests
                 "https://www.reddit.com/r/ukraine/"
             };
             
-            var engine = new ScraperEngineBuilder()
+            var engine = await new ScraperEngineBuilder()
                 .Get(startUrls)
                 .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
                 .Parse(new()
@@ -38,9 +38,9 @@ namespace WebReaper.IntegrationTests
                 })
                 .WithLogger(new TestOutputLogger(this.output))
                 .Subscribe(x => result.Add(x))
-                .Build();
+                .BuildAsync();
 
-            _ = engine.Run();
+            _ = engine.RunAsync();
 
             await Task.Delay(15000);
 
@@ -55,7 +55,7 @@ namespace WebReaper.IntegrationTests
         {
             var result = new List<ParsedData>();
 
-            var engine = new ScraperEngineBuilder()
+            var engine = await new ScraperEngineBuilder()
                 .Get("https://www.reddit.com/r/dotnet/")
                 .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
                 .Parse(new()
@@ -63,11 +63,11 @@ namespace WebReaper.IntegrationTests
                     new("title", "._eYtD2XCVieq6emjKBH3m"),
                     new("text", "._3xX726aBn29LDbsDtzr_6E._1Ap4F5maDtT1E1YuCiaO0r.D3IL3FD0RFy_mkKLPwL4")
                 })
-                .WithLogger(new TestOutputLogger(this.output))
+                .WithLogger(new TestOutputLogger(output))
                 .Subscribe(x => result.Add(x))
-                .Build();
+                .BuildAsync();
 
-            _ = engine.Run(2);
+            _ = engine.RunAsync(1);
 
             await Task.Delay(10000);
 
@@ -79,7 +79,7 @@ namespace WebReaper.IntegrationTests
         {
             var result = new List<ParsedData>();
 
-            var scraper = new ScraperEngineBuilder()
+            var scraper = await new ScraperEngineBuilder()
                 .Get("https://www.reddit.com/r/dotnet/")
                 .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
                 .Parse(new()
@@ -90,9 +90,9 @@ namespace WebReaper.IntegrationTests
                 .WithLogger(new TestOutputLogger(this.output))
                 .WithProxies(new WebShareProxyProvider())
                 .Subscribe(x => result.Add(x))
-                .Build();
+                .BuildAsync();
 
-            _ = scraper.Run(2);
+            _ = scraper.RunAsync(2);
 
             await Task.Delay(30000);
 
@@ -111,7 +111,7 @@ namespace WebReaper.IntegrationTests
 
             var result = new List<ParsedData>();
 
-            var engine = new ScraperEngineBuilder()
+            var engine = await new ScraperEngineBuilder()
                 .GetWithBrowser(new []{"https://www.reddit.com/r/dotnet/"})
                 .FollowWithBrowser("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
                 .Parse(new()
@@ -121,9 +121,9 @@ namespace WebReaper.IntegrationTests
                 })
                 .WithLogger(new TestOutputLogger(this.output))
                 .Subscribe(x => result.Add(x))
-                .Build();
+                .BuildAsync();
 
-            _ = engine.Run(10);
+            _ = engine.RunAsync(10);
 
             await Task.Delay(20000);
 
