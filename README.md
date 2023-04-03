@@ -225,7 +225,7 @@ public class ConsoleSink : IScraperSink
 Adding your sink to the Scraper is simple, just call *AddSink* method on the Scraper:
 
 ```C#
-_ = new ScraperEngineBuilder()
+var engine = await new ScraperEngineBuilder()
     .AddSink(new ConsoleSink());
     .Get("https://rutracker.org/forum/index.php?c=33")
     .Follow("#cf-33 .forumlink>a")
@@ -233,7 +233,8 @@ _ = new ScraperEngineBuilder()
     .Paginate("a.torTopic", ".pg")
     .Parse(new() {
         new("name", "#topic-title"),
-    });
+    })
+    .BuildAsync();
 ```
 
 For other ways to extend your functionality see the next section.
