@@ -34,7 +34,7 @@ public class SpiderBuilder
 
     private ILinkParser LinkParser { get; } = new LinkParserByCssSelector();
 
-    private IScraperConfigStorage ScraperConfigStorage { get; set; } = new InMemoryScraperConfigStorage();
+    private IScraperConfigStorage ScraperConfigStorage { get; set; }
 
     private IVisitedLinkTracker SiteLinkTracker { get; set; } = new InMemoryVisitedLinkTracker();
 

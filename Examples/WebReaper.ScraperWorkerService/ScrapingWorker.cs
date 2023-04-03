@@ -8,9 +8,15 @@ namespace WebReaper.ScraperWorkerService;
 
 public class ScrapingWorker : BackgroundService
 {
-    private ScraperEngine engine;
+    private readonly ILogger<ScrapingWorker> _logger;
+    private ScraperEngine _engine;
 
     public ScrapingWorker(ILogger<ScrapingWorker> logger)
+    {
+        _logger = logger;
+    }
+
+    public override async Task StartAsync(CancellationToken cancellationToken)
     {
         var blackList = new[] {
             "https://rutracker.org/forum/viewforum.php?f=396",
@@ -20,8 +26,8 @@ public class ScrapingWorker : BackgroundService
             "https://rutracker.org/forum/viewforum.php?f=2321"
         };
 
-        engine = new ScraperEngineBuilder()
-            .WithLogger(logger)
+        _engine = await new ScraperEngineBuilder()
+            .WithLogger(_logger)
             .Get("https://rutracker.org/forum/index.php?c=33")
             .Follow("#cf-33 .forumlink>a")
             .Follow(".forumlink>a")
@@ -41,7 +47,7 @@ public class ScrapingWorker : BackgroundService
             .TrackVisitedLinksInRedis("localhost:6379", "rutracker-visited-links")
             .WriteToRedis("localhost:6379", "rutracker-audiobooks", true)
             .WithRedisConfigStorage("localhost:6379", "rutracker-scraper-config")
-            .Build();
+            .BuildAsync();
     }
 
     private static async Task ParseTorrentStats(Metadata meta, JObject result)
@@ -72,7 +78,7 @@ public class ScrapingWorker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        await engine.Run(20, stoppingToken);
+        await _engine.RunAsync(20, stoppingToken);
     }
 }
 

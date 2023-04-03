@@ -33,12 +33,9 @@ public class ScraperEngineBuilder
     private ILogger Logger { get; set; } = NullLogger.Instance;
 
     private IScheduler Scheduler { get; set; } = new InMemoryScheduler();
-
+    private IScraperConfigStorage? ConfigStorage { get; set; } = new InMemoryScraperConfigStorage();
+    
     protected IProxyProvider? ProxyProvider { get; set; }
-
-    private ICookiesStorage CookieStorage { get; set; } = new InMemoryCookieStorage();
-
-    private IScraperConfigStorage? ConfigStorage { get; set; }
 
     public ScraperEngineBuilder AddSink(IScraperSink sink)
     {
@@ -301,15 +298,15 @@ public class ScraperEngineBuilder
         return this;
     }
 
-    public ScraperEngine Build()
+    public async Task<ScraperEngine> BuildAsync()
     {
-        ConfigStorage ??= new InMemoryScraperConfigStorage();
-
         SpiderBuilder.WithConfigStorage(ConfigStorage);
-
+        
         var config = ConfigBuilder.Build();
         var spider = SpiderBuilder.Build();
+        
+        await ConfigStorage.CreateConfigAsync(config);
 
-        return new ScraperEngine(config, ConfigStorage, Scheduler, spider, Logger);
+        return new ScraperEngine(ConfigStorage, Scheduler, spider, Logger);
     }
 }
