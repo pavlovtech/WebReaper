@@ -29,14 +29,14 @@ dotnet add package WebReaper
 
 ## Features:
 
-* :zap: It's extremely fast due to parallelism and asynchrony
-* 🗒 Declarative parsing with a structured scheme
-* 💾 Saving data to any sinks such as JSON or CSV file, MongoDB, CosmosDB, Redis, etc.
-* :earth_americas: Distributed crawling support: run your web scraper on ony cloud VMs, serverless functions, on-prem
+* :zap: High crawling speed due to parallelism and asynchrony
+* 🗒 Declarative and easy to use
+* 💾 Saving data to any data storages such as JSON or CSV file, MongoDB, CosmosDB, Redis, etc.
+* :earth_americas: Scalable: run your web scraper on ony cloud VMs, serverless functions, on-prem
   servers, etc.
 * :octopus: Crawling and parsing Single Page Applications with Puppeteer
 * 🖥 Proxy support
-* 🌀 Automatic reties
+* 🌀 Extensible: replace out-of-the-box implementations with your own
 
 ## Usage examples
 
@@ -45,17 +45,13 @@ dotnet add package WebReaper
 * Online price change monitoring and price comparison
 * News aggregation
 * Product review scraping (to watch the competition)
-* Gathering real estate listings
 * Tracking online presence and reputation
-* Web mashup and web data integration
-* MAP compliance
-* Lead generation
 
 ## API overview
 
-### SPA parsing example
+### SPA parsing example (client rendered pagaes)
 
-Parsing single page applications is super simple, just use the GetWithBrowser and/or FollowWithBrowser method. In this
+Parsing single page applications is super simple, just use the *GetWithBrowser* and/or *FollowWithBrowser* method. In this
 case Puppeteer will be used to load the pages.
 
 ```C#
@@ -75,7 +71,7 @@ await engine.RunAsync();
 ```
 
 Additionally, you can run any JavaScript on dynamic pages as they are loaded with headless browser. In order to do that
-you need to add some page actions:
+you need to add some page actions such as *.ScrollToEnd()*:
 
 ```C#
 using WebReaper.Core.Builders;
@@ -104,7 +100,7 @@ It can be helpful if the required content is loaded only after some user interac
 ### Persist the progress locally
 
 If you want to persist the vistited links and job queue locally, so that you can start crawling where you left off you
-can use ScheduleWithTextFile and TrackVisitedLinksInFile methods:
+can use *ScheduleWithTextFile* and *TrackVisitedLinksInFile* methods:
 
 ```C#
 var engine = await new ScraperEngineBuilder()
@@ -143,7 +139,7 @@ var engine = await new ScraperEngineBuilder()
     {
         cookies.Add(new Cookie("AuthToken", "123");
     })
-	...
+    ...
 ```
 
 ### How to disable headless mode
@@ -159,7 +155,7 @@ var engine = await new ScraperEngineBuilder()
         .ScrollToEnd()
         .Build())
     .HeadlessMode(false)
-	...
+    ...
 ```
 
 ### How to clean prevously scraped data during the next web scrapping run
@@ -226,7 +222,7 @@ public class ConsoleSink : IScraperSink
 }
 ```
 
-Adding your sink to the Scraper is simple, just call AddSink method on the Scraper:
+Adding your sink to the Scraper is simple, just call *AddSink* method on the Scraper:
 
 ```C#
 _ = new ScraperEngineBuilder()
