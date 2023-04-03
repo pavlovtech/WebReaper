@@ -25,7 +25,8 @@ dotnet add package WebReaper
 
 ## 📋 Example:
 
-<img width="758" alt="raycast-untitled (4)" src="https://user-images.githubusercontent.com/6662454/205595931-e7e9c764-3d6a-42d0-92fc-152592fefc81.png">
+<img width="758" alt="raycast-untitled (4)" src="https://user-images.githubusercontent.com/6662454/229387569-b73abb45-36ed-4130-8877-6ea3c314b69d.png">
+
 
 ## Features:
 
