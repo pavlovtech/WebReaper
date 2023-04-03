@@ -110,7 +110,7 @@ var engine = await new ScraperEngineBuilder()
     .Follow(".forumlink>a")
     .Paginate("a.torTopic", ".pg")
     .Parse(new()
-     {
+    {
 	new("name", "#topic-title"),
 	new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
 	new("subcategory", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(5)"),
