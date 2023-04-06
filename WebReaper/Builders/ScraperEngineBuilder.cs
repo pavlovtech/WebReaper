@@ -27,6 +27,7 @@ namespace WebReaper.Builders;
 /// </summary>
 public class ScraperEngineBuilder
 {
+    private IVisitedLinkTracker _visitedLinksTracker = new InMemoryVisitedLinkTracker();
     private ConfigBuilder ConfigBuilder { get; } = new();
     private SpiderBuilder SpiderBuilder { get; } = new();
 
@@ -73,15 +74,17 @@ public class ScraperEngineBuilder
         return this;
     }
 
-    public ScraperEngineBuilder TrackVisitedLinksInFile(string fileName)
+    public ScraperEngineBuilder TrackVisitedLinksInFile(string fileName, bool dataCleanupOnStart = false)
     {
-        SpiderBuilder.WithLinkTracker(new FileVisitedLinkedTracker(fileName));
+        _visitedLinksTracker = new FileVisitedLinkedTracker(fileName, dataCleanupOnStart);
+        SpiderBuilder.WithLinkTracker(_visitedLinksTracker);
         return this;
     }
 
-    public ScraperEngineBuilder TrackVisitedLinksInRedis(string connectionString, string redisKey)
+    public ScraperEngineBuilder TrackVisitedLinksInRedis(string connectionString, string redisKey, bool dataCleanupOnStart = false)
     {
-        SpiderBuilder.WithLinkTracker(new RedisVisitedLinkTracker(connectionString, redisKey));
+        _visitedLinksTracker = new RedisVisitedLinkTracker(connectionString, redisKey, dataCleanupOnStart);
+        SpiderBuilder.WithLinkTracker(_visitedLinksTracker);
         return this;
     }
 
@@ -300,6 +303,8 @@ public class ScraperEngineBuilder
 
     public async Task<ScraperEngine> BuildAsync()
     {
+        await _visitedLinksTracker.Initialization;
+        
         SpiderBuilder.WithConfigStorage(ConfigStorage);
         
         var config = ConfigBuilder.Build();
