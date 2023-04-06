@@ -6,12 +6,29 @@ namespace WebReaper.Core.LinkTracker.Concrete;
 public class RedisVisitedLinkTracker : RedisBase, IVisitedLinkTracker
 {
     private readonly string _redisKey;
+    
+    public bool DataCleanupOnStart { get; set; }
 
-    public RedisVisitedLinkTracker(string connectionString, string redisKey) : base(connectionString)
+    public RedisVisitedLinkTracker(string connectionString, string redisKey, bool dataCleanupOnStart = false)
+        : base(connectionString)
     {
         _redisKey = redisKey;
+        Initialization = InitializeAsync();
+        DataCleanupOnStart = dataCleanupOnStart;
     }
 
+    public Task Initialization { get; }
+
+    private async Task InitializeAsync()
+    {
+        if (!DataCleanupOnStart)
+            return;
+
+        var db = Redis.GetDatabase();
+
+        await db.KeyDeleteAsync(_redisKey);
+    }
+    
     public async Task AddVisitedLinkAsync(string visitedLink)
     {
         var db = Redis!.GetDatabase();

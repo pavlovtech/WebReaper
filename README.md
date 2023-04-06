@@ -158,7 +158,7 @@ var engine = await new ScraperEngineBuilder()
     ...
 ```
 
-### How to clean prevously scraped data during the next web scrapping run
+### How to clean scraped data from the previous web scrapping run
 
 You may want to clean the data recived during the previous scraping to start you web scraping from scratch. In this case
 use dataCleanupOnStart when adding a new sink:
@@ -171,6 +171,14 @@ var engine = await new ScraperEngineBuilder()
 ```
 
 This dataCleanupOnStart parameter is present for all sinks, e.g. MongoDbSink, RedisSink, CosmosSink, etc.
+
+### How to clean visited links from the previous web scrapping run
+
+```C#
+var engine = await new ScraperEngineBuilder()
+    .Get("https://www.reddit.com/r/dotnet/")
+    .TrackVisitedLinksInFile("visited.txt", dataCleanupOnStart: true)
+```
 
 ### Distributed web scraping with Serverless approach
 

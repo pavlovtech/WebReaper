@@ -1,28 +1,43 @@
 ﻿using System.Collections.Concurrent;
+using Microsoft.Azure.Amqp.Framing;
 using WebReaper.Core.LinkTracker.Abstract;
 
 namespace WebReaper.Core.LinkTracker.Concrete;
 
 public class FileVisitedLinkedTracker : IVisitedLinkTracker
 {
+    public bool DataCleanupOnStart { get; set; }
+    public Task Initialization { get; }
+    
     private readonly string _fileName;
 
     private readonly SemaphoreSlim _semaphore = new(1, 1);
-    private readonly ConcurrentBag<string> _visitedLinks;
-
-    public FileVisitedLinkedTracker(string fileName)
+    private ConcurrentBag<string> _visitedLinks;
+    
+    public FileVisitedLinkedTracker(string fileName, bool dataCleanupOnStart = false)
     {
         _fileName = fileName;
-
-        if (!File.Exists(fileName))
+        DataCleanupOnStart = dataCleanupOnStart;
+        
+        Initialization = InitializeAsync();
+    }
+    
+    private async Task InitializeAsync()
+    {
+        if (DataCleanupOnStart)
+        {
+            File.Delete(_fileName);
+        }
+        
+        if (!File.Exists(_fileName))
         {
             _visitedLinks = new ConcurrentBag<string>();
-            var file = File.Create(fileName);
+            var file = File.Create(_fileName);
             file.Close();
             return;
         }
 
-        var allLinks = File.ReadLines(fileName);
+        var allLinks = File.ReadLines(_fileName);
         _visitedLinks = new ConcurrentBag<string>(allLinks);
     }
 
