@@ -68,13 +68,12 @@ public class Spider : ISpider
 
         await LinkTracker.AddVisitedLinkAsync(job.Url);
 
-        string doc = null;
-        if (job.PageType == PageType.Static)
-            doc = await LoadStaticPage(job);
-        else
-            doc = await LoadDynamicPage(job, config.Headless);
-
-
+        var doc = job.PageType switch
+        {
+            PageType.Static => await LoadStaticPage(job),
+            PageType.Dynamic => await LoadDynamicPage(job, config.Headless)
+        };
+        
         if (job.PageCategory == PageCategory.TargetPage)
         {
             await ProcessTargetPage(job, doc, cancellationToken);

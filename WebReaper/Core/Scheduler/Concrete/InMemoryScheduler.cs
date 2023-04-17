@@ -15,6 +15,8 @@ public class InMemoryScheduler : IScheduler
 
     public bool DataCleanupOnStart { get; set; }
 
+    public Task Initialization { get; }
+
     public async Task AddAsync(Job job, CancellationToken cancellationToken = default)
     {
         await _jobChannel.Writer.WriteAsync(job, cancellationToken);

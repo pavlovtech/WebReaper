@@ -1,7 +1,7 @@
 using System.Net;
 using System.Text;
 using Microsoft.Extensions.Logging;
-using WebReaper.CookieStorage.Abstract;
+using WebReaper.Core.CookieStorage.Abstract;
 using WebReaper.Core.Loaders.Abstract;
 using WebReaper.Extensions;
 using WebReaper.HttpRequests.Abstract;

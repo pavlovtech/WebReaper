@@ -49,10 +49,18 @@ public class JsonLinesFileSink : IScraperSink
             return;
 
         if (DataCleanupOnStart)
+        {
             lock (_lock)
             {
-                File.Delete(filePath);
+                if (File.Exists(filePath))
+                {
+                    File.Delete(filePath);
+                }
+                
+                var fileInfo = new FileInfo(filePath);
+                fileInfo.Directory?.Create();
             }
+        }
 
         _ = Task.Run(async () => await HandleAsync(cancellationToken), cancellationToken);
 

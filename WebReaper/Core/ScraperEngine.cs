@@ -83,7 +83,7 @@ public class ScraperEngine
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex, "Shutting down due to unhandled exception: {ex}", ex);
+            Logger.LogError(ex, "Shutting down due to unhandled exception");
             throw;
         }
     }

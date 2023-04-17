@@ -25,11 +25,17 @@ public class FileVisitedLinkedTracker : IVisitedLinkTracker
     {
         if (DataCleanupOnStart)
         {
-            File.Delete(_fileName);
+            if (File.Exists(_fileName))
+            {
+                File.Delete(_fileName);
+            }
         }
         
         if (!File.Exists(_fileName))
         {
+            var fileInfo = new FileInfo(_fileName);
+            fileInfo.Directory?.Create();
+            
             _visitedLinks = new ConcurrentBag<string>();
             var file = File.Create(_fileName);
             file.Close();

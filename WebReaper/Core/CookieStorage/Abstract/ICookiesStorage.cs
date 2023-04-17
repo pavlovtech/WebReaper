@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace WebReaper.CookieStorage.Abstract;
+namespace WebReaper.Core.CookieStorage.Abstract;
 
 public interface ICookiesStorage
 {

@@ -4,9 +4,8 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Newtonsoft.Json.Linq;
 using WebReaper.ConfigStorage.Abstract;
 using WebReaper.ConfigStorage.Concrete;
-using WebReaper.CookieStorage.Abstract;
-using WebReaper.CookieStorage.Concrete;
 using WebReaper.Core;
+using WebReaper.Core.CookieStorage.Abstract;
 using WebReaper.Core.LinkTracker.Abstract;
 using WebReaper.Core.LinkTracker.Concrete;
 using WebReaper.Core.Scheduler.Abstract;
@@ -196,7 +195,8 @@ public class ScraperEngineBuilder
 
     public ScraperEngineBuilder FollowWithBrowser(
         string linkSelector,
-        Func<PageActionBuilder, List<PageAction>>? actionBuilder = null)
+        Func<PageActionBuilder, 
+        List<PageAction>>? actionBuilder = null)
     {
         ConfigBuilder.FollowWithBrowser(linkSelector, actionBuilder?.Invoke(new PageActionBuilder()));
         return this;
@@ -272,6 +272,12 @@ public class ScraperEngineBuilder
             logger);
         return this;
     }
+    
+    public ScraperEngineBuilder WithFileCookieStorage(string fileName)
+    {
+        SpiderBuilder.WithFileCookieStorage(fileName);
+        return this;
+    }
 
     public ScraperEngineBuilder WithConfigStorage(IScraperConfigStorage configStorage)
     {
@@ -323,7 +329,8 @@ public class ScraperEngineBuilder
     public async Task<ScraperEngine> BuildAsync()
     {
         await _visitedLinksTracker.Initialization;
-        
+        await Scheduler.Initialization;
+
         SpiderBuilder.WithConfigStorage(ConfigStorage);
         
         var config = ConfigBuilder.Build();

@@ -5,16 +5,10 @@ namespace WebReaper.Infra;
 
 public static class Executor
 {
-    public static AsyncRetryPolicy AsyncPolicy { get; set; } = Polly.Policy.Handle<Exception>().RetryAsync(3);
-    public static RetryPolicy Policy { get; set; } = Polly.Policy.Handle<Exception>().Retry(3);
+    private static AsyncRetryPolicy AsyncPolicy { get; } = Polly.Policy.Handle<Exception>().RetryAsync(3);
+    private static RetryPolicy Policy { get; } = Polly.Policy.Handle<Exception>().Retry(3);
 
-    public static async Task<T> RetryAsync<T>(Func<Task<T>> func)
-    {
-        return await AsyncPolicy.ExecuteAsync(async () => await func());
-    }
+    public static async Task<T> RetryAsync<T>(Func<Task<T>> func) => await AsyncPolicy.ExecuteAsync(func);
 
-    public static void Retry<T>(Action action)
-    {
-        Policy.Execute(() => action());
-    }
+    public static void Retry<T>(Action action) => Policy.Execute(action);
 }

@@ -27,7 +27,7 @@
         <member name="T:WebReaper.ConfigStorage.Concrete.FileScraperConfigStorage">
             <inheritdoc />
         </member>
-        <member name="T:WebReaper.CookieStorage.Concrete.InMemoryCookieStorage">
+        <member name="T:WebReaper.Core.CookieStorage.Concrete.InMemoryCookieStorage">
             <inheritdoc />
         </member>
         <member name="T:WebReaper.Core.Loaders.Abstract.BrowserPageLoader">

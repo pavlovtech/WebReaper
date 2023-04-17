@@ -1,7 +1,7 @@
 ﻿using System.Net;
-using WebReaper.CookieStorage.Abstract;
+using WebReaper.Core.CookieStorage.Abstract;
 
-namespace WebReaper.CookieStorage.Concrete;
+namespace WebReaper.Core.CookieStorage.Concrete;
 
 /// <inheritdoc />
 public class InMemoryCookieStorage : ICookiesStorage
