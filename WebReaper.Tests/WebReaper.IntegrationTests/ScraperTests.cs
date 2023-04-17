@@ -65,9 +65,10 @@ namespace WebReaper.IntegrationTests
                 })
                 .WithLogger(new TestOutputLogger(output))
                 .Subscribe(x => result.Add(x))
+                .WithParallelismDegree(1)
                 .BuildAsync();
 
-            _ = engine.RunAsync(1);
+            _ = engine.RunAsync();
 
             await Task.Delay(10000);
 
@@ -90,9 +91,10 @@ namespace WebReaper.IntegrationTests
                 .WithLogger(new TestOutputLogger(this.output))
                 .WithProxies(new WebShareProxyProvider())
                 .Subscribe(x => result.Add(x))
+                .WithParallelismDegree(2)
                 .BuildAsync();
 
-            _ = scraper.RunAsync(2);
+            _ = scraper.RunAsync();
 
             await Task.Delay(30000);
 
@@ -121,9 +123,10 @@ namespace WebReaper.IntegrationTests
                 })
                 .WithLogger(new TestOutputLogger(this.output))
                 .Subscribe(x => result.Add(x))
+                .WithParallelismDegree(10)
                 .BuildAsync();
 
-            _ = engine.RunAsync(10);
+            _ = engine.RunAsync();
 
             await Task.Delay(20000);
 

@@ -12,10 +12,27 @@ public class RedisScheduler : RedisBase, IScheduler
     private readonly ILogger _logger;
     private readonly string _queueName;
 
-    public RedisScheduler(string connectionString, string queueName, ILogger logger) : base(connectionString)
+    public bool DataCleanupOnStart { get; set; }
+    
+    public Task Initialization { get; }
+    
+    public RedisScheduler(string connectionString, string queueName, ILogger logger, bool dataCleanupOnStart = false) : base(connectionString)
     {
+        DataCleanupOnStart = dataCleanupOnStart;
         _queueName = queueName;
         _logger = logger;
+        
+        Initialization = InitializeAsync();
+    }
+    
+    private async Task InitializeAsync()
+    {
+        if (!DataCleanupOnStart)
+            return;
+
+        var db = Redis.GetDatabase();
+
+        await db.KeyDeleteAsync(_queueName);
     }
 
     public async IAsyncEnumerable<Job> GetAllAsync(

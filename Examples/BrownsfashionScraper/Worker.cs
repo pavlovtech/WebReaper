@@ -70,12 +70,13 @@ namespace BrownsfashionScraper
 
                 })
                 .WriteToCsvFile("result.csv", true)
+                .WithParallelismDegree(10)
                 .BuildAsync();
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await _scraper.RunAsync(10, stoppingToken);
+            await _scraper.RunAsync(stoppingToken);
         }
     }
 }

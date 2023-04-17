@@ -52,12 +52,13 @@ public class ScrapingWorker : BackgroundService
                 "Rutracker",
                 true)
             .WithAzureServiceBusScheduler(azureSBConnectionString, queue)
+            .WithParallelismDegree(10)
             .BuildAsync();
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        await engine.RunAsync(10, stoppingToken);
+        await engine.RunAsync(stoppingToken);
     }
 }
 

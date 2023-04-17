@@ -28,6 +28,7 @@ namespace WebReaper.Builders;
 public class ScraperEngineBuilder
 {
     private IVisitedLinkTracker _visitedLinksTracker = new InMemoryVisitedLinkTracker();
+    private int _parallelismDegree = 8;
     private ConfigBuilder ConfigBuilder { get; } = new();
     private SpiderBuilder SpiderBuilder { get; } = new();
 
@@ -222,21 +223,30 @@ public class ScraperEngineBuilder
         return this;
     }
 
-    public ScraperEngineBuilder WithAzureServiceBusScheduler(string connectionString, string queueName)
+    public ScraperEngineBuilder WithAzureServiceBusScheduler(
+        string connectionString,
+        string queueName,
+        bool dataCleanupOnStart = false)
     {
-        Scheduler = new AzureServiceBusScheduler(connectionString, queueName);
+        Scheduler = new AzureServiceBusScheduler(connectionString, queueName, dataCleanupOnStart);
         return this;
     }
 
-    public ScraperEngineBuilder WithTextFileScheduler(string fileName, string currentJobPositionFileName)
+    public ScraperEngineBuilder WithTextFileScheduler(
+        string fileName,
+        string currentJobPositionFileName,
+        bool dataCleanupOnStart = false)
     {
-        Scheduler = new FileScheduler(fileName, currentJobPositionFileName, Logger);
+        Scheduler = new FileScheduler(fileName, currentJobPositionFileName, Logger, dataCleanupOnStart);
         return this;
     }
 
-    public ScraperEngineBuilder WithRedisScheduler(string connectionString, string queueName)
+    public ScraperEngineBuilder WithRedisScheduler(
+        string connectionString,
+        string queueName,
+        bool dataCleanupOnStart = false)
     {
-        Scheduler = new RedisScheduler(connectionString, queueName, Logger);
+        Scheduler = new RedisScheduler(connectionString, queueName, Logger, dataCleanupOnStart);
         return this;
     }
 
@@ -301,6 +311,12 @@ public class ScraperEngineBuilder
         return this;
     }
 
+    public ScraperEngineBuilder WithParallelismDegree(int parallelismDegree)
+    {
+        _parallelismDegree = parallelismDegree;
+        return this;
+    }
+
     public async Task<ScraperEngine> BuildAsync()
     {
         await _visitedLinksTracker.Initialization;
@@ -312,6 +328,6 @@ public class ScraperEngineBuilder
         
         await ConfigStorage.CreateConfigAsync(config);
 
-        return new ScraperEngine(ConfigStorage, Scheduler, spider, Logger);
+        return new ScraperEngine(_parallelismDegree, ConfigStorage, Scheduler, spider, Logger);
     }
 }
