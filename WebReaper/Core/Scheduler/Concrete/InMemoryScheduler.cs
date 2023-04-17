@@ -15,7 +15,7 @@ public class InMemoryScheduler : IScheduler
 
     public bool DataCleanupOnStart { get; set; }
 
-    public Task Initialization { get; }
+    public Task Initialization { get; } = Task.CompletedTask;
 
     public async Task AddAsync(Job job, CancellationToken cancellationToken = default)
     {
