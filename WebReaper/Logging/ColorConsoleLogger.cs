@@ -39,9 +39,8 @@ public sealed class ColorConsoleLogger : ILogger
         Console.ForegroundColor = LogLevelToColorMap[logLevel];
         Console.WriteLine($"[{logLevel}] {formatter(state, exception)}");
 
-        if (exception != null) Console.WriteLine($"\n\n{exception}");
+        if (exception != null) Console.WriteLine($"{Environment.NewLine}{exception}");
 
         Console.ForegroundColor = originalColor;
-        Console.WriteLine();
     }
 }

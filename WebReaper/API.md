@@ -11,7 +11,7 @@
   - [Get(startUrls)](#M-WebReaper-Builders-ConfigBuilder-Get-System-String[]- 'WebReaper.Builders.ConfigBuilder.Get(System.String[])')
   - [GetWithBrowser(startUrls,pageActions)](#M-WebReaper-Builders-ConfigBuilder-GetWithBrowser-System-Collections-Generic-IEnumerable{System-String},System-Collections-Generic-List{WebReaper-Domain-PageActions-PageAction}- 'WebReaper.Builders.ConfigBuilder.GetWithBrowser(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.List{WebReaper.Domain.PageActions.PageAction})')
 - [FileScraperConfigStorage](#T-WebReaper-ConfigStorage-Concrete-FileScraperConfigStorage 'WebReaper.ConfigStorage.Concrete.FileScraperConfigStorage')
-- [InMemoryCookieStorage](#T-WebReaper-CookieStorage-Concrete-InMemoryCookieStorage 'WebReaper.CookieStorage.Concrete.InMemoryCookieStorage')
+- [InMemoryCookieStorage](#T-WebReaper-Core-CookieStorage-Concrete-InMemoryCookieStorage 'WebReaper.Core.CookieStorage.Concrete.InMemoryCookieStorage')
 - [ScraperEngineBuilder](#T-WebReaper-Builders-ScraperEngineBuilder 'WebReaper.Builders.ScraperEngineBuilder')
 
 <a name='T-WebReaper-Core-Loaders-Abstract-BrowserPageLoader'></a>
@@ -105,12 +105,12 @@ WebReaper.ConfigStorage.Concrete
 
 *Inherit from parent.*
 
-<a name='T-WebReaper-CookieStorage-Concrete-InMemoryCookieStorage'></a>
+<a name='T-WebReaper-Core-CookieStorage-Concrete-InMemoryCookieStorage'></a>
 ## InMemoryCookieStorage `type`
 
 ##### Namespace
 
-WebReaper.CookieStorage.Concrete
+WebReaper.Core.CookieStorage.Concrete
 
 ##### Summary
 

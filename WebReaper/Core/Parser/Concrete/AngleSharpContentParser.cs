@@ -16,8 +16,7 @@ public class AngleSharpContentParser : IContentParser
 
     private ILogger Logger { get; }
 
-    public async Task<JObject>
-        ParseAsync(string html, Schema schema) // TODO: consider passing url or headers... or http response
+    public async Task<JObject> ParseAsync(string html, Schema schema) // TODO: consider passing url or headers... or http response
     {
         ArgumentNullException.ThrowIfNull(schema);
 
@@ -49,7 +48,10 @@ public class AngleSharpContentParser : IContentParser
         {
             var obj = new JObject();
 
-            foreach (var el in container.Children) FillOutput(obj, doc, el);
+            foreach (var el in container.Children)
+            {
+                FillOutput(obj, doc, el);
+            }
 
             result[item.Field] = obj;
 
@@ -60,22 +62,7 @@ public class AngleSharpContentParser : IContentParser
         {
             var data = GetData(doc, item);
 
-            if (item.Type is null)
-            {
-                result[item.Field] = data;
-
-                return;
-            }
-
-            result[item.Field] = item.Type switch
-            {
-                DataType.Integer => int.Parse(data),
-                DataType.Boolean => bool.Parse(data),
-                DataType.DataTime => DateTime.Parse(data),
-                DataType.String => data,
-                DataType.Float => float.Parse(data),
-                _ => result[item.Field]
-            };
+            result[item.Field] = item.Type is null ? data : GetTypedValue(item, data);
         }
         catch (Exception ex)
         {
@@ -83,27 +70,44 @@ public class AngleSharpContentParser : IContentParser
         }
     }
 
+    private JToken GetTypedValue(SchemaElement item, string data) => item.Type switch
+    {
+        DataType.Integer => int.Parse(data),
+        DataType.Boolean => bool.Parse(data),
+        DataType.DataTime => DateTime.Parse(data),
+        DataType.String => data,
+        DataType.Float => float.Parse(data),
+        _ => data
+    };
+
     private string GetData(IDocument doc, SchemaElement el)
     {
         var node = doc.QuerySelector(el.Selector);
 
-        if (node is null) throw new InvalidOperationException($"Cannot find element by selector {el.Selector}.");
+        if (node is null)
+        {
+            Logger.LogError(
+                "Cannot find element by selector {selector}. Corresponding field will be empty in the result",
+                el.Selector);
+            
+            return string.Empty;
+        }
 
-        string? content = null;
+        var content = string.Empty;
 
         if (el.Attr is not null)
         {
             if (el.Attr == "src") el.Attr = "title";
 
-            content = node?.GetAttribute(el.Attr);
+            content = node.GetAttribute(el.Attr);
         }
         else if (el.GetHtml == false)
         {
-            content = node?.Text();
+            content = node.Text();
         }
         else
         {
-            content = node?.InnerHtml;
+            content = node.InnerHtml;
         }
 
         return content;

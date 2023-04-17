@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using PuppeteerExtraSharp;
 using PuppeteerExtraSharp.Plugins.ExtraStealth;
 using PuppeteerSharp;
-using WebReaper.CookieStorage.Abstract;
+using WebReaper.Core.CookieStorage.Abstract;
 using WebReaper.Core.Loaders.Abstract;
 using WebReaper.Domain.PageActions;
 using WebReaper.Extensions;

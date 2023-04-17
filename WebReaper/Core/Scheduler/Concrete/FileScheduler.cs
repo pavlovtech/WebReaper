@@ -32,11 +32,16 @@ public class FileScheduler : IScheduler
     {
         if (DataCleanupOnStart)
         {
-            File.Delete(_fileName);
-            File.Delete(_currentJobPositionFileName);
-            return;
+            if(File.Exists(_fileName)) File.Delete(_fileName);
+            if(File.Exists(_currentJobPositionFileName)) File.Delete(_currentJobPositionFileName);
         }
         
+        var fileInfo = new FileInfo(_fileName);
+        fileInfo.Directory?.Create();
+        
+        var fileInfo2 = new FileInfo(_currentJobPositionFileName);
+        fileInfo2.Directory?.Create();
+
         if (File.Exists(_currentJobPositionFileName))
             _currentJobPosition = int.Parse(await File.ReadAllTextAsync(_currentJobPositionFileName));
     }

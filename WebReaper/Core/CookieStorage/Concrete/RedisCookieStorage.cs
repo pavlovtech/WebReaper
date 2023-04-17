@@ -1,10 +1,10 @@
 ﻿using System.Net;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using WebReaper.CookieStorage.Abstract;
+using WebReaper.Core.CookieStorage.Abstract;
 using WebReaper.DataAccess;
 
-namespace WebReaper.CookieStorage.Concrete;
+namespace WebReaper.Core.CookieStorage.Concrete;
 
 public class RedisCookieStorage : RedisBase, ICookiesStorage
 {

@@ -4,8 +4,8 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Newtonsoft.Json.Linq;
 using WebReaper.ConfigStorage.Abstract;
 using WebReaper.ConfigStorage.Concrete;
-using WebReaper.CookieStorage.Abstract;
-using WebReaper.CookieStorage.Concrete;
+using WebReaper.Core.CookieStorage.Abstract;
+using WebReaper.Core.CookieStorage.Concrete;
 using WebReaper.Core.LinkTracker.Abstract;
 using WebReaper.Core.LinkTracker.Concrete;
 using WebReaper.Core.Loaders.Abstract;
@@ -25,7 +25,6 @@ namespace WebReaper.Builders;
 
 public class SpiderBuilder
 {
-    private readonly List<string> _urlBlackList = new();
     private Func<Metadata, JObject, Task> PostProcessor { get; set; }
 
     private List<IScraperSink> Sinks { get; } = new();
@@ -167,6 +166,12 @@ public class SpiderBuilder
         CookieStorage = new RedisCookieStorage(connectionString, redisKey, Logger);
         return this;
     }
+    
+    public SpiderBuilder WithFileCookieStorage(string fileName)
+    {
+        CookieStorage = new FileCookieStorage(fileName, Logger);
+        return this;
+    }
 
     public SpiderBuilder WithMongoDbCookieStorage(
         string connectionString,
@@ -191,6 +196,7 @@ public class SpiderBuilder
         PostProcessor = callback;
     }
 
+    // TODO: clean up this mess
     public ISpider Build()
     {
         // default implementations

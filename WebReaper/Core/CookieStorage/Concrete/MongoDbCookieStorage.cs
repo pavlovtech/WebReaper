@@ -3,9 +3,9 @@ using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Newtonsoft.Json;
-using WebReaper.CookieStorage.Abstract;
+using WebReaper.Core.CookieStorage.Abstract;
 
-namespace WebReaper.CookieStorage.Concrete;
+namespace WebReaper.Core.CookieStorage.Concrete;
 
 public class MongoDbCookieStorage : ICookiesStorage
 {
