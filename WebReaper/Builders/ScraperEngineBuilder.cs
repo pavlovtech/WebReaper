@@ -27,7 +27,7 @@ namespace WebReaper.Builders;
 public class ScraperEngineBuilder
 {
     private IVisitedLinkTracker _visitedLinksTracker = new InMemoryVisitedLinkTracker();
-    private int _parallelismDegree = 8;
+    private int _parallelismDegree = 20;
     private ConfigBuilder ConfigBuilder { get; } = new();
     private SpiderBuilder SpiderBuilder { get; } = new();
 
