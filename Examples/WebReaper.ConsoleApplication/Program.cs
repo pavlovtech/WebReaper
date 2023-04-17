@@ -15,9 +15,11 @@ var engine = await new ScraperEngineBuilder()
     })
     .WriteToJsonFile("output.json", dataCleanupOnStart: true)
     .TrackVisitedLinksInFile("visited.txt", dataCleanupOnStart: true)
+    .WithTextFileScheduler("jobs.txt", "currentJob.txt", dataCleanupOnStart: true)
     .LogToConsole()
-    .PageCrawlLimit(10)
+    .PageCrawlLimit(500)
     .HeadlessMode(true)
+    .WithParallelismDegree(30)
     .BuildAsync();
 
 await engine.RunAsync();

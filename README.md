@@ -174,10 +174,22 @@ This dataCleanupOnStart parameter is present for all sinks, e.g. MongoDbSink, Re
 
 ### How to clean visited links from the previous web scrapping run
 
+To clean up the list of visited links just pass true for dataCleanupOnStart parameter:
+
 ```C#
 var engine = await new ScraperEngineBuilder()
     .Get("https://www.reddit.com/r/dotnet/")
     .TrackVisitedLinksInFile("visited.txt", dataCleanupOnStart: true)
+```
+
+### How to clean job queue from the previous web scraping run
+
+Job queue is a queue of tasks schedules for web scraper. To clean up the job queue pass the dataCleanupOnStart parameter set to true.
+
+```C#
+var engine = await new ScraperEngineBuilder()
+    .Get("https://www.reddit.com/r/dotnet/")
+    .WithTextFileScheduler("jobs.txt", "currentJob.txt", dataCleanupOnStart: true)
 ```
 
 ### Distributed web scraping with Serverless approach
@@ -208,7 +220,7 @@ Finally, it iterates through these new jobs and sends them the the Job queue.
 Out of the box there are 4 sinks you can send your parsed data to: ConsoleSink, CsvFileSink, JsonFileSink, CosmosSink (
 Azure Cosmos database).
 
-You can easly add your own by implementing the IScraperSink interface:
+You can easily add your own by implementing the IScraperSink interface:
 
 ```C#
 public interface IScraperSink

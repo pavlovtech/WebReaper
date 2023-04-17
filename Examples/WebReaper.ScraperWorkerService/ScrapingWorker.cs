@@ -47,6 +47,7 @@ public class ScrapingWorker : BackgroundService
             .TrackVisitedLinksInRedis("localhost:6379", "rutracker-visited-links")
             .WriteToRedis("localhost:6379", "rutracker-audiobooks", true)
             .WithRedisConfigStorage("localhost:6379", "rutracker-scraper-config")
+            .WithParallelismDegree(20)
             .BuildAsync();
     }
 
@@ -78,7 +79,7 @@ public class ScrapingWorker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        await _engine.RunAsync(20, stoppingToken);
+        await _engine.RunAsync( stoppingToken);
     }
 }
 

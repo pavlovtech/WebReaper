@@ -12,11 +12,13 @@ namespace WebReaper.Core;
 public class ScraperEngine
 {
     public ScraperEngine(
+        int parallelismDegree,
         IScraperConfigStorage configStorage,
         IScheduler jobScheduler,
         ISpider spider,
         ILogger logger)
     {
+        ParallelismDegree = parallelismDegree;
         ArgumentNullException.ThrowIfNull(configStorage);
         ArgumentNullException.ThrowIfNull(jobScheduler);
         ArgumentNullException.ThrowIfNull(spider);
@@ -30,8 +32,10 @@ public class ScraperEngine
     private IScheduler Scheduler { get; }
     private ISpider Spider { get; }
     private ILogger Logger { get; }
+    
+    private int ParallelismDegree { get; }
 
-    public async Task RunAsync(int parallelismDegree = 8, CancellationToken cancellationToken = default)
+    public async Task RunAsync(CancellationToken cancellationToken = default)
     {
         Logger.LogInformation("Start {class}.{method}", nameof(ScraperEngine), nameof(RunAsync));
 
@@ -49,7 +53,7 @@ public class ScraperEngine
                 config.PageActions), cancellationToken);
         }
 
-        var options = new ParallelOptions { MaxDegreeOfParallelism = parallelismDegree };
+        var options = new ParallelOptions { MaxDegreeOfParallelism = ParallelismDegree };
 
         try
         {

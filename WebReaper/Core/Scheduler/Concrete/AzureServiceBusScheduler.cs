@@ -3,27 +3,49 @@ using Azure.Messaging.ServiceBus;
 using Newtonsoft.Json;
 using WebReaper.Core.Scheduler.Abstract;
 using WebReaper.Domain;
+using Azure.Messaging.ServiceBus.Administration;
 
 namespace WebReaper.Core.Scheduler.Concrete;
 
 public class AzureServiceBusScheduler : IScheduler, IAsyncDisposable
 {
+    private readonly string _queueName;
     private readonly ServiceBusClient _client;
 
     private readonly ServiceBusReceiver _receiver;
 
     private readonly ServiceBusSender _sender;
+    private readonly ServiceBusAdministrationClient _adminClient;
 
-    public AzureServiceBusScheduler(string serviceBusConnectionString, string queueName)
+    public bool DataCleanupOnStart { get; set; }
+    
+    public Task Initialization { get; }
+
+    public AzureServiceBusScheduler(string serviceBusConnectionString, string queueName, bool dataCleanupOnStart = false)
     {
+        _queueName = queueName;
+        DataCleanupOnStart = dataCleanupOnStart;
         _client = new ServiceBusClient(serviceBusConnectionString);
 
-        _receiver = _client.CreateReceiver(queueName, new ServiceBusReceiverOptions
+        _receiver = _client.CreateReceiver(_queueName, new ServiceBusReceiverOptions
         {
             PrefetchCount = 10
         });
 
-        _sender = _client.CreateSender(queueName);
+        _sender = _client.CreateSender(_queueName);
+
+        _adminClient = new ServiceBusAdministrationClient(serviceBusConnectionString);
+
+        Initialization = InitializeAsync();
+    }
+    
+    private async Task InitializeAsync()
+    {
+        if (DataCleanupOnStart)
+        {
+            await _adminClient.DeleteQueueAsync(_queueName);          
+            await _adminClient.CreateQueueAsync(_queueName);
+        }
     }
 
     public async ValueTask DisposeAsync()

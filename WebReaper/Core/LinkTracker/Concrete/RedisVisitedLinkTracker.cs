@@ -8,6 +8,8 @@ public class RedisVisitedLinkTracker : RedisBase, IVisitedLinkTracker
     private readonly string _redisKey;
     
     public bool DataCleanupOnStart { get; set; }
+    
+    public Task Initialization { get; }
 
     public RedisVisitedLinkTracker(string connectionString, string redisKey, bool dataCleanupOnStart = false)
         : base(connectionString)
@@ -16,8 +18,6 @@ public class RedisVisitedLinkTracker : RedisBase, IVisitedLinkTracker
         Initialization = InitializeAsync();
         DataCleanupOnStart = dataCleanupOnStart;
     }
-
-    public Task Initialization { get; }
 
     private async Task InitializeAsync()
     {

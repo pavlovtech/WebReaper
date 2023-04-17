@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using WebReaper.Core.Scheduler.Abstract;
 using WebReaper.Domain;
-using static System.IO.File;
 
 namespace WebReaper.Core.Scheduler.Concrete;
 
@@ -15,14 +14,31 @@ public class FileScheduler : IScheduler
 
     private readonly SemaphoreSlim _semaphore = new(1, 1);
     private long _currentJobPosition;
+    public Task Initialization { get; }
 
-    public FileScheduler(string fileName, string currentJobPositionFileName, ILogger logger)
+    public bool DataCleanupOnStart { get; set; }
+    
+    public FileScheduler(string fileName, string currentJobPositionFileName, ILogger logger, bool dataCleanupOnStart = false)
     {
+        DataCleanupOnStart = dataCleanupOnStart;
         _fileName = fileName;
         _currentJobPositionFileName = currentJobPositionFileName;
         _logger = logger;
-        if (Exists(_currentJobPositionFileName))
-            _currentJobPosition = int.Parse(ReadAllText(_currentJobPositionFileName));
+
+        Initialization = InitializeAsync();
+    }
+    
+    private async Task InitializeAsync()
+    {
+        if (DataCleanupOnStart)
+        {
+            File.Delete(_fileName);
+            File.Delete(_currentJobPositionFileName);
+            return;
+        }
+        
+        if (File.Exists(_currentJobPositionFileName))
+            _currentJobPosition = int.Parse(await File.ReadAllTextAsync(_currentJobPositionFileName));
     }
 
     public async IAsyncEnumerable<Job> GetAllAsync(
@@ -39,7 +55,7 @@ public class FileScheduler : IScheduler
         for (var i = 0; i < _currentJobPosition; i++)
         {
             _logger.LogInformation("Skipping {Count} line", i);
-            await sr.ReadLineAsync();
+            await sr.ReadLineAsync(cancellationToken);
         }
 
         while (true)
@@ -48,7 +64,7 @@ public class FileScheduler : IScheduler
             string? jobLine;
             try
             {
-                jobLine = await sr.ReadLineAsync();
+                jobLine = await sr.ReadLineAsync(cancellationToken);
             }
             finally
             {
@@ -64,7 +80,7 @@ public class FileScheduler : IScheduler
 
             _logger.LogInformation("Writing current job position to file");
 
-            await WriteAllTextAsync(_currentJobPositionFileName, $"{_currentJobPosition++}", cancellationToken);
+            await File.WriteAllTextAsync(_currentJobPositionFileName, $"{_currentJobPosition++}", cancellationToken);
 
             _logger.LogInformation("Deserializing the job and returning it to consumer");
 
@@ -80,7 +96,7 @@ public class FileScheduler : IScheduler
         await _semaphore.WaitAsync(cancellationToken);
         try
         {
-            await AppendAllTextAsync(_fileName, SerializeToJson(job) + Environment.NewLine, cancellationToken);
+            await File.AppendAllTextAsync(_fileName, SerializeToJson(job) + Environment.NewLine, cancellationToken);
         }
         finally
         {
@@ -97,7 +113,7 @@ public class FileScheduler : IScheduler
         await _semaphore.WaitAsync(cancellationToken);
         try
         {
-            await AppendAllLinesAsync(_fileName, serializedJobs, cancellationToken);
+            await File.AppendAllLinesAsync(_fileName, serializedJobs, cancellationToken);
         }
         finally
         {
