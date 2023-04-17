@@ -112,7 +112,10 @@ public class ScraperEngineBuilder
     }
 
 
-    public ScraperEngineBuilder WriteToRedis(string connectionString, string redisKey, bool dataCleanupOnStart)
+    public ScraperEngineBuilder WriteToRedis(
+        string connectionString,
+        string redisKey,
+        bool dataCleanupOnStart = false)
     {
         SpiderBuilder.WriteToRedis(connectionString, redisKey, dataCleanupOnStart);
         return this;

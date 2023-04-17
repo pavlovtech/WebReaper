@@ -11,7 +11,6 @@ public class ConfigBuilder
     private readonly List<LinkPathSelector> _linkPathSelectors = new();
 
     private IEnumerable<string> _blockedUrls = Enumerable.Empty<string>();
-    private bool _dataCleanupOnStart;
 
     private bool _headless = true;
 
@@ -74,13 +73,7 @@ public class ConfigBuilder
         _headless = headless;
         return this;
     }
-
-    public ConfigBuilder DataCleanupOnStart(bool dataCleanup)
-    {
-        _dataCleanupOnStart = dataCleanup;
-        return this;
-    }
-
+    
     public ConfigBuilder IgnoreUrls(IEnumerable<string> urls)
     {
         _blockedUrls = urls;
@@ -133,7 +126,6 @@ public class ConfigBuilder
             _pageCrawlLimit,
             _startPageType,
             _pageActions,
-            _headless,
-            _dataCleanupOnStart);
+            _headless);
     }
 }

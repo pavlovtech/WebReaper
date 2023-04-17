@@ -22,7 +22,7 @@ public class RedisBase
             Redis = ConnectionMultiplexer.Connect(connectionString, config =>
             {
                 config.AbortOnConnectFail = false;
-
+                config.AllowAdmin = true;
                 config.AsyncTimeout = 180000;
                 config.SyncTimeout = 180000;
 
