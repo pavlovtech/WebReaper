@@ -9,14 +9,13 @@ namespace WebReaper.ScraperWorkerService;
 public class ScrapingWorker : BackgroundService
 {
     private readonly ILogger<ScrapingWorker> _logger;
-    private ScraperEngine _engine;
 
     public ScrapingWorker(ILogger<ScrapingWorker> logger)
     {
         _logger = logger;
     }
-
-    public override async Task StartAsync(CancellationToken cancellationToken)
+   
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         var blackList = new[] {
             "https://rutracker.org/forum/viewforum.php?f=396",
@@ -26,7 +25,7 @@ public class ScrapingWorker : BackgroundService
             "https://rutracker.org/forum/viewforum.php?f=2321"
         };
 
-        _engine = await new ScraperEngineBuilder()
+        var engine = await new ScraperEngineBuilder()
             .WithLogger(_logger)
             .Get("https://rutracker.org/forum/index.php?c=33")
             .Follow("#cf-33 .forumlink>a")
@@ -42,13 +41,15 @@ public class ScrapingWorker : BackgroundService
                 new("coverImageUrl", ".postImg", "src")
             })
             .IgnoreUrls(blackList)
-            .PostProcess(async (meta, result) => await ParseTorrentStats(meta, result) )
-            .WithRedisScheduler("localhost:6379", "jobs")
-            .TrackVisitedLinksInRedis("localhost:6379", "rutracker-visited-links")
+            .PostProcess(ParseTorrentStats)
+            .WithRedisScheduler("localhost:6379", "jobs", true)
+            .TrackVisitedLinksInRedis("localhost:6379", "rutracker-visited-links", true)
             .WriteToRedis("localhost:6379", "rutracker-audiobooks", true)
             .WithRedisConfigStorage("localhost:6379", "rutracker-scraper-config")
             .WithParallelismDegree(20)
             .BuildAsync();
+
+        await engine.RunAsync(stoppingToken);
     }
 
     private static async Task ParseTorrentStats(Metadata meta, JObject result)
@@ -75,11 +76,6 @@ public class ScrapingWorker : BackgroundService
         result["leeches"] = leechesParsed ? leeches : null;
         result["downloads"] = downloadsCountParsed ? downloadsCount : null;
         result["replays"] = replaysCountParsed ? replaysCount : null;
-    }
-
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-    {
-        await _engine.RunAsync( stoppingToken);
     }
 }
 

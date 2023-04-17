@@ -15,8 +15,9 @@ public class RedisVisitedLinkTracker : RedisBase, IVisitedLinkTracker
         : base(connectionString)
     {
         _redisKey = redisKey;
-        Initialization = InitializeAsync();
         DataCleanupOnStart = dataCleanupOnStart;
+        
+        Initialization = InitializeAsync();
     }
 
     private async Task InitializeAsync()

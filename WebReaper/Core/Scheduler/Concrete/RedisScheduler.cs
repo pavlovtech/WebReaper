@@ -32,13 +32,13 @@ public class RedisScheduler : RedisBase, IScheduler
 
         var db = Redis.GetDatabase();
 
-        await db.KeyDeleteAsync(_queueName);
+        var result = await db.KeyDeleteAsync(_queueName);
     }
 
     public async IAsyncEnumerable<Job> GetAllAsync(
         [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation($"Start {nameof(RedisScheduler)}.{nameof(GetAllAsync)}");
+        _logger.LogInformation("Start {class}.{method}", nameof(RedisScheduler), nameof(GetAllAsync));
 
         var db = Redis.GetDatabase();
 
@@ -60,7 +60,7 @@ public class RedisScheduler : RedisBase, IScheduler
 
     public async Task AddAsync(Job job, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation($"Start {nameof(RedisScheduler)}.{nameof(AddAsync)}");
+        _logger.LogInformation("Start {class}.{method}", nameof(RedisScheduler), nameof(AddAsync));
 
         var db = Redis.GetDatabase();
         await db.ListRightPushAsync(_queueName, SerializeToJson(job));
@@ -68,10 +68,13 @@ public class RedisScheduler : RedisBase, IScheduler
 
     public async Task AddAsync(IEnumerable<Job> jobs, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation($"Start {nameof(RedisScheduler)}.{nameof(AddAsync)} with multiple jobs");
+        _logger.LogInformation("Start {class}.{method} with {count} jobs", nameof(RedisScheduler), nameof(AddAsync), jobs.Count());
 
         var db = Redis!.GetDatabase();
 
-        foreach (var job in jobs) await db.ListRightPushAsync(_queueName, SerializeToJson(job));
+        foreach (var job in jobs)
+        {
+            await db.ListRightPushAsync(_queueName, SerializeToJson(job));
+        }
     }
 }
