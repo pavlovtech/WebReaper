@@ -37,6 +37,8 @@ public class ScraperEngine
 
     public async Task RunAsync(CancellationToken cancellationToken = default)
     {
+        await Scheduler.Initialization;
+
         Logger.LogInformation("Start {class}.{method}", nameof(ScraperEngine), nameof(RunAsync));
 
         var config = await ConfigStorage.GetConfigAsync();

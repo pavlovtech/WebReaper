@@ -52,6 +52,8 @@ public class Spider : ISpider
 
     public async Task<List<Job>> CrawlAsync(Job job, CancellationToken cancellationToken = default)
     {
+        await LinkTracker.Initialization;
+        
         var config = await ScraperConfigStorage.GetConfigAsync();
 
         if (config.UrlBlackList.Contains(job.Url)) return Enumerable.Empty<Job>().ToList();

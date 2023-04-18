@@ -4,7 +4,7 @@
 - [X] Add flag for headless/not headless chrome
 - [X] Clean up on start in sink, link tracker, scheduler
 - [ ] Remove nested builders
-- [ ] ~~Use factory for async object creation~~
+- [ ] Use factory for async object creation?
 - [ ] Write tests using specflow
 - [ ] Separate nuget packages for MongoDb, Cosmos Db, Redis, etc.
 - [ ] Add support for xpath and regex
