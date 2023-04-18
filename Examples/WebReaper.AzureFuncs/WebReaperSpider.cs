@@ -9,12 +9,12 @@ using WebReaper.Domain;
 
 namespace WebReaper.AzureFuncs
 {
-    public class ExoScraperSpider
+    public class WebReaperSpider
     {
         public IVisitedLinkTracker LinkTracker { get; }
         public CosmosSink CosmosSink { get; }
 
-        public ExoScraperSpider(IVisitedLinkTracker linkTracker, CosmosSink cosmosSink)
+        public WebReaperSpider(IVisitedLinkTracker linkTracker, CosmosSink cosmosSink)
         {
             LinkTracker = linkTracker;
             CosmosSink = cosmosSink;

@@ -328,9 +328,6 @@ public class ScraperEngineBuilder
 
     public async Task<ScraperEngine> BuildAsync()
     {
-        await _visitedLinksTracker.Initialization;
-        await Scheduler.Initialization;
-
         SpiderBuilder.WithConfigStorage(ConfigStorage);
         
         var config = ConfigBuilder.Build();
