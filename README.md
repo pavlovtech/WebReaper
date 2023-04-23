@@ -21,7 +21,7 @@ It provides a simple yet extensible API to make web scraping a breeze.
 
 - [Install](#install)
 - [Requirements](#requirements)
-- [Features:](#features)
+- [Features](#features)
 - [Usage examples](#usage-examples)
 - [API overview](#api-overview)
   * [Parsing Single Page Applications](#parsing-single-page-applications)
