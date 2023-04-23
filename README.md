@@ -40,7 +40,6 @@ It provides a simple yet extensible API to make web scraping a breeze.
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
-<a name="install"/>
 ## Install
 
 ```
