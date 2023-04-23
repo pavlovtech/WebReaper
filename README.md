@@ -13,6 +13,34 @@ pretty much to anywhere you want.
 
 It provides a simple yet extensible API to make web scraping a breeze.
 
+### 📋 Example:
+
+![ray-so-export](https://user-images.githubusercontent.com/6662454/229387724-82ad04cb-6b90-42b8-ba2a-a3735fb94abe.png)
+
+## Table of contents
+
+- [Install](#install)
+- [Requirements](#requirements)
+- [Features:](#features)
+- [Usage examples](#usage-examples)
+- [API overview](#api-overview)
+  * [Parsing Single Page Applications](#parsing-single-page-applications)
+  * [Persist the progress locally](#persist-the-progress-locally)
+  * [Authorization](#authorization)
+  * [How to disable headless mode](#how-to-disable-headless-mode)
+  * [How to clean scraped data from the previous web scrapping run](#how-to-clean-scraped-data-from-the-previous-web-scrapping-run)
+  * [How to clean visited links from the previous web scrapping run](#how-to-clean-visited-links-from-the-previous-web-scrapping-run)
+  * [How to clean job queue from the previous web scraping run](#how-to-clean-job-queue-from-the-previous-web-scraping-run)
+  * [Distributed web scraping with Serverless approach](#distributed-web-scraping-with-serverless-approach)
+  * [Extensibility](#extensibility)
+    + [Adding a new sink to persist your data](#adding-a-new-sink-to-persist-your-data)
+  * [Intrefaces](#intrefaces)
+  * [Main entities](#main-entities)
+- [Repository structure](#repository-structure)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
+<a name="install"/>
 ## Install
 
 ```
@@ -23,11 +51,7 @@ dotnet add package WebReaper
 
 .NET 7
 
-## 📋 Example:
-
-![ray-so-export](https://user-images.githubusercontent.com/6662454/229387724-82ad04cb-6b90-42b8-ba2a-a3735fb94abe.png)
-
-## Features:
+## Features
 
 * :zap: High crawling speed due to parallelism and asynchrony
 * 🗒 Declarative and easy to use
@@ -49,7 +73,7 @@ dotnet add package WebReaper
 
 ## API overview
 
-### SPA parsing example (client rendered pagaes)
+### Parsing Single Page Applications
 
 Parsing single page applications is super simple, just use the *GetWithBrowser* and/or *FollowWithBrowser* method. In this
 case Puppeteer will be used to load the pages.
