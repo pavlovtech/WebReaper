@@ -38,8 +38,6 @@ It provides a simple yet extensible API to make web scraping a breeze.
   * [Main entities](#main-entities)
 - [Repository structure](#repository-structure)
 
-<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
-
 ## Install
 
 ```
