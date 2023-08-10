@@ -40,18 +40,18 @@
         <None Remove="Azure.Messaging.ServiceBus" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="AngleSharp" Version="1.0.1" />
-        <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.32.3" />
+        <PackageReference Include="AngleSharp" Version="1.0.4" />
+        <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.35.2" />
         <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
-        <PackageReference Include="MongoDB.Driver" Version="2.19.1" />
+        <PackageReference Include="MongoDB.Driver" Version="2.20.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-        <PackageReference Include="Polly" Version="7.2.3" />
+        <PackageReference Include="Polly" Version="7.2.4" />
         <PackageReference Include="PuppeteerExtraSharp" Version="2.0.0" />
-        <PackageReference Include="PuppeteerSharp" Version="9.1.0" />
-        <PackageReference Include="StackExchange.Redis" Version="2.6.104" />
+        <PackageReference Include="PuppeteerSharp" Version="10.1.2" />
+        <PackageReference Include="StackExchange.Redis" Version="2.6.122" />
         <PackageReference Include="System.Text.Encoding.CodePages" Version="7.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
-        <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.13.1" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
+        <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.16.0" />
         <PackageReference Include="Vsxmd" Version="1.4.5">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
