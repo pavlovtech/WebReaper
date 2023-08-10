@@ -18,4 +18,5 @@
 - [ ] Sitemap crawling support
 - [ ] Add LogTo method with Console and File support
 - [ ] Request auto throttling
-- [ ] Add bloom filter for revisiting same urls  
+- [ ] Add bloom filter for revisiting same urls
+- [ ] Fix base url bug
