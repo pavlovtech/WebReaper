@@ -73,7 +73,8 @@ public class Spider : ISpider
         var doc = job.PageType switch
         {
             PageType.Static => await LoadStaticPage(job),
-            PageType.Dynamic => await LoadDynamicPage(job, config.Headless)
+            PageType.Dynamic => await LoadDynamicPage(job, config.Headless),
+            _ => throw new NotImplementedException()
         };
         
         if (job.PageCategory == PageCategory.TargetPage)
