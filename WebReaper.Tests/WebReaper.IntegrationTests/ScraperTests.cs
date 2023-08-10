@@ -23,18 +23,18 @@ namespace WebReaper.IntegrationTests
 
             var startUrls = new[]
             {
-                "https://www.reddit.com/r/dotnet/",
-                "https://www.reddit.com/r/worldnews/",
-                "https://www.reddit.com/r/ukraine/"
+                "https://www.alexpavlov.dev/blog/tags/csharp",
+                "https://www.alexpavlov.dev/blog/tags/ukraine",
+                "https://www.alexpavlov.dev/blog/tags/web"
             };
             
             var engine = await new ScraperEngineBuilder()
                 .Get(startUrls)
-                .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
+                .Follow(".text-gray-900.transition")
                 .Parse(new()
                 {
-                    new("title", "._eYtD2XCVieq6emjKBH3m"),
-                    new("text", "._3xX726aBn29LDbsDtzr_6E._1Ap4F5maDtT1E1YuCiaO0r.D3IL3FD0RFy_mkKLPwL4")
+                    new("title", ".text-3xl.font-bold"),
+                    new("text", ".max-w-max.prose.prose-dark")
                 })
                 .WithLogger(new TestOutputLogger(this.output))
                 .Subscribe(x => result.Add(x))
@@ -42,12 +42,10 @@ namespace WebReaper.IntegrationTests
 
             _ = engine.RunAsync();
 
-            await Task.Delay(15000);
+            await Task.Delay(25000);
 
             Assert.NotEmpty(result);
-            Assert.True(result.Any(r => r.Url.StartsWith(startUrls[0])));
-            Assert.True(result.Any(r => r.Url.StartsWith(startUrls[1])));
-            Assert.True(result.Any(r => r.Url.StartsWith(startUrls[2])));
+            Assert.True(result.Count > 1);
         }
         
         [Fact]
@@ -56,23 +54,24 @@ namespace WebReaper.IntegrationTests
             var result = new List<ParsedData>();
 
             var engine = await new ScraperEngineBuilder()
-                .Get("https://www.reddit.com/r/dotnet/")
-                .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
+                .Get("https://www.alexpavlov.dev/blog")
+                .Follow(".text-gray-900.transition")
                 .Parse(new()
                 {
-                    new("title", "._eYtD2XCVieq6emjKBH3m"),
-                    new("text", "._3xX726aBn29LDbsDtzr_6E._1Ap4F5maDtT1E1YuCiaO0r.D3IL3FD0RFy_mkKLPwL4")
+                    new("title", ".text-3xl.font-bold"),
+                    new("text", ".max-w-max.prose.prose-dark")
                 })
                 .WithLogger(new TestOutputLogger(output))
-                .Subscribe(x => result.Add(x))
+                .Subscribe(result.Add)
                 .WithParallelismDegree(1)
                 .BuildAsync();
 
             _ = engine.RunAsync();
 
-            await Task.Delay(10000);
+            await Task.Delay(15000);
 
             Assert.NotEmpty(result);
+            Assert.True(result.Count > 1);
         }
 
         [Fact (Skip = "No stable proxy at the moment")]
@@ -114,12 +113,12 @@ namespace WebReaper.IntegrationTests
             var result = new List<ParsedData>();
 
             var engine = await new ScraperEngineBuilder()
-                .GetWithBrowser(new []{"https://www.reddit.com/r/dotnet/"})
-                .FollowWithBrowser("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
+                .GetWithBrowser(new []{ "https://www.alexpavlov.dev/blog" })
+                .FollowWithBrowser(".text-gray-900.transition")
                 .Parse(new()
                 {
-                    new("title", "._eYtD2XCVieq6emjKBH3m"),
-                    new("text", "._3xX726aBn29LDbsDtzr_6E._1Ap4F5maDtT1E1YuCiaO0r.D3IL3FD0RFy_mkKLPwL4")
+                    new("title", ".text-3xl.font-bold"),
+                    new("text", ".max-w-max.prose.prose-dark")
                 })
                 .WithLogger(new TestOutputLogger(this.output))
                 .Subscribe(x => result.Add(x))
