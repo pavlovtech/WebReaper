@@ -58,15 +58,7 @@ public class Spider : ISpider
 
         if (config.UrlBlackList.Contains(job.Url)) return Enumerable.Empty<Job>().ToList();
 
-        if (await LinkTracker.GetVisitedLinksCount() >= config.PageCrawlLimit)
-        {
-            Logger.LogInformation("Page crawl limit has been reached");
-
-            throw new PageCrawlLimitException("Page crawl limit has been reached.")
-            {
-                PageCrawlLimit = config.PageCrawlLimit
-            };
-        }
+        await CheckCrawlLimit(config);
 
         await LinkTracker.AddVisitedLinkAsync(job.Url);
 
@@ -80,6 +72,8 @@ public class Spider : ISpider
         if (job.PageCategory == PageCategory.TargetPage)
         {
             await ProcessTargetPage(job, doc, cancellationToken);
+            
+            await CheckCrawlLimit(config);
 
             return Enumerable.Empty<Job>().ToList();
         }
@@ -106,6 +100,19 @@ public class Spider : ISpider
         newJobs.AddRange(nextJobs);
 
         return newJobs;
+    }
+
+    private async Task CheckCrawlLimit(ScraperConfig config)
+    {
+        if (await LinkTracker.GetVisitedLinksCount() >= config.PageCrawlLimit)
+        {
+            Logger.LogInformation("Page crawl limit has been reached");
+
+            throw new PageCrawlLimitException("Page crawl limit has been reached.")
+            {
+                PageCrawlLimit = config.PageCrawlLimit
+            };
+        }
     }
 
     public event Action<ParsedData>? ScrapedData;
