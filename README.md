@@ -76,17 +76,21 @@ Parsing single page applications is super simple, just use the *GetWithBrowser* 
 case Puppeteer will be used to load the pages.
 
 ```C#
+using WebReaper.Builders;
+
 var engine = await new ScraperEngineBuilder()
-    .GetWithBrowser("https://www.reddit.com/r/dotnet/")
-    .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
+    .GetWithBrowser("https://www.alexpavlov.dev/blog")
+    .FollowWithBrowser(".text-gray-900.transition")
     .Parse(new()
     {
-        new("title", "._eYtD2XCVieq6emjKBH3m"),
-        new("text", "._3xX726aBn29LDbsDtzr_6E._1Ap4F5maDtT1E1YuCiaO0r.D3IL3FD0RFy_mkKLPwL4")
+        new("title", ".text-3xl.font-bold"),
+        new("text", ".max-w-max.prose.prose-dark")
     })
     .WriteToJsonFile("output.json")
+    .PageCrawlLimit(10)
+    .WithParallelismDegree(30)
     .LogToConsole()
-    .BuildAsync()
+    .BuildAsync();
 
 await engine.RunAsync();
 ```
@@ -120,7 +124,7 @@ It can be helpful if the required content is loaded only after some user interac
 
 ### Persist the progress locally
 
-If you want to persist the vistited links and job queue locally, so that you can start crawling where you left off you
+If you want to persist the visited links and job queue locally, so that you can start crawling where you left off you
 can use *ScheduleWithTextFile* and *TrackVisitedLinksInFile* methods:
 
 ```C#

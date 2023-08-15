@@ -155,7 +155,7 @@ public class ScraperEngineBuilder
         return this;
     }
 
-    public ScraperEngineBuilder WriteToJsonFile(string filePath, bool dataCleanupOnStart)
+    public ScraperEngineBuilder WriteToJsonFile(string filePath, bool dataCleanupOnStart = true)
     {
         SpiderBuilder.WriteToJsonFile(filePath, dataCleanupOnStart);
         return this;
@@ -184,6 +184,12 @@ public class ScraperEngineBuilder
         Func<PageActionBuilder, List<PageAction>>? actionBuilder = null)
     {
         ConfigBuilder.GetWithBrowser(startUrls, actionBuilder?.Invoke(new PageActionBuilder()));
+        return this;
+    }
+    
+    public ScraperEngineBuilder GetWithBrowser(params string[] startUrls)
+    {
+        ConfigBuilder.GetWithBrowser(startUrls);
         return this;
     }
 

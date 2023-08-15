@@ -76,7 +76,6 @@ public class ScraperEngine
         catch (PageCrawlLimitException ex)
         {
             Logger.LogWarning(ex, "Shutting down due to page crawl limit {Limit}", ex.PageCrawlLimit);
-            throw;
         }
         catch (TaskCanceledException ex)
         {
