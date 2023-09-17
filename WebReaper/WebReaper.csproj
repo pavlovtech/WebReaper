@@ -42,6 +42,8 @@
     <ItemGroup>
         <PackageReference Include="AngleSharp" Version="1.0.4" />
         <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.35.2" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
         <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
         <PackageReference Include="MongoDB.Driver" Version="2.20.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
