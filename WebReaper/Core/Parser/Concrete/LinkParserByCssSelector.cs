@@ -11,10 +11,20 @@ public class LinkParserByCssSelector : ILinkParser
         var context = BrowsingContext.New(config);
         using var doc = await context.OpenAsync(req => req.Content(html));
 
-        return doc
-            .QuerySelectorAll(cssSelector)
-            .Select(e => e.Attributes["href"]?.Value)
-            .Select(l => new Uri(baseUrl, l).ToString())
+        var foundBySelector = doc.QuerySelectorAll(cssSelector);
+        
+        return foundBySelector
+            .Select(e =>
+            {
+                var x = e.Attributes["href"]?.Value;
+                return x;
+            })
+            .Select(l =>
+            {
+                var url = new Uri(baseUrl, l);
+
+                return url.ToString();
+            })
             .Distinct()
             .ToList();
     }

@@ -80,11 +80,13 @@ public class Spider : ISpider
 
         var newLinkPathSelectors = job.LinkPathSelectors.Dequeue(out var currentSelector);
 
-        var baseUrl = new Uri(job.Url);
+        var uri = new Uri(job.Url);
+        var baseUrl = uri.GetLeftPart(System.UriPartial.Authority);
+        var baseUri = new Uri(baseUrl);
 
-        Logger.LogDebug("Base url: {BaseUrl}", baseUrl);
+        Logger.LogDebug("Base url: {BaseUrl}", baseUri);
 
-        var rawLinks = await LinkParser.GetLinksAsync(baseUrl, doc, currentSelector.Selector);
+        var rawLinks = await LinkParser.GetLinksAsync(baseUri, doc, currentSelector.Selector);
 
         var links = rawLinks
             .Except(await LinkTracker.GetVisitedLinksAsync());
@@ -95,7 +97,7 @@ public class Spider : ISpider
 
         if (job.PageCategory != PageCategory.PageWithPagination) return newJobs;
 
-        var nextJobs = await CreateJobsForPagesWithPagination(job, currentSelector, baseUrl, doc, cancellationToken);
+        var nextJobs = await CreateJobsForPagesWithPagination(job, currentSelector, baseUri, doc, cancellationToken);
 
         newJobs.AddRange(nextJobs);
 

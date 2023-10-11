@@ -149,7 +149,7 @@ public class ScraperEngineBuilder
         return this;
     }
 
-    public ScraperEngineBuilder WriteToCsvFile(string filePath, bool dataCleanupOnStart)
+    public ScraperEngineBuilder WriteToCsvFile(string filePath, bool dataCleanupOnStart = true)
     {
         SpiderBuilder.WriteToCsvFile(filePath, dataCleanupOnStart);
         return this;

@@ -3,6 +3,7 @@
 - [X] Add the ability to start with a list of predefined urls
 - [X] Add flag for headless/not headless chrome
 - [X] Clean up on start in sink, link tracker, scheduler
+- [ ] Add filtering function
 - [ ] Remove nested builders
 - [ ] Use factory for async object creation?
 - [ ] Write tests using specflow
