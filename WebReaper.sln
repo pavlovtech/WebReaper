@@ -30,6 +30,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebReaper.IntegrationTests"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebReaper.UnitTests", "WebReaper.Tests\WebReaper.UnitTests\WebReaper.UnitTests.csproj", "{148E4BE9-1510-41C5-BF0D-94F59D701BFC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppScraper", "Examples\AppScraper\AppScraper.csproj", "{CD16A7E6-187D-41E6-8882-F892F0028453}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +74,10 @@ Global
 		{148E4BE9-1510-41C5-BF0D-94F59D701BFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{148E4BE9-1510-41C5-BF0D-94F59D701BFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{148E4BE9-1510-41C5-BF0D-94F59D701BFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD16A7E6-187D-41E6-8882-F892F0028453}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD16A7E6-187D-41E6-8882-F892F0028453}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD16A7E6-187D-41E6-8882-F892F0028453}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD16A7E6-187D-41E6-8882-F892F0028453}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -83,6 +89,7 @@ Global
 		{E66A84BF-9A23-4BD5-A6EF-F9B3D812D602} = {75C97094-26FC-484A-A354-E33BBD6355A8}
 		{EADAEFDF-224D-4859-BEF6-11E2052DC926} = {75C97094-26FC-484A-A354-E33BBD6355A8}
 		{3866825E-ADF0-4EFA-87BB-3B2A2653E612} = {B89368B3-BE6E-4677-BA29-CEFBC205064D}
+		{CD16A7E6-187D-41E6-8882-F892F0028453} = {75C97094-26FC-484A-A354-E33BBD6355A8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8413198B-8D26-4E30-A5E2-E0FBC4DCEA59}
