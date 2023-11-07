@@ -36,7 +36,6 @@ public class ScraperEngineBuilder
 
     private IScheduler Scheduler { get; set; } = new InMemoryScheduler();
     private IScraperConfigStorage? ConfigStorage { get; set; } = new InMemoryScraperConfigStorage();
-
     protected IProxyProvider? ProxyProvider { get; set; }
 
     public ScraperEngineBuilder WithContentParser(IContentParser contentParser)
@@ -193,7 +192,6 @@ public class ScraperEngineBuilder
         ConfigBuilder.GetWithBrowser(startUrls, actionBuilder?.Invoke(new PageActionBuilder()));
         return this;
     }
-
     public ScraperEngineBuilder GetWithBrowser(params string[] startUrls)
     {
         ConfigBuilder.GetWithBrowser(startUrls);
@@ -285,7 +283,6 @@ public class ScraperEngineBuilder
             logger);
         return this;
     }
-
     public ScraperEngineBuilder WithFileCookieStorage(string fileName)
     {
         SpiderBuilder.WithFileCookieStorage(fileName);
@@ -342,10 +339,8 @@ public class ScraperEngineBuilder
     public async Task<ScraperEngine> BuildAsync()
     {
         SpiderBuilder.WithConfigStorage(ConfigStorage);
-
         var config = ConfigBuilder.Build();
         var spider = SpiderBuilder.Build();
-
         await ConfigStorage.CreateConfigAsync(config);
 
         return new ScraperEngine(_parallelismDegree, ConfigStorage, Scheduler, spider, Logger);
