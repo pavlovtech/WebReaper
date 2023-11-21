@@ -51,6 +51,12 @@ public class SpiderBuilder
 
     protected event Action<ParsedData> ScrapedData;
 
+    public SpiderBuilder WithContentParser(IContentParser contentParser)
+    {
+        ContentParser = contentParser;
+        return this;
+    }
+
     public SpiderBuilder WithLogger(ILogger logger)
     {
         Logger = logger;
@@ -166,7 +172,7 @@ public class SpiderBuilder
         CookieStorage = new RedisCookieStorage(connectionString, redisKey, Logger);
         return this;
     }
-    
+
     public SpiderBuilder WithFileCookieStorage(string fileName)
     {
         CookieStorage = new FileCookieStorage(fileName, Logger);
