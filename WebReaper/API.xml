@@ -51,5 +51,160 @@
                 Logger
             </summary>
         </member>
+        <member name="T:WebReaper.Proxy.Abstract.IProxyProposalProvider">
+            <summary>
+            Supplies a list of unvalidated proxies.
+            </summary>
+        </member>
+        <member name="M:WebReaper.Proxy.Abstract.IProxyProposalProvider.GetProxiesAsync(System.Threading.CancellationToken)">
+            <summary>
+            Returns a list of potential proxies, which may or may not be valid.
+            </summary>
+        </member>
+        <member name="T:WebReaper.Proxy.Abstract.IProxyProposalValidator">
+            <summary>
+            Validates a proposed proxy.
+            </summary>
+        </member>
+        <member name="M:WebReaper.Proxy.Abstract.IProxyProposalValidator.ValidateAsync(System.Net.WebProxy,System.Threading.CancellationToken)">
+            <summary>
+            Validates a proposed proxy.
+            </summary>
+            <returns>A <see cref="T:WebReaper.Proxy.Concrete.ProxyProposalValidationResult"/> indicating whether the proxy is valid or invalid, or the validator does not apply to the result.</returns>
+        </member>
+        <member name="T:WebReaper.Proxy.Abstract.IProxyProvider">
+            <summary>
+            Provides a validated proxy.
+            </summary>
+        </member>
+        <member name="M:WebReaper.Proxy.Abstract.IProxyProvider.GetProxyAsync">
+            <summary>
+            Returns a validated proxy.
+            </summary>
+        </member>
+        <member name="T:WebReaper.Proxy.Abstract.IValidatedProxyListProvider">
+            <summary>
+            Supplies a list of validated, ready to use proxies.
+            </summary>
+        </member>
+        <member name="M:WebReaper.Proxy.Abstract.IValidatedProxyListProvider.GetProxiesAsync(System.Threading.CancellationToken)">
+            <summary>
+            Returns a list of validated proxies.
+            </summary>
+        </member>
+        <member name="T:WebReaper.Proxy.Concrete.PingTimeoutValidatorOptions">
+            <summary>
+            Options for <see cref="T:WebReaper.Proxy.Concrete.PingTimeoutProxyProposalValidator"/>.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Proxy.Concrete.PingTimeoutValidatorOptions.ProbeUrl">
+            <summary>
+            The URL to visit to validate the proxy.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Proxy.Concrete.PingTimeoutValidatorOptions.ProbeTimeout">
+            <summary>
+            The maximum time to wait for a response from the probe URL.
+            </summary>
+        </member>
+        <member name="T:WebReaper.Proxy.Concrete.PingTimeoutProxyProposalValidator">
+            <summary>
+            Validates a proxy by requesting a URL and waiting for a response.
+            </summary>
+        </member>
+        <member name="M:WebReaper.Proxy.Concrete.PingTimeoutProxyProposalValidator.#ctor(Microsoft.Extensions.Options.IOptions{WebReaper.Proxy.Concrete.PingTimeoutValidatorOptions})">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebReaper.Proxy.Concrete.PingTimeoutProxyProposalValidator"/> class.
+            </summary>
+        </member>
+        <member name="M:WebReaper.Proxy.Concrete.PingTimeoutProxyProposalValidator.ValidateAsync(System.Net.WebProxy,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="T:WebReaper.Proxy.Concrete.ProxyProposalValidationResult">
+            <summary>
+            The result of validating a proxy.
+            </summary>
+            <remarks>
+            Either <see cref="P:WebReaper.Proxy.Concrete.ProxyProposalValidationResult.IsValid"/> or <see cref="P:WebReaper.Proxy.Concrete.ProxyProposalValidationResult.IsInvalid"/> will be <c>true</c> when initialized.
+            </remarks>
+        </member>
+        <member name="F:WebReaper.Proxy.Concrete.ProxyProposalValidationResult.Default">
+            <summary>
+            A default result.
+            </summary>
+        </member>
+        <member name="M:WebReaper.Proxy.Concrete.ProxyProposalValidationResult.Valid">
+            <summary>
+            A valid result.
+            </summary>
+        </member>
+        <member name="M:WebReaper.Proxy.Concrete.ProxyProposalValidationResult.Invalid(System.Exception)">
+            <summary>
+            An invalid result, with an error.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Proxy.Concrete.ProxyProposalValidationResult.IsDefault">
+            <summary>
+            Whether the result is the default result.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Proxy.Concrete.ProxyProposalValidationResult.IsValid">
+            <summary>
+            Whether the result is valid.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Proxy.Concrete.ProxyProposalValidationResult.IsInvalid">
+            <summary>
+            Whether the result is invalid.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Proxy.Concrete.ProxyProposalValidationResult.Error">
+            <summary>
+            The error, if any.
+            </summary>
+        </member>
+        <member name="T:WebReaper.Proxy.Concrete.ProxyProposalValidatorServiceOptions">
+            <summary>
+            Options for <see cref="T:WebReaper.Proxy.Concrete.ProxyProposalValidatorService"/>.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Proxy.Concrete.ProxyProposalValidatorServiceOptions.ValidationInterval">
+            <summary>
+            The interval at which to validate proxies.
+            </summary>
+        </member>
+        <member name="T:WebReaper.Proxy.Concrete.ProxyProposalValidatorService">
+            <summary>
+            Periodically validates proxies and supplies a the most recently validated list of proxies.
+            </summary>
+        </member>
+        <member name="M:WebReaper.Proxy.Concrete.ProxyProposalValidatorService.#ctor(Microsoft.Extensions.Options.IOptions{WebReaper.Proxy.Concrete.ProxyProposalValidatorServiceOptions},Microsoft.Extensions.Logging.ILogger{WebReaper.Proxy.Concrete.ProxyProposalValidatorService},System.Collections.Generic.IEnumerable{WebReaper.Proxy.Abstract.IProxyProposalProvider},System.Collections.Generic.IEnumerable{WebReaper.Proxy.Abstract.IProxyProposalValidator})">
+            <summary>
+            Periodically validates proxies and supplies a the most recently validated list of proxies.
+            </summary>
+        </member>
+        <member name="M:WebReaper.Proxy.Concrete.ProxyProposalValidatorService.GetProxiesAsync(System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:WebReaper.Proxy.Concrete.ProxyProposalValidatorService.ExecuteAsync(System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="T:WebReaper.Proxy.Concrete.ValidatedProxyProvider">
+            <summary>
+            Provides a random validated proxy.
+            </summary>
+            <seealso cref="T:WebReaper.Proxy.Concrete.ProxyProposalValidatorService"/>
+        </member>
+        <member name="M:WebReaper.Proxy.Concrete.ValidatedProxyProvider.#ctor(WebReaper.Proxy.Abstract.IValidatedProxyListProvider)">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebReaper.Proxy.Concrete.ValidatedProxyProvider"/> class.
+            </summary>
+        </member>
+        <member name="M:WebReaper.Proxy.Concrete.ValidatedProxyProvider.GetProxyAsync(System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:WebReaper.Proxy.Concrete.ValidatedProxyProvider.GetProxyAsync">
+            <inheritdoc/>
+        </member>
     </members>
 </doc>
