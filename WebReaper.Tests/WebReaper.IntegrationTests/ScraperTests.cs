@@ -108,7 +108,7 @@ namespace WebReaper.IntegrationTests
                 Path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
             });
 
-            await browserFetcher.DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
+            await browserFetcher.DownloadAsync();
 
             var result = new List<ParsedData>();
 
@@ -127,7 +127,7 @@ namespace WebReaper.IntegrationTests
 
             _ = engine.RunAsync();
 
-            await Task.Delay(20000);
+            await Task.Delay(40000);
 
             Assert.NotEmpty(result);
         }

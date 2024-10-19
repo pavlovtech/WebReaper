@@ -1,6 +1,7 @@
 using System.Reflection;
 using Microsoft.Extensions.Logging;
 using PuppeteerSharp;
+using PuppeteerSharp.BrowserData;
 using WebReaper.Core.CookieStorage.Abstract;
 using WebReaper.Core.Loaders.Abstract;
 using WebReaper.Domain.PageActions;
@@ -30,10 +31,13 @@ public class PuppeteerPageLoader : BrowserPageLoader, IBrowserPageLoader
         });
 
         await _semaphore.WaitAsync();
+
+        InstalledBrowser installedBrowser;
+        
         try
         {
             Logger.LogInformation("{class}.{method}: Downloading browser...", nameof(PuppeteerPageLoader), nameof(Load));
-            await browserFetcher.DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
+            installedBrowser = await browserFetcher.DownloadAsync();
             Logger.LogInformation("{class}.{method}: Browser is downloaded", nameof(PuppeteerPageLoader), nameof(Load));
         }
         finally
@@ -45,7 +49,8 @@ public class PuppeteerPageLoader : BrowserPageLoader, IBrowserPageLoader
         await using var browser = await Puppeteer.LaunchAsync(new LaunchOptions
         {
             Headless = headless,
-            ExecutablePath = browserFetcher.RevisionInfo(BrowserFetcher.DefaultChromiumRevision).ExecutablePath
+            ExecutablePath = browserFetcher.GetExecutablePath(installedBrowser.BuildId),
+            Args = new[] { "--ignore-certificate-errors" }
         });
 
         Logger.LogInformation("{class}.{method}: creating a new page", nameof(PuppeteerPageLoader), nameof(Load));
