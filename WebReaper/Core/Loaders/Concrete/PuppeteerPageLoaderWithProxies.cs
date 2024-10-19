@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using PuppeteerExtraSharp;
 using PuppeteerExtraSharp.Plugins.ExtraStealth;
 using PuppeteerSharp;
+using PuppeteerSharp.BrowserData;
 using WebReaper.Core.CookieStorage.Abstract;
 using WebReaper.Core.Loaders.Abstract;
 using WebReaper.Domain.PageActions;
@@ -35,9 +36,12 @@ public class PuppeteerPageLoaderWithProxies : BrowserPageLoader, IBrowserPageLoa
         });
 
         await _semaphore.WaitAsync();
+
+        InstalledBrowser installedBrowser;
+        
         try
         {
-            await browserFetcher.DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
+            installedBrowser = await browserFetcher.DownloadAsync();
         }
         finally
         {
@@ -52,7 +56,7 @@ public class PuppeteerPageLoaderWithProxies : BrowserPageLoader, IBrowserPageLoa
         await using var browser = await puppeteerExtra.LaunchAsync(new LaunchOptions
         {
             Headless = headless,
-            ExecutablePath = browserFetcher.RevisionInfo(BrowserFetcher.DefaultChromiumRevision).ExecutablePath,
+            ExecutablePath = browserFetcher.GetExecutablePath(installedBrowser.BuildId),
             Args = new[]
             {
                 "--disable-dev-shm-usage",
