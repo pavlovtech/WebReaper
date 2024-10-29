@@ -46,7 +46,7 @@ dotnet add package WebReaper
 
 ## Requirements
 
-.NET 7
+.NET 8
 
 ## Features
 
