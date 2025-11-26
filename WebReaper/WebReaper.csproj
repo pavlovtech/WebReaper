@@ -1,62 +1,61 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Authors>Alex Pavlov</Authors>
+    <Company>Alex Pavlov</Company>
+    <Product>ExoScraper</Product>
+    <PackageId>WebReaper</PackageId>
+    <Description>Declarative high performance web scraper in C#. Easily crawl any web site and parse the data, save structed result to a file, DB, etc.</Description>
+    <Copyright>GPL-3.0 license</Copyright>
+    <PackageProjectUrl>https://github.com/pavlovtech/WebReaper</PackageProjectUrl>
+    <PackageIcon>logo.png</PackageIcon>
+    <RepositoryUrl>https://github.com/pavlovtech/ExoScraper</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>scraper, crawler, parser</PackageTags>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Version>3.5.2</Version>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DocumentationFile>$(MSBuildProjectDirectory)\API.xml</DocumentationFile>
+    <LangVersion>12</LangVersion>
+    <Title>WebReaper</Title>
+  </PropertyGroup>
 
-    <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <Authors>Alex Pavlov</Authors>
-        <Company>Alex Pavlov</Company>
-        <Product>ExoScraper</Product>
-        <PackageId>WebReaper</PackageId>
-        <Description>Declarative high performance web scraper in C#. Easily crawl any web site and parse the data, save structed result to a file, DB, etc.</Description>
-        <Copyright>GPL-3.0 license</Copyright>
-        <PackageProjectUrl>https://github.com/pavlovtech/WebReaper</PackageProjectUrl>
-        <PackageIcon>logo.png</PackageIcon>
-        <RepositoryUrl>https://github.com/pavlovtech/ExoScraper</RepositoryUrl>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageTags>scraper, crawler, parser</PackageTags>
-        <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
-        <Version>3.5.2</Version>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <DocumentationFile>$(MSBuildProjectDirectory)\API.xml</DocumentationFile>
-        <LangVersion>12</LangVersion>
-        <Title>WebReaper</Title>
-    </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Queue\**" />
+    <EmbeddedResource Remove="Queue\**" />
+    <None Remove="Queue\**" />
+    <None Update="logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
 
-    <ItemGroup>
-        <Compile Remove="Queue\**" />
-        <EmbeddedResource Remove="Queue\**" />
-        <None Remove="Queue\**" />
-        <None Update="logo.png">
-            <Pack>True</Pack>
-            <PackagePath></PackagePath>
-        </None>
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Remove="Newtonsoft.Json" />
-        <None Remove="Fizzler.Systems.HtmlAgilityPack" />
-        <None Remove="Microsoft.Extensions.Logging.Abstractions" />
-        <None Remove="Azure.Messaging.ServiceBus" />
-    </ItemGroup>
-    <ItemGroup>
-        <PackageReference Include="AngleSharp" Version="1.1.2" />
-        <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.44.1" />
-        <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
-        <PackageReference Include="MongoDB.Driver" Version="3.0.0" />
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-        <PackageReference Include="Polly" Version="8.4.2" />
-        <PackageReference Include="PuppeteerExtraSharp" Version="2.0.0" />
-        <PackageReference Include="PuppeteerSharp" Version="20.0.2" />
-        <PackageReference Include="StackExchange.Redis" Version="2.8.16" />
-        <PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.2" />
-        <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.18.2" />
-    </ItemGroup>
-    <ItemGroup>
-        <None Include="..\README.md">
-            <Pack>True</Pack>
-            <PackagePath>\</PackagePath>
-        </None>
-    </ItemGroup>
+  <ItemGroup>
+    <None Remove="Newtonsoft.Json" />
+    <None Remove="Fizzler.Systems.HtmlAgilityPack" />
+    <None Remove="Microsoft.Extensions.Logging.Abstractions" />
+    <None Remove="Azure.Messaging.ServiceBus" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AngleSharp" Version="1.1.2" />
+    <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.44.1" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
+    <PackageReference Include="MongoDB.Driver" Version="3.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Polly" Version="8.4.2" />
+    <PackageReference Include="PuppeteerExtraSharp" Version="2.0.0" />
+    <PackageReference Include="PuppeteerSharp" Version="20.0.2" />
+    <PackageReference Include="StackExchange.Redis" Version="2.8.16" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.2" />
+    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.18.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 </Project>
