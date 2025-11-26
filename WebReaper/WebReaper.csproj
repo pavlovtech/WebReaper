@@ -3,11 +3,13 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Authors>Alex Pavlov</Authors>
-    <Company>Alex Pavlov</Company>
+    <Authors>Alex Pavlov, Michael McCabe</Authors>
+    <Company>Alex Pavlov, 1130lab llc.</Company>
     <Product>ExoScraper</Product>
-    <PackageId>WebReaper</PackageId>
-    <Description>Declarative high performance web scraper in C#. Easily crawl any web site and parse the data, save structed result to a file, DB, etc.</Description>
+    <PackageId>WebReaper.net</PackageId>
+    <Description>Declarative high performance web scraper in C#. Easily crawl any web site and parse the data, save structed result to a file, DB, etc.
+
+Latest, maintained fork provided by 1130lab. Visit our website at https://devfor.net</Description>
     <Copyright>GPL-3.0 license</Copyright>
     <PackageProjectUrl>https://github.com/pavlovtech/WebReaper</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
@@ -15,11 +17,12 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>scraper, crawler, parser</PackageTags>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
-    <Version>3.5.2</Version>
+    <Version>3.5.3</Version>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <DocumentationFile>$(MSBuildProjectDirectory)\API.xml</DocumentationFile>
     <LangVersion>12</LangVersion>
     <Title>WebReaper</Title>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
