@@ -7,9 +7,10 @@
     <Company>Alex Pavlov</Company>
     <Product>ExoScraper</Product>
     <PackageId>WebReaper.net</PackageId>
-    <Description>Declarative high performance web scraper in C#. Easily crawl any web site and parse the data, save structed result to a file, DB, etc.</Description>
+    <Description>Declarative high performance web scraper in C#. Easily crawl any web site and parse the data, save structed result to a file, DB, etc.
+	.NET 10 fork</Description>
     <Copyright>GPL-3.0 license</Copyright>
-    <PackageProjectUrl>https://github.com/pavlovtech/WebReaper</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/mccabe93/WebReaper/tree/dotnet10</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
     <RepositoryUrl>https://github.com/pavlovtech/ExoScraper</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
