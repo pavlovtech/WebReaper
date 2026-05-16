@@ -1,52 +1,26 @@
-﻿using System.Net;
 using Microsoft.Extensions.Logging;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using Newtonsoft.Json;
-using WebReaper.Core.CookieStorage.Abstract;
+using WebReaper.DataAccess;
 
 namespace WebReaper.Core.CookieStorage.Concrete;
 
-public class MongoDbCookieStorage : ICookiesStorage
+/// <summary>
+/// Source-compatible constructor over the <see cref="CookieStore"/> payload
+/// shell backed by a <see cref="MongoBlobStore"/> (ADR 0003). The
+/// <paramref name="cookieCollectionId"/> is the blob key (document <c>_id</c>).
+/// The <paramref name="logger"/> parameter is retained for binary/source
+/// compatibility; it is no longer used here. Replaces the previous adapter
+/// whose read called <c>.ToJson()</c> on the <c>FindAsync</c> cursor instead
+/// of the document — that bug cannot recur (ADR 0003).
+/// </summary>
+public class MongoDbCookieStorage : CookieStore
 {
-    private readonly string _cookieCollectionId;
-
-    public MongoDbCookieStorage(string connectionString, string databaseName, string collectionName,
-        string cookieCollectionId, ILogger logger)
+    public MongoDbCookieStorage(
+        string connectionString,
+        string databaseName,
+        string collectionName,
+        string cookieCollectionId,
+        ILogger logger)
+        : base(new MongoBlobStore(connectionString, databaseName, collectionName), cookieCollectionId)
     {
-        _cookieCollectionId = cookieCollectionId;
-        ConnectionString = connectionString;
-        CollectionName = collectionName;
-        DatabaseName = databaseName;
-        Client = new MongoClient(ConnectionString);
-        Logger = logger;
-    }
-
-    private string ConnectionString { get; }
-    private string CollectionName { get; }
-    private string DatabaseName { get; }
-    private MongoClient Client { get; }
-    private ILogger Logger { get; }
-
-    public async Task AddAsync(CookieContainer cookieContainer)
-    {
-        var database = Client.GetDatabase(DatabaseName);
-        var collection = database.GetCollection<BsonDocument>(CollectionName);
-        var doc = cookieContainer.ToBsonDocument();
-        doc["id"] = _cookieCollectionId;
-        await collection.InsertOneAsync(doc);
-    }
-
-    public async Task<CookieContainer> GetAsync()
-    {
-        var database = Client.GetDatabase(DatabaseName);
-        var collection = database.GetCollection<BsonDocument>(CollectionName);
-        var config = await collection.FindAsync(c => c["id"] == _cookieCollectionId);
-
-        var json = config.ToJson();
-
-        var result = JsonConvert.DeserializeObject<CookieContainer>(json);
-
-        return result;
     }
 }

@@ -7,7 +7,6 @@ using WebReaper.Core.LinkTracker.Abstract;
 using WebReaper.Core.Loaders.Abstract;
 using WebReaper.Core.Spider.Abstract;
 using WebReaper.Domain;
-using WebReaper.Domain.Selectors;
 using WebReaper.Exceptions;
 using WebReaper.Extensions;
 using WebReaper.Sinks.Abstract;
@@ -29,22 +28,19 @@ public class Spider : ISpider
         List<IScraperSink> sinks,
         ICrawlStep crawlStep,
         IVisitedLinkTracker linkTracker,
-        IStaticPageLoader staticPageLoader,
-        IBrowserPageLoader dynamicPageLoader,
+        IPageLoader pageLoader,
         IScraperConfigStorage configStorage,
         ILogger logger)
     {
         Sinks = sinks;
         CrawlStep = crawlStep;
         LinkTracker = linkTracker;
-        StaticStaticPageLoader = staticPageLoader;
-        BrowserPageLoader = dynamicPageLoader;
+        PageLoader = pageLoader;
         ScraperConfigStorage = configStorage;
         Logger = logger;
     }
 
-    private IStaticPageLoader StaticStaticPageLoader { get; }
-    private IBrowserPageLoader BrowserPageLoader { get; }
+    private IPageLoader PageLoader { get; }
     private ICrawlStep CrawlStep { get; }
     private IVisitedLinkTracker LinkTracker { get; }
     private IScraperConfigStorage ScraperConfigStorage { get; }
@@ -63,12 +59,9 @@ public class Spider : ISpider
 
         await LinkTracker.AddVisitedLinkAsync(job.Url);
 
-        var doc = job.PageType switch
-        {
-            PageType.Static => await LoadStaticPage(job),
-            PageType.Dynamic => await LoadDynamicPage(job, config.Headless),
-            _ => throw new NotImplementedException()
-        };
+        var doc = await PageLoader.LoadAsync(
+            new PageRequest(job.Url, job.PageType, job.PageActions, config.Headless),
+            cancellationToken);
 
         var outcome = await CrawlStep.StepAsync(job, doc, config.ParsingScheme);
 
@@ -123,21 +116,5 @@ public class Spider : ISpider
         Logger.LogInformation("Waiting for sinks ...");
         await Task.WhenAll(sinkTasks);
         Logger.LogInformation("Finished waiting for sinks");
-    }
-
-    private async Task<string> LoadStaticPage(Job job)
-    {
-        Logger.LogInformation("Loading static page {Url}", job.Url);
-        var doc = await StaticStaticPageLoader.Load(job.Url);
-
-        return doc;
-    }
-
-    private async Task<string> LoadDynamicPage(Job job, bool headless)
-    {
-        Logger.LogInformation("Loading dynamic page {Url}", job.Url);
-        var doc = await BrowserPageLoader.Load(job.Url, job.PageActions, headless);
-
-        return doc;
     }
 }

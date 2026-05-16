@@ -16,7 +16,6 @@ using WebReaper.Core.Crawling.Concrete;
 using WebReaper.Core.Spider.Abstract;
 using WebReaper.Core.Spider.Concrete;
 using WebReaper.Domain;
-using WebReaper.HttpRequests.Concrete;
 using WebReaper.Proxy;
 using WebReaper.Proxy.Abstract;
 using WebReaper.Proxy.Concrete;
@@ -42,9 +41,7 @@ public class SpiderBuilder
 
     private IContentParser? ContentParser { get; set; }
 
-    private IStaticPageLoader? StaticPageLoader { get; set; }
-
-    private IBrowserPageLoader? BrowserPageLoader { get; set; }
+    private IPageLoader? PageLoader { get; set; }
 
     private IProxyProvider? ProxyProvider { get; set; }
 
@@ -162,15 +159,14 @@ public class SpiderBuilder
             Logger)); // possible NullLogger here
     }
 
-    public SpiderBuilder WithStaticPageLoader(IStaticPageLoader staticPageLoader)
+    /// <summary>
+    /// Supply a custom page loader. By default <see cref="Build"/> wires the
+    /// HTTP and headless-browser transports behind one <see cref="PageLoader"/>
+    /// and passes the optional proxy provider to both (ADR 0004).
+    /// </summary>
+    public SpiderBuilder WithPageLoader(IPageLoader pageLoader)
     {
-        StaticPageLoader = staticPageLoader;
-        return this;
-    }
-
-    public SpiderBuilder WithBrowserPageLoader(IBrowserPageLoader browserPageLoader)
-    {
-        BrowserPageLoader = browserPageLoader;
+        PageLoader = pageLoader;
         return this;
     }
 
@@ -237,27 +233,17 @@ public class SpiderBuilder
         PostProcessor = callback;
     }
 
-    // TODO: clean up this mess
     public ISpider Build()
     {
         // default implementations
         ContentParser ??= new AngleSharpContentParser(Logger);
 
-        if (ProxyProvider != null)
-        {
-            BrowserPageLoader ??= new PuppeteerPageLoaderWithProxies(Logger, ProxyProvider, CookieStorage);
-
-            var pageRequester = new RotatingProxyPageRequester(ProxyProvider);
-
-            StaticPageLoader ??= new HttpStaticPageLoader(pageRequester, CookieStorage, Logger);
-        }
-        else
-        {
-            var pageRequester = new PageRequester();
-
-            StaticPageLoader ??= new HttpStaticPageLoader(pageRequester, CookieStorage, Logger);
-            BrowserPageLoader ??= new PuppeteerPageLoader(Logger, CookieStorage);
-        }
+        // One loader; the proxy/no-proxy choice is now a (possibly null)
+        // provider handed to both transports — no branch (ADR 0004).
+        PageLoader ??= new PageLoader(
+            new HttpPageLoadTransport(CookieStorage, ProxyProvider, Logger),
+            new BrowserPageLoadTransport(CookieStorage, ProxyProvider, Logger),
+            Logger);
 
         CookieStorage.AddAsync(Cookies);
 
@@ -267,8 +253,7 @@ public class SpiderBuilder
             Sinks,
             crawlStep,
             SiteLinkTracker,
-            StaticPageLoader,
-            BrowserPageLoader,
+            PageLoader,
             ScraperConfigStorage,
             Logger);
 
