@@ -1,23 +1,26 @@
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using StackExchange.Redis;
 using WebReaper.Core.Scheduler.Abstract;
 using WebReaper.DataAccess;
 using WebReaper.Domain;
 
 namespace WebReaper.Core.Scheduler.Concrete;
 
-public class RedisScheduler : RedisBase, IScheduler
+public class RedisScheduler : IScheduler
 {
+    private readonly IDatabase _db;
     private readonly ILogger _logger;
     private readonly string _queueName;
 
     public bool DataCleanupOnStart { get; set; }
-    
+
     public Task Initialization { get; }
-    
-    public RedisScheduler(string connectionString, string queueName, ILogger logger, bool dataCleanupOnStart = false) : base(connectionString)
+
+    public RedisScheduler(string connectionString, string queueName, ILogger logger, bool dataCleanupOnStart = false)
     {
+        _db = RedisConnectionPool.GetDatabase(connectionString);
         DataCleanupOnStart = dataCleanupOnStart;
         _queueName = queueName;
         _logger = logger;
@@ -30,7 +33,7 @@ public class RedisScheduler : RedisBase, IScheduler
         if (!DataCleanupOnStart)
             return;
 
-        var db = Redis.GetDatabase();
+        var db = _db;
 
         var result = await db.KeyDeleteAsync(_queueName);
     }
@@ -40,7 +43,7 @@ public class RedisScheduler : RedisBase, IScheduler
     {
         _logger.LogInformation("Start {class}.{method}", nameof(RedisScheduler), nameof(GetAllAsync));
 
-        var db = Redis.GetDatabase();
+        var db = _db;
 
         while (!cancellationToken.IsCancellationRequested)
         {
@@ -62,7 +65,7 @@ public class RedisScheduler : RedisBase, IScheduler
     {
         _logger.LogInformation("Start {class}.{method}", nameof(RedisScheduler), nameof(AddAsync));
 
-        var db = Redis.GetDatabase();
+        var db = _db;
         await db.ListRightPushAsync(_queueName, SerializeToJson(job));
     }
 
@@ -70,11 +73,29 @@ public class RedisScheduler : RedisBase, IScheduler
     {
         _logger.LogInformation("Start {class}.{method} with {count} jobs", nameof(RedisScheduler), nameof(AddAsync), jobs.Count());
 
-        var db = Redis!.GetDatabase();
+        var db = _db;
 
         foreach (var job in jobs)
         {
             await db.ListRightPushAsync(_queueName, SerializeToJson(job));
         }
+    }
+
+    // Moved verbatim from the removed RedisBase (its only caller). Preserved
+    // as-is: TypeNameHandling.None means a Job's ImmutableQueue selector chain
+    // and PageAction.Parameters are not round-tripped with type metadata here
+    // (it deserializes with defaults) — the same serialize/deserialize
+    // asymmetry ADR 0003 fixed for the config path, untouched in this
+    // RedisBase retirement and flagged as a separate finding (ADR 0005).
+    private static string SerializeToJson(object config)
+    {
+        var json = JsonConvert.SerializeObject(config, Formatting.Indented, new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.None,
+            NullValueHandling = NullValueHandling.Ignore,
+            TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple
+        });
+
+        return json;
     }
 }
