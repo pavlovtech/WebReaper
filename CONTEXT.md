@@ -50,6 +50,22 @@ _Avoid_: repeat, stay, hold.
 The declarative field→selector tree describing what to extract from a target page.
 _Avoid_: template, mapping, model.
 
+**Schema fold**:
+The single recursive interpretation of a Schema against a loaded document — container vs object-list vs leaf vs value-list, type coercion, the missing-node policy, the swallow-and-log scope. It has exactly one home (`SchemaContentParser<TNode>`); a backend never re-implements it.
+_Avoid_: walk, traversal, visitor, parser (the parser is the shell around the fold).
+
+**Node backend**:
+The per-document-shape seam the fold calls (`ISchemaBackend<TNode>`): parse a root, select-many, select-one, extract a leaf's **raw value**. HTML/CSS and JSON/JSONPath are two backends; the seam is the only place document-specific quirks live.
+_Avoid_: parser, loader, driver.
+
+**Raw value**:
+What a backend's `ExtractRaw` returns for a leaf *before* coercion — a `string` for text/markup backends, a native token for structured ones. An *untyped* leaf is this value verbatim; that single fact (not duplicated code) is the entire HTML-vs-JSON output difference.
+_Avoid_: text, content, the value.
+
+**Typed coercion**:
+The Schema→CLR conversion the fold applies when `SchemaElement.Type` is set (`Integer`→`int.Parse`, …). Shared grammar, backend-independent — never a per-backend concern.
+_Avoid_: parsing, casting, conversion (unqualified).
+
 **ParsedData**:
 The extracted record from one target page — its URL plus a JSON object.
 _Avoid_: result, item, row.
@@ -65,6 +81,7 @@ _Avoid_: output, writer, exporter.
 - A **Crawl step** maps one **Job** to one **Crawl outcome**.
 - A **Target page** outcome produces one **ParsedData**, emitted to every **Sink**.
 - A **Transit page** **advance**s the selector chain; a **Page with pagination** **retain**s it.
+- A **Schema fold** interprets a **Schema** by calling one **Node backend**; the backend yields **raw value**s, the fold applies **typed coercion**.
 
 ## Example dialogue
 
@@ -75,3 +92,5 @@ _Avoid_: output, writer, exporter.
 
 - **Selector-chain handling of pagination vs following was implicit.** In `Spider.CrawlAsync` one call site passed the dequeued chain and another the original chain, with nothing naming the difference. Resolved structurally: the **Crawl step** returns a **Crawl outcome** whose `Followed.Next` and `Paginated.Items` carry the **advance**d chain and whose `Paginated.NextPages` carries the **retain**ed chain — the two rules are now distinct named fields, not two look-alike call sites (see `docs/adr/0001-crawl-outcome-closed-sum.md`).
 - **"Page type" vs "page category".** Resolved: **page category** = Target / Transit / Pagination, derived from the selector chain. **PageType** is the load mode (Static vs Dynamic, i.e. HTTP vs Puppeteer). Distinct concepts — never conflate them.
+- **The HTML-vs-JSON untyped-leaf difference was accidental duplication; it is now a deliberate, pinned property.** An untyped leaf is the **raw value** verbatim: HTML yields a string, JSON keeps its native number/bool. This is intentional (JSON-endpoint users depend on native types) and is the *only* legitimate behavioural difference between backends — it rides on `ExtractRaw`'s return type, not copied code, and is pinned cross-backend in `SchemaFoldTests`. Do not "unify" it (see `docs/adr/0002-schema-fold-and-node-backend-seam.md`).
+- **Previously-divergent log/selector behaviour is now uniform — by design, not regression.** The missing-node and parsing-error log messages were textually different per backend, and the HTML single-value path tolerated a missing selector where the list paths did not. The fold makes all three uniform. Observable outcomes (field left empty/unset, parse not aborted) are unchanged; only the divergent log text and the single-value selector-miss mechanism were unified.

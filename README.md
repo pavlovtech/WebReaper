@@ -292,7 +292,8 @@ For other ways to extend your functionality see the next section.
 | IVisitedLinkTracker | Tracker of visited links. A default implementation is an in-memory tracker. You can provide your own for Redis, MongoDB, etc. |
 | IStaticPageLoader   | Loads a page over HTTP and returns its HTML as a string                                                                       |
 | IBrowserPageLoader  | Loads a page in a headless browser (Puppeteer), runs any page actions, and returns the rendered HTML                           |
-| IContentParser      | Takes HTML and schema and returns JSON representation (JObject).                                                              |
+| IContentParser      | Takes a document + Schema and returns its JSON representation (JObject). The shipped HTML and JSON parsers are thin shells over one shared Schema fold. |
+| ISchemaBackend&lt;TNode&gt; | The per-document-shape seam the shared fold calls: parse a root, select many / one by selector, extract a leaf's raw value. A new backend (e.g. XPath, System.Text.Json) is an implementation of this, not a re-derivation of the walk. |
 | ILinkParser         | Takes HTML as a string and returns page links                                                                                 |
 | IScraperSink        | Represents a data store for writing the results of web scraping. Takes the JObject as parameter                               |
 | ICrawlStep          | The crawl-step decision: maps a Job + loaded page + Schema to a CrawlOutcome (parse the page, follow links, or paginate). Swap it to customize crawl-vs-parse behavior. |
@@ -303,6 +304,7 @@ For other ways to extend your functionality see the next section.
 * Job - a record that represents a job for the spider
 * LinkPathSelector - represents a selector for links to be crawled
 * CrawlOutcome - the closed result of a crawl step: a parsed target page, followed links, or paginated pages
+* Schema fold - the single recursive Schema interpreter (`SchemaContentParser<TNode>`); every backend reuses it instead of re-implementing the walk
 
 ## Repository structure
 
