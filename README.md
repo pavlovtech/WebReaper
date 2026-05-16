@@ -292,8 +292,8 @@ For other ways to extend your functionality see the next section.
 | IVisitedLinkTracker | Tracker of visited links. A default implementation is an in-memory tracker. You can provide your own for Redis, MongoDB, etc. |
 | IPageLoader         | Turns a PageRequest into a page's HTML, dispatching on PageType to one load transport. The Spider holds one and is loader-blind (replaces the removed IStaticPageLoader/IBrowserPageLoader pair). |
 | IPageLoadTransport  | The per-mechanism adapter behind IPageLoader: HTTP or headless browser (Puppeteer). The only home for that mechanism's client/launch quirks and proxy application. |
-| IContentParser      | Takes a document + Schema and returns its JSON representation (JObject). The shipped HTML and JSON parsers are thin shells over one shared Schema fold. |
-| ISchemaBackend&lt;TNode&gt; | The per-document-shape seam the shared fold calls: parse a root, select many / one by selector, extract a leaf's raw value. A new backend (e.g. XPath, System.Text.Json) is an implementation of this, not a re-derivation of the walk. |
+| IContentParser      | Takes a document + Schema and returns its JSON representation (JObject). The shipped HTML/CSS, HTML/XPath (`WithXPathContentParser()`) and JSON parsers are thin shells over one shared Schema fold. |
+| ISchemaBackend&lt;TNode&gt; | The per-document-shape seam the shared fold calls: parse a root, select many / one by selector, extract a leaf's raw value. The shipped CSS, XPath and JSON backends are implementations of this; a further one (e.g. System.Text.Json) is the same, not a re-derivation of the walk. |
 | ILinkParser         | Takes HTML as a string and returns page links                                                                                 |
 | IScraperSink        | Represents a data store for writing the results of web scraping. Takes the JObject as parameter                               |
 | ICrawlStep          | The crawl-step decision: maps a Job + loaded page + Schema to a CrawlOutcome (parse the page, follow links, or paginate). Swap it to customize crawl-vs-parse behavior. |
