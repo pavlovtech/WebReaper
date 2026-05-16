@@ -1,63 +1,24 @@
-﻿using Microsoft.Extensions.Logging;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using Newtonsoft.Json;
-using WebReaper.ConfigStorage.Abstract;
-using WebReaper.Domain;
+using Microsoft.Extensions.Logging;
+using WebReaper.DataAccess;
 
 namespace WebReaper.ConfigStorage.Concrete;
 
-public class MongoDbScraperConfigStorage : IScraperConfigStorage
+/// <summary>
+/// Source-compatible constructor over the config <see cref="ScraperConfigStore"/>
+/// payload shell backed by a <see cref="MongoBlobStore"/> (ADR 0003). The
+/// <paramref name="configId"/> is the blob key (document <c>_id</c>). The
+/// <paramref name="logger"/> parameter is retained for binary/source
+/// compatibility; it is no longer used here.
+/// </summary>
+public class MongoDbScraperConfigStorage : ScraperConfigStore
 {
-    private readonly string _configId;
-
     public MongoDbScraperConfigStorage(
         string connectionString,
         string databaseName,
         string collectionName,
         string configId,
         ILogger logger)
+        : base(new MongoBlobStore(connectionString, databaseName, collectionName), configId)
     {
-        _configId = configId;
-        ConnectionString = connectionString;
-        CollectionName = collectionName;
-        DatabaseName = databaseName;
-        Client = new MongoClient(ConnectionString);
-        Logger = logger;
-    }
-
-    private string ConnectionString { get; }
-    private string CollectionName { get; }
-    private string DatabaseName { get; }
-    private MongoClient Client { get; }
-    private ILogger Logger { get; }
-
-    public async Task CreateConfigAsync(ScraperConfig config)
-    {
-        var database = Client.GetDatabase(DatabaseName);
-        var collection = database.GetCollection<BsonDocument>(CollectionName);
-        var doc = config.ToBsonDocument();
-        doc["id"] = _configId;
-        await collection.InsertOneAsync(doc);
-    }
-
-    public async Task<ScraperConfig> GetConfigAsync()
-    {
-        var database = Client.GetDatabase(DatabaseName);
-        var collection = database.GetCollection<BsonDocument>(CollectionName);
-        var configCursor = await collection.FindAsync(c => c["id"] == _configId);
-
-        var config = await configCursor.FirstOrDefaultAsync();
-
-        if (config == null) return null;
-
-        config.Remove("id");
-        config.Remove("_id");
-
-        var json = config.ToJson();
-
-        var result = JsonConvert.DeserializeObject<ScraperConfig>(json);
-
-        return result;
     }
 }

@@ -1,35 +1,18 @@
-﻿using System.Net;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using WebReaper.Core.CookieStorage.Abstract;
 using WebReaper.DataAccess;
 
 namespace WebReaper.Core.CookieStorage.Concrete;
 
-public class RedisCookieStorage : RedisBase, ICookiesStorage
+/// <summary>
+/// Source-compatible constructor over the <see cref="CookieStore"/> payload
+/// shell backed by a <see cref="RedisBlobStore"/> (ADR 0003). The
+/// <paramref name="logger"/> parameter is retained for binary/source
+/// compatibility; it is no longer used here.
+/// </summary>
+public class RedisCookieStorage : CookieStore
 {
-    private readonly ILogger _logger;
-    private readonly string _redisKey;
-
-    public RedisCookieStorage(string connectionString, string redisKey, ILogger logger) : base(connectionString)
+    public RedisCookieStorage(string connectionString, string redisKey, ILogger logger)
+        : base(new RedisBlobStore(connectionString), redisKey)
     {
-        _redisKey = redisKey;
-        _logger = logger;
-    }
-
-    public async Task AddAsync(CookieContainer cookieContainer)
-    {
-        var db = Redis!.GetDatabase();
-
-        await db.StringSetAsync(_redisKey, SerializeToJson(cookieContainer));
-    }
-
-    public async Task<CookieContainer> GetAsync()
-    {
-        var db = Redis!.GetDatabase();
-        var json = await db.StringGetAsync(_redisKey);
-
-        var result = JsonConvert.DeserializeObject<CookieContainer>(json.ToString());
-        return result;
     }
 }

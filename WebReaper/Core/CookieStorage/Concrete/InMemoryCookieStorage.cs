@@ -1,21 +1,15 @@
-﻿using System.Net;
-using WebReaper.Core.CookieStorage.Abstract;
+using WebReaper.DataAccess;
 
 namespace WebReaper.Core.CookieStorage.Concrete;
 
-/// <inheritdoc />
-public class InMemoryCookieStorage : ICookiesStorage
+/// <summary>
+/// Source-compatible constructor over the <see cref="CookieStore"/> payload
+/// shell backed by an <see cref="InMemoryBlobStore"/> (ADR 0003).
+/// </summary>
+public class InMemoryCookieStorage : CookieStore
 {
-    private CookieContainer _cookieContainer = new();
-
-    public Task AddAsync(CookieContainer cookieContainer)
+    public InMemoryCookieStorage()
+        : base(new InMemoryBlobStore(), "cookies")
     {
-        _cookieContainer = cookieContainer;
-        return Task.CompletedTask;
-    }
-
-    public Task<CookieContainer> GetAsync()
-    {
-        return Task.FromResult(_cookieContainer);
     }
 }
