@@ -13,6 +13,9 @@ public class InMemoryScheduler : IScheduler
         return _jobChannel.Reader.ReadAllAsync(cancellationToken);
     }
 
+    // TryComplete is idempotent: safe if the engine calls it more than once.
+    public void Complete() => _jobChannel.Writer.TryComplete();
+
     public bool DataCleanupOnStart { get; set; }
 
     public Task Initialization { get; } = Task.CompletedTask;

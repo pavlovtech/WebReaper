@@ -18,6 +18,8 @@ public class ConfigBuilder
 
     private int _pageCrawlLimit = int.MaxValue;
 
+    private bool _stopWhenDrained;
+
     private Schema? _schema;
 
     private PageType _startPageType;
@@ -86,6 +88,17 @@ public class ConfigBuilder
         return this;
     }
 
+    /// <summary>
+    /// Stop the engine once every discovered link has been crawled,
+    /// instead of running forever waiting for new jobs (issue #20).
+    /// Works with the in-memory scheduler.
+    /// </summary>
+    public ConfigBuilder StopWhenAllLinksProcessed()
+    {
+        _stopWhenDrained = true;
+        return this;
+    }
+
     public ConfigBuilder Paginate(
         string linkSelector,
         string paginationSelector)
@@ -126,6 +139,7 @@ public class ConfigBuilder
             _pageCrawlLimit,
             _startPageType,
             _pageActions,
-            _headless);
+            _headless,
+            _stopWhenDrained);
     }
 }

@@ -43,9 +43,15 @@ public class ScraperEngine
 
         var config = await ConfigStorage.GetConfigAsync();
 
+        // Outstanding-work counter for StopWhenDrained (issue #20). Only
+        // touched when the option is on, so default behavior is unchanged.
+        var pending = 0;
+
         foreach (var startUrl in config.StartUrls)
         {
             Logger.LogInformation("Scheduling the initial scraping job with start url {startUrl}", startUrl);
+
+            if (config.StopWhenDrained) Interlocked.Increment(ref pending);
 
             await Scheduler.AddAsync(new Job(
                 startUrl,
@@ -53,6 +59,12 @@ public class ScraperEngine
                 ImmutableQueue.Create<string>(),
                 config.StartPageType,
                 config.PageActions), cancellationToken);
+        }
+
+        // No start urls at all — let the engine return right away.
+        if (config.StopWhenDrained && Volatile.Read(ref pending) == 0)
+        {
+            Scheduler.Complete();
         }
 
         var options = new ParallelOptions { MaxDegreeOfParallelism = ParallelismDegree };
@@ -70,7 +82,19 @@ public class ScraperEngine
 
                 Logger.LogInformation("Received {JobsCount} new jobs", newJobs.Count);
 
-                await Scheduler.AddAsync(newJobs, cancellationToken);
+                if (newJobs.Count > 0)
+                {
+                    // Account for children BEFORE this job is marked done,
+                    // so the counter can never hit zero prematurely.
+                    if (config.StopWhenDrained) Interlocked.Add(ref pending, newJobs.Count);
+
+                    await Scheduler.AddAsync(newJobs, cancellationToken);
+                }
+
+                if (config.StopWhenDrained && Interlocked.Decrement(ref pending) == 0)
+                {
+                    Scheduler.Complete();
+                }
             });
         }
         catch (PageCrawlLimitException ex)
