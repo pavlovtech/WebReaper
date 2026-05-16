@@ -55,6 +55,17 @@ public class ScraperEngineBuilder
         return this;
     }
 
+    /// <summary>
+    /// Parse responses as HTML with XPath 1.0 selectors instead of CSS
+    /// (discussion #17). Same shared Schema fold, different backend
+    /// (ADR 0002 / 0007).
+    /// </summary>
+    public ScraperEngineBuilder WithXPathContentParser()
+    {
+        SpiderBuilder.WithXPathContentParser();
+        return this;
+    }
+
     public ScraperEngineBuilder AddSink(IScraperSink sink)
     {
         SpiderBuilder.AddSink(sink);
