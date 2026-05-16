@@ -46,7 +46,7 @@ dotnet add package WebReaper
 
 ## Requirements
 
-.NET 8
+.NET 10
 
 ## Features
 
@@ -290,16 +290,19 @@ For other ways to extend your functionality see the next section.
 |---------------------|-------------------------------------------------------------------------------------------------------------------------------|
 | IScheduler          | Reading and writing from the job queue. By default, the in-memory queue is used, but you can provider your implementation     |
 | IVisitedLinkTracker | Tracker of visited links. A default implementation is an in-memory tracker. You can provide your own for Redis, MongoDB, etc. |
-| IPageLoader         | Loader that takes URL and returns HTML of the page as a string                                                                |
+| IStaticPageLoader   | Loads a page over HTTP and returns its HTML as a string                                                                       |
+| IBrowserPageLoader  | Loads a page in a headless browser (Puppeteer), runs any page actions, and returns the rendered HTML                           |
 | IContentParser      | Takes HTML and schema and returns JSON representation (JObject).                                                              |
 | ILinkParser         | Takes HTML as a string and returns page links                                                                                 |
 | IScraperSink        | Represents a data store for writing the results of web scraping. Takes the JObject as parameter                               |
-| ISpider             | A spider that does the crawling, parsing, and saving of the data                                                              |
+| ICrawlStep          | The crawl-step decision: maps a Job + loaded page + Schema to a CrawlOutcome (parse the page, follow links, or paginate). Swap it to customize crawl-vs-parse behavior. |
+| ISpider             | The I/O shell around ICrawlStep: loads pages, tracks visited links, enforces the crawl limit, and fans parsed data to the sinks |
 
 ### Main entities
 
 * Job - a record that represents a job for the spider
 * LinkPathSelector - represents a selector for links to be crawled
+* CrawlOutcome - the closed result of a crawl step: a parsed target page, followed links, or paginated pages
 
 ## Repository structure
 

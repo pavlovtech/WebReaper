@@ -19,9 +19,44 @@
             <param name="pageActions">Actions to perform on the page via a browser</param>
             <returns>instance of ConfigBuilder</returns>
         </member>
+        <member name="M:WebReaper.Builders.ConfigBuilder.StopWhenAllLinksProcessed">
+            <summary>
+            Stop the engine once every discovered link has been crawled,
+            instead of running forever waiting for new jobs (issue #20).
+            Works with the in-memory scheduler.
+            </summary>
+        </member>
         <member name="T:WebReaper.Builders.ScraperEngineBuilder">
             <summary>
                 Builds a web scraper engine responsible for creating and receiving crawling jobs and running a spider on them
+            </summary>
+        </member>
+        <member name="M:WebReaper.Builders.ScraperEngineBuilder.WithJsonContentParser">
+            <summary>
+            Parse responses as JSON instead of HTML (issue #27). Schema
+            selectors become JSONPath expressions.
+            </summary>
+        </member>
+        <member name="M:WebReaper.Builders.ScraperEngineBuilder.StopWhenAllLinksProcessed">
+            <summary>
+            Stop the engine once all discovered links have been crawled
+            (issue #20), so <c>await engine.RunAsync()</c> actually returns
+            for finite crawls. Uses the in-memory scheduler.
+            </summary>
+        </member>
+        <member name="M:WebReaper.Builders.SpiderBuilder.WithJsonContentParser">
+            <summary>
+            Parse responses as JSON instead of HTML (issue #27). Schema
+            selectors become JSONPath expressions. For a custom HTML parser
+            (e.g. HtmlAgilityPack), implement <see cref="T:WebReaper.Core.Parser.Abstract.IContentParser"/>
+            and pass it to <see cref="M:WebReaper.Builders.SpiderBuilder.WithContentParser(WebReaper.Core.Parser.Abstract.IContentParser)"/>.
+            </summary>
+        </member>
+        <member name="M:WebReaper.Builders.SpiderBuilder.WithValidatedProxies(WebReaper.Proxy.Abstract.IProxySource,System.Collections.Generic.IEnumerable{WebReaper.Proxy.Abstract.IProxyValidator},WebReaper.Proxy.ValidatedProxyProviderOptions)">
+            <summary>
+            Use proxies from <paramref name="source"/>, but only after they
+            pass every supplied validator. Plugs into the same pipeline as
+            <see cref="M:WebReaper.Builders.SpiderBuilder.WithProxies(WebReaper.Proxy.Abstract.IProxyProvider)"/>.
             </summary>
         </member>
         <member name="T:WebReaper.ConfigStorage.Concrete.FileScraperConfigStorage">
@@ -29,6 +64,86 @@
         </member>
         <member name="T:WebReaper.Core.CookieStorage.Concrete.InMemoryCookieStorage">
             <inheritdoc />
+        </member>
+        <member name="T:WebReaper.Core.Crawling.Abstract.ICrawlStep">
+             <summary>
+             The crawl step: the pure, in-process decision mapping a <see cref="T:WebReaper.Domain.Job"/> +
+             its already-loaded document + the parsing <see cref="T:WebReaper.Domain.Parsing.Schema"/> to exactly
+             one <see cref="T:WebReaper.Core.Crawling.CrawlOutcome"/>.
+            
+             No I/O behind this seam — no page loaders, visited-link tracker, sinks,
+             scheduler, or config storage, and no exception used as control flow (the
+             crawl-limit stop stays in the Spider shell). Deterministic in
+             (job, document, schema). Returned Jobs are <b>candidates</b> — not
+             visited-link filtered; the shell does that.
+             </summary>
+        </member>
+        <member name="M:WebReaper.Core.Crawling.Abstract.ICrawlStep.StepAsync(WebReaper.Domain.Job,System.String,WebReaper.Domain.Parsing.Schema)">
+            <param name="job">The Job being crawled. Its selector chain — its
+            length and whether the single remaining selector paginates — fully
+            determines which <see cref="T:WebReaper.Core.Crawling.CrawlOutcome"/> arm is returned.</param>
+            <param name="document">The already-loaded page body. The shell owns
+            loading; the step never fetches.</param>
+            <param name="schema">The Schema for a target page; may be null (no-op
+            extraction). Ignored for transit / paginated pages.</param>
+        </member>
+        <member name="T:WebReaper.Core.Crawling.Concrete.CrawlStep">
+            <summary>
+            The crawl-step decision extracted from the old Spider.CrawlAsync. Holds the
+            page-category dispatch, the selector-chain advance/retain rule, link
+            extraction, content parsing, and child-Job provenance threading behind one
+            pure method. <see cref="T:WebReaper.Core.Parser.Abstract.ILinkParser"/> / <see cref="T:WebReaper.Core.Parser.Abstract.IContentParser"/> are
+            internal seams — injected, never surfaced on <see cref="T:WebReaper.Core.Crawling.Abstract.ICrawlStep"/>.
+            </summary>
+        </member>
+        <member name="T:WebReaper.Core.Crawling.CrawlOutcome">
+             <summary>
+             The result of a <see cref="T:WebReaper.Core.Crawling.Abstract.ICrawlStep"/>: exactly one of a target
+             page's <see cref="T:WebReaper.Sinks.Models.ParsedData"/>, a transit page's followed Jobs, or a
+             paginated page's item + next-page Jobs. Never more than one arm; the arm is
+             a total function of the Job's selector chain.
+            
+             Closed hierarchy — construct only via the factory members; the union is not
+             extensible. See docs/adr/0001-crawl-outcome-closed-sum.md.
+             </summary>
+        </member>
+        <member name="T:WebReaper.Core.Crawling.CrawlOutcome.Parsed">
+            <summary>Target page (empty selector chain): the page was parsed with
+            the Schema. No further Jobs.</summary>
+        </member>
+        <member name="M:WebReaper.Core.Crawling.CrawlOutcome.Parsed.#ctor(WebReaper.Sinks.Models.ParsedData)">
+            <summary>Target page (empty selector chain): the page was parsed with
+            the Schema. No further Jobs.</summary>
+        </member>
+        <member name="T:WebReaper.Core.Crawling.CrawlOutcome.Followed">
+            <summary>Transit page: the head selector was consumed. Every Job carries
+            the <b>advanced</b> (shortened) selector chain. Empty when no links
+            matched.</summary>
+        </member>
+        <member name="M:WebReaper.Core.Crawling.CrawlOutcome.Followed.#ctor(System.Collections.Immutable.ImmutableArray{WebReaper.Domain.Job})">
+            <summary>Transit page: the head selector was consumed. Every Job carries
+            the <b>advanced</b> (shortened) selector chain. Empty when no links
+            matched.</summary>
+        </member>
+        <member name="T:WebReaper.Core.Crawling.CrawlOutcome.Paginated">
+            <summary>Page with pagination. <see cref="P:WebReaper.Core.Crawling.CrawlOutcome.Paginated.Items"/> are item Jobs that
+            <b>advance</b> — their chain is emptied, so they are target pages.
+            <see cref="P:WebReaper.Core.Crawling.CrawlOutcome.Paginated.NextPages"/> are next-page Jobs that <b>retain</b> the same
+            one-element paginated chain, because page 2 of a listing is the same
+            step, not a deeper one. Either list may be empty.</summary>
+        </member>
+        <member name="M:WebReaper.Core.Crawling.CrawlOutcome.Paginated.#ctor(System.Collections.Immutable.ImmutableArray{WebReaper.Domain.Job},System.Collections.Immutable.ImmutableArray{WebReaper.Domain.Job})">
+            <summary>Page with pagination. <see cref="P:WebReaper.Core.Crawling.CrawlOutcome.Paginated.Items"/> are item Jobs that
+            <b>advance</b> — their chain is emptied, so they are target pages.
+            <see cref="P:WebReaper.Core.Crawling.CrawlOutcome.Paginated.NextPages"/> are next-page Jobs that <b>retain</b> the same
+            one-element paginated chain, because page 2 of a listing is the same
+            step, not a deeper one. Either list may be empty.</summary>
+        </member>
+        <member name="P:WebReaper.Core.Crawling.CrawlOutcome.NextJobs">
+            <summary>All candidate next Jobs in deterministic order:
+            <see cref="P:WebReaper.Core.Crawling.CrawlOutcome.Followed.Next"/>, or <see cref="P:WebReaper.Core.Crawling.CrawlOutcome.Paginated.Items"/> then
+            <see cref="P:WebReaper.Core.Crawling.CrawlOutcome.Paginated.NextPages"/>, or empty for <see cref="T:WebReaper.Core.Crawling.CrawlOutcome.Parsed"/>.
+            Candidates only — visited-link filtering is the caller's job.</summary>
         </member>
         <member name="T:WebReaper.Core.Loaders.Abstract.BrowserPageLoader">
             <summary>
@@ -49,6 +164,149 @@
         <member name="P:WebReaper.Core.Loaders.Abstract.BrowserPageLoader.Logger">
             <summary>
                 Logger
+            </summary>
+        </member>
+        <member name="T:WebReaper.Core.Parser.Concrete.JsonContentParser">
+            <summary>
+            Parses a JSON response instead of HTML (issue #27 — scraping JSON
+            endpoints such as the WordPress REST API). Each
+            <see cref="P:WebReaper.Domain.Parsing.SchemaElement.Selector"/> is a JSONPath expression
+            evaluated with Newtonsoft's <c>SelectToken</c>/<c>SelectTokens</c>,
+            relative to the current scope. <see cref="P:WebReaper.Domain.Parsing.SchemaElement.IsList"/>
+            works the same way it does for the HTML parser.
+            </summary>
+        </member>
+        <member name="M:WebReaper.Core.Scheduler.Abstract.IScheduler.Complete">
+            <summary>
+            Signals that no more jobs will ever be added, so
+            <see cref="M:WebReaper.Core.Scheduler.Abstract.IScheduler.GetAllAsync(System.Threading.CancellationToken)"/> can complete and the engine can stop
+            once everything has been crawled (issue #20). Default is a no-op:
+            durable / distributed schedulers keep their long-running
+            behavior unless they choose to override this.
+            </summary>
+        </member>
+        <member name="T:WebReaper.Core.Spider.Concrete.Spider">
+            <summary>
+            The I/O shell around the <see cref="T:WebReaper.Core.Crawling.Abstract.ICrawlStep"/>. It owns everything the
+            crawl step deliberately does not: page loading, the visited-link tracker,
+            the crawl-limit stop, sink fan-out, the PostProcessor / ScrapedData event,
+            and adapting the <see cref="T:WebReaper.Core.Crawling.CrawlOutcome"/> back to the engine's
+            <c>List&lt;Job&gt;</c> contract. The crawl-vs-parse decision itself lives
+            behind <see cref="T:WebReaper.Core.Crawling.Abstract.ICrawlStep"/>.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Domain.Parsing.SchemaElement.IsList">
+            <summary>
+            When true, every node matching <see cref="P:WebReaper.Domain.Parsing.SchemaElement.Selector"/> is
+            extracted into a JSON array instead of just the first match.
+            For a <see cref="T:WebReaper.Domain.Parsing.Schema"/> element this yields an array of
+            objects (child selectors evaluated relative to each match);
+            for a leaf element it yields an array of values. Issue #28.
+            </summary>
+        </member>
+        <member name="M:WebReaper.Extensions.CookieExtensions.ToPuppeteerCookies(System.Net.CookieContainer,System.String)">
+             <summary>
+             Maps a <see cref="T:System.Net.CookieContainer"/> to Puppeteer
+             <see cref="T:PuppeteerSharp.CookieParam"/>s for the given target URL.
+            
+             Fixes issue #26: previously only Name/Value were copied and
+             cookies were set on a blank page before navigation, so Puppeteer
+             had no domain to attach them to and the login was lost. We now
+             carry Domain/Path/Secure/HttpOnly/Expires, and fall back to the
+             target <paramref name="url"/> when a cookie has no domain so it
+             can be set before the first navigation.
+             </summary>
+        </member>
+        <member name="T:WebReaper.Proxy.Abstract.IProxySource">
+            <summary>
+            Produces the full set of candidate proxies (before validation).
+            Implemented by anything that knows where proxies come from: a paid
+            proxy API, a static list, a scraped free-proxy page, etc.
+            </summary>
+        </member>
+        <member name="M:WebReaper.Proxy.Abstract.IProxySource.GetCandidatesAsync(System.Threading.CancellationToken)">
+            <summary>
+            Returns the current list of candidate proxies. Called repeatedly
+            by <see cref="T:WebReaper.Proxy.Concrete.ValidatedProxyProvider"/>
+            on every refresh, so implementations should be cheap or cache.
+            </summary>
+        </member>
+        <member name="T:WebReaper.Proxy.Abstract.IProxyValidator">
+            <summary>
+            Decides whether a single candidate proxy is usable. Multiple
+            validators can be combined; a proxy is kept only if every validator
+            approves it (logical AND).
+            </summary>
+        </member>
+        <member name="M:WebReaper.Proxy.Abstract.IProxyValidator.IsValidAsync(System.Net.WebProxy,System.Threading.CancellationToken)">
+            <summary>
+            Returns <c>true</c> if the proxy passes this validator's check.
+            Implementations must not throw for an unusable proxy: catch the
+            failure and return <c>false</c>. Honor <paramref name="cancellationToken"/>.
+            </summary>
+        </member>
+        <member name="T:WebReaper.Proxy.Concrete.HttpProxyValidator">
+             <summary>
+             Validates a proxy by issuing a real HTTP request through it and
+             checking the response succeeds.
+            
+             This deliberately does NOT use ICMP ping: ping proves the host is
+             up, not that it forwards HTTP traffic, and many proxies/firewalls
+             drop ICMP entirely. An actual request through the proxy is the only
+             check that means "this proxy works for scraping".
+             </summary>
+        </member>
+        <member name="M:WebReaper.Proxy.Concrete.HttpProxyValidator.#ctor(System.String)">
+            <param name="testUrl">
+            URL fetched through the proxy. Default is Google's connectivity
+            endpoint, which returns an empty 204 quickly.
+            </param>
+        </member>
+        <member name="T:WebReaper.Proxy.Concrete.StaticProxySource">
+            <summary>
+            A fixed set of proxies known up front (e.g. from config or a paid
+            plan). The list is captured once at construction.
+            </summary>
+        </member>
+        <member name="M:WebReaper.Proxy.Concrete.StaticProxySource.FromAddresses(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Build a source from <c>scheme://host:port</c> strings, e.g.
+            <c>http://1.2.3.4:8080</c>. Scheme defaults to http if omitted.
+            </summary>
+        </member>
+        <member name="T:WebReaper.Proxy.Concrete.ValidatedProxyProvider">
+             <summary>
+             An <see cref="T:WebReaper.Proxy.Abstract.IProxyProvider"/> that only ever hands out proxies that
+             passed validation. It pulls candidates from an <see cref="T:WebReaper.Proxy.Abstract.IProxySource"/>,
+             keeps the ones every <see cref="T:WebReaper.Proxy.Abstract.IProxyValidator"/> approves, caches
+             that set, and re-validates lazily once it goes stale.
+            
+             Being an <see cref="T:WebReaper.Proxy.Abstract.IProxyProvider"/>, it drops into the existing
+             pipeline (<c>SpiderBuilder.WithProxies</c> → page requesters / Puppeteer
+             loader) with no other changes. No background service, no extra
+             hosting dependency: refresh happens on demand, single-flighted.
+             </summary>
+        </member>
+        <member name="T:WebReaper.Proxy.ValidatedProxyProviderOptions">
+            <summary>
+            Tuning knobs for <see cref="T:WebReaper.Proxy.Concrete.ValidatedProxyProvider"/>.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Proxy.ValidatedProxyProviderOptions.RefreshInterval">
+            <summary>
+            How long a validated list is reused before the source is queried
+            and proxies are re-validated. Default: 5 minutes.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Proxy.ValidatedProxyProviderOptions.ValidationTimeout">
+            <summary>
+            Per-proxy timeout for a single validator. A validator that exceeds
+            this is treated as a failed (invalid) proxy. Default: 10 seconds.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Proxy.ValidatedProxyProviderOptions.MaxConcurrentValidations">
+            <summary>
+            Maximum number of proxies validated concurrently. Default: 20.
             </summary>
         </member>
     </members>
