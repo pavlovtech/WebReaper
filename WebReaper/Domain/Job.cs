@@ -9,13 +9,4 @@ public record Job(
     ImmutableQueue<LinkPathSelector> LinkPathSelectors,
     ImmutableQueue<string> ParentBacklinks,
     PageType PageType = PageType.Static,
-    List<PageAction>? PageActions = null)
-{
-    public PageCategory PageCategory =>
-        (LinkPathSelectors.Count(), LinkPathSelectors.FirstOrDefault()?.HasPagination) switch
-        {
-            (0, _) => PageCategory.TargetPage,
-            (1, true) => PageCategory.PageWithPagination,
-            _ => PageCategory.TransitPage
-        };
-}
+    List<PageAction>? PageActions = null);

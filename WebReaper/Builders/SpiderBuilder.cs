@@ -12,6 +12,7 @@ using WebReaper.Core.Loaders.Abstract;
 using WebReaper.Core.Loaders.Concrete;
 using WebReaper.Core.Parser.Abstract;
 using WebReaper.Core.Parser.Concrete;
+using WebReaper.Core.Crawling.Concrete;
 using WebReaper.Core.Spider.Abstract;
 using WebReaper.Core.Spider.Concrete;
 using WebReaper.Domain;
@@ -257,10 +258,11 @@ public class SpiderBuilder
 
         CookieStorage.AddAsync(Cookies);
 
+        var crawlStep = new CrawlStep(LinkParser, ContentParser);
+
         var spider = new Spider(
             Sinks,
-            LinkParser,
-            ContentParser,
+            crawlStep,
             SiteLinkTracker,
             StaticPageLoader,
             BrowserPageLoader,
