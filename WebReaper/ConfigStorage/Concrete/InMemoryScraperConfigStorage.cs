@@ -1,20 +1,15 @@
-﻿using WebReaper.ConfigStorage.Abstract;
-using WebReaper.Domain;
+using WebReaper.DataAccess;
 
 namespace WebReaper.ConfigStorage.Concrete;
 
-public class InMemoryScraperConfigStorage : IScraperConfigStorage
+/// <summary>
+/// Source-compatible constructor over the config <see cref="ScraperConfigStore"/>
+/// payload shell backed by an <see cref="InMemoryBlobStore"/> (ADR 0003).
+/// </summary>
+public class InMemoryScraperConfigStorage : ScraperConfigStore
 {
-    private ScraperConfig _config;
-
-    public Task CreateConfigAsync(ScraperConfig config)
+    public InMemoryScraperConfigStorage()
+        : base(new InMemoryBlobStore(), "config")
     {
-        _config = config;
-        return Task.CompletedTask;
-    }
-
-    public Task<ScraperConfig> GetConfigAsync()
-    {
-        return Task.FromResult(_config);
     }
 }
