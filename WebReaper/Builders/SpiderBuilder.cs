@@ -72,6 +72,21 @@ public class SpiderBuilder
         return this;
     }
 
+    /// <summary>
+    /// Parse responses as HTML but with XPath 1.0 selectors instead of CSS
+    /// (discussion #17). Schema selectors become XPath expressions over the
+    /// same AngleSharp DOM the default CSS parser uses; <c>IsList</c>,
+    /// attributes and type coercion behave identically. Like
+    /// <see cref="WithJsonContentParser"/> this is just a different
+    /// <see cref="Core.Parser.Abstract.ISchemaBackend{TNode}"/> behind the
+    /// one shared Schema fold (ADR 0002 / 0007).
+    /// </summary>
+    public SpiderBuilder WithXPathContentParser()
+    {
+        ContentParser = new XPathContentParser(Logger);
+        return this;
+    }
+
     public SpiderBuilder WithLogger(ILogger logger)
     {
         Logger = logger;
