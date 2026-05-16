@@ -59,6 +59,18 @@ public class SpiderBuilder
         return this;
     }
 
+    /// <summary>
+    /// Parse responses as JSON instead of HTML (issue #27). Schema
+    /// selectors become JSONPath expressions. For a custom HTML parser
+    /// (e.g. HtmlAgilityPack), implement <see cref="IContentParser"/>
+    /// and pass it to <see cref="WithContentParser"/>.
+    /// </summary>
+    public SpiderBuilder WithJsonContentParser()
+    {
+        ContentParser = new JsonContentParser(Logger);
+        return this;
+    }
+
     public SpiderBuilder WithLogger(ILogger logger)
     {
         Logger = logger;

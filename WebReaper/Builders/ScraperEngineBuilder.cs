@@ -45,6 +45,16 @@ public class ScraperEngineBuilder
         return this;
     }
 
+    /// <summary>
+    /// Parse responses as JSON instead of HTML (issue #27). Schema
+    /// selectors become JSONPath expressions.
+    /// </summary>
+    public ScraperEngineBuilder WithJsonContentParser()
+    {
+        SpiderBuilder.WithJsonContentParser();
+        return this;
+    }
+
     public ScraperEngineBuilder AddSink(IScraperSink sink)
     {
         SpiderBuilder.AddSink(sink);
@@ -66,6 +76,17 @@ public class ScraperEngineBuilder
     public ScraperEngineBuilder PageCrawlLimit(int limit)
     {
         ConfigBuilder.WithPageCrawlLimit(limit);
+        return this;
+    }
+
+    /// <summary>
+    /// Stop the engine once all discovered links have been crawled
+    /// (issue #20), so <c>await engine.RunAsync()</c> actually returns
+    /// for finite crawls. Uses the in-memory scheduler.
+    /// </summary>
+    public ScraperEngineBuilder StopWhenAllLinksProcessed()
+    {
+        ConfigBuilder.StopWhenAllLinksProcessed();
         return this;
     }
 

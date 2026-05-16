@@ -80,15 +80,7 @@ public class PuppeteerPageLoaderWithProxies : BrowserPageLoader, IBrowserPageLoa
 
         if (cookies != null)
         {
-            var cookieParams = cookies.GetAllCookies().Select(c => new CookieParam
-            {
-                Name = c.Name,
-                Value = c.Value,
-                Domain = c.Domain,
-                Secure = c.Secure
-            }).ToArray();
-
-            await page.SetCookieAsync(cookieParams);
+            await page.SetCookieAsync(cookies.ToPuppeteerCookies(url));
         }
 
         await page.GoToAsync(url, WaitUntilNavigation.Networkidle2);
