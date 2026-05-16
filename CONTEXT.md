@@ -74,19 +74,67 @@ _Avoid_: result, item, row.
 A destination a ParsedData is emitted to (file, Redis, Cosmos, …).
 _Avoid_: output, writer, exporter.
 
+**File sink drain**:
+The one home for the buffered file-write mechanism (`BufferedFileSink`): a
+producer enqueues rows, one background consumer appends them to the file;
+cleanup and directory creation happen once, eagerly, at construction. Every
+file **Sink** is this drain plus a **Row format**; the drain never knows JSON
+from CSV.
+_Avoid_: writer, buffer, file sink (unqualified).
+
+**Row format**:
+The single quarantined per-format quirk a **File sink drain** delegates to
+(`IFileSinkFormat`): how one row becomes a line, and whether the file carries a
+header derived from the first row. JSON-lines and CSV are two **Row format**s —
+the only legitimate difference between file sinks.
+_Avoid_: serializer, formatter, encoder.
+
+### Crawl-state persistence
+
+**Keyed blob store**:
+A backend-agnostic seam that persists and fetches one opaque UTF-8 string under a key, last-write-wins, with `null` meaning absent; its four adapters (in-memory, file, Redis, Mongo) are the only place a persistence mechanism lives.
+_Avoid_: repository, cache, document DB, config storage.
+
+**Payload shell**:
+The thin module above a **keyed blob store** that owns one payload's serialization grammar and quirks (the config shell owns `TypeNameHandling.Auto`; the cookie shell owns `CookieContainer ↔ CookieCollection`) and decides what *absent* means for that payload.
+_Avoid_: storage, provider, serializer.
+
+### Page loading
+
+**Page loader**:
+The single seam (`IPageLoader`) that turns a **PageRequest** into a page's HTML, dispatching on the request's **PageType** to one **load transport**; the Spider holds one of these and is loader-blind (no Static/Dynamic loader pair).
+_Avoid_: page fetcher, downloader, static/dynamic loader.
+
+**Load transport**:
+The per-mechanism adapter behind the **page loader** — HTTP (`HttpPageLoadTransport`) or headless browser (`BrowserPageLoadTransport`) — and the only place that mechanism's client/launch quirks and its proxy application live.
+_Avoid_: requester, loader, driver, channel.
+
+**PageRequest**:
+What the **page loader** needs to fetch one page — URL, **PageType**, optional page actions, headless flag — projected from a **Job** plus the crawl's headless setting (the loader never sees the selector chain or backlinks).
+_Avoid_: load args, request.
+
 ## Relationships
 
 - A **Crawl** processes many **Job**s.
 - A **Job** carries a **Selector chain**; the chain's length and head derive the **Page category** (it is not stored on the Job).
 - A **Crawl step** maps one **Job** to one **Crawl outcome**.
 - A **Target page** outcome produces one **ParsedData**, emitted to every **Sink**.
+- A file **Sink** is one **File sink drain** plus one **Row format**; the drain is shared, the format is the only per-format variation.
 - A **Transit page** **advance**s the selector chain; a **Page with pagination** **retain**s it.
 - A **Schema fold** interprets a **Schema** by calling one **Node backend**; the backend yields **raw value**s, the fold applies **typed coercion**.
+- A **Payload shell** serializes one payload and delegates storage to one **Keyed blob store**; the store never knows which payload it holds.
+- The **Spider** calls one **Page loader** with a **PageRequest**; the loader dispatches on **PageType** to one **Load transport**, which applies the optional proxy its own way.
 
 ## Example dialogue
 
 > **Dev:** "When a page-with-pagination crawl runs, do the item Jobs and the next-page Jobs both keep the same selector chain?"
 > **Domain expert:** "No. The item Jobs **advance** — the listing selector is consumed, so they're target pages now. The next-page Jobs **retain** the chain, because page 2 of the listing is the same step, not a deeper one."
+
+> **Dev:** "The Mongo config store used to keep a queryable BSON document; now it's a string blob — isn't that a regression?"
+> **Domain expert:** "No. WebReaper only ever fetches a whole config by key, never queries inside it. The **keyed blob store** holds an opaque string; the `TypeNameHandling.Auto` that round-trips `PageAction.Parameters` (`object[]`) and the `ImmutableQueue` selector chain lives in the config **payload shell**, not the store. The BSON shape was never load-bearing."
+
+> **Dev:** "How does the Spider decide between an HTTP fetch and a headless browser?"
+> **Domain expert:** "It doesn't — it builds a **PageRequest** and hands it to the one **page loader**. The loader reads **PageType** and dispatches to the HTTP or browser **load transport**. Whether a proxy is used, and how it's applied, is the transport's business, not the Spider's."
 
 ## Flagged ambiguities
 
@@ -94,3 +142,7 @@ _Avoid_: output, writer, exporter.
 - **"Page type" vs "page category".** Resolved: **page category** = Target / Transit / Pagination, derived from the selector chain. **PageType** is the load mode (Static vs Dynamic, i.e. HTTP vs Puppeteer). Distinct concepts — never conflate them.
 - **The HTML-vs-JSON untyped-leaf difference was accidental duplication; it is now a deliberate, pinned property.** An untyped leaf is the **raw value** verbatim: HTML yields a string, JSON keeps its native number/bool. This is intentional (JSON-endpoint users depend on native types) and is the *only* legitimate behavioural difference between backends — it rides on `ExtractRaw`'s return type, not copied code, and is pinned cross-backend in `SchemaFoldTests`. Do not "unify" it (see `docs/adr/0002-schema-fold-and-node-backend-seam.md`).
 - **Previously-divergent log/selector behaviour is now uniform — by design, not regression.** The missing-node and parsing-error log messages were textually different per backend, and the HTML single-value path tolerated a missing selector where the list paths did not. The fold makes all three uniform. Observable outcomes (field left empty/unset, parse not aborted) are unchanged; only the divergent log text and the single-value selector-miss mechanism were unified.
+- **The config/cookie persistence stores were eight near-duplicate classes; the duplication had drifted into real bugs. Now one keyed blob store + per-payload shells — deliberate, not regression.** Mongo stores an opaque `{id, blob}`, not a queried BSON projection (never queried — do not "restore" it); the missing-value policy is uniform (`null` ⇔ absent at the store; the config shell throws a typed not-found, the cookie shell returns an empty `CookieContainer`), replacing the File adapter's `NullReferenceException` and the silent-null divergence; `PutAsync` is upsert-by-key, fixing the Mongo append/read-oldest bug; `ScraperConfig` now round-trips with `TypeNameHandling.Auto` through *every* backend (Redis was silently lossy); in-memory storage now round-trips through the shell's serializer like every other backend (was: held the live object), so the cheap path exercises the same serialization. `RedisBase`'s process-static single-multiplexer bug is fully resolved: `RedisBase` is retired and all four Redis adapters (blob store, scheduler, sink, visited-link tracker) share one `RedisConnectionPool` — one multiplexer per connection string, no statics. See `docs/adr/0003-keyed-blob-store-and-payload-shells.md` and `docs/adr/0005-redis-connection-pool.md`.
+- **The Static/Dynamic loader split was two single-adapter seams plus a copy-pasted requester triad and Puppeteer pair; the proxy/no-proxy choice had no home. Now one `IPageLoader` + two `IPageLoadTransport`s — breaking, deliberate.** `IStaticPageLoader` had exactly one implementation; the proxy decision was re-made in the builder branch, the requester triad, and the Puppeteer pair, with bugs drifted into the copies. The Spider no longer dispatches by load mode (that home moved behind the **page loader**); `IStaticPageLoader`, `IBrowserPageLoader`, `IPageRequester` + its three impls, and the two Puppeteer classes are removed (major SemVer). Fixed by construction, deliberately: the non-proxy static path now actually applies stored cookies (the handler was previously built *before* the cookie container was set); one canonical User-Agent (the triad had two by copy-drift); one canonical browser navigation wait, `Networkidle2` (the Puppeteer pair had `DOMContentLoaded` vs `Networkidle2` by accidental drift); the never-constructed, buggy `ProxyPageRequester` is gone. Out of scope, preserved as-is: the browser page-action table still handles only four of six `PageActionType`s (a missing feature, not this duplication deepening). See `docs/adr/0004-one-page-loader-transport-seam.md`.
+- **The distributed scheduler's `Job` round-trip is serialize/deserialize-asymmetric — named, not yet fixed.** `RedisScheduler` writes a `Job` with `TypeNameHandling.None` and reads it back with default settings, so a `Job`'s `ImmutableQueue<LinkPathSelector>` and `PageAction.Parameters` (`object[]`) lose the type metadata they need to rematerialise — the same asymmetry ADR 0003 fixed for the config payload. The `RedisBase` retirement (ADR 0005) preserved this verbatim rather than widen its scope; it is a distinct future candidate, not a regression introduced there. See `docs/adr/0005-redis-connection-pool.md`.
+- **The two file sinks were one buffered drain copy-pasted with drifted bugs; now one `BufferedFileSink` + an `IFileSinkFormat` quirk — deliberate, not regression.** Cleanup and directory creation are now eager and unconditional (deterministic even for a zero-row crawl; old CSV kept stale data and never created the directory, old JSON-lines created it only when cleaning); one consumer is started once, bound to the first emit's token (old JSON-lines used `CancellationToken.None` with dead re-init code, old CSV could double-spawn it under concurrent first emits). Observable file content is unchanged. Out of scope, preserved verbatim: one `File.AppendAllTextAsync` per row and no consumer flush/dispose — a *shared* property of the old code, a separate future candidate. See `docs/adr/0006-file-sink-buffered-drain.md`.

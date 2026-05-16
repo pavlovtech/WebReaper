@@ -284,14 +284,14 @@ var engine = await new ScraperEngineBuilder()
 
 For other ways to extend your functionality see the next section.
 
-### Intrefaces
+### Interfaces
 
 | Interface           | Description                                                                                                                   |
 |---------------------|-------------------------------------------------------------------------------------------------------------------------------|
 | IScheduler          | Reading and writing from the job queue. By default, the in-memory queue is used, but you can provider your implementation     |
 | IVisitedLinkTracker | Tracker of visited links. A default implementation is an in-memory tracker. You can provide your own for Redis, MongoDB, etc. |
-| IStaticPageLoader   | Loads a page over HTTP and returns its HTML as a string                                                                       |
-| IBrowserPageLoader  | Loads a page in a headless browser (Puppeteer), runs any page actions, and returns the rendered HTML                           |
+| IPageLoader         | Turns a PageRequest into a page's HTML, dispatching on PageType to one load transport. The Spider holds one and is loader-blind (replaces the removed IStaticPageLoader/IBrowserPageLoader pair). |
+| IPageLoadTransport  | The per-mechanism adapter behind IPageLoader: HTTP or headless browser (Puppeteer). The only home for that mechanism's client/launch quirks and proxy application. |
 | IContentParser      | Takes a document + Schema and returns its JSON representation (JObject). The shipped HTML and JSON parsers are thin shells over one shared Schema fold. |
 | ISchemaBackend&lt;TNode&gt; | The per-document-shape seam the shared fold calls: parse a root, select many / one by selector, extract a leaf's raw value. A new backend (e.g. XPath, System.Text.Json) is an implementation of this, not a re-derivation of the walk. |
 | ILinkParser         | Takes HTML as a string and returns page links                                                                                 |

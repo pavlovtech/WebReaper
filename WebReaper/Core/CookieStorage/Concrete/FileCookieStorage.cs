@@ -1,32 +1,19 @@
-﻿using System.Net;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using WebReaper.Core.CookieStorage.Abstract;
+using WebReaper.DataAccess;
 
 namespace WebReaper.Core.CookieStorage.Concrete;
 
-public class FileCookieStorage : ICookiesStorage
+/// <summary>
+/// Source-compatible constructor over the <see cref="CookieStore"/> payload
+/// shell backed by a <see cref="FileBlobStore"/> (ADR 0003). The
+/// <paramref name="fileName"/> is the blob key (the file path). The
+/// <paramref name="logger"/> parameter is retained for binary/source
+/// compatibility; it is no longer used here.
+/// </summary>
+public class FileCookieStorage : CookieStore
 {
-    private readonly string _fileName;
-    private readonly ILogger _logger;
-
     public FileCookieStorage(string fileName, ILogger logger)
+        : base(new FileBlobStore(), fileName)
     {
-        _fileName = fileName;
-        _logger = logger;
-    }
-
-    public async Task AddAsync(CookieContainer cookieContainer)
-    {
-        await File.WriteAllTextAsync(_fileName, JsonConvert.SerializeObject(cookieContainer.GetAllCookies()));
-    }
-
-    public async Task<CookieContainer> GetAsync()
-    {
-        var json = await File.ReadAllTextAsync(_fileName);
-        var result = JsonConvert.DeserializeObject<CookieCollection>(json);
-        var container = new CookieContainer();
-        container.Add(result);
-        return container;
     }
 }

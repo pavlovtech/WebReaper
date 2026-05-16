@@ -1,18 +1,20 @@
 ﻿using Microsoft.Extensions.Logging;
+using StackExchange.Redis;
 using WebReaper.DataAccess;
 using WebReaper.Sinks.Abstract;
 using WebReaper.Sinks.Models;
 
 namespace WebReaper.Sinks.Concrete;
 
-public class RedisSink : RedisBase, IScraperSink
+public class RedisSink : IScraperSink
 {
+    private readonly IDatabase _db;
     private readonly ILogger _logger;
     private readonly string _redisKey;
 
-    public RedisSink(string connectionString, string redisKey, bool dataCleanupOnStart, ILogger logger) : base(
-        connectionString)
+    public RedisSink(string connectionString, string redisKey, bool dataCleanupOnStart, ILogger logger)
     {
+        _db = RedisConnectionPool.GetDatabase(connectionString);
         DataCleanupOnStart = dataCleanupOnStart;
         _redisKey = redisKey;
         _logger = logger;
@@ -29,7 +31,7 @@ public class RedisSink : RedisBase, IScraperSink
 
         entity.Data["url"] = entity.Url;
 
-        var db = Redis.GetDatabase();
+        var db = _db;
         await db.SetAddAsync(_redisKey, entity.Data.ToString());
     }
 
@@ -38,7 +40,7 @@ public class RedisSink : RedisBase, IScraperSink
         if (!DataCleanupOnStart)
             return;
 
-        var db = Redis.GetDatabase();
+        var db = _db;
 
         await db.KeyDeleteAsync(_redisKey);
     }
