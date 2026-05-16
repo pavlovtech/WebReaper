@@ -79,6 +79,17 @@ public class ScraperEngineBuilder
         return this;
     }
 
+    /// <summary>
+    /// Stop the engine once all discovered links have been crawled
+    /// (issue #20), so <c>await engine.RunAsync()</c> actually returns
+    /// for finite crawls. Uses the in-memory scheduler.
+    /// </summary>
+    public ScraperEngineBuilder StopWhenAllLinksProcessed()
+    {
+        ConfigBuilder.StopWhenAllLinksProcessed();
+        return this;
+    }
+
     public ScraperEngineBuilder HeadlessMode(bool headless)
     {
         ConfigBuilder.HeadlessMode(headless);
