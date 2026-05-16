@@ -16,7 +16,9 @@ using WebReaper.Core.Spider.Abstract;
 using WebReaper.Core.Spider.Concrete;
 using WebReaper.Domain;
 using WebReaper.HttpRequests.Concrete;
+using WebReaper.Proxy;
 using WebReaper.Proxy.Abstract;
+using WebReaper.Proxy.Concrete;
 using WebReaper.Sinks.Abstract;
 using WebReaper.Sinks.Concrete;
 using WebReaper.Sinks.Models;
@@ -161,6 +163,23 @@ public class SpiderBuilder
         ProxyProvider = proxyProvider;
         return this;
     }
+
+    /// <summary>
+    /// Use proxies from <paramref name="source"/>, but only after they
+    /// pass every supplied validator. Plugs into the same pipeline as
+    /// <see cref="WithProxies(IProxyProvider)"/>.
+    /// </summary>
+    public SpiderBuilder WithValidatedProxies(
+        IProxySource source,
+        IEnumerable<IProxyValidator> validators,
+        ValidatedProxyProviderOptions? options = null)
+    {
+        ProxyProvider = new ValidatedProxyProvider(source, validators, options, Logger);
+        return this;
+    }
+
+    public SpiderBuilder WithValidatedProxies(IProxySource source, params IProxyValidator[] validators)
+        => WithValidatedProxies(source, (IEnumerable<IProxyValidator>)validators);
 
     public SpiderBuilder WriteToCsvFile(string filePath, bool dataCleanupOnStart)
     {
