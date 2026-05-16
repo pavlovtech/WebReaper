@@ -32,4 +32,13 @@ public record SchemaElement()
     public string? Attr { get; set; }
     public DataType? Type { get; set; }
     public bool GetHtml { get; set; }
+
+    /// <summary>
+    /// When true, every node matching <see cref="Selector"/> is
+    /// extracted into a JSON array instead of just the first match.
+    /// For a <see cref="Schema"/> element this yields an array of
+    /// objects (child selectors evaluated relative to each match);
+    /// for a leaf element it yields an array of values. Issue #28.
+    /// </summary>
+    public bool IsList { get; set; }
 }

@@ -40,33 +40,104 @@ public class AngleSharpContentParser : IContentParser
         return output;
     }
 
-    private void FillOutput(JObject result, IDocument doc, SchemaElement item)
+    // scope is the node selectors are evaluated against: the document at
+    // the top level, or a single list-item element when recursing into a
+    // list of objects (issue #28).
+    private void FillOutput(JObject result, IParentNode scope, SchemaElement item)
     {
         if (item.Field is null) throw new InvalidOperationException("Schema is invalid");
 
         if (item is Schema container)
         {
-            var obj = new JObject();
-
-            foreach (var el in container.Children)
+            if (container.IsList)
             {
-                FillOutput(obj, doc, el);
+                result[item.Field] = GetObjectList(scope, container);
             }
+            else
+            {
+                var obj = new JObject();
 
-            result[item.Field] = obj;
+                foreach (var el in container.Children)
+                {
+                    FillOutput(obj, scope, el);
+                }
+
+                result[item.Field] = obj;
+            }
 
             return;
         }
 
         try
         {
-            var data = GetData(doc, item);
-
-            result[item.Field] = item.Type is null ? data : GetTypedValue(item, data);
+            result[item.Field] = item.IsList ? GetValueList(scope, item) : GetSingleValue(scope, item);
         }
         catch (Exception ex)
         {
             Logger.LogError(ex, "Error during parsing phase");
+        }
+    }
+
+    private JArray GetObjectList(IParentNode scope, Schema container)
+    {
+        RequireSelector(container);
+
+        var array = new JArray();
+
+        foreach (var element in scope.QuerySelectorAll(container.Selector))
+        {
+            var obj = new JObject();
+
+            foreach (var child in container.Children)
+            {
+                FillOutput(obj, element, child);
+            }
+
+            array.Add(obj);
+        }
+
+        return array;
+    }
+
+    private JArray GetValueList(IParentNode scope, SchemaElement item)
+    {
+        RequireSelector(item);
+
+        var array = new JArray();
+
+        foreach (var node in scope.QuerySelectorAll(item.Selector))
+        {
+            var raw = ExtractValue(node, item);
+            array.Add(item.Type is null ? raw : GetTypedValue(item, raw));
+        }
+
+        return array;
+    }
+
+    private JToken GetSingleValue(IParentNode scope, SchemaElement item)
+    {
+        var node = scope.QuerySelector(item.Selector);
+
+        if (node is null)
+        {
+            Logger.LogError(
+                "Cannot find element by selector {selector}. Corresponding field will be empty in the result",
+                item.Selector);
+
+            return string.Empty;
+        }
+
+        var data = ExtractValue(node, item);
+
+        return item.Type is null ? data : GetTypedValue(item, data);
+    }
+
+    private static void RequireSelector(SchemaElement item)
+    {
+        if (string.IsNullOrEmpty(item.Selector))
+        {
+            throw new InvalidOperationException(
+                $"Schema element '{item.Field}' has IsList = true but no selector.");
         }
     }
 
@@ -80,20 +151,9 @@ public class AngleSharpContentParser : IContentParser
         _ => data
     };
 
-    private string GetData(IDocument doc, SchemaElement el)
+    private static string ExtractValue(IElement node, SchemaElement el)
     {
-        var node = doc.QuerySelector(el.Selector);
-
-        if (node is null)
-        {
-            Logger.LogError(
-                "Cannot find element by selector {selector}. Corresponding field will be empty in the result",
-                el.Selector);
-            
-            return string.Empty;
-        }
-
-        var content = string.Empty;
+        string? content;
 
         if (el.Attr is not null)
         {
@@ -110,6 +170,6 @@ public class AngleSharpContentParser : IContentParser
             content = node.InnerHtml;
         }
 
-        return content;
+        return content ?? string.Empty;
     }
 }
