@@ -62,9 +62,12 @@ public class SpiderBuilder
 
     /// <summary>
     /// Parse responses as JSON instead of HTML (issue #27). Schema
-    /// selectors become JSONPath expressions. For a custom HTML parser
-    /// (e.g. HtmlAgilityPack), implement <see cref="IContentParser"/>
-    /// and pass it to <see cref="WithContentParser"/>.
+    /// selectors become JSONPath expressions. For a different document
+    /// shape (e.g. HtmlAgilityPack, XPath), implement
+    /// <see cref="Core.Parser.Abstract.ISchemaBackend{TNode}"/> and pass
+    /// <c>new SchemaContentParser&lt;TNode&gt;(backend, logger)</c> to
+    /// <see cref="WithContentParser"/> — it reuses the shared Schema fold
+    /// rather than re-implementing the walk.
     /// </summary>
     public SpiderBuilder WithJsonContentParser()
     {
