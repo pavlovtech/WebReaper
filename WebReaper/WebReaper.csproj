@@ -5,13 +5,13 @@
     <Nullable>enable</Nullable>
     <Authors>Alex Pavlov</Authors>
     <Company>Alex Pavlov</Company>
-    <Product>ExoScraper</Product>
+    <Product>WebReaper</Product>
     <PackageId>WebReaper</PackageId>
     <Description>Declarative high performance web scraper in C#. Easily crawl any web site and parse the data, save structed result to a file, DB, etc.</Description>
     <Copyright>GPL-3.0 license</Copyright>
     <PackageProjectUrl>https://github.com/pavlovtech/WebReaper</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
-    <RepositoryUrl>https://github.com/pavlovtech/ExoScraper</RepositoryUrl>
+    <RepositoryUrl>https://github.com/pavlovtech/WebReaper</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>scraper, crawler, parser</PackageTags>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
