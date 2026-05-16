@@ -15,6 +15,7 @@ using WebReaper.Domain;
 using WebReaper.Domain.PageActions;
 using WebReaper.Domain.Parsing;
 using WebReaper.Logging;
+using WebReaper.Proxy;
 using WebReaper.Proxy.Abstract;
 using WebReaper.Sinks.Abstract;
 using WebReaper.Sinks.Concrete;
@@ -170,6 +171,21 @@ public class ScraperEngineBuilder
     public ScraperEngineBuilder WithProxies(IProxyProvider proxyProvider)
     {
         SpiderBuilder.WithProxies(proxyProvider);
+        return this;
+    }
+
+    public ScraperEngineBuilder WithValidatedProxies(
+        IProxySource source,
+        IEnumerable<IProxyValidator> validators,
+        ValidatedProxyProviderOptions? options = null)
+    {
+        SpiderBuilder.WithValidatedProxies(source, validators, options);
+        return this;
+    }
+
+    public ScraperEngineBuilder WithValidatedProxies(IProxySource source, params IProxyValidator[] validators)
+    {
+        SpiderBuilder.WithValidatedProxies(source, validators);
         return this;
     }
 
