@@ -7,15 +7,15 @@ env:
   AZURE_FUNCTIONAPP_NAME: WebReaperAzureFuncs
   AZURE_FUNCTIONAPP_PACKAGE_PATH: Examples/WebReaper.AzureFuncs/publish
   CONFIGURATION: Release
-  DOTNET_CORE_VERSION: 6.0.x
+  DOTNET_CORE_VERSION: 10.0.x
   WORKING_DIRECTORY: Examples/WebReaper.AzureFuncs
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
     - name: Restore
