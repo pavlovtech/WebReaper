@@ -45,7 +45,9 @@ are out of this candidate's scope (a set store, a queue, an append sink — not
 keyed blob stores). The net effect is to shrink that finding from five classes
 to exactly three and to prove the per-connection-string fix pattern they would
 later adopt. Full `RedisBase` retirement is an explicit follow-up, not claimed
-here.
+here. **Update:** that follow-up shipped — `RedisBase` is retired and all four
+Redis adapters share one `RedisConnectionPool` (one multiplexer per connection
+string). See ADR 0005.
 
 ## Deliberate behaviour unifications (not regressions — see CONTEXT.md "Flagged ambiguities")
 

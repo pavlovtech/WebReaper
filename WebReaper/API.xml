@@ -474,12 +474,35 @@
         </member>
         <member name="T:WebReaper.DataAccess.RedisBlobStore">
             <summary>
-            Redis-backed <see cref="T:WebReaper.DataAccess.IKeyedBlobStore"/>. Owns <em>one multiplexer per
-            distinct connection string</em> (the pattern StackExchange.Redis
-            recommends), replacing <c>RedisBase</c>'s process-static, first-connection-
-            wins multiplexer that silently ignored every connection string after the
-            first — a latent bug for the distributed mode the README sells (ADR 0003).
+            Redis-backed <see cref="T:WebReaper.DataAccess.IKeyedBlobStore"/>. The per-connection-string
+            multiplexer mechanism lives in <see cref="T:WebReaper.DataAccess.RedisConnectionPool"/> — the one
+            home shared by every Redis adapter (ADR 0005); this class only maps
+            <see cref="T:WebReaper.DataAccess.IKeyedBlobStore"/> onto string get/set.
             </summary>
+        </member>
+        <member name="T:WebReaper.DataAccess.RedisConnectionPool">
+            <summary>
+            The one home for WebReaper's StackExchange.Redis connection mechanism:
+            exactly one <see cref="T:StackExchange.Redis.ConnectionMultiplexer"/> per distinct connection
+            string, created lazily and thread-safely (ADR 0005). Replaces
+            <c>RedisBase</c>, whose process-<c>static</c>, first-connection-wins
+            multiplexer silently ignored every connection string after the first — a
+            latent bug for the distributed mode the README sells. Every Redis-backed
+            adapter (<see cref="T:WebReaper.DataAccess.RedisBlobStore"/> and the Redis scheduler, sink and
+            visited-link tracker) resolves through here, so the connect tuning and the
+            per-connection-string identity rule live in exactly one place.
+            </summary>
+        </member>
+        <member name="M:WebReaper.DataAccess.RedisConnectionPool.Get(System.String)">
+            <summary>
+            The shared multiplexer for <paramref name="connectionString"/>. Same
+            string ⇒ same instance; different string ⇒ different instance. With
+            <c>AbortOnConnectFail = false</c> this does not throw when no server is
+            reachable — it returns a multiplexer that reconnects in the background.
+            </summary>
+        </member>
+        <member name="M:WebReaper.DataAccess.RedisConnectionPool.GetDatabase(System.String)">
+            <summary>The default database on the shared multiplexer for <paramref name="connectionString"/>.</summary>
         </member>
         <member name="P:WebReaper.Domain.Parsing.SchemaElement.IsList">
             <summary>
