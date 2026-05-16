@@ -6,22 +6,20 @@
     <Authors>Alex Pavlov</Authors>
     <Company>Alex Pavlov</Company>
     <Product>ExoScraper</Product>
-    <PackageId>WebReaper.net</PackageId>
-    <Description>Declarative high performance web scraper in C#. Easily crawl any web site and parse the data, save structed result to a file, DB, etc.
-	.NET 10 fork</Description>
+    <PackageId>WebReaper</PackageId>
+    <Description>Declarative high performance web scraper in C#. Easily crawl any web site and parse the data, save structed result to a file, DB, etc.</Description>
     <Copyright>GPL-3.0 license</Copyright>
-    <PackageProjectUrl>https://github.com/mccabe93/WebReaper/tree/dotnet10</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/pavlovtech/WebReaper</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
     <RepositoryUrl>https://github.com/pavlovtech/ExoScraper</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>scraper, crawler, parser</PackageTags>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
-    <Version>3.5.4</Version>
+    <Version>3.5.2</Version>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <DocumentationFile>$(MSBuildProjectDirectory)\API.xml</DocumentationFile>
     <LangVersion>12</LangVersion>
     <Title>WebReaper</Title>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -41,8 +39,8 @@
     <None Remove="Azure.Messaging.ServiceBus" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="AngleSharp" Version="1.4.1-beta.502" />
-    <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.57.0-preview.0" />
+    <PackageReference Include="AngleSharp" Version="1.4.0" />
+    <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.59.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.0" />
     <PackageReference Include="MongoDB.Driver" Version="3.5.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
