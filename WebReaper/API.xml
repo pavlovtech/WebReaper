@@ -37,6 +37,13 @@
             selectors become JSONPath expressions.
             </summary>
         </member>
+        <member name="M:WebReaper.Builders.ScraperEngineBuilder.WithXPathContentParser">
+            <summary>
+            Parse responses as HTML with XPath 1.0 selectors instead of CSS
+            (discussion #17). Same shared Schema fold, different backend
+            (ADR 0002 / 0007).
+            </summary>
+        </member>
         <member name="M:WebReaper.Builders.ScraperEngineBuilder.StopWhenAllLinksProcessed">
             <summary>
             Stop the engine once all discovered links have been crawled
@@ -53,6 +60,17 @@
             <c>new SchemaContentParser&lt;TNode&gt;(backend, logger)</c> to
             <see cref="M:WebReaper.Builders.SpiderBuilder.WithContentParser(WebReaper.Core.Parser.Abstract.IContentParser)"/> — it reuses the shared Schema fold
             rather than re-implementing the walk.
+            </summary>
+        </member>
+        <member name="M:WebReaper.Builders.SpiderBuilder.WithXPathContentParser">
+            <summary>
+            Parse responses as HTML but with XPath 1.0 selectors instead of CSS
+            (discussion #17). Schema selectors become XPath expressions over the
+            same AngleSharp DOM the default CSS parser uses; <c>IsList</c>,
+            attributes and type coercion behave identically. Like
+            <see cref="M:WebReaper.Builders.SpiderBuilder.WithJsonContentParser"/> this is just a different
+            <see cref="T:WebReaper.Core.Parser.Abstract.ISchemaBackend`1"/> behind the
+            one shared Schema fold (ADR 0002 / 0007).
             </summary>
         </member>
         <member name="M:WebReaper.Builders.SpiderBuilder.WithPageLoader(WebReaper.Core.Loaders.Abstract.IPageLoader)">
@@ -367,6 +385,26 @@
             attr/markup/text rules live — the shared fold never sees them.
             </summary>
         </member>
+        <member name="T:WebReaper.Core.Parser.Concrete.AngleSharpXPathSchemaBackend">
+             <summary>
+             XPath backend for <see cref="T:WebReaper.Core.Parser.Concrete.SchemaContentParser`1"/>: the same
+             AngleSharp DOM as <see cref="T:WebReaper.Core.Parser.Concrete.AngleSharpSchemaBackend"/>, but each
+             <see cref="P:WebReaper.Domain.Parsing.SchemaElement.Selector"/> is an XPath 1.0 expression instead
+             of a CSS selector (discussion #17, realising the ADR 0002 seam — a new
+             selector language is an <see cref="T:WebReaper.Core.Parser.Abstract.ISchemaBackend`1"/>, not a
+             re-derivation of the fold). The scope cursor is <see cref="T:AngleSharp.Dom.IParentNode"/>
+             exactly as for the CSS backend: the <see cref="T:AngleSharp.Dom.IDocument"/> at the top
+             (so the fold's <c>IDisposable</c> dispose still runs), a matched
+             <see cref="T:AngleSharp.Dom.IElement"/> when recursing into a list of objects — so a
+             relative XPath (<c>.//span</c>) resolves against each match.
+            
+             Unlike <see cref="T:WebReaper.Core.Parser.Concrete.AngleSharpSchemaBackend"/> this backend does NOT carry
+             the legacy <c>src</c>→<c>title</c> attribute rewrite: that is a
+             quarantined quirk of the CSS backend (ADR 0002 — quirks are backend-local
+             and a new backend is not obliged to copy another's), not part of the seam
+             contract. XPath attribute extraction returns the attribute asked for.
+             </summary>
+        </member>
         <member name="T:WebReaper.Core.Parser.Concrete.JsonContentParser">
             <summary>
             Parses a JSON response instead of HTML (issue #27 — scraping JSON
@@ -407,6 +445,18 @@
             to <c>WithContentParser</c>, reusing this proven fold rather than
             copying it. See docs/adr/0002.
             </remarks>
+        </member>
+        <member name="T:WebReaper.Core.Parser.Concrete.XPathContentParser">
+            <summary>
+            Parses an HTML response with XPath selectors instead of CSS (discussion
+            #17). The shared <see cref="T:WebReaper.Core.Parser.Concrete.SchemaContentParser`1"/> fold over the
+            <see cref="T:WebReaper.Core.Parser.Concrete.AngleSharpXPathSchemaBackend"/>: each
+            <see cref="P:WebReaper.Domain.Parsing.SchemaElement.Selector"/> is an XPath 1.0 expression and
+            <see cref="P:WebReaper.Domain.Parsing.SchemaElement.IsList"/> works exactly as it does for the CSS
+            and JSON parsers. Kept as a named type with an <c>(ILogger)</c>
+            constructor so <c>WithXPathContentParser</c> mirrors
+            <c>WithJsonContentParser</c>.
+            </summary>
         </member>
         <member name="M:WebReaper.Core.Scheduler.Abstract.IScheduler.Complete">
             <summary>
