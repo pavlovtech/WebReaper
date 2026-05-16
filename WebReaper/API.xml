@@ -628,5 +628,86 @@
             Maximum number of proxies validated concurrently. Default: 20.
             </summary>
         </member>
+        <member name="T:WebReaper.Sinks.Abstract.IFileSinkFormat">
+            <summary>
+            The per-format quirk a file sink quarantines (ADR 0006): how one
+            <see cref="T:Newtonsoft.Json.Linq.JObject"/> row becomes a line, and whether the file carries a
+            header derived from the first row. The buffered-drain mechanism
+            (<c>BufferedFileSink</c>) is shared; this seam is the only thing that
+            legitimately differs between a JSON-lines and a CSV file sink. Two real
+            adapters today (<c>JsonLinesFormat</c>, <c>CsvFormat</c>) — a real seam, not
+            indirection without variation.
+            </summary>
+        </member>
+        <member name="M:WebReaper.Sinks.Abstract.IFileSinkFormat.Header(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            The header line for a file whose first row is <paramref name="firstRow"/>,
+            or <c>null</c> if this format has no header. Called at most once, on the
+            first drained row, before that row's data line. No trailing newline.
+            </summary>
+        </member>
+        <member name="M:WebReaper.Sinks.Abstract.IFileSinkFormat.FormatRow(Newtonsoft.Json.Linq.JObject)">
+            <summary>One data row → one line, without a trailing newline.</summary>
+        </member>
+        <member name="T:WebReaper.Sinks.Concrete.BufferedFileSink">
+             <summary>
+             The one home for the file-sink buffered drain (ADR 0006). A producer
+             (<see cref="M:WebReaper.Sinks.Concrete.BufferedFileSink.EmitAsync(WebReaper.Sinks.Models.ParsedData,System.Threading.CancellationToken)"/>) hands rows to a <see cref="T:System.Collections.Concurrent.BlockingCollection`1"/>;
+             a single background consumer appends them to the file. Replaces the
+             buffered-drain code that was copy-pasted across the two file sinks and had
+             drifted into divergent bugs.
+            
+             Cleanup and directory creation happen once, eagerly, in the constructor —
+             deterministic and correct even for a crawl that produces zero rows (the
+             behaviour the old JSON-lines sink had and the old CSV sink lacked), and the
+             directory is created regardless of <c>dataCleanupOnStart</c> (the old
+             JSON-lines sink only created it when cleaning). The single consumer is
+             started once, thread-safely, by whichever <see cref="M:WebReaper.Sinks.Concrete.BufferedFileSink.EmitAsync(WebReaper.Sinks.Models.ParsedData,System.Threading.CancellationToken)"/> runs
+             first and is bound to that call's token (the old JSON-lines sink bound it
+             to <c>CancellationToken.None</c> with dead re-init code; the old CSV sink's
+             async init guard could double-spawn it).
+            
+             Per-format rendering is the only legitimate variation and lives behind
+             <see cref="T:WebReaper.Sinks.Abstract.IFileSinkFormat"/>; this class never knows JSON from CSV.
+             Unchanged from the originals (a shared property, not this candidate's
+             concern — a future candidate): one <see cref="M:System.IO.File.AppendAllTextAsync(System.String,System.String,System.Threading.CancellationToken)"/>
+             per row opens and closes the file each time, and the consumer has no
+             flush/dispose — its lifetime is the process or the bound token.
+             </summary>
+        </member>
+        <member name="T:WebReaper.Sinks.Concrete.CsvFileSink">
+            <summary>
+            CSV file sink — a header from the first row, then quoted, comma-joined
+            rows. A thin <see cref="T:WebReaper.Sinks.Concrete.BufferedFileSink"/> over <see cref="T:WebReaper.Sinks.Concrete.CsvFormat"/>;
+            the buffered-drain mechanism has exactly one home (ADR 0006). The public
+            ctor is preserved, so the builder and consumer code are unchanged
+            (source-compatible, minor SemVer).
+            </summary>
+        </member>
+        <member name="T:WebReaper.Sinks.Concrete.CsvFormat">
+            <summary>
+            CSV: a header of the first row's flattened leaf names, then one
+            quoted, comma-joined line per row. The flatten/quote expressions are moved
+            verbatim from the old <c>CsvFileSink</c> (ADR 0006) — the genuine CSV quirk
+            relocated, not changed.
+            </summary>
+        </member>
+        <member name="T:WebReaper.Sinks.Concrete.JsonLinesFileSink">
+            <summary>
+            JSON Lines file sink — one compact JSON object per line. A thin
+            <see cref="T:WebReaper.Sinks.Concrete.BufferedFileSink"/> over <see cref="T:WebReaper.Sinks.Concrete.JsonLinesFormat"/>; the
+            buffered-drain mechanism has exactly one home (ADR 0006). The public ctor
+            is preserved, so the builder and consumer code are unchanged
+            (source-compatible, minor SemVer).
+            </summary>
+        </member>
+        <member name="T:WebReaper.Sinks.Concrete.JsonLinesFormat">
+            <summary>
+            JSON Lines: no header, one compact JSON object per line. The
+            <c>Formatting.None</c> rendering is moved verbatim from the old
+            <c>JsonLinesFileSink</c> (ADR 0006) — the format quirk relocated, not
+            changed.
+            </summary>
+        </member>
     </members>
 </doc>
