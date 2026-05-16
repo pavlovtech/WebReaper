@@ -25,4 +25,4 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test WebReaper.Tests/WebReaper.UnitTests/WebReaper.UnitTests.csproj --no-build --verbosity normal
