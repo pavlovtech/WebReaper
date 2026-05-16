@@ -166,15 +166,98 @@
                 Logger
             </summary>
         </member>
+        <member name="T:WebReaper.Core.Parser.Abstract.ISchemaBackend`1">
+            <summary>
+            One document shape = one backend. Supplies only the four
+            document-primitive operations the <see cref="T:WebReaper.Core.Parser.Concrete.SchemaContentParser`1"/>
+            fold needs; it does NOT know the <see cref="T:WebReaper.Domain.Parsing.Schema"/> grammar
+            (container / object-list / leaf / value-list), type coercion, the
+            missing-node policy, or the swallow-and-log scope — those live once,
+            in the fold. A new backend (HtmlAgilityPack, System.Text.Json, …) is
+            an implementation of this seam, not a re-derivation of the walk.
+            </summary>
+            <typeparam name="TNode">
+            The backend's opaque scope cursor — an AngleSharp node, a
+            <c>JToken</c>, etc. The fold never names it; it only threads it back
+            through these methods.
+            </typeparam>
+        </member>
+        <member name="M:WebReaper.Core.Parser.Abstract.ISchemaBackend`1.RootAsync(System.String)">
+            <summary>Parse a raw document string into its root scope.</summary>
+        </member>
+        <member name="M:WebReaper.Core.Parser.Abstract.ISchemaBackend`1.SelectMany(`0,System.String)">
+            <summary>Every node under <paramref name="scope"/> matching the selector (list paths).</summary>
+        </member>
+        <member name="M:WebReaper.Core.Parser.Abstract.ISchemaBackend`1.SelectOne(`0,System.String)">
+            <summary>The first node under <paramref name="scope"/> matching the selector, or null if none.</summary>
+        </member>
+        <member name="M:WebReaper.Core.Parser.Abstract.ISchemaBackend`1.ExtractRaw(`0,WebReaper.Domain.Parsing.SchemaElement)">
+            <summary>
+            The raw leaf value of <paramref name="node"/> for <paramref name="element"/>:
+            a <see cref="T:System.String"/> for text/markup backends, a native value for
+            structured ones. The fold applies any <see cref="P:WebReaper.Domain.Parsing.SchemaElement.Type"/>
+            coercion; an untyped leaf is this value verbatim. Backend-local quirks
+            (e.g. the AngleSharp <c>src</c>→<c>title</c> rewrite) belong here and
+            nowhere else.
+            </summary>
+        </member>
+        <member name="T:WebReaper.Core.Parser.Concrete.AngleSharpContentParser">
+            <summary>
+            HTML content parser: the shared <see cref="T:WebReaper.Core.Parser.Concrete.SchemaContentParser`1"/>
+            fold over the <see cref="T:WebReaper.Core.Parser.Concrete.AngleSharpSchemaBackend"/>. Kept as a named
+            type with its original <c>(ILogger)</c> constructor so it stays the
+            default and a drop-in for existing callers.
+            </summary>
+        </member>
+        <member name="T:WebReaper.Core.Parser.Concrete.AngleSharpSchemaBackend">
+            <summary>
+            HTML backend for <see cref="T:WebReaper.Core.Parser.Concrete.SchemaContentParser`1"/>: AngleSharp
+            DOM, CSS selectors. The scope cursor is <see cref="T:AngleSharp.Dom.IParentNode"/>
+            (the document at the top, a matched element when recursing). This is
+            the ONLY place the <c>src</c>→<c>title</c> rewrite and the
+            attr/markup/text rules live — the shared fold never sees them.
+            </summary>
+        </member>
         <member name="T:WebReaper.Core.Parser.Concrete.JsonContentParser">
             <summary>
             Parses a JSON response instead of HTML (issue #27 — scraping JSON
-            endpoints such as the WordPress REST API). Each
-            <see cref="P:WebReaper.Domain.Parsing.SchemaElement.Selector"/> is a JSONPath expression
-            evaluated with Newtonsoft's <c>SelectToken</c>/<c>SelectTokens</c>,
-            relative to the current scope. <see cref="P:WebReaper.Domain.Parsing.SchemaElement.IsList"/>
-            works the same way it does for the HTML parser.
+            endpoints such as the WordPress REST API). The shared
+            <see cref="T:WebReaper.Core.Parser.Concrete.SchemaContentParser`1"/> fold over the
+            <see cref="T:WebReaper.Core.Parser.Concrete.JsonSchemaBackend"/>: each <see cref="P:WebReaper.Domain.Parsing.SchemaElement.Selector"/>
+            is a JSONPath expression and <see cref="P:WebReaper.Domain.Parsing.SchemaElement.IsList"/> works
+            exactly as it does for the HTML parser. Kept as a named type with its
+            original <c>(ILogger)</c> constructor so <c>WithJsonContentParser</c>
+            and existing callers are unaffected.
             </summary>
+        </member>
+        <member name="T:WebReaper.Core.Parser.Concrete.JsonSchemaBackend">
+            <summary>
+            JSON backend for <see cref="T:WebReaper.Core.Parser.Concrete.SchemaContentParser`1"/> (issue #27 —
+            scraping JSON endpoints such as the WordPress REST API). The scope
+            cursor is a <see cref="T:Newtonsoft.Json.Linq.JToken"/> and each
+            <see cref="P:WebReaper.Domain.Parsing.SchemaElement.Selector"/> is a JSONPath expression.
+            <see cref="M:WebReaper.Core.Parser.Concrete.JsonSchemaBackend.ExtractRaw(Newtonsoft.Json.Linq.JToken,WebReaper.Domain.Parsing.SchemaElement)"/> returns the native token, so an untyped leaf
+            keeps its JSON type (a number stays a number) — the structured-side
+            of the divergence the shared fold passes straight through.
+            </summary>
+        </member>
+        <member name="T:WebReaper.Core.Parser.Concrete.SchemaContentParser`1">
+            <summary>
+            The single recursive <see cref="T:WebReaper.Domain.Parsing.Schema"/> fold, shared by every
+            backend. It owns the grammar the parsers used to each re-implement:
+            the container / object-list / leaf / value-list branching, the
+            <see cref="P:WebReaper.Domain.Parsing.SchemaElement.Type"/> coercion, the missing-node →
+            log → empty-string policy, and the swallow-and-log scope (only a
+            leaf assignment is guarded; a container whose list selector is
+            missing still throws, exactly as before). Everything document-shaped
+            is delegated to <see cref="T:WebReaper.Core.Parser.Abstract.ISchemaBackend`1"/>.
+            </summary>
+            <remarks>
+            Public and generic on purpose: a new backend is
+            <c>new SchemaContentParser&lt;TNode&gt;(myBackend, logger)</c> passed
+            to <c>WithContentParser</c>, reusing this proven fold rather than
+            copying it. See docs/adr/0002.
+            </remarks>
         </member>
         <member name="M:WebReaper.Core.Scheduler.Abstract.IScheduler.Complete">
             <summary>
