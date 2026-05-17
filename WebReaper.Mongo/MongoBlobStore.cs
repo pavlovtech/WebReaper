@@ -1,7 +1,8 @@
 using MongoDB.Bson;
 using MongoDB.Driver;
+using WebReaper.DataAccess;
 
-namespace WebReaper.DataAccess;
+namespace WebReaper.Mongo;
 
 /// <summary>
 /// MongoDB-backed <see cref="IKeyedBlobStore"/>. Stores an opaque

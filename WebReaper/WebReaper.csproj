@@ -16,7 +16,7 @@
     <PackageTags>scraper, crawler, parser</PackageTags>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <Version>7.0.0</Version>
-    <PackageReleaseNotes>7.0.0 (breaking, major): heavy third-party adapters move into per-technology satellite packages so the core stays dependency-light. This release lands WebReaper.Cosmos: WriteToCosmosDb and CosmosSink moved out of core (namespace/package WebReaper.Cosmos), core no longer references Microsoft.Azure.Cosmos. Clean cut, no compat forwarders. Add the WebReaper.Cosmos package and a using to migrate. Rationale and migration: docs/adr/0009 and CHANGELOG.md.</PackageReleaseNotes>
+    <PackageReleaseNotes>7.0.0 (breaking, major): heavy third-party adapters move into per-technology satellite packages so the core stays dependency-light. WebReaper.Cosmos: WriteToCosmosDb and CosmosSink out of core (core no longer references Microsoft.Azure.Cosmos). WebReaper.Mongo: WriteToMongoDb / WithMongoDbConfigStorage / WithMongoDbCookieStorage and the MongoDbSink / MongoDbScraperConfigStorage / MongoDbCookieStorage / MongoBlobStore adapters out of core (core no longer references MongoDB.Driver, shedding its transitive SharpCompress GHSA-6c8g-7p36-r338). All moved types are repackaged under namespace WebReaper.Cosmos / WebReaper.Mongo. Clean cut, no compat forwarders. Add the satellite package and a using to migrate. Rationale and migration: docs/adr/0009 and CHANGELOG.md.</PackageReleaseNotes>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <DocumentationFile>$(MSBuildProjectDirectory)\API.xml</DocumentationFile>
     <LangVersion>12</LangVersion>
@@ -28,10 +28,11 @@
          follow-ups (JsonSchemaBackend's Newtonsoft JSONPath cursor, the
          CookieStore payload shell, the [Obsolete] JObject shim) still reach
          Newtonsoft and emit IL warnings by design until migrated. ADR 0009
-         moved CosmosSink out to the WebReaper.Cosmos satellite, so the
-         Cosmos -> Newtonsoft + native ServiceInterop graph is off the core.
-         The Newtonsoft-free path is proven zero-warning by
-         WebReaper.AotSmokeTest. -->
+         moved CosmosSink out to WebReaper.Cosmos (Cosmos -> Newtonsoft +
+         native ServiceInterop graph off the core) and the Mongo adapters out
+         to WebReaper.Mongo (MongoDB.Driver + its transitive SharpCompress
+         graph off the core). The Newtonsoft-free path is proven zero-warning
+         by WebReaper.AotSmokeTest. -->
     <IsAotCompatible>true</IsAotCompatible>
   </PropertyGroup>
 
@@ -55,7 +56,6 @@
     <PackageReference Include="AngleSharp" Version="1.4.0" />
     <PackageReference Include="AngleSharp.XPath" Version="2.0.6" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.8" />
-    <PackageReference Include="MongoDB.Driver" Version="3.8.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="Polly" Version="8.6.6" />
     <PackageReference Include="PuppeteerExtraSharp" Version="3.1.1" />
@@ -63,19 +63,6 @@
     <PackageReference Include="StackExchange.Redis" Version="2.13.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.8" />
     <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.20.1" />
-  </ItemGroup>
-
-  <!--
-    GHSA-6c8g-7p36-r338: zip-slip in SharpCompress WriteToDirectory (archive
-    extraction). Suppressed as not applicable: no patched version exists (all
-    releases <= 0.47.4 are affected); WebReaper has zero direct SharpCompress
-    usage; it is pulled only transitively by MongoDB.Driver for wire-protocol
-    stream compression (Zstd/zlib), which never calls the vulnerable
-    archive-extraction API. Revisit if SharpCompress ships a fix or
-    MongoDB.Driver drops the dependency.
-  -->
-  <ItemGroup>
-    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-6c8g-7p36-r338" />
   </ItemGroup>
 
   <ItemGroup>
