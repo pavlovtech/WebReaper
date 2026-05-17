@@ -157,17 +157,6 @@ public class SpiderBuilder
         return AddSink(new JsonLinesFileSink(filePath, dataCleanupOnStart));
     }
 
-    public SpiderBuilder WriteToCosmosDb(
-        string endpointUrl,
-        string authorizationKey,
-        string databaseId,
-        string containerId,
-        bool dataCleanupOnStart)
-    {
-        return AddSink(new CosmosSink(endpointUrl, authorizationKey, databaseId, containerId, dataCleanupOnStart,
-            Logger)); // possible NullLogger here
-    }
-
     public SpiderBuilder WriteToRedis(string connectionString, string redisKey, bool dataCleanupOnStart)
     {
         return AddSink(new RedisSink(connectionString, redisKey, dataCleanupOnStart,

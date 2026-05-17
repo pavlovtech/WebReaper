@@ -1,5 +1,45 @@
 # Changelog
 
+## 7.0.0 — Satellite adapter packages; dependency-light core (breaking)
+
+Heavy third-party adapters move out of the core `WebReaper` package into
+per-technology satellite packages, wired through the builder's public
+registration seam. Rationale, design, and the deliberate clean-cut (no compat
+shell): [`docs/adr/0009-registration-seam-and-satellite-adapters.md`](docs/adr/0009-registration-seam-and-satellite-adapters.md).
+
+This release lands the **Cosmos** satellite (the tracer slice). The remaining
+satellites (`WebReaper.Mongo`, `WebReaper.Redis`, `WebReaper.AzureServiceBus`,
+`WebReaper.Puppeteer`) land in the same 7.0.0 line.
+
+### Breaking changes
+
+- **`WriteToCosmosDb` moved to the `WebReaper.Cosmos` package.** It is now an
+  extension method over `ScraperEngineBuilder`'s public `AddSink` registration
+  seam, not a core builder method. `SpiderBuilder.WriteToCosmosDb` is removed.
+- **`CosmosSink` moved**: `WebReaper.Sinks.Concrete` → namespace and package
+  `WebReaper.Cosmos`.
+- **Core no longer references `Microsoft.Azure.Cosmos`.** A core-only consumer
+  no longer pulls Cosmos (or its Newtonsoft + native ServiceInterop graph).
+- **No compat forwarders.** A forwarder would still reference the package and
+  defeat the dependency-light core (ADR-0009 SemVer).
+- `WriteToCosmosDb` no longer auto-uses the builder's logger; it takes an
+  optional `ILogger` argument (defaults to `NullLogger`).
+
+### Why
+
+- Dependency-light core: a plain HTTP→file crawl stops transitively pulling
+  Cosmos + Newtonsoft + native interop (and, as later satellites land, the
+  Mongo SharpCompress CVE, Redis, Azure Service Bus, Chromium).
+- The builder deepens into a small public registration seam; per-adapter
+  `WriteToX` sugar ships with its adapter. See ADR-0009.
+
+### Migration
+
+- Add the package: `dotnet add package WebReaper.Cosmos`.
+- Add `using WebReaper.Cosmos;` wherever you call `.WriteToCosmosDb(...)` or
+  reference the `CosmosSink` type. `WriteToCosmosDb`'s existing arguments are
+  unchanged (an optional `ILogger` is appended).
+
 ## 6.0.0 — System.Text.Json typed pipeline (breaking, AOT-clean)
 
 The extraction and persistence pipeline moved off `Newtonsoft.Json` +
