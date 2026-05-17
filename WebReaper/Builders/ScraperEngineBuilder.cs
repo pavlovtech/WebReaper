@@ -165,17 +165,6 @@ public class ScraperEngineBuilder
         return this;
     }
 
-    public ScraperEngineBuilder WriteToMongoDb(
-        string connectionString,
-        string databaseName,
-        string collectionName,
-        bool dataCleanupOnStart)
-    {
-        SpiderBuilder.AddSink(new MongoDbSink(connectionString, databaseName, collectionName, dataCleanupOnStart,
-            Logger));
-        return this;
-    }
-
     public ScraperEngineBuilder WriteToCsvFile(string filePath, bool dataCleanupOnStart)
     {
         SpiderBuilder.WriteToCsvFile(filePath, dataCleanupOnStart);
@@ -312,13 +301,6 @@ public class ScraperEngineBuilder
         return this;
     }
 
-    public ScraperEngineBuilder WithMongoDbCookieStorage(string connectionString, string databaseName,
-        string collectionName, string cookieCollectionId, ILogger logger)
-    {
-        SpiderBuilder.WithMongoDbCookieStorage(connectionString, databaseName, collectionName, cookieCollectionId,
-            logger);
-        return this;
-    }
     public ScraperEngineBuilder WithFileCookieStorage(string fileName)
     {
         SpiderBuilder.WithFileCookieStorage(fileName);
@@ -343,19 +325,6 @@ public class ScraperEngineBuilder
     {
         ConfigStorage = new RedisScraperConfigStorage(connectionString, redisKey, Logger);
         SpiderBuilder.WithRedisConfigStorage(connectionString, redisKey);
-
-        return this;
-    }
-
-    public ScraperEngineBuilder WithMongoDbConfigStorage(
-        string connectionString,
-        string databaseName,
-        string collectionName,
-        string configId)
-    {
-        ConfigStorage =
-            new MongoDbScraperConfigStorage(connectionString, databaseName, collectionName, configId, Logger);
-        SpiderBuilder.WithMongoDbConfigStorage(connectionString, databaseName, collectionName, configId, Logger);
 
         return this;
     }
