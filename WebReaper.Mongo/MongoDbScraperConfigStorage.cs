@@ -6,8 +6,8 @@ namespace WebReaper.Mongo;
 /// <summary>
 /// MongoDB scraper-config storage: the config <see cref="ScraperConfigStore"/>
 /// payload shell (ADR 0003) backed by a <see cref="MongoBlobStore"/>, shipped
-/// in the WebReaper.Mongo satellite (ADR 0009). The <paramref name="configId"/>
-/// is the blob key (document <c>_id</c>). The <paramref name="logger"/>
+/// in the WebReaper.Mongo satellite (ADR 0009). The <c>configId</c>
+/// is the blob key (document <c>_id</c>). The <c>logger</c>
 /// parameter is vestigial — the payload shell needs none — kept so the
 /// constructor matches what <c>WithMongoDbConfigStorage</c> passes.
 /// </summary>

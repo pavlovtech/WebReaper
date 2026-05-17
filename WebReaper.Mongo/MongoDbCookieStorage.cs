@@ -6,8 +6,8 @@ namespace WebReaper.Mongo;
 /// <summary>
 /// MongoDB cookie storage: the <see cref="CookieStore"/> payload shell (ADR
 /// 0003) backed by a <see cref="MongoBlobStore"/>, shipped in the
-/// WebReaper.Mongo satellite (ADR 0009). The <paramref name="cookieCollectionId"/>
-/// is the blob key (document <c>_id</c>). The <paramref name="logger"/>
+/// WebReaper.Mongo satellite (ADR 0009). The <c>cookieCollectionId</c>
+/// is the blob key (document <c>_id</c>). The <c>logger</c>
 /// parameter is vestigial — the payload shell needs none — kept so the
 /// constructor matches what <c>WithMongoDbCookieStorage</c> passes. The
 /// previous adapter's read called <c>.ToJson()</c> on the <c>FindAsync</c>

@@ -180,6 +180,15 @@ now ships a focused README, the shared WebReaper icon, and release notes in its
 `.nupkg`, so its nuget.org page renders like the core package's instead of
 blank.
 
+No code or API change, IntelliSense only: the core package now ships its XML
+documentation as `lib/<tfm>/WebReaper.xml` (it previously shipped an `API.xml`
+the IDE never resolved next to `WebReaper.dll`, so consumers got no doc
+tooltips); the `DocumentationFile` redirect that also wrote a build artifact
+into the tracked tree is gone. Each satellite now generates and ships its own
+XML doc too, with the builder-extension API (`WriteToCosmosDb`,
+`WithRedisScheduler`, …) documented; the moved adapter classes remain
+undocumented by design (CS1591 suppressed in the satellites only).
+
 ## 6.0.0 — System.Text.Json typed pipeline (breaking, AOT-clean)
 
 The extraction and persistence pipeline moved off `Newtonsoft.Json` +

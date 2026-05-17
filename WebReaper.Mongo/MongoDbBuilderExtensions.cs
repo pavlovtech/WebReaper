@@ -15,6 +15,18 @@ namespace WebReaper.Mongo;
 /// </summary>
 public static class MongoDbBuilderExtensions
 {
+    /// <summary>
+    /// Registers a MongoDB sink: each parsed item is written as a document to
+    /// the given collection, over <see cref="ScraperEngineBuilder"/>'s public
+    /// <c>AddSink</c> seam.
+    /// </summary>
+    /// <param name="builder">The scraper engine builder to add the sink to.</param>
+    /// <param name="connectionString">MongoDB connection string.</param>
+    /// <param name="databaseName">Target database name.</param>
+    /// <param name="collectionName">Target collection name.</param>
+    /// <param name="dataCleanupOnStart">When <see langword="true"/>, existing data is cleared when the scrape starts.</param>
+    /// <param name="logger">Optional logger; defaults to <see cref="NullLogger"/> (a satellite extension cannot reach the builder's private logger).</param>
+    /// <returns>The same <see cref="ScraperEngineBuilder"/>, for chaining.</returns>
     public static ScraperEngineBuilder WriteToMongoDb(
         this ScraperEngineBuilder builder,
         string connectionString,
@@ -31,6 +43,18 @@ public static class MongoDbBuilderExtensions
             logger ?? NullLogger.Instance));
     }
 
+    /// <summary>
+    /// Stores the immutable scraper config in MongoDB, over
+    /// <see cref="ScraperEngineBuilder"/>'s public <c>WithConfigStorage</c>
+    /// seam — so multiple workers can share crawl configuration.
+    /// </summary>
+    /// <param name="builder">The scraper engine builder.</param>
+    /// <param name="connectionString">MongoDB connection string.</param>
+    /// <param name="databaseName">Database holding the config document.</param>
+    /// <param name="collectionName">Collection holding the config document.</param>
+    /// <param name="configId">Id of the config document to read/write.</param>
+    /// <param name="logger">Optional logger; defaults to <see cref="NullLogger"/>.</param>
+    /// <returns>The same <see cref="ScraperEngineBuilder"/>, for chaining.</returns>
     public static ScraperEngineBuilder WithMongoDbConfigStorage(
         this ScraperEngineBuilder builder,
         string connectionString,
@@ -47,6 +71,18 @@ public static class MongoDbBuilderExtensions
             logger ?? NullLogger.Instance));
     }
 
+    /// <summary>
+    /// Stores session cookies in MongoDB, over
+    /// <see cref="ScraperEngineBuilder"/>'s public <c>WithCookieStorage</c>
+    /// seam — so multiple workers can share an authenticated session.
+    /// </summary>
+    /// <param name="builder">The scraper engine builder.</param>
+    /// <param name="connectionString">MongoDB connection string.</param>
+    /// <param name="databaseName">Database holding the cookie document.</param>
+    /// <param name="collectionName">Collection holding the cookie document.</param>
+    /// <param name="cookieCollectionId">Id of the cookie document to read/write.</param>
+    /// <param name="logger">Optional logger; defaults to <see cref="NullLogger"/>.</param>
+    /// <returns>The same <see cref="ScraperEngineBuilder"/>, for chaining.</returns>
     public static ScraperEngineBuilder WithMongoDbCookieStorage(
         this ScraperEngineBuilder builder,
         string connectionString,
