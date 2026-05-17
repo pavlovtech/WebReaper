@@ -111,12 +111,6 @@ public class SpiderBuilder
         return this;
     }
 
-    public SpiderBuilder WithRedisConfigStorage(string connectionString, string key)
-    {
-        ScraperConfigStorage = new RedisScraperConfigStorage(connectionString, key, Logger);
-        return this;
-    }
-
     public SpiderBuilder SetCookies(Action<CookieContainer> setCookies)
     {
         setCookies(Cookies);
@@ -143,12 +137,6 @@ public class SpiderBuilder
     public SpiderBuilder WriteToJsonFile(string filePath, bool dataCleanupOnStart)
     {
         return AddSink(new JsonLinesFileSink(filePath, dataCleanupOnStart));
-    }
-
-    public SpiderBuilder WriteToRedis(string connectionString, string redisKey, bool dataCleanupOnStart)
-    {
-        return AddSink(new RedisSink(connectionString, redisKey, dataCleanupOnStart,
-            Logger)); // possible NullLogger here
     }
 
     /// <summary>
@@ -188,12 +176,6 @@ public class SpiderBuilder
     public SpiderBuilder WriteToCsvFile(string filePath, bool dataCleanupOnStart)
     {
         return AddSink(new CsvFileSink(filePath, dataCleanupOnStart));
-    }
-
-    public SpiderBuilder WithRedisCookieStorage(string connectionString, string redisKey)
-    {
-        CookieStorage = new RedisCookieStorage(connectionString, redisKey, Logger);
-        return this;
     }
 
     public SpiderBuilder WithFileCookieStorage(string fileName)

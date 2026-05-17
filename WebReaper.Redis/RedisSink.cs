@@ -1,10 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
-using WebReaper.DataAccess;
 using WebReaper.Sinks.Abstract;
 using WebReaper.Sinks.Models;
 
-namespace WebReaper.Sinks.Concrete;
+namespace WebReaper.Redis;
 
 public class RedisSink : IScraperSink
 {

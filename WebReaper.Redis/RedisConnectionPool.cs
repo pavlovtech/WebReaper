@@ -1,7 +1,7 @@
 using System.Collections.Concurrent;
 using StackExchange.Redis;
 
-namespace WebReaper.DataAccess;
+namespace WebReaper.Redis;
 
 /// <summary>
 /// The one home for WebReaper's StackExchange.Redis connection mechanism:

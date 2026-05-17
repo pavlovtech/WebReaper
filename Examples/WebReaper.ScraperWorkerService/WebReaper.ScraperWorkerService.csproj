@@ -25,5 +25,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\WebReaper\WebReaper.csproj" />
+    <ProjectReference Include="..\..\WebReaper.Redis\WebReaper.Redis.csproj" />
   </ItemGroup>
 </Project>

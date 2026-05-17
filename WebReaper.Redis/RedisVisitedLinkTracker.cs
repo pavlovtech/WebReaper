@@ -1,8 +1,7 @@
 ﻿using StackExchange.Redis;
 using WebReaper.Core.LinkTracker.Abstract;
-using WebReaper.DataAccess;
 
-namespace WebReaper.Core.LinkTracker.Concrete;
+namespace WebReaper.Redis;
 
 public class RedisVisitedLinkTracker : IVisitedLinkTracker
 {

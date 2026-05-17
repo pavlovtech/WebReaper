@@ -7,9 +7,9 @@ per-technology satellite packages, wired through the builder's public
 registration seam. Rationale, design, and the deliberate clean-cut (no compat
 shell): [`docs/adr/0009-registration-seam-and-satellite-adapters.md`](docs/adr/0009-registration-seam-and-satellite-adapters.md).
 
-This release lands the **Cosmos** and **Mongo** satellites. The remaining
-satellites (`WebReaper.Redis`, `WebReaper.AzureServiceBus`,
-`WebReaper.Puppeteer`) land in the same 7.0.0 line.
+This release lands the **Cosmos**, **Mongo** and **Redis** satellites. The
+remaining satellites (`WebReaper.AzureServiceBus`, `WebReaper.Puppeteer`) land
+in the same 7.0.0 line.
 
 ### Breaking changes
 
@@ -39,13 +39,34 @@ satellites (`WebReaper.Redis`, `WebReaper.AzureServiceBus`,
   audit-suppression moves out of core with it (now in `WebReaper.Mongo`).
 - The three Mongo builder extensions no longer auto-use the builder's logger;
   each takes an optional `ILogger` argument (defaults to `NullLogger`).
+- **`WithRedisScheduler`, `TrackVisitedLinksInRedis`, `WriteToRedis`,
+  `WithRedisConfigStorage`, `WithRedisCookieStorage` moved to the
+  `WebReaper.Redis` package.** They are now extension methods over
+  `ScraperEngineBuilder`'s public `WithScheduler` / `WithLinkTracker` /
+  `AddSink` / `WithConfigStorage` / `WithCookieStorage` registration seams.
+  `SpiderBuilder.WriteToRedis` / `WithRedisConfigStorage` /
+  `WithRedisCookieStorage` are removed.
+- **Redis adapter types moved** to namespace and package `WebReaper.Redis`:
+  `RedisScheduler` (was `WebReaper.Core.Scheduler.Concrete`),
+  `RedisVisitedLinkTracker` (was `WebReaper.Core.LinkTracker.Concrete`),
+  `RedisSink` (was `WebReaper.Sinks.Concrete`), `RedisScraperConfigStorage`
+  (was `WebReaper.ConfigStorage.Concrete`), `RedisCookieStorage` (was
+  `WebReaper.Core.CookieStorage.Concrete`), `RedisBlobStore` and
+  `RedisConnectionPool` (were `WebReaper.DataAccess`).
+- **Core no longer references `StackExchange.Redis`.** A core-only consumer
+  no longer pulls it. ADR-0005's one-`ConnectionMultiplexer`-per-connection-string
+  invariant is preserved: `RedisConnectionPool` moves whole and stays the
+  single resolver every Redis adapter in the package goes through.
+- The Redis builder extensions that took a logger no longer auto-use the
+  builder's; each takes an optional `ILogger` argument (defaults to
+  `NullLogger`).
 
 ### Why
 
 - Dependency-light core: a plain HTTP→file crawl stops transitively pulling
-  Cosmos + Newtonsoft + native interop and `MongoDB.Driver` + its transitive
-  SharpCompress CVE (and, as later satellites land, Redis, Azure Service Bus,
-  Chromium).
+  Cosmos + Newtonsoft + native interop, `MongoDB.Driver` + its transitive
+  SharpCompress CVE, and `StackExchange.Redis` (and, as later satellites land,
+  Azure Service Bus, Chromium).
 - The builder deepens into a small public registration seam; per-adapter
   `WriteToX` sugar ships with its adapter. See ADR-0009.
 
@@ -61,6 +82,14 @@ satellites (`WebReaper.Redis`, `WebReaper.AzureServiceBus`,
   reference the `MongoDbSink` / `MongoDbScraperConfigStorage` /
   `MongoDbCookieStorage` / `MongoBlobStore` types. Existing arguments are
   unchanged (an optional `ILogger` is appended).
+- Add the package: `dotnet add package WebReaper.Redis`.
+- Add `using WebReaper.Redis;` wherever you call `.WithRedisScheduler(...)`,
+  `.TrackVisitedLinksInRedis(...)`, `.WriteToRedis(...)`,
+  `.WithRedisConfigStorage(...)`, `.WithRedisCookieStorage(...)` or reference
+  the `RedisScheduler` / `RedisVisitedLinkTracker` / `RedisSink` /
+  `RedisScraperConfigStorage` / `RedisCookieStorage` / `RedisBlobStore` /
+  `RedisConnectionPool` types. Existing arguments are unchanged (an optional
+  `ILogger` is appended where one was passed).
 
 ## 6.0.0 — System.Text.Json typed pipeline (breaking, AOT-clean)
 

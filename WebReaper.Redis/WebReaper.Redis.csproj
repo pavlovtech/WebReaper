@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>12</LangVersion>
+
+    <PackageId>WebReaper.Redis</PackageId>
+    <Version>7.0.0</Version>
+    <Authors>Alex Pavlov</Authors>
+    <Company>Alex Pavlov</Company>
+    <Product>WebReaper</Product>
+    <Title>WebReaper.Redis</Title>
+    <Description>Redis adapters for WebReaper: the Redis scheduler, visited-link tracker, sink, and Redis-backed scraper-config and cookie storage, all sharing one connection pool (ADR-0005). Adds ScraperEngineBuilder.WithRedisScheduler / TrackVisitedLinksInRedis / WriteToRedis / WithRedisConfigStorage / WithRedisCookieStorage. Satellite package (ADR-0009) so the WebReaper core stays dependency-light and AOT-clean.</Description>
+    <Copyright>GPL-3.0 license</Copyright>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/pavlovtech/WebReaper</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/pavlovtech/WebReaper</RepositoryUrl>
+    <PackageTags>scraper, crawler, parser, redis, distributed</PackageTags>
+
+    <!-- ADR 0009: the Redis satellite is deliberately NOT IsAotCompatible.
+         Quarantining the Redis adapters here is exactly why the core stays
+         dependency-light — a core-only consumer no longer pulls
+         StackExchange.Redis. ADR 0005's "one ConnectionMultiplexer per
+         connection string" invariant is preserved: RedisConnectionPool moves
+         here whole and stays the single resolver every Redis adapter in this
+         package goes through. -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WebReaper\WebReaper.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StackExchange.Redis" Version="2.13.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.8" />
+  </ItemGroup>
+</Project>
