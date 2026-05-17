@@ -7,8 +7,8 @@ per-technology satellite packages, wired through the builder's public
 registration seam. Rationale, design, and the deliberate clean-cut (no compat
 shell): [`docs/adr/0009-registration-seam-and-satellite-adapters.md`](docs/adr/0009-registration-seam-and-satellite-adapters.md).
 
-This release lands the **Cosmos** satellite (the tracer slice). The remaining
-satellites (`WebReaper.Mongo`, `WebReaper.Redis`, `WebReaper.AzureServiceBus`,
+This release lands the **Cosmos** and **Mongo** satellites. The remaining
+satellites (`WebReaper.Redis`, `WebReaper.AzureServiceBus`,
 `WebReaper.Puppeteer`) land in the same 7.0.0 line.
 
 ### Breaking changes
@@ -24,12 +24,28 @@ satellites (`WebReaper.Mongo`, `WebReaper.Redis`, `WebReaper.AzureServiceBus`,
   defeat the dependency-light core (ADR-0009 SemVer).
 - `WriteToCosmosDb` no longer auto-uses the builder's logger; it takes an
   optional `ILogger` argument (defaults to `NullLogger`).
+- **`WriteToMongoDb`, `WithMongoDbConfigStorage`, `WithMongoDbCookieStorage`
+  moved to the `WebReaper.Mongo` package.** They are now extension methods
+  over `ScraperEngineBuilder`'s public `AddSink` / `WithConfigStorage` /
+  `WithCookieStorage` registration seams. `SpiderBuilder.WithMongoDbConfigStorage`
+  and `SpiderBuilder.WithMongoDbCookieStorage` are removed.
+- **Mongo adapter types moved** to namespace and package `WebReaper.Mongo`:
+  `MongoDbSink` (was `WebReaper.Sinks.Concrete`), `MongoDbScraperConfigStorage`
+  (was `WebReaper.ConfigStorage.Concrete`), `MongoDbCookieStorage` (was
+  `WebReaper.Core.CookieStorage.Concrete`), `MongoBlobStore` (was
+  `WebReaper.DataAccess`).
+- **Core no longer references `MongoDB.Driver`.** A core-only consumer no
+  longer pulls it — and the transitive `SharpCompress` `GHSA-6c8g-7p36-r338`
+  audit-suppression moves out of core with it (now in `WebReaper.Mongo`).
+- The three Mongo builder extensions no longer auto-use the builder's logger;
+  each takes an optional `ILogger` argument (defaults to `NullLogger`).
 
 ### Why
 
 - Dependency-light core: a plain HTTP→file crawl stops transitively pulling
-  Cosmos + Newtonsoft + native interop (and, as later satellites land, the
-  Mongo SharpCompress CVE, Redis, Azure Service Bus, Chromium).
+  Cosmos + Newtonsoft + native interop and `MongoDB.Driver` + its transitive
+  SharpCompress CVE (and, as later satellites land, Redis, Azure Service Bus,
+  Chromium).
 - The builder deepens into a small public registration seam; per-adapter
   `WriteToX` sugar ships with its adapter. See ADR-0009.
 
@@ -38,6 +54,12 @@ satellites (`WebReaper.Mongo`, `WebReaper.Redis`, `WebReaper.AzureServiceBus`,
 - Add the package: `dotnet add package WebReaper.Cosmos`.
 - Add `using WebReaper.Cosmos;` wherever you call `.WriteToCosmosDb(...)` or
   reference the `CosmosSink` type. `WriteToCosmosDb`'s existing arguments are
+  unchanged (an optional `ILogger` is appended).
+- Add the package: `dotnet add package WebReaper.Mongo`.
+- Add `using WebReaper.Mongo;` wherever you call `.WriteToMongoDb(...)`,
+  `.WithMongoDbConfigStorage(...)`, `.WithMongoDbCookieStorage(...)` or
+  reference the `MongoDbSink` / `MongoDbScraperConfigStorage` /
+  `MongoDbCookieStorage` / `MongoBlobStore` types. Existing arguments are
   unchanged (an optional `ILogger` is appended).
 
 ## 6.0.0 — System.Text.Json typed pipeline (breaking, AOT-clean)
