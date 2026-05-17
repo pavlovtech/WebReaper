@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using Newtonsoft.Json.Linq;
+using System.Text.Json.Nodes;
 using WebReaper.ConfigStorage.Abstract;
 using WebReaper.ConfigStorage.Concrete;
 using WebReaper.Core;
@@ -39,7 +39,7 @@ public class ScraperEngineBuilder
     private IScraperConfigStorage? ConfigStorage { get; set; } = new InMemoryScraperConfigStorage();
     protected IProxyProvider? ProxyProvider { get; set; }
 
-    public ScraperEngineBuilder WithContentParser(IContentParser contentParser)
+    public ScraperEngineBuilder WithContentParser(IJsonContentParser contentParser)
     {
         SpiderBuilder.WithContentParser(contentParser);
         return this;
@@ -372,7 +372,7 @@ public class ScraperEngineBuilder
         return this;
     }
 
-    public ScraperEngineBuilder PostProcess(Func<Metadata, JObject, Task> action)
+    public ScraperEngineBuilder PostProcess(Func<Metadata, JsonObject, Task> action)
     {
         SpiderBuilder.PostProcess(action);
         return this;

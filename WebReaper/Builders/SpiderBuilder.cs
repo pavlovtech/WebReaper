@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using Newtonsoft.Json.Linq;
+using System.Text.Json.Nodes;
 using WebReaper.ConfigStorage.Abstract;
 using WebReaper.ConfigStorage.Concrete;
 using WebReaper.Core.CookieStorage.Abstract;
@@ -27,7 +27,7 @@ namespace WebReaper.Builders;
 
 public class SpiderBuilder
 {
-    private Func<Metadata, JObject, Task> PostProcessor { get; set; }
+    private Func<Metadata, JsonObject, Task> PostProcessor { get; set; }
 
     private List<IScraperSink> Sinks { get; } = new();
 
@@ -39,7 +39,7 @@ public class SpiderBuilder
 
     private IVisitedLinkTracker SiteLinkTracker { get; set; } = new InMemoryVisitedLinkTracker();
 
-    private IContentParser? ContentParser { get; set; }
+    private IJsonContentParser? ContentParser { get; set; }
 
     private IPageLoader? PageLoader { get; set; }
 
@@ -51,7 +51,7 @@ public class SpiderBuilder
 
     protected event Action<ParsedData> ScrapedData;
 
-    public SpiderBuilder WithContentParser(IContentParser contentParser)
+    public SpiderBuilder WithContentParser(IJsonContentParser contentParser)
     {
         ContentParser = contentParser;
         return this;
@@ -243,7 +243,7 @@ public class SpiderBuilder
         return this;
     }
 
-    public void PostProcess(Func<Metadata, JObject, Task> callback)
+    public void PostProcess(Func<Metadata, JsonObject, Task> callback)
     {
         PostProcessor = callback;
     }

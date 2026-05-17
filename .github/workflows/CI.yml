@@ -26,3 +26,13 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test WebReaper.Tests/WebReaper.UnitTests/WebReaper.UnitTests.csproj --no-build --verbosity normal
+    # ADR 0008 step 4: the AOT smoke test. Publishes the Newtonsoft-free
+    # production path with PublishAot; the project scopes the IL2026/IL3050
+    # family to build errors, so any trim/AOT regression fails CI here. Native
+    # AOT on Linux needs the clang toolchain + zlib headers.
+    - name: Install Native AOT prerequisites
+      run: sudo apt-get update && sudo apt-get install -y clang zlib1g-dev
+    - name: AOT smoke test (Newtonsoft-free path)
+      run: |
+        dotnet publish WebReaper.Tests/WebReaper.AotSmokeTest/WebReaper.AotSmokeTest.csproj -c Release -r linux-x64
+        ./WebReaper.Tests/WebReaper.AotSmokeTest/bin/Release/net10.0/linux-x64/publish/WebReaper.AotSmokeTest

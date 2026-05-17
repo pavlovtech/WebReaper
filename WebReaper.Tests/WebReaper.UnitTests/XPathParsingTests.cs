@@ -1,5 +1,5 @@
+using System.Text.Json.Nodes;
 using Microsoft.Extensions.Logging.Abstractions;
-using Newtonsoft.Json.Linq;
 using WebReaper.Core.Parser.Concrete;
 using WebReaper.Domain.Parsing;
 
@@ -25,10 +25,10 @@ public class XPathParsingTests
             new SchemaElement("views", "//span[@class='views']", DataType.Integer)
         };
 
-        var result = await Parser().ParseAsync(html, schema);
+        var result = await Parser().ParseToJsonAsync(html, schema);
 
         Assert.Equal("Hello", result["title"]!.ToString());
-        Assert.Equal(42, result["views"]!.Value<int>());
+        Assert.Equal(42, result["views"]!.GetValue<int>());
     }
 
     [Fact]
@@ -50,9 +50,9 @@ public class XPathParsingTests
             }
         };
 
-        var result = await Parser().ParseAsync(html, schema);
+        var result = await Parser().ParseToJsonAsync(html, schema);
 
-        var posts = Assert.IsType<JArray>(result["posts"]);
+        var posts = Assert.IsType<JsonArray>(result["posts"]);
         Assert.Equal(2, posts.Count);
         Assert.Equal("A", posts[0]!["t"]!.ToString());
         Assert.Equal("B", posts[1]!["t"]!.ToString());
@@ -68,10 +68,10 @@ public class XPathParsingTests
             new SchemaElement("nums", "//li") { IsList = true, Type = DataType.Integer }
         };
 
-        var result = await Parser().ParseAsync(html, schema);
+        var result = await Parser().ParseToJsonAsync(html, schema);
 
-        var nums = Assert.IsType<JArray>(result["nums"]);
-        Assert.Equal(new[] { 1, 2, 3 }, nums.Select(n => n.Value<int>()));
+        var nums = Assert.IsType<JsonArray>(result["nums"]);
+        Assert.Equal(new[] { 1, 2, 3 }, nums.Select(n => n!.GetValue<int>()));
     }
 
     [Fact]
@@ -87,7 +87,7 @@ public class XPathParsingTests
             new SchemaElement("src", "//a[@id='lnk']", "src")
         };
 
-        var result = await Parser().ParseAsync(html, schema);
+        var result = await Parser().ParseToJsonAsync(html, schema);
 
         Assert.Equal("/x", result["href"]!.ToString());
         Assert.Equal("/y", result["src"]!.ToString());

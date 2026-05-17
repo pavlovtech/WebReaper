@@ -15,11 +15,21 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>scraper, crawler, parser</PackageTags>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
-    <Version>5.1.0</Version>
+    <Version>6.0.0</Version>
+    <PackageReleaseNotes>6.0.0 (breaking, major): the extraction/persistence pipeline moved to System.Text.Json. ParsedData.Data, IFileSinkFormat, and PostProcess now use System.Text.Json.Nodes.JsonObject (was Newtonsoft JObject); the Newtonsoft JObject IContentParser was removed — use IJsonContentParser.ParseToJsonAsync. Config/Job/cookie persistence is source-gen STJ (no TypeNameHandling); the persisted/wire format changed — clear distributed queues and stored config on upgrade. Rationale and migration: docs/adr/0008 and CHANGELOG.md.</PackageReleaseNotes>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <DocumentationFile>$(MSBuildProjectDirectory)\API.xml</DocumentationFile>
     <LangVersion>12</LangVersion>
     <Title>WebReaper</Title>
+
+    <!-- ADR 0008: the library declares AOT-compatibility so consumers can
+         PublishAot it and so the trim/AOT analyzers run on every core build
+         and catch regressions. NOT a zero-warning guarantee yet: the named
+         follow-ups (JsonSchemaBackend's Newtonsoft JSONPath cursor, CosmosSink,
+         the CookieStore payload shell, the [Obsolete] JObject shim) still
+         reach Newtonsoft and emit IL warnings by design until migrated. The
+         Newtonsoft-free path is proven zero-warning by WebReaper.AotSmokeTest. -->
+    <IsAotCompatible>true</IsAotCompatible>
   </PropertyGroup>
 
   <ItemGroup>

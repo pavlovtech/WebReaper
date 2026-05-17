@@ -1,7 +1,7 @@
 using System.Net;
-using Newtonsoft.Json;
 using WebReaper.Core.CookieStorage.Abstract;
 using WebReaper.DataAccess;
+using WebReaper.Serialization;
 
 namespace WebReaper.Core.CookieStorage.Concrete;
 
@@ -9,10 +9,12 @@ namespace WebReaper.Core.CookieStorage.Concrete;
 /// The cookie <strong>payload shell</strong> (ADR 0003). The one home for the
 /// <see cref="CookieContainer"/> ↔ <see cref="CookieCollection"/> quirk:
 /// <see cref="CookieContainer"/> does not JSON round-trip (internal hash
-/// tables), so the shell persists the flat <see cref="CookieCollection"/> and
-/// rebuilds the container on read. This quirk is quarantined here and is
-/// unreachable from the <see cref="IKeyedBlobStore"/> and any future backend.
-/// Absent ⇒ an empty container (what a fresh crawl wants).
+/// tables), so the shell persists the flat cookie list and rebuilds the
+/// container on read. ADR 0008: the grammar is the AOT-clean
+/// <see cref="WebReaperJson"/> source-gen one over a flat
+/// <see cref="CookieDto"/> — no Newtonsoft. The quirk stays quarantined here
+/// and is unreachable from the <see cref="IKeyedBlobStore"/> and any future
+/// backend. Absent ⇒ an empty container (what a fresh crawl wants).
 /// </summary>
 public class CookieStore : ICookiesStorage
 {
@@ -26,7 +28,13 @@ public class CookieStore : ICookiesStorage
     }
 
     public Task AddAsync(CookieContainer cookieContainer)
-        => _store.PutAsync(_key, JsonConvert.SerializeObject(cookieContainer.GetAllCookies()));
+    {
+        var dtos = cookieContainer.GetAllCookies()
+            .Select(c => new CookieDto(c.Name, c.Value, c.Domain, c.Path))
+            .ToArray();
+
+        return _store.PutAsync(_key, WebReaperJson.SerializeCookies(dtos));
+    }
 
     public async Task<CookieContainer> GetAsync()
     {
@@ -36,10 +44,8 @@ public class CookieStore : ICookiesStorage
         if (blob is null)
             return container;
 
-        var cookies = JsonConvert.DeserializeObject<CookieCollection>(blob);
-
-        if (cookies != null)
-            container.Add(cookies);
+        foreach (var d in WebReaperJson.DeserializeCookies(blob))
+            container.Add(new Cookie(d.Name, d.Value, d.Path, d.Domain));
 
         return container;
     }

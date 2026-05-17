@@ -1,4 +1,4 @@
-using Newtonsoft.Json.Linq;
+using System.Text.Json.Nodes;
 using WebReaper.Sinks.Concrete;
 using WebReaper.Sinks.Models;
 
@@ -30,7 +30,7 @@ public class FileSinkTests
     }
 
     private static ParsedData Row(string url, string name) =>
-        new(url, new JObject { ["name"] = name });
+        new(url, new JsonObject { ["name"] = name });
 
     private static async Task<string[]> WaitForLinesAsync(string path, int count)
     {
@@ -52,7 +52,7 @@ public class FileSinkTests
     public void JsonLinesFormat_has_no_header_and_renders_one_compact_object()
     {
         var format = new JsonLinesFormat();
-        var row = new JObject { ["name"] = "a", ["url"] = "http://x/1" };
+        var row = new JsonObject { ["name"] = "a", ["url"] = "http://x/1" };
 
         Assert.Null(format.Header(row));
         Assert.Equal("{\"name\":\"a\",\"url\":\"http://x/1\"}", format.FormatRow(row));
@@ -62,7 +62,7 @@ public class FileSinkTests
     public void CsvFormat_header_is_the_first_rows_leaf_names_and_rows_are_quoted()
     {
         var format = new CsvFormat();
-        var row = new JObject { ["name"] = "a", ["url"] = "http://x/1" };
+        var row = new JsonObject { ["name"] = "a", ["url"] = "http://x/1" };
 
         Assert.Equal("name,url", format.Header(row));
         Assert.Equal("\"a\",\"http://x/1\"", format.FormatRow(row));

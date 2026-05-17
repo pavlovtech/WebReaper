@@ -12,15 +12,17 @@ namespace WebReaper.Core.Crawling.Concrete;
 /// The crawl-step decision extracted from the old Spider.CrawlAsync. Holds the
 /// page-category dispatch, the selector-chain advance/retain rule, link
 /// extraction, content parsing, and child-Job provenance threading behind one
-/// pure method. <see cref="ILinkParser"/> / <see cref="IContentParser"/> are
-/// internal seams — injected, never surfaced on <see cref="ICrawlStep"/>.
+/// pure method. <see cref="ILinkParser"/> / <see cref="IJsonContentParser"/>
+/// are internal seams — injected, never surfaced on <see cref="ICrawlStep"/>.
+/// ADR 0008: the content seam is the typed <see cref="IJsonContentParser"/>
+/// (JsonObject), not the legacy <see cref="IContentParser"/> (JObject).
 /// </summary>
 public sealed class CrawlStep : ICrawlStep
 {
     private readonly ILinkParser _linkParser;
-    private readonly IContentParser _contentParser;
+    private readonly IJsonContentParser _contentParser;
 
-    public CrawlStep(ILinkParser linkParser, IContentParser contentParser)
+    public CrawlStep(ILinkParser linkParser, IJsonContentParser contentParser)
     {
         _linkParser = linkParser;
         _contentParser = contentParser;
@@ -33,7 +35,7 @@ public sealed class CrawlStep : ICrawlStep
         // Empty selector chain ⇒ target page: parse with the Schema, no Jobs.
         if (chain.IsEmpty)
         {
-            var data = await _contentParser.ParseAsync(document, schema);
+            var data = await _contentParser.ParseToJsonAsync(document, schema);
             return CrawlOutcome.Target(new ParsedData(job.Url, data));
         }
 

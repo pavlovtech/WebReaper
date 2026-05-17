@@ -1,5 +1,5 @@
+using System.Text.Json.Nodes;
 using Microsoft.Extensions.Logging.Abstractions;
-using Newtonsoft.Json.Linq;
 using WebReaper.Core.Parser.Concrete;
 using WebReaper.Domain.Parsing;
 
@@ -39,14 +39,14 @@ namespace WebReaper.UnitTests
                 }
             };
 
-            var result = await Parser().ParseAsync(ListingsHtml, schema);
+            var result = await Parser().ParseToJsonAsync(ListingsHtml, schema);
 
-            var listings = Assert.IsType<JArray>(result["listings"]);
+            var listings = Assert.IsType<JsonArray>(result["listings"]);
             Assert.Equal(3, listings.Count);
             Assert.Equal("Alpha", listings[0]!["name"]!.ToString());
-            Assert.Equal(10, listings[0]!["price"]!.Value<int>());
+            Assert.Equal(10, listings[0]!["price"]!.GetValue<int>());
             Assert.Equal("Gamma", listings[2]!["name"]!.ToString());
-            Assert.Equal(30, listings[2]!["price"]!.Value<int>());
+            Assert.Equal(30, listings[2]!["price"]!.GetValue<int>());
         }
 
         [Fact]
@@ -57,10 +57,10 @@ namespace WebReaper.UnitTests
                 new SchemaElement("names", ".name") { IsList = true }
             };
 
-            var result = await Parser().ParseAsync(ListingsHtml, schema);
+            var result = await Parser().ParseToJsonAsync(ListingsHtml, schema);
 
-            var names = Assert.IsType<JArray>(result["names"]);
-            Assert.Equal(new[] { "Alpha", "Beta", "Gamma" }, names.Select(n => n.ToString()));
+            var names = Assert.IsType<JsonArray>(result["names"]);
+            Assert.Equal(new[] { "Alpha", "Beta", "Gamma" }, names.Select(n => n!.ToString()));
         }
 
         [Fact]
@@ -72,7 +72,7 @@ namespace WebReaper.UnitTests
                 new SchemaElement("name", ".name")
             };
 
-            var result = await Parser().ParseAsync(ListingsHtml, schema);
+            var result = await Parser().ParseToJsonAsync(ListingsHtml, schema);
 
             Assert.Equal("Alpha", result["name"]!.ToString());
         }
@@ -87,7 +87,7 @@ namespace WebReaper.UnitTests
 
             // Thrown inside FillOutput's try for leaf elements -> logged,
             // field left unset rather than crashing the whole parse.
-            var result = await Parser().ParseAsync(ListingsHtml, schema);
+            var result = await Parser().ParseToJsonAsync(ListingsHtml, schema);
             Assert.Null(result["names"]);
         }
     }
