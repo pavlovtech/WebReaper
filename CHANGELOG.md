@@ -98,6 +98,16 @@ pulls none of them.
   the seam is a factory — reproduces the pre-7.0 behaviour exactly: the one
   shared cookie container (issue #26) and the optional proxy applied the
   browser's own way.
+- **`SpiderBuilder` is now `internal`; the bare-spider seam is
+  `ScraperEngineBuilder.BuildSpider()`.** The ADR-0009 capstone: the public
+  registration seam lives *only* on `ScraperEngineBuilder`, and
+  `SpiderBuilder`'s duplicate public surface is gone. The distributed-worker
+  pattern (crawl one queued `Job`, re-enqueue its children — see
+  `Examples/WebReaper.AzureFuncs`) gets a bare `ISpider` from the new public
+  `ScraperEngineBuilder.BuildSpider()` instead of `new SpiderBuilder()…Build()`.
+  Unlike `BuildAsync()`, `BuildSpider()` does not build or persist a
+  `ScraperConfig`, so it does not require `Get`/`Parse` — the worker's config
+  is persisted separately and read from storage at crawl time.
 
 ### Why
 
@@ -140,6 +150,11 @@ pulls none of them.
   `BrowserPageLoadTransport` type or `CookieContainer.ToPuppeteerCookies(...)`.
   `.WithPuppeteerPageLoader()` takes no arguments and reproduces the pre-7.0
   default behaviour. A core-only (HTTP) crawl needs no change.
+- If you constructed `new SpiderBuilder()…Build()` directly (the
+  distributed-worker pattern), switch to
+  `new ScraperEngineBuilder()…BuildSpider()` — the same `WithLogger` /
+  `WithLinkTracker` / `AddSink` / etc. configuration, returning the same
+  `ISpider`. Fluent `ScraperEngineBuilder` consumers need no change.
 
 ## 6.0.0 — System.Text.Json typed pipeline (breaking, AOT-clean)
 

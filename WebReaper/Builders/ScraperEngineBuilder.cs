@@ -12,6 +12,7 @@ using WebReaper.Core.Loaders.Abstract;
 using WebReaper.Core.Parser.Abstract;
 using WebReaper.Core.Scheduler.Abstract;
 using WebReaper.Core.Scheduler.Concrete;
+using WebReaper.Core.Spider.Abstract;
 using WebReaper.Domain;
 using WebReaper.Domain.PageActions;
 using WebReaper.Domain.Parsing;
@@ -310,6 +311,24 @@ public class ScraperEngineBuilder
     {
         _parallelismDegree = parallelismDegree;
         return this;
+    }
+
+    /// <summary>
+    /// Build just the configured <see cref="ISpider"/> — no scheduler, no
+    /// engine loop, and (unlike <see cref="BuildAsync"/>) no
+    /// <c>ConfigBuilder.Build()</c>/persist, so it does <em>not</em> require
+    /// <c>Get</c>/<c>Parse</c>. This is the seam for the distributed-worker
+    /// pattern (ADR-0009): pull one <c>Job</c> off your own queue, crawl it
+    /// with <c>spider.CrawlAsync(job)</c>, and re-enqueue the returned child
+    /// jobs yourself — see <c>Examples/WebReaper.AzureFuncs</c>. The spider
+    /// reads its <see cref="Domain.ScraperConfig"/> from the configured
+    /// config storage at crawl time, so persist it separately (e.g. a
+    /// distributed config storage written by a start-scraping endpoint).
+    /// </summary>
+    public ISpider BuildSpider()
+    {
+        SpiderBuilder.WithConfigStorage(ConfigStorage);
+        return SpiderBuilder.Build();
     }
 
     public async Task<ScraperEngine> BuildAsync()
