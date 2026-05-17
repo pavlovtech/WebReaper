@@ -5,7 +5,7 @@ using WebReaper.Domain;
 using WebReaper.Serialization;
 using Azure.Messaging.ServiceBus.Administration;
 
-namespace WebReaper.Core.Scheduler.Concrete;
+namespace WebReaper.AzureServiceBus;
 
 public class AzureServiceBusScheduler : IScheduler, IAsyncDisposable
 {

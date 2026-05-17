@@ -32,5 +32,6 @@
     <ProjectReference Include="..\..\WebReaper\WebReaper.csproj" />
     <ProjectReference Include="..\..\WebReaper.Cosmos\WebReaper.Cosmos.csproj" />
     <ProjectReference Include="..\..\WebReaper.Redis\WebReaper.Redis.csproj" />
+    <ProjectReference Include="..\..\WebReaper.AzureServiceBus\WebReaper.AzureServiceBus.csproj" />
   </ItemGroup>
 </Project>
