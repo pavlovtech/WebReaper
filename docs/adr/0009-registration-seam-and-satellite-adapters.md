@@ -132,7 +132,10 @@ guardrail that this stays consistent.
   transitive deps; a zero-warning core `PublishAot` remains **gated on ADR
   0008's named JSONPath-for-STJ migration**. Necessary surface reduction,
   not the AOT gate itself — the ADR 0008 "necessary but not sufficient"
-  posture, restated.
+  posture, restated. **(Update 2026-05-17: that gate is now closed — the
+  JSONPath cursor was migrated to an in-repo `JsonNode` evaluator and core is
+  fully Newtonsoft-free; see ADR-0008's "JSONPath follow-up closed" note. The
+  ADR-0009 work itself is unchanged by this.)**
 - **The seam interfaces.** `IScraperSink`, `IScheduler`,
   `IKeyedBlobStore`, `ICookiesStorage`, `IVisitedLinkTracker`,
   `ISchemaBackend<TNode>`, `IPageLoader`/`IPageLoadTransport` are unchanged.

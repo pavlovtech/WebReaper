@@ -1,6 +1,5 @@
 using System.Text.Json.Nodes;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
 using WebReaper.Core.Parser.Abstract;
 using WebReaper.Domain.Parsing;
 
@@ -16,18 +15,19 @@ namespace WebReaper.Core.Parser.Concrete;
 /// original <c>(ILogger)</c> constructor so <c>WithJsonContentParser</c>
 /// and existing callers are unaffected.
 /// <para>
-/// The <c>JToken</c> type argument is the JSON backend's Newtonsoft JSONPath
-/// scope cursor — System.Text.Json has no JSONPath — and is the named ADR-0008
-/// follow-up that gates a zero-warning whole-core <c>PublishAot</c>; it is not
-/// the removed JObject shim.
+/// ADR 0008 named follow-up, now closed: the scope cursor is a
+/// <see cref="JsonNode"/> queried by <see cref="JsonSchemaBackend"/>'s in-repo
+/// JSONPath-subset evaluator. Core no longer reaches Newtonsoft on the JSON
+/// path; the only remaining core Newtonsoft reach is the separate
+/// <c>CookieStore</c> payload-shell sibling.
 /// </para>
 /// </summary>
 public class JsonContentParser : IJsonContentParser
 {
-    private readonly SchemaContentParser<JToken> _inner;
+    private readonly SchemaContentParser<JsonNode> _inner;
 
     public JsonContentParser(ILogger logger)
-        => _inner = new SchemaContentParser<JToken>(new JsonSchemaBackend(), logger);
+        => _inner = new SchemaContentParser<JsonNode>(new JsonSchemaBackend(), logger);
 
     public Task<JsonObject> ParseToJsonAsync(string json, Schema? schema)
         => _inner.ParseToJsonAsync(json, schema);

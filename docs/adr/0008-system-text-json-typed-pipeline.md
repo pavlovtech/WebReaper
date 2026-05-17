@@ -346,3 +346,51 @@ and both it and `CrawlStep.cs` carried a dangling `<see cref="IContentParser"/>`
 `IContentParser`/`JObject` path was removed outright at 6.0.0, cref dropped.
 Comment-only — no behavioural/IL change. `SchemaContentParser.cs`'s doc was
 already accurate and was left untouched.
+
+## JSONPath follow-up closed (2026-05-17)
+
+The named follow-up this ADR repeatedly defers — *"the JSON backend's
+Newtonsoft `JToken` JSONPath cursor … the named follow-up that gates
+zero-warning core `PublishAot`"* (Discovered constraint; Bounded scope) — is
+**now implemented**, after the ADR-0009 satellite split (Cosmos/Mongo/Redis/
+Azure Service Bus/Puppeteer) and the `SpiderBuilder`-internal capstone landed.
+
+**What shipped.** `JsonSchemaBackend` no longer uses Newtonsoft. `RootAsync`
+is `JsonNode.Parse`; `SelectMany`/`SelectOne` are an in-repo JSONPath-subset
+evaluator over `System.Text.Json.Nodes.JsonNode`; `ExtractRaw` returns the
+matched node `DeepClone()`d (detached so the fold can graft it; the clone
+preserves JSON value kind — the ADR-0002 untyped-leaf divergence, now carried
+natively, the old `JTokenType`→`JsonNode` bridge deleted). The chosen option
+was the **in-repo evaluator, not a JSONPath dependency**: the only dialect the
+`Schema` model drives — an optional `$`/`$.` root, `.`-separated property
+segments, a trailing `[*]` array wildcard — is small and fully pinned by the
+JSON test corpus (`JsonParsingTests`/`SchemaFoldTests`/`TypedFoldTests`), and
+a new core dependency would have contradicted the ADR-0009 dependency-light
+result while an RFC-9535 library would have rejected WebReaper's relative
+(non-`$`) selectors anyway. Behaviour is preserved (the JSON suite is green
+unmodified, plus an added `$`-vs-relative / deep-path characterization test);
+the deliverable is proven by `WebReaper.AotSmokeTest`, **extended to drive the
+JSON backend** (it previously avoided it by design) — RED before
+(`IL2104`/`IL3053` Newtonsoft rollup), green after.
+
+**Bounded-scope prose was stale (docs-follow-code, as above).** This ADR's
+*Bounded scope* names `CookieStore` as a Newtonsoft sibling *"preserved
+verbatim here"*. Verified against shipped `master`: `CookieStore` already
+serialises via the `WebReaperJson` System.Text.Json source-gen over a flat
+`CookieDto` — *"no Newtonsoft"* per its own doc. It was migrated with the
+6.0.0 typed pipeline; the *Bounded scope* sentence lagged the code (same
+doc-lag class as the Post-release correction). Consequently, with the
+JSONPath cursor migrated, **core has zero Newtonsoft code reach**: the
+`Newtonsoft.Json` `PackageReference` is dropped from `WebReaper.csproj`, and
+the *whole* core (not the scoped Newtonsoft-free path this ADR could
+originally promise) publishes Native-AOT zero-warning. The "necessary but not
+sufficient" / "gated on a separate JSONPath migration" qualifications
+throughout this ADR are now **satisfied**. (`WebReaper.Cosmos`'s `CosmosSink`
+is still Newtonsoft-coupled via the Cosmos SDK — that is the satellite, off
+the core graph by ADR-0009, and deliberately not `IsAotCompatible`.)
+
+**Unaffected.** The Schema fold, the typed terminal, the STJ source-gen
+config/scheduler grammar, and every ADR-0002/0003/0005 structural result are
+unchanged; only the JSON backend's document-local cursor changed (ADR-0002:
+a backend's mechanics are backend-local), and a now-dead `PackageReference`
+was removed.

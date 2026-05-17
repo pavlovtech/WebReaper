@@ -9,4 +9,12 @@
   <ItemGroup>
     <ProjectReference Include="..\..\WebReaper\WebReaper.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <!-- WebShareProxyProvider parses the WebShare API with Newtonsoft. Core
+         is now Newtonsoft-free (ADR-0008 JSONPath cursor migrated to STJ), so
+         this consumer declares the dependency directly instead of free-riding
+         on core's former transitive reference. -->
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+  </ItemGroup>
 </Project>
