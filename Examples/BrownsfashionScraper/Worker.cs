@@ -2,6 +2,7 @@ using System.Net;
 using WebReaper.Builders;
 using WebReaper.Core;
 using WebReaper.Domain.Selectors;
+using WebReaper.Puppeteer;
 
 namespace BrownsfashionScraper
 {
@@ -19,6 +20,7 @@ namespace BrownsfashionScraper
         {
              _scraper = await new ScraperEngineBuilder()
                 .WithLogger(_logger)
+                .WithPuppeteerPageLoader()
                 .SetCookies(cookies =>
                 {
                     cookies.Add(new CookieCollection

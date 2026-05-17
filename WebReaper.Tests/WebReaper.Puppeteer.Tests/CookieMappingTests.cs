@@ -1,7 +1,8 @@
 using System.Net;
-using WebReaper.Extensions;
+using Xunit;
+using WebReaper.Puppeteer;
 
-namespace WebReaper.UnitTests
+namespace WebReaper.Puppeteer.Tests
 {
     public class CookieMappingTests
     {

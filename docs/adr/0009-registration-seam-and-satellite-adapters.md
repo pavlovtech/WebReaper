@@ -163,6 +163,25 @@ guardrail that this stays consistent.
   `.WithScheduler(myScheduler)`, `.WithLoadTransport(myTransport)`
   supported extensibility rather than an accident — latent capability made
   real.
+- **`WithLoadTransport` is a factory, refining the `(IPageLoadTransport)`
+  signature stated above.** Discovered implementing the Puppeteer slice: the
+  browser transport must be constructed with the *builder's* resolved cookie
+  storage, optional proxy provider and logger — the same collaborators the
+  HTTP transport gets, and the reason the browser transport was a
+  `SpiderBuilder.Build()` default (issue #26: one shared cookie container;
+  the proxy applied the browser's own way). A satellite extension over a
+  public seam cannot see those private collaborators, so the seam is
+  `WithLoadTransport(Func<ICookiesStorage, IProxyProvider?, ILogger, IPageLoadTransport>)`
+  — core invokes the factory at build time and injects the resolved
+  collaborators, so `.WithPuppeteerPageLoader()` is parameterless and
+  preserves the pre-7.0 behaviour exactly. A plain
+  `WithLoadTransport(IPageLoadTransport)` instance seam would have forced the
+  satellite to re-take cookie storage / proxy as parameters and silently
+  diverge from `.WithCookieStorage(...)`. Same intent ("a public registration
+  method is added"), deeper seam; ADR-0004's one-`IPageLoader` /
+  two-`IPageLoadTransport` dispatcher is unchanged. The default Dynamic slot
+  with no registration is a core `BrowserNotConfiguredPageLoadTransport` that
+  throws an actionable "add WebReaper.Puppeteer" message.
 - **The clean cut breaks existing consumer code at the call site.**
   `WriteToCosmosDb`/`WriteToRedis`/… stop resolving until the consumer adds
   the satellite package and `using`. Announced via this ADR and the
