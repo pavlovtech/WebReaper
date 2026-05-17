@@ -1,5 +1,15 @@
 # The serialization grammar is System.Text.Json source-gen; Newtonsoft `JObject` + `TypeNameHandling.Auto` are superseded
 
+> **Post-release correction (2026-05-17, after 6.0.0 shipped).** What 6.0.0
+> actually shipped diverges from the *Staging* / *SemVer* / *Considered options*
+> sections below: `IContentParser` and the `JObject` path were **removed
+> outright in the 6.0.0 major (big-bang)** — not retained as an `[Obsolete]`
+> compat shell for a later-major removal. The shipped artifact is authoritative;
+> the staged-migration prose below is **superseded** and reads as historical
+> intent only. Full reconciliation at the foot of this ADR ("Post-release
+> correction"). Shipped code is unchanged by this correction — documentation
+> only.
+
 The extraction and persistence pipeline ran on `Newtonsoft.Json` across **21
 core files**. Two distinct uses, one root cause:
 
@@ -288,3 +298,51 @@ break isolated behind a compat shell, not a silent regression.
   `[ScrapeSchema]` materialiser needs a `JsonSerializerContext` to extend.
   Choosing `JsonNode`-only now would force re-introducing the context later —
   indirection deferred, not avoided.
+
+## Post-release correction (2026-05-17)
+
+Recorded after 6.0.0 was published to NuGet (permanent, unlist-only) and PR #41
+merged to `master`. Found by a post-release verification pass.
+
+**Discrepancy.** Verified against the shipped source on `master`: there is no
+`IContentParser` type and no `[Obsolete]` `JObject` compat seam in 6.0.0; the
+Newtonsoft `JObject`-returning `ParseAsync` is gone (CHANGELOG: *"`IContentParser`
+removed … is gone"*; `SchemaContentParser`'s own doc comment concurs —
+*"`IContentParser` were removed at the 6.0.0 major"*). That is the **big-bang
+`JObject`→typed swap** this ADR's *Considered options* explicitly **rejected**,
+and it contradicts, in this same ADR: *Staging* step 1 (*"retain the
+`JObject`-returning `IContentParser` as the legacy seam"*) and step 4 (*"`[Obsolete]`
+on the `JObject` path"*); *SemVer* (*"the `JObject` path is `[Obsolete]`d with a
+deprecation window … removed in a later major"*); and the body's *"additive
+public surface, compat shell, staged … **never big-bang**"*.
+
+**Resolution — docs follow code, never the reverse.** The shipped 6.0.0 artifact
+is authoritative and is **not** changed by this correction; a clean break for a
+library with few external consumers is a defensible call, and reverting code to
+match stale prose would be the wrong direction. This ADR's *decision* is
+corrected to: **`IContentParser` and the `JObject` public surface were removed in
+the 6.0.0 major (big-bang); no compat shell and no deprecation window shipped.**
+The *Staging* and *SemVer* sections above are superseded accordingly and retained
+only as historical intent.
+
+**Unaffected.** The structural results this ADR preserves still hold — ADR-0002's
+one-fold, ADR-0003's keyed-blob-store/payload-shell, the closed ADR-0005
+`RedisScheduler` asymmetry, and the STJ source-gen mechanism are all unchanged.
+Only the *migration shape* (big-bang vs. staged compat shell) is corrected; the
+serialization-grammar decision itself stands.
+
+**Rationale for the deviation: to be confirmed by the maintainer.** Why the
+staged compat-shell plan was dropped for an immediate removal is not recorded in
+the work that produced 6.0.0; this note deliberately does not invent one.
+(Unconfirmed candidate: the dual `JObject`/typed public surface judged not worth
+its cost given the consumer base.)
+
+**Sibling documentation defects — fixed (2026-05-17, doc comments only).** Two
+XML-doc sites referenced the removed type: `IJsonContentParser.cs` falsely
+asserted the legacy interface *"is retained as a compat shell and `[Obsolete]`"*,
+and both it and `CrawlStep.cs` carried a dangling `<see cref="IContentParser"/>`
+(unresolvable since the type was removed; shipped in `API.xml` via
+`GenerateDocumentationFile=true`). Both corrected to state the legacy
+`IContentParser`/`JObject` path was removed outright at 6.0.0, cref dropped.
+Comment-only — no behavioural/IL change. `SchemaContentParser.cs`'s doc was
+already accurate and was left untouched.
