@@ -16,7 +16,7 @@
     <PackageTags>scraper, crawler, parser</PackageTags>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <Version>7.0.0</Version>
-    <PackageReleaseNotes>7.0.0 (breaking, major): heavy third-party adapters move into per-technology satellite packages so the core stays dependency-light. WebReaper.Cosmos: WriteToCosmosDb and CosmosSink out of core (core no longer references Microsoft.Azure.Cosmos). WebReaper.Mongo: WriteToMongoDb / WithMongoDbConfigStorage / WithMongoDbCookieStorage and the MongoDbSink / MongoDbScraperConfigStorage / MongoDbCookieStorage / MongoBlobStore adapters out of core (core no longer references MongoDB.Driver, shedding its transitive SharpCompress GHSA-6c8g-7p36-r338). WebReaper.Redis: WithRedisScheduler / TrackVisitedLinksInRedis / WriteToRedis / WithRedisConfigStorage / WithRedisCookieStorage and the RedisScheduler / RedisVisitedLinkTracker / RedisSink / RedisScraperConfigStorage / RedisCookieStorage / RedisBlobStore / RedisConnectionPool adapters out of core (core no longer references StackExchange.Redis; the ADR-0005 one-multiplexer-per-connection-string invariant is preserved intra-package). WebReaper.AzureServiceBus: WithAzureServiceBusScheduler and the AzureServiceBusScheduler adapter out of core (core no longer references Azure.Messaging.ServiceBus). WebReaper.Puppeteer: the headless-browser page loader (BrowserPageLoadTransport, CookieExtensions/ToPuppeteerCookies) out of core behind the new ScraperEngineBuilder.WithLoadTransport seam, exposed as .WithPuppeteerPageLoader(); the core default page loader is HTTP-only and core no longer references PuppeteerSharp/PuppeteerExtraSharp or the Chromium provisioning path, carrying the ADR-0008-named BrowserPageLoadTransport Assembly.Location IL3000 finding out of core with it. All moved types are repackaged under namespace WebReaper.Cosmos / WebReaper.Mongo / WebReaper.Redis / WebReaper.AzureServiceBus / WebReaper.Puppeteer. Clean cut, no compat forwarders. ADR-0009 capstone: SpiderBuilder is now internal (its duplicate public adapter surface removed); the bare ISpider for the distributed-worker pattern is the new public ScraperEngineBuilder.BuildSpider(). Add the satellite package and a using to migrate. Rationale and migration: docs/adr/0009 and CHANGELOG.md.</PackageReleaseNotes>
+    <PackageReleaseNotes>7.0.0 (breaking, major): heavy third-party adapters move into per-technology satellite packages so the core stays dependency-light. WebReaper.Cosmos: WriteToCosmosDb and CosmosSink out of core (core no longer references Microsoft.Azure.Cosmos). WebReaper.Mongo: WriteToMongoDb / WithMongoDbConfigStorage / WithMongoDbCookieStorage and the MongoDbSink / MongoDbScraperConfigStorage / MongoDbCookieStorage / MongoBlobStore adapters out of core (core no longer references MongoDB.Driver, shedding its transitive SharpCompress GHSA-6c8g-7p36-r338). WebReaper.Redis: WithRedisScheduler / TrackVisitedLinksInRedis / WriteToRedis / WithRedisConfigStorage / WithRedisCookieStorage and the RedisScheduler / RedisVisitedLinkTracker / RedisSink / RedisScraperConfigStorage / RedisCookieStorage / RedisBlobStore / RedisConnectionPool adapters out of core (core no longer references StackExchange.Redis; the ADR-0005 one-multiplexer-per-connection-string invariant is preserved intra-package). WebReaper.AzureServiceBus: WithAzureServiceBusScheduler and the AzureServiceBusScheduler adapter out of core (core no longer references Azure.Messaging.ServiceBus). WebReaper.Puppeteer: the headless-browser page loader (BrowserPageLoadTransport, CookieExtensions/ToPuppeteerCookies) out of core behind the new ScraperEngineBuilder.WithLoadTransport seam, exposed as .WithPuppeteerPageLoader(); the core default page loader is HTTP-only and core no longer references PuppeteerSharp/PuppeteerExtraSharp or the Chromium provisioning path, carrying the ADR-0008-named BrowserPageLoadTransport Assembly.Location IL3000 finding out of core with it. All moved types are repackaged under namespace WebReaper.Cosmos / WebReaper.Mongo / WebReaper.Redis / WebReaper.AzureServiceBus / WebReaper.Puppeteer. Clean cut, no compat forwarders. ADR-0009 capstone: SpiderBuilder is now internal (its duplicate public adapter surface removed); the bare ISpider for the distributed-worker pattern is the new public ScraperEngineBuilder.BuildSpider(). ADR-0008 JSONPath follow-up closed: JsonSchemaBackend's Newtonsoft JToken cursor is migrated to an in-repo JSONPath-subset evaluator over System.Text.Json.Nodes.JsonNode (dialect preserved); with CookieStore already on System.Text.Json, core is now FULLY Newtonsoft-free (the Newtonsoft.Json PackageReference is dropped) and the whole core publishes Native-AOT zero-warning. Consumers that free-rode on core's transitive Newtonsoft.Json must now reference it directly. Add the satellite package and a using to migrate. Rationale and migration: docs/adr/0009 and CHANGELOG.md.</PackageReleaseNotes>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <DocumentationFile>$(MSBuildProjectDirectory)\API.xml</DocumentationFile>
     <LangVersion>12</LangVersion>
@@ -24,10 +24,12 @@
 
     <!-- ADR 0008: the library declares AOT-compatibility so consumers can
          PublishAot it and so the trim/AOT analyzers run on every core build
-         and catch regressions. NOT a zero-warning guarantee yet: the named
-         follow-ups (JsonSchemaBackend's Newtonsoft JSONPath cursor, the
-         CookieStore payload shell, the [Obsolete] JObject shim) still reach
-         Newtonsoft and emit IL warnings by design until migrated. ADR 0009
+         and catch regressions. Core is now FULLY Newtonsoft-free: the
+         ADR-0008-named JSONPath follow-up is closed (JsonSchemaBackend's
+         Newtonsoft JToken cursor migrated to an in-repo JSONPath-subset
+         evaluator over System.Text.Json.Nodes.JsonNode), CookieStore is on
+         System.Text.Json, the [Obsolete] JObject shim was removed at 6.0.0,
+         and the Newtonsoft.Json PackageReference is dropped. ADR 0009
          moved CosmosSink out to WebReaper.Cosmos (Cosmos -> Newtonsoft +
          native ServiceInterop graph off the core) and the Mongo adapters out
          to WebReaper.Mongo (MongoDB.Driver + its transitive SharpCompress
@@ -38,8 +40,10 @@
          WebReaper.Puppeteer (PuppeteerSharp/PuppeteerExtraSharp + the Chromium
          provisioning path off the core, carrying the ADR-0008-named
          BrowserPageLoadTransport Assembly.Location IL3000 finding with it;
-         core is HTTP-only by default). The Newtonsoft-free path is proven
-         zero-warning by WebReaper.AotSmokeTest. -->
+         core is HTTP-only by default). With core fully Newtonsoft-free, the
+         WHOLE core (not only a scoped path) publishes Native-AOT
+         zero-warning — proven by WebReaper.AotSmokeTest, which now also
+         exercises the JSON backend's JSONPath cursor. -->
     <IsAotCompatible>true</IsAotCompatible>
   </PropertyGroup>
 
@@ -54,7 +58,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Newtonsoft.Json" />
     <None Remove="Fizzler.Systems.HtmlAgilityPack" />
     <None Remove="Microsoft.Extensions.Logging.Abstractions" />
   </ItemGroup>
@@ -62,7 +65,6 @@
     <PackageReference Include="AngleSharp" Version="1.4.0" />
     <PackageReference Include="AngleSharp.XPath" Version="2.0.6" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.8" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="Polly" Version="8.6.6" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.8" />
   </ItemGroup>

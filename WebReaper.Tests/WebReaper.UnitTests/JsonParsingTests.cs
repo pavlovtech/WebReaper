@@ -50,6 +50,34 @@ namespace WebReaper.UnitTests
             Assert.Equal("B", posts[1]!["title"]!.ToString());
         }
 
+        // Characterization net (ADR-0008 JSONPath→STJ migration): the dialect
+        // the codebase drives is "optional $ / $. root, dotted property path,
+        // trailing [*] array wildcard". Pins two corners the rest of the JSON
+        // suite leaves implicit — leading "$." is equivalent to a relative
+        // path, and dotted paths nest arbitrarily deep — so the Newtonsoft→STJ
+        // backend swap is behaviour-preserving, not just compiling.
+        [Fact]
+        public async Task DollarRootedAndRelativePathsAreEquivalentAndNestDeep()
+        {
+            const string json =
+                @"{ ""a"": { ""b"": { ""c"": ""deep"" } }, ""x"": ""y"" }";
+
+            var schema = new Schema
+            {
+                new SchemaElement("rooted", "$.a.b.c"),
+                new SchemaElement("relative", "a.b.c"),
+                new SchemaElement("shallowRooted", "$.x"),
+                new SchemaElement("shallowRelative", "x")
+            };
+
+            var result = await Parser().ParseToJsonAsync(json, schema);
+
+            Assert.Equal("deep", result["rooted"]!.ToString());
+            Assert.Equal("deep", result["relative"]!.ToString());
+            Assert.Equal("y", result["shallowRooted"]!.ToString());
+            Assert.Equal("y", result["shallowRelative"]!.ToString());
+        }
+
         [Fact]
         public async Task ParsesJsonArrayOfScalarsKeepingNativeTypes()
         {

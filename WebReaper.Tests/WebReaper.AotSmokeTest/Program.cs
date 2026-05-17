@@ -81,6 +81,27 @@ Check(parsed["title"]!.GetValue<string>() == "Hello"
       && parsed["views"]!.GetValue<int>() == 42,
     "typed JsonObject fold terminal (no Newtonsoft)");
 
+// 3b. Production JSON backend — the ADR-0008 JSONPath cursor on the
+//     Newtonsoft-free path. Before the JSONPath→STJ migration this reaches
+//     Newtonsoft JToken (Parse/SelectToken/SelectTokens) and FAILS the
+//     publish (IL2104/IL3053 whole-assembly rollup, promoted to error);
+//     after, JsonSchemaBackend is JsonNode-only and AOT-clean. Exercises the
+//     full used dialect: relative dotted, $-rooted, and $.a[*] wildcard.
+var jsonParser = new JsonContentParser(NullLogger.Instance);
+JsonObject jp = await jsonParser.ParseToJsonAsync(
+    @"{ ""post"": { ""title"": ""Hi"", ""views"": 42 }, ""tags"": [ ""a"", ""b"" ] }",
+    new Schema
+    {
+        new SchemaElement("title", "post.title", DataType.String),
+        new SchemaElement("views", "$.post.views", DataType.Integer),
+        new SchemaElement("tags", "$.tags[*]", DataType.String) { IsList = true }
+    });
+Check(jp["title"]!.GetValue<string>() == "Hi"
+      && jp["views"]!.GetValue<int>() == 42
+      && jp["tags"]!.AsArray().Count == 2
+      && jp["tags"]![0]!.GetValue<string>() == "a",
+    "JSON backend JSONPath cursor (Newtonsoft-free, AOT-clean)");
+
 // 4. Production JsonObject file formats.
 parsed["url"] = "https://x.test/p";
 Check(new JsonLinesFormat().FormatRow(parsed)

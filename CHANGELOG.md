@@ -12,6 +12,19 @@ This release lands the full ADR-0009 satellite set: **Cosmos**, **Mongo**,
 package no longer references any of those SDKs — a plain HTTP→file crawl
 pulls none of them.
 
+It also closes the ADR-0008-named JSONPath follow-up: `JsonSchemaBackend`'s
+Newtonsoft `JToken` JSONPath cursor — the last Newtonsoft reach in core — is
+migrated to an in-repo JSONPath-subset evaluator over
+`System.Text.Json.Nodes.JsonNode`. The supported dialect is preserved exactly
+(optional `$`/`$.` root, `.`-separated property paths, trailing `[*]` array
+wildcard — the whole surface the `Schema` model drives, pinned by the JSON
+test corpus). With `CookieStore` already on System.Text.Json, **core is now
+entirely Newtonsoft-free**: the `Newtonsoft.Json` `PackageReference` is
+dropped and the *whole* core (not just a scoped path) publishes Native-AOT
+zero-warning — verified by `WebReaper.AotSmokeTest`, now extended to exercise
+the JSON backend. Rationale and the doc-lag correction:
+[`docs/adr/0008-system-text-json-typed-pipeline.md`](docs/adr/0008-system-text-json-typed-pipeline.md).
+
 ### Breaking changes
 
 - **`WriteToCosmosDb` moved to the `WebReaper.Cosmos` package.** It is now an
@@ -155,6 +168,11 @@ pulls none of them.
   `new ScraperEngineBuilder()…BuildSpider()` — the same `WithLogger` /
   `WithLinkTracker` / `AddSink` / etc. configuration, returning the same
   `ISpider`. Fluent `ScraperEngineBuilder` consumers need no change.
+- If your code used `Newtonsoft.Json` and relied on getting it *transitively*
+  through the `WebReaper` package, add an explicit
+  `<PackageReference Include="Newtonsoft.Json" .../>` — core no longer
+  references it. WebReaper's own APIs are `System.Text.Json` throughout, so a
+  consumer that does not use Newtonsoft itself needs no change.
 
 ## 6.0.0 — System.Text.Json typed pipeline (breaking, AOT-clean)
 
