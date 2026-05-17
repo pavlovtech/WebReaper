@@ -1,7 +1,7 @@
-﻿using AngleSharp;
+﻿using System.Text.Json.Nodes;
+using AngleSharp;
 using WebReaper.Core;
 using WebReaper.Domain;
-using Newtonsoft.Json.Linq;
 using WebReaper.Builders;
 
 namespace WebReaper.ScraperWorkerService;
@@ -52,7 +52,7 @@ public class ScrapingWorker : BackgroundService
         await engine.RunAsync(stoppingToken);
     }
 
-    private static async Task ParseTorrentStats(Metadata meta, JObject result)
+    private static async Task ParseTorrentStats(Metadata meta, JsonObject result)
     {
         var config = Configuration.Default.WithDefaultLoader();
         var context = BrowsingContext.New(config);

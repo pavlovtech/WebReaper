@@ -1,5 +1,6 @@
 using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 using WebReaper.Sinks.Abstract;
 using WebReaper.Sinks.Models;
 
@@ -44,9 +45,16 @@ public class CosmosSink : IScraperSink
         entity.Data["id"] = id;
         entity.Data["url"] = entity.Url;
 
+        // ADR 0008: the Cosmos SDK's default serializer is Newtonsoft and
+        // serialises a Newtonsoft JObject natively but not a System.Text.Json
+        // JsonObject. Bridge here, locally — CosmosSink is the documented
+        // out-of-scope / not-AOT-guaranteed optional sink (ADR 0008 Bounded
+        // scope), so the Newtonsoft dependency stays quarantined to it.
+        var item = JObject.Parse(entity.Data.ToJsonString());
+
         try
         {
-            await Container!.CreateItemAsync(entity.Data, new PartitionKey(id), null, cancellationToken);
+            await Container!.CreateItemAsync(item, new PartitionKey(id), null, cancellationToken);
         }
         catch (Exception ex)
         {

@@ -1,5 +1,5 @@
 using System.Collections.Concurrent;
-using Newtonsoft.Json.Linq;
+using System.Text.Json.Nodes;
 using WebReaper.Sinks.Abstract;
 using WebReaper.Sinks.Models;
 
@@ -31,7 +31,7 @@ namespace WebReaper.Sinks.Concrete;
 /// </summary>
 public class BufferedFileSink : IScraperSink
 {
-    private readonly BlockingCollection<JObject> _entries = new();
+    private readonly BlockingCollection<JsonObject> _entries = new();
     private readonly IFileSinkFormat _format;
     private readonly string _filePath;
     private readonly object _initLock = new();

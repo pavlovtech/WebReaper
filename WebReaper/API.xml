@@ -58,7 +58,7 @@
             shape (e.g. HtmlAgilityPack, XPath), implement
             <see cref="T:WebReaper.Core.Parser.Abstract.ISchemaBackend`1"/> and pass
             <c>new SchemaContentParser&lt;TNode&gt;(backend, logger)</c> to
-            <see cref="M:WebReaper.Builders.SpiderBuilder.WithContentParser(WebReaper.Core.Parser.Abstract.IContentParser)"/> — it reuses the shared Schema fold
+            <see cref="M:WebReaper.Builders.SpiderBuilder.WithContentParser(WebReaper.Core.Parser.Abstract.IJsonContentParser)"/> — it reuses the shared Schema fold
             rather than re-implementing the walk.
             </summary>
         </member>
@@ -122,14 +122,15 @@
         <member name="T:WebReaper.ConfigStorage.Concrete.ScraperConfigStore">
             <summary>
             The config <strong>payload shell</strong> (ADR 0003). The one home for
-            scraper-config serialization and the meaning of <em>absent</em>. Owns
-            <see cref="F:Newtonsoft.Json.TypeNameHandling.Auto"/> — applied <em>symmetrically</em> to
-            serialize and deserialize, so the polymorphic <c>PageAction.Parameters</c>
+            scraper-config serialization and the meaning of <em>absent</em>. Per ADR
+            0008 it now owns a <see cref="T:WebReaper.Serialization.WebReaperJson"/> System.Text.Json source-gen
+            grammar instead of Newtonsoft <c>TypeNameHandling.Auto</c> — applied (as
+            before) <em>symmetrically</em>, so the polymorphic <c>PageAction.Parameters</c>
             (<c>object[]</c>) and the <c>ImmutableQueue&lt;LinkPathSelector&gt;</c>
-            chain round-trip through every backend (Redis was silently lossy with
-            <c>TypeNameHandling.None</c>; the file adapter serialized with
-            <c>Auto</c> but deserialized with defaults). Delegates storage to one
-            <see cref="T:WebReaper.DataAccess.IKeyedBlobStore"/>; the store never sees a config.
+            chain round-trip through every backend (the dedicated converters, not
+            reflection-by-typename). The ADR-0003 structural result is unchanged:
+            storage is delegated to one <see cref="T:WebReaper.DataAccess.IKeyedBlobStore"/>; the store never
+            sees a config; <em>absent</em> still means a typed not-found.
             </summary>
         </member>
         <member name="T:WebReaper.Core.CookieStorage.Concrete.CookieStore">
@@ -137,10 +138,12 @@
             The cookie <strong>payload shell</strong> (ADR 0003). The one home for the
             <see cref="T:System.Net.CookieContainer"/> ↔ <see cref="T:System.Net.CookieCollection"/> quirk:
             <see cref="T:System.Net.CookieContainer"/> does not JSON round-trip (internal hash
-            tables), so the shell persists the flat <see cref="T:System.Net.CookieCollection"/> and
-            rebuilds the container on read. This quirk is quarantined here and is
-            unreachable from the <see cref="T:WebReaper.DataAccess.IKeyedBlobStore"/> and any future backend.
-            Absent ⇒ an empty container (what a fresh crawl wants).
+            tables), so the shell persists the flat cookie list and rebuilds the
+            container on read. ADR 0008: the grammar is the AOT-clean
+            <see cref="T:WebReaper.Serialization.WebReaperJson"/> source-gen one over a flat
+            <see cref="T:WebReaper.Serialization.CookieDto"/> — no Newtonsoft. The quirk stays quarantined here
+            and is unreachable from the <see cref="T:WebReaper.DataAccess.IKeyedBlobStore"/> and any future
+            backend. Absent ⇒ an empty container (what a fresh crawl wants).
             </summary>
         </member>
         <member name="T:WebReaper.Core.CookieStorage.Concrete.FileCookieStorage">
@@ -204,8 +207,10 @@
             The crawl-step decision extracted from the old Spider.CrawlAsync. Holds the
             page-category dispatch, the selector-chain advance/retain rule, link
             extraction, content parsing, and child-Job provenance threading behind one
-            pure method. <see cref="T:WebReaper.Core.Parser.Abstract.ILinkParser"/> / <see cref="T:WebReaper.Core.Parser.Abstract.IContentParser"/> are
-            internal seams — injected, never surfaced on <see cref="T:WebReaper.Core.Crawling.Abstract.ICrawlStep"/>.
+            pure method. <see cref="T:WebReaper.Core.Parser.Abstract.ILinkParser"/> / <see cref="T:WebReaper.Core.Parser.Abstract.IJsonContentParser"/>
+            are internal seams — injected, never surfaced on <see cref="T:WebReaper.Core.Crawling.Abstract.ICrawlStep"/>.
+            ADR 0008: the content seam is the typed <see cref="T:WebReaper.Core.Parser.Abstract.IJsonContentParser"/>
+            (JsonObject), not the legacy <see cref="!:IContentParser"/> (JObject).
             </summary>
         </member>
         <member name="T:WebReaper.Core.Crawling.CrawlOutcome">
@@ -333,6 +338,16 @@
             <see cref="T:WebReaper.Core.Loaders.Abstract.IPageLoadTransport"/> (ADR 0004).
             </summary>
         </member>
+        <member name="T:WebReaper.Core.Parser.Abstract.IJsonContentParser">
+            <summary>
+            The typed Schema-fold seam (ADR 0008). The fold's terminal projection is
+            <see cref="T:System.Text.Json.Nodes.JsonObject"/> — AOT-clean, no Newtonsoft —
+            and is the path <see cref="!:ParsedData"/>/sinks move to. It lives
+            <em>beside</em> the legacy <see cref="!:IContentParser"/> (<c>JObject</c>),
+            which is retained as a compat shell and <c>[Obsolete]</c>. One fold (ADR
+            0002); only what it emits differs.
+            </summary>
+        </member>
         <member name="T:WebReaper.Core.Parser.Abstract.ISchemaBackend`1">
             <summary>
             One document shape = one backend. Supplies only the four
@@ -415,17 +430,32 @@
             exactly as it does for the HTML parser. Kept as a named type with its
             original <c>(ILogger)</c> constructor so <c>WithJsonContentParser</c>
             and existing callers are unaffected.
+            <para>
+            The <c>JToken</c> type argument is the JSON backend's Newtonsoft JSONPath
+            scope cursor — System.Text.Json has no JSONPath — and is the named ADR-0008
+            follow-up that gates a zero-warning whole-core <c>PublishAot</c>; it is not
+            the removed JObject shim.
+            </para>
             </summary>
         </member>
         <member name="T:WebReaper.Core.Parser.Concrete.JsonSchemaBackend">
             <summary>
             JSON backend for <see cref="T:WebReaper.Core.Parser.Concrete.SchemaContentParser`1"/> (issue #27 —
             scraping JSON endpoints such as the WordPress REST API). The scope
-            cursor is a <see cref="T:Newtonsoft.Json.Linq.JToken"/> and each
-            <see cref="P:WebReaper.Domain.Parsing.SchemaElement.Selector"/> is a JSONPath expression.
-            <see cref="M:WebReaper.Core.Parser.Concrete.JsonSchemaBackend.ExtractRaw(Newtonsoft.Json.Linq.JToken,WebReaper.Domain.Parsing.SchemaElement)"/> returns the native token, so an untyped leaf
-            keeps its JSON type (a number stays a number) — the structured-side
-            of the divergence the shared fold passes straight through.
+            cursor is a Newtonsoft <see cref="T:Newtonsoft.Json.Linq.JToken"/> and each
+            <see cref="P:WebReaper.Domain.Parsing.SchemaElement.Selector"/> is a JSONPath expression
+            (System.Text.Json has no JSONPath — ADR 0008 Bounded scope; this cursor
+            is the named follow-up gating a zero-warning whole-core PublishAot).
+            <para>
+            ADR 0008: <see cref="M:WebReaper.Core.Parser.Concrete.JsonSchemaBackend.ExtractRaw(Newtonsoft.Json.Linq.JToken,WebReaper.Domain.Parsing.SchemaElement)"/> returns the native value already
+            bridged to a <see cref="T:System.Text.Json.Nodes.JsonNode"/>. The
+            Newtonsoft→STJ bridge lives HERE, in the one backend that has a
+            Newtonsoft token, not in the shared fold — so the fold/typed terminal
+            carry no Newtonsoft reference (ADR 0002: a backend's document quirk is
+            backend-local). An untyped leaf still keeps its JSON type (a number
+            stays a number) — the structured side of the ADR-0002 divergence,
+            preserved through the bridge.
+            </para>
             </summary>
         </member>
         <member name="T:WebReaper.Core.Parser.Concrete.SchemaContentParser`1">
@@ -440,10 +470,20 @@
             is delegated to <see cref="T:WebReaper.Core.Parser.Abstract.ISchemaBackend`1"/>.
             </summary>
             <remarks>
+            <para>
             Public and generic on purpose: a new backend is
             <c>new SchemaContentParser&lt;TNode&gt;(myBackend, logger)</c> passed
             to <c>WithContentParser</c>, reusing this proven fold rather than
             copying it. See docs/adr/0002.
+            </para>
+            <para>
+            ADR 0008: the fold's terminal projection is
+            <see cref="T:System.Text.Json.Nodes.JsonObject"/> (the typed
+            <see cref="M:WebReaper.Core.Parser.Concrete.SchemaContentParser`1.ParseToJsonAsync(System.String,WebReaper.Domain.Parsing.Schema)"/>). The legacy Newtonsoft <c>JObject</c>
+            path and <c>IContentParser</c> were removed at the 6.0.0 major; this
+            fold carries no Newtonsoft (the JSON backend's JToken→JsonNode bridge is
+            backend-local in <c>JsonSchemaBackend.ExtractRaw</c>).
+            </para>
             </remarks>
         </member>
         <member name="T:WebReaper.Core.Parser.Concrete.XPathContentParser">
@@ -678,10 +718,232 @@
             Maximum number of proxies validated concurrently. Default: 20.
             </summary>
         </member>
+        <member name="T:WebReaper.Serialization.Converters.SelectorChainJsonConverter">
+            <summary>
+            <c>ImmutableQueue&lt;LinkPathSelector&gt;</c> codec (ADR 0008) — the
+            selector chain on <see cref="T:WebReaper.Domain.ScraperConfig"/> and
+            <see cref="T:WebReaper.Domain.Job"/>. STJ has no AOT-safe built-in for
+            <c>ImmutableQueue&lt;T&gt;</c>; serialise as an array and rebuild with
+            <see cref="M:System.Collections.Immutable.ImmutableQueue.CreateRange``1(System.Collections.Generic.IEnumerable{``0})"/>. <see cref="T:WebReaper.Domain.Selectors.LinkPathSelector"/>
+            is written fully manually (no nested serializer call) so the AOT signal
+            stays unambiguous; its <c>PageActions</c> reuse <see cref="T:WebReaper.Serialization.Converters.PageActionCodec"/>.
+            Two concrete converters rather than a generic factory: a
+            <c>JsonConverterFactory</c> over <c>MakeGenericType</c> is the AOT hazard
+            this whole ADR exists to remove.
+            </summary>
+        </member>
+        <member name="T:WebReaper.Serialization.Converters.BacklinkQueueJsonConverter">
+            <summary>
+            <c>ImmutableQueue&lt;string&gt;</c> codec — <see cref="T:WebReaper.Domain.Job"/>'s
+            <c>ParentBacklinks</c>. Same array + <see cref="M:System.Collections.Immutable.ImmutableQueue.CreateRange``1(System.Collections.Generic.IEnumerable{``0})"/>
+            shape as the selector-chain converter; closes the other half of the ADR-0005
+            Job round-trip.
+            </summary>
+        </member>
+        <member name="T:WebReaper.Serialization.Converters.PageActionCodec">
+            <summary>
+            <see cref="T:WebReaper.Domain.PageActions.PageAction"/> codec (ADR 0008). <c>Parameters</c> is a
+            genuinely-polymorphic <c>object[]</c>; STJ's default rematerialises a
+            <see cref="T:System.Text.Json.JsonElement"/>, on which <c>Convert.ToInt32</c> throws — the
+            exact ADR-0003/0005 "polymorphic member loses its type across a serializer
+            boundary" defect. Each element is written <em>kind-tagged</em> and read
+            back to its CLR type, so the round-trip keeps type fidelity.
+            </summary>
+        </member>
+        <member name="T:WebReaper.Serialization.Converters.SchemaCodec">
+            <summary>
+            Polymorphic <see cref="T:WebReaper.Domain.Parsing.Schema"/>/<see cref="T:WebReaper.Domain.Parsing.SchemaElement"/> codec (ADR
+            0008). <see cref="T:WebReaper.Domain.Parsing.Schema"/> is the container node <em>and</em> an
+            <see cref="T:System.Collections.Generic.ICollection`1"/>; without an
+            explicit converter STJ serialises it as a bare JSON array and drops
+            <c>Field</c>/<c>Children</c>. The codec keeps it an object and carries a
+            <c>$kind</c> discriminator — the <c>TypeNameHandling.Auto</c> replacement
+            for this hierarchy. Fully manual recursion, no nested serializer calls
+            (AOT-trivially-safe).
+            </summary>
+        </member>
+        <member name="T:WebReaper.Serialization.CookieDto">
+            <summary>
+            The flat, STJ-serialisable projection of a <see cref="T:System.Net.Cookie"/>
+            (ADR 0008). <see cref="T:System.Net.CookieContainer"/> does not JSON
+            round-trip and <see cref="T:System.Net.Cookie"/> is not source-gen-friendly;
+            the cookie payload shell maps to/from this DTO, so the
+            <see cref="T:System.Net.CookieContainer"/> ↔ <see cref="T:System.Net.CookieCollection"/>
+            quirk stays quarantined in the shell (ADR 0003) and the serialization
+            grammar is the AOT-clean source-gen one (no Newtonsoft).
+            </summary>
+        </member>
+        <member name="M:WebReaper.Serialization.CookieDto.#ctor(System.String,System.String,System.String,System.String)">
+            <summary>
+            The flat, STJ-serialisable projection of a <see cref="T:System.Net.Cookie"/>
+            (ADR 0008). <see cref="T:System.Net.CookieContainer"/> does not JSON
+            round-trip and <see cref="T:System.Net.Cookie"/> is not source-gen-friendly;
+            the cookie payload shell maps to/from this DTO, so the
+            <see cref="T:System.Net.CookieContainer"/> ↔ <see cref="T:System.Net.CookieCollection"/>
+            quirk stays quarantined in the shell (ADR 0003) and the serialization
+            grammar is the AOT-clean source-gen one (no Newtonsoft).
+            </summary>
+        </member>
+        <member name="T:WebReaper.Serialization.WebReaperJson">
+            <summary>
+            The one home for the crawl-state serialization grammar (ADR 0008),
+            replacing the Newtonsoft <c>TypeNameHandling.Auto</c> of ADR 0003's config
+            payload shell and the asymmetric <c>TypeNameHandling.None</c> Job path ADR
+            0005 named. Concrete, not an interface — there is exactly one serialization
+            grammar; the variation is the converters, not implementations of a seam
+            (the ADR 0005 <c>RedisConnectionPool</c> reasoning). AOT-clean: a source-gen
+            <see cref="T:WebReaper.Serialization.WebReaperJsonContext"/> resolver plus hand-written converters,
+            serialised through the generated <see cref="T:System.Text.Json.Serialization.Metadata.JsonTypeInfo`1"/> (the pattern
+            the Phase-0 spike proved zero-warning under <c>PublishAot</c>).
+            </summary>
+        </member>
+        <member name="T:WebReaper.Serialization.WebReaperJsonContext">
+            <summary>
+            The source-gen <see cref="T:System.Text.Json.Serialization.JsonSerializerContext"/> for the crawl-state
+            payloads (ADR 0008). It generates metadata for the records and the
+            metadata-able members; the genuinely polymorphic / collection-shaped
+            members (the <see cref="P:WebReaper.Serialization.WebReaperJsonContext.Schema"/>/<see cref="P:WebReaper.Serialization.WebReaperJsonContext.SchemaElement"/> hierarchy,
+            <see cref="P:WebReaper.Serialization.WebReaperJsonContext.PageAction"/>'s <c>object[]</c>, the
+            <c>ImmutableQueue&lt;…&gt;</c> queues) are owned by hand-written
+            converters registered on <see cref="T:WebReaper.Serialization.WebReaperJson"/>'s options and are
+            intentionally NOT listed here. Replaces the Newtonsoft
+            <c>TypeNameHandling.Auto</c> grammar of ADR 0003 (config) and the
+            <c>TypeNameHandling.None</c> Job path ADR 0005 left asymmetric.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Serialization.WebReaperJsonContext.Boolean">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Serialization.WebReaperJsonContext.IEnumerableString">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Serialization.WebReaperJsonContext.ListPageAction">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Serialization.WebReaperJsonContext.ListString">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Serialization.WebReaperJsonContext.ImmutableQueueLinkPathSelector">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Serialization.WebReaperJsonContext.ImmutableQueueString">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Serialization.WebReaperJsonContext.Job">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Serialization.WebReaperJsonContext.PageAction">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Serialization.WebReaperJsonContext.PageActionType">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Serialization.WebReaperJsonContext.DataType">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Serialization.WebReaperJsonContext.NullableDataType">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Serialization.WebReaperJsonContext.Schema">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Serialization.WebReaperJsonContext.SchemaElement">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Serialization.WebReaperJsonContext.ScraperConfig">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Serialization.WebReaperJsonContext.LinkPathSelector">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Serialization.WebReaperJsonContext.PageType">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Serialization.WebReaperJsonContext.CookieDto">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Serialization.WebReaperJsonContext.CookieDtoArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Serialization.WebReaperJsonContext.Int32">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Serialization.WebReaperJsonContext.Object">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Serialization.WebReaperJsonContext.ObjectArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Serialization.WebReaperJsonContext.String">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Serialization.WebReaperJsonContext.Default">
+            <summary>
+            The default <see cref="T:System.Text.Json.Serialization.JsonSerializerContext"/> associated with a default <see cref="T:System.Text.Json.JsonSerializerOptions"/> instance.
+            </summary>
+        </member>
+        <member name="P:WebReaper.Serialization.WebReaperJsonContext.GeneratedSerializerOptions">
+            <summary>
+            The source-generated options associated with this context.
+            </summary>
+        </member>
+        <member name="M:WebReaper.Serialization.WebReaperJsonContext.#ctor">
+            <inheritdoc/>
+        </member>
+        <member name="M:WebReaper.Serialization.WebReaperJsonContext.#ctor(System.Text.Json.JsonSerializerOptions)">
+            <inheritdoc/>
+        </member>
+        <member name="M:WebReaper.Serialization.WebReaperJsonContext.GetTypeInfo(System.Type)">
+            <inheritdoc/>
+        </member>
         <member name="T:WebReaper.Sinks.Abstract.IFileSinkFormat">
             <summary>
             The per-format quirk a file sink quarantines (ADR 0006): how one
-            <see cref="T:Newtonsoft.Json.Linq.JObject"/> row becomes a line, and whether the file carries a
+            <see cref="T:System.Text.Json.Nodes.JsonObject"/> row becomes a line, and whether the file carries a
             header derived from the first row. The buffered-drain mechanism
             (<c>BufferedFileSink</c>) is shared; this seam is the only thing that
             legitimately differs between a JSON-lines and a CSV file sink. Two real
@@ -689,14 +951,14 @@
             indirection without variation.
             </summary>
         </member>
-        <member name="M:WebReaper.Sinks.Abstract.IFileSinkFormat.Header(Newtonsoft.Json.Linq.JObject)">
+        <member name="M:WebReaper.Sinks.Abstract.IFileSinkFormat.Header(System.Text.Json.Nodes.JsonObject)">
             <summary>
             The header line for a file whose first row is <paramref name="firstRow"/>,
             or <c>null</c> if this format has no header. Called at most once, on the
             first drained row, before that row's data line. No trailing newline.
             </summary>
         </member>
-        <member name="M:WebReaper.Sinks.Abstract.IFileSinkFormat.FormatRow(Newtonsoft.Json.Linq.JObject)">
+        <member name="M:WebReaper.Sinks.Abstract.IFileSinkFormat.FormatRow(System.Text.Json.Nodes.JsonObject)">
             <summary>One data row → one line, without a trailing newline.</summary>
         </member>
         <member name="T:WebReaper.Sinks.Concrete.BufferedFileSink">
@@ -737,9 +999,12 @@
         <member name="T:WebReaper.Sinks.Concrete.CsvFormat">
             <summary>
             CSV: a header of the first row's flattened leaf names, then one
-            quoted, comma-joined line per row. The flatten/quote expressions are moved
-            verbatim from the old <c>CsvFileSink</c> (ADR 0006) — the genuine CSV quirk
-            relocated, not changed.
+            quoted, comma-joined line per row. ADR 0008: the same flatten/quote quirk
+            (ADR 0006), now over System.Text.Json.Nodes — no Newtonsoft. The leaf-name
+            is the tail of <see cref="M:System.Text.Json.Nodes.JsonNode.GetPath"/> after the last <c>.</c>,
+            which reproduces the old Newtonsoft <c>JValue.Path</c> tail exactly
+            (<c>$.name</c>→<c>name</c>, <c>$.a.b</c>→<c>b</c>, <c>$.a[0]</c>→<c>a[0]</c>),
+            so observable file content is unchanged.
             </summary>
         </member>
         <member name="T:WebReaper.Sinks.Concrete.JsonLinesFileSink">
@@ -753,10 +1018,10 @@
         </member>
         <member name="T:WebReaper.Sinks.Concrete.JsonLinesFormat">
             <summary>
-            JSON Lines: no header, one compact JSON object per line. The
-            <c>Formatting.None</c> rendering is moved verbatim from the old
-            <c>JsonLinesFileSink</c> (ADR 0006) — the format quirk relocated, not
-            changed.
+            JSON Lines: no header, one compact JSON object per line. ADR 0008: the
+            compact rendering is now <see cref="!:JsonObject.ToJsonString"/> (no
+            Newtonsoft) — observable file content is unchanged (ADR 0006: the format
+            quirk relocated, not changed).
             </summary>
         </member>
     </members>

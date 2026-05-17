@@ -1,5 +1,6 @@
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using Microsoft.Extensions.Logging.Abstractions;
-using Newtonsoft.Json.Linq;
 using WebReaper.Core.Parser.Concrete;
 using WebReaper.Domain.Parsing;
 
@@ -20,10 +21,10 @@ namespace WebReaper.UnitTests
                 new SchemaElement("views", "post.views", DataType.Integer)
             };
 
-            var result = await Parser().ParseAsync(json, schema);
+            var result = await Parser().ParseToJsonAsync(json, schema);
 
             Assert.Equal("Hello", result["title"]!.ToString());
-            Assert.Equal(42, result["views"]!.Value<int>());
+            Assert.Equal(42, result["views"]!.GetValue<int>());
         }
 
         [Fact]
@@ -41,9 +42,9 @@ namespace WebReaper.UnitTests
                 }
             };
 
-            var result = await Parser().ParseAsync(json, schema);
+            var result = await Parser().ParseToJsonAsync(json, schema);
 
-            var posts = Assert.IsType<JArray>(result["posts"]);
+            var posts = Assert.IsType<JsonArray>(result["posts"]);
             Assert.Equal(2, posts.Count);
             Assert.Equal("A", posts[0]!["title"]!.ToString());
             Assert.Equal("B", posts[1]!["title"]!.ToString());
@@ -59,11 +60,14 @@ namespace WebReaper.UnitTests
                 new SchemaElement("scores", "$.scores[*]") { IsList = true }
             };
 
-            var result = await Parser().ParseAsync(json, schema);
+            var result = await Parser().ParseToJsonAsync(json, schema);
 
-            var scores = Assert.IsType<JArray>(result["scores"]);
-            Assert.Equal(new[] { 1, 2, 3 }, scores.Select(s => s.Value<int>()));
-            Assert.Equal(JTokenType.Integer, scores[0]!.Type);
+            var scores = Assert.IsType<JsonArray>(result["scores"]);
+            // ADR 0002 divergence: untyped JSON scalars stay native JSON
+            // numbers (not strings). STJ collapses int/long to Number; the
+            // contract is "a number, value N", not the CLR width.
+            Assert.Equal(new[] { 1L, 2L, 3L }, scores.Select(s => s!.GetValue<long>()));
+            Assert.Equal(JsonValueKind.Number, scores[0]!.GetValueKind());
         }
     }
 }

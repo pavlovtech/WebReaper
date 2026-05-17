@@ -47,7 +47,9 @@ public class MongoDbSink : IScraperSink
 
         entity.Data["url"] = entity.Url;
 
-        var document = BsonDocument.Parse(entity.Data.ToString());
+        // ADR 0008: entity.Data is a System.Text.Json JsonObject; ToJsonString
+        // is the compact, valid-JSON BsonDocument.Parse expects (no Newtonsoft).
+        var document = BsonDocument.Parse(entity.Data.ToJsonString());
 
         await collection.InsertOneAsync(document, null, cancellationToken);
     }
