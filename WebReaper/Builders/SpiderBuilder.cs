@@ -25,7 +25,14 @@ using WebReaper.Sinks.Models;
 
 namespace WebReaper.Builders;
 
-public class SpiderBuilder
+/// <summary>
+/// Internal collaborator of <see cref="ScraperEngineBuilder"/> (ADR-0009):
+/// the runtime-component wiring (loaders, parsers, sinks, trackers, cookie
+/// storage). Not public — the registration seam lives only on
+/// <see cref="ScraperEngineBuilder"/>; a bare <see cref="Core.Spider.Abstract.ISpider"/>
+/// is obtained via <see cref="ScraperEngineBuilder.BuildSpider"/>.
+/// </summary>
+internal class SpiderBuilder
 {
     private Func<Metadata, JsonObject, Task> PostProcessor { get; set; }
 

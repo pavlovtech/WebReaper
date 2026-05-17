@@ -12,8 +12,8 @@ namespace WebReaper.Proxy.Concrete;
 /// that set, and re-validates lazily once it goes stale.
 ///
 /// Being an <see cref="IProxyProvider"/>, it drops into the existing
-/// pipeline (<c>SpiderBuilder.WithProxies</c> → page requesters / Puppeteer
-/// loader) with no other changes. No background service, no extra
+/// pipeline (<c>ScraperEngineBuilder.WithProxies</c> → page requesters /
+/// Puppeteer loader) with no other changes. No background service, no extra
 /// hosting dependency: refresh happens on demand, single-flighted.
 /// </summary>
 public sealed class ValidatedProxyProvider : IProxyProvider, IDisposable
