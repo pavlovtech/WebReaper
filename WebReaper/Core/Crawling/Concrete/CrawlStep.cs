@@ -15,7 +15,7 @@ namespace WebReaper.Core.Crawling.Concrete;
 /// pure method. <see cref="ILinkParser"/> / <see cref="IJsonContentParser"/>
 /// are internal seams — injected, never surfaced on <see cref="ICrawlStep"/>.
 /// ADR 0008: the content seam is the typed <see cref="IJsonContentParser"/>
-/// (JsonObject), not the legacy <see cref="IContentParser"/> (JObject).
+/// (JsonObject); the legacy <c>IContentParser</c> (JObject) was removed at 6.0.0.
 /// </summary>
 public sealed class CrawlStep : ICrawlStep
 {
