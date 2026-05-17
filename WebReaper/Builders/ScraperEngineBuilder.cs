@@ -165,18 +165,6 @@ public class ScraperEngineBuilder
         return this;
     }
 
-    public ScraperEngineBuilder WriteToCosmosDb(
-        string endpointUrl,
-        string authorizationKey,
-        string databaseId,
-        string containerId,
-        bool dataCleanupOnStart)
-    {
-        //SpiderBuilder.AddSink(new CosmosSink(endpointUrl, authorizationKey, databaseId, containerId, _dataCleanupOnStart, Logger));
-        SpiderBuilder.WriteToCosmosDb(endpointUrl, authorizationKey, databaseId, containerId, dataCleanupOnStart);
-        return this;
-    }
-
     public ScraperEngineBuilder WriteToMongoDb(
         string connectionString,
         string databaseName,

@@ -25,5 +25,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\WebReaper\WebReaper.csproj" />
+    <ProjectReference Include="..\..\WebReaper.Cosmos\WebReaper.Cosmos.csproj" />
   </ItemGroup>
 </Project>
