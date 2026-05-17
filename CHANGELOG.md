@@ -7,9 +7,10 @@ per-technology satellite packages, wired through the builder's public
 registration seam. Rationale, design, and the deliberate clean-cut (no compat
 shell): [`docs/adr/0009-registration-seam-and-satellite-adapters.md`](docs/adr/0009-registration-seam-and-satellite-adapters.md).
 
-This release lands the **Cosmos**, **Mongo**, **Redis** and **Azure Service
-Bus** satellites. The remaining satellite (`WebReaper.Puppeteer`) lands in the
-same 7.0.0 line.
+This release lands the full ADR-0009 satellite set: **Cosmos**, **Mongo**,
+**Redis**, **Azure Service Bus** and **Puppeteer**. The core `WebReaper`
+package no longer references any of those SDKs — a plain HTTP→file crawl
+pulls none of them.
 
 ### Breaking changes
 
@@ -69,13 +70,42 @@ same 7.0.0 line.
 - **Core no longer references `Azure.Messaging.ServiceBus`.** A core-only
   consumer no longer pulls it. `WithAzureServiceBusScheduler` took no logger,
   so its signature is unchanged.
+- **The headless-browser page loader moved to the `WebReaper.Puppeteer`
+  package; the core default page loader is now HTTP-only.**
+  `BrowserPageLoadTransport` moved (`WebReaper.Core.Loaders.Concrete` →
+  namespace and package `WebReaper.Puppeteer`); `CookieExtensions` /
+  `ToPuppeteerCookies` moved (`WebReaper.Extensions` → namespace and package
+  `WebReaper.Puppeteer`).
+- **Core no longer references `PuppeteerSharp` / `PuppeteerExtraSharp`.** A
+  core-only consumer no longer pulls them or the Chromium provisioning path,
+  and the ADR-0008-named `BrowserPageLoadTransport` `Assembly.Location` IL3000
+  trim/AOT finding leaves core with it (now in `WebReaper.Puppeteer`).
+- **New `WithLoadTransport` registration seam on `ScraperEngineBuilder`.** It
+  takes a factory —
+  `Func<ICookiesStorage, IProxyProvider?, ILogger, IPageLoadTransport>` —
+  invoked at build time with the builder's resolved cookie storage, optional
+  proxy provider and logger (a deliberate refinement of ADR-0009's stated
+  `WithLoadTransport(IPageLoadTransport)`; see that ADR's Deliberate
+  consequences note). ADR-0004's one-`IPageLoader` /
+  two-`IPageLoadTransport` dispatcher is unchanged — only the default
+  composition of the Dynamic slot moved out of core.
+- **`GetWithBrowser` / `FollowWithBrowser` / `PaginateWithBrowser` still
+  compile, but Dynamic pages now require `WebReaper.Puppeteer`.** With no
+  browser transport registered a Dynamic load throws an actionable
+  `InvalidOperationException` (`BrowserNotConfiguredPageLoadTransport`)
+  pointing at the package and `.WithPuppeteerPageLoader()`, instead of a
+  silent default. `.WithPuppeteerPageLoader()` is parameterless and — because
+  the seam is a factory — reproduces the pre-7.0 behaviour exactly: the one
+  shared cookie container (issue #26) and the optional proxy applied the
+  browser's own way.
 
 ### Why
 
 - Dependency-light core: a plain HTTP→file crawl stops transitively pulling
   Cosmos + Newtonsoft + native interop, `MongoDB.Driver` + its transitive
-  SharpCompress CVE, `StackExchange.Redis`, and `Azure.Messaging.ServiceBus`
-  (and, as the last satellite lands, Chromium).
+  SharpCompress CVE, `StackExchange.Redis`, `Azure.Messaging.ServiceBus`, and
+  `PuppeteerSharp` + the Chromium provisioning path (carrying the ADR-0008
+  `BrowserPageLoadTransport` IL3000 finding out of core).
 - The builder deepens into a small public registration seam; per-adapter
   `WriteToX` sugar ships with its adapter. See ADR-0009.
 
@@ -103,6 +133,13 @@ same 7.0.0 line.
 - Add `using WebReaper.AzureServiceBus;` wherever you call
   `.WithAzureServiceBusScheduler(...)` or reference the
   `AzureServiceBusScheduler` type. Its arguments are unchanged.
+- Add the package: `dotnet add package WebReaper.Puppeteer`.
+- Add `using WebReaper.Puppeteer;` and call `.WithPuppeteerPageLoader()` on
+  the builder wherever you scrape Dynamic pages (`GetWithBrowser` /
+  `FollowWithBrowser` / `PaginateWithBrowser`), or wherever you reference the
+  `BrowserPageLoadTransport` type or `CookieContainer.ToPuppeteerCookies(...)`.
+  `.WithPuppeteerPageLoader()` takes no arguments and reproduces the pre-7.0
+  default behaviour. A core-only (HTTP) crawl needs no change.
 
 ## 6.0.0 — System.Text.Json typed pipeline (breaking, AOT-clean)
 

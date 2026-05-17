@@ -10,7 +10,7 @@ using WebReaper.Domain.PageActions;
 using WebReaper.Extensions;
 using WebReaper.Proxy.Abstract;
 
-namespace WebReaper.Core.Loaders.Concrete;
+namespace WebReaper.Puppeteer;
 
 /// <summary>
 /// Headless-browser <see cref="IPageLoadTransport"/> — the one home for the
@@ -116,7 +116,9 @@ public class BrowserPageLoadTransport : IPageLoadTransport
         if (_proxyProvider is null)
         {
             _logger.LogInformation("Launching a browser");
-            return await Puppeteer.LaunchAsync(new LaunchOptions
+            // Fully-qualified: the satellite namespace WebReaper.Puppeteer
+            // shadows the PuppeteerSharp.Puppeteer static class.
+            return await PuppeteerSharp.Puppeteer.LaunchAsync(new LaunchOptions
             {
                 Headless = headless,
                 ExecutablePath = executablePath,

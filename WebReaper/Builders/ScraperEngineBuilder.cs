@@ -8,6 +8,7 @@ using WebReaper.Core;
 using WebReaper.Core.CookieStorage.Abstract;
 using WebReaper.Core.LinkTracker.Abstract;
 using WebReaper.Core.LinkTracker.Concrete;
+using WebReaper.Core.Loaders.Abstract;
 using WebReaper.Core.Parser.Abstract;
 using WebReaper.Core.Scheduler.Abstract;
 using WebReaper.Core.Scheduler.Concrete;
@@ -164,6 +165,24 @@ public class ScraperEngineBuilder
     public ScraperEngineBuilder WithProxies(IProxyProvider proxyProvider)
     {
         SpiderBuilder.WithProxies(proxyProvider);
+        return this;
+    }
+
+    /// <summary>
+    /// Register the transport used for Dynamic (headless-browser) pages
+    /// (ADR-0009). Core is HTTP-only by default; the headless-browser
+    /// transport lives in the WebReaper.Puppeteer satellite — add that
+    /// package and call <c>.WithPuppeteerPageLoader()</c> (which calls this
+    /// seam). The factory is invoked at build time with the builder's
+    /// resolved cookie storage, optional proxy provider and logger, so the
+    /// pre-7.0 default behaviour is preserved exactly. ADR-0004's
+    /// one-<see cref="IPageLoader"/> / two-<see cref="IPageLoadTransport"/>
+    /// dispatcher is unchanged.
+    /// </summary>
+    public ScraperEngineBuilder WithLoadTransport(
+        Func<ICookiesStorage, IProxyProvider?, ILogger, IPageLoadTransport> dynamicTransportFactory)
+    {
+        SpiderBuilder.WithLoadTransport(dynamicTransportFactory);
         return this;
     }
 
