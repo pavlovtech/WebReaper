@@ -1,6 +1,7 @@
 using StackExchange.Redis;
+using WebReaper.DataAccess;
 
-namespace WebReaper.DataAccess;
+namespace WebReaper.Redis;
 
 /// <summary>
 /// Redis-backed <see cref="IKeyedBlobStore"/>. The per-connection-string

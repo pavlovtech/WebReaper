@@ -1,5 +1,6 @@
 ﻿using WebReaper.Builders;
 using WebReaper.Cosmos;
+using WebReaper.Redis;
 using WebReaper.Core;
 using WebReaper.Domain.Parsing;
 
