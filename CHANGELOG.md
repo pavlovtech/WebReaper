@@ -174,6 +174,12 @@ the JSON backend. Rationale and the doc-lag correction:
   references it. WebReaper's own APIs are `System.Text.Json` throughout, so a
   consumer that does not use Newtonsoft itself needs no change.
 
+No code or API change, listing only: each satellite package
+(`WebReaper.Cosmos` / `.Mongo` / `.Redis` / `.AzureServiceBus` / `.Puppeteer`)
+now ships a focused README, the shared WebReaper icon, and release notes in its
+`.nupkg`, so its nuget.org page renders like the core package's instead of
+blank.
+
 ## 6.0.0 — System.Text.Json typed pipeline (breaking, AOT-clean)
 
 The extraction and persistence pipeline moved off `Newtonsoft.Json` +
