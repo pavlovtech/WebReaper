@@ -1,6 +1,7 @@
-using WebReaper.DataAccess;
+using Xunit;
+using WebReaper.Redis;
 
-namespace WebReaper.UnitTests;
+namespace WebReaper.Redis.Tests;
 
 // Pins the exact bug the removed RedisBase had (ADR 0005): its process-static,
 // first-connection-wins multiplexer silently coalesced every connection string
