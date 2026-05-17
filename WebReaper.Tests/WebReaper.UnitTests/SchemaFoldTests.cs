@@ -1,5 +1,6 @@
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using Microsoft.Extensions.Logging.Abstractions;
-using Newtonsoft.Json.Linq;
 using WebReaper.Core.Parser.Abstract;
 using WebReaper.Core.Parser.Concrete;
 using WebReaper.Domain.Parsing;
@@ -11,7 +12,7 @@ namespace WebReaper.UnitTests;
 // / JsonParsingTests; these tests pin what the *deepening* added: one fold
 // serving every backend, the divergence/quirks being deliberate and
 // quarantined, and a brand-new backend being a tiny adapter — not a copy of
-// the walk.
+// the walk. ADR 0008: the terminal is System.Text.Json.Nodes (no Newtonsoft).
 public class SchemaFoldTests
 {
     private static AngleSharpContentParser Html() => new(NullLogger.Instance);
@@ -22,7 +23,7 @@ public class SchemaFoldTests
     {
         // Selectors are inherently backend-specific (CSS vs JSONPath); the
         // grammar is what's shared. With typed leaves, coercion normalises
-        // both sides, so the assembled JObjects must be byte-identical.
+        // both sides, so the assembled JsonObjects must be deep-equal.
         const string html =
             "<html><body><div class='post'>" +
             "<h1 class='title'>Hello</h1><span class='views'>42</span>" +
@@ -31,7 +32,7 @@ public class SchemaFoldTests
         const string json =
             @"{ ""post"": { ""title"": ""Hello"", ""views"": 42, ""tags"": [ ""a"", ""b"" ] } }";
 
-        var htmlResult = await Html().ParseAsync(html, new Schema
+        var htmlResult = await Html().ParseToJsonAsync(html, new Schema
         {
             new Schema("post")
             {
@@ -44,7 +45,7 @@ public class SchemaFoldTests
             }
         });
 
-        var jsonResult = await Json().ParseAsync(json, new Schema
+        var jsonResult = await Json().ParseToJsonAsync(json, new Schema
         {
             new Schema("post")
             {
@@ -57,9 +58,8 @@ public class SchemaFoldTests
             }
         });
 
-        Assert.True(JToken.DeepEquals(htmlResult, jsonResult),
-            $"html={htmlResult.ToString(Newtonsoft.Json.Formatting.None)} " +
-            $"json={jsonResult.ToString(Newtonsoft.Json.Formatting.None)}");
+        Assert.True(JsonNode.DeepEquals(htmlResult, jsonResult),
+            $"html={htmlResult.ToJsonString()} json={jsonResult.ToJsonString()}");
     }
 
     [Fact]
@@ -69,15 +69,15 @@ public class SchemaFoldTests
         // raw value verbatim — HTML text is a string, a JSON number stays a
         // number. Do not "unify" this; that would silently regress every
         // JSON-endpoint user. This test fails loudly if someone tries.
-        var htmlList = await Html().ParseAsync(
+        var htmlList = await Html().ParseToJsonAsync(
             "<i>1</i><i>2</i>",
             new Schema { new SchemaElement("n", "i") { IsList = true } });
-        var jsonList = await Json().ParseAsync(
+        var jsonList = await Json().ParseToJsonAsync(
             @"{ ""n"": [ 1, 2 ] }",
             new Schema { new SchemaElement("n", "$.n[*]") { IsList = true } });
 
-        Assert.Equal(JTokenType.String, ((JArray)htmlList["n"]!)[0].Type);
-        Assert.Equal(JTokenType.Integer, ((JArray)jsonList["n"]!)[0].Type);
+        Assert.Equal(JsonValueKind.String, htmlList["n"]!.AsArray()[0]!.GetValueKind());
+        Assert.Equal(JsonValueKind.Number, jsonList["n"]!.AsArray()[0]!.GetValueKind());
     }
 
     [Fact]
@@ -85,7 +85,7 @@ public class SchemaFoldTests
     {
         var element = new SchemaElement("u", ".img", "src");
 
-        var result = await Html().ParseAsync(
+        var result = await Html().ParseToJsonAsync(
             "<img class='img' src='SRC' title='TITLE'>",
             new Schema { element });
 
@@ -98,7 +98,7 @@ public class SchemaFoldTests
     {
         var element = new SchemaElement("u", "u", "src");
 
-        var result = await Json().ParseAsync(@"{ ""u"": ""V"" }", new Schema { element });
+        var result = await Json().ParseToJsonAsync(@"{ ""u"": ""V"" }", new Schema { element });
 
         Assert.Equal("V", result["u"]!.ToString());
         Assert.Equal("src", element.Attr); // quarantine boundary: no mutation on this side
@@ -107,14 +107,14 @@ public class SchemaFoldTests
     [Fact]
     public async Task Typed_coercion_is_backend_independent()
     {
-        var html = await Html().ParseAsync(
+        var html = await Html().ParseToJsonAsync(
             "<i>7</i><b>true</b>",
             new Schema
             {
                 new SchemaElement("i", "i", DataType.Integer),
                 new SchemaElement("b", "b", DataType.Boolean)
             });
-        var json = await Json().ParseAsync(
+        var json = await Json().ParseToJsonAsync(
             @"{ ""i"": 7, ""b"": true }",
             new Schema
             {
@@ -122,9 +122,9 @@ public class SchemaFoldTests
                 new SchemaElement("b", "$.b", DataType.Boolean)
             });
 
-        Assert.True(JToken.DeepEquals(html, json));
-        Assert.Equal(7, html["i"]!.Value<int>());
-        Assert.True(html["b"]!.Value<bool>());
+        Assert.True(JsonNode.DeepEquals(html, json));
+        Assert.Equal(7, html["i"]!.GetValue<int>());
+        Assert.True(html["b"]!.GetValue<bool>());
     }
 
     [Fact]
@@ -132,12 +132,12 @@ public class SchemaFoldTests
     {
         var schema = () => new Schema { new SchemaElement("x", "nope") };
 
-        var html = await Html().ParseAsync("<p>hi</p>",
+        var html = await Html().ParseToJsonAsync("<p>hi</p>",
             new Schema { new SchemaElement("x", ".nope") });
-        var json = await Json().ParseAsync(@"{ ""y"": 1 }",
+        var json = await Json().ParseToJsonAsync(@"{ ""y"": 1 }",
             new Schema { new SchemaElement("x", "$.nope") });
         var custom = await new SchemaContentParser<KeyValueNode>(new KeyValueBackend(), NullLogger.Instance)
-            .ParseAsync("y=1", schema());
+            .ParseToJsonAsync("y=1", schema());
 
         Assert.Equal(string.Empty, html["x"]!.ToString());
         Assert.Equal(string.Empty, json["x"]!.ToString());
@@ -148,12 +148,12 @@ public class SchemaFoldTests
     public async Task A_new_backend_is_a_tiny_adapter_reusing_the_fold()
     {
         // The deepening's deliverable: a document shape that is neither HTML
-        // nor JSON runs through the SAME fold (coercion, JObject assembly,
+        // nor JSON runs through the SAME fold (coercion, JsonObject assembly,
         // missing-node policy) with a ~15-line ISchemaBackend and zero
         // copied walk.
         var parser = new SchemaContentParser<KeyValueNode>(new KeyValueBackend(), NullLogger.Instance);
 
-        var result = await parser.ParseAsync(
+        var result = await parser.ParseToJsonAsync(
             "title=Hello\nviews=42\ntag=a\ntag=b",
             new Schema
             {
@@ -163,8 +163,8 @@ public class SchemaFoldTests
             });
 
         Assert.Equal("Hello", result["title"]!.ToString());
-        Assert.Equal(42, result["views"]!.Value<int>());
-        Assert.Equal(new[] { "a", "b" }, ((JArray)result["tags"]!).Select(t => t.ToString()));
+        Assert.Equal(42, result["views"]!.GetValue<int>());
+        Assert.Equal(new[] { "a", "b" }, result["tags"]!.AsArray().Select(t => t!.ToString()));
     }
 
     // --- a deliberately foreign document model: line-based "key=value" ---

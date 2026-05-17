@@ -1,10 +1,10 @@
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using StackExchange.Redis;
 using WebReaper.Core.Scheduler.Abstract;
 using WebReaper.DataAccess;
 using WebReaper.Domain;
+using WebReaper.Serialization;
 
 namespace WebReaper.Core.Scheduler.Concrete;
 
@@ -55,7 +55,7 @@ public class RedisScheduler : IScheduler
                 continue;
             }
 
-            var job = JsonConvert.DeserializeObject<Job>(rawResult);
+            var job = WebReaperJson.DeserializeJob(rawResult!);
 
             yield return job;
         }
@@ -81,21 +81,11 @@ public class RedisScheduler : IScheduler
         }
     }
 
-    // Moved verbatim from the removed RedisBase (its only caller). Preserved
-    // as-is: TypeNameHandling.None means a Job's ImmutableQueue selector chain
-    // and PageAction.Parameters are not round-tripped with type metadata here
-    // (it deserializes with defaults) — the same serialize/deserialize
-    // asymmetry ADR 0003 fixed for the config path, untouched in this
-    // RedisBase retirement and flagged as a separate finding (ADR 0005).
-    private static string SerializeToJson(object config)
-    {
-        var json = JsonConvert.SerializeObject(config, Formatting.Indented, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.None,
-            NullValueHandling = NullValueHandling.Ignore,
-            TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple
-        });
-
-        return json;
-    }
+    // ADR 0008 closes the ADR-0005 asymmetry: the Job is serialised and
+    // deserialised through the SAME WebReaperJson grammar as the config
+    // payload, so its ImmutableQueue selector chain, ImmutableQueue backlinks
+    // and object[] PageAction.Parameters round-trip with full type fidelity.
+    // The old TypeNameHandling.None serialize / default deserialize asymmetry
+    // is now unrepresentable — there is no TypeNameHandling knob.
+    private static string SerializeToJson(Job job) => WebReaperJson.SerializeJob(job);
 }

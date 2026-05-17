@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    ADR 0008 step 4 (re-scoped): the AOT smoke test. Exercises ONLY the
+    Newtonsoft-free production path the Phase-0 spike proved zero-warning —
+    WebReaperJson config/Job round-trip, the typed JsonObject fold terminal
+    over a trivial in-memory backend, and the JsonObject file formats. It does
+    NOT touch JsonSchemaBackend's Newtonsoft JSONPath cursor or the [Obsolete]
+    JObject shim (both reachable-Newtonsoft, the named follow-up that gates a
+    zero-warning *whole-core* PublishAot — Bounded scope, ADR 0008).
+
+    NOT in WebReaper.sln: the existing CI build/test steps stay unaffected; a
+    dedicated `dotnet publish` CI step runs this and fails on any IL2026/IL3050
+    family warning (scoped WarningsAsErrors below).
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>12</LangVersion>
+
+    <PublishAot>true</PublishAot>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <WarningsAsErrors>$(WarningsAsErrors);IL2026;IL2027;IL2046;IL2055;IL2057;IL2058;IL2059;IL2060;IL2062;IL2067;IL2070;IL2072;IL2075;IL2080;IL2087;IL2090;IL2091;IL2104;IL3050;IL3051;IL3052;IL3053;IL3056</WarningsAsErrors>
+    <IsAotCompatible>true</IsAotCompatible>
+    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <EnableSingleFileAnalyzer>true</EnableSingleFileAnalyzer>
+    <EnableAotAnalyzer>true</EnableAotAnalyzer>
+    <NuGetAudit>false</NuGetAudit>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\WebReaper\WebReaper.csproj" />
+  </ItemGroup>
+
+</Project>

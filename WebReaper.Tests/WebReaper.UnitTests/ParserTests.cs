@@ -19,7 +19,7 @@ namespace WebReaper.UnitTests
         {
             var parser = new AngleSharpContentParser(logger);
             var page = await File.ReadAllTextAsync("TestData/TestPage.html", Encoding.GetEncoding("windows-1251"));
-            var result = await parser.ParseAsync(page, new()
+            var result = await parser.ParseToJsonAsync(page, new()
             {
                 new("name", "#topic-title"),
                 new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
@@ -42,7 +42,7 @@ namespace WebReaper.UnitTests
         {
             var parser = new AngleSharpContentParser(logger);
             var page = await File.ReadAllTextAsync("TestData/TestPage.html", Encoding.GetEncoding("windows-1251"));
-            var result = await parser.ParseAsync(page, new()
+            var result = await parser.ParseToJsonAsync(page, new()
             {
                 new("link", ".attach_link.guest", true)
             });

@@ -1,5 +1,5 @@
+using System.Text.Json.Nodes;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
 using WebReaper.Core.Parser.Abstract;
 using WebReaper.Domain.Parsing;
 
@@ -15,12 +15,13 @@ namespace WebReaper.Core.Parser.Concrete;
 /// constructor so <c>WithXPathContentParser</c> mirrors
 /// <c>WithJsonContentParser</c>.
 /// </summary>
-public class XPathContentParser : IContentParser
+public class XPathContentParser : IJsonContentParser
 {
     private readonly SchemaContentParser<AngleSharp.Dom.IParentNode> _inner;
 
     public XPathContentParser(ILogger logger)
         => _inner = new SchemaContentParser<AngleSharp.Dom.IParentNode>(new AngleSharpXPathSchemaBackend(), logger);
 
-    public Task<JObject> ParseAsync(string content, Schema? schema) => _inner.ParseAsync(content, schema);
+    public Task<JsonObject> ParseToJsonAsync(string content, Schema? schema)
+        => _inner.ParseToJsonAsync(content, schema);
 }

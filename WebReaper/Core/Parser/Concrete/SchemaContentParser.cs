@@ -1,5 +1,5 @@
+using System.Text.Json.Nodes;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
 using WebReaper.Core.Parser.Abstract;
 using WebReaper.Domain.Parsing;
 
@@ -16,12 +16,22 @@ namespace WebReaper.Core.Parser.Concrete;
 /// is delegated to <see cref="ISchemaBackend{TNode}"/>.
 /// </summary>
 /// <remarks>
+/// <para>
 /// Public and generic on purpose: a new backend is
 /// <c>new SchemaContentParser&lt;TNode&gt;(myBackend, logger)</c> passed
 /// to <c>WithContentParser</c>, reusing this proven fold rather than
 /// copying it. See docs/adr/0002.
+/// </para>
+/// <para>
+/// ADR 0008: the fold's terminal projection is
+/// <see cref="System.Text.Json.Nodes.JsonObject"/> (the typed
+/// <see cref="ParseToJsonAsync"/>). The legacy Newtonsoft <c>JObject</c>
+/// path and <c>IContentParser</c> were removed at the 6.0.0 major; this
+/// fold carries no Newtonsoft (the JSON backend's JToken→JsonNode bridge is
+/// backend-local in <c>JsonSchemaBackend.ExtractRaw</c>).
+/// </para>
 /// </remarks>
-public class SchemaContentParser<TNode> : IContentParser where TNode : class
+public class SchemaContentParser<TNode> : IJsonContentParser where TNode : class
 {
     private readonly ISchemaBackend<TNode> _backend;
     private readonly ILogger _logger;
@@ -32,7 +42,7 @@ public class SchemaContentParser<TNode> : IContentParser where TNode : class
         _logger = logger;
     }
 
-    public async Task<JObject> ParseAsync(string content, Schema? schema)
+    public async Task<JsonObject> ParseToJsonAsync(string content, Schema? schema)
     {
         ArgumentNullException.ThrowIfNull(schema);
 
@@ -40,7 +50,7 @@ public class SchemaContentParser<TNode> : IContentParser where TNode : class
 
         try
         {
-            var output = new JObject();
+            var output = new JsonObject();
 
             foreach (var item in schema.Children) FillOutput(output, root, item);
 
@@ -57,7 +67,7 @@ public class SchemaContentParser<TNode> : IContentParser where TNode : class
     // scope is the node selectors are evaluated against: the root at the
     // top level, or a single list-item node when recursing into a list of
     // objects (issue #28).
-    private void FillOutput(JObject result, TNode scope, SchemaElement item)
+    private void FillOutput(JsonObject result, TNode scope, SchemaElement item)
     {
         if (item.Field is null) throw new InvalidOperationException("Schema is invalid");
 
@@ -71,7 +81,7 @@ public class SchemaContentParser<TNode> : IContentParser where TNode : class
             }
             else
             {
-                var obj = new JObject();
+                var obj = new JsonObject();
 
                 foreach (var child in container.Children) FillOutput(obj, scope, child);
 
@@ -91,29 +101,32 @@ public class SchemaContentParser<TNode> : IContentParser where TNode : class
         }
     }
 
-    private JArray GetObjectList(TNode scope, Schema container)
+    private JsonArray GetObjectList(TNode scope, Schema container)
     {
         var selector = RequireSelector(container);
 
-        var array = new JArray();
+        var array = new JsonArray();
 
         foreach (var element in _backend.SelectMany(scope, selector))
         {
-            var obj = new JObject();
+            var obj = new JsonObject();
 
             foreach (var child in container.Children) FillOutput(obj, element, child);
 
-            array.Add(obj);
+            // Bind the non-generic JsonArray.Add(JsonNode?), not the generic
+            // Add<T> (RequiresDynamicCode/UnreferencedCode — AOT-hostile). ADR
+            // 0008: the typed fold must trim/AOT-analyse clean.
+            array.Add((JsonNode)obj);
         }
 
         return array;
     }
 
-    private JArray GetValueList(TNode scope, SchemaElement item)
+    private JsonArray GetValueList(TNode scope, SchemaElement item)
     {
         var selector = RequireSelector(item);
 
-        var array = new JArray();
+        var array = new JsonArray();
 
         foreach (var node in _backend.SelectMany(scope, selector))
         {
@@ -123,7 +136,7 @@ public class SchemaContentParser<TNode> : IContentParser where TNode : class
         return array;
     }
 
-    private JToken GetSingleValue(TNode scope, SchemaElement item)
+    private JsonNode? GetSingleValue(TNode scope, SchemaElement item)
     {
         var node = _backend.SelectOne(scope, RequireSelector(item));
 
@@ -133,7 +146,7 @@ public class SchemaContentParser<TNode> : IContentParser where TNode : class
                 "Selector {selector} matched nothing; field {field} will be empty",
                 item.Selector, item.Field);
 
-            return string.Empty;
+            return JsonValue.Create(string.Empty);
         }
 
         return Coerce(item.Type, _backend.ExtractRaw(node, item));
@@ -151,17 +164,34 @@ public class SchemaContentParser<TNode> : IContentParser where TNode : class
     }
 
     // The typed switch was byte-for-byte identical across both old parsers
-    // once fed a string, so it is shared grammar here. An untyped leaf is
-    // the backend's raw value verbatim: a native JToken passes through
-    // (JSON keeps number/bool), anything else is wrapped (HTML stays a
-    // string). That one line is the whole HTML-vs-JSON divergence.
-    private static JToken Coerce(DataType? type, object? raw) => type switch
+    // once fed a string, so it is shared grammar here. An untyped leaf is the
+    // backend's raw value verbatim. ADR 0008: the JSON backend already bridges
+    // its native Newtonsoft token to a JsonNode in JsonSchemaBackend.ExtractRaw
+    // (the one place a JToken exists — ADR 0002, backend-local quirk), so this
+    // fold carries NO Newtonsoft reference: a JsonNode passes through (JSON
+    // keeps number/bool), anything else (an HTML string) is wrapped. That one
+    // arm is the whole HTML-vs-JSON divergence (ADR 0002), in S.T.J.Nodes.
+    private static JsonNode? Coerce(DataType? type, object? raw) => type switch
     {
-        DataType.Integer => int.Parse(raw?.ToString() ?? string.Empty),
-        DataType.Float => float.Parse(raw?.ToString() ?? string.Empty),
-        DataType.Boolean => bool.Parse(raw?.ToString() ?? string.Empty),
-        DataType.DataTime => DateTime.Parse(raw?.ToString() ?? string.Empty),
-        DataType.String => raw?.ToString() ?? string.Empty,
-        _ => raw is JToken token ? token : JToken.FromObject(raw ?? string.Empty)
+        DataType.Integer => JsonValue.Create(int.Parse(raw?.ToString() ?? string.Empty)),
+        DataType.Float => JsonValue.Create(float.Parse(raw?.ToString() ?? string.Empty)),
+        DataType.Boolean => JsonValue.Create(bool.Parse(raw?.ToString() ?? string.Empty)),
+        DataType.DataTime => JsonValue.Create(DateTime.Parse(raw?.ToString() ?? string.Empty)),
+        DataType.String => JsonValue.Create(raw?.ToString() ?? string.Empty),
+        _ => FromRaw(raw)
+    };
+
+    private static JsonNode? FromRaw(object? raw) => raw switch
+    {
+        null => JsonValue.Create(string.Empty),
+        JsonNode n => n,            // JSON backend: already bridged, passthrough
+        string s => JsonValue.Create(s),
+        bool b => JsonValue.Create(b),
+        int i => JsonValue.Create(i),
+        long l => JsonValue.Create(l),
+        double d => JsonValue.Create(d),
+        float f => JsonValue.Create(f),
+        decimal m => JsonValue.Create(m),
+        _ => JsonValue.Create(raw.ToString())
     };
 }
