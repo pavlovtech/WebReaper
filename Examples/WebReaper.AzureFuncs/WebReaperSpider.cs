@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using WebReaper.Builders;
 using WebReaper.Core.LinkTracker.Abstract;
-using WebReaper.Sinks.Concrete;
+using WebReaper.Cosmos;
 using WebReaper.Domain;
 
 namespace WebReaper.AzureFuncs

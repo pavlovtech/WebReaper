@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>12</LangVersion>
+
+    <PackageId>WebReaper.Cosmos</PackageId>
+    <Version>7.0.0</Version>
+    <Authors>Alex Pavlov</Authors>
+    <Company>Alex Pavlov</Company>
+    <Product>WebReaper</Product>
+    <Title>WebReaper.Cosmos</Title>
+    <Description>Azure Cosmos DB sink for WebReaper. Adds ScraperEngineBuilder.WriteToCosmosDb(...). Satellite package (ADR-0009) so the WebReaper core stays dependency-light and AOT-clean.</Description>
+    <Copyright>GPL-3.0 license</Copyright>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/pavlovtech/WebReaper</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/pavlovtech/WebReaper</RepositoryUrl>
+    <PackageTags>scraper, crawler, parser, cosmosdb, azure</PackageTags>
+
+    <!-- ADR 0009: the Cosmos satellite is deliberately NOT IsAotCompatible.
+         The Cosmos SDK drags Newtonsoft + native ServiceInterop; CosmosSink is
+         the documented optional, non-AOT-guaranteed sink (ADR 0008 Bounded
+         scope). Quarantining it in this package is exactly why the core stays
+         dependency-light and AOT-clean. -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WebReaper\WebReaper.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.59.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.8" />
+  </ItemGroup>
+</Project>

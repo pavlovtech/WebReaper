@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using WebReaper.Core.LinkTracker.Abstract;
 using WebReaper.Core.LinkTracker.Concrete;
-using WebReaper.Sinks.Concrete;
+using WebReaper.Cosmos;
 
 [assembly: FunctionsStartup(typeof(WebReaper.AzureFuncs.Startup))]
 

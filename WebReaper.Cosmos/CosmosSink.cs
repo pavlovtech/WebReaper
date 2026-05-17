@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 using WebReaper.Sinks.Abstract;
 using WebReaper.Sinks.Models;
 
-namespace WebReaper.Sinks.Concrete;
+namespace WebReaper.Cosmos;
 
 public class CosmosSink : IScraperSink
 {
@@ -49,7 +49,8 @@ public class CosmosSink : IScraperSink
         // serialises a Newtonsoft JObject natively but not a System.Text.Json
         // JsonObject. Bridge here, locally — CosmosSink is the documented
         // out-of-scope / not-AOT-guaranteed optional sink (ADR 0008 Bounded
-        // scope), so the Newtonsoft dependency stays quarantined to it.
+        // scope) and, per ADR 0009, lives in the WebReaper.Cosmos satellite so
+        // the Newtonsoft + Cosmos dependency stays off the core graph.
         var item = JObject.Parse(entity.Data.ToJsonString());
 
         try
