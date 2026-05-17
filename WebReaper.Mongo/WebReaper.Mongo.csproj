@@ -4,6 +4,15 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <LangVersion>12</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- Ship the XML doc so the documented builder-extension API (the
+         satellite's supported surface) gives consumers IntelliSense. The
+         moved adapter classes (*Sink / *Scheduler / *Storage) are public only
+         because the extension and tests bind to them; they are not part of the
+         satellite's documented contract, so CS1591 for them is noise, not a
+         backlog signal. Core keeps CS1591 visible by contrast — there it IS a
+         live doc backlog. -->
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
 
     <PackageId>WebReaper.Mongo</PackageId>
     <Version>7.0.0</Version>

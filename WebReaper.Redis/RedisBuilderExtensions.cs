@@ -15,6 +15,17 @@ namespace WebReaper.Redis;
 /// </summary>
 public static class RedisBuilderExtensions
 {
+    /// <summary>
+    /// Registers a Redis sink: each parsed item is appended under the given
+    /// Redis key, over <see cref="ScraperEngineBuilder"/>'s public
+    /// <c>AddSink</c> seam.
+    /// </summary>
+    /// <param name="builder">The scraper engine builder to add the sink to.</param>
+    /// <param name="connectionString">StackExchange.Redis connection string.</param>
+    /// <param name="redisKey">Redis key the results are written under.</param>
+    /// <param name="dataCleanupOnStart">When <see langword="true"/>, existing data is cleared when the scrape starts.</param>
+    /// <param name="logger">Optional logger; defaults to <see cref="NullLogger"/> (a satellite extension cannot reach the builder's private logger).</param>
+    /// <returns>The same <see cref="ScraperEngineBuilder"/>, for chaining.</returns>
     public static ScraperEngineBuilder WriteToRedis(
         this ScraperEngineBuilder builder,
         string connectionString,
@@ -29,6 +40,17 @@ public static class RedisBuilderExtensions
             logger ?? NullLogger.Instance));
     }
 
+    /// <summary>
+    /// Uses a Redis-backed job queue as the scheduler, over
+    /// <see cref="ScraperEngineBuilder"/>'s public <c>WithScheduler</c> seam —
+    /// so multiple workers can share crawl state (distributed mode).
+    /// </summary>
+    /// <param name="builder">The scraper engine builder.</param>
+    /// <param name="connectionString">StackExchange.Redis connection string.</param>
+    /// <param name="queueName">Redis key used as the shared job queue.</param>
+    /// <param name="dataCleanupOnStart">When <see langword="true"/>, the queue is cleared when the scrape starts.</param>
+    /// <param name="logger">Optional logger; defaults to <see cref="NullLogger"/>.</param>
+    /// <returns>The same <see cref="ScraperEngineBuilder"/>, for chaining.</returns>
     public static ScraperEngineBuilder WithRedisScheduler(
         this ScraperEngineBuilder builder,
         string connectionString,
@@ -43,6 +65,16 @@ public static class RedisBuilderExtensions
             dataCleanupOnStart));
     }
 
+    /// <summary>
+    /// Tracks visited links in Redis, over <see cref="ScraperEngineBuilder"/>'s
+    /// public <c>WithLinkTracker</c> seam — so workers in distributed mode
+    /// don't re-crawl each other's pages.
+    /// </summary>
+    /// <param name="builder">The scraper engine builder.</param>
+    /// <param name="connectionString">StackExchange.Redis connection string.</param>
+    /// <param name="redisKey">Redis key holding the visited-link set.</param>
+    /// <param name="dataCleanupOnStart">When <see langword="true"/>, the visited-link set is cleared when the scrape starts.</param>
+    /// <returns>The same <see cref="ScraperEngineBuilder"/>, for chaining.</returns>
     public static ScraperEngineBuilder TrackVisitedLinksInRedis(
         this ScraperEngineBuilder builder,
         string connectionString,
@@ -55,6 +87,16 @@ public static class RedisBuilderExtensions
             dataCleanupOnStart));
     }
 
+    /// <summary>
+    /// Stores the immutable scraper config in Redis, over
+    /// <see cref="ScraperEngineBuilder"/>'s public <c>WithConfigStorage</c>
+    /// seam — so multiple workers can share crawl configuration.
+    /// </summary>
+    /// <param name="builder">The scraper engine builder.</param>
+    /// <param name="connectionString">StackExchange.Redis connection string.</param>
+    /// <param name="redisKey">Redis key the config is stored under.</param>
+    /// <param name="logger">Optional logger; defaults to <see cref="NullLogger"/>.</param>
+    /// <returns>The same <see cref="ScraperEngineBuilder"/>, for chaining.</returns>
     public static ScraperEngineBuilder WithRedisConfigStorage(
         this ScraperEngineBuilder builder,
         string connectionString,
@@ -67,6 +109,16 @@ public static class RedisBuilderExtensions
             logger ?? NullLogger.Instance));
     }
 
+    /// <summary>
+    /// Stores session cookies in Redis, over
+    /// <see cref="ScraperEngineBuilder"/>'s public <c>WithCookieStorage</c>
+    /// seam — so multiple workers can share an authenticated session.
+    /// </summary>
+    /// <param name="builder">The scraper engine builder.</param>
+    /// <param name="connectionString">StackExchange.Redis connection string.</param>
+    /// <param name="redisKey">Redis key the cookies are stored under.</param>
+    /// <param name="logger">Optional logger; defaults to <see cref="NullLogger"/>.</param>
+    /// <returns>The same <see cref="ScraperEngineBuilder"/>, for chaining.</returns>
     public static ScraperEngineBuilder WithRedisCookieStorage(
         this ScraperEngineBuilder builder,
         string connectionString,

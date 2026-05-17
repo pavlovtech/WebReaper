@@ -11,6 +11,17 @@ namespace WebReaper.AzureServiceBus;
 /// </summary>
 public static class AzureServiceBusBuilderExtensions
 {
+    /// <summary>
+    /// Uses an Azure Service Bus queue as the scheduler, over
+    /// <see cref="ScraperEngineBuilder"/>'s public <c>WithScheduler</c> seam —
+    /// so multiple workers and serverless functions can share crawl state
+    /// (distributed mode).
+    /// </summary>
+    /// <param name="builder">The scraper engine builder.</param>
+    /// <param name="connectionString">Azure Service Bus connection string.</param>
+    /// <param name="queueName">Service Bus queue used as the shared job queue.</param>
+    /// <param name="dataCleanupOnStart">When <see langword="true"/>, the queue is drained when the scrape starts.</param>
+    /// <returns>The same <see cref="ScraperEngineBuilder"/>, for chaining.</returns>
     public static ScraperEngineBuilder WithAzureServiceBusScheduler(
         this ScraperEngineBuilder builder,
         string connectionString,
