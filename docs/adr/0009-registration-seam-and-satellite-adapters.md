@@ -182,6 +182,20 @@ guardrail that this stays consistent.
   two-`IPageLoadTransport` dispatcher is unchanged. The default Dynamic slot
   with no registration is a core `BrowserNotConfiguredPageLoadTransport` that
   throws an actionable "add WebReaper.Puppeteer" message.
+- **`SpiderBuilder` internal landed; `ScraperEngineBuilder.BuildSpider()`
+  reconciles the direct-Spider consumer.** The one non-fluent consumer was
+  the distributed-worker pattern (`Examples/WebReaper.AzureFuncs`'s
+  `WebReaperSpider`: `new SpiderBuilder()…Build()` then
+  `spider.CrawlAsync(job)` per queue message). It legitimately needs a bare
+  `ISpider`, not a `ScraperEngine` (it owns its own Service Bus queue loop),
+  so a new public `ScraperEngineBuilder.BuildSpider()` returns the configured
+  `ISpider` without `ConfigBuilder.Build()`/persist — it therefore does not
+  require `Get`/`Parse` (the worker's `ScraperConfig` is persisted separately
+  and read at crawl time). An async/config-persisting variant was rejected:
+  it would throw for that very consumer, which calls neither `Get` nor
+  `Parse`. The seam stays on `ScraperEngineBuilder` only; `SpiderBuilder`'s
+  duplicate public surface is gone, closing the two-builder duplication by
+  construction.
 - **The clean cut breaks existing consumer code at the call site.**
   `WriteToCosmosDb`/`WriteToRedis`/… stop resolving until the consumer adds
   the satellite package and `using`. Announced via this ADR and the

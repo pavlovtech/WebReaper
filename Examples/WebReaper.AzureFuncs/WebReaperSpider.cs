@@ -41,11 +41,13 @@ namespace WebReaper.AzureFuncs
                 NullValueHandling = NullValueHandling.Ignore
             });
 
-            var spider = new SpiderBuilder()
+            // ADR-0009: SpiderBuilder is internal; the bare-spider seam for
+            // the distributed-worker pattern is ScraperEngineBuilder.BuildSpider().
+            var spider = new ScraperEngineBuilder()
                 .WithLogger(log)
                 .WithLinkTracker(LinkTracker)
                 .AddSink(CosmosSink)
-                .Build();
+                .BuildSpider();
 
             var newJobs = await spider.CrawlAsync(job);
 
