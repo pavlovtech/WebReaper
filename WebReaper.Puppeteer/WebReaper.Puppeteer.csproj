@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>12</LangVersion>
+
+    <PackageId>WebReaper.Puppeteer</PackageId>
+    <Version>7.0.0</Version>
+    <Authors>Alex Pavlov</Authors>
+    <Company>Alex Pavlov</Company>
+    <Product>WebReaper</Product>
+    <Title>WebReaper.Puppeteer</Title>
+    <Description>Headless-browser (Puppeteer/Chromium) page-load transport for WebReaper, for scraping JavaScript-rendered pages (GetWithBrowser / FollowWithBrowser / PaginateWithBrowser). Adds ScraperEngineBuilder.WithPuppeteerPageLoader() over the core WithLoadTransport registration seam. Satellite package (ADR-0009) so the WebReaper core stays dependency-light and AOT-clean — core is HTTP-only by default and no longer references PuppeteerSharp/PuppeteerExtraSharp or the Chromium provisioning path.</Description>
+    <Copyright>GPL-3.0 license</Copyright>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/pavlovtech/WebReaper</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/pavlovtech/WebReaper</RepositoryUrl>
+    <PackageTags>scraper, crawler, parser, puppeteer, headless, browser, chromium</PackageTags>
+
+    <!-- ADR 0009: the Puppeteer satellite is deliberately NOT IsAotCompatible.
+         Quarantining the headless-browser transport here is exactly why the
+         core stays dependency-light — a core-only consumer no longer pulls
+         PuppeteerSharp/PuppeteerExtraSharp or the Chromium provisioning path.
+         This package also carries the ADR-0008-named BrowserPageLoadTransport
+         Assembly.Location IL3000 finding out of core with it; the core's
+         Newtonsoft-free path is now provably zero-warning (WebReaper.AotSmokeTest).
+         ADR 0004's one-IPageLoader / two-IPageLoadTransport seam is unchanged —
+         only the default composition of the Dynamic slot moved out of core. -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WebReaper\WebReaper.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="PuppeteerSharp" Version="24.42.0" />
+    <PackageReference Include="PuppeteerExtraSharp" Version="3.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.8" />
+  </ItemGroup>
+</Project>

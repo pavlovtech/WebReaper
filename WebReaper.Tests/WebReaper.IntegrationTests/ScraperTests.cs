@@ -3,6 +3,7 @@ using WebReaper.ProxyProviders.WebShareProxy;
 using Xunit.Abstractions;
 using PuppeteerSharp;
 using WebReaper.Builders;
+using WebReaper.Puppeteer;
 using WebReaper.Sinks.Models;
 
 namespace WebReaper.IntegrationTests
@@ -113,6 +114,7 @@ namespace WebReaper.IntegrationTests
             var result = new List<ParsedData>();
 
             var engine = await new ScraperEngineBuilder()
+                .WithPuppeteerPageLoader()
                 .GetWithBrowser(new []{ "https://www.alexpavlov.dev/blog" })
                 .FollowWithBrowser(".text-gray-900.transition")
                 .Parse(new()

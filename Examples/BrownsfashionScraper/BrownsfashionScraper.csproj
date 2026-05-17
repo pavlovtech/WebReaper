@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\WebReaper\WebReaper.csproj" />
+    <ProjectReference Include="..\..\WebReaper.Puppeteer\WebReaper.Puppeteer.csproj" />
   </ItemGroup>
 
   <ItemGroup>

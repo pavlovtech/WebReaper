@@ -1,7 +1,7 @@
 using System.Net;
 using PuppeteerSharp;
 
-namespace WebReaper.Extensions;
+namespace WebReaper.Puppeteer;
 
 public static class CookieExtensions
 {
