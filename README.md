@@ -7,80 +7,27 @@
 
 ## Overview
 
-WebReaper is a declarative high performance web scraper, crawler and parser in C#. Designed as simple, extensible and
-scalable web scraping solution. Easily crawl any web site and parse the data, save structed result to a file, DB, or
-pretty much to anywhere you want.
+WebReaper is a declarative, high-performance web scraper, crawler and parser in C#. Crawl any web site,
+parse the data, and save the structured result to a file, a database, or pretty much anywhere you want — with
+a simple, extensible fluent API.
 
-It provides a simple yet extensible API to make web scraping a breeze.
+As of **7.0.0** the core `WebReaper` package is **dependency-light, Native-AOT-ready and Newtonsoft-free**:
+a plain HTTP → file crawl pulls only AngleSharp, `Microsoft.Extensions.*` and Polly. Heavier capabilities
+(headless browser, MongoDB, Redis, Azure Cosmos DB, Azure Service Bus) ship as **optional satellite
+packages** you add only when you need them — see [Packages](#packages).
 
-### 📋 Example:
-
-![ray-so-export](https://user-images.githubusercontent.com/6662454/229387724-82ad04cb-6b90-42b8-ba2a-a3735fb94abe.png)
-
-## Table of contents
-
-- [Install](#install)
-- [Requirements](#requirements)
-- [Features](#features)
-- [Usage examples](#usage-examples)
-- [API overview](#api-overview)
-  * [Parsing Single Page Applications](#parsing-single-page-applications)
-  * [Persist the progress locally](#persist-the-progress-locally)
-  * [Authorization](#authorization)
-  * [How to disable headless mode](#how-to-disable-headless-mode)
-  * [How to clean scraped data from the previous web scrapping run](#how-to-clean-scraped-data-from-the-previous-web-scrapping-run)
-  * [How to clean visited links from the previous web scrapping run](#how-to-clean-visited-links-from-the-previous-web-scrapping-run)
-  * [How to clean job queue from the previous web scraping run](#how-to-clean-job-queue-from-the-previous-web-scraping-run)
-  * [Distributed web scraping with Serverless approach](#distributed-web-scraping-with-serverless-approach)
-  * [Extensibility](#extensibility)
-    + [Adding a new sink to persist your data](#adding-a-new-sink-to-persist-your-data)
-  * [Intrefaces](#intrefaces)
-  * [Main entities](#main-entities)
-- [Repository structure](#repository-structure)
-
-## Install
+## Quick start
 
 ```
 dotnet add package WebReaper
 ```
 
-## Requirements
-
-.NET 10
-
-## Features
-
-* :zap: High crawling speed due to parallelism and asynchrony
-* 🗒 Declarative and easy to use
-* 💾 Saving data to any data storages such as JSON or CSV file, MongoDB, CosmosDB, Redis, etc.
-* :earth_americas: Scalable: run your web scraper on ony cloud VMs, serverless functions, on-prem
-  servers, etc.
-* :octopus: Crawling and parsing Single Page Applications with Puppeteer
-* 🖥 Proxy support
-* 🌀 Extensible: replace out-of-the-box implementations with your own
-
-## Usage examples
-
-* Data mining
-* Gathering data for machine learning
-* Online price change monitoring and price comparison
-* News aggregation
-* Product review scraping (to watch the competition)
-* Tracking online presence and reputation
-
-## API overview
-
-### Parsing Single Page Applications
-
-Parsing single page applications is super simple, just use the *GetWithBrowser* and/or *FollowWithBrowser* method. In this
-case Puppeteer will be used to load the pages.
-
 ```C#
 using WebReaper.Builders;
 
 var engine = await new ScraperEngineBuilder()
-    .GetWithBrowser("https://www.alexpavlov.dev/blog")
-    .FollowWithBrowser(".text-gray-900.transition")
+    .Get("https://www.alexpavlov.dev/blog")
+    .Follow("a.text-gray-900.transition")
     .Parse(new()
     {
         new("title", ".text-3xl.font-bold"),
@@ -95,11 +42,139 @@ var engine = await new ScraperEngineBuilder()
 await engine.RunAsync();
 ```
 
-Additionally, you can run any JavaScript on dynamic pages as they are loaded with headless browser. In order to do that
-you need to add some page actions such as *.ScrollToEnd()*:
+That example is pure HTTP — no browser, no extra packages. For JavaScript-rendered pages, add
+`WebReaper.Puppeteer` (see [Parsing dynamic pages](#parsing-dynamic-pages-spa)).
+
+## Table of contents
+
+- [Install](#install)
+- [Packages](#packages)
+- [Requirements](#requirements)
+- [Features](#features)
+- [Usage examples](#usage-examples)
+- [API overview](#api-overview)
+  * [Parsing dynamic pages (SPA)](#parsing-dynamic-pages-spa)
+  * [Running JavaScript / page actions](#running-javascript--page-actions)
+  * [Persist the progress locally](#persist-the-progress-locally)
+  * [Authorization](#authorization)
+  * [How to disable headless mode](#how-to-disable-headless-mode)
+  * [Cleaning data from a previous run](#cleaning-data-from-a-previous-run)
+  * [Distributed and serverless scraping](#distributed-and-serverless-scraping)
+  * [Storage and scheduler backends](#storage-and-scheduler-backends)
+  * [Extensibility: adding a sink](#extensibility-adding-a-sink)
+  * [Interfaces](#interfaces)
+  * [Main entities](#main-entities)
+- [Repository structure](#repository-structure)
+- [License](#license)
+
+## Install
+
+Core package — HTTP crawling/parsing, in-memory and file-backed state, Console/CSV/JSON-Lines sinks:
+
+```
+dotnet add package WebReaper
+```
+
+Add a satellite only for the capability you need (each brings its own SDK so the core stays light):
+
+```
+dotnet add package WebReaper.Puppeteer        # headless-browser (SPA / JS) pages
+dotnet add package WebReaper.Mongo            # MongoDB sink + config/cookie storage
+dotnet add package WebReaper.Redis            # Redis scheduler, tracker, sink, storage
+dotnet add package WebReaper.AzureServiceBus  # Azure Service Bus distributed scheduler
+dotnet add package WebReaper.Cosmos           # Azure Cosmos DB sink
+```
+
+## Packages
+
+Every package is versioned in lockstep (`7.0.0`) and GPL-3.0-or-later. Satellites depend on the
+matching core version and wire themselves in through the builder's public registration seam.
+
+| Package | Add it for | Key builder calls |
+|---|---|---|
+| **WebReaper** | Core. HTTP crawl/parse, in-memory + file scheduler / visited-link tracker / cookie & config storage, Console / CSV / JSON-Lines sinks. Dependency-light, Native-AOT-ready, Newtonsoft-free. | `Get` `Follow` `Paginate` `Parse` `WriteToJsonFile` `WriteToCsvFile` `WriteToConsole` |
+| **WebReaper.Puppeteer** | Headless-browser loading of SPA / JavaScript pages | `.WithPuppeteerPageLoader()` + `GetWithBrowser` / `FollowWithBrowser` / `PaginateWithBrowser` |
+| **WebReaper.Mongo** | MongoDB result sink and MongoDB-backed config / cookie storage | `.WriteToMongoDb(...)` `.WithMongoDbConfigStorage(...)` `.WithMongoDbCookieStorage(...)` |
+| **WebReaper.Redis** | Redis scheduler, visited-link tracker, result sink, config / cookie storage | `.WithRedisScheduler(...)` `.TrackVisitedLinksInRedis(...)` `.WriteToRedis(...)` `.WithRedisConfigStorage(...)` `.WithRedisCookieStorage(...)` |
+| **WebReaper.AzureServiceBus** | Distributed scheduler over an Azure Service Bus queue | `.WithAzureServiceBusScheduler(...)` |
+| **WebReaper.Cosmos** | Azure Cosmos DB result sink | `.WriteToCosmosDb(...)` |
+
+> The core default page loader is **HTTP-only**. Crawling a dynamic page (`GetWithBrowser` /
+> `FollowWithBrowser` / `PaginateWithBrowser`) without `WebReaper.Puppeteer` registered throws an
+> `InvalidOperationException` telling you to add the package and call `.WithPuppeteerPageLoader()`.
+
+## Requirements
+
+.NET 10. The core package is `IsAotCompatible` — it Native-AOT-publishes with zero trim/AOT warnings
+(proven by the AOT smoke test in CI). Satellites carry their own SDK dependencies and are not AOT-clean by
+design; reference one only when you use it.
+
+## Features
+
+* :zap: High crawling speed through parallelism and asynchrony
+* 🗒 Declarative and easy to use
+* 🪶 Dependency-light, Native-AOT-ready, Newtonsoft-free core
+* 💾 Console, CSV and JSON-Lines sinks out of the box; MongoDB, Redis and Azure Cosmos DB via satellites
+* :earth_americas: Scalable: run on cloud VMs, serverless functions or on-prem; go distributed with Redis or Azure Service Bus
+* :octopus: Crawl and parse Single Page Applications with Puppeteer (`WebReaper.Puppeteer`)
+* 🖥 Proxy support
+* 🌀 Extensible: replace any out-of-the-box seam with your own implementation
+
+## Usage examples
+
+* Data mining
+* Gathering data for machine learning
+* Online price-change monitoring and price comparison
+* News aggregation
+* Product-review scraping (to watch the competition)
+* Tracking online presence and reputation
+
+## API overview
+
+### Parsing dynamic pages (SPA)
+
+Parsing Single Page Applications is simple: use `GetWithBrowser` and/or `FollowWithBrowser`, add the
+`WebReaper.Puppeteer` package, and register it with `.WithPuppeteerPageLoader()`. Puppeteer then loads
+those pages in a headless browser.
+
+```
+dotnet add package WebReaper.Puppeteer
+```
 
 ```C#
-using WebReaper.Core.Builders;
+using WebReaper.Builders;
+using WebReaper.Puppeteer;
+
+var engine = await new ScraperEngineBuilder()
+    .GetWithBrowser("https://www.alexpavlov.dev/blog")
+    .FollowWithBrowser("a.text-gray-900.transition")
+    .Parse(new()
+    {
+        new("title", ".text-3xl.font-bold"),
+        new("text", ".max-w-max.prose.prose-dark")
+    })
+    .WithPuppeteerPageLoader()
+    .WriteToJsonFile("output.json")
+    .PageCrawlLimit(10)
+    .WithParallelismDegree(30)
+    .LogToConsole()
+    .BuildAsync();
+
+await engine.RunAsync();
+```
+
+`.WithPuppeteerPageLoader()` is parameterless and reproduces the pre-7.0 behaviour exactly (one shared
+cookie container, optional proxy applied the browser's own way). The first dynamic-page run downloads
+Chromium via Puppeteer.
+
+### Running JavaScript / page actions
+
+You can run JavaScript and drive the page as it loads in the headless browser. Pass an actions lambda
+(e.g. `.ScrollToEnd()`) — useful when the content you need appears only after clicks, scrolls, etc.
+
+```C#
+using WebReaper.Builders;
+using WebReaper.Puppeteer;
 
 var engine = await new ScraperEngineBuilder()
     .GetWithBrowser("https://www.reddit.com/r/dotnet/", actions => actions
@@ -111,23 +186,27 @@ var engine = await new ScraperEngineBuilder()
         new("title", "._eYtD2XCVieq6emjKBH3m"),
         new("text", "._3xX726aBn29LDbsDtzr_6E._1Ap4F5maDtT1E1YuCiaO0r.D3IL3FD0RFy_mkKLPwL4")
     })
+    .WithPuppeteerPageLoader()
     .WriteToJsonFile("output.json")
     .LogToConsole()
-    .BuildAsync()
+    .BuildAsync();
 
 await engine.RunAsync();
 
 Console.ReadLine();
 ```
 
-It can be helpful if the required content is loaded only after some user interactions such as clicks, scrolls, etc.
+`PageActionBuilder` exposes `Click`, `Wait`, `ScrollToEnd`, `WaitForSelector`, `WaitForNetworkIdle`,
+`EvaluateExpression`, `Repeat`/`RepeatWithDelay`, and `Build()`.
 
 ### Persist the progress locally
 
-If you want to persist the visited links and job queue locally, so that you can start crawling where you left off you
-can use *ScheduleWithTextFile* and *TrackVisitedLinksInFile* methods:
+To persist the job queue and visited links locally — so you can resume where you left off — use
+`WithTextFileScheduler` and `TrackVisitedLinksInFile`:
 
 ```C#
+using WebReaper.Builders;
+
 var engine = await new ScraperEngineBuilder()
     .WithLogger(logger)
     .Get("https://rutracker.org/forum/index.php?c=33")
@@ -136,184 +215,207 @@ var engine = await new ScraperEngineBuilder()
     .Paginate("a.torTopic", ".pg")
     .Parse(new()
     {
-	new("name", "#topic-title"),
-	new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
-	new("subcategory", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(5)"),
-	new("torrentSize", "div.attach_link.guest>ul>li:nth-child(2)"),
-	new("torrentLink", ".magnet-link", "href"),
-	new("coverImageUrl", ".postImg", "src")
+        new("name", "#topic-title"),
+        new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
+        new("subcategory", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(5)"),
+        new("torrentSize", "div.attach_link.guest>ul>li:nth-child(2)"),
+        new("torrentLink", ".magnet-link", "href"),
+        new("coverImageUrl", ".postImg", "src")
     })
     .WriteToJsonFile("result.json")
     .IgnoreUrls(blackList)
-    .ScheduleWithTextFile("jobs.txt", "progress.txt")
+    .WithTextFileScheduler("jobs.txt", "currentJob.txt")
     .TrackVisitedLinksInFile("links.txt")
     .BuildAsync();
 ```
 
 ### Authorization
 
-If you need to pass authorization before parsing the web site, you can call SetCookies method on Scraper that has to
-fill CookieContainer with all cookies required for authorization. You are responsible for performing the login operation
-with your credentials, the Scraper only uses the cookies that you provide.
+If the site needs authorization, call `SetCookies` and fill the `CookieContainer` with the cookies
+required. You perform the login yourself; WebReaper only uses the cookies you provide.
 
 ```C#
+using System.Net;
+using WebReaper.Builders;
+
 var engine = await new ScraperEngineBuilder()
     .WithLogger(logger)
     .Get("https://rutracker.org/forum/index.php?c=33")
     .SetCookies(cookies =>
     {
-        cookies.Add(new Cookie("AuthToken", "123");
+        cookies.Add(new Cookie("AuthToken", "123"));
     })
-    ...
+    // ...
+    .BuildAsync();
 ```
 
 ### How to disable headless mode
 
-If you scrape pages with a browser using GetWithBrowser and FollowWithBrowser methods, the default mode is headless
-meaning that you won't see the browser during scraping. However, seeing the browser during scraping for debugging or
-troubleshooting may be useful. To disable headless mode you the .HeadlessMode(false) method call.
+When scraping with a browser (`GetWithBrowser` / `FollowWithBrowser`, via `WebReaper.Puppeteer`) the
+default is headless — you don't see the browser. Seeing it can help with debugging; disable headless mode
+with `.HeadlessMode(false)`:
 
 ```C#
+using WebReaper.Builders;
+using WebReaper.Puppeteer;
 
 var engine = await new ScraperEngineBuilder()
     .GetWithBrowser("https://www.reddit.com/r/dotnet/", actions => actions
         .ScrollToEnd()
         .Build())
     .HeadlessMode(false)
-    ...
+    .WithPuppeteerPageLoader()
+    // ...
+    .BuildAsync();
 ```
 
-### How to clean scraped data from the previous web scrapping run
+### Cleaning data from a previous run
 
-You may want to clean the data recived during the previous scraping to start you web scraping from scratch. In this case
-use dataCleanupOnStart when adding a new sink:
+To start fresh, pass `dataCleanupOnStart: true` to the relevant builder method.
 
 ```C#
+// Result file — note: WriteToJsonFile already defaults dataCleanupOnStart to TRUE
+.WriteToJsonFile("output.json", dataCleanupOnStart: true)
 
-var engine = await new ScraperEngineBuilder()
-    .Get("https://www.reddit.com/r/dotnet/")
-    .WriteToJsonFile("output.json", dataCleanupOnStart: true)
+// Visited-link tracker
+.TrackVisitedLinksInFile("visited.txt", dataCleanupOnStart: true)
+
+// Job queue / scheduler
+.WithTextFileScheduler("jobs.txt", "currentJob.txt", dataCleanupOnStart: true)
 ```
 
-This dataCleanupOnStart parameter is present for all sinks, e.g. MongoDbSink, RedisSink, CosmosSink, etc.
+The `dataCleanupOnStart` parameter exists on the satellite sinks too (e.g. `WriteToMongoDb`,
+`WriteToRedis`, `WriteToCosmosDb`). Note `WriteToJsonFile` defaults it to `true` (it wipes the file on
+start) — the opposite of the other sinks, which default to `false`. The "JSON" file sink writes
+**JSON Lines** (one compact JSON object per line), not a JSON array.
 
-### How to clean visited links from the previous web scrapping run
+### Distributed and serverless scraping
 
-To clean up the list of visited links just pass true for dataCleanupOnStart parameter:
+Swap the scheduler, config storage and link tracker to Redis or Azure Service Bus and multiple
+workers / serverless functions can share one crawl. `Examples/WebReaper.AzureFuncs` shows the serverless
+shape with two functions:
 
-```C#
-var engine = await new ScraperEngineBuilder()
-    .Get("https://www.reddit.com/r/dotnet/")
-    .TrackVisitedLinksInFile("visited.txt", dataCleanupOnStart: true)
-```
+* **StartScraping** builds the scraper configuration and enqueues the first job (the start URL) onto the
+  queue (e.g. Azure Service Bus).
+* **WebReaperSpider** is triggered by each queued job. It gets a bare `ISpider` from
+  `new ScraperEngineBuilder()...BuildSpider()`, executes the job (load → parse → save), and enqueues the
+  child jobs it discovers back onto the queue.
 
-### How to clean job queue from the previous web scraping run
+`BuildSpider()` (the ADR-0009 distributed-worker seam) returns an `ISpider` without building or
+persisting a `ScraperConfig`, so — unlike `BuildAsync()` — it does not require `Get`/`Parse`; the worker's
+config is persisted separately and read from storage at crawl time. See also
+`Examples/WebReaper.DistributedScraperWorkerService`.
 
-Job queue is a queue of tasks schedules for web scraper. To clean up the job queue pass the dataCleanupOnStart parameter set to true.
+### Storage and scheduler backends
 
-```C#
-var engine = await new ScraperEngineBuilder()
-    .Get("https://www.reddit.com/r/dotnet/")
-    .WithTextFileScheduler("jobs.txt", "currentJob.txt", dataCleanupOnStart: true)
-```
+Every backend is a swappable seam. In-memory is the default; file-backed lives in core; the rest come
+from satellites.
 
-### Distributed web scraping with Serverless approach
+| Seam | Core (in-memory default + file) | Satellite options |
+|---|---|---|
+| Scheduler | in-memory, `WithTextFileScheduler` | `WithRedisScheduler` (Redis), `WithAzureServiceBusScheduler` (Azure Service Bus) |
+| Visited-link tracker | in-memory, `TrackVisitedLinksInFile` | `TrackVisitedLinksInRedis` (Redis) |
+| Config storage | in-memory, `WithFileConfigStorage` | `WithMongoDbConfigStorage`, `WithRedisConfigStorage` |
+| Cookie storage | in-memory, `WithFileCookieStorage` | `WithMongoDbCookieStorage`, `WithRedisCookieStorage` |
+| Result sink | `WriteToConsole`, `WriteToCsvFile`, `WriteToJsonFile` | `WriteToMongoDb`, `WriteToRedis`, `WriteToCosmosDb` |
+| Page loader | HTTP (default) | `WithPuppeteerPageLoader()` (headless browser) |
 
-In the Examples folder you can find the project called WebReaper.AzureFuncs. It demonstrates the use of WebReaper with
-Azure Functions. It consists of two serverless functions:
+### Extensibility: adding a sink
 
-#### StartScrapting
-
-First of all, this function uses ScraperConfigBuilder to build the scraper configuration e. g.:
-
-Secondly, this function writes the first web scraping job with startUrl to the Azure Service Bus queue:
-
-#### WebReaperSpider
-
-This Azure function is triggered by messages sent to the Azure Service Bus queue. Messages represent web scraping job.
-
-Firstly, this function builds the spider that is going to execute the job from the queue.
-
-Secondly, it executes the job by loading the page, parsing content, saving to the database, etc.
-
-Finally, it iterates through these new jobs and sends them the the Job queue.
-
-### Extensibility
-
-#### Adding a new sink to persist your data
-
-Out of the box there are 4 sinks you can send your parsed data to: ConsoleSink, CsvFileSink, JsonFileSink, CosmosSink (
-Azure Cosmos database).
-
-You can easily add your own by implementing the IScraperSink interface:
+Out of the box the core package sends parsed data to the Console, CSV and JSON-Lines sinks; MongoDB,
+Redis and Cosmos DB sinks come from satellites. Add your own by implementing `IScraperSink`:
 
 ```C#
+using WebReaper.Sinks.Abstract;
+using WebReaper.Sinks.Models;
+
 public interface IScraperSink
 {
-    public Task EmitAsync(ParsedData data);
+    bool DataCleanupOnStart { get; set; }
+    Task EmitAsync(ParsedData entity, CancellationToken cancellationToken = default);
 }
 ```
 
-Here is an example of the Console sink:
+`ParsedData` is `record ParsedData(string Url, JsonObject Data)` — `Data` is a
+`System.Text.Json.Nodes.JsonObject` (no Newtonsoft). A minimal console sink:
 
 ```C#
+using System.Text.Json.Nodes;
+using WebReaper.Sinks.Abstract;
+using WebReaper.Sinks.Models;
+
 public class ConsoleSink : IScraperSink
 {
-    public Task EmitAsync(ParsedData parsedItam)
+    public bool DataCleanupOnStart { get; set; }
+
+    public Task EmitAsync(ParsedData entity, CancellationToken cancellationToken = default)
     {
-        Console.WriteLine($"{parsedItam.Data.ToString()}");
+        Console.WriteLine(entity.Data.ToJsonString());
         return Task.CompletedTask;
     }
 }
 ```
 
-Adding your sink to the Scraper is simple, just call *AddSink* method on the Scraper:
+Register it with `AddSink`:
 
 ```C#
+using WebReaper.Builders;
+
 var engine = await new ScraperEngineBuilder()
-    .AddSink(new ConsoleSink());
+    .AddSink(new ConsoleSink())
     .Get("https://rutracker.org/forum/index.php?c=33")
     .Follow("#cf-33 .forumlink>a")
     .Follow(".forumlink>a")
     .Paginate("a.torTopic", ".pg")
-    .Parse(new() {
+    .Parse(new()
+    {
         new("name", "#topic-title"),
     })
     .BuildAsync();
 ```
 
-For other ways to extend your functionality see the next section.
+For result callbacks without a custom sink, use `.Subscribe(Action<ParsedData>)` or
+`.PostProcess(Func<Metadata, JsonObject, Task>)`.
 
 ### Interfaces
 
-| Interface           | Description                                                                                                                   |
-|---------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| IScheduler          | Reading and writing from the job queue. By default, the in-memory queue is used, but you can provider your implementation     |
-| IVisitedLinkTracker | Tracker of visited links. A default implementation is an in-memory tracker. You can provide your own for Redis, MongoDB, etc. |
-| IPageLoader         | Turns a PageRequest into a page's HTML, dispatching on PageType to one load transport. The Spider holds one and is loader-blind (replaces the removed IStaticPageLoader/IBrowserPageLoader pair). |
-| IPageLoadTransport  | The per-mechanism adapter behind IPageLoader: HTTP or headless browser (Puppeteer). The only home for that mechanism's client/launch quirks and proxy application. |
-| IContentParser      | Takes a document + Schema and returns its JSON representation (JObject). The shipped HTML/CSS, HTML/XPath (`WithXPathContentParser()`) and JSON parsers are thin shells over one shared Schema fold. |
-| ISchemaBackend&lt;TNode&gt; | The per-document-shape seam the shared fold calls: parse a root, select many / one by selector, extract a leaf's raw value. The shipped CSS, XPath and JSON backends are implementations of this; a further one (e.g. System.Text.Json) is the same, not a re-derivation of the walk. |
-| ILinkParser         | Takes HTML as a string and returns page links                                                                                 |
-| IScraperSink        | Represents a data store for writing the results of web scraping. Takes the JObject as parameter                               |
-| ICrawlStep          | The crawl-step decision: maps a Job + loaded page + Schema to a CrawlOutcome (parse the page, follow links, or paginate). Swap it to customize crawl-vs-parse behavior. |
-| ISpider             | The I/O shell around ICrawlStep: loads pages, tracks visited links, enforces the crawl limit, and fans parsed data to the sinks |
+| Interface | Description |
+|---|---|
+| `IScheduler` | Reads and writes the job queue. Default is in-memory; file, Redis and Azure Service Bus implementations are available. |
+| `IVisitedLinkTracker` | Tracks visited links. Default is in-memory; file and Redis implementations are available. |
+| `IPageLoader` | Turns a `PageRequest` into a page's HTML, dispatching on `PageType` to one load transport. The Spider holds one and is loader-blind. |
+| `IPageLoadTransport` | The per-mechanism adapter behind `IPageLoader`: HTTP (core) or headless browser (`WebReaper.Puppeteer`). The only home for that mechanism's client/launch quirks and proxy application. |
+| `IJsonContentParser` | Takes a document + `Schema` and returns its `System.Text.Json.Nodes.JsonObject` representation. The shipped HTML/CSS, HTML/XPath (`WithXPathContentParser()`) and JSON (`WithJsonContentParser()`) parsers are thin shells over one shared Schema fold. |
+| `ISchemaBackend<TNode>` | The per-document-shape seam the shared fold calls: parse a root, select many / one by selector, extract a leaf's raw value. The shipped CSS, XPath and JSON backends implement this. |
+| `ILinkParser` | Takes HTML and returns the page's links. |
+| `IScraperSink` | A destination for scraping results. Receives `ParsedData` (`Url` + `JsonObject`). |
+| `ICrawlStep` | The crawl-step decision: maps a `Job` + loaded page + `Schema` to a `CrawlOutcome` (parse the page, follow links, or paginate). Swap it to customize crawl-vs-parse behavior. |
+| `ISpider` | The I/O shell around `ICrawlStep`: loads pages, tracks visited links, enforces the crawl limit, and fans parsed data to the sinks. Obtained from `ScraperEngineBuilder.BuildSpider()`. |
 
 ### Main entities
 
-* Job - a record that represents a job for the spider
-* LinkPathSelector - represents a selector for links to be crawled
-* CrawlOutcome - the closed result of a crawl step: a parsed target page, followed links, or paginated pages
-* Schema fold - the single recursive Schema interpreter (`SchemaContentParser<TNode>`); every backend reuses it instead of re-implementing the walk
+* **Job** — a record representing one unit of work for the spider.
+* **LinkPathSelector** — a selector for links to be crawled.
+* **CrawlOutcome** — the closed result of a crawl step: a parsed target page, followed links, or paginated pages.
+* **Schema fold** — the single recursive `Schema` interpreter (`SchemaContentParser<TNode>`); every backend reuses it instead of re-implementing the walk.
 
 ## Repository structure
 
-| Project                                   | Description                                                                       |
-|-------------------------------------------|-----------------------------------------------------------------------------------|
-| WebReaper                                 | Library for web scraping                                                          |
-| WebReaper.ScraperWorkerService            | Example of using WebReaper library in a Worker Service .NET project.              |
-| WebReaper.DistributedScraperWorkerService | Example of using WebReaper library in a distributed way wih Azure Service Bus     |
-| WebReaper.AzureFuncs                      | Example of using WebReaper library with serverless approach using Azure Functions |
-| WebReaper.ConsoleApplication              | Example of using WebReaper library with in a console application                  |
+| Project | Description |
+|---|---|
+| `WebReaper` | The core library (the `WebReaper` NuGet package). |
+| `WebReaper.Puppeteer` | Satellite: headless-browser page loader. |
+| `WebReaper.Mongo` | Satellite: MongoDB sink + config/cookie storage. |
+| `WebReaper.Redis` | Satellite: Redis scheduler, tracker, sink, config/cookie storage. |
+| `WebReaper.AzureServiceBus` | Satellite: Azure Service Bus distributed scheduler. |
+| `WebReaper.Cosmos` | Satellite: Azure Cosmos DB sink. |
+| `Examples/WebReaper.ConsoleApplication` | Using WebReaper in a console application. |
+| `Examples/WebReaper.ScraperWorkerService` | Using WebReaper in a .NET Worker Service. |
+| `Examples/WebReaper.DistributedScraperWorkerService` | Distributed crawl across workers sharing crawl state. |
+| `Examples/WebReaper.AzureFuncs` | Serverless crawl with Azure Functions + Azure Service Bus. |
+| `Examples/BrownsfashionScraper` | A real-world e-commerce scraper example. |
+| `Misc/WebReaper.ProxyProviders` | Example proxy-provider implementations. |
+
+## License
 
 See the [LICENSE](LICENSE.txt) file for license rights and limitations (GNU GPLv3).
