@@ -14,6 +14,19 @@ namespace WebReaper.Cosmos;
 /// </summary>
 public static class CosmosSinkBuilderExtensions
 {
+    /// <summary>
+    /// Registers an Azure Cosmos DB sink: each parsed item is written as a
+    /// document to the given container, over <see cref="ScraperEngineBuilder"/>'s
+    /// public <c>AddSink</c> seam.
+    /// </summary>
+    /// <param name="builder">The scraper engine builder to add the sink to.</param>
+    /// <param name="endpointUrl">Cosmos DB account endpoint URL.</param>
+    /// <param name="authorizationKey">Cosmos DB account authorization key.</param>
+    /// <param name="databaseId">Target database id.</param>
+    /// <param name="containerId">Target container id.</param>
+    /// <param name="dataCleanupOnStart">When <see langword="true"/>, existing data is cleared when the scrape starts.</param>
+    /// <param name="logger">Optional logger; defaults to <see cref="NullLogger"/> (a satellite extension cannot reach the builder's private logger).</param>
+    /// <returns>The same <see cref="ScraperEngineBuilder"/>, for chaining.</returns>
     public static ScraperEngineBuilder WriteToCosmosDb(
         this ScraperEngineBuilder builder,
         string endpointUrl,
