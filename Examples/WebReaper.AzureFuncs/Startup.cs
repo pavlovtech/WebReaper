@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using WebReaper.Core.LinkTracker.Abstract;
 using WebReaper.Core.LinkTracker.Concrete;
 using WebReaper.Cosmos;
+using WebReaper.Redis;
 
 [assembly: FunctionsStartup(typeof(WebReaper.AzureFuncs.Startup))]
 

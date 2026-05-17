@@ -120,13 +120,6 @@ public class ScraperEngineBuilder
         return this;
     }
 
-    public ScraperEngineBuilder TrackVisitedLinksInRedis(string connectionString, string redisKey, bool dataCleanupOnStart = false)
-    {
-        _visitedLinksTracker = new RedisVisitedLinkTracker(connectionString, redisKey, dataCleanupOnStart);
-        SpiderBuilder.WithLinkTracker(_visitedLinksTracker);
-        return this;
-    }
-
     public ScraperEngineBuilder WithLogger(ILogger logger)
     {
         SpiderBuilder.WithLogger(logger);
@@ -149,15 +142,6 @@ public class ScraperEngineBuilder
         return this;
     }
 
-
-    public ScraperEngineBuilder WriteToRedis(
-        string connectionString,
-        string redisKey,
-        bool dataCleanupOnStart = false)
-    {
-        SpiderBuilder.WriteToRedis(connectionString, redisKey, dataCleanupOnStart);
-        return this;
-    }
 
     public ScraperEngineBuilder Subscribe(Action<ParsedData> scrapingResultHandler)
     {
@@ -280,24 +264,9 @@ public class ScraperEngineBuilder
         return this;
     }
 
-    public ScraperEngineBuilder WithRedisScheduler(
-        string connectionString,
-        string queueName,
-        bool dataCleanupOnStart = false)
-    {
-        Scheduler = new RedisScheduler(connectionString, queueName, Logger, dataCleanupOnStart);
-        return this;
-    }
-
     public ScraperEngineBuilder WithCookieStorage(ICookiesStorage cookiesStorage)
     {
         SpiderBuilder.WithCookieStorage(cookiesStorage);
-        return this;
-    }
-
-    public ScraperEngineBuilder WithRedisCookieStorage(string connectionString, string redisKey)
-    {
-        SpiderBuilder.WithRedisCookieStorage(connectionString, redisKey);
         return this;
     }
 
@@ -317,14 +286,6 @@ public class ScraperEngineBuilder
     {
         ConfigStorage = new FileScraperConfigStorage(fileName);
         SpiderBuilder.WithFileConfigStorage(fileName);
-
-        return this;
-    }
-
-    public ScraperEngineBuilder WithRedisConfigStorage(string connectionString, string redisKey)
-    {
-        ConfigStorage = new RedisScraperConfigStorage(connectionString, redisKey, Logger);
-        SpiderBuilder.WithRedisConfigStorage(connectionString, redisKey);
 
         return this;
     }

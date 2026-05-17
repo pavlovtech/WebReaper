@@ -2,11 +2,10 @@ using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
 using WebReaper.Core.Scheduler.Abstract;
-using WebReaper.DataAccess;
 using WebReaper.Domain;
 using WebReaper.Serialization;
 
-namespace WebReaper.Core.Scheduler.Concrete;
+namespace WebReaper.Redis;
 
 public class RedisScheduler : IScheduler
 {

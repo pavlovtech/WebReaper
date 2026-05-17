@@ -3,6 +3,7 @@ using AngleSharp;
 using WebReaper.Core;
 using WebReaper.Domain;
 using WebReaper.Builders;
+using WebReaper.Redis;
 
 namespace WebReaper.ScraperWorkerService;
 
