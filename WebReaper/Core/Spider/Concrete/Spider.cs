@@ -1,5 +1,5 @@
+using System.Text.Json.Nodes;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
 using WebReaper.ConfigStorage.Abstract;
 using WebReaper.Core.Crawling;
 using WebReaper.Core.Crawling.Abstract;
@@ -98,7 +98,7 @@ public class Spider : ISpider
 
     public event Action<ParsedData>? ScrapedData;
 
-    public event Func<Metadata, JObject, Task>? PostProcessor;
+    public event Func<Metadata, JsonObject, Task>? PostProcessor;
 
     private async Task ProcessTargetPage(Job job, string doc, ParsedData result,
         CancellationToken cancellationToken = default)

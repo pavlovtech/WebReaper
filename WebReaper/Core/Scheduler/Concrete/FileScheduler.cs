@@ -1,8 +1,8 @@
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using WebReaper.Core.Scheduler.Abstract;
 using WebReaper.Domain;
+using WebReaper.Serialization;
 
 namespace WebReaper.Core.Scheduler.Concrete;
 
@@ -89,7 +89,7 @@ public class FileScheduler : IScheduler
 
             _logger.LogInformation("Deserializing the job and returning it to consumer");
 
-            var job = JsonConvert.DeserializeObject<Job>(jobLine);
+            var job = WebReaperJson.DeserializeJob(jobLine);
             yield return job;
         }
     }
@@ -126,8 +126,8 @@ public class FileScheduler : IScheduler
         }
     }
 
-    private static string SerializeToJson(Job job)
-    {
-        return JsonConvert.SerializeObject(job, Formatting.None);
-    }
+    // ADR 0008: same WebReaperJson grammar as the config payload and the
+    // other schedulers — the ADR-0005 Job round-trip asymmetry is closed
+    // uniformly across every IScheduler, not just RedisScheduler.
+    private static string SerializeToJson(Job job) => WebReaperJson.SerializeJob(job);
 }

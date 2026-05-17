@@ -1,8 +1,8 @@
 using System.Runtime.CompilerServices;
 using Azure.Messaging.ServiceBus;
-using Newtonsoft.Json;
 using WebReaper.Core.Scheduler.Abstract;
 using WebReaper.Domain;
+using WebReaper.Serialization;
 using Azure.Messaging.ServiceBus.Administration;
 
 namespace WebReaper.Core.Scheduler.Concrete;
@@ -64,12 +64,7 @@ public class AzureServiceBusScheduler : IScheduler, IAsyncDisposable
 
             await _receiver.CompleteMessageAsync(msg, cancellationToken);
             var stringBody = msg.Body.ToString();
-            var job = JsonConvert.DeserializeObject<Job>(stringBody, new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Auto
-            });
-
-            if (job is null) continue;
+            var job = WebReaperJson.DeserializeJob(stringBody);
 
             yield return job;
         }
@@ -87,13 +82,5 @@ public class AzureServiceBusScheduler : IScheduler, IAsyncDisposable
         await _sender.SendMessagesAsync(messages, cancellationToken);
     }
 
-    private string SerializeToJson(Job job)
-    {
-        var json = JsonConvert.SerializeObject(job, Formatting.Indented, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Auto
-        });
-
-        return json;
-    }
+    private static string SerializeToJson(Job job) => WebReaperJson.SerializeJob(job);
 }
