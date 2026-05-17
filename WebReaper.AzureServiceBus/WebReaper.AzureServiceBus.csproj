@@ -17,12 +17,20 @@
     <PackageProjectUrl>https://github.com/pavlovtech/WebReaper</PackageProjectUrl>
     <RepositoryUrl>https://github.com/pavlovtech/WebReaper</RepositoryUrl>
     <PackageTags>scraper, crawler, parser, azure, servicebus, distributed</PackageTags>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>7.0.0: initial release. Azure Service Bus distributed scheduler (ScraperEngineBuilder.WithAzureServiceBusScheduler) extracted from the WebReaper core per ADR-0009 so the core stays dependency-light and Native-AOT-clean (core no longer references Azure.Messaging.ServiceBus). Requires WebReaper 7.0.0.</PackageReleaseNotes>
 
     <!-- ADR 0009: the Azure Service Bus satellite is deliberately NOT
          IsAotCompatible. Quarantining the Azure Service Bus scheduler here is
          exactly why the core stays dependency-light — a core-only consumer no
          longer pulls Azure.Messaging.ServiceBus. -->
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="..\WebReaper\logo.png" Pack="true" PackagePath="" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\WebReaper\WebReaper.csproj" />
