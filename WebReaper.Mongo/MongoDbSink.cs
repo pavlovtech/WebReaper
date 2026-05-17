@@ -4,7 +4,7 @@ using MongoDB.Driver;
 using WebReaper.Sinks.Abstract;
 using WebReaper.Sinks.Models;
 
-namespace WebReaper.Sinks.Concrete;
+namespace WebReaper.Mongo;
 
 public class MongoDbSink : IScraperSink
 {
