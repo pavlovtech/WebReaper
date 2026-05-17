@@ -17,6 +17,9 @@
     <PackageProjectUrl>https://github.com/pavlovtech/WebReaper</PackageProjectUrl>
     <RepositoryUrl>https://github.com/pavlovtech/WebReaper</RepositoryUrl>
     <PackageTags>scraper, crawler, parser, redis, distributed</PackageTags>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>7.0.0: initial release. Redis scheduler, visited-link tracker, sink and Redis-backed scraper-config and cookie storage (ScraperEngineBuilder.WithRedisScheduler / TrackVisitedLinksInRedis / WriteToRedis / WithRedisConfigStorage / WithRedisCookieStorage), all sharing one ConnectionMultiplexer per connection string (ADR-0005). Extracted from the WebReaper core per ADR-0009 so the core stays dependency-light and Native-AOT-clean (core no longer references StackExchange.Redis). Requires WebReaper 7.0.0.</PackageReleaseNotes>
 
     <!-- ADR 0009: the Redis satellite is deliberately NOT IsAotCompatible.
          Quarantining the Redis adapters here is exactly why the core stays
@@ -26,6 +29,11 @@
          here whole and stays the single resolver every Redis adapter in this
          package goes through. -->
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="..\WebReaper\logo.png" Pack="true" PackagePath="" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\WebReaper\WebReaper.csproj" />

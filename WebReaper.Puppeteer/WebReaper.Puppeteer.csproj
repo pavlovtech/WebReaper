@@ -17,6 +17,9 @@
     <PackageProjectUrl>https://github.com/pavlovtech/WebReaper</PackageProjectUrl>
     <RepositoryUrl>https://github.com/pavlovtech/WebReaper</RepositoryUrl>
     <PackageTags>scraper, crawler, parser, puppeteer, headless, browser, chromium</PackageTags>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>7.0.0: initial release. Headless-browser (Puppeteer/Chromium) page-load transport (ScraperEngineBuilder.WithPuppeteerPageLoader) extracted from the WebReaper core per ADR-0009 so the core stays dependency-light, Native-AOT-clean and HTTP-only by default (core no longer references PuppeteerSharp/PuppeteerExtraSharp or the Chromium provisioning path). Requires WebReaper 7.0.0.</PackageReleaseNotes>
 
     <!-- ADR 0009: the Puppeteer satellite is deliberately NOT IsAotCompatible.
          Quarantining the headless-browser transport here is exactly why the
@@ -28,6 +31,11 @@
          ADR 0004's one-IPageLoader / two-IPageLoadTransport seam is unchanged —
          only the default composition of the Dynamic slot moved out of core. -->
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="..\WebReaper\logo.png" Pack="true" PackagePath="" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\WebReaper\WebReaper.csproj" />

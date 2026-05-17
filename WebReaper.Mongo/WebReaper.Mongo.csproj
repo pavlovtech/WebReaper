@@ -17,6 +17,9 @@
     <PackageProjectUrl>https://github.com/pavlovtech/WebReaper</PackageProjectUrl>
     <RepositoryUrl>https://github.com/pavlovtech/WebReaper</RepositoryUrl>
     <PackageTags>scraper, crawler, parser, mongodb, mongo</PackageTags>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>7.0.0: initial release. MongoDB sink and MongoDB-backed scraper-config and cookie storage (ScraperEngineBuilder.WriteToMongoDb / WithMongoDbConfigStorage / WithMongoDbCookieStorage) extracted from the WebReaper core per ADR-0009 so the core stays dependency-light and Native-AOT-clean (core no longer references MongoDB.Driver). Requires WebReaper 7.0.0.</PackageReleaseNotes>
 
     <!-- ADR 0009: the Mongo satellite is deliberately NOT IsAotCompatible.
          MongoDB.Driver's BSON serialization is reflection-based and not
@@ -24,6 +27,11 @@
          the core stays dependency-light and AOT-clean — a core-only consumer
          no longer pulls MongoDB.Driver (nor the SharpCompress graph below). -->
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="..\WebReaper\logo.png" Pack="true" PackagePath="" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\WebReaper\WebReaper.csproj" />

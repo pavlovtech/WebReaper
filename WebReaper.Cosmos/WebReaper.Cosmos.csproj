@@ -17,6 +17,9 @@
     <PackageProjectUrl>https://github.com/pavlovtech/WebReaper</PackageProjectUrl>
     <RepositoryUrl>https://github.com/pavlovtech/WebReaper</RepositoryUrl>
     <PackageTags>scraper, crawler, parser, cosmosdb, azure</PackageTags>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>7.0.0: initial release. Azure Cosmos DB sink (ScraperEngineBuilder.WriteToCosmosDb) extracted from the WebReaper core per ADR-0009 so the core stays dependency-light and Native-AOT-clean (core no longer references Microsoft.Azure.Cosmos). Requires WebReaper 7.0.0.</PackageReleaseNotes>
 
     <!-- ADR 0009: the Cosmos satellite is deliberately NOT IsAotCompatible.
          The Cosmos SDK drags Newtonsoft + native ServiceInterop; CosmosSink is
@@ -24,6 +27,11 @@
          scope). Quarantining it in this package is exactly why the core stays
          dependency-light and AOT-clean. -->
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="..\WebReaper\logo.png" Pack="true" PackagePath="" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\WebReaper\WebReaper.csproj" />
