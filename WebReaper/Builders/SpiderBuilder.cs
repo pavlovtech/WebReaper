@@ -43,6 +43,8 @@ public class SpiderBuilder
 
     private IPageLoader? PageLoader { get; set; }
 
+    private Func<ICookiesStorage, IProxyProvider?, ILogger, IPageLoadTransport>? DynamicPageLoadTransportFactory { get; set; }
+
     private IProxyProvider? ProxyProvider { get; set; }
 
     private CookieContainer Cookies { get; } = new();
@@ -150,6 +152,24 @@ public class SpiderBuilder
         return this;
     }
 
+    /// <summary>
+    /// Register the transport used for Dynamic (headless-browser) pages
+    /// (ADR-0009). The factory is invoked at <see cref="Build"/> time with
+    /// the builder's resolved cookie storage, optional proxy provider and
+    /// logger — the same collaborators the HTTP transport gets — so a
+    /// satellite (e.g. WebReaper.Puppeteer's <c>.WithPuppeteerPageLoader()</c>)
+    /// needs no arguments and the pre-7.0 default behaviour (one shared
+    /// cookie container, issue #26) is preserved. With no registration the
+    /// core default is HTTP-only and a Dynamic load throws an actionable
+    /// message (<see cref="BrowserNotConfiguredPageLoadTransport"/>).
+    /// </summary>
+    public SpiderBuilder WithLoadTransport(
+        Func<ICookiesStorage, IProxyProvider?, ILogger, IPageLoadTransport> dynamicTransportFactory)
+    {
+        DynamicPageLoadTransportFactory = dynamicTransportFactory;
+        return this;
+    }
+
     public SpiderBuilder WithProxies(IProxyProvider proxyProvider)
     {
         ProxyProvider = proxyProvider;
@@ -200,11 +220,17 @@ public class SpiderBuilder
         // default implementations
         ContentParser ??= new AngleSharpContentParser(Logger);
 
-        // One loader; the proxy/no-proxy choice is now a (possibly null)
-        // provider handed to both transports — no branch (ADR 0004).
+        // One loader (ADR 0004). The HTTP transport is the core default; the
+        // Dynamic slot is the registered transport factory (e.g.
+        // WebReaper.Puppeteer's .WithPuppeteerPageLoader()) or, with none, an
+        // actionable throw — core is HTTP-only by default (ADR-0009). The
+        // proxy/no-proxy choice is still a (possibly null) provider handed in
+        // to whichever transports exist, not a branch.
         PageLoader ??= new PageLoader(
             new HttpPageLoadTransport(CookieStorage, ProxyProvider, Logger),
-            new BrowserPageLoadTransport(CookieStorage, ProxyProvider, Logger),
+            DynamicPageLoadTransportFactory is null
+                ? new BrowserNotConfiguredPageLoadTransport()
+                : DynamicPageLoadTransportFactory(CookieStorage, ProxyProvider, Logger),
             Logger);
 
         CookieStorage.AddAsync(Cookies);

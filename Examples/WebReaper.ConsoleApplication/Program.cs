@@ -1,6 +1,8 @@
 ﻿using WebReaper.Builders;
+using WebReaper.Puppeteer;
 
 var engine = await new ScraperEngineBuilder()
+    .WithPuppeteerPageLoader()
     .GetWithBrowser("https://www.alexpavlov.dev/blog")
     .FollowWithBrowser(".text-gray-900.transition")
     .Parse(new()

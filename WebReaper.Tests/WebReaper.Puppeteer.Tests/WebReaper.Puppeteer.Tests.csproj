@@ -23,8 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Misc\WebReaper.ProxyProviders\WebReaper.ProxyProviders.csproj" />
-    <ProjectReference Include="..\..\WebReaper\WebReaper.csproj" />
     <ProjectReference Include="..\..\WebReaper.Puppeteer\WebReaper.Puppeteer.csproj" />
   </ItemGroup>
 </Project>
