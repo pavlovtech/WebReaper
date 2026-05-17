@@ -246,15 +246,6 @@ public class ScraperEngineBuilder
         return this;
     }
 
-    public ScraperEngineBuilder WithAzureServiceBusScheduler(
-        string connectionString,
-        string queueName,
-        bool dataCleanupOnStart = false)
-    {
-        Scheduler = new AzureServiceBusScheduler(connectionString, queueName, dataCleanupOnStart);
-        return this;
-    }
-
     public ScraperEngineBuilder WithTextFileScheduler(
         string fileName,
         string currentJobPositionFileName,

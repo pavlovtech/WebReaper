@@ -7,9 +7,9 @@ per-technology satellite packages, wired through the builder's public
 registration seam. Rationale, design, and the deliberate clean-cut (no compat
 shell): [`docs/adr/0009-registration-seam-and-satellite-adapters.md`](docs/adr/0009-registration-seam-and-satellite-adapters.md).
 
-This release lands the **Cosmos**, **Mongo** and **Redis** satellites. The
-remaining satellites (`WebReaper.AzureServiceBus`, `WebReaper.Puppeteer`) land
-in the same 7.0.0 line.
+This release lands the **Cosmos**, **Mongo**, **Redis** and **Azure Service
+Bus** satellites. The remaining satellite (`WebReaper.Puppeteer`) lands in the
+same 7.0.0 line.
 
 ### Breaking changes
 
@@ -60,13 +60,22 @@ in the same 7.0.0 line.
 - The Redis builder extensions that took a logger no longer auto-use the
   builder's; each takes an optional `ILogger` argument (defaults to
   `NullLogger`).
+- **`WithAzureServiceBusScheduler` moved to the `WebReaper.AzureServiceBus`
+  package.** It is now an extension method over `ScraperEngineBuilder`'s public
+  `WithScheduler` registration seam, not a core builder method. There was no
+  `SpiderBuilder` equivalent to remove.
+- **`AzureServiceBusScheduler` moved** to namespace and package
+  `WebReaper.AzureServiceBus` (was `WebReaper.Core.Scheduler.Concrete`).
+- **Core no longer references `Azure.Messaging.ServiceBus`.** A core-only
+  consumer no longer pulls it. `WithAzureServiceBusScheduler` took no logger,
+  so its signature is unchanged.
 
 ### Why
 
 - Dependency-light core: a plain HTTP→file crawl stops transitively pulling
   Cosmos + Newtonsoft + native interop, `MongoDB.Driver` + its transitive
-  SharpCompress CVE, and `StackExchange.Redis` (and, as later satellites land,
-  Azure Service Bus, Chromium).
+  SharpCompress CVE, `StackExchange.Redis`, and `Azure.Messaging.ServiceBus`
+  (and, as the last satellite lands, Chromium).
 - The builder deepens into a small public registration seam; per-adapter
   `WriteToX` sugar ships with its adapter. See ADR-0009.
 
@@ -90,6 +99,10 @@ in the same 7.0.0 line.
   `RedisScraperConfigStorage` / `RedisCookieStorage` / `RedisBlobStore` /
   `RedisConnectionPool` types. Existing arguments are unchanged (an optional
   `ILogger` is appended where one was passed).
+- Add the package: `dotnet add package WebReaper.AzureServiceBus`.
+- Add `using WebReaper.AzureServiceBus;` wherever you call
+  `.WithAzureServiceBusScheduler(...)` or reference the
+  `AzureServiceBusScheduler` type. Its arguments are unchanged.
 
 ## 6.0.0 — System.Text.Json typed pipeline (breaking, AOT-clean)
 
