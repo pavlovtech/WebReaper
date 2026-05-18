@@ -1,9 +1,34 @@
-# WebReaper release runbook (6 packages)
+# WebReaper release runbook
 
-How to cut a WebReaper release: the core `WebReaper` package plus its five
-ADR-0009 satellites, in lockstep at one version.
+How to cut a WebReaper release: the core `WebReaper` package and its
+ADR-0009 satellites.
 
-**Package set (6, always same version):**
+## Automated path (primary)
+
+`.github/workflows/release.yml` automates everything below. Push an
+annotated tag `v<VERSION>` on the merged ship commit (or run the workflow
+manually with `dry_run` to rehearse). The workflow then:
+
+- selects exactly the packages whose `.csproj <Version>` equals `<VERSION>`
+  (see *Package set* below), builds Release, runs the full guardrail and
+  packs — all reversible;
+- **pauses on the `nuget-release` Environment for a required-reviewer
+  approval** — this is the Phase 2 HARD STOP, preserved as a one-click gate
+  before anything irreversible;
+- on approval pushes core first, waits for its flat-container index, then
+  the rest (`--skip-duplicate`), verifies every id is indexed, and creates
+  the GitHub release from the `CHANGELOG.md` section.
+
+One-time owner setup: a nuget.org key scoped **"Push new packages and
+package versions" + Glob `WebReaper*`** (Lesson #1) stored as the repo
+secret `NUGET_API_KEY`; and Settings → Environments → `nuget-release` with
+the owner as a **Required reviewer**. The key then lives once as a secret —
+no per-release `~/.nuget-key` placement.
+
+The phases below remain the **authoritative description of the logic the
+workflow ports** and the **manual fallback** if CI is unavailable.
+
+## Package set (version-set selection)
 
 | Package | Notes |
 |---|---|
@@ -13,10 +38,20 @@ ADR-0009 satellites, in lockstep at one version.
 | `WebReaper.Redis` | satellite |
 | `WebReaper.AzureServiceBus` | satellite |
 | `WebReaper.Puppeteer` | satellite |
+| `WebReaper.Sqlite` | satellite (added after the 7.0.0 wave) |
+
+A release publishes exactly the candidates whose `.csproj <Version>` equals
+`<VERSION>` — **not** an unconditional all-seven push. A lockstep bump (all
+at one version) publishes all of them; an **additive single-satellite**
+release (e.g. `WebReaper.Sqlite` `7.1.0` while the six stay `7.0.0`, its
+dependency on the already-published `WebReaper 7.0.0`) publishes just that
+one. Both are first-class; the workflow's selection step and the manual
+phases below both follow this rule.
 
 Replace `<VERSION>` below with the release version (e.g. `7.1.0`) and
-`<SHA>` with the merged commit that ships. All `.csproj` `<Version>` must
-already equal `<VERSION>` on that commit — the runbook does not edit versions.
+`<SHA>` with the merged commit that ships. The packages that ship are those
+whose `.csproj <Version>` already equals `<VERSION>` on that commit — the
+runbook does not edit versions.
 
 > **Phases 0–2 are reversible. Phase 3 is the point of no return.** nuget.org
 > has no hard delete (see [Rollback reality](#rollback-reality)). Phase 2's

@@ -1,0 +1,273 @@
+# Release to NuGet — tag-triggered, with a human approval gate.
+#
+# This automates docs/RELEASE-RUNBOOK.md. The runbook's load-bearing
+# decisions are PRESERVED, not discarded:
+#   * The tag push IS the release decision (runbook Phase 2 HARD STOP) and
+#     the `nuget-release` Environment adds a required-reviewer approval
+#     BEFORE the irreversible push (nuget.org has no hard delete).
+#   * Core is pushed first, then we wait until it is restorable on the
+#     flat-container, then the satellites (closes the satellite->core gap).
+#   * `--skip-duplicate` makes any re-run idempotent (already-pushed -> 409
+#     -> skipped, not aborted).
+#   * The published set is exactly the packages whose .csproj <Version>
+#     equals the tag — so an additive single-satellite release (Sqlite at
+#     7.1.0 while the 6 stay 7.0.0) AND a future lockstep release both work
+#     with no edits. This is the documented 6-vs-7 generalization.
+#   * `dotnet pack` WITH build (never --no-build — runbook: --no-build has
+#     intermittently dropped a satellite .xml).
+#
+# One-time setup (repo owner):
+#   * nuget.org API key scoped "Push new packages and package versions" +
+#     Glob `WebReaper*` (runbook Lesson #1: a versions-only / explicit-list
+#     key 403s a brand-new ID). Store as repo secret NUGET_API_KEY.
+#   * Settings > Environments > `nuget-release` with the owner as a
+#     Required reviewer (this is the approval gate).
+#
+# Dry run: workflow_dispatch with dry_run=true packs + verifies only — no
+# push, no release. Use it to validate the pipeline before the real tag.
+
+name: Release (NuGet)
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing tag to release (e.g. v7.1.0)'
+        required: true
+      dry_run:
+        description: 'Pack + verify only (no push, no GitHub release)'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+env:
+  NUGET_SOURCE: https://api.nuget.org/v3/index.json
+  # Explicit, ordered, core FIRST (runbook: "never a glob — ordering/safety").
+  # New packages are added here deliberately, like the runbook's explicit set.
+  CANDIDATES: >-
+    WebReaper
+    WebReaper.Cosmos
+    WebReaper.Mongo
+    WebReaper.Redis
+    WebReaper.AzureServiceBus
+    WebReaper.Puppeteer
+    WebReaper.Sqlite
+
+jobs:
+  pack:
+    name: Build, guardrail & pack (reversible)
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.select.outputs.version }}
+      packages: ${{ steps.select.outputs.packages }}
+      core_selected: ${{ steps.select.outputs.core_selected }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref }}
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Resolve version + select the package set (csproj <Version> == tag)
+        id: select
+        run: |
+          set -euo pipefail
+          TAG="${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}"
+          case "$TAG" in
+            v*) VERSION="${TAG#v}" ;;
+            *) echo "::error::tag '$TAG' must look like v<semver>"; exit 1 ;;
+          esac
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+          selected=""
+          core_selected=false
+          for p in $CANDIDATES; do
+            csproj="$p/$p.csproj"
+            [ -f "$csproj" ] || { echo "::error::$csproj missing"; exit 1; }
+            v=$(grep -oE '<Version>[^<]+' "$csproj" | head -1 | sed 's/<Version>//')
+            if [ "$v" = "$VERSION" ]; then
+              selected="$selected $p"
+              [ "$p" = "WebReaper" ] && core_selected=true
+            else
+              echo "skip $p (<Version>=$v != $VERSION) — released under its own tag"
+            fi
+          done
+          selected="$(echo "$selected" | xargs)"
+          if [ -z "$selected" ]; then
+            echo "::error::no package has <Version>=$VERSION; nothing matches tag $TAG"
+            exit 1
+          fi
+          echo "Releasing $VERSION: $selected"
+          echo "packages=$selected" >> "$GITHUB_OUTPUT"
+          echo "core_selected=$core_selected" >> "$GITHUB_OUTPUT"
+
+      - name: Install Native AOT prerequisites
+        run: sudo apt-get update && sudo apt-get install -y clang zlib1g-dev
+
+      - name: Release build (must be 0 errors)
+        run: dotnet build WebReaper.sln -c Release --nologo
+
+      - name: Guardrail — unit + satellite tests
+        run: |
+          set -euo pipefail
+          for t in $(ls WebReaper.Tests | grep -E '^WebReaper\.(UnitTests|.*\.Tests)$'); do
+            csproj="WebReaper.Tests/$t/$t.csproj"
+            [ -f "$csproj" ] || continue
+            case "$t" in
+              WebReaper.IntegrationTests) echo "skip $t (live/flaky — runbook excludes)";;
+              *) echo "::group::$t"; dotnet test "$csproj" -c Release --no-build --nologo; echo "::endgroup::";;
+            esac
+          done
+
+      - name: Guardrail — AOT smoke (zero IL warnings + ALL PASS)
+        run: |
+          set -euo pipefail
+          dotnet publish WebReaper.Tests/WebReaper.AotSmokeTest/WebReaper.AotSmokeTest.csproj \
+            -c Release -r linux-x64 --nologo
+          ./WebReaper.Tests/WebReaper.AotSmokeTest/bin/Release/net10.0/linux-x64/publish/WebReaper.AotSmokeTest
+
+      - name: Guardrail — dependency-light core (must be empty)
+        run: |
+          set -euo pipefail
+          out=$(dotnet list WebReaper/WebReaper.csproj package --include-transitive \
+            | grep -iE 'newtonsoft|cosmos|mongodb|stackexchange|servicebus|puppeteer|sharpcompress|sqlite' || true)
+          if [ -n "$out" ]; then
+            echo "::error::core dependency graph is not light:"; echo "$out"; exit 1
+          fi
+          echo "core graph clean"
+
+      - name: Pack the selected set (with build — never --no-build)
+        run: |
+          set -euo pipefail
+          rm -rf artifacts && mkdir artifacts
+          for p in ${{ steps.select.outputs.packages }}; do
+            dotnet pack "$p/$p.csproj" -c Release -o artifacts --nologo
+          done
+
+      - name: Verify packed artifacts
+        run: |
+          set -euo pipefail
+          VERSION="${{ steps.select.outputs.version }}"
+          set -- ${{ steps.select.outputs.packages }}
+          want=$#
+          got=$(ls artifacts/*.nupkg 2>/dev/null | wc -l | tr -d ' ')
+          [ "$got" = "$want" ] || { echo "::error::expected $want .nupkg, got $got"; exit 1; }
+          [ "$(ls artifacts/*.snupkg 2>/dev/null | wc -l | tr -d ' ')" = "0" ] \
+            || { echo "::error::unexpected .snupkg"; exit 1; }
+          for p in "$@"; do
+            f="artifacts/$p.$VERSION.nupkg"
+            [ -f "$f" ] || { echo "::error::missing $f"; exit 1; }
+            v=$(unzip -p "$f" "$p.nuspec" | grep -oE '<version>[^<]+' | head -1 | sed 's/<version>//')
+            [ "$v" = "$VERSION" ] || { echo "::error::$f nuspec version $v != $VERSION"; exit 1; }
+          done
+          echo "verified $want package(s) at $VERSION"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nupkgs
+          path: artifacts/*.nupkg
+          if-no-files-found: error
+          retention-days: 7
+
+  publish:
+    name: Push to NuGet (IRREVERSIBLE — gated)
+    needs: pack
+    if: ${{ github.event_name != 'workflow_dispatch' || inputs.dry_run == false }}
+    runs-on: ubuntu-latest
+    environment: nuget-release   # required-reviewer approval gate (runbook Phase 2)
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref }}
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: nupkgs
+          path: artifacts
+
+      - name: Push (core first -> wait for index -> the rest; --skip-duplicate)
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: |
+          set -euo pipefail
+          [ -n "${NUGET_API_KEY:-}" ] || { echo "::error::NUGET_API_KEY secret is empty"; exit 1; }
+          VERSION="${{ needs.pack.outputs.version }}"
+          PKGS="${{ needs.pack.outputs.packages }}"
+
+          push() {
+            dotnet nuget push "artifacts/$1.$VERSION.nupkg" \
+              --api-key "$NUGET_API_KEY" --source "$NUGET_SOURCE" --skip-duplicate
+          }
+
+          if [ "${{ needs.pack.outputs.core_selected }}" = "true" ]; then
+            echo "core first"
+            push WebReaper
+            echo "waiting for WebReaper $VERSION on the flat-container index"
+            for i in $(seq 1 12); do
+              if curl -s --max-time 20 \
+                https://api.nuget.org/v3-flatcontainer/webreaper/index.json \
+                | grep -q "\"$VERSION\""; then echo "indexed"; break; fi
+              sleep 30
+            done
+          fi
+          for p in $PKGS; do
+            [ "$p" = "WebReaper" ] && continue
+            push "$p"
+          done
+
+  release:
+    name: Verify & GitHub release
+    needs: [pack, publish]
+    if: ${{ github.event_name != 'workflow_dispatch' || inputs.dry_run == false }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref }}
+          fetch-depth: 0
+
+      - name: Verify every published id is indexed
+        run: |
+          set -euo pipefail
+          VERSION="${{ needs.pack.outputs.version }}"
+          for p in ${{ needs.pack.outputs.packages }}; do
+            id=$(echo "$p" | tr '[:upper:]' '[:lower:]')
+            ok=
+            for i in $(seq 1 12); do
+              if curl -s --max-time 20 \
+                "https://api.nuget.org/v3-flatcontainer/$id/index.json" \
+                | grep -q "\"$VERSION\""; then ok=1; break; fi
+              sleep 30
+            done
+            [ -n "$ok" ] && echo "$id $VERSION INDEXED" \
+              || { echo "::error::$id $VERSION not indexed"; exit 1; }
+          done
+
+      - name: GitHub release from the CHANGELOG section
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          TAG="${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}"
+          VERSION="${{ needs.pack.outputs.version }}"
+          # literal (index-based) section extract; stops at the next "## "
+          awk -v v="## $VERSION" 'index($0,v)==1{f=1;print;next} f&&/^## /{exit} f{print}' \
+            CHANGELOG.md > /tmp/notes.md
+          if [ "$(grep -c '^## ' /tmp/notes.md)" != "1" ]; then
+            echo "::error::CHANGELOG has no single '## $VERSION' section"; exit 1
+          fi
+          gh release create "$TAG" --verify-tag \
+            --title "WebReaper $VERSION" --notes-file /tmp/notes.md
