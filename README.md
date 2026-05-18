@@ -13,8 +13,9 @@ a simple, extensible fluent API.
 
 As of **7.0.0** the core `WebReaper` package is **dependency-light, Native-AOT-ready and Newtonsoft-free**:
 a plain HTTP → file crawl pulls only AngleSharp, `Microsoft.Extensions.*` and Polly. Heavier capabilities
-(headless browser, MongoDB, Redis, Azure Cosmos DB, Azure Service Bus) ship as **optional satellite
-packages** you add only when you need them — see [Packages](#packages).
+(headless browser, MongoDB, Redis, Azure Cosmos DB, Azure Service Bus, SQLite-backed local durable
+scheduler/tracker) ship as **optional satellite packages** you add only when you need them — see
+[Packages](#packages).
 
 ## Quick start
 
@@ -83,12 +84,14 @@ dotnet add package WebReaper.Mongo            # MongoDB sink + config/cookie sto
 dotnet add package WebReaper.Redis            # Redis scheduler, tracker, sink, storage
 dotnet add package WebReaper.AzureServiceBus  # Azure Service Bus distributed scheduler
 dotnet add package WebReaper.Cosmos           # Azure Cosmos DB sink
+dotnet add package WebReaper.Sqlite           # SQLite local durable scheduler + visited-link tracker
 ```
 
 ## Packages
 
-Every package is versioned in lockstep (`7.0.0`) and GPL-3.0-or-later. Satellites depend on the
-matching core version and wire themselves in through the builder's public registration seam.
+The core and the original satellite set are versioned in lockstep (`7.0.0`); `WebReaper.Sqlite` was
+added afterwards and is `7.1.0` (it depends on core `7.0.0`). All packages are GPL-3.0-or-later, and
+every satellite wires itself in through the builder's public registration seam.
 
 | Package | Add it for | Key builder calls |
 |---|---|---|
@@ -98,6 +101,7 @@ matching core version and wire themselves in through the builder's public regist
 | **WebReaper.Redis** | Redis scheduler, visited-link tracker, result sink, config / cookie storage | `.WithRedisScheduler(...)` `.TrackVisitedLinksInRedis(...)` `.WriteToRedis(...)` `.WithRedisConfigStorage(...)` `.WithRedisCookieStorage(...)` |
 | **WebReaper.AzureServiceBus** | Distributed scheduler over an Azure Service Bus queue | `.WithAzureServiceBusScheduler(...)` |
 | **WebReaper.Cosmos** | Azure Cosmos DB result sink | `.WriteToCosmosDb(...)` |
+| **WebReaper.Sqlite** | Local **durable** scheduler & visited-link tracker on an embedded SQLite store — resume is a query, no position file. Opt-in robust-local tier (no server, unlike Redis). | `.WithSqliteScheduler(...)` `.TrackVisitedLinksInSqlite(...)` |
 
 > The core default page loader is **HTTP-only**. Crawling a dynamic page (`GetWithBrowser` /
 > `FollowWithBrowser` / `PaginateWithBrowser`) without `WebReaper.Puppeteer` registered throws an
@@ -229,6 +233,30 @@ var engine = await new ScraperEngineBuilder()
     .BuildAsync();
 ```
 
+The file scheduler is the zero-dependency default: an append-only job file, a 300 ms poll and a
+sidecar position file. For a long single-machine crawl that must survive `kill -9` and resume by
+query — without standing up a Redis server — add the `WebReaper.Sqlite` satellite and swap the two
+local backends. "Resume" becomes a `SELECT` over an indexed table; there is no position file to keep
+in sync (the visited-link table *is* the set — no in-memory mirror). The core file adapters are
+unchanged and stay the default; this is opt-in:
+
+```C#
+using WebReaper.Builders;
+using WebReaper.Sqlite;   // dotnet add package WebReaper.Sqlite
+
+var engine = await new ScraperEngineBuilder()
+    .Get("https://rutracker.org/forum/index.php?c=33")
+    .Follow(".forumlink>a")
+    .Paginate("a.torTopic", ".pg")
+    .Parse(new() { new("name", "#topic-title") })
+    .WriteToJsonFile("result.json")
+    .WithSqliteScheduler("crawl/state.db")        // resume is a query, not a position file
+    .TrackVisitedLinksInSqlite("crawl/state.db")  // the table is the set
+    .BuildAsync();
+```
+
+Pass `dataCleanupOnStart: true` to either call to start a fresh crawl (clears that table at start).
+
 ### Authorization
 
 If the site needs authorization, call `SetCookies` and fill the `CookieContainer` with the cookies
@@ -313,8 +341,8 @@ from satellites.
 
 | Seam | Core (in-memory default + file) | Satellite options |
 |---|---|---|
-| Scheduler | in-memory, `WithTextFileScheduler` | `WithRedisScheduler` (Redis), `WithAzureServiceBusScheduler` (Azure Service Bus) |
-| Visited-link tracker | in-memory, `TrackVisitedLinksInFile` | `TrackVisitedLinksInRedis` (Redis) |
+| Scheduler | in-memory, `WithTextFileScheduler` | `WithSqliteScheduler` (SQLite, local durable), `WithRedisScheduler` (Redis), `WithAzureServiceBusScheduler` (Azure Service Bus) |
+| Visited-link tracker | in-memory, `TrackVisitedLinksInFile` | `TrackVisitedLinksInSqlite` (SQLite, local durable), `TrackVisitedLinksInRedis` (Redis) |
 | Config storage | in-memory, `WithFileConfigStorage` | `WithMongoDbConfigStorage`, `WithRedisConfigStorage` |
 | Cookie storage | in-memory, `WithFileCookieStorage` | `WithMongoDbCookieStorage`, `WithRedisCookieStorage` |
 | Result sink | `WriteToConsole`, `WriteToCsvFile`, `WriteToJsonFile` | `WriteToMongoDb`, `WriteToRedis`, `WriteToCosmosDb` |
