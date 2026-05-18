@@ -3,6 +3,8 @@ using System.Text.Json.Nodes;
 using Microsoft.Extensions.Logging;
 using WebReaper.ConfigStorage.Abstract;
 using WebReaper.Core.Crawling;
+using WebReaper.Core.Crawling.Abstract;
+using WebReaper.Core.Crawling.Concrete;
 using WebReaper.Core.LinkTracker.Abstract;
 using WebReaper.Core.Scheduler.Abstract;
 using WebReaper.Core.Spider.Abstract;
@@ -37,7 +39,8 @@ public class ScraperEngine
         List<IScraperSink> sinks,
         ILogger logger,
         Action<ParsedData>? scrapedData = null,
-        Func<Metadata, JsonObject, Task>? postProcessor = null)
+        Func<Metadata, JsonObject, Task>? postProcessor = null,
+        IOutstandingWorkLatch? latch = null)
     {
         ParallelismDegree = parallelismDegree;
         ArgumentNullException.ThrowIfNull(configStorage);
@@ -51,6 +54,7 @@ public class ScraperEngine
             (jobScheduler, spider, linkTracker, sinks, logger, configStorage);
         ScrapedData = scrapedData;
         PostProcessor = postProcessor;
+        Latch = latch ?? new InMemoryOutstandingWorkLatch();
     }
 
     private IScraperConfigStorage ConfigStorage { get; }
@@ -61,6 +65,7 @@ public class ScraperEngine
     private ILogger Logger { get; }
     private Action<ParsedData>? ScrapedData { get; }
     private Func<Metadata, JsonObject, Task>? PostProcessor { get; }
+    private IOutstandingWorkLatch Latch { get; }
 
     private int ParallelismDegree { get; }
 
@@ -73,18 +78,19 @@ public class ScraperEngine
 
         var config = await ConfigStorage.GetConfigAsync();
 
-        // The Outstanding-work latch, in-memory adapter (ADR-0022): seed one
-        // unit of credit per start URL. Children are credited BEFORE the parent
-        // is decremented, so the counter can never hit zero prematurely
-        // (the credit-conservation precondition). Only touched when
-        // StopWhenDrained is on, so default behavior is unchanged.
-        var pending = 0;
+        var startUrls = config.StartUrls.ToList();
 
-        foreach (var startUrl in config.StartUrls)
+        // The Outstanding-work latch (ADR-0022 slice 3), behind its seam: seed
+        // one unit of credit per start Job. Children are credited BEFORE the
+        // parent's unit is returned (credit conservation — the counter can
+        // never hit zero prematurely). Only driven when StopWhenDrained is on,
+        // so default behavior is unchanged; the in-process adapter is the
+        // slice-1 Interlocked counter.
+        if (config.StopWhenDrained) await Latch.SeedAsync(startUrls.Count);
+
+        foreach (var startUrl in startUrls)
         {
             Logger.LogInformation("Scheduling the initial scraping job with start url {startUrl}", startUrl);
-
-            if (config.StopWhenDrained) Interlocked.Increment(ref pending);
 
             await Scheduler.AddAsync(new Job(
                 startUrl,
@@ -95,7 +101,7 @@ public class ScraperEngine
         }
 
         // No start urls at all — let the engine return right away.
-        if (config.StopWhenDrained && Volatile.Read(ref pending) == 0)
+        if (config.StopWhenDrained && startUrls.Count == 0)
         {
             Scheduler.Complete();
         }
@@ -167,14 +173,14 @@ public class ScraperEngine
 
                 if (newJobs.Count > 0)
                 {
-                    // Account for children BEFORE this job is marked done,
-                    // so the counter can never hit zero prematurely.
-                    if (config.StopWhenDrained) Interlocked.Add(ref pending, newJobs.Count);
+                    // Credit children BEFORE this Job's unit is returned
+                    // (credit conservation — ADR-0022).
+                    if (config.StopWhenDrained) await Latch.AddAsync(newJobs.Count);
 
                     await Scheduler.AddAsync(newJobs, cancellationToken);
                 }
 
-                if (config.StopWhenDrained && Interlocked.Decrement(ref pending) == 0)
+                if (config.StopWhenDrained && await Latch.SignalProcessedAsync())
                 {
                     Scheduler.Complete();
                 }
