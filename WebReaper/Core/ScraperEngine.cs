@@ -127,10 +127,19 @@ public class ScraperEngine
                 {
                     newJobs = new List<Job>();
                 }
+                else if (!await LinkTracker.TryAddVisitedLinkAsync(job.Url))
+                {
+                    // The idempotency authority (ADR-0022 slice 2): this URL
+                    // was already visited — a duplicate discovery now, a
+                    // redelivered Job once distributed. One atomic test-and-set
+                    // makes it a no-op: no crawl, no children, no double
+                    // emission. The Job's pending unit is still returned below,
+                    // so the Outstanding-work latch stays balanced (credit
+                    // conservation) — duplicates can't unbalance termination.
+                    newJobs = new List<Job>();
+                }
                 else
                 {
-                    await LinkTracker.AddVisitedLinkAsync(job.Url);
-
                     var report = await RetryAsync(() => Spider.CrawlAsync(job, cancellationToken));
 
                     if (report.Outcome is CrawlOutcome.Parsed parsed)
@@ -146,13 +155,11 @@ public class ScraperEngine
                     }
                     else
                     {
-                        // Candidate Jobs come back unfiltered; the driver owns
-                        // the visited-link tracker, so the driver de-duplicates
-                        // (ADR-0022 — the dedup that used to live in the shell).
-                        var visited = (await LinkTracker.GetVisitedLinksAsync()).ToHashSet();
-                        newJobs = report.Outcome.NextJobs
-                            .Where(nextJob => !visited.Contains(nextJob.Url))
-                            .ToList();
+                        // Children are enqueued UNFILTERED; discovery dedup is
+                        // the per-Job TryAdd gate above when each child is
+                        // itself processed (ADR-0022 slice 2 — one atomic
+                        // membership check, not the old read-then-filter race).
+                        newJobs = report.Outcome.NextJobs.ToList();
                     }
                 }
 

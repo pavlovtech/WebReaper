@@ -143,4 +143,30 @@ public class ScraperEngineDriverTests
         Assert.Equal(new[] { "item" }, scraped.Select(p => p.Url));
         Assert.Equal(new[] { "item" }, postProcessed);
     }
+
+    [Fact]
+    public async Task Duplicate_discovered_url_is_crawled_once_and_the_latch_stays_balanced()
+    {
+        // "root" discovers the SAME url twice. Children are enqueued
+        // unfiltered; the per-Job TryAdd idempotency gate makes the second a
+        // no-op. The run must still terminate (StopWhenDrained) — proof the
+        // Outstanding-work latch stays balanced even though a Job was a
+        // duplicate no-op (credit conservation: 3 enqueued, 3 returned).
+        var spider = new ScriptedSpider(job =>
+            job.Url == "root" ? Followed("dup", "dup") : Followed());
+
+        var engine = new ScraperEngine(
+            parallelismDegree: 1,
+            new FakeConfigStorage(Config()),
+            new InMemoryScheduler(),
+            spider,
+            new InMemoryVisitedLinkTracker(),
+            new List<IScraperSink>(),
+            NullLogger.Instance);
+
+        await engine.RunAsync().WaitAsync(TimeSpan.FromSeconds(10)); // a hang => unbalanced latch => fail
+
+        Assert.Equal(1, spider.Crawled.Count(u => u == "dup")); // crawled once; second was a no-op
+        Assert.Contains("root", spider.Crawled);
+    }
 }
