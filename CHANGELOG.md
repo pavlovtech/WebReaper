@@ -1,5 +1,44 @@
 # Changelog
 
+## 7.1.0 — WebReaper.Sqlite satellite: opt-in robust-local durable scheduler & tracker (additive)
+
+New satellite package **WebReaper.Sqlite** — a local durable scheduler and
+visited-link tracker backed by an embedded SQLite store via
+`Microsoft.Data.Sqlite`. "Resume" is a `SELECT … WHERE consumed = 0` over an
+indexed table: `FileScheduler`'s append-only job file + sidecar position file
++ `O(skip N)` line cursor (and the cursor↔job-file desync failure mode) are
+gone for the consumer who opts in. Rationale, the satellite-not-core
+constraint, and the considered options:
+[`docs/adr/0012-sqlite-embedded-store-satellite.md`](docs/adr/0012-sqlite-embedded-store-satellite.md).
+
+This is **additive** — nothing is removed or changed in core or the existing
+satellites. The core file scheduler and visited-link tracker are
+byte-unchanged and remain the zero-dependency local default; SQLite is the
+opt-in robust-local tier between them and the distributed Redis / Azure
+Service Bus satellites.
+
+- `ScraperEngineBuilder.WithSqliteScheduler(databasePath, dataCleanupOnStart?, logger?)`
+  over the public `WithScheduler` seam; `SqliteScheduler : IScheduler`.
+- `ScraperEngineBuilder.TrackVisitedLinksInSqlite(databasePath, dataCleanupOnStart?)`
+  over the public `WithLinkTracker` seam; `SqliteVisitedLinkTracker :
+  IVisitedLinkTracker`. The `visited(url PRIMARY KEY)` table *is* the set —
+  no in-memory mirror (a deliberate ADR-0012 deviation from the file
+  tracker, mirroring the Redis tracker).
+- The `Job` payload uses the same `WebReaperJson` grammar as the core file
+  scheduler and the Redis scheduler (ADR-0008) — full type fidelity.
+- Satellite per ADR-0009 / ADR-0012: core does not reference
+  `Microsoft.Data.Sqlite`, so the native `e_sqlite3` (SQLitePCLRaw) graph
+  stays off the dependency-light, Native-AOT-zero-warning core. Like the
+  other satellites it is deliberately not marked `IsAotCompatible`.
+- Versioned `7.1.0`: a new satellite added after the `7.0.0` satellite wave;
+  it depends on `WebReaper` core `7.0.0`.
+
+ADR-0012 itself carried a one-line correction (landed with the first
+implementation slice, called out loud): its Mechanism section had wrongly
+said `FileScheduler` writes its position file *after* the yield — the whole
+`IScheduler` family is claim-before-yield / at-most-once for the in-flight
+job, and `SqliteScheduler` matches it. Decision and shape unaffected.
+
 ## 7.0.0 — Satellite adapter packages; dependency-light core (breaking)
 
 Heavy third-party adapters move out of the core `WebReaper` package into
