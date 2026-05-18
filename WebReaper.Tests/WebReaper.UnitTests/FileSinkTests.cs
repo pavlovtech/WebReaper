@@ -4,15 +4,16 @@ using WebReaper.Sinks.Models;
 
 namespace WebReaper.UnitTests;
 
-// The file-sink deepening (ADR 0006). The buffered drain has one home
-// (BufferedFileSink); the only legitimate per-format variation is behind
-// IFileSinkFormat. The two pure format tests pin the quarantined quirk exactly
-// (no IO, the cheapest surface). The two ctor tests pin the headline bug fixes
-// — deterministic, no async drain: the directory is created even when not
-// cleaning (old JSON-lines only created it while cleaning, old CSV never), and
-// DataCleanupOnStart truncates a pre-existing file with zero rows emitted (old
-// CSV kept stale data on an empty crawl). Two drain tests prove the
-// producer→consumer→file path and the header-once ordering.
+// The file-sink deepening (ADR 0006) plus the file-persistence-prep
+// migration (ADR-0011). The buffered drain has one home (BufferedFileSink);
+// the only legitimate per-format variation is behind IFileSinkFormat. The
+// two pure format tests pin the quarantined quirk exactly (no IO, the
+// cheapest surface). The directory-creation and DataCleanupOnStart
+// assertions that used to live here moved to FilePersistencePrepTests when
+// BufferedFileSink was migrated to delegate that prep (ADR-0011); the two
+// drain tests (kept) still prove the producer→consumer→file path and the
+// header-once ordering — and exercise the delegated directory creation
+// implicitly, since they write under a not-yet-existing temp directory.
 public class FileSinkTests
 {
     private sealed class TempDir : IDisposable
@@ -66,30 +67,6 @@ public class FileSinkTests
 
         Assert.Equal("name,url", format.Header(row));
         Assert.Equal("\"a\",\"http://x/1\"", format.FormatRow(row));
-    }
-
-    [Fact]
-    public void Constructor_creates_the_directory_even_when_not_cleaning()
-    {
-        using var tmp = new TempDir();
-        var path = tmp.At("nested", "out.jsonl");
-
-        _ = new JsonLinesFileSink(path, dataCleanupOnStart: false);
-
-        Assert.True(Directory.Exists(System.IO.Path.GetDirectoryName(path)));
-    }
-
-    [Fact]
-    public void DataCleanupOnStart_truncates_a_preexisting_file_with_zero_rows_emitted()
-    {
-        using var tmp = new TempDir();
-        Directory.CreateDirectory(tmp.Root);
-        var path = tmp.At("stale.csv");
-        File.WriteAllText(path, "old,stale,data" + Environment.NewLine);
-
-        _ = new CsvFileSink(path, dataCleanupOnStart: true);
-
-        Assert.False(File.Exists(path));
     }
 
     [Fact]

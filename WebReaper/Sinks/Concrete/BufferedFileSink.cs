@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.Text.Json.Nodes;
+using WebReaper.DataAccess;
 using WebReaper.Sinks.Abstract;
 using WebReaper.Sinks.Models;
 
@@ -12,7 +13,8 @@ namespace WebReaper.Sinks.Concrete;
 /// buffered-drain code that was copy-pasted across the two file sinks and had
 /// drifted into divergent bugs.
 ///
-/// Cleanup and directory creation happen once, eagerly, in the constructor —
+/// Cleanup and directory creation are delegated to FilePersistencePrep
+/// (ADR-0011) and happen once, eagerly, in the constructor —
 /// deterministic and correct even for a crawl that produces zero rows (the
 /// behaviour the old JSON-lines sink had and the old CSV sink lacked), and the
 /// directory is created regardless of <c>dataCleanupOnStart</c> (the old
@@ -43,12 +45,12 @@ public class BufferedFileSink : IScraperSink
         _format = format;
         DataCleanupOnStart = dataCleanupOnStart;
 
-        var directory = Path.GetDirectoryName(filePath);
-        if (!string.IsNullOrEmpty(directory))
-            Directory.CreateDirectory(directory);
-
-        if (dataCleanupOnStart && File.Exists(filePath))
-            File.Delete(filePath);
+        // ADR-0011: directory creation + cleanup-on-start delegated to
+        // FilePersistencePrep. The buffered drain, IFileSinkFormat and the
+        // per-row append are this adapter's own essence, unchanged —
+        // ADR-0006's open/close-per-row fence stands (not closed here).
+        FilePersistencePrep.EnsureDirectory(filePath);
+        FilePersistencePrep.CleanupOnStart(filePath, dataCleanupOnStart);
     }
 
     public bool DataCleanupOnStart { get; set; }
