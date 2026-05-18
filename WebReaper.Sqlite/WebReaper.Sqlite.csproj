@@ -1,0 +1,62 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>12</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- Ship the XML doc so the documented builder-extension API (the
+         satellite's supported surface) gives consumers IntelliSense. The
+         adapter classes (SqliteScheduler / future SqliteVisitedLinkTracker)
+         are public only because the extension and tests bind to them; they
+         are not part of the satellite's documented contract, so CS1591 for
+         them is noise, not a backlog signal. Core keeps CS1591 visible by
+         contrast — there it IS a live doc backlog. -->
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+
+    <PackageId>WebReaper.Sqlite</PackageId>
+    <!-- Release-time owned (docs/RELEASE-RUNBOOK.md): WebReaper.Sqlite is a
+         NEW satellite added after the 7.0.0 satellite wave, so 7.1.0 — not
+         7.0.0, which the CHANGELOG enumerates without Sqlite. The build does
+         not depend on this value; the release process sets the published
+         number. -->
+    <Version>7.1.0</Version>
+    <Authors>Alex Pavlov</Authors>
+    <Company>Alex Pavlov</Company>
+    <Product>WebReaper</Product>
+    <Title>WebReaper.Sqlite</Title>
+    <Description>SQLite embedded-store adapters for WebReaper: a local durable scheduler (and, from the next slice, a visited-link tracker) backed by SQLite via Microsoft.Data.Sqlite — resume is a query, not a hand-rolled position file. The opt-in robust-local durability tier between the zero-dependency core file adapters and the distributed Redis / Azure Service Bus satellites. Adds ScraperEngineBuilder.WithSqliteScheduler. Satellite package (ADR-0009 / ADR-0012) so the WebReaper core stays dependency-light and Native-AOT-clean — the native e_sqlite3 (SQLitePCLRaw) graph is quarantined here.</Description>
+    <Copyright>GPL-3.0 license</Copyright>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/pavlovtech/WebReaper</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/pavlovtech/WebReaper</RepositoryUrl>
+    <PackageTags>scraper, crawler, parser, sqlite, durable, embedded</PackageTags>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>7.1.0: initial release. SQLite embedded-store local durable scheduler (ScraperEngineBuilder.WithSqliteScheduler) — "resume" is a SELECT WHERE consumed = 0 over an indexed table, replacing FileScheduler's append-only job file + sidecar position file + line-skip cursor (the cursor/job-file desync failure mode is unrepresentable). Same WebReaperJson Job grammar as the core file scheduler and the Redis scheduler (ADR-0008), so the Job round-trips with full type fidelity. New satellite package per ADR-0009 / ADR-0012: the WebReaper core does not reference Microsoft.Data.Sqlite, so the native e_sqlite3 (SQLitePCLRaw) graph stays off the dependency-light, Native-AOT-zero-warning core. The core file scheduler is unchanged and stays the zero-dependency local default; this is the opt-in robust-local tier. Requires WebReaper 7.0.0. The visited-link tracker is the next slice (issue #67).</PackageReleaseNotes>
+
+    <!-- ADR-0009 / ADR-0012: the Sqlite satellite is deliberately NOT
+         IsAotCompatible. Microsoft.Data.Sqlite is a managed wrapper over a
+         native e_sqlite3 shipped via SQLitePCLRaw.bundle_e_sqlite3 (a per-RID
+         native asset) — the exact native-interop dependency class ADR-0009
+         quarantines off core (cf. the Cosmos ServiceInterop graph).
+         Quarantining it here is precisely why a core-only consumer stays
+         dependency-light and the whole core publishes Native-AOT
+         zero-warning (WebReaper.AotSmokeTest); the core file scheduler is
+         untouched and remains the zero-dependency local default. -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="..\WebReaper\logo.png" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WebReaper\WebReaper.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.8" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.8" />
+  </ItemGroup>
+</Project>
