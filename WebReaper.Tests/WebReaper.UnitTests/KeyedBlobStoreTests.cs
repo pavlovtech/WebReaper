@@ -78,4 +78,28 @@ public class KeyedBlobStoreTests
             Assert.Equal(payload, await store.GetAsync(key));
         }
     }
+
+    // ADR-0011 bug fix, pinned through the public IKeyedBlobStore interface:
+    // FileBlobStore's key IS the path; a key in a not-yet-existing directory
+    // previously threw (no directory creation). FilePersistencePrep now
+    // ensures the directory eagerly, so this round-trips.
+    [Fact]
+    public async Task FileBlobStore_Put_to_a_key_in_a_missing_directory_succeeds()
+    {
+        var root = System.IO.Path.Combine(
+            System.IO.Path.GetTempPath(), $"wr-blob-nested-{Guid.NewGuid():N}");
+        try
+        {
+            var key = System.IO.Path.Combine(root, "nested", "config.json"); // dir absent
+            var store = new FileBlobStore();
+
+            await store.PutAsync(key, "v"); // previously threw DirectoryNotFoundException
+
+            Assert.Equal("v", await store.GetAsync(key));
+        }
+        finally
+        {
+            if (Directory.Exists(root)) Directory.Delete(root, true);
+        }
+    }
 }
