@@ -74,6 +74,17 @@ through the embedded-store candidate below, not by a new core mechanism.
 
 ## Named future candidate (not actioned here)
 
+> **Update — decided (ADR-0012).** This candidate is no longer open:
+> adopted as the new **`WebReaper.Sqlite` satellite**, *not* a core
+> replacement. `Microsoft.Data.Sqlite` is a native-interop dependency
+> (native `e_sqlite3` via SQLitePCLRaw) — the exact class ADR-0009
+> quarantines off core — so the core `FileScheduler` poll loop + position
+> file *stay* as the zero-dependency default; SQLite is an opt-in
+> robust-local tier (scheduler + visited-link tracker). The "the poll loop
+> and position file disappear" framing below is the candidate's *original*
+> prose; ADR-0012 corrects it (they disappear only for the opt-in
+> consumer). See `docs/adr/0012-sqlite-embedded-store-satellite.md`.
+
 `FileScheduler`'s **file-as-queue** is the deeper smell, and the prep helper
 deliberately does not touch it: an append-only job file polled with a
 `Task.Delay(300)` loop, with a sidecar position file tracking the read
