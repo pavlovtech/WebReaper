@@ -280,3 +280,42 @@ precedent — a forwarder that reinstates the coupling defeats the deepening).
   ADR-0003/0005 (the Redis/Cosmos infra the distributed latch adapter reuses),
   ADR-0009 (the `BuildSpider()` bare-`ISpider` seam this ADR deepens the far
   side of).
+
+## Implementation status — shipped (2026-05-19)
+
+All four staging slices landed on branch
+`adr-0022-crawl-driver-and-outstanding-work-latch`, each keeping the guardrail
+green (whole-solution build incl. satellites + Examples, the offline unit
+suite, and the `WebReaper.AotSmokeTest` Native-AOT publish — exit 0):
+
+1. **Job report + in-process Crawl driver.** `ISpider.CrawlAsync` returns the
+   closed `JobReport` (wraps the ADR-0001 `CrawlOutcome` + the loaded doc);
+   `Spider` reduced to load → Crawl step → report; `ScraperEngine` owns the
+   tracker, dedup, Sink fan-out, callbacks, and the limit as a value;
+   `PageCrawlLimitException` (control flow) deleted.
+2. **Idempotency authority.** `IVisitedLinkTracker.TryAddVisitedLinkAsync` —
+   an atomic test-and-set as a default-interface-method (the non-atomic
+   fallback keeps File/Sqlite adapters unchanged); `InMemoryVisitedLinkTracker`
+   is a lock-free CAS. The driver gates every Job on it; children are enqueued
+   unfiltered (dedup is the per-Job gate when each is processed).
+3. **Outstanding-work latch seam.** `IOutstandingWorkLatch` +
+   `InMemoryOutstandingWorkLatch` (the slice-1 `Interlocked` counter behind
+   the seam — in-process behaviour unchanged); `WebReaper.Redis` gains
+   `RedisOutstandingWorkLatch` (atomic INCRBY/DECRBY + a SET-NX one-shot
+   fence) and an atomic-`SADD` `RedisVisitedLinkTracker.TryAddVisitedLinkAsync`.
+4. **Distributed driver.** `Examples/WebReaper.AzureFuncs`'s `WebReaperSpider`
+   is now a thin Crawl-driver adapter: authority gate → crawl → fan out to
+   `CosmosSink` on `Parsed` / credit-and-enqueue children otherwise → return
+   the message's one credit; the CAS-fenced latch trips exactly once for
+   "stop cleanly when work runs out". `StartScraping` seeds the latch;
+   `Startup` registers the Redis latch. It never throws to terminate — the
+   pre-7.0 distributed poison message is gone by construction.
+
+The closed-by-construction defects (the retry-amplified limit exception, the
+racy discovery dedup, the distributed poison message) are pinned offline by
+`SpiderTests`, `ScraperEngineDriverTests`, `VisitedLinkTrackerTests`,
+`OutstandingWorkLatchTests`, and the updated `EngineStopWhenDrainedTests`
+(84 unit tests green). Distributed-latch correctness rides on the idempotency
+authority, not the queue's delivery semantics — exactly as the Decision and
+`research/distributed-crawl-termination.md` set out. Commits: design pass
+`061dc2a`; slices 1–3 `49d7fec` / `d90c418` / `741a202`; slice 4 with this note.
