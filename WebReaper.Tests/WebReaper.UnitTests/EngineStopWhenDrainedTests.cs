@@ -2,10 +2,13 @@ using System.Collections.Immutable;
 using Microsoft.Extensions.Logging.Abstractions;
 using WebReaper.ConfigStorage.Abstract;
 using WebReaper.Core;
+using WebReaper.Core.Crawling;
+using WebReaper.Core.LinkTracker.Concrete;
 using WebReaper.Core.Scheduler.Concrete;
 using WebReaper.Core.Spider.Abstract;
 using WebReaper.Domain;
 using WebReaper.Domain.Selectors;
+using WebReaper.Sinks.Abstract;
 
 namespace WebReaper.UnitTests
 {
@@ -24,19 +27,17 @@ namespace WebReaper.UnitTests
         {
             public int Crawls;
 
-            public Task<List<Job>> CrawlAsync(Job job, CancellationToken cancellationToken = default)
+            public Task<JobReport> CrawlAsync(Job job, CancellationToken cancellationToken = default)
             {
                 Interlocked.Increment(ref Crawls);
 
                 var children = job.Url == "root"
-                    ? new List<Job>
-                    {
-                        new("child-1", ImmutableQueue<LinkPathSelector>.Empty, ImmutableQueue<string>.Empty),
-                        new("child-2", ImmutableQueue<LinkPathSelector>.Empty, ImmutableQueue<string>.Empty)
-                    }
-                    : new List<Job>();
+                    ? ImmutableArray.Create(
+                        new Job("child-1", ImmutableQueue<LinkPathSelector>.Empty, ImmutableQueue<string>.Empty),
+                        new Job("child-2", ImmutableQueue<LinkPathSelector>.Empty, ImmutableQueue<string>.Empty))
+                    : ImmutableArray<Job>.Empty;
 
-                return Task.FromResult(children);
+                return Task.FromResult(new JobReport(CrawlOutcome.Transit(children), string.Empty));
             }
         }
 
@@ -56,6 +57,8 @@ namespace WebReaper.UnitTests
                 new FakeConfigStorage(Config(stopWhenDrained: true)),
                 new InMemoryScheduler(),
                 spider,
+                new InMemoryVisitedLinkTracker(),
+                new List<IScraperSink>(),
                 NullLogger.Instance);
 
             // Throws TimeoutException (fails the test) if it never stops.
@@ -72,6 +75,8 @@ namespace WebReaper.UnitTests
                 new FakeConfigStorage(Config(stopWhenDrained: false)),
                 new InMemoryScheduler(),
                 new FiniteSpider(),
+                new InMemoryVisitedLinkTracker(),
+                new List<IScraperSink>(),
                 NullLogger.Instance);
 
             using var cts = new CancellationTokenSource();

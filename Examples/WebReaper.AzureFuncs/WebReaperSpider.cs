@@ -3,6 +3,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using WebReaper.Builders;
+using WebReaper.Core.Crawling;
 using WebReaper.Core.LinkTracker.Abstract;
 using WebReaper.Cosmos;
 using WebReaper.Domain;
@@ -49,9 +50,16 @@ namespace WebReaper.AzureFuncs
                 .AddSink(CosmosSink)
                 .BuildSpider();
 
-            var newJobs = await spider.CrawlAsync(job);
+            // ADR-0022 slice 1: ISpider.CrawlAsync now returns a JobReport
+            // (the Crawl step's outcome + the loaded doc). This worker IS the
+            // distributed Crawl driver; its full reshape — Sink fan-out to
+            // CosmosSink, visited-link tracking, and the Outstanding-work
+            // latch over the shared tracker — is ADR-0022 slice 4. Here we
+            // only re-enqueue discovered child Jobs, so the example compiles
+            // and crawl progression is preserved (sink/tracking land in s4).
+            var report = await spider.CrawlAsync(job);
 
-            foreach(var newJob in newJobs)
+            foreach (var newJob in report.Outcome.NextJobs)
             {
                 log.LogInformation($"Adding to the queue: {newJob.Url}");
                 await outputSbQueue.AddAsync(SerializeToJson(newJob));
