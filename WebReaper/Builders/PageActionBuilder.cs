@@ -76,7 +76,7 @@ public class PageActionBuilder
 
     public PageActionBuilder WaitForNetworkIdle()
     {
-        _pageActions.Add(new PageAction(PageActionType.WaitForSelector));
+        _pageActions.Add(new PageAction(PageActionType.WaitForNetworkIdle));
         return this;
     }
 
