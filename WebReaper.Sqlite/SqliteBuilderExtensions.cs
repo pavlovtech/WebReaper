@@ -38,4 +38,25 @@ public static class SqliteBuilderExtensions
             logger ?? NullLogger.Instance,
             dataCleanupOnStart));
     }
+
+    /// <summary>
+    /// Tracks visited links in a SQLite-backed durable set, over
+    /// <see cref="ScraperEngineBuilder"/>'s public <c>WithLinkTracker</c>
+    /// seam. The opt-in robust-local tier: the table <em>is</em> the set, no
+    /// in-memory mirror (ADR-0012). The core file tracker stays the
+    /// zero-dependency default; this is opt-in.
+    /// </summary>
+    /// <param name="builder">The scraper engine builder.</param>
+    /// <param name="databasePath">Path to the SQLite database file (its directory is created if missing).</param>
+    /// <param name="dataCleanupOnStart">When <see langword="true"/>, the visited-link table is cleared when the scrape starts.</param>
+    /// <returns>The same <see cref="ScraperEngineBuilder"/>, for chaining.</returns>
+    public static ScraperEngineBuilder TrackVisitedLinksInSqlite(
+        this ScraperEngineBuilder builder,
+        string databasePath,
+        bool dataCleanupOnStart = false)
+    {
+        return builder.WithLinkTracker(new SqliteVisitedLinkTracker(
+            databasePath,
+            dataCleanupOnStart));
+    }
 }
