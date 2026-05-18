@@ -81,4 +81,12 @@
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
+
+  <!-- ADR-0011: FilePersistencePrep is an internal stateless helper; the unit
+       test assembly asserts its three responsibilities at its own interface
+       (a pure utility has no public facade to test it through, unlike the
+       internal SpiderBuilder which is reached via ScraperEngineBuilder). -->
+  <ItemGroup>
+    <InternalsVisibleTo Include="WebReaper.UnitTests" />
+  </ItemGroup>
 </Project>
