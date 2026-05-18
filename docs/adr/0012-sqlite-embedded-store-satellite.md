@@ -79,14 +79,24 @@ the satellite*.
 - **`SqliteScheduler`.** A `jobs(id INTEGER PRIMARY KEY AUTOINCREMENT,
   payload TEXT NOT NULL, consumed INTEGER NOT NULL DEFAULT 0)` table.
   `AddAsync` is an `INSERT`; `GetAllAsync` reads `WHERE consumed = 0 ORDER
-  BY id` and marks rows `consumed = 1` transactionally as it yields.
+  BY id` and marks a row `consumed = 1` **before it yields it** — the
+  claim is committed first.
   **The position file and the `O(skip N lines)` `StreamReader` cursor are
   gone — resume is `SELECT … WHERE consumed = 0`.** The cursor↔job-file
   desync failure mode is *unrepresentable*: one store, one transaction.
-  After `kill -9`, an uncommitted consume rolls back and the same query
-  re-yields it — at-least-once, *exactly* `FileScheduler`'s existing
-  guarantee (its position file is written after the yield, so a mid-process
-  crash already re-yields) and no weaker.
+  This is claim-before-yield, the existing `IScheduler` family contract:
+  `FileScheduler` advances its position cursor *before* the `yield`
+  (`FileScheduler.cs`) and `RedisScheduler` pops destructively
+  (`ListLeftPop`) before its `yield`; the role interface has no ack, so
+  "consume = claim" *is* the contract, not a choice. On `kill -9` every
+  not-yet-claimed row is intact and re-yielded by the same `WHERE consumed
+  = 0` query; the single in-flight job is not re-yielded — the *same*
+  at-most-once-for-the-in-flight-job guarantee the whole family already
+  has, and no weaker. (Correction: an earlier draft of this clause said
+  `FileScheduler`'s position file is written *after* the yield — it is
+  not; the family is claim-before-yield. The decision and shape are
+  unaffected; only this rationale aside is fixed — recorded, per the
+  repo's "called out loud, never silent" rule, in PR #66.)
 - **The Job grammar is unchanged.** The payload is
   `WebReaperJson.SerializeJob` / `DeserializeJob` — the *same ADR-0008
   grammar* as `FileScheduler` and `RedisScheduler`. ADR-0008's uniform
