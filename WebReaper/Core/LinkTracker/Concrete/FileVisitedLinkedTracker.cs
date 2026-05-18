@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using WebReaper.Core.LinkTracker.Abstract;
+using WebReaper.DataAccess;
 
 namespace WebReaper.Core.LinkTracker.Concrete;
 
@@ -23,27 +24,23 @@ public class FileVisitedLinkedTracker : IVisitedLinkTracker
     
     private async Task InitializeAsync()
     {
-        if (DataCleanupOnStart)
+        // ADR-0011: directory creation, cleanup-on-start and the missing-file
+        // policy are delegated to FilePersistencePrep — eager and
+        // unconditional, fixing the old "directory created only when the file
+        // is absent" bug. The in-memory mirror is this adapter's own essence.
+        FilePersistencePrep.CleanupOnStart(_fileName, DataCleanupOnStart);
+        FilePersistencePrep.EnsureDirectory(_fileName);
+
+        var content = await FilePersistencePrep.ReadAllTextOrNullAsync(_fileName);
+        if (content is null)
         {
-            if (File.Exists(_fileName))
-            {
-                File.Delete(_fileName);
-            }
-        }
-        
-        if (!File.Exists(_fileName))
-        {
-            var fileInfo = new FileInfo(_fileName);
-            fileInfo.Directory?.Create();
-            
             _visitedLinks = new ConcurrentBag<string>();
-            var file = File.Create(_fileName);
-            file.Close();
+            File.Create(_fileName).Close();
             return;
         }
 
-        var allLinks = File.ReadLines(_fileName);
-        _visitedLinks = new ConcurrentBag<string>(allLinks);
+        _visitedLinks = new ConcurrentBag<string>(
+            content.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries));
     }
 
     public async Task AddVisitedLinkAsync(string visitedLink)

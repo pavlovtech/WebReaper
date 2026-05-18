@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 using WebReaper.Core.Scheduler.Abstract;
+using WebReaper.DataAccess;
 using WebReaper.Domain;
 using WebReaper.Serialization;
 
@@ -30,20 +31,20 @@ public class FileScheduler : IScheduler
     
     private async Task InitializeAsync()
     {
-        if (DataCleanupOnStart)
-        {
-            if(File.Exists(_fileName)) File.Delete(_fileName);
-            if(File.Exists(_currentJobPositionFileName)) File.Delete(_currentJobPositionFileName);
-        }
-        
-        var fileInfo = new FileInfo(_fileName);
-        fileInfo.Directory?.Create();
-        
-        var fileInfo2 = new FileInfo(_currentJobPositionFileName);
-        fileInfo2.Directory?.Create();
+        // ADR-0011: directory creation, cleanup-on-start and the missing-file
+        // policy are delegated to FilePersistencePrep, for both the job file
+        // and the position file. The resumable cursor + poll loop in
+        // GetAllAsync is this adapter's own essence and is byte-unchanged (the
+        // file-as-queue is the named #58 candidate, out of scope here).
+        FilePersistencePrep.CleanupOnStart(_fileName, DataCleanupOnStart);
+        FilePersistencePrep.CleanupOnStart(_currentJobPositionFileName, DataCleanupOnStart);
 
-        if (File.Exists(_currentJobPositionFileName))
-            _currentJobPosition = int.Parse(await File.ReadAllTextAsync(_currentJobPositionFileName));
+        FilePersistencePrep.EnsureDirectory(_fileName);
+        FilePersistencePrep.EnsureDirectory(_currentJobPositionFileName);
+
+        var posText = await FilePersistencePrep.ReadAllTextOrNullAsync(_currentJobPositionFileName);
+        if (posText is not null)
+            _currentJobPosition = int.Parse(posText);
     }
 
     public async IAsyncEnumerable<Job> GetAllAsync(
