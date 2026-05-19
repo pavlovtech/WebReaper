@@ -15,7 +15,7 @@ namespace WebReaper.Core.Parser.Concrete;
 /// constructor so <c>WithXPathContentParser</c> mirrors
 /// <c>WithJsonContentParser</c>.
 /// </summary>
-public class XPathContentParser : IJsonContentParser
+internal class XPathContentParser : IJsonContentParser
 {
     private readonly SchemaContentParser<AngleSharp.Dom.IParentNode> _inner;
 

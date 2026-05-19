@@ -36,12 +36,17 @@ public class SchemaContentParser<TNode> : IJsonContentParser where TNode : class
     private readonly ISchemaBackend<TNode> _backend;
     private readonly ILogger _logger;
 
+    /// <summary>Reuse the proven fold with a custom
+    /// <paramref name="backend"/> — the ADR-0002 extension point:
+    /// <c>new SchemaContentParser&lt;TNode&gt;(myBackend, logger)</c> passed to
+    /// <c>WithContentParser</c>.</summary>
     public SchemaContentParser(ISchemaBackend<TNode> backend, ILogger logger)
     {
         _backend = backend;
         _logger = logger;
     }
 
+    /// <inheritdoc/>
     public async Task<JsonObject> ParseToJsonAsync(string content, Schema? schema)
     {
         ArgumentNullException.ThrowIfNull(schema);

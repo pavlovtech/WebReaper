@@ -30,7 +30,17 @@ namespace WebReaper.Core;
 /// </summary>
 public class ScraperEngine
 {
-    public ScraperEngine(
+    /// <summary>
+    /// Constructed by
+    /// <see cref="WebReaper.Builders.ScraperEngineBuilder.BuildAsync"/> —
+    /// consumers obtain an engine from the builder, not by calling this
+    /// directly. Wires the in-process Crawl driver (ADR-0022): the scheduler,
+    /// the persisted config storage, the per-Job <see cref="ISpider"/> shell,
+    /// the visited-link idempotency authority, the Sink fan-out, the optional
+    /// ScrapedData / PostProcessor callbacks, and the Outstanding-work latch
+    /// (an in-memory <c>Interlocked</c> latch by default).
+    /// </summary>
+    internal ScraperEngine(
         int parallelismDegree,
         IScraperConfigStorage configStorage,
         IScheduler jobScheduler,
@@ -69,6 +79,13 @@ public class ScraperEngine
 
     private int ParallelismDegree { get; }
 
+    /// <summary>
+    /// Run the crawl to completion: seed the scheduler from the config's start
+    /// URLs and drive <c>Parallel.ForEachAsync</c> over the job stream until
+    /// the Outstanding-work latch trips (all work drained) or the soft
+    /// crawl-page limit is reached (ADR-0022 — termination is a value, never a
+    /// thrown exception). Honours <paramref name="cancellationToken"/>.
+    /// </summary>
     public async Task RunAsync(CancellationToken cancellationToken = default)
     {
         await Scheduler.Initialization;

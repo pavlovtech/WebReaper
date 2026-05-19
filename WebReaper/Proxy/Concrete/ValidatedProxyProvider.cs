@@ -16,7 +16,7 @@ namespace WebReaper.Proxy.Concrete;
 /// Puppeteer loader) with no other changes. No background service, no extra
 /// hosting dependency: refresh happens on demand, single-flighted.
 /// </summary>
-public sealed class ValidatedProxyProvider : IProxyProvider, IDisposable
+internal sealed class ValidatedProxyProvider : IProxyProvider, IDisposable
 {
     private readonly IProxySource _source;
     private readonly IReadOnlyList<IProxyValidator> _validators;

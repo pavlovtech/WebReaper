@@ -3,7 +3,7 @@ using WebReaper.Core.Parser.Abstract;
 
 namespace WebReaper.Core.Parser.Concrete;
 
-public class LinkParserByCssSelector : ILinkParser
+internal class LinkParserByCssSelector : ILinkParser
 {
     public async Task<List<string>> GetLinksAsync(Uri baseUrl, string html, string cssSelector)
     {

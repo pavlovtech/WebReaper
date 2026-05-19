@@ -10,8 +10,7 @@
          moved adapter classes (*Sink / *Scheduler / *Storage) are public only
          because the extension and tests bind to them; they are not part of the
          satellite's documented contract, so CS1591 for them is noise, not a
-         backlog signal. Core keeps CS1591 visible by contrast — there it IS a
-         live doc backlog. -->
+         backlog signal. Core CS1591 is now a contract-enforced zero (ADR-0023): every Tier-1 type documented, every Tier-2 type internal, WarningsAsErrors=CS1591 project-wide - no longer an open backlog. -->
     <NoWarn>$(NoWarn);CS1591</NoWarn>
 
     <PackageId>WebReaper.Redis</PackageId>

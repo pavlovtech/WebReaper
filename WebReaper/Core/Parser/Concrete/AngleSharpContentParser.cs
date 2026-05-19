@@ -11,7 +11,7 @@ namespace WebReaper.Core.Parser.Concrete;
 /// type with its original <c>(ILogger)</c> constructor so it stays the
 /// default and a drop-in for existing callers.
 /// </summary>
-public class AngleSharpContentParser : IJsonContentParser
+internal class AngleSharpContentParser : IJsonContentParser
 {
     private readonly SchemaContentParser<AngleSharp.Dom.IParentNode> _inner;
 

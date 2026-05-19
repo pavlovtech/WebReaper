@@ -8,6 +8,8 @@ namespace WebReaper.ConfigStorage.Concrete;
 /// </summary>
 public class InMemoryScraperConfigStorage : ScraperConfigStore
 {
+    /// <summary>An in-process config store (the default; also the in-memory
+    /// building block the ADR-0009 DIY-distributed pattern wires by hand).</summary>
     public InMemoryScraperConfigStorage()
         : base(new InMemoryBlobStore(), "config")
     {

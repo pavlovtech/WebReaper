@@ -9,7 +9,7 @@ namespace WebReaper.Sinks.Concrete;
 /// Newtonsoft) — observable file content is unchanged (ADR 0006: the format
 /// quirk relocated, not changed).
 /// </summary>
-public sealed class JsonLinesFormat : IFileSinkFormat
+internal sealed class JsonLinesFormat : IFileSinkFormat
 {
     public string? Header(JsonObject firstRow) => null;
 
