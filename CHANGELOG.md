@@ -1,6 +1,6 @@
 # Changelog
 
-## 10.0.0 — A scrape begins with a Crawl seed (breaking)
+## 10.0.0 *(unreleased — accumulating on `master`)* — A scrape begins with a Crawl seed (breaking)
 
 The builder front door no longer has a runtime trap. Start URLs and a schema
 were a *runtime* `InvalidOperationException` from `ConfigBuilder.Build()` if you
