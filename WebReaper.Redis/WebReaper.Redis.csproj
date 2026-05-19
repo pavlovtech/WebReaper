@@ -15,7 +15,7 @@
     <NoWarn>$(NoWarn);CS1591</NoWarn>
 
     <PackageId>WebReaper.Redis</PackageId>
-    <Version>7.0.0</Version>
+    <Version>8.0.0</Version>
     <Authors>Alex Pavlov</Authors>
     <Company>Alex Pavlov</Company>
     <Product>WebReaper</Product>
@@ -28,7 +28,7 @@
     <PackageTags>scraper, crawler, parser, redis, distributed</PackageTags>
     <PackageIcon>logo.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes>7.0.0: initial release. Redis scheduler, visited-link tracker, sink and Redis-backed scraper-config and cookie storage (ScraperEngineBuilder.WithRedisScheduler / TrackVisitedLinksInRedis / WriteToRedis / WithRedisConfigStorage / WithRedisCookieStorage), all sharing one ConnectionMultiplexer per connection string (ADR-0005). Extracted from the WebReaper core per ADR-0009 so the core stays dependency-light and Native-AOT-clean (core no longer references StackExchange.Redis). Requires WebReaper 7.0.0.</PackageReleaseNotes>
+    <PackageReleaseNotes>8.0.0: ADR-0022 — adds RedisOutstandingWorkLatch (the distributed Outstanding-work latch: atomic INCRBY/DECRBY + a SET-NX one-shot fence so end-of-crawl fires exactly once under at-least-once redelivery) and an atomic-SADD RedisVisitedLinkTracker.TryAddVisitedLinkAsync (the distributed idempotency authority). Lockstep with the core 8.0.0 major. 7.0.0: initial release. Redis scheduler, visited-link tracker, sink and Redis-backed scraper-config and cookie storage (ScraperEngineBuilder.WithRedisScheduler / TrackVisitedLinksInRedis / WriteToRedis / WithRedisConfigStorage / WithRedisCookieStorage), all sharing one ConnectionMultiplexer per connection string (ADR-0005). Extracted from the WebReaper core per ADR-0009 so the core stays dependency-light and Native-AOT-clean (core no longer references StackExchange.Redis). Requires WebReaper 8.0.0.</PackageReleaseNotes>
 
     <!-- ADR 0009: the Redis satellite is deliberately NOT IsAotCompatible.
          Quarantining the Redis adapters here is exactly why the core stays
