@@ -58,6 +58,7 @@ public class ConfigBuilder
 
     public ConfigBuilder Follow(string linkSelector)
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(linkSelector);
         _linkPathSelectors.Add(new LinkPathSelector(linkSelector));
         return this;
     }
@@ -66,6 +67,7 @@ public class ConfigBuilder
         string linkSelector,
         List<PageAction>? pageActions = null)
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(linkSelector);
         _linkPathSelectors.Add(new LinkPathSelector(linkSelector, null, PageType.Dynamic, pageActions));
         return this;
     }
@@ -103,6 +105,8 @@ public class ConfigBuilder
         string linkSelector,
         string paginationSelector)
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(linkSelector);
+        ArgumentException.ThrowIfNullOrWhiteSpace(paginationSelector);
         _linkPathSelectors.Add(new LinkPathSelector(linkSelector, paginationSelector));
         return this;
     }
@@ -112,6 +116,8 @@ public class ConfigBuilder
         string paginationSelector,
         List<PageAction>? pageActions = null)
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(linkSelector);
+        ArgumentException.ThrowIfNullOrWhiteSpace(paginationSelector);
         _linkPathSelectors.Add(new LinkPathSelector(linkSelector, paginationSelector, PageType.Dynamic, pageActions));
         return this;
     }
@@ -124,9 +130,9 @@ public class ConfigBuilder
 
     public ScraperConfig Build()
     {
-        if (_startUrls is null)
+        if (_startUrls is null || !_startUrls.Any())
             throw new InvalidOperationException(
-                $"Start Url is missing. You must call the {nameof(Get)} or {nameof(GetWithBrowser)} method");
+                $"Start URLs are missing. You must call the {nameof(Get)} or {nameof(GetWithBrowser)} method with at least one URL");
         if (_schema is null)
             throw new InvalidOperationException(
                 $"You must call the {nameof(WithScheme)} method to set the parsing scheme");

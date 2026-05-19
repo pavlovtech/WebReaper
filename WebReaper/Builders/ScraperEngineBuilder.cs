@@ -117,6 +117,7 @@ public class ScraperEngineBuilder
 
     public ScraperEngineBuilder TrackVisitedLinksInFile(string fileName, bool dataCleanupOnStart = false)
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(fileName);
         _visitedLinksTracker = new FileVisitedLinkedTracker(fileName, dataCleanupOnStart);
         SpiderBuilder.WithLinkTracker(_visitedLinksTracker);
         return this;
@@ -153,12 +154,14 @@ public class ScraperEngineBuilder
 
     public ScraperEngineBuilder WriteToCsvFile(string filePath, bool dataCleanupOnStart)
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(filePath);
         SpiderBuilder.WriteToCsvFile(filePath, dataCleanupOnStart);
         return this;
     }
 
     public ScraperEngineBuilder WriteToJsonFile(string filePath, bool dataCleanupOnStart = true)
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(filePath);
         SpiderBuilder.WriteToJsonFile(filePath, dataCleanupOnStart);
         return this;
     }
@@ -271,6 +274,8 @@ public class ScraperEngineBuilder
         string currentJobPositionFileName,
         bool dataCleanupOnStart = false)
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(fileName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(currentJobPositionFileName);
         Scheduler = new FileScheduler(fileName, currentJobPositionFileName, Logger, dataCleanupOnStart);
         return this;
     }
@@ -283,6 +288,7 @@ public class ScraperEngineBuilder
 
     public ScraperEngineBuilder WithFileCookieStorage(string fileName)
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(fileName);
         SpiderBuilder.WithFileCookieStorage(fileName);
         return this;
     }
@@ -295,6 +301,7 @@ public class ScraperEngineBuilder
 
     public ScraperEngineBuilder WithFileConfigStorage(string fileName)
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(fileName);
         ConfigStorage = new FileScraperConfigStorage(fileName);
         SpiderBuilder.WithFileConfigStorage(fileName);
 
