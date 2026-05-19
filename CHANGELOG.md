@@ -62,6 +62,21 @@ their internal wiring moved to the driver.
 - **No compat shell.** A `List<Job>`-returning forwarder would reinstate the
   side channels this change removes (the ADR-0009 precedent); the break is
   announced here and in ADR-0022, not silent.
+- **Builder argument validation is now fail-fast.** Public builder entry
+  points that take a free-form string reject `null`/empty/whitespace *at the
+  call that introduced it* instead of failing much later (at parse time, at
+  first file I/O, or — for start URLs — as an engine that quietly crawled
+  nothing): `ConfigBuilder.Build()` now requires a non-empty start-URL set and
+  its message is plural; `Follow`/`FollowWithBrowser`/`Paginate`/
+  `PaginateWithBrowser` reject a blank selector; the file-backed
+  `ScraperEngineBuilder` methods (`WriteToCsvFile`/`WriteToJsonFile`/
+  `TrackVisitedLinksInFile`/`WithFileConfigStorage`/`WithFileCookieStorage`/
+  `WithTextFileScheduler`) reject a blank path; and `PageActionBuilder`'s
+  `Repeat`/`RepeatWithDelay`/`RepeatAndWaitForNetworkIdle` throw a clear
+  `InvalidOperationException` when called before any action (was a bare
+  `ArgumentOutOfRangeException`). Correct code is unaffected — only
+  previously-invalid input now throws; a major is the right window for the
+  few cases that were silently accepted before.
 
 ### Migration
 
@@ -72,7 +87,10 @@ preserved. A direct `ISpider` / `BuildSpider()` consumer updates to the
 `CrawlOutcome.Parsed` page out to its sink itself) and drops any
 `PageCrawlLimitException` handling; the rewritten
 `Examples/WebReaper.AzureFuncs` is the reference distributed Crawl-driver
-adapter.
+adapter. The one behavioural caveat for a fluent consumer: builder method
+*signatures* are unchanged, but a call that previously passed a blank
+string / empty start-URL set (or `Repeat*` before any action) now throws at
+that call — pass valid input.
 
 ## 7.1.0 — WebReaper.Sqlite satellite: opt-in robust-local durable scheduler & tracker (additive)
 
