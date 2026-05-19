@@ -22,7 +22,7 @@ namespace WebReaper.Core;
 /// tracker, the crawl-limit stop rule, Sink fan-out, the PostProcessor /
 /// ScrapedData notification, and the Outstanding-work latch (the
 /// <c>pending</c> counter, in-memory <c>Interlocked</c> adapter). It seeds the
-/// scheduler, drives <see cref="Parallel.ForEachAsync"/>, and interprets each
+/// scheduler, drives <c>Parallel.ForEachAsync</c>, and interprets each
 /// <see cref="JobReport"/> the shell returns. The crawl-limit stop is a value
 /// the driver checks (soft/best-effort: in-flight iterations still finish) —
 /// no longer a <c>PageCrawlLimitException</c> thrown through the fault-retry

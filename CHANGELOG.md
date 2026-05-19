@@ -42,6 +42,15 @@ is unchanged — `.PageCrawlLimit(...)`, `.Subscribe(...)`, `.PostProcess(...)`
 and `.StopWhenAllLinksProcessed()` keep their signatures and behaviour; only
 their internal wiring moved to the driver.
 
+**Build hygiene (non-breaking).** The obsolete, *inert* `ServicePointManager`
+calls in the HTTP transport were removed — `ServicePointManager` does not
+affect `HttpClient`/`SocketsHttpHandler`, and the connection limit and
+cert-bypass already live on the per-request `SocketsHttpHandler`, so there is
+no behavioural change. The broken/ambiguous XML-doc crefs and bad paramrefs
+that shipped in the package's IntelliSense XML were fixed. The deliberately
+visible core CS1591 doc backlog is intentionally left as-is (it is a tracked
+signal, not noise — see the satellite csproj rationale).
+
 ### Breaking changes
 
 - **`ISpider.CrawlAsync` returns `Task<JobReport>`**, not `Task<List<Job>>`.
