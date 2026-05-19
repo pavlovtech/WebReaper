@@ -338,6 +338,9 @@ public class ScraperEngineBuilder
         var spider = SpiderBuilder.Build();
         await ConfigStorage.CreateConfigAsync(config);
 
-        return new ScraperEngine(_parallelismDegree, ConfigStorage, Scheduler, spider, Logger);
+        return new ScraperEngine(
+            _parallelismDegree, ConfigStorage, Scheduler, spider,
+            SpiderBuilder.DriverLinkTracker, SpiderBuilder.DriverSinks, Logger,
+            SpiderBuilder.DriverScrapedData, SpiderBuilder.DriverPostProcessor);
     }
 }

@@ -1,14 +1,33 @@
 using System.Collections.Immutable;
+using System.Text.Json.Nodes;
 using Microsoft.Extensions.Logging;
 using WebReaper.ConfigStorage.Abstract;
+using WebReaper.Core.Crawling;
+using WebReaper.Core.Crawling.Abstract;
+using WebReaper.Core.Crawling.Concrete;
+using WebReaper.Core.LinkTracker.Abstract;
 using WebReaper.Core.Scheduler.Abstract;
 using WebReaper.Core.Spider.Abstract;
 using WebReaper.Domain;
-using WebReaper.Exceptions;
+using WebReaper.Extensions;
+using WebReaper.Sinks.Abstract;
+using WebReaper.Sinks.Models;
 using static WebReaper.Infra.Executor;
 
 namespace WebReaper.Core;
 
+/// <summary>
+/// The in-process Crawl driver (ADR-0022). It owns the Crawl-global state the
+/// per-Job <see cref="ISpider"/> shell deliberately does not: the visited-link
+/// tracker, the crawl-limit stop rule, Sink fan-out, the PostProcessor /
+/// ScrapedData notification, and the Outstanding-work latch (the
+/// <c>pending</c> counter, in-memory <c>Interlocked</c> adapter). It seeds the
+/// scheduler, drives <see cref="Parallel.ForEachAsync"/>, and interprets each
+/// <see cref="JobReport"/> the shell returns. The crawl-limit stop is a value
+/// the driver checks (soft/best-effort: in-flight iterations still finish) —
+/// no longer a <c>PageCrawlLimitException</c> thrown through the fault-retry
+/// policy.
+/// </summary>
 public class ScraperEngine
 {
     public ScraperEngine(
@@ -16,42 +35,62 @@ public class ScraperEngine
         IScraperConfigStorage configStorage,
         IScheduler jobScheduler,
         ISpider spider,
-        ILogger logger)
+        IVisitedLinkTracker linkTracker,
+        List<IScraperSink> sinks,
+        ILogger logger,
+        Action<ParsedData>? scrapedData = null,
+        Func<Metadata, JsonObject, Task>? postProcessor = null,
+        IOutstandingWorkLatch? latch = null)
     {
         ParallelismDegree = parallelismDegree;
         ArgumentNullException.ThrowIfNull(configStorage);
         ArgumentNullException.ThrowIfNull(jobScheduler);
         ArgumentNullException.ThrowIfNull(spider);
+        ArgumentNullException.ThrowIfNull(linkTracker);
+        ArgumentNullException.ThrowIfNull(sinks);
         ArgumentNullException.ThrowIfNull(logger);
 
-        (Scheduler, Spider, Logger, ConfigStorage) =
-            (jobScheduler, spider, logger, configStorage);
+        (Scheduler, Spider, LinkTracker, Sinks, Logger, ConfigStorage) =
+            (jobScheduler, spider, linkTracker, sinks, logger, configStorage);
+        ScrapedData = scrapedData;
+        PostProcessor = postProcessor;
+        Latch = latch ?? new InMemoryOutstandingWorkLatch();
     }
 
     private IScraperConfigStorage ConfigStorage { get; }
     private IScheduler Scheduler { get; }
     private ISpider Spider { get; }
+    private IVisitedLinkTracker LinkTracker { get; }
+    private List<IScraperSink> Sinks { get; }
     private ILogger Logger { get; }
-    
+    private Action<ParsedData>? ScrapedData { get; }
+    private Func<Metadata, JsonObject, Task>? PostProcessor { get; }
+    private IOutstandingWorkLatch Latch { get; }
+
     private int ParallelismDegree { get; }
 
     public async Task RunAsync(CancellationToken cancellationToken = default)
     {
         await Scheduler.Initialization;
+        await LinkTracker.Initialization;
 
         Logger.LogInformation("Start {class}.{method}", nameof(ScraperEngine), nameof(RunAsync));
 
         var config = await ConfigStorage.GetConfigAsync();
 
-        // Outstanding-work counter for StopWhenDrained (issue #20). Only
-        // touched when the option is on, so default behavior is unchanged.
-        var pending = 0;
+        var startUrls = config.StartUrls.ToList();
 
-        foreach (var startUrl in config.StartUrls)
+        // The Outstanding-work latch (ADR-0022 slice 3), behind its seam: seed
+        // one unit of credit per start Job. Children are credited BEFORE the
+        // parent's unit is returned (credit conservation — the counter can
+        // never hit zero prematurely). Only driven when StopWhenDrained is on,
+        // so default behavior is unchanged; the in-process adapter is the
+        // slice-1 Interlocked counter.
+        if (config.StopWhenDrained) await Latch.SeedAsync(startUrls.Count);
+
+        foreach (var startUrl in startUrls)
         {
             Logger.LogInformation("Scheduling the initial scraping job with start url {startUrl}", startUrl);
-
-            if (config.StopWhenDrained) Interlocked.Increment(ref pending);
 
             await Scheduler.AddAsync(new Job(
                 startUrl,
@@ -62,7 +101,7 @@ public class ScraperEngine
         }
 
         // No start urls at all — let the engine return right away.
-        if (config.StopWhenDrained && Volatile.Read(ref pending) == 0)
+        if (config.StopWhenDrained && startUrls.Count == 0)
         {
             Scheduler.Complete();
         }
@@ -77,29 +116,75 @@ public class ScraperEngine
             {
                 Logger.LogInformation("Start crawling url {Url}", job.Url);
 
-                //var newJobs = await RetryAsync(async() => await Spider.CrawlAsync(job, cancellationToken));
-                var newJobs = await RetryAsync(() => Spider.CrawlAsync(job, cancellationToken));
+                // Crawl-global stop rule. Was a PageCrawlLimitException thrown
+                // from the Spider shell and caught here; ADR-0022 makes it a
+                // value the driver checks. Soft/best-effort: in-flight
+                // iterations still finish (the universal crawler norm).
+                if (await LinkTracker.GetVisitedLinksCount() >= config.PageCrawlLimit)
+                {
+                    Logger.LogInformation("Page crawl limit {Limit} reached; stopping", config.PageCrawlLimit);
+                    Scheduler.Complete();
+                    return;
+                }
+
+                List<Job> newJobs;
+
+                if (config.UrlBlackList.Contains(job.Url))
+                {
+                    newJobs = new List<Job>();
+                }
+                else if (!await LinkTracker.TryAddVisitedLinkAsync(job.Url))
+                {
+                    // The idempotency authority (ADR-0022 slice 2): this URL
+                    // was already visited — a duplicate discovery now, a
+                    // redelivered Job once distributed. One atomic test-and-set
+                    // makes it a no-op: no crawl, no children, no double
+                    // emission. The Job's pending unit is still returned below,
+                    // so the Outstanding-work latch stays balanced (credit
+                    // conservation) — duplicates can't unbalance termination.
+                    newJobs = new List<Job>();
+                }
+                else
+                {
+                    var report = await RetryAsync(() => Spider.CrawlAsync(job, cancellationToken));
+
+                    if (report.Outcome is CrawlOutcome.Parsed parsed)
+                    {
+                        await ProcessTargetPage(job, report.Document, parsed.Data, cancellationToken);
+                        newJobs = new List<Job>();
+
+                        if (await LinkTracker.GetVisitedLinksCount() >= config.PageCrawlLimit)
+                        {
+                            Logger.LogInformation("Page crawl limit {Limit} reached; stopping", config.PageCrawlLimit);
+                            Scheduler.Complete();
+                        }
+                    }
+                    else
+                    {
+                        // Children are enqueued UNFILTERED; discovery dedup is
+                        // the per-Job TryAdd gate above when each child is
+                        // itself processed (ADR-0022 slice 2 — one atomic
+                        // membership check, not the old read-then-filter race).
+                        newJobs = report.Outcome.NextJobs.ToList();
+                    }
+                }
 
                 Logger.LogInformation("Received {JobsCount} new jobs", newJobs.Count);
 
                 if (newJobs.Count > 0)
                 {
-                    // Account for children BEFORE this job is marked done,
-                    // so the counter can never hit zero prematurely.
-                    if (config.StopWhenDrained) Interlocked.Add(ref pending, newJobs.Count);
+                    // Credit children BEFORE this Job's unit is returned
+                    // (credit conservation — ADR-0022).
+                    if (config.StopWhenDrained) await Latch.AddAsync(newJobs.Count);
 
                     await Scheduler.AddAsync(newJobs, cancellationToken);
                 }
 
-                if (config.StopWhenDrained && Interlocked.Decrement(ref pending) == 0)
+                if (config.StopWhenDrained && await Latch.SignalProcessedAsync())
                 {
                     Scheduler.Complete();
                 }
             });
-        }
-        catch (PageCrawlLimitException ex)
-        {
-            Logger.LogWarning(ex, "Shutting down due to page crawl limit {Limit}", ex.PageCrawlLimit);
         }
         catch (TaskCanceledException ex)
         {
@@ -111,5 +196,23 @@ public class ScraperEngine
             Logger.LogError(ex, "Shutting down due to unhandled exception");
             throw;
         }
+    }
+
+    private async Task ProcessTargetPage(Job job, string doc, ParsedData result,
+        CancellationToken cancellationToken = default)
+    {
+        Logger.LogInvocationCount();
+
+        if (PostProcessor is not null)
+            await PostProcessor.Invoke(new Metadata(job.ParentBacklinks.ToList(), job.Url, doc), result.Data);
+
+        ScrapedData?.Invoke(result);
+
+        Logger.LogInformation("Sending scraped data to sinks...");
+        var sinkTasks = Sinks.Select(sink => sink.EmitAsync(result, cancellationToken));
+
+        Logger.LogInformation("Waiting for sinks ...");
+        await Task.WhenAll(sinkTasks);
+        Logger.LogInformation("Finished waiting for sinks");
     }
 }
