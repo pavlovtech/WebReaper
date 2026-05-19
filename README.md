@@ -89,9 +89,10 @@ dotnet add package WebReaper.Sqlite           # SQLite local durable scheduler +
 
 ## Packages
 
-All seven packages are versioned in lockstep (currently `10.0.0`) — core and the six satellites move
-together in release waves (ADR-0022 → `8.0.0`, ADR-0023 → `9.0.0`, ADR-0025 → `10.0.0`);
-`WebReaper.Sqlite`, added at `7.1.0`, joined the lockstep from `8.0.0`. All packages are GPL-3.0-or-later, and every satellite
+All seven packages are versioned in lockstep — the latest published version is `9.0.0`; the
+next wave, **`10.0.0`, is accumulating on `master` and is not yet released**. Core and the six
+satellites move together in release waves (ADR-0022 → `8.0.0`, ADR-0023 → `9.0.0`, ADR-0025 →
+`10.0.0` *(unreleased)*); `WebReaper.Sqlite`, added at `7.1.0`, joined the lockstep from `8.0.0`. All packages are GPL-3.0-or-later, and every satellite
 wires itself in through the builder's public registration seam.
 
 | Package | Add it for | Key builder calls |
