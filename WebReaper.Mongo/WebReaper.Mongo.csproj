@@ -14,16 +14,8 @@
     <NoWarn>$(NoWarn);CS1591</NoWarn>
 
     <PackageId>WebReaper.Mongo</PackageId>
-    <Version>9.0.0</Version>
-    <Authors>Alex Pavlov</Authors>
-    <Company>Alex Pavlov</Company>
-    <Product>WebReaper</Product>
     <Title>WebReaper.Mongo</Title>
     <Description>MongoDB adapters for WebReaper: the MongoDbSink, plus MongoDB-backed scraper-config and cookie storage. Adds ScraperEngineBuilder.WriteToMongoDb / WithMongoDbConfigStorage / WithMongoDbCookieStorage. Satellite package (ADR-0009) so the WebReaper core stays dependency-light and AOT-clean.</Description>
-    <Copyright>GPL-3.0 license</Copyright>
-    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/pavlovtech/WebReaper</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/pavlovtech/WebReaper</RepositoryUrl>
     <PackageTags>scraper, crawler, parser, mongodb, mongo</PackageTags>
     <PackageIcon>logo.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
