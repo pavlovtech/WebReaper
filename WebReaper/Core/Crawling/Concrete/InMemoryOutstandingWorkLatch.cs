@@ -8,7 +8,7 @@ namespace WebReaper.Core.Crawling.Concrete;
 /// <see cref="Interlocked.Decrement(ref int)"/> returns 0 to exactly one
 /// thread, so <see cref="SignalProcessedAsync"/> trips for exactly one caller.
 /// </summary>
-public sealed class InMemoryOutstandingWorkLatch : IOutstandingWorkLatch
+internal sealed class InMemoryOutstandingWorkLatch : IOutstandingWorkLatch
 {
     private int _pending;
 

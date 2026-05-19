@@ -22,7 +22,7 @@ namespace WebReaper.Core.Parser.Concrete;
 /// <c>CookieStore</c> payload-shell sibling.
 /// </para>
 /// </summary>
-public class JsonContentParser : IJsonContentParser
+internal class JsonContentParser : IJsonContentParser
 {
     private readonly SchemaContentParser<JsonNode> _inner;
 

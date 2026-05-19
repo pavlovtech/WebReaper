@@ -4,7 +4,7 @@ using WebReaper.DataAccess;
 
 namespace WebReaper.Core.LinkTracker.Concrete;
 
-public class FileVisitedLinkedTracker : IVisitedLinkTracker
+internal class FileVisitedLinkedTracker : IVisitedLinkTracker
 {
     public bool DataCleanupOnStart { get; set; }
     public Task Initialization { get; }

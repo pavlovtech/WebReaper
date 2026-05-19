@@ -1,5 +1,70 @@
 # Changelog
 
+## 9.0.0 — The public surface is the documented contract (breaking)
+
+The core public API is now exactly the contract — no wider, no narrower —
+documented to the bar the codebase already set, and enforced. ADR-0023 drew
+the line with the deletion test (named by a documented consumer / inherited by
+a satellite / part of the taught fluent API ⇒ public; reached only through a
+builder method and named by nobody ⇒ implementation). The ~552-warning CS1591
+backlog the satellite csprojs deliberately kept *visible* is closed: every
+Tier-1 type carries real intent-revealing XML doc, every Tier-2 implementation
+type is now `internal`, and `<WarningsAsErrors>CS1591</WarningsAsErrors>` makes
+the documented surface non-regressing (a new undocumented public member fails
+the build). Rationale, the deletion-test line, the rejected alternatives (the
+shallow factory; document-everything; the non-breaking 8.1.0/9.0.0 split) and
+the staged burndown:
+[`docs/adr/0023-core-doc-contract.md`](docs/adr/0023-core-doc-contract.md).
+
+The satellite csprojs' "core keeps CS1591 visible — a live doc backlog"
+rationale is updated in place to point here: core CS1591 is now a
+contract-enforced zero, not an open backlog.
+
+### Breaking changes
+
+- **The Tier-2 implementation adapters are now `internal`.** The concrete
+  types reached only via the fluent builder (or core-internally) are no longer
+  public: the `File*` / `InMemory*` storage·scheduler·tracker·blob leaves
+  (`FileScheduler`, `FileScraperConfigStorage`, `FileCookieStorage`,
+  `FileVisitedLinkedTracker`, `FileBlobStore`, `InMemoryBlobStore`,
+  `InMemoryCookieStorage`), the sinks (`ConsoleSink`, `CsvFileSink`,
+  `JsonLinesFileSink`, `BufferedFileSink`, `CsvFormat`, `JsonLinesFormat`),
+  the parsers/loaders (`AngleSharpContentParser`, `JsonContentParser`,
+  `XPathContentParser`, `LinkParserByCssSelector`, `PageLoader`,
+  `HttpPageLoadTransport`, `BrowserNotConfiguredPageLoadTransport`), the
+  crawl internals (`Spider`, `CrawlStep`, `InMemoryOutstandingWorkLatch`),
+  `ValidatedProxyProvider`, `Executor`, `ColorConsoleLogger`, and the
+  `LogMethodDuration` / `LogInvocationCount` helpers `Timer` / `Counter`.
+- **`ScraperEngine`'s constructor is `internal`.** The class stays public (you
+  hold it and call `RunAsync`); only `new ScraperEngine(...)` is gone —
+  `ScraperEngineBuilder.BuildAsync()` is the construction contract (the
+  `internal SpiderBuilder` / `BuildSpider()` precedent).
+- **No shipped package is affected.** A repo-wide sweep confirmed no
+  satellite-prod / Example / Misc code names a Tier-2 type; satellites bind
+  the Tier-1 interfaces and inherit the Tier-1 payload-shell bases
+  (`CookieStore` / `ScraperConfigStore`). `[InternalsVisibleTo]` targets the
+  test assemblies only — never a NuGet package.
+- **Kept public on purpose:** the fluent builders, every `*/Abstract` seam
+  interface, the `Domain` model, `WebReaperJson`, `LoggerExtensions`,
+  `ScraperEngine` (the type), the in-memory default adapters the
+  distributed-worker pattern wires by hand, the `CookieStore` /
+  `ScraperConfigStore` satellite-inheritance bases, `StaticProxySource` /
+  `HttpProxyValidator` (the only built-in `WithValidatedProxies` inputs), and
+  **`SchemaContentParser<TNode>`** — the ADR-0002 custom-backend reuse vehicle.
+
+### Migration
+
+A fluent-API consumer (`new ScraperEngineBuilder()…BuildAsync()` /
+`.RunAsync()`), a custom seam implementer (`IScraperSink`, `IScheduler`,
+`ISchemaBackend<TNode>` + `SchemaContentParser<TNode>`, …), and the
+distributed-worker pattern all need **no changes** — every type they touch
+stayed public. The only break is code that constructed a core *implementation*
+adapter by name (e.g. `new ConsoleSink()`, `new FileScheduler(...)`): switch
+to the builder method that wired it (`.WriteToConsole()`,
+`.WithTextFileScheduler(...)`) or to the interface. No behavioural change —
+this is visibility + documentation only (zero IL delta in the documented
+paths; `WebReaper.AotSmokeTest` still publishes Native-AOT zero-warning).
+
 ## 8.0.0 — Crawl driver + Outstanding-work latch; the per-Job shell is a value, not a thrower (breaking)
 
 The per-Job `Spider` shell stops leaking its result through side channels and

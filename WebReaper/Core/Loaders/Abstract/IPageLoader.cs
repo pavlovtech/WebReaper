@@ -9,5 +9,12 @@ namespace WebReaper.Core.Loaders.Abstract;
 /// </summary>
 public interface IPageLoader
 {
+    /// <summary>
+    /// Fetch the page for <paramref name="request"/> and return its body,
+    /// dispatching on <see cref="PageRequest.PageType"/> to the matching
+    /// <see cref="IPageLoadTransport"/>. A page that cannot be retrieved is
+    /// surfaced as an exception (the transport decides the type), not an empty
+    /// string.
+    /// </summary>
     Task<string> LoadAsync(PageRequest request, CancellationToken cancellationToken = default);
 }

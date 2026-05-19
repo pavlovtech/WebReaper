@@ -21,12 +21,19 @@ public class CookieStore : ICookiesStorage
     private readonly IKeyedBlobStore _store;
     private readonly string _key;
 
+    /// <summary>
+    /// Back this cookie store with <paramref name="store"/> at
+    /// <paramref name="key"/> (the blob key / path). This is the constructor
+    /// the satellite cookie stores (<c>RedisCookieStorage</c>,
+    /// <c>MongoDbCookieStorage</c>) chain to.
+    /// </summary>
     public CookieStore(IKeyedBlobStore store, string key)
     {
         _store = store;
         _key = key;
     }
 
+    /// <inheritdoc/>
     public Task AddAsync(CookieContainer cookieContainer)
     {
         var dtos = cookieContainer.GetAllCookies()
@@ -36,6 +43,7 @@ public class CookieStore : ICookiesStorage
         return _store.PutAsync(_key, WebReaperJson.SerializeCookies(dtos));
     }
 
+    /// <inheritdoc/>
     public async Task<CookieContainer> GetAsync()
     {
         var blob = await _store.GetAsync(_key);

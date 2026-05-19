@@ -15,7 +15,7 @@ namespace WebReaper.Core.Spider.Concrete;
 /// driver's — not the shell's. The shell <em>reports</em> what happened; the
 /// driver <em>decides</em> what to do. No termination signal is thrown.
 /// </summary>
-public class Spider : ISpider
+internal class Spider : ISpider
 {
     public Spider(
         ICrawlStep crawlStep,

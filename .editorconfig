@@ -1,0 +1,13 @@
+root = true
+
+# ADR-0023: the core public surface is the documented contract.
+#
+# This file once carried a per-slice CS1591 ratchet (one path-scoped
+# `dotnet_diagnostic.CS1591.severity = error` section flipped as each Tier-1
+# area reached zero). At the end state — every Tier-1 type documented, every
+# Tier-2 implementation type internal — core CS1591 is zero and enforcement
+# moved to a single project-wide `<WarningsAsErrors>$(WarningsAsErrors);CS1591</WarningsAsErrors>`
+# in WebReaper/WebReaper.csproj. The scaffolding sections are intentionally
+# removed (the ADR's planned terminal step), not lost. Satellites keep their
+# own NoWarn CS1591 by their own recorded rationale; this file is core-only by
+# never having been anything else.

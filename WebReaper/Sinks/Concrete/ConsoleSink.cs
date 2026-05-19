@@ -3,7 +3,7 @@ using WebReaper.Sinks.Models;
 
 namespace WebReaper.Sinks.Concrete;
 
-public class ConsoleSink : IScraperSink
+internal class ConsoleSink : IScraperSink
 {
     public bool DataCleanupOnStart { get; set; }
 

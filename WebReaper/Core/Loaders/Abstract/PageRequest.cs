@@ -12,6 +12,13 @@ namespace WebReaper.Core.Loaders.Abstract;
 /// <see cref="Headless"/>; that is the accepted fat-field cost of having one
 /// loading seam instead of two.
 /// </summary>
+/// <param name="Url">Absolute URL of the page to fetch.</param>
+/// <param name="PageType">Load mode — static HTTP or dynamic headless
+/// browser; selects the <c>IPageLoadTransport</c>.</param>
+/// <param name="PageActions">Optional browser interactions (click, scroll,
+/// wait) for a dynamic page; ignored by the HTTP transport.</param>
+/// <param name="Headless">Run the browser headless for a dynamic page;
+/// ignored by the HTTP transport.</param>
 public record PageRequest(
     string Url,
     PageType PageType,
