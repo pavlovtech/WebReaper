@@ -14,5 +14,12 @@ namespace WebReaper.Core.Parser.Abstract;
 /// </summary>
 public interface IJsonContentParser
 {
+    /// <summary>
+    /// Run the ADR-0002 Schema fold over <paramref name="content"/> and
+    /// project the result to a <see cref="JsonObject"/> (the AOT-clean
+    /// terminal, ADR-0008) — the content half of crawling a target page (link
+    /// discovery is <see cref="ILinkParser"/>). A <c>null</c>
+    /// <paramref name="schema"/> means no extraction (an empty object).
+    /// </summary>
     Task<JsonObject> ParseToJsonAsync(string content, Schema? schema);
 }

@@ -9,5 +9,12 @@ namespace WebReaper.Core.Loaders.Abstract;
 /// </summary>
 public interface IPageLoadTransport
 {
+    /// <summary>
+    /// Perform the actual fetch for <paramref name="request"/> via this
+    /// mechanism (HTTP or headless browser) and return the page body. Applies
+    /// the optional proxy and this mechanism's client / launch quirks. A page
+    /// that cannot be retrieved is surfaced as an exception, not an empty
+    /// string.
+    /// </summary>
     Task<string> LoadAsync(PageRequest request, CancellationToken cancellationToken = default);
 }

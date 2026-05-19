@@ -13,5 +13,16 @@ namespace WebReaper.Core.Spider.Abstract;
 /// </summary>
 public interface ISpider
 {
+    /// <summary>
+    /// Load <paramref name="job"/>'s page, run the Crawl step, and return the
+    /// <see cref="JobReport"/> the Crawl driver interprets. Never throws to
+    /// signal termination or the crawl limit (ADR-0022) — those are values on
+    /// the report, not control flow. The report's child Jobs are
+    /// <b>candidates</b>: visited-link dedup is the driver's, not the shell's.
+    /// </summary>
+    /// <param name="job">The Job to crawl; its selector chain decides
+    /// parse-vs-follow-vs-paginate.</param>
+    /// <returns>The closed Job report — the <see cref="CrawlOutcome"/> plus the
+    /// loaded document and the accounting facts the driver needs.</returns>
     Task<JobReport> CrawlAsync(Job job, CancellationToken cancellationToken = default);
 }

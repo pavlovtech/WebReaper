@@ -1,0 +1,16 @@
+root = true
+
+# ADR-0023: the core public surface is a documented contract, ratcheted
+# closed area-by-area. CS1591 (missing XML doc) is promoted to a build
+# ERROR for each core Tier-1 area as that area reaches zero — the documented
+# surface is monotone (a new undocumented public member there fails the
+# build, the way the ~552 backlog accumulated). These path-scoped sections
+# grow one per slice; at the end state (Tier-1 documented + Tier-2 internal,
+# core CS1591 == 0) they are replaced by project-wide WarningsAsErrors=CS1591
+# and removed. Scoped to "WebReaper/" so it never touches the satellites
+# (they NoWarn CS1591 by their own recorded rationale) or non-shipped code.
+
+# Slice 1 — the pluggable seam interfaces (an extension author's entire
+# surface; the offline test surface).
+[WebReaper/**/Abstract/*.cs]
+dotnet_diagnostic.CS1591.severity = error

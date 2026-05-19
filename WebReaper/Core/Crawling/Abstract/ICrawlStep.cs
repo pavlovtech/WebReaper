@@ -17,6 +17,13 @@ namespace WebReaper.Core.Crawling.Abstract;
 /// </summary>
 public interface ICrawlStep
 {
+    /// <summary>
+    /// Map the loaded Job to exactly one <see cref="CrawlOutcome"/> — parse
+    /// the target page, follow links, or paginate — decided solely by the
+    /// selector chain's shape. Pure and deterministic in
+    /// (<paramref name="job"/>, <paramref name="document"/>,
+    /// <paramref name="schema"/>); performs no I/O.
+    /// </summary>
     /// <param name="job">The Job being crawled. Its selector chain — its
     /// length and whether the single remaining selector paginates — fully
     /// determines which <see cref="CrawlOutcome"/> arm is returned.</param>
