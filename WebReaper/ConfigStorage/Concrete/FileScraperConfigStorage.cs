@@ -8,7 +8,7 @@ namespace WebReaper.ConfigStorage.Concrete;
 /// <c>fileName</c> is the blob key, so the config is written to
 /// exactly that path — unchanged from before.
 /// </summary>
-public class FileScraperConfigStorage : ScraperConfigStore
+internal class FileScraperConfigStorage : ScraperConfigStore
 {
     public FileScraperConfigStorage(string fileName)
         : base(new FileBlobStore(), fileName)

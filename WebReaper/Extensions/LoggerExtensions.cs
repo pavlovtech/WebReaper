@@ -36,7 +36,7 @@ public static class LoggerExtensions
     }
 }
 
-public class Timer : IDisposable
+internal class Timer : IDisposable
 {
     private readonly ILogger _logger;
     private readonly string callerName = "";
@@ -65,7 +65,7 @@ public class Timer : IDisposable
     }
 }
 
-public static class Counter
+internal static class Counter
 {
     private static readonly ConcurrentDictionary<string, int> _methodCounters = new();
 

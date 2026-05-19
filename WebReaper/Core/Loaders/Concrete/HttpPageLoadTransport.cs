@@ -22,7 +22,7 @@ namespace WebReaper.Core.Loaders.Concrete;
 /// for correct per-request cookie/proxy application — connection-pool tuning
 /// is a separate concern, out of scope for this deepening.
 /// </summary>
-public class HttpPageLoadTransport : IPageLoadTransport
+internal class HttpPageLoadTransport : IPageLoadTransport
 {
     private const string UserAgent =
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36";

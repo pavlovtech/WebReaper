@@ -7,7 +7,7 @@ using WebReaper.Serialization;
 
 namespace WebReaper.Core.Scheduler.Concrete;
 
-public class FileScheduler : IScheduler
+internal class FileScheduler : IScheduler
 {
     private readonly string _currentJobPositionFileName;
     private readonly string _fileName;

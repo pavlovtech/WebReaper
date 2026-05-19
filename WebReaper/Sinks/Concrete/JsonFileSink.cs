@@ -7,7 +7,7 @@ namespace WebReaper.Sinks.Concrete;
 /// is preserved, so the builder and consumer code are unchanged
 /// (source-compatible, minor SemVer).
 /// </summary>
-public class JsonLinesFileSink : BufferedFileSink
+internal class JsonLinesFileSink : BufferedFileSink
 {
     public JsonLinesFileSink(string filePath, bool dataCleanupOnStart)
         : base(filePath, dataCleanupOnStart, new JsonLinesFormat())

@@ -2,7 +2,7 @@
 
 namespace WebReaper.Logging;
 
-public sealed class ColorConsoleLogger : ILogger
+internal sealed class ColorConsoleLogger : ILogger
 {
     private Dictionary<LogLevel, ConsoleColor> LogLevelToColorMap { get; } = new()
     {

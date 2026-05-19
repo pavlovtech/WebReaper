@@ -3,7 +3,7 @@ using Polly.Retry;
 
 namespace WebReaper.Infra;
 
-public static class Executor
+internal static class Executor
 {
     private static AsyncRetryPolicy AsyncPolicy { get; } = Polly.Policy.Handle<Exception>().RetryAsync(3);
     private static RetryPolicy Policy { get; } = Polly.Policy.Handle<Exception>().Retry(3);

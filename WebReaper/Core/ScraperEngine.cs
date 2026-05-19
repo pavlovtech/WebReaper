@@ -40,7 +40,7 @@ public class ScraperEngine
     /// ScrapedData / PostProcessor callbacks, and the Outstanding-work latch
     /// (an in-memory <c>Interlocked</c> latch by default).
     /// </summary>
-    public ScraperEngine(
+    internal ScraperEngine(
         int parallelismDegree,
         IScraperConfigStorage configStorage,
         IScheduler jobScheduler,

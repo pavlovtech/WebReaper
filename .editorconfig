@@ -1,77 +1,13 @@
 root = true
 
-# ADR-0023: the core public surface is a documented contract, ratcheted
-# closed area-by-area. CS1591 (missing XML doc) is promoted to a build
-# ERROR for each core Tier-1 area as that area reaches zero — the documented
-# surface is monotone (a new undocumented public member there fails the
-# build, the way the ~552 backlog accumulated). These path-scoped sections
-# grow one per slice; at the end state (Tier-1 documented + Tier-2 internal,
-# core CS1591 == 0) they are replaced by project-wide WarningsAsErrors=CS1591
-# and removed. Scoped to "WebReaper/" so it never touches the satellites
-# (they NoWarn CS1591 by their own recorded rationale) or non-shipped code.
-
-# Slice 1 — the pluggable seam interfaces (an extension author's entire
-# surface; the offline test surface).
-[WebReaper/**/Abstract/*.cs]
-dotnet_diagnostic.CS1591.severity = error
-
-# Slice 2 — the fluent builder API (the README's front door:
-# ScraperEngineBuilder facade + ConfigBuilder + PageActionBuilder;
-# SpiderBuilder is internal, off-surface).
-[WebReaper/Builders/*.cs]
-dotnet_diagnostic.CS1591.severity = error
-
-# Slice 3 — the public Domain model + the two payload-shell bases satellites
-# inherit + the in-memory default adapters the ADR-0009 DIY pattern wires.
-# Directory-scoped where the whole dir is Tier-1; file-scoped for the bases /
-# in-memory defaults whose */Concrete dirs still hold Tier-2 leaves
-# (File* / InMemoryCookieStorage) until Slice 5 internalises them.
-[WebReaper/Domain/**.cs]
-dotnet_diagnostic.CS1591.severity = error
-
-[WebReaper/Core/Crawling/*.cs]
-dotnet_diagnostic.CS1591.severity = error
-
-[WebReaper/Sinks/Models/*.cs]
-dotnet_diagnostic.CS1591.severity = error
-
-[WebReaper/Core/CookieStorage/Concrete/CookieStore.cs]
-dotnet_diagnostic.CS1591.severity = error
-
-[WebReaper/ConfigStorage/Concrete/ScraperConfigStore.cs]
-dotnet_diagnostic.CS1591.severity = error
-
-[WebReaper/ConfigStorage/Concrete/InMemoryScraperConfigStorage.cs]
-dotnet_diagnostic.CS1591.severity = error
-
-[WebReaper/Core/Scheduler/Concrete/InMemoryScheduler.cs]
-dotnet_diagnostic.CS1591.severity = error
-
-[WebReaper/Core/LinkTracker/Concrete/InMemoryVisitedLinkTracker.cs]
-dotnet_diagnostic.CS1591.severity = error
-
-# Slice 4 — the cross-assembly Job/Config grammar + public exceptions.
-# WebReaperJson is file-scoped (the Serialization/ converters + source-gen
-# context are Tier-2, internalised in Slice 5). Extensions/ is deliberately
-# NOT ratcheted here: LoggerExtensions is Tier-1 and documented, but its
-# file-siblings Timer/Counter are Tier-2 (incidental-public, returned as
-# IDisposable / named by nobody) and keep that path non-zero until Slice 5
-# internalises them — a path ratchets only once it reaches zero.
-[WebReaper/Serialization/WebReaperJson.cs]
-dotnet_diagnostic.CS1591.severity = error
-
-[WebReaper/Exceptions/*.cs]
-dotnet_diagnostic.CS1591.severity = error
-
-# Slice 5a — the last Tier-1 the deletion test pulled back from "looks like
-# Tier-2": ScraperEngine (the runtime object BuildAsync returns) and the only
-# built-in IProxySource / IProxyValidator the public WithValidatedProxies seam
-# takes. File-scoped — their dirs still hold Tier-2 until Slice 5b.
-[WebReaper/Core/ScraperEngine.cs]
-dotnet_diagnostic.CS1591.severity = error
-
-[WebReaper/Proxy/Concrete/StaticProxySource.cs]
-dotnet_diagnostic.CS1591.severity = error
-
-[WebReaper/Proxy/Concrete/HttpProxyValidator.cs]
-dotnet_diagnostic.CS1591.severity = error
+# ADR-0023: the core public surface is the documented contract.
+#
+# This file once carried a per-slice CS1591 ratchet (one path-scoped
+# `dotnet_diagnostic.CS1591.severity = error` section flipped as each Tier-1
+# area reached zero). At the end state — every Tier-1 type documented, every
+# Tier-2 implementation type internal — core CS1591 is zero and enforcement
+# moved to a single project-wide `<WarningsAsErrors>$(WarningsAsErrors);CS1591</WarningsAsErrors>`
+# in WebReaper/WebReaper.csproj. The scaffolding sections are intentionally
+# removed (the ADR's planned terminal step), not lost. Satellites keep their
+# own NoWarn CS1591 by their own recorded rationale; this file is core-only by
+# never having been anything else.

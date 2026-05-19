@@ -7,7 +7,7 @@ namespace WebReaper.Sinks.Concrete;
 /// ctor is preserved, so the builder and consumer code are unchanged
 /// (source-compatible, minor SemVer).
 /// </summary>
-public class CsvFileSink : BufferedFileSink
+internal class CsvFileSink : BufferedFileSink
 {
     public CsvFileSink(string filePath, bool dataCleanupOnStart)
         : base(filePath, dataCleanupOnStart, new CsvFormat())

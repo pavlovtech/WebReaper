@@ -36,7 +36,7 @@ namespace WebReaper.Builders;
 /// <see cref="ISpider"/> for the distributed-worker pattern, ADR-0009). Every
 /// method returns the same builder for chaining; configuration order is free
 /// except that <see cref="BuildAsync"/> requires a start set
-/// (<see cref="Get"/>/<see cref="GetWithBrowser"/>) and a schema
+/// (<see cref="Get"/> / <c>GetWithBrowser</c>) and a schema
 /// (<see cref="Parse"/>).
 /// </summary>
 public class ScraperEngineBuilder
@@ -145,6 +145,7 @@ public class ScraperEngineBuilder
     /// <summary>
     /// Track visited links in a file so a crawl resumes across restarts.
     /// </summary>
+    /// <param name="fileName">Path of the visited-links file.</param>
     /// <param name="dataCleanupOnStart">Wipe the file on start (fresh run)
     /// rather than resume; defaults to <c>false</c> (resume).</param>
     /// <exception cref="ArgumentException"><paramref name="fileName"/> is
@@ -198,6 +199,7 @@ public class ScraperEngineBuilder
     /// <summary>
     /// Write scraped records to a CSV file.
     /// </summary>
+    /// <param name="filePath">Path of the CSV file.</param>
     /// <param name="dataCleanupOnStart">Wipe the file on start vs append.
     /// Required — no default (contrast <see cref="WriteToJsonFile"/>, whose
     /// default is <c>true</c>).</param>
@@ -214,6 +216,7 @@ public class ScraperEngineBuilder
     /// Write scraped records to a file as <b>JSON Lines</b> — one JSON object
     /// per line, not a JSON array.
     /// </summary>
+    /// <param name="filePath">Path of the JSON Lines file.</param>
     /// <param name="dataCleanupOnStart">Wipe the file on start. Defaults to
     /// <c>true</c> (fresh file each run) — the opposite of the other file
     /// sinks; pass <c>false</c> to append across runs.</param>
@@ -367,6 +370,9 @@ public class ScraperEngineBuilder
     /// Persist the job queue and its cursor to files so a crawl resumes across
     /// restarts (the file scheduler).
     /// </summary>
+    /// <param name="fileName">Path of the job-queue file.</param>
+    /// <param name="currentJobPositionFileName">Path of the cursor file
+    /// tracking how far the queue has been consumed.</param>
     /// <param name="dataCleanupOnStart">Wipe the files on start vs resume;
     /// defaults to <c>false</c> (resume).</param>
     /// <exception cref="ArgumentException">either file name is
