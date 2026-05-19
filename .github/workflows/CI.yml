@@ -26,6 +26,13 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test WebReaper.Tests/WebReaper.UnitTests/WebReaper.UnitTests.csproj --no-build --verbosity normal
+    # ADR-0022: distributed-adapter coverage. ubuntu-latest ships Docker, so
+    # Testcontainers spins an ephemeral Redis (free on public-repo runners —
+    # unlimited Actions minutes). Scoped to ONLY RedisDistributedAdapterTests:
+    # the slow, network-flaky live-site tests in the same project stay out of
+    # the gate.
+    - name: Integration tests (Redis adapters via Testcontainers)
+      run: dotnet test WebReaper.Tests/WebReaper.IntegrationTests/WebReaper.IntegrationTests.csproj --no-build --verbosity normal --filter "FullyQualifiedName~RedisDistributedAdapterTests"
     # ADR 0008 step 4: the AOT smoke test. Publishes the Newtonsoft-free
     # production path with PublishAot; the project scopes the IL2026/IL3050
     # family to build errors, so any trim/AOT regression fails CI here. Native

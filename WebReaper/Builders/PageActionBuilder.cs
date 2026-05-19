@@ -24,9 +24,18 @@ public class PageActionBuilder
         return this;
     }
 
+    // The Repeat* methods replay the previously-added action. With no prior
+    // action there is nothing to replay: surface that as a clear builder
+    // misuse instead of the raw ArgumentOutOfRangeException from _pageActions[^1].
+    private PageAction LastActionToRepeat(string method) =>
+        _pageActions.Count > 0
+            ? _pageActions[^1]
+            : throw new InvalidOperationException(
+                $"{method} can only be called after at least one page action has been added — there is no action to repeat.");
+
     public PageActionBuilder RepeatWithDelay(int times, int milliseconds)
     {
-        var lastEl = _pageActions[^1];
+        var lastEl = LastActionToRepeat(nameof(RepeatWithDelay));
 
         _pageActions.AddRange(
             Enumerable.Range(1, times)
@@ -42,7 +51,7 @@ public class PageActionBuilder
 
     public PageActionBuilder RepeatAndWaitForNetworkIdle(int times)
     {
-        var lastEl = _pageActions[^1];
+        var lastEl = LastActionToRepeat(nameof(RepeatAndWaitForNetworkIdle));
 
         _pageActions.AddRange(
             Enumerable.Range(1, times)
@@ -58,7 +67,8 @@ public class PageActionBuilder
 
     public PageActionBuilder Repeat(int times)
     {
-        _pageActions.AddRange(Enumerable.Range(1, times).Select(_ => _pageActions[^1]));
+        var lastEl = LastActionToRepeat(nameof(Repeat));
+        _pageActions.AddRange(Enumerable.Range(1, times).Select(_ => lastEl));
         return this;
     }
 
