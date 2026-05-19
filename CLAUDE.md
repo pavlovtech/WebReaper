@@ -35,16 +35,16 @@ Fluent builder → immutable config + pluggable spider → parallel job loop.
 
 `BuildAsync()` builds the config, persists it to `IScraperConfigStorage`, constructs a `Spider`, and returns a `ScraperEngine`.
 
-**Run path:** `ScraperEngine.RunAsync` seeds the `IScheduler` with one `Job` per start URL, then drives `Parallel.ForEachAsync` over `Scheduler.GetAllAsync()` (an async stream). Each job → `Spider.CrawlAsync` (wrapped in `Infra.Executor.RetryAsync`, Polly-backed); resulting child jobs are pushed back into the scheduler. The loop terminates by throwing `PageCrawlLimitException` once the visited-link count hits the limit.
+**Run path (ADR-0022):** `ScraperEngine` *is* the in-process **Crawl driver**. `RunAsync` seeds the `IScheduler` with one `Job` per start URL, then drives `Parallel.ForEachAsync` over `Scheduler.GetAllAsync()` (an async stream). Each job → `Spider.CrawlAsync` (wrapped in `Infra.Executor.RetryAsync`, Polly-backed) returns a closed `JobReport`; the driver interprets it — applies the visited-link idempotency authority (atomic test-and-set), fans `ParsedData` to the sinks, fires the `Subscribe`/`PostProcess` callbacks, enqueues child jobs, drives the **Outstanding-work latch**. Termination is a *value*, never an exception: the soft page-limit is a check the driver makes (it calls `Scheduler.Complete()`) — `PageCrawlLimitException` was removed in 8.0.0. Authoritative: `docs/adr/0022-crawl-driver-and-outstanding-work-latch.md`.
 
 **Job model:** `Job` is a record carrying the URL, an `ImmutableQueue<LinkPathSelector>`, parent backlinks, and `PageType` (Static vs Dynamic). The crawl-vs-parse decision is **not** stored on `Job` (`Job.PageCategory` was removed) — it is computed by `CrawlStep` from the selector chain (0 left ⇒ parse the target page; exactly 1 with pagination ⇒ paginate; else follow links) and returned as a closed `CrawlOutcome` sum (`Parsed | Followed | Paginated`). Chain length is the state machine: each step dequeues one selector. Authoritative: `CONTEXT.md` + `docs/adr/0001-crawl-outcome-closed-sum.md`.
 
-**Spider.CrawlAsync per job:**
-1. Load page — `IStaticPageLoader` (HTTP) or `IBrowserPageLoader` (Puppeteer) depending on `PageType`.
-2. `CrawlStep.StepAsync` returns a `CrawlOutcome`. `Parsed` ⇒ `ParsedData` fanned out to every `IScraperSink` plus the `PostProcessor` callback and `ScrapedData` event, no child jobs. `Followed`/`Paginated` ⇒ child jobs (and pagination jobs).
+**`Spider.CrawlAsync` per job (ADR-0022 — the Spider only *reports*):**
+1. Load the page via the one `IPageLoader` (ADR-0004) — HTTP by default; the headless-browser transport ships in the `WebReaper.Puppeteer` satellite (ADR-0009) — per `PageType`.
+2. `CrawlStep.StepAsync` returns a closed `CrawlOutcome`; `Spider` wraps it as a `JobReport` and returns — nothing else. The **Crawl driver**, not the Spider, fans a `Parsed` outcome's `ParsedData` to every `IScraperSink` + the `PostProcess`/`Subscribe` callbacks, and turns `Followed`/`Paginated` into child (and pagination) jobs.
 3. Content parsing is the shared `SchemaContentParser<TNode>` fold over an `ISchemaBackend<TNode>` (AngleSharp HTML or JSON); link extraction is `ILinkParser`. Authoritative: `docs/adr/0002-schema-fold-and-node-backend-seam.md`.
 
-**Pluggable seams** (interface in `*/Abstract`, implementations in `*/Concrete`; swap via `ScraperEngineBuilder` methods):
+**Pluggable seams** (public interface in `*/Abstract`). As of 9.0.0 (ADR-0023, the documented-contract surface) the `*/Concrete` implementations are `internal` — select a built-in via a `ScraperEngineBuilder` method (`.WriteToConsole()`, `.WithTextFileScheduler(...)`, a satellite's `.WithRedis*()`/`.WriteToMongoDb()`/… extension), or supply your own implementation of the public interface; you no longer `new` the concrete type. The in-memory defaults the DIY-distributed pattern wires by hand stay public. The table's "impls" are the conceptual options, reached through the builder:
 
 | Seam | Default | Other impls |
 |---|---|---|
