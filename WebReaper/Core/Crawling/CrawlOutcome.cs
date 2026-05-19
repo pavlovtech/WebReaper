@@ -19,11 +19,14 @@ public abstract record CrawlOutcome
 
     /// <summary>Target page (empty selector chain): the page was parsed with
     /// the Schema. No further Jobs.</summary>
+    /// <param name="Data">The scraped record for the target page.</param>
     public sealed record Parsed(ParsedData Data) : CrawlOutcome;
 
     /// <summary>Transit page: the head selector was consumed. Every Job carries
     /// the <b>advanced</b> (shortened) selector chain. Empty when no links
     /// matched.</summary>
+    /// <param name="Next">The follow Jobs, each carrying the advanced
+    /// selector chain.</param>
     public sealed record Followed(ImmutableArray<Job> Next) : CrawlOutcome;
 
     /// <summary>Page with pagination. <see cref="Items"/> are item Jobs that
@@ -31,14 +34,23 @@ public abstract record CrawlOutcome
     /// <see cref="NextPages"/> are next-page Jobs that <b>retain</b> the same
     /// one-element paginated chain, because page 2 of a listing is the same
     /// step, not a deeper one. Either list may be empty.</summary>
+    /// <param name="Items">Item Jobs whose chain is emptied (target pages).</param>
+    /// <param name="NextPages">Next-page Jobs that retain the one-element
+    /// paginated chain.</param>
     public sealed record Paginated(
         ImmutableArray<Job> Items,
         ImmutableArray<Job> NextPages) : CrawlOutcome;
 
+    /// <summary>The target-page arm: the page was parsed into
+    /// <paramref name="data"/>.</summary>
     public static CrawlOutcome Target(ParsedData data) => new Parsed(data);
 
+    /// <summary>The transit arm: the head selector was consumed,
+    /// <paramref name="next"/> are the follow Jobs.</summary>
     public static CrawlOutcome Transit(ImmutableArray<Job> next) => new Followed(next);
 
+    /// <summary>The pagination arm: <paramref name="items"/> are the listing's
+    /// item Jobs, <paramref name="nextPages"/> the next-page Jobs.</summary>
     public static CrawlOutcome Pagination(
         ImmutableArray<Job> items,
         ImmutableArray<Job> nextPages) => new Paginated(items, nextPages);
