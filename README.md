@@ -11,7 +11,7 @@ WebReaper is a declarative, high-performance web scraper, crawler and parser in 
 parse the data, and save the structured result to a file, a database, or pretty much anywhere you want — with
 a simple, extensible fluent API.
 
-As of **7.0.0** the core `WebReaper` package is **dependency-light, Native-AOT-ready and Newtonsoft-free**:
+As of **9.0.0** the core `WebReaper` package is **dependency-light, Native-AOT-ready and Newtonsoft-free**:
 a plain HTTP → file crawl pulls only AngleSharp, `Microsoft.Extensions.*` and Polly. Heavier capabilities
 (headless browser, MongoDB, Redis, Azure Cosmos DB, Azure Service Bus, SQLite-backed local durable
 scheduler/tracker) ship as **optional satellite packages** you add only when you need them — see
@@ -89,9 +89,10 @@ dotnet add package WebReaper.Sqlite           # SQLite local durable scheduler +
 
 ## Packages
 
-The core and the original satellite set are versioned in lockstep (`7.0.0`); `WebReaper.Sqlite` was
-added afterwards and is `7.1.0` (it depends on core `7.0.0`). All packages are GPL-3.0-or-later, and
-every satellite wires itself in through the builder's public registration seam.
+All seven packages are versioned in lockstep (currently `9.0.0`) — core and the six satellites move
+together in release waves (ADR-0022 → `8.0.0`, ADR-0023 → `9.0.0`); `WebReaper.Sqlite`, added at
+`7.1.0`, joined the lockstep from `8.0.0`. All packages are GPL-3.0-or-later, and every satellite
+wires itself in through the builder's public registration seam.
 
 | Package | Add it for | Key builder calls |
 |---|---|---|
