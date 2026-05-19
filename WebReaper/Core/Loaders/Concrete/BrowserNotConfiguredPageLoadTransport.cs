@@ -12,7 +12,7 @@ namespace WebReaper.Core.Loaders.Concrete;
 /// / two-<see cref="IPageLoadTransport"/> dispatcher is unchanged — only the
 /// default composition of the dynamic slot moved out of core.
 /// </summary>
-public sealed class BrowserNotConfiguredPageLoadTransport : IPageLoadTransport
+internal sealed class BrowserNotConfiguredPageLoadTransport : IPageLoadTransport
 {
     public Task<string> LoadAsync(PageRequest request, CancellationToken cancellationToken = default) =>
         throw new InvalidOperationException(

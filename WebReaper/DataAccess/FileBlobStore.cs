@@ -11,7 +11,7 @@ namespace WebReaper.DataAccess;
 /// (last-write-wins) is this adapter's own essence. No lock is taken — the
 /// engine writes a config once at build time.
 /// </summary>
-public class FileBlobStore : IKeyedBlobStore
+internal class FileBlobStore : IKeyedBlobStore
 {
     public Task PutAsync(string key, string value)
     {

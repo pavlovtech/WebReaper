@@ -22,6 +22,8 @@ public interface ISpider
     /// </summary>
     /// <param name="job">The Job to crawl; its selector chain decides
     /// parse-vs-follow-vs-paginate.</param>
+    /// <param name="cancellationToken">Cancels the page load / crawl
+    /// step.</param>
     /// <returns>The closed Job report — the <see cref="CrawlOutcome"/> plus the
     /// loaded document and the accounting facts the driver needs.</returns>
     Task<JobReport> CrawlAsync(Job job, CancellationToken cancellationToken = default);

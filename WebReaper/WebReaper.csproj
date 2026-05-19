@@ -25,6 +25,14 @@
          never picked up and wrote a build artifact into the tracked tree
          (hence the historical "revert API.xml before commit" footgun). -->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- ADR-0023: the core public surface IS the documented contract. With
+         every Tier-1 type documented and every Tier-2 implementation type
+         internal, core CS1591 is zero; promote it to a build error so the
+         documented surface cannot silently re-accumulate undocumented public
+         members (the way the ~552 backlog did). This replaces the per-area
+         .editorconfig ratchet scaffolding (removed). Satellites keep their
+         own NoWarn CS1591 by their own recorded rationale. -->
+    <WarningsAsErrors>$(WarningsAsErrors);CS1591</WarningsAsErrors>
     <LangVersion>12</LangVersion>
     <Title>WebReaper</Title>
 
@@ -82,11 +90,28 @@
     </None>
   </ItemGroup>
 
-  <!-- ADR-0011: FilePersistencePrep is an internal stateless helper; the unit
-       test assembly asserts its three responsibilities at its own interface
-       (a pure utility has no public facade to test it through, unlike the
-       internal SpiderBuilder which is reached via ScraperEngineBuilder). -->
+  <!-- InternalsVisibleTo targets the test assemblies ONLY — never a shipped
+       package (verified: no satellite-prod / Example / Misc code names a
+       Tier-2 type; satellites bind the Tier-1 interfaces and inherit the
+       Tier-1 payload-shell bases). ADR-0011: the unit suite asserts the
+       internal stateless FilePersistencePrep at its own interface. ADR-0023:
+       the Tier-2 implementation adapters are now internal (the public
+       surface is the documented contract); the suites that construct them
+       directly reach them through this seam, so internalising broke no
+       consumer. -->
   <ItemGroup>
     <InternalsVisibleTo Include="WebReaper.UnitTests" />
+    <InternalsVisibleTo Include="WebReaper.IntegrationTests" />
+    <!-- The Native-AOT publish smoke test deliberately constructs the
+         internal JSON backend / file-format adapters to keep the AOT-sensitive
+         paths (System.Text.Json source-gen, the fold) under regression cover;
+         non-shipped, like the test assemblies. -->
+    <InternalsVisibleTo Include="WebReaper.AotSmokeTest" />
+    <InternalsVisibleTo Include="WebReaper.Redis.Tests" />
+    <InternalsVisibleTo Include="WebReaper.Cosmos.Tests" />
+    <InternalsVisibleTo Include="WebReaper.Mongo.Tests" />
+    <InternalsVisibleTo Include="WebReaper.AzureServiceBus.Tests" />
+    <InternalsVisibleTo Include="WebReaper.Puppeteer.Tests" />
+    <InternalsVisibleTo Include="WebReaper.Sqlite.Tests" />
   </ItemGroup>
 </Project>

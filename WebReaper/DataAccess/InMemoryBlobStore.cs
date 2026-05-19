@@ -7,7 +7,7 @@ namespace WebReaper.DataAccess;
 /// the live object — so the in-memory path exercises the same payload-shell
 /// serialization the persistent backends do (ADR 0003).
 /// </summary>
-public class InMemoryBlobStore : IKeyedBlobStore
+internal class InMemoryBlobStore : IKeyedBlobStore
 {
     private readonly ConcurrentDictionary<string, string> _blobs = new();
 

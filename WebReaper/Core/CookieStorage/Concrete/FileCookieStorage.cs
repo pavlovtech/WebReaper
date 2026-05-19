@@ -10,7 +10,7 @@ namespace WebReaper.Core.CookieStorage.Concrete;
 /// <c>logger</c> parameter is retained for binary/source
 /// compatibility; it is no longer used here.
 /// </summary>
-public class FileCookieStorage : CookieStore
+internal class FileCookieStorage : CookieStore
 {
     public FileCookieStorage(string fileName, ILogger logger)
         : base(new FileBlobStore(), fileName)

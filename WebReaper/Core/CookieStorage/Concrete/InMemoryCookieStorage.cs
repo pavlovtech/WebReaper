@@ -6,7 +6,7 @@ namespace WebReaper.Core.CookieStorage.Concrete;
 /// Source-compatible constructor over the <see cref="CookieStore"/> payload
 /// shell backed by an <see cref="InMemoryBlobStore"/> (ADR 0003).
 /// </summary>
-public class InMemoryCookieStorage : CookieStore
+internal class InMemoryCookieStorage : CookieStore
 {
     public InMemoryCookieStorage()
         : base(new InMemoryBlobStore(), "cookies")

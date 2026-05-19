@@ -31,7 +31,7 @@ namespace WebReaper.Sinks.Concrete;
 /// per row opens and closes the file each time, and the consumer has no
 /// flush/dispose — its lifetime is the process or the bound token.
 /// </summary>
-public class BufferedFileSink : IScraperSink
+internal class BufferedFileSink : IScraperSink
 {
     private readonly BlockingCollection<JsonObject> _entries = new();
     private readonly IFileSinkFormat _format;

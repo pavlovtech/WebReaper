@@ -10,7 +10,7 @@ namespace WebReaper.Core.Loaders.Concrete;
 /// <see cref="PageRequest.PageType"/> to the HTTP or browser
 /// <see cref="IPageLoadTransport"/> (ADR 0004).
 /// </summary>
-public class PageLoader : IPageLoader
+internal class PageLoader : IPageLoader
 {
     private readonly IPageLoadTransport _httpTransport;
     private readonly IPageLoadTransport _browserTransport;

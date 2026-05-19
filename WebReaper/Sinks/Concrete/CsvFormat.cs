@@ -12,7 +12,7 @@ namespace WebReaper.Sinks.Concrete;
 /// (<c>$.name</c>→<c>name</c>, <c>$.a.b</c>→<c>b</c>, <c>$.a[0]</c>→<c>a[0]</c>),
 /// so observable file content is unchanged.
 /// </summary>
-public sealed class CsvFormat : IFileSinkFormat
+internal sealed class CsvFormat : IFileSinkFormat
 {
     public string? Header(JsonObject firstRow)
     {
