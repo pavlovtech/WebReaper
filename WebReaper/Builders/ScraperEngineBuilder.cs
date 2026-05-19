@@ -26,18 +26,19 @@ using WebReaper.Sinks.Models;
 namespace WebReaper.Builders;
 
 /// <summary>
-/// The public fluent façade for configuring and building a scraper. It
-/// composes a <see cref="ConfigBuilder"/> (the immutable
-/// <see cref="ScraperConfig"/>: start URLs, the selector chain, the crawl
-/// limit) and an internal <c>SpiderBuilder</c> (runtime components — loaders,
-/// parsers, sinks, trackers, cookie storage), all with in-memory defaults.
-/// Terminate the chain with <see cref="BuildAsync"/> (an engine plus its
-/// persisted config) or <see cref="BuildSpider"/> (a bare
-/// <see cref="ISpider"/> for the distributed-worker pattern, ADR-0009). Every
-/// method returns the same builder for chaining; configuration order is free
-/// except that <see cref="BuildAsync"/> requires a start set
-/// (<see cref="Get"/> / <c>GetWithBrowser</c>) and a schema
-/// (<see cref="Parse"/>).
+/// The public fluent builder for configuring and building a scraper engine
+/// (ADR-0025). A scrape begins with a <b>Crawl seed</b>: obtain one from the
+/// static <see cref="Crawl(string[])"/> / <see cref="CrawlWithBrowser(string[])"/>,
+/// give it a <see cref="Schema"/> via <see cref="ICrawlSeed.Extract"/>, and
+/// you get this builder — every free fluent method and every satellite
+/// extension — terminating in <see cref="BuildAsync"/> (a runnable engine
+/// plus its persisted config) or <see cref="Build"/> (just the immutable
+/// <see cref="ScraperConfig"/>, e.g. for a distributed start endpoint to
+/// persist). The constructor is internal and the terminals live only here, so
+/// "build with no start URLs or no schema" is unrepresentable. The
+/// distributed-worker reduced shell (ADR-0009) is a separate seam —
+/// <see cref="DistributedSpiderBuilder"/>. Composes an internal
+/// <c>ConfigBuilder</c> and <c>SpiderBuilder</c>, all with in-memory defaults.
 /// </summary>
 public class ScraperEngineBuilder
 {
@@ -45,6 +46,81 @@ public class ScraperEngineBuilder
     private int _parallelismDegree = 20;
     private ConfigBuilder ConfigBuilder { get; } = new();
     private SpiderBuilder SpiderBuilder { get; } = new();
+
+    /// <summary>Internal: a <see cref="ScraperEngineBuilder"/> is obtained only
+    /// via <see cref="Crawl(string[])"/> / <see cref="CrawlWithBrowser(string[])"/>
+    /// then <see cref="ICrawlSeed.Extract"/> — never <c>new</c>ed. This is the
+    /// structural guarantee (ADR-0025): the build terminals cannot be reached
+    /// without a Crawl seed and a schema.</summary>
+    internal ScraperEngineBuilder() { }
+
+    /// <summary>
+    /// Begin a scrape: the crawl's start URLs, loaded as static HTTP pages
+    /// (the ADR-0025 Crawl seed). Returns an <see cref="ICrawlSeed"/> whose
+    /// only operation is <see cref="ICrawlSeed.Extract"/>.
+    /// </summary>
+    /// <exception cref="ArgumentException">no start URL was supplied
+    /// (fail-fast).</exception>
+    public static ICrawlSeed Crawl(params string[] startUrls)
+    {
+        if (startUrls is null || startUrls.Length == 0)
+            throw new ArgumentException(
+                "At least one start URL is required.", nameof(startUrls));
+        var builder = new ScraperEngineBuilder();
+        builder.ConfigBuilder.Get(startUrls);
+        return new CrawlSeed(builder);
+    }
+
+    /// <summary>
+    /// Begin a scrape whose start pages load through the headless-browser
+    /// transport (the ADR-0025 Crawl seed; requires the WebReaper.Puppeteer
+    /// satellite at run time, ADR-0009).
+    /// </summary>
+    /// <exception cref="ArgumentException">no start URL was supplied
+    /// (fail-fast).</exception>
+    public static ICrawlSeed CrawlWithBrowser(params string[] startUrls)
+    {
+        if (startUrls is null || startUrls.Length == 0)
+            throw new ArgumentException(
+                "At least one start URL is required.", nameof(startUrls));
+        var builder = new ScraperEngineBuilder();
+        builder.ConfigBuilder.GetWithBrowser(startUrls);
+        return new CrawlSeed(builder);
+    }
+
+    /// <summary>
+    /// <see cref="CrawlWithBrowser(string[])"/> with an optional
+    /// <see cref="PageActionBuilder"/> run on each start page before scraping.
+    /// </summary>
+    /// <exception cref="ArgumentException">no start URL was supplied
+    /// (fail-fast).</exception>
+    public static ICrawlSeed CrawlWithBrowser(
+        IEnumerable<string> startUrls,
+        Func<PageActionBuilder, List<PageAction>>? actionBuilder = null)
+    {
+        var urls = startUrls?.ToArray() ?? Array.Empty<string>();
+        if (urls.Length == 0)
+            throw new ArgumentException(
+                "At least one start URL is required.", nameof(startUrls));
+        var builder = new ScraperEngineBuilder();
+        builder.ConfigBuilder.GetWithBrowser(urls, actionBuilder?.Invoke(new PageActionBuilder()));
+        return new CrawlSeed(builder);
+    }
+
+    /// <summary>The <see cref="ICrawlSeed"/> implementation: holds the
+    /// half-built builder so the only operation reachable after
+    /// <see cref="Crawl(string[])"/> is <see cref="ICrawlSeed.Extract"/>.</summary>
+    private sealed class CrawlSeed : ICrawlSeed
+    {
+        private readonly ScraperEngineBuilder _builder;
+        internal CrawlSeed(ScraperEngineBuilder builder) => _builder = builder;
+
+        public ScraperEngineBuilder Extract(Schema schema)
+        {
+            _builder.ConfigBuilder.WithScheme(schema);
+            return _builder;
+        }
+    }
 
     private ILogger Logger { get; set; } = NullLogger.Instance;
 
@@ -274,43 +350,6 @@ public class ScraperEngineBuilder
         return this;
     }
 
-    /// <summary>The extraction <see cref="Schema"/> for target pages (the
-    /// fold grammar, ADR-0002). Required by <see cref="BuildAsync"/>.</summary>
-    public ScraperEngineBuilder Parse(Schema schema)
-    {
-        ConfigBuilder.WithScheme(schema);
-        return this;
-    }
-
-    /// <summary>The crawl's start URLs, loaded as static HTTP pages. Required
-    /// by <see cref="BuildAsync"/> (or use <see cref="GetWithBrowser(string[])"/>).</summary>
-    public ScraperEngineBuilder Get(params string[] startUrls)
-    {
-        ConfigBuilder.Get(startUrls);
-        return this;
-    }
-
-    /// <summary>
-    /// Start URLs loaded through the headless browser, with an optional
-    /// <see cref="PageActionBuilder"/> per page. Requires the
-    /// WebReaper.Puppeteer satellite (ADR-0009).
-    /// </summary>
-    public ScraperEngineBuilder GetWithBrowser(
-        IEnumerable<string> startUrls,
-        Func<PageActionBuilder, List<PageAction>>? actionBuilder = null)
-    {
-        ConfigBuilder.GetWithBrowser(startUrls, actionBuilder?.Invoke(new PageActionBuilder()));
-        return this;
-    }
-
-    /// <summary>Start URLs loaded through the headless browser, no page
-    /// actions. Requires the WebReaper.Puppeteer satellite.</summary>
-    public ScraperEngineBuilder GetWithBrowser(params string[] startUrls)
-    {
-        ConfigBuilder.GetWithBrowser(startUrls);
-        return this;
-    }
-
     /// <summary>Append a follow step over <paramref name="linkSelector"/> (one
     /// link in the crawl's selector chain, ADR-0001).</summary>
     public ScraperEngineBuilder Follow(string linkSelector)
@@ -448,32 +487,26 @@ public class ScraperEngineBuilder
     }
 
     /// <summary>
-    /// Build just the configured <see cref="ISpider"/> — no scheduler, no
-    /// engine loop, and (unlike <see cref="BuildAsync"/>) no
-    /// <c>ConfigBuilder.Build()</c>/persist, so it does <em>not</em> require
-    /// <c>Get</c>/<c>Parse</c>. This is the seam for the distributed-worker
-    /// pattern (ADR-0009): pull one <c>Job</c> off your own queue, crawl it
-    /// with <c>spider.CrawlAsync(job)</c>, and re-enqueue the returned child
-    /// jobs yourself — see <c>Examples/WebReaper.AzureFuncs</c>. The spider
-    /// reads its <see cref="Domain.ScraperConfig"/> from the configured
-    /// config storage at crawl time, so persist it separately (e.g. a
-    /// distributed config storage written by a start-scraping endpoint).
+    /// Produce just the immutable <see cref="ScraperConfig"/> (no engine, no
+    /// persistence) — the gated config terminal. The distributed start
+    /// endpoint uses this, then persists the result to shared config storage
+    /// for workers (ADR-0009; see <c>Examples/WebReaper.AzureFuncs</c>). Only
+    /// reachable after <see cref="Crawl(string[])"/> + <see cref="ICrawlSeed.Extract"/>,
+    /// so start URLs and a schema are always present (ADR-0025); the
+    /// reduced-shell worker that consumes the persisted config is built with
+    /// <see cref="DistributedSpiderBuilder"/>.
     /// </summary>
-    public ISpider BuildSpider()
-    {
-        SpiderBuilder.WithConfigStorage(ConfigStorage);
-        return SpiderBuilder.Build();
-    }
+    public ScraperConfig Build() => ConfigBuilder.Build();
 
     /// <summary>
-    /// Build the engine: validate and persist the <see cref="ScraperConfig"/>
-    /// to the configured <see cref="IScraperConfigStorage"/>, construct the
+    /// Build the engine: persist the <see cref="ScraperConfig"/> to the
+    /// configured <see cref="IScraperConfigStorage"/>, construct the
     /// <see cref="ISpider"/>, and return a runnable <see cref="ScraperEngine"/>
-    /// (the in-process Crawl driver, ADR-0022).
+    /// (the in-process Crawl driver, ADR-0022). Start URLs and a schema are
+    /// guaranteed present — this is reachable only via
+    /// <see cref="Crawl(string[])"/> + <see cref="ICrawlSeed.Extract"/>
+    /// (ADR-0025), so it cannot fail for an unconfigured crawl.
     /// </summary>
-    /// <exception cref="InvalidOperationException">no start URLs
-    /// (<see cref="Get"/>/<see cref="GetWithBrowser(string[])"/>) or no schema
-    /// (<see cref="Parse"/>) was configured.</exception>
     public async Task<ScraperEngine> BuildAsync()
     {
         SpiderBuilder.WithConfigStorage(ConfigStorage);

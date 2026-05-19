@@ -23,9 +23,9 @@ Adds `WriteToCosmosDb(...)` to `ScraperEngineBuilder`:
 using WebReaper.Builders;
 using WebReaper.Cosmos;
 
-var engine = await new ScraperEngineBuilder()
-    .Get("https://example.com/catalog")
-    .Parse(new() { new("title", "h1"), new("price", ".price") })
+var engine = await ScraperEngineBuilder
+    .Crawl("https://example.com/catalog")
+    .Extract(new() { new("title", "h1"), new("price", ".price") })
     .WriteToCosmosDb(
         endpointUrl: "https://my-account.documents.azure.com:443/",
         authorizationKey: "<key>",

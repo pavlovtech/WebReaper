@@ -18,7 +18,18 @@ namespace BrownsfashionScraper
 
         public override async Task StartAsync(CancellationToken cancellationToken)
         {
-             _scraper = await new ScraperEngineBuilder()
+             _scraper = await ScraperEngineBuilder
+                .Crawl("https://www.brownsfashion.com/ua/shopping/man-clothing")
+                .Extract(new()
+                {
+                    new("brand", "a[data-test=\"product-brand\"]"),
+                    new("product", "span[data-test=\"product-name\"]"),
+                    new("price", "span[data-test=\"product-price\"]"),
+                    new("description", "span[data-test=\"product-accordionOption\"]"),
+                    new("category", "#modal-controller-container > main > nav > ol > li:nth-child(1) > a"),
+                    new("subcategory", "#modal-controller-container > main > nav > ol > li:nth-child(2) > a"),
+                    new("subcategory2", "#modal-controller-container > main > nav > ol > li:nth-child(3) > a]"),
+                })
                 .WithLogger(_logger)
                 .WithPuppeteerPageLoader()
                 .SetCookies(cookies =>
@@ -58,19 +69,7 @@ namespace BrownsfashionScraper
                         new Cookie("_clsk", "uhygul|1666602933570|1|1|e.clarity.ms/collect", "/", ".brownsfashion.com")
                     });
                 })
-                .Get("https://www.brownsfashion.com/ua/shopping/man-clothing")
                 .PaginateWithBrowser("._1GX2o>a", ".AlEkI")
-                .Parse(new()
-                {
-                    new("brand", "a[data-test=\"product-brand\"]"),
-                    new("product", "span[data-test=\"product-name\"]"),
-                    new("price", "span[data-test=\"product-price\"]"),
-                    new("description", "span[data-test=\"product-accordionOption\"]"),
-                    new("category", "#modal-controller-container > main > nav > ol > li:nth-child(1) > a"),
-                    new("subcategory", "#modal-controller-container > main > nav > ol > li:nth-child(2) > a"),
-                    new("subcategory2", "#modal-controller-container > main > nav > ol > li:nth-child(3) > a]"),
-
-                })
                 .WriteToCsvFile("result.csv", true)
                 .WithParallelismDegree(10)
                 .BuildAsync();

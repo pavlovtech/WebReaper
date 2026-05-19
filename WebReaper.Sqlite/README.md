@@ -39,10 +39,10 @@ Adds `WithSqliteScheduler` to `ScraperEngineBuilder`, over the core's public
 using WebReaper.Builders;
 using WebReaper.Sqlite;
 
-var engine = await new ScraperEngineBuilder()
-    .Get("https://example.com")
+var engine = await ScraperEngineBuilder
+    .Crawl("https://example.com")
+    .Extract(new Schema { /* … */ })
     .WithSqliteScheduler("crawl/state.db")
-    .Parse(new Schema { /* … */ })
     .WriteToJsonFile("output.jsonl")
     .BuildAsync();
 

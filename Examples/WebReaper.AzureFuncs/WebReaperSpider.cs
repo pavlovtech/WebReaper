@@ -47,11 +47,12 @@ namespace WebReaper.AzureFuncs
             });
 
             // ADR-0022 slice 4: this Service Bus function IS the distributed
-            // Crawl driver. ADR-0009: SpiderBuilder is internal; the bare
-            // reduced shell comes from ScraperEngineBuilder.BuildSpider().
-            var spider = new ScraperEngineBuilder()
+            // Crawl driver. ADR-0009/0025: SpiderBuilder is internal; the bare
+            // reduced shell is built by DistributedSpiderBuilder. The link
+            // tracker is the driver's idempotency authority (ADR-0022) — used
+            // directly below, not wired into the spider shell.
+            var spider = new DistributedSpiderBuilder()
                 .WithLogger(log)
-                .WithLinkTracker(LinkTracker)
                 .BuildSpider();
 
             var children = ImmutableArray<Job>.Empty;
