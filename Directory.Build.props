@@ -1,0 +1,47 @@
+<Project>
+
+  <!--
+    Single source of truth for the package version and the shared NuGet
+    identity, auto-imported into every project in the repo.
+
+    VERSION (release-relevant): a release is, by default, a LOCKSTEP wave —
+    core + all six satellites at one version (ADR-0022's 8.0.0 wave, ADR-0023's
+    9.0.0 wave). That used to be seven hand-edited <Version> lines kept in sync
+    by discipline; it twice got stranded (the doc-only ADR-0022/0023 PRs merged
+    without the bump, forcing the separate #75 / #77 prep PRs). Here it is ONE
+    owned line, so lockstep is structural — skew is now unrepresentable, not a
+    review check.
+
+    The runbook's version-SET selection is preserved, not lost:
+    `.github/workflows/release.yml` selects the packages to publish by each
+    project's EFFECTIVE `Version` (`dotnet msbuild -getProperty:Version`), not
+    by grepping csproj text. So an intentional additive single-satellite
+    release (e.g. Sqlite alone at X while the six stay at Y, the documented
+    7.1.0-style case) is still first-class: that satellite's .csproj overrides
+    `<Version>` locally (a project-level property wins over this import), which
+    is then both the published version and an explicit, visible divergence.
+
+    Eliminating even this one manual bump (deriving the version from the git
+    tag) is the considered next step — see docs/adr/0024-*.md (proposed).
+
+    Non-version identity below is pure de-duplication: it was copy-pasted
+    identically across all seven csprojs. Per-package fields (PackageId, Title,
+    Description, PackageTags, PackageReleaseNotes, NoWarn / WarningsAsErrors,
+    IsAotCompatible, the packaging ItemGroups) deliberately stay in each csproj.
+    Inert for the non-packed projects (Examples / Misc / tests) — they never
+    produce a .nupkg.
+  -->
+
+  <PropertyGroup>
+    <Version>9.0.0</Version>
+
+    <Authors>Alex Pavlov</Authors>
+    <Company>Alex Pavlov</Company>
+    <Product>WebReaper</Product>
+    <Copyright>GPL-3.0 license</Copyright>
+    <PackageProjectUrl>https://github.com/pavlovtech/WebReaper</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/pavlovtech/WebReaper</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+  </PropertyGroup>
+
+</Project>
