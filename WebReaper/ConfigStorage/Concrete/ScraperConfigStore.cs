@@ -23,15 +23,25 @@ public class ScraperConfigStore : IScraperConfigStorage
     private readonly IKeyedBlobStore _store;
     private readonly string _key;
 
+    /// <summary>
+    /// Back this config store with <paramref name="store"/> at
+    /// <paramref name="key"/> (the blob key). This is the constructor the
+    /// satellite config stores (<c>RedisScraperConfigStorage</c>,
+    /// <c>MongoDbScraperConfigStorage</c>) chain to.
+    /// </summary>
     public ScraperConfigStore(IKeyedBlobStore store, string key)
     {
         _store = store;
         _key = key;
     }
 
+    /// <inheritdoc/>
     public Task CreateConfigAsync(ScraperConfig config)
         => _store.PutAsync(_key, WebReaperJson.SerializeConfig(config));
 
+    /// <inheritdoc/>
+    /// <exception cref="ConfigNotFoundException">no config has been persisted
+    /// at this key (the typed "absent" — ADR-0003).</exception>
     public async Task<ScraperConfig> GetConfigAsync()
     {
         var blob = await _store.GetAsync(_key);

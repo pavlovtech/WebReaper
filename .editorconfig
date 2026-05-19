@@ -20,3 +20,32 @@ dotnet_diagnostic.CS1591.severity = error
 # SpiderBuilder is internal, off-surface).
 [WebReaper/Builders/*.cs]
 dotnet_diagnostic.CS1591.severity = error
+
+# Slice 3 — the public Domain model + the two payload-shell bases satellites
+# inherit + the in-memory default adapters the ADR-0009 DIY pattern wires.
+# Directory-scoped where the whole dir is Tier-1; file-scoped for the bases /
+# in-memory defaults whose */Concrete dirs still hold Tier-2 leaves
+# (File* / InMemoryCookieStorage) until Slice 5 internalises them.
+[WebReaper/Domain/**.cs]
+dotnet_diagnostic.CS1591.severity = error
+
+[WebReaper/Core/Crawling/*.cs]
+dotnet_diagnostic.CS1591.severity = error
+
+[WebReaper/Sinks/Models/*.cs]
+dotnet_diagnostic.CS1591.severity = error
+
+[WebReaper/Core/CookieStorage/Concrete/CookieStore.cs]
+dotnet_diagnostic.CS1591.severity = error
+
+[WebReaper/ConfigStorage/Concrete/ScraperConfigStore.cs]
+dotnet_diagnostic.CS1591.severity = error
+
+[WebReaper/ConfigStorage/Concrete/InMemoryScraperConfigStorage.cs]
+dotnet_diagnostic.CS1591.severity = error
+
+[WebReaper/Core/Scheduler/Concrete/InMemoryScheduler.cs]
+dotnet_diagnostic.CS1591.severity = error
+
+[WebReaper/Core/LinkTracker/Concrete/InMemoryVisitedLinkTracker.cs]
+dotnet_diagnostic.CS1591.severity = error

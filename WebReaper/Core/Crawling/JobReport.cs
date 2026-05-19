@@ -12,4 +12,7 @@ namespace WebReaper.Core.Crawling;
 /// the ADR-0001 closed three-arm sum (that stays the Crawl step's result and
 /// still lives inside the shell). Termination is never a thrown exception.
 /// </summary>
+/// <param name="Outcome">The Crawl step's closed result for this Job.</param>
+/// <param name="Document">The loaded page body, so the driver can build the
+/// PostProcessor <see cref="WebReaper.Domain.Metadata"/>.</param>
 public sealed record JobReport(CrawlOutcome Outcome, string Document);
