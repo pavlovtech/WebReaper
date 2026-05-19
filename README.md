@@ -26,14 +26,14 @@ dotnet add package WebReaper
 ```C#
 using WebReaper.Builders;
 
-var engine = await new ScraperEngineBuilder()
-    .Get("https://www.alexpavlov.dev/blog")
-    .Follow("a.text-gray-900.transition")
-    .Parse(new()
+var engine = await ScraperEngineBuilder
+    .Crawl("https://www.alexpavlov.dev/blog")
+    .Extract(new()
     {
         new("title", ".text-3xl.font-bold"),
         new("text", ".max-w-max.prose.prose-dark")
     })
+    .Follow("a.text-gray-900.transition")
     .WriteToJsonFile("output.json")
     .PageCrawlLimit(10)
     .WithParallelismDegree(30)
@@ -89,22 +89,22 @@ dotnet add package WebReaper.Sqlite           # SQLite local durable scheduler +
 
 ## Packages
 
-All seven packages are versioned in lockstep (currently `9.0.0`) — core and the six satellites move
-together in release waves (ADR-0022 → `8.0.0`, ADR-0023 → `9.0.0`); `WebReaper.Sqlite`, added at
-`7.1.0`, joined the lockstep from `8.0.0`. All packages are GPL-3.0-or-later, and every satellite
+All seven packages are versioned in lockstep (currently `10.0.0`) — core and the six satellites move
+together in release waves (ADR-0022 → `8.0.0`, ADR-0023 → `9.0.0`, ADR-0025 → `10.0.0`);
+`WebReaper.Sqlite`, added at `7.1.0`, joined the lockstep from `8.0.0`. All packages are GPL-3.0-or-later, and every satellite
 wires itself in through the builder's public registration seam.
 
 | Package | Add it for | Key builder calls |
 |---|---|---|
-| **WebReaper** | Core. HTTP crawl/parse, in-memory + file scheduler / visited-link tracker / cookie & config storage, Console / CSV / JSON-Lines sinks. Dependency-light, Native-AOT-ready, Newtonsoft-free. | `Get` `Follow` `Paginate` `Parse` `WriteToJsonFile` `WriteToCsvFile` `WriteToConsole` |
-| **WebReaper.Puppeteer** | Headless-browser loading of SPA / JavaScript pages | `.WithPuppeteerPageLoader()` + `GetWithBrowser` / `FollowWithBrowser` / `PaginateWithBrowser` |
+| **WebReaper** | Core. HTTP crawl/parse, in-memory + file scheduler / visited-link tracker / cookie & config storage, Console / CSV / JSON-Lines sinks. Dependency-light, Native-AOT-ready, Newtonsoft-free. | `Crawl` `Extract` `Follow` `Paginate` `WriteToJsonFile` `WriteToCsvFile` `WriteToConsole` |
+| **WebReaper.Puppeteer** | Headless-browser loading of SPA / JavaScript pages | `.WithPuppeteerPageLoader()` + `CrawlWithBrowser` / `FollowWithBrowser` / `PaginateWithBrowser` |
 | **WebReaper.Mongo** | MongoDB result sink and MongoDB-backed config / cookie storage | `.WriteToMongoDb(...)` `.WithMongoDbConfigStorage(...)` `.WithMongoDbCookieStorage(...)` |
 | **WebReaper.Redis** | Redis scheduler, visited-link tracker, result sink, config / cookie storage | `.WithRedisScheduler(...)` `.TrackVisitedLinksInRedis(...)` `.WriteToRedis(...)` `.WithRedisConfigStorage(...)` `.WithRedisCookieStorage(...)` |
 | **WebReaper.AzureServiceBus** | Distributed scheduler over an Azure Service Bus queue | `.WithAzureServiceBusScheduler(...)` |
 | **WebReaper.Cosmos** | Azure Cosmos DB result sink | `.WriteToCosmosDb(...)` |
 | **WebReaper.Sqlite** | Local **durable** scheduler & visited-link tracker on an embedded SQLite store — resume is a query, no position file. Opt-in robust-local tier (no server, unlike Redis). | `.WithSqliteScheduler(...)` `.TrackVisitedLinksInSqlite(...)` |
 
-> The core default page loader is **HTTP-only**. Crawling a dynamic page (`GetWithBrowser` /
+> The core default page loader is **HTTP-only**. Crawling a dynamic page (`CrawlWithBrowser` /
 > `FollowWithBrowser` / `PaginateWithBrowser`) without `WebReaper.Puppeteer` registered throws an
 > `InvalidOperationException` telling you to add the package and call `.WithPuppeteerPageLoader()`.
 
@@ -138,7 +138,7 @@ design; reference one only when you use it.
 
 ### Parsing dynamic pages (SPA)
 
-Parsing Single Page Applications is simple: use `GetWithBrowser` and/or `FollowWithBrowser`, add the
+Parsing Single Page Applications is simple: use `CrawlWithBrowser` and/or `FollowWithBrowser`, add the
 `WebReaper.Puppeteer` package, and register it with `.WithPuppeteerPageLoader()`. Puppeteer then loads
 those pages in a headless browser.
 
@@ -150,15 +150,15 @@ dotnet add package WebReaper.Puppeteer
 using WebReaper.Builders;
 using WebReaper.Puppeteer;
 
-var engine = await new ScraperEngineBuilder()
-    .GetWithBrowser("https://www.alexpavlov.dev/blog")
-    .FollowWithBrowser("a.text-gray-900.transition")
-    .Parse(new()
+var engine = await ScraperEngineBuilder
+    .CrawlWithBrowser("https://www.alexpavlov.dev/blog")
+    .Extract(new()
     {
         new("title", ".text-3xl.font-bold"),
         new("text", ".max-w-max.prose.prose-dark")
     })
     .WithPuppeteerPageLoader()
+    .FollowWithBrowser("a.text-gray-900.transition")
     .WriteToJsonFile("output.json")
     .PageCrawlLimit(10)
     .WithParallelismDegree(30)
@@ -181,16 +181,16 @@ You can run JavaScript and drive the page as it loads in the headless browser. P
 using WebReaper.Builders;
 using WebReaper.Puppeteer;
 
-var engine = await new ScraperEngineBuilder()
-    .GetWithBrowser("https://www.reddit.com/r/dotnet/", actions => actions
+var engine = await ScraperEngineBuilder
+    .CrawlWithBrowser("https://www.reddit.com/r/dotnet/", actions => actions
         .ScrollToEnd()
         .Build())
-    .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
-    .Parse(new()
+    .Extract(new()
     {
         new("title", "._eYtD2XCVieq6emjKBH3m"),
         new("text", "._3xX726aBn29LDbsDtzr_6E._1Ap4F5maDtT1E1YuCiaO0r.D3IL3FD0RFy_mkKLPwL4")
     })
+    .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
     .WithPuppeteerPageLoader()
     .WriteToJsonFile("output.json")
     .LogToConsole()
@@ -212,13 +212,9 @@ To persist the job queue and visited links locally — so you can resume where y
 ```C#
 using WebReaper.Builders;
 
-var engine = await new ScraperEngineBuilder()
-    .WithLogger(logger)
-    .Get("https://rutracker.org/forum/index.php?c=33")
-    .Follow("#cf-33 .forumlink>a")
-    .Follow(".forumlink>a")
-    .Paginate("a.torTopic", ".pg")
-    .Parse(new()
+var engine = await ScraperEngineBuilder
+    .Crawl("https://rutracker.org/forum/index.php?c=33")
+    .Extract(new()
     {
         new("name", "#topic-title"),
         new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
@@ -227,6 +223,10 @@ var engine = await new ScraperEngineBuilder()
         new("torrentLink", ".magnet-link", "href"),
         new("coverImageUrl", ".postImg", "src")
     })
+    .WithLogger(logger)
+    .Follow("#cf-33 .forumlink>a")
+    .Follow(".forumlink>a")
+    .Paginate("a.torTopic", ".pg")
     .WriteToJsonFile("result.json")
     .IgnoreUrls(blackList)
     .WithTextFileScheduler("jobs.txt", "currentJob.txt")
@@ -245,11 +245,11 @@ unchanged and stay the default; this is opt-in:
 using WebReaper.Builders;
 using WebReaper.Sqlite;   // dotnet add package WebReaper.Sqlite
 
-var engine = await new ScraperEngineBuilder()
-    .Get("https://rutracker.org/forum/index.php?c=33")
+var engine = await ScraperEngineBuilder
+    .Crawl("https://rutracker.org/forum/index.php?c=33")
+    .Extract(new() { new("name", "#topic-title") })
     .Follow(".forumlink>a")
     .Paginate("a.torTopic", ".pg")
-    .Parse(new() { new("name", "#topic-title") })
     .WriteToJsonFile("result.json")
     .WithSqliteScheduler("crawl/state.db")        // resume is a query, not a position file
     .TrackVisitedLinksInSqlite("crawl/state.db")  // the table is the set
@@ -267,9 +267,10 @@ required. You perform the login yourself; WebReaper only uses the cookies you pr
 using System.Net;
 using WebReaper.Builders;
 
-var engine = await new ScraperEngineBuilder()
+var engine = await ScraperEngineBuilder
+    .Crawl("https://rutracker.org/forum/index.php?c=33")
+    .Extract(new() { new("name", "#topic-title") })
     .WithLogger(logger)
-    .Get("https://rutracker.org/forum/index.php?c=33")
     .SetCookies(cookies =>
     {
         cookies.Add(new Cookie("AuthToken", "123"));
@@ -280,7 +281,7 @@ var engine = await new ScraperEngineBuilder()
 
 ### How to disable headless mode
 
-When scraping with a browser (`GetWithBrowser` / `FollowWithBrowser`, via `WebReaper.Puppeteer`) the
+When scraping with a browser (`CrawlWithBrowser` / `FollowWithBrowser`, via `WebReaper.Puppeteer`) the
 default is headless — you don't see the browser. Seeing it can help with debugging; disable headless mode
 with `.HeadlessMode(false)`:
 
@@ -288,10 +289,11 @@ with `.HeadlessMode(false)`:
 using WebReaper.Builders;
 using WebReaper.Puppeteer;
 
-var engine = await new ScraperEngineBuilder()
-    .GetWithBrowser("https://www.reddit.com/r/dotnet/", actions => actions
+var engine = await ScraperEngineBuilder
+    .CrawlWithBrowser("https://www.reddit.com/r/dotnet/", actions => actions
         .ScrollToEnd()
         .Build())
+    .Extract(new() { new("title", "._eYtD2XCVieq6emjKBH3m") })
     .HeadlessMode(false)
     .WithPuppeteerPageLoader()
     // ...
@@ -327,15 +329,17 @@ shape with two functions:
 * **StartScraping** builds the scraper configuration, seeds the distributed Outstanding-work latch,
   and enqueues the first job (the start URL) onto the queue (e.g. Azure Service Bus).
 * **WebReaperSpider** is the distributed **Crawl driver**, triggered by each queued job. It gets a
-  bare `ISpider` from `new ScraperEngineBuilder()...BuildSpider()` (load → Crawl step → `JobReport`),
-  then interprets the report: an atomic visited-link test-and-set gates duplicates/redeliveries, a
-  parsed page is fanned out to the sink, discovered child jobs are enqueued back onto the queue, and
-  a distributed Outstanding-work latch detects when all work has drained. It never throws to signal
-  the crawl limit, so the queue is never poisoned (ADR-0022).
+  bare `ISpider` from `new DistributedSpiderBuilder()...BuildSpider()` (load → Crawl step →
+  `JobReport`), then interprets the report: an atomic visited-link test-and-set gates
+  duplicates/redeliveries, a parsed page is fanned out to the sink, discovered child jobs are
+  enqueued back onto the queue, and a distributed Outstanding-work latch detects when all work has
+  drained. It never throws to signal the crawl limit, so the queue is never poisoned (ADR-0022).
 
-`BuildSpider()` (the ADR-0009 distributed-worker seam) returns an `ISpider` without building or
-persisting a `ScraperConfig`, so — unlike `BuildAsync()` — it does not require `Get`/`Parse`; the worker's
-config is persisted separately and read from storage at crawl time. See also
+`DistributedSpiderBuilder.BuildSpider()` (the ADR-0009 distributed-worker seam) returns an `ISpider`
+without building or persisting a `ScraperConfig`; it has no Crawl seed and no `BuildAsync` — the
+worker's config is persisted separately by the start endpoint
+(`ScraperEngineBuilder.Crawl(...).Extract(...).Build()`) and read from storage at crawl time. This is
+the "two seams, not one bug" split (ADR-0025). See also
 `Examples/WebReaper.DistributedScraperWorkerService`.
 
 ### Storage and scheduler backends
@@ -393,16 +397,16 @@ Register it with `AddSink`:
 ```C#
 using WebReaper.Builders;
 
-var engine = await new ScraperEngineBuilder()
-    .AddSink(new ConsoleSink())
-    .Get("https://rutracker.org/forum/index.php?c=33")
-    .Follow("#cf-33 .forumlink>a")
-    .Follow(".forumlink>a")
-    .Paginate("a.torTopic", ".pg")
-    .Parse(new()
+var engine = await ScraperEngineBuilder
+    .Crawl("https://rutracker.org/forum/index.php?c=33")
+    .Extract(new()
     {
         new("name", "#topic-title"),
     })
+    .AddSink(new ConsoleSink())
+    .Follow("#cf-33 .forumlink>a")
+    .Follow(".forumlink>a")
+    .Paginate("a.torTopic", ".pg")
     .BuildAsync();
 ```
 
@@ -422,7 +426,7 @@ For result callbacks without a custom sink, use `.Subscribe(Action<ParsedData>)`
 | `ILinkParser` | Takes HTML and returns the page's links. |
 | `IScraperSink` | A destination for scraping results. Receives `ParsedData` (`Url` + `JsonObject`). |
 | `ICrawlStep` | The crawl-step decision: maps a `Job` + loaded page + `Schema` to a `CrawlOutcome` (parse the page, follow links, or paginate). Swap it to customize crawl-vs-parse behavior. |
-| `ISpider` | The per-Job I/O shell around `ICrawlStep`: loads one page, runs the Crawl step, and returns a `JobReport` — nothing else. The Crawl driver (in-process `ScraperEngine` or the distributed worker) owns the visited-link tracker, the crawl-limit stop, sink fan-out and the callbacks. Obtained from `ScraperEngineBuilder.BuildSpider()`. |
+| `ISpider` | The per-Job I/O shell around `ICrawlStep`: loads one page, runs the Crawl step, and returns a `JobReport` — nothing else. The Crawl driver (in-process `ScraperEngine` or the distributed worker) owns the visited-link tracker, the crawl-limit stop, sink fan-out and the callbacks. Obtained from `DistributedSpiderBuilder.BuildSpider()` (the ADR-0009 reduced shell). |
 | `IOutstandingWorkLatch` | The Crawl driver's termination detector (ADR-0022): a unit-credit counter that trips exactly once when all work is drained. In-memory `Interlocked` adapter (in-process) and a distributed-atomic Redis adapter (`WebReaper.Redis`). |
 
 ### Main entities

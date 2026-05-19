@@ -30,7 +30,8 @@ namespace WebReaper.Builders;
 /// the runtime-component wiring (loaders, parsers, sinks, trackers, cookie
 /// storage). Not public — the registration seam lives only on
 /// <see cref="ScraperEngineBuilder"/>; a bare <see cref="Core.Spider.Abstract.ISpider"/>
-/// is obtained via <see cref="ScraperEngineBuilder.BuildSpider"/>.
+/// is obtained via <see cref="DistributedSpiderBuilder.BuildSpider"/> (the
+/// ADR-0009 reduced shell) or constructed by the engine path internally.
 /// </summary>
 internal class SpiderBuilder
 {

@@ -1,5 +1,62 @@
 # Changelog
 
+## 10.0.0 — A scrape begins with a Crawl seed (breaking)
+
+The builder front door no longer has a runtime trap. Start URLs and a schema
+were a *runtime* `InvalidOperationException` from `ConfigBuilder.Build()` if you
+forgot them, documented only by a `CLAUDE.md` gotcha — the exact
+runtime/implicit failure the project's signature move (ADR-0001, ADR-0022)
+exists to make structurally impossible. ADR-0025 makes it so: a scrape now
+begins with a **Crawl seed**. `ScraperEngineBuilder.Crawl(urls)` /
+`.CrawlWithBrowser(urls)` are *static* and return `ICrawlSeed`; its only member,
+`.Extract(schema)`, returns the configurable `ScraperEngineBuilder`. That
+builder's constructor is `internal`, so the build terminals are unreachable
+without a seed and a schema — "build with no start URLs or no schema" has no
+representation to construct, not a throw to hit. Rationale, the grilled
+alternatives (type-state phantom generics; the multi-param factory; R-narrow),
+the trilemma surfaced at implementation and the two-seam resolution:
+[`docs/adr/0025-staged-builder-entry.md`](docs/adr/0025-staged-builder-entry.md).
+
+### Breaking changes
+
+- **The entry point moved.** `new ScraperEngineBuilder()` (public ctor) +
+  `.Get(...)` / `.GetWithBrowser(...)` + `.Parse(...)` are replaced by the
+  static `ScraperEngineBuilder.Crawl(...)` / `.CrawlWithBrowser(...)` →
+  `ICrawlSeed.Extract(schema)` → the builder. `ScraperEngineBuilder`'s
+  constructor is `internal` (test-only via `InternalsVisibleTo`); `Get`,
+  `GetWithBrowser`, `Parse` are gone.
+- **`ConfigBuilder` is `internal`.** Its sole external use — the distributed
+  start endpoint's `new ConfigBuilder()….Build()` — is absorbed by the seed's
+  gated `ScraperEngineBuilder.Build()` terminal
+  (`Crawl(...).Extract(...).Build()` → `ScraperConfig`). The two
+  `ConfigBuilder.Build()` throws and the `CLAUDE.md` builder-order gotcha are
+  deleted by construction.
+- **The distributed-worker reduced shell is its own type.**
+  `new ScraperEngineBuilder()….BuildSpider()` becomes
+  `new DistributedSpiderBuilder()….BuildSpider()` (ADR-0009). It has a public
+  constructor and no `BuildAsync` — so the structural guarantee is absolute and
+  the worker stays seedless ("two seams, not one bug"). `BuildSpider()` is
+  removed from `ScraperEngineBuilder`; the worker no longer wires the
+  driver-owned visited-link tracker (ADR-0022).
+- **Zero satellite ripple.** Every `this ScraperEngineBuilder` satellite
+  extension is unchanged and works after `.Extract(...)`. Distributed workers
+  wire shared adapters by direct construction (public satellite concretes), as
+  the canonical `AzureFuncs` example already did.
+
+### Migration
+
+`new ScraperEngineBuilder().Get(url)….Parse(schema)….BuildAsync()` →
+`ScraperEngineBuilder.Crawl(url).Extract(schema)….BuildAsync()` — move the
+schema up to `.Extract`, right after the seed; everything else chains unchanged,
+in order, after it. `.GetWithBrowser` → `.CrawlWithBrowser`. The distributed
+start endpoint's `new ConfigBuilder()….Build()` →
+`ScraperEngineBuilder.Crawl(...).Extract(...)….Build()`. The distributed
+worker's `new ScraperEngineBuilder()….BuildSpider()` →
+`new DistributedSpiderBuilder()….BuildSpider()` (drop the now-unneeded
+`.WithLinkTracker(...)` — the driver owns it, ADR-0022). No behavioural change;
+the guardrail (whole-solution build, 94 unit + 27 satellite tests, Native-AOT
+smoke) is green.
+
 ## 9.0.0 — The public surface is the documented contract (breaking)
 
 The core public API is now exactly the contract — no wider, no narrower —

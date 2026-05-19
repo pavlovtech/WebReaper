@@ -7,19 +7,17 @@ using WebReaper.Domain.Selectors;
 namespace WebReaper.Builders;
 
 /// <summary>
-/// Accumulates the crawl definition and produces the immutable
-/// <see cref="ScraperConfig"/> (the build path: <see cref="ScraperEngineBuilder"/>
-/// is a façade over this plus the runtime <c>SpiderBuilder</c>). The
-/// <see cref="Follow"/> / <see cref="Paginate"/> calls build the
-/// <see cref="LinkPathSelector"/> chain that is the crawl's state machine
-/// (ADR-0001): chain length decides parse-vs-follow-vs-paginate. Use this
-/// directly only when you need a <see cref="ScraperConfig"/> without the
-/// engine (e.g. persisting it for the distributed-worker pattern, ADR-0009);
-/// most consumers use the <see cref="ScraperEngineBuilder"/> façade. Fluent —
-/// every method returns the same instance; <see cref="Build"/> validates and
-/// freezes.
+/// Internal collaborator of <see cref="ScraperEngineBuilder"/> (ADR-0025):
+/// accumulates the crawl definition and produces the immutable
+/// <see cref="ScraperConfig"/>. The <see cref="Follow"/> / <see cref="Paginate"/>
+/// calls build the <see cref="LinkPathSelector"/> chain that is the crawl's
+/// state machine (ADR-0001): chain length decides
+/// parse-vs-follow-vs-paginate. Not public — start URLs and the schema are
+/// supplied through the staged <c>Crawl(...).Extract(...)</c> entry, so
+/// <see cref="Build"/> no longer guards against an unset crawl (the guard
+/// became structural). Fluent — every method returns the same instance.
 /// </summary>
-public class ConfigBuilder
+internal class ConfigBuilder
 {
     private readonly List<LinkPathSelector> _linkPathSelectors = new();
 
@@ -188,9 +186,8 @@ public class ConfigBuilder
 
     /// <summary>
     /// The extraction <see cref="Schema"/> applied to target pages (the
-    /// shared fold grammar, ADR-0002). Required: <see cref="Build"/> throws if
-    /// it was never set. (Exposed on the façade as
-    /// <see cref="ScraperEngineBuilder.Parse"/>.)
+    /// shared fold grammar, ADR-0002). Supplied through the staged entry,
+    /// <see cref="ICrawlSeed.Extract"/>.
     /// </summary>
     public ConfigBuilder WithScheme(Schema schema)
     {
@@ -199,23 +196,15 @@ public class ConfigBuilder
     }
 
     /// <summary>
-    /// Validate and produce the immutable <see cref="ScraperConfig"/>. Builder
-    /// order matters — configure before calling this.
+    /// Produce the immutable <see cref="ScraperConfig"/>. Start URLs and a
+    /// schema are present by construction (ADR-0025): the only way here is
+    /// <see cref="ScraperEngineBuilder.Crawl(string[])"/> then
+    /// <see cref="ICrawlSeed.Extract"/>, so the old runtime guards are gone.
     /// </summary>
-    /// <exception cref="InvalidOperationException">no start URLs (neither
-    /// <see cref="Get"/> nor <see cref="GetWithBrowser"/>, or an empty set) or
-    /// no <see cref="Schema"/> (<see cref="WithScheme"/>) was set.</exception>
     public ScraperConfig Build()
     {
-        if (_startUrls is null || !_startUrls.Any())
-            throw new InvalidOperationException(
-                $"Start URLs are missing. You must call the {nameof(Get)} or {nameof(GetWithBrowser)} method with at least one URL");
-        if (_schema is null)
-            throw new InvalidOperationException(
-                $"You must call the {nameof(WithScheme)} method to set the parsing scheme");
-
         return new ScraperConfig(
-            _schema,
+            _schema!,
             ImmutableQueue.Create(_linkPathSelectors.ToArray()),
             _startUrls,
             _blockedUrls,
