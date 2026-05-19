@@ -30,14 +30,9 @@ public class ScrapingWorker : BackgroundService
         var azureSBConnectionString = "";
         var queue = "jobqueue";
 
-        var engine = await new ScraperEngineBuilder()
-            .WithLogger(_logger)
-            .Get("https://rutracker.org/forum/index.php?c=33")
-            .IgnoreUrls(blackList)
-            .Follow("#cf-33 .forumlink>a")
-            .Follow(".forumlink>a")
-            .Paginate("a.torTopic", ".pg")
-            .Parse(new()
+        var engine = await ScraperEngineBuilder
+            .Crawl("https://rutracker.org/forum/index.php?c=33")
+            .Extract(new()
             {
                 new("name", "#topic-title"),
                 new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
@@ -46,6 +41,11 @@ public class ScrapingWorker : BackgroundService
                 new("torrentLink", ".magnet-link", "href"),
                 new("coverImageUrl", ".postImg", "src")
             })
+            .WithLogger(_logger)
+            .IgnoreUrls(blackList)
+            .Follow("#cf-33 .forumlink>a")
+            .Follow(".forumlink>a")
+            .Paginate("a.torTopic", ".pg")
             .TrackVisitedLinksInRedis(redisConnectionString, "rutracker-visited-links")
             .WriteToCosmosDb(
                 "",

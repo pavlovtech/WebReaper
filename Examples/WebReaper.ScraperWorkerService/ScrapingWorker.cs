@@ -26,13 +26,9 @@ public class ScrapingWorker : BackgroundService
             "https://rutracker.org/forum/viewforum.php?f=2321"
         };
 
-        var engine = await new ScraperEngineBuilder()
-            .WithLogger(_logger)
-            .Get("https://rutracker.org/forum/index.php?c=33")
-            .Follow("#cf-33 .forumlink>a")
-            .Follow(".forumlink>a")
-            .Paginate("a.torTopic", ".pg")
-            .Parse(new()
+        var engine = await ScraperEngineBuilder
+            .Crawl("https://rutracker.org/forum/index.php?c=33")
+            .Extract(new()
             {
                 new("name", "#topic-title"),
                 new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
@@ -41,6 +37,10 @@ public class ScrapingWorker : BackgroundService
                 new("torrentLink", ".magnet-link", "href"),
                 new("coverImageUrl", ".postImg", "src")
             })
+            .WithLogger(_logger)
+            .Follow("#cf-33 .forumlink>a")
+            .Follow(".forumlink>a")
+            .Paginate("a.torTopic", ".pg")
             .IgnoreUrls(blackList)
             .PostProcess(ParseTorrentStats)
             .WithRedisScheduler("localhost:6379", "jobs", true)

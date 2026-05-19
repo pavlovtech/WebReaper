@@ -7,7 +7,7 @@ JavaScript-rendered pages.
 Satellite package (ADR-0009): the headless-browser transport is kept out of
 the WebReaper core so the core stays dependency-light and Native-AOT-clean.
 The core is HTTP-only by default; **install this package and call
-`.WithPuppeteerPageLoader()` to scrape Dynamic pages** (`GetWithBrowser` /
+`.WithPuppeteerPageLoader()` to scrape Dynamic pages** (`CrawlWithBrowser` /
 `FollowWithBrowser` / `PaginateWithBrowser`) — without it a Dynamic load
 throws an actionable message. The first Dynamic run downloads Chromium.
 
@@ -27,11 +27,11 @@ Adds `WithPuppeteerPageLoader()` to `ScraperEngineBuilder`:
 using WebReaper.Builders;
 using WebReaper.Puppeteer;
 
-var engine = await new ScraperEngineBuilder()
+var engine = await ScraperEngineBuilder
+    .CrawlWithBrowser("https://example.com/blog")
+    .Extract(new() { new("title", "h1"), new("text", "article") })
     .WithPuppeteerPageLoader()
-    .GetWithBrowser("https://example.com/blog")
     .FollowWithBrowser(".post-link")
-    .Parse(new() { new("title", "h1"), new("text", "article") })
     .BuildAsync();
 
 await engine.RunAsync();
