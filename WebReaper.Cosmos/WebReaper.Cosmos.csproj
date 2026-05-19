@@ -14,7 +14,7 @@
     <NoWarn>$(NoWarn);CS1591</NoWarn>
 
     <PackageId>WebReaper.Cosmos</PackageId>
-    <Version>8.0.0</Version>
+    <Version>9.0.0</Version>
     <Authors>Alex Pavlov</Authors>
     <Company>Alex Pavlov</Company>
     <Product>WebReaper</Product>
@@ -27,7 +27,7 @@
     <PackageTags>scraper, crawler, parser, cosmosdb, azure</PackageTags>
     <PackageIcon>logo.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes>8.0.0: lockstep republish against the core 8.0.0 major (ADR-0022); no functional change to this package. 7.0.0: initial release. Azure Cosmos DB sink (ScraperEngineBuilder.WriteToCosmosDb) extracted from the WebReaper core per ADR-0009 so the core stays dependency-light and Native-AOT-clean (core no longer references Microsoft.Azure.Cosmos). Requires WebReaper 8.0.0.</PackageReleaseNotes>
+    <PackageReleaseNotes>9.0.0: lockstep republish against the core 9.0.0 (ADR-0023: the core public surface is now the documented contract; Tier-2 implementation types internalised). No functional change to this package. 8.0.0: lockstep republish against the core 8.0.0 major (ADR-0022); no functional change to this package. 7.0.0: initial release. Azure Cosmos DB sink (ScraperEngineBuilder.WriteToCosmosDb) extracted from the WebReaper core per ADR-0009 so the core stays dependency-light and Native-AOT-clean (core no longer references Microsoft.Azure.Cosmos). Requires WebReaper 9.0.0.</PackageReleaseNotes>
 
     <!-- ADR 0009: the Cosmos satellite is deliberately NOT IsAotCompatible.
          The Cosmos SDK drags Newtonsoft + native ServiceInterop; CosmosSink is

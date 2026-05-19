@@ -15,11 +15,11 @@
 
     <PackageId>WebReaper.Sqlite</PackageId>
     <!-- Release-time owned (docs/RELEASE-RUNBOOK.md): lockstep with the core
-         8.0.0 major (ADR-0022 release wave) — every package moves to 8.0.0
-         together so the dependency graph is uniform (no core-8 / satellite-7
+         9.0.0 major (ADR-0023 release wave) — every package moves to 9.0.0
+         together so the dependency graph is uniform (no core-9 / satellite-8
          skew). The build does not depend on this value; the release process
          selects by it. -->
-    <Version>8.0.0</Version>
+    <Version>9.0.0</Version>
     <Authors>Alex Pavlov</Authors>
     <Company>Alex Pavlov</Company>
     <Product>WebReaper</Product>
@@ -32,7 +32,7 @@
     <PackageTags>scraper, crawler, parser, sqlite, durable, embedded</PackageTags>
     <PackageIcon>logo.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes>8.0.0: lockstep republish against the core 8.0.0 major (ADR-0022); no functional change to this package. 7.1.0: initial release. SQLite embedded-store local durable scheduler (ScraperEngineBuilder.WithSqliteScheduler) — "resume" is a SELECT WHERE consumed = 0 over an indexed table, replacing FileScheduler's append-only job file + sidecar position file + line-skip cursor (the cursor/job-file desync failure mode is unrepresentable). Same WebReaperJson Job grammar as the core file scheduler and the Redis scheduler (ADR-0008), so the Job round-trips with full type fidelity. New satellite package per ADR-0009 / ADR-0012: the WebReaper core does not reference Microsoft.Data.Sqlite, so the native e_sqlite3 (SQLitePCLRaw) graph stays off the dependency-light, Native-AOT-zero-warning core. The core file scheduler is unchanged and stays the zero-dependency local default; this is the opt-in robust-local tier. Requires WebReaper 8.0.0. The visited-link tracker is the next slice (issue #67).</PackageReleaseNotes>
+    <PackageReleaseNotes>9.0.0: lockstep republish against the core 9.0.0 (ADR-0023: the core public surface is now the documented contract; Tier-2 implementation types internalised). No functional change to this package. 8.0.0: lockstep republish against the core 8.0.0 major (ADR-0022); no functional change to this package. 7.1.0: initial release. SQLite embedded-store local durable scheduler (ScraperEngineBuilder.WithSqliteScheduler) — "resume" is a SELECT WHERE consumed = 0 over an indexed table, replacing FileScheduler's append-only job file + sidecar position file + line-skip cursor (the cursor/job-file desync failure mode is unrepresentable). Same WebReaperJson Job grammar as the core file scheduler and the Redis scheduler (ADR-0008), so the Job round-trips with full type fidelity. New satellite package per ADR-0009 / ADR-0012: the WebReaper core does not reference Microsoft.Data.Sqlite, so the native e_sqlite3 (SQLitePCLRaw) graph stays off the dependency-light, Native-AOT-zero-warning core. The core file scheduler is unchanged and stays the zero-dependency local default; this is the opt-in robust-local tier. Requires WebReaper 9.0.0. The visited-link tracker is the next slice (issue #67).</PackageReleaseNotes>
 
     <!-- ADR-0009 / ADR-0012: the Sqlite satellite is deliberately NOT
          IsAotCompatible. Microsoft.Data.Sqlite is a managed wrapper over a
