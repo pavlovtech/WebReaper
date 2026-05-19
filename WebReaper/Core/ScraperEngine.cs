@@ -10,9 +10,10 @@ using WebReaper.Core.Scheduler.Abstract;
 using WebReaper.Core.Spider.Abstract;
 using WebReaper.Domain;
 using WebReaper.Extensions;
+using WebReaper.Infra.Abstract;
+using WebReaper.Infra.Concrete;
 using WebReaper.Sinks.Abstract;
 using WebReaper.Sinks.Models;
-using static WebReaper.Infra.Executor;
 
 namespace WebReaper.Core;
 
@@ -50,7 +51,8 @@ public class ScraperEngine
         ILogger logger,
         Action<ParsedData>? scrapedData = null,
         Func<Metadata, JsonObject, Task>? postProcessor = null,
-        IOutstandingWorkLatch? latch = null)
+        IOutstandingWorkLatch? latch = null,
+        IRetryPolicy? retryPolicy = null)
     {
         ParallelismDegree = parallelismDegree;
         ArgumentNullException.ThrowIfNull(configStorage);
@@ -65,6 +67,11 @@ public class ScraperEngine
         ScrapedData = scrapedData;
         PostProcessor = postProcessor;
         Latch = latch ?? new InMemoryOutstandingWorkLatch();
+        // ADR-0026: the Crawl driver's retry around the per-Job Spider call
+        // is now a named seam; default is the fixed-attempts core adapter
+        // (one initial + three retries, pre-0026 behaviour minus the
+        // cancellation-swallow bug).
+        RetryPolicy = retryPolicy ?? new FixedAttemptsRetryPolicy();
     }
 
     private IScraperConfigStorage ConfigStorage { get; }
@@ -76,6 +83,7 @@ public class ScraperEngine
     private Action<ParsedData>? ScrapedData { get; }
     private Func<Metadata, JsonObject, Task>? PostProcessor { get; }
     private IOutstandingWorkLatch Latch { get; }
+    private IRetryPolicy RetryPolicy { get; }
 
     private int ParallelismDegree { get; }
 
@@ -163,7 +171,8 @@ public class ScraperEngine
                 }
                 else
                 {
-                    var report = await RetryAsync(() => Spider.CrawlAsync(job, cancellationToken));
+                    var report = await RetryPolicy.ExecuteAsync(
+                        token => Spider.CrawlAsync(job, token), cancellationToken);
 
                     if (report.Outcome is CrawlOutcome.Parsed parsed)
                     {

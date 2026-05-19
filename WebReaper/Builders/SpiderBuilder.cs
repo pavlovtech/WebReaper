@@ -16,6 +16,8 @@ using WebReaper.Core.Crawling.Concrete;
 using WebReaper.Core.Spider.Abstract;
 using WebReaper.Core.Spider.Concrete;
 using WebReaper.Domain;
+using WebReaper.Infra.Abstract;
+using WebReaper.Infra.Concrete;
 using WebReaper.Proxy;
 using WebReaper.Proxy.Abstract;
 using WebReaper.Proxy.Concrete;
@@ -60,6 +62,12 @@ internal class SpiderBuilder
     private ICookiesStorage CookieStorage { get; set; } = new InMemoryCookieStorage();
 
     private Action<ParsedData>? ScrapedData { get; set; }
+
+    // ADR-0026: the Crawl driver's retry around the per-Job Spider call is a
+    // named seam. Default is the internal fixed-attempts adapter (one initial
+    // + three retries, the pre-0026 behaviour). Replaced via
+    // ScraperEngineBuilder.WithRetryPolicy.
+    private IRetryPolicy RetryPolicy { get; set; } = new FixedAttemptsRetryPolicy();
 
     public SpiderBuilder WithContentParser(IJsonContentParser contentParser)
     {
@@ -218,6 +226,13 @@ internal class SpiderBuilder
         return this;
     }
 
+    public SpiderBuilder WithRetryPolicy(IRetryPolicy retryPolicy)
+    {
+        ArgumentNullException.ThrowIfNull(retryPolicy);
+        RetryPolicy = retryPolicy;
+        return this;
+    }
+
     public void PostProcess(Func<Metadata, JsonObject, Task> callback)
     {
         PostProcessor = callback;
@@ -231,6 +246,8 @@ internal class SpiderBuilder
     internal IVisitedLinkTracker DriverLinkTracker => SiteLinkTracker;
     internal Action<ParsedData>? DriverScrapedData => ScrapedData;
     internal Func<Metadata, JsonObject, Task>? DriverPostProcessor => PostProcessor;
+    // ADR-0026.
+    internal IRetryPolicy DriverRetryPolicy => RetryPolicy;
 
     public ISpider Build()
     {

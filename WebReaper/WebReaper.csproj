@@ -71,7 +71,13 @@
     <PackageReference Include="AngleSharp" Version="1.4.0" />
     <PackageReference Include="AngleSharp.XPath" Version="2.0.6" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.8" />
-    <PackageReference Include="Polly" Version="8.6.6" />
+    <!-- ADR-0026: Polly was used solely for Infra.Executor's 14-line static
+         retry wrapper around the per-Job Spider call. Replaced by the
+         IRetryPolicy seam + the hand-rolled FixedAttemptsRetryPolicy default
+         (cancellation-aware, AOT-friendly, zero new transitives), so the
+         dependency leaves core. Consumers who want Polly's resilience
+         pipeline bring it in their own project and wrap it in an
+         IRetryPolicy adapter behind .WithRetryPolicy(). -->
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.8" />
   </ItemGroup>
 
