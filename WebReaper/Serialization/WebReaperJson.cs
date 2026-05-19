@@ -47,16 +47,30 @@ public static class WebReaperJson
     // registered converters into the generated metadata (spike-proven).
     private static JsonTypeInfo<T> Info<T>() => (JsonTypeInfo<T>)Options.GetTypeInfo(typeof(T));
 
+    /// <summary>Serialise a <see cref="ScraperConfig"/> to the WebReaper JSON
+    /// grammar — what <c>IScraperConfigStorage</c> persists so an in-process
+    /// or distributed worker reads identical settings.</summary>
     public static string SerializeConfig(ScraperConfig config)
         => JsonSerializer.Serialize(config, Info<ScraperConfig>());
 
+    /// <summary>Parse a <see cref="ScraperConfig"/> from the WebReaper JSON
+    /// grammar.</summary>
+    /// <exception cref="JsonException">the payload deserialised to
+    /// null.</exception>
     public static ScraperConfig DeserializeConfig(string json)
         => JsonSerializer.Deserialize(json, Info<ScraperConfig>())
            ?? throw new JsonException("ScraperConfig deserialised to null");
 
+    /// <summary>Serialise a <see cref="Job"/> to the WebReaper JSON grammar —
+    /// the wire form the distributed schedulers (Redis / Azure Service Bus /
+    /// SQLite) enqueue and replay (ADR-0008).</summary>
     public static string SerializeJob(Job job)
         => JsonSerializer.Serialize(job, Info<Job>());
 
+    /// <summary>Parse a <see cref="Job"/> from the WebReaper JSON
+    /// grammar.</summary>
+    /// <exception cref="JsonException">the payload deserialised to
+    /// null.</exception>
     public static Job DeserializeJob(string json)
         => JsonSerializer.Deserialize(json, Info<Job>())
            ?? throw new JsonException("Job deserialised to null");

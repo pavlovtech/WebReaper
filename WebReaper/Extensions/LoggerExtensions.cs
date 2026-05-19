@@ -5,8 +5,18 @@ using Microsoft.Extensions.Logging;
 
 namespace WebReaper.Extensions;
 
+/// <summary>
+/// Diagnostic <see cref="ILogger"/> extensions used across WebReaper and the
+/// satellites (e.g. the WebReaper.Puppeteer transport times its page loads
+/// with <see cref="LogMethodDuration"/>).
+/// </summary>
 public static class LoggerExtensions
 {
+    /// <summary>
+    /// Time the calling method: returns an <see cref="IDisposable"/> that, when
+    /// disposed, logs the elapsed milliseconds. Use with
+    /// <c>using var _ = logger.LogMethodDuration();</c>.
+    /// </summary>
     public static IDisposable LogMethodDuration(
         this ILogger logger,
         [CallerMemberName] string callerName = "")
@@ -14,6 +24,10 @@ public static class LoggerExtensions
         return new Timer(logger, callerName);
     }
 
+    /// <summary>
+    /// Log how many times the calling method has been invoked (a process-wide
+    /// counter keyed by caller name) — a lightweight call-frequency probe.
+    /// </summary>
     public static void LogInvocationCount(
         this ILogger logger,
         [CallerMemberName] string callerName = "")
