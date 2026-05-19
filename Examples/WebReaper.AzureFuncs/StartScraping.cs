@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using WebReaper.ConfigStorage;
@@ -11,6 +12,7 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using WebReaper.Builders;
+using WebReaper.Core.Crawling.Abstract;
 using WebReaper.Domain;
 using WebReaper.Domain.Parsing;
 using WebReaper.Core;
@@ -22,11 +24,13 @@ namespace WebReaper.AzureFuncs
     {
         private readonly IScraperConfigStorage _configStorage;
         private readonly ILogger<StartScraping> _logger;
+        private readonly IOutstandingWorkLatch _latch;
         private readonly AzureServiceBusScheduler _scheduler;
 
-        public StartScraping(IScraperConfigStorage configStorage, ILogger<StartScraping> log)
+        public StartScraping(IScraperConfigStorage configStorage, IOutstandingWorkLatch latch, ILogger<StartScraping> log)
         {
             _configStorage = configStorage;
+            _latch = latch;
             _logger = log;
             _scheduler = new AzureServiceBusScheduler("", "jobqueue"); //TODO: move to config
         }
@@ -77,7 +81,15 @@ namespace WebReaper.AzureFuncs
 
         private async Task ScheduleFirstJobsWithStartUrls(ScraperConfig config)
         {
-            foreach (var url in config.StartUrls)
+            var urls = config.StartUrls.ToList();
+
+            // ADR-0022 slice 4: seed one unit of Outstanding-work-latch credit
+            // per start Job BEFORE any is enqueued, so a fast worker cannot
+            // drive the distributed counter to zero before seeding finishes
+            // (credit conservation).
+            await _latch.SeedAsync(urls.Count);
+
+            foreach (var url in urls)
             {
                 await _scheduler.AddAsync(
                     new Job(url, config.LinkPathSelectors,

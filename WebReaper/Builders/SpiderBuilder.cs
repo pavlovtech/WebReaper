@@ -58,7 +58,7 @@ internal class SpiderBuilder
 
     private ICookiesStorage CookieStorage { get; set; } = new InMemoryCookieStorage();
 
-    protected event Action<ParsedData> ScrapedData;
+    private Action<ParsedData>? ScrapedData { get; set; }
 
     public SpiderBuilder WithContentParser(IJsonContentParser contentParser)
     {
@@ -222,6 +222,15 @@ internal class SpiderBuilder
         PostProcessor = callback;
     }
 
+    // ADR-0022: the Crawl driver (ScraperEngine) owns these now — the reduced
+    // Spider shell no longer fans out to Sinks, tracks links, or fires the
+    // PostProcessor / ScrapedData notification. ScraperEngineBuilder reads
+    // them to construct the driver.
+    internal List<IScraperSink> DriverSinks => Sinks;
+    internal IVisitedLinkTracker DriverLinkTracker => SiteLinkTracker;
+    internal Action<ParsedData>? DriverScrapedData => ScrapedData;
+    internal Func<Metadata, JsonObject, Task>? DriverPostProcessor => PostProcessor;
+
     public ISpider Build()
     {
         // default implementations
@@ -245,15 +254,9 @@ internal class SpiderBuilder
         var crawlStep = new CrawlStep(LinkParser, ContentParser);
 
         var spider = new Spider(
-            Sinks,
             crawlStep,
-            SiteLinkTracker,
             PageLoader,
-            ScraperConfigStorage,
-            Logger);
-
-        spider.ScrapedData += ScrapedData;
-        spider.PostProcessor += PostProcessor;
+            ScraperConfigStorage);
 
         return spider;
     }

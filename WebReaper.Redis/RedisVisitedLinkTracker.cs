@@ -37,6 +37,16 @@ public class RedisVisitedLinkTracker : IVisitedLinkTracker
         await db.SetAddAsync(_redisKey, visitedLink);
     }
 
+    // ADR-0022 slice 3: the distributed idempotency authority. Redis SADD is
+    // atomic and returns true iff the member was newly added — an exact
+    // test-and-set, no Lua needed. Overrides the seam's non-atomic
+    // check-then-add default so a redelivered/duplicate Job loses the race
+    // and the Outstanding-work latch stays balanced across workers.
+    public async Task<bool> TryAddVisitedLinkAsync(string visitedLink)
+    {
+        return await _db.SetAddAsync(_redisKey, visitedLink);
+    }
+
     public async Task<List<string>> GetVisitedLinksAsync()
     {
         var db = _db;
