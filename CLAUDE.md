@@ -29,11 +29,11 @@ All projects target **net10.0**; `global.json` pins SDK `10.0.100` (`rollForward
 
 Fluent builder → immutable config + pluggable spider → parallel job loop.
 
-**Build path:** `ScraperEngineBuilder` is a façade over two builders:
-- `ConfigBuilder` → produces immutable `ScraperConfig` (start URLs, the `LinkPathSelector` chain, crawl limit, headless flag).
-- `SpiderBuilder` → wires the runtime components (loaders, parsers, sinks, trackers, cookie storage), all with in-memory defaults.
+**Build path (ADR-0025):** a scrape begins with a **Crawl seed**. `ScraperEngineBuilder.Crawl(urls)` / `.CrawlWithBrowser(urls)` are **static** → return `ICrawlSeed`; `.Extract(schema)` → the `ScraperEngineBuilder`. That builder's constructor is `internal` (test-only via `InternalsVisibleTo`), so it is unreachable without the seed — "build with no start URLs or no schema" is structurally impossible, not a runtime throw. It composes two internal builders:
+- `ConfigBuilder` (internal) → immutable `ScraperConfig` (start URLs, the `LinkPathSelector` chain, crawl limit, headless flag).
+- `SpiderBuilder` (internal) → runtime components (loaders, parsers, sinks, trackers, cookie storage), all with in-memory defaults.
 
-`BuildAsync()` builds the config, persists it to `IScraperConfigStorage`, constructs a `Spider`, and returns a `ScraperEngine`.
+Terminate with `BuildAsync()` (persists the config to `IScraperConfigStorage`, constructs a `Spider`, returns a `ScraperEngine`) or `Build()` (just the `ScraperConfig`, for a distributed start endpoint to persist). The ADR-0009 distributed-worker reduced shell is a **separate public seam**: `DistributedSpiderBuilder` (seedless, no `BuildAsync`; `.BuildSpider()` → `ISpider`) — "two seams, not one bug".
 
 **Run path (ADR-0022):** `ScraperEngine` *is* the in-process **Crawl driver**. `RunAsync` seeds the `IScheduler` with one `Job` per start URL, then drives `Parallel.ForEachAsync` over `Scheduler.GetAllAsync()` (an async stream). Each job → `Spider.CrawlAsync` (wrapped in `Infra.Executor.RetryAsync`, Polly-backed) returns a closed `JobReport`; the driver interprets it — applies the visited-link idempotency authority (atomic test-and-set), fans `ParsedData` to the sinks, fires the `Subscribe`/`PostProcess` callbacks, enqueues child jobs, drives the **Outstanding-work latch**. Termination is a *value*, never an exception: the soft page-limit is a check the driver makes (it calls `Scheduler.Complete()`) — `PageCrawlLimitException` was removed in 8.0.0. Authoritative: `docs/adr/0022-crawl-driver-and-outstanding-work-latch.md`.
 
@@ -63,5 +63,4 @@ Namespace mirrors folder path throughout (`WebReaper.Core.Spider.Concrete` = `We
 
 - `WriteToJsonFile` defaults `dataCleanupOnStart: true` (wipes the file on start) — opposite of the other sinks, which default `false`.
 - The "JSON" sink writes **JSON Lines** (`JsonLinesFileSink`), one object per line, not a JSON array.
-- `ConfigBuilder.Build()` throws if `Get`/`GetWithBrowser` or `Parse` was never called — builder order matters.
 - First dynamic-page run downloads Chromium via Puppeteer.

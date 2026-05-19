@@ -1,15 +1,15 @@
 ﻿using WebReaper.Builders;
 using WebReaper.Puppeteer;
 
-var engine = await new ScraperEngineBuilder()
-    .WithPuppeteerPageLoader()
-    .GetWithBrowser("https://www.alexpavlov.dev/blog")
-    .FollowWithBrowser(".text-gray-900.transition")
-    .Parse(new()
+var engine = await ScraperEngineBuilder
+    .CrawlWithBrowser("https://www.alexpavlov.dev/blog")
+    .Extract(new()
     {
         new("title", ".text-3xl.font-bold"),
         new("text", ".max-w-max.prose.prose-dark")
     })
+    .WithPuppeteerPageLoader()
+    .FollowWithBrowser(".text-gray-900.transition")
     .WriteToJsonFile("output.json")
     .PageCrawlLimit(10)
     .WithParallelismDegree(30)

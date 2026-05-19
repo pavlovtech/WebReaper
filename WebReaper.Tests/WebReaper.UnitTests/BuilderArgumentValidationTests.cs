@@ -12,23 +12,17 @@ namespace WebReaper.UnitTests;
 // throw.
 public class BuilderArgumentValidationTests
 {
+    // ADR-0025: "build with no start URLs or no schema" is now unrepresentable
+    // — the only path to a builder that can Build()/BuildAsync() is the static
+    // Crawl(...).Extract(...) seed (ScraperEngineBuilder's ctor is internal).
+    // The old InvalidOperationException guards in ConfigBuilder.Build are gone,
+    // deleted by construction (the whole solution compiling on the seed entry
+    // is the test). What remains is fail-fast on an *empty* seed.
     [Fact]
-    public void Build_without_start_urls_reports_them_in_the_plural()
+    public void Crawl_with_no_start_url_is_rejected()
     {
-        var ex = Assert.Throws<InvalidOperationException>(
-            () => new ConfigBuilder().Build());
-
-        // The method takes params string[]; the message must not say "Url is".
-        Assert.Contains("Start URLs", ex.Message);
-    }
-
-    [Fact]
-    public void Build_with_an_empty_start_url_set_is_rejected()
-    {
-        // Get() with zero URLs previously built a config that crawled nothing.
-        // (The start-URL check runs before the schema check in Build().)
-        Assert.Throws<InvalidOperationException>(
-            () => new ConfigBuilder().Get().Build());
+        Assert.Throws<ArgumentException>(() => ScraperEngineBuilder.Crawl());
+        Assert.Throws<ArgumentException>(() => ScraperEngineBuilder.CrawlWithBrowser());
     }
 
     [Theory]

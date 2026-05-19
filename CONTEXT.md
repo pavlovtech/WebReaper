@@ -10,6 +10,10 @@ The domain language of WebReaper — a declarative, parallel web crawler. This f
 One end-to-end run of the scraper over a site, seeded from the configured start URLs.
 _Avoid_: scrape, scan, session.
 
+**Crawl seed**:
+The start URL(s) and page mode you hold *before* a builder exists — produced by the static `ScraperEngineBuilder.Crawl(...)` / `CrawlWithBrowser(...)`, awaiting a Schema. Its only operation is `Extract(schema)`, which yields the configurable builder; the build terminals live only there, so "build with no start URLs or no schema" is unrepresentable rather than a runtime throw (see `docs/adr/0025-staged-builder-entry.md`).
+_Avoid_: builder, config, prerequisites, start set.
+
 **Job**:
 A single URL to visit, plus the remaining selector chain and its parent backlinks; the unit the scheduler queues and a worker consumes.
 _Avoid_: task, work item, request.
@@ -53,6 +57,10 @@ _Avoid_: engine, runner, orchestrator, coordinator, master.
 **Spider**:
 The per-Job I/O shell: load one Job's page, run the Crawl step, return a Job report — nothing else. It does NOT own the Visited-link tracker, the crawl-limit stop, Sink fan-out, or the callbacks; those are the Crawl driver's. The ADR 0001 posture one layer up: the shell *reports* what happened, the driver *decides* what to do.
 _Avoid_: crawler, worker, handler, the spider that fans out.
+
+**Distributed spider builder**:
+The ADR-0009 reduced shell — `DistributedSpiderBuilder`, the seedless public seam a distributed worker uses to build its Spider. Config-agnostic by construction: no Crawl seed, no `BuildAsync`, no crawl-shape — the worker's `ScraperConfig` is authored and persisted by the start endpoint and read from shared storage at crawl time. A separate type from the engine builder on purpose ("two seams, not one bug"); shared adapters are wired by hand via public satellite concretes / DI (see `docs/adr/0025-staged-builder-entry.md`).
+_Avoid_: spider builder (unqualified), worker, the engine builder, ScraperEngineBuilder.
 
 **Job report**:
 The closed value `Spider.CrawlAsync` returns: the optional ParsedData to emit (present iff a Target page), the discovered child Jobs (unfiltered — dedup is the driver's), and the accounting facts the Outstanding-work latch needs (this Job's identity, its child count). It *wraps* the Crawl step's Crawl outcome with emission and accounting facts; it does not replace or extend the closed `CrawlOutcome` sum (ADR 0001 stands). Termination is a field here, never a thrown exception.

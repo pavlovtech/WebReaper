@@ -52,12 +52,9 @@ namespace WebReaper.AzureFuncs
                 "https://rutracker.org/forum/viewforum.php?f=2321"
             };
             
-            var config = new ConfigBuilder()
-                .Get("https://rutracker.org/forum/index.php?c=33")
-                .Follow("#cf-33 .forumlink>a")
-                .Follow(".forumlink>a")
-                .Paginate("a.torTopic", ".pg")
-                .WithScheme(new()
+            var config = ScraperEngineBuilder
+                .Crawl("https://rutracker.org/forum/index.php?c=33")
+                .Extract(new()
                 {
                         new("name", "#topic-title"),
                         new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
@@ -66,6 +63,9 @@ namespace WebReaper.AzureFuncs
                         new("torrentLink", ".magnet-link", "href"),
                         new("coverImageUrl", ".postImg", "src")
                 })
+                .Follow("#cf-33 .forumlink>a")
+                .Follow(".forumlink>a")
+                .Paginate("a.torTopic", ".pg")
                 .IgnoreUrls(blackList)
                 .Build();
 
