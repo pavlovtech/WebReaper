@@ -10,11 +10,14 @@ namespace WebReaper.Exceptions;
 /// </summary>
 public class ConfigNotFoundException : Exception
 {
+    /// <summary>The config was absent for storage key
+    /// <paramref name="key"/>.</summary>
     public ConfigNotFoundException(string key)
         : base($"No scraper config found for key '{key}'. CreateConfigAsync must run before GetConfigAsync.")
     {
         Key = key;
     }
 
+    /// <summary>The storage key that had no persisted config.</summary>
     public string Key { get; init; }
 }

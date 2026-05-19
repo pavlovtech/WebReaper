@@ -49,3 +49,16 @@ dotnet_diagnostic.CS1591.severity = error
 
 [WebReaper/Core/LinkTracker/Concrete/InMemoryVisitedLinkTracker.cs]
 dotnet_diagnostic.CS1591.severity = error
+
+# Slice 4 — the cross-assembly Job/Config grammar + public exceptions.
+# WebReaperJson is file-scoped (the Serialization/ converters + source-gen
+# context are Tier-2, internalised in Slice 5). Extensions/ is deliberately
+# NOT ratcheted here: LoggerExtensions is Tier-1 and documented, but its
+# file-siblings Timer/Counter are Tier-2 (incidental-public, returned as
+# IDisposable / named by nobody) and keep that path non-zero until Slice 5
+# internalises them — a path ratchets only once it reaches zero.
+[WebReaper/Serialization/WebReaperJson.cs]
+dotnet_diagnostic.CS1591.severity = error
+
+[WebReaper/Exceptions/*.cs]
+dotnet_diagnostic.CS1591.severity = error
