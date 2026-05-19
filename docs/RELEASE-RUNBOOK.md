@@ -9,9 +9,11 @@ ADR-0009 satellites.
 annotated tag `v<VERSION>` on the merged ship commit (or run the workflow
 manually with `dry_run` to rehearse). The workflow then:
 
-- selects exactly the packages whose `.csproj <Version>` equals `<VERSION>`
-  (see *Package set* below), builds Release, runs the full guardrail and
-  packs — all reversible;
+- selects exactly the packages whose **effective** `Version` equals
+  `<VERSION>` (`dotnet msbuild -getProperty:Version` — resolves the single
+  `Directory.Build.props` value plus any per-project override; see *Package
+  set* below), builds Release, runs the full guardrail and packs — all
+  reversible;
 - **pauses on the `nuget-release` Environment for a required-reviewer
   approval** — this is the Phase 2 HARD STOP, preserved as a one-click gate
   before anything irreversible;
@@ -40,18 +42,29 @@ workflow ports** and the **manual fallback** if CI is unavailable.
 | `WebReaper.Puppeteer` | satellite |
 | `WebReaper.Sqlite` | satellite (added after the 7.0.0 wave) |
 
-A release publishes exactly the candidates whose `.csproj <Version>` equals
-`<VERSION>` — **not** an unconditional all-seven push. A lockstep bump (all
-at one version) publishes all of them; an **additive single-satellite**
-release (e.g. `WebReaper.Sqlite` `7.1.0` while the six stay `7.0.0`, its
-dependency on the already-published `WebReaper 7.0.0`) publishes just that
-one. Both are first-class; the workflow's selection step and the manual
-phases below both follow this rule.
+The version lives in **one** place — `<Version>` in the root
+`Directory.Build.props`, inherited by all seven projects. A **lockstep**
+release (the norm: ADR-0022's 8.0.0 wave, ADR-0023's 9.0.0 wave) is that one
+line bumped once — structural, so core/satellite skew is unrepresentable
+(it twice got stranded as a separate prep PR, #75 / #77, when it was seven
+hand-edited lines). An **additive single-satellite** release (e.g.
+`WebReaper.Sqlite` `7.1.0` while the six stay `7.0.0`, depending on the
+already-published `WebReaper 7.0.0`) is that satellite's `.csproj`
+overriding `<Version>` locally — a project property wins over the import,
+making the divergence explicit and visible.
 
-Replace `<VERSION>` below with the release version (e.g. `7.1.0`) and
-`<SHA>` with the merged commit that ships. The packages that ship are those
-whose `.csproj <Version>` already equals `<VERSION>` on that commit — the
-runbook does not edit versions.
+A release publishes exactly the candidates whose **effective** `Version`
+equals `<VERSION>` (`dotnet msbuild -getProperty:Version`, resolving the
+import + any override — **not** a csproj text grep) — **not** an
+unconditional all-seven push. Both modes are first-class; the workflow's
+selection step and the manual phases below both follow this rule.
+
+Replace `<VERSION>` below with the release version and `<SHA>` with the
+merged commit that ships. The runbook/workflow still does not *edit*
+versions: the single `Directory.Build.props` `<Version>` is bumped once in
+the shipping PR before the tag. Eliminating even that one manual bump
+(deriving the version from the git tag) is the considered next step —
+`docs/adr/0024-tag-derived-version.md` (proposed).
 
 > **Phases 0–2 are reversible. Phase 3 is the point of no return.** nuget.org
 > has no hard delete (see [Rollback reality](#rollback-reality)). Phase 2's
