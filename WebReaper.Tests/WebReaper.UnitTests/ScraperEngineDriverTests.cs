@@ -72,9 +72,10 @@ public class ScraperEngineDriverTests
     {
         // PageCrawlLimit 0: the driver's limit gate trips before the first
         // crawl. Pre-ADR-0022 this was a PageCrawlLimitException thrown from
-        // the shell and run through Executor's 3x retry; now it is a value the
-        // driver checks and the run ends cleanly (WaitAsync would surface a
-        // throw or a hang as a failure).
+        // the shell and run through the Crawl driver's 3x retry (the retry
+        // is now a named IRetryPolicy seam, ADR-0026); now the limit is a
+        // value the driver checks and the run ends cleanly (WaitAsync would
+        // surface a throw or a hang as a failure).
         var spider = new ScriptedSpider(_ => Followed());
         var engine = new ScraperEngine(
             parallelismDegree: 4,
