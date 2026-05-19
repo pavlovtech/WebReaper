@@ -78,17 +78,42 @@ namespace WebReaper.UnitTests
         }
 
         [Fact]
-        public async Task ListSchemaWithoutSelectorThrows()
+        public void ConstructingALeafListWithoutASelectorThrowsAtTheAddSite()
         {
-            var schema = new Schema
+            // ADR-0028: the empty-selector leaf-list used to be swallowed by
+            // the fold's per-leaf catch — field left silently unset. Now the
+            // Add validation fast-fails at construction, the exact line the
+            // user wrote the bad element.
+            var ex = Assert.Throws<ArgumentException>(() => new Schema
             {
                 new SchemaElement("names", selector: "") { IsList = true }
-            };
+            });
 
-            // Thrown inside FillOutput's try for leaf elements -> logged,
-            // field left unset rather than crashing the whole parse.
-            var result = await Parser().ParseToJsonAsync(ListingsHtml, schema);
-            Assert.Null(result["names"]);
+            Assert.Contains("Leaf 'names' must have a non-empty Selector", ex.Message);
+        }
+
+        [Fact]
+        public void ConstructingAnObjectListWithoutASelectorAlsoThrowsAtTheAddSite()
+        {
+            // ADR-0028: the same fast-fail for object-lists. Previously this
+            // path was *more* dangerous — the fold's container branch was
+            // unguarded by the per-leaf catch, so a missing Selector aborted
+            // the whole parse mid-flight. Construction-time validation makes
+            // the two arms uniform.
+            var ex = Assert.Throws<ArgumentException>(() => new Schema
+            {
+                new Schema("listings")
+                {
+                    IsList = true,
+                    Children =
+                    {
+                        new SchemaElement("name", ".name")
+                    }
+                    // Selector deliberately omitted.
+                }
+            });
+
+            Assert.Contains("List container 'listings'", ex.Message);
         }
     }
 }
