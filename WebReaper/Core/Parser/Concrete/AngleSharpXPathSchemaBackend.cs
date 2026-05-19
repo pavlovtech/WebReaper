@@ -46,21 +46,14 @@ internal sealed class AngleSharpXPathSchemaBackend : ISchemaBackend<IParentNode>
     public IParentNode? SelectOne(IParentNode scope, string selector)
         => ContextElement(scope)?.SelectSingleNode(selector) as IElement;
 
+    // ADR-0027: the shared AngleSharp-DOM markup-leaf grammar lives in
+    // AngleSharpRawExtractor. No quirks here (ADR-0007: the CSS backend's
+    // src→title rewrite is quarantined in the CSS backend itself, not on
+    // the seam, so this backend returns the attribute asked for —
+    // pinned by XPathParsingTests'
+    // Attribute_extraction_returns_the_requested_attribute_no_src_to_title_rewrite).
     public object? ExtractRaw(IParentNode node, SchemaElement element)
-    {
-        var el = (IElement)node;
-
-        string? content;
-
-        if (element.Attr is not null)
-            content = el.GetAttribute(element.Attr);
-        else if (element.GetHtml == false)
-            content = el.Text();
-        else
-            content = el.InnerHtml;
-
-        return content ?? string.Empty;
-    }
+        => AngleSharpRawExtractor.ExtractRaw((IElement)node, element);
 
     // IParentNode is the IDocument at the top level and a matched IElement
     // when recursing; AngleSharp.XPath's extensions hang off IElement, so the
