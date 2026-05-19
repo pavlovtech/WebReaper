@@ -74,6 +74,11 @@ public class SchemaContentParser<TNode> : IJsonContentParser where TNode : class
     // objects (issue #28).
     private void FillOutput(JsonObject result, TNode scope, SchemaElement item)
     {
+        // ADR-0028 invariant: Schema.Add enforces non-empty Field on every
+        // child at the construction site. This guard catches the one
+        // pathological path left — mutation of a SchemaElement's Field
+        // *after* it was added (records here are { get; set; }, not init-only).
+        // Pinned for clarity rather than primary defence.
         if (item.Field is null) throw new InvalidOperationException("Schema is invalid");
 
         if (item is Schema container)
@@ -157,6 +162,12 @@ public class SchemaContentParser<TNode> : IJsonContentParser where TNode : class
         return Coerce(item.Type, _backend.ExtractRaw(node, item));
     }
 
+    // ADR-0028 invariant: Schema.Add enforces non-empty Selector on every
+    // child that needs one (every leaf, every list container). This guard
+    // catches mutation-after-Add only — kept as belt-and-suspenders, not
+    // primary defence. (A non-list nested Schema is exempt by Add's design
+    // and never reaches RequireSelector — the fold's IsList=false container
+    // branch nests output without touching the container's own Selector.)
     private static string RequireSelector(SchemaElement item)
     {
         if (string.IsNullOrEmpty(item.Selector))
