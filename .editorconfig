@@ -14,3 +14,9 @@ root = true
 # surface; the offline test surface).
 [WebReaper/**/Abstract/*.cs]
 dotnet_diagnostic.CS1591.severity = error
+
+# Slice 2 — the fluent builder API (the README's front door:
+# ScraperEngineBuilder facade + ConfigBuilder + PageActionBuilder;
+# SpiderBuilder is internal, off-surface).
+[WebReaper/Builders/*.cs]
+dotnet_diagnostic.CS1591.severity = error
