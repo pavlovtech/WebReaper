@@ -17,6 +17,8 @@ public sealed class HttpProxyValidator : IProxyValidator
 {
     private readonly Uri _testUrl;
 
+    /// <summary>Validate proxies by fetching <paramref name="testUrl"/>
+    /// through each one.</summary>
     /// <param name="testUrl">
     /// URL fetched through the proxy. Default is Google's connectivity
     /// endpoint, which returns an empty 204 quickly.
@@ -24,6 +26,7 @@ public sealed class HttpProxyValidator : IProxyValidator
     public HttpProxyValidator(string testUrl = "http://www.gstatic.com/generate_204")
         => _testUrl = new Uri(testUrl);
 
+    /// <inheritdoc/>
     public async Task<bool> IsValidAsync(WebProxy proxy, CancellationToken cancellationToken = default)
     {
         try

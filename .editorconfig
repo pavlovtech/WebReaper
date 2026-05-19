@@ -62,3 +62,16 @@ dotnet_diagnostic.CS1591.severity = error
 
 [WebReaper/Exceptions/*.cs]
 dotnet_diagnostic.CS1591.severity = error
+
+# Slice 5a — the last Tier-1 the deletion test pulled back from "looks like
+# Tier-2": ScraperEngine (the runtime object BuildAsync returns) and the only
+# built-in IProxySource / IProxyValidator the public WithValidatedProxies seam
+# takes. File-scoped — their dirs still hold Tier-2 until Slice 5b.
+[WebReaper/Core/ScraperEngine.cs]
+dotnet_diagnostic.CS1591.severity = error
+
+[WebReaper/Proxy/Concrete/StaticProxySource.cs]
+dotnet_diagnostic.CS1591.severity = error
+
+[WebReaper/Proxy/Concrete/HttpProxyValidator.cs]
+dotnet_diagnostic.CS1591.severity = error

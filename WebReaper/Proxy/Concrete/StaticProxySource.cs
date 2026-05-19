@@ -11,6 +11,8 @@ public sealed class StaticProxySource : IProxySource
 {
     private readonly IReadOnlyList<WebProxy> _proxies;
 
+    /// <summary>Capture a fixed set of <paramref name="proxies"/> (snapshotted
+    /// at construction).</summary>
     public StaticProxySource(IEnumerable<WebProxy> proxies)
     {
         ArgumentNullException.ThrowIfNull(proxies);
@@ -34,6 +36,7 @@ public sealed class StaticProxySource : IProxySource
         return new StaticProxySource(proxies);
     }
 
+    /// <inheritdoc/>
     public Task<IReadOnlyList<WebProxy>> GetCandidatesAsync(CancellationToken cancellationToken = default)
         => Task.FromResult(_proxies);
 }
