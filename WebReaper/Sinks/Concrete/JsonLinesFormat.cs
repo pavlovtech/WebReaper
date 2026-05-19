@@ -5,7 +5,7 @@ namespace WebReaper.Sinks.Concrete;
 
 /// <summary>
 /// JSON Lines: no header, one compact JSON object per line. ADR 0008: the
-/// compact rendering is now <see cref="JsonObject.ToJsonString"/> (no
+/// compact rendering is now <see cref="JsonNode.ToJsonString"/> (no
 /// Newtonsoft) — observable file content is unchanged (ADR 0006: the format
 /// quirk relocated, not changed).
 /// </summary>

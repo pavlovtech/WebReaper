@@ -33,8 +33,13 @@ public class HttpPageLoadTransport : IPageLoadTransport
 
     public HttpPageLoadTransport(ICookiesStorage cookiesStorage, IProxyProvider? proxyProvider, ILogger logger)
     {
-        ServicePointManager.DefaultConnectionLimit = int.MaxValue;
-        ServicePointManager.ServerCertificateValidationCallback += (_, _, _, _) => true;
+        // The connection limit and cert-bypass live on the per-request
+        // SocketsHttpHandler in LoadAsync (MaxConnectionsPerServer +
+        // SslOptions.RemoteCertificateValidationCallback). The old
+        // ServicePointManager.DefaultConnectionLimit / .ServerCertificateValidationCallback
+        // calls were obsolete (SYSLIB0014) AND inert — ServicePointManager
+        // does not affect HttpClient/SocketsHttpHandler — so they are removed,
+        // not ported. No behavioural change to the request path.
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
         _cookiesStorage = cookiesStorage;

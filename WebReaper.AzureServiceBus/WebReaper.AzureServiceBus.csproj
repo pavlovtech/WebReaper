@@ -15,7 +15,7 @@
     <NoWarn>$(NoWarn);CS1591</NoWarn>
 
     <PackageId>WebReaper.AzureServiceBus</PackageId>
-    <Version>7.0.0</Version>
+    <Version>8.0.0</Version>
     <Authors>Alex Pavlov</Authors>
     <Company>Alex Pavlov</Company>
     <Product>WebReaper</Product>
@@ -28,7 +28,7 @@
     <PackageTags>scraper, crawler, parser, azure, servicebus, distributed</PackageTags>
     <PackageIcon>logo.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes>7.0.0: initial release. Azure Service Bus distributed scheduler (ScraperEngineBuilder.WithAzureServiceBusScheduler) extracted from the WebReaper core per ADR-0009 so the core stays dependency-light and Native-AOT-clean (core no longer references Azure.Messaging.ServiceBus). Requires WebReaper 7.0.0.</PackageReleaseNotes>
+    <PackageReleaseNotes>8.0.0: lockstep republish against the core 8.0.0 major (ADR-0022); no functional change to this package. 7.0.0: initial release. Azure Service Bus distributed scheduler (ScraperEngineBuilder.WithAzureServiceBusScheduler) extracted from the WebReaper core per ADR-0009 so the core stays dependency-light and Native-AOT-clean (core no longer references Azure.Messaging.ServiceBus). Requires WebReaper 8.0.0.</PackageReleaseNotes>
 
     <!-- ADR 0009: the Azure Service Bus satellite is deliberately NOT
          IsAotCompatible. Quarantining the Azure Service Bus scheduler here is

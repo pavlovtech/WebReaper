@@ -36,6 +36,34 @@ public class PageActionBuilderTests
             Assert.Single(new PageActionBuilder().WaitForNetworkIdle().Build()).Type);
     }
 
+    // 8.0.0 hardening: the Repeat* methods replay the last-added action via
+    // _pageActions[^1]. Called first they used to throw a bare
+    // ArgumentOutOfRangeException; pin the builder-misuse InvalidOperationException
+    // so the diagnostic ("there is no action to repeat") can't silently regress.
+    [Fact]
+    public void Repeat_methods_throw_a_clear_error_when_called_before_any_action()
+    {
+        Assert.Throws<InvalidOperationException>(
+            () => new PageActionBuilder().Repeat(2));
+        Assert.Throws<InvalidOperationException>(
+            () => new PageActionBuilder().RepeatWithDelay(2, 100));
+        Assert.Throws<InvalidOperationException>(
+            () => new PageActionBuilder().RepeatAndWaitForNetworkIdle(2));
+    }
+
+    [Fact]
+    public void Repeat_replays_the_last_action_n_more_times()
+    {
+        var actions = new PageActionBuilder()
+            .ScrollToEnd()
+            .Repeat(3)
+            .Build();
+
+        // seed ScrollToEnd, then 3 more copies of it
+        Assert.Equal(4, actions.Count);
+        Assert.All(actions, a => Assert.Equal(PageActionType.ScrollToEnd, a.Type));
+    }
+
     [Fact]
     public void RepeatAndWaitForNetworkIdle_repeats_the_seed_then_a_WaitForNetworkIdle()
     {

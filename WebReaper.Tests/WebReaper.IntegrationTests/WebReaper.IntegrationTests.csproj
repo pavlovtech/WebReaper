@@ -20,11 +20,15 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <!-- Test-only (IsPackable=false): never enters the shipped package graph,
+         so ADR-0009's dependency-light-core constraint is unaffected. -->
+    <PackageReference Include="Testcontainers.Redis" Version="4.6.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Misc\WebReaper.ProxyProviders\WebReaper.ProxyProviders.csproj" />
     <ProjectReference Include="..\..\WebReaper\WebReaper.csproj" />
     <ProjectReference Include="..\..\WebReaper.Puppeteer\WebReaper.Puppeteer.csproj" />
+    <ProjectReference Include="..\..\WebReaper.Redis\WebReaper.Redis.csproj" />
   </ItemGroup>
 </Project>
