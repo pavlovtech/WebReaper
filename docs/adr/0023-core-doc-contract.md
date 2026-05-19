@@ -2,10 +2,12 @@
 
 ## Status
 
-**Accepted** (design pass; implementation pending in the staging slices). The
-one fork flagged for grilling — the disposition of the in-memory default
-adapters — was resolved in the grilling loop in favour of the principled line
-below (see *Considered options → the in-memory-defaults sub-decision*).
+**Accepted — shipped in 9.0.0** (2026-05-19; design pass + all six staging
+slices landed and published in the lockstep 9.0.0 wave — see *Implementation
+status* at the end). The one fork flagged for grilling — the disposition of
+the in-memory default adapters — was resolved in the grilling loop in favour
+of the principled line below (see *Considered options → the
+in-memory-defaults sub-decision*).
 
 ## Context
 
@@ -241,3 +243,34 @@ implementation — exactly what a major is for. Test assemblies retain access vi
 - LANGUAGE.md — *interface = everything a caller must know*; depth; shallow
   module; the deletion test (the framing for the Tier line and the
   factory rejection). CONTEXT.md — the domain vocabulary Tier-1 docs speak in.
+
+## Implementation status — shipped (2026-05-19)
+
+Landed on branch `adr-0023-core-doc-contract` (PR #76, merged), published in
+the lockstep **9.0.0** release wave (core + six satellites; nuget.org
+verified). Each slice kept the guardrail green (whole-solution build incl.
+Examples/Misc + AOT smoke; the offline unit suite):
+
+1. **Design pass** (`769d7e6`) — accepted after three grilling rounds.
+2. **Slices 1–4** (`8100480` / `a6a1b91` / `8106dea` / `bf09243`) — the
+   `*/Abstract` seam interfaces, the `Builders/` fluent API, the `Domain`
+   model + payload-shell bases + in-memory defaults, then `WebReaperJson` +
+   `LoggerExtensions` + the public exceptions: documented to the bar, each
+   area ratcheted to `CS1591`-error via path-scoped `.editorconfig`.
+3. **Slice 5a** (`1621fe1`) — the last Tier-1 the "remaining CS1591 == Tier-2"
+   heuristic mis-classified: `ScraperEngine`, `StaticProxySource`,
+   `HttpProxyValidator` (the deletion test overrides the heuristic).
+4. **Slice 5b — the break** (`395879c`) — 27 Tier-2 implementation types made
+   `internal` (+ `ScraperEngine`'s ctor); `[InternalsVisibleTo]` → the test +
+   AOT-smoke assemblies only (never a shipped package); project-wide
+   `WarningsAsErrors=CS1591`; the scaffolding `.editorconfig` sections
+   removed; the six satellite csprojs' "live doc backlog" rationale updated
+   in place to cite this ADR. A fourth Tier-1 the deep read caught —
+   `SchemaContentParser<TNode>`, the ADR-0002 custom-backend reuse vehicle —
+   was kept public + documented, not internalised.
+
+Core `CS1591` went **294 → 0**, now contract-enforced (an undocumented public
+member fails the build). Follow-up: the release version was single-sourced
+into `Directory.Build.props` and `release.yml` switched to effective-`Version`
+selection (PR #78); eliminating even that one manual bump is
+[ADR-0024](0024-tag-derived-version.md) (proposed).
