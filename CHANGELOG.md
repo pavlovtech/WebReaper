@@ -1,5 +1,79 @@
 # Changelog
 
+## 8.0.0 — Crawl driver + Outstanding-work latch; the per-Job shell is a value, not a thrower (breaking)
+
+The per-Job `Spider` shell stops leaking its result through side channels and
+stops throwing to terminate. `ISpider.CrawlAsync` now returns a closed
+`JobReport` (the ADR-0001 `CrawlOutcome` + the loaded document); the shell is
+reduced to load → Crawl step → report. The **Crawl driver** — in-process
+`ScraperEngine` or the distributed worker — owns what the shell used to: the
+visited-link tracker, the crawl-limit stop, sink fan-out, and the
+`PostProcessor` / `ScrapedData` callbacks. The crawl limit is now a value the
+driver checks (`Scheduler.Complete()`), no longer a `PageCrawlLimitException`
+thrown through the fault-retry policy. Rationale, the rejected alternatives
+(durable-workflow coordinator, emergent queue-drain, exact distributed limit)
+and the staged design:
+[`docs/adr/0022-crawl-driver-and-outstanding-work-latch.md`](docs/adr/0022-crawl-driver-and-outstanding-work-latch.md)
+and [`research/distributed-crawl-termination.md`](research/distributed-crawl-termination.md).
+
+**Release packaging (lockstep).** This is a core-major release wave: core and
+all six satellites (`Cosmos`, `Mongo`, `Redis`, `AzureServiceBus`, `Puppeteer`,
+`Sqlite`) are republished at `8.0.0` together, so a consumer never sees a
+`WebReaper 8.0.0` + satellite-`7.x` skew and every satellite declares a
+`WebReaper >= 8.0.0` dependency. Only `WebReaper.Redis` changed functionally
+(the distributed Outstanding-work latch + the atomic-`SADD` `TryAdd`); the
+other satellites are unchanged, rebuilt against core 8.0.0 for graph
+coherence (`docs/RELEASE-RUNBOOK.md` lockstep selection).
+
+The visited-link tracker becomes the single **idempotency authority**:
+`IVisitedLinkTracker.TryAddVisitedLinkAsync` is an atomic test-and-set
+(default-interface-method; `InMemoryVisitedLinkTracker` is a lock-free CAS,
+`RedisVisitedLinkTracker` an atomic `SADD`). Termination detection is one
+`IOutstandingWorkLatch` seam — a unit-credit counter that trips exactly once
+when all work has drained, with an in-memory `Interlocked` adapter and a
+distributed Redis adapter (atomic `INCRBY`/`DECRBY` + a `SET NX` one-shot
+fence). `Examples/WebReaper.AzureFuncs` is now a real distributed Crawl
+driver: it never throws to terminate, so the queue is no longer poisoned at
+the crawl-limit boundary.
+
+Closed by construction: the retry-amplified limit exception, the racy
+discovery dedup, and the distributed poison message. The fluent builder API
+is unchanged — `.PageCrawlLimit(...)`, `.Subscribe(...)`, `.PostProcess(...)`
+and `.StopWhenAllLinksProcessed()` keep their signatures and behaviour; only
+their internal wiring moved to the driver.
+
+### Breaking changes
+
+- **`ISpider.CrawlAsync` returns `Task<JobReport>`**, not `Task<List<Job>>`.
+  A direct `ISpider` consumer (the `BuildSpider()` distributed-worker pattern)
+  reads `report.Outcome.NextJobs` for child jobs and matches
+  `report.Outcome is CrawlOutcome.Parsed` for a parsed page; sink fan-out and
+  visited-link tracking are now the caller's (driver's) job.
+- **`ScrapedData` / `PostProcessor` moved off the concrete `Spider`** to the
+  Crawl driver. The public `ScraperEngineBuilder.Subscribe(...)` /
+  `.PostProcess(...)` surface is unchanged and now wires onto the driver.
+- **`PageCrawlLimitException` is removed.** The crawl limit is a value-driven
+  stop, never an exception; remove any `catch (PageCrawlLimitException)`.
+- **`Spider`'s constructor changed** (reduced to `ICrawlStep`, `IPageLoader`,
+  `IScraperConfigStorage`); `ScraperEngine`'s constructor gained the
+  visited-link tracker, sinks, optional callbacks and an optional
+  `IOutstandingWorkLatch` (in-memory default). Both are normally built via
+  `ScraperEngineBuilder` — no change for fluent-API consumers.
+- **No compat shell.** A `List<Job>`-returning forwarder would reinstate the
+  side channels this change removes (the ADR-0009 precedent); the break is
+  announced here and in ADR-0022, not silent.
+
+### Migration
+
+A fluent-API consumer (`new ScraperEngineBuilder()…BuildAsync()` /
+`.RunAsync()`) needs **no changes** — the builder surface and behaviour are
+preserved. A direct `ISpider` / `BuildSpider()` consumer updates to the
+`JobReport` shape (re-enqueue `report.Outcome.NextJobs`; fan a
+`CrawlOutcome.Parsed` page out to its sink itself) and drops any
+`PageCrawlLimitException` handling; the rewritten
+`Examples/WebReaper.AzureFuncs` is the reference distributed Crawl-driver
+adapter.
+
 ## 7.1.0 — WebReaper.Sqlite satellite: opt-in robust-local durable scheduler & tracker (additive)
 
 New satellite package **WebReaper.Sqlite** — a local durable scheduler and

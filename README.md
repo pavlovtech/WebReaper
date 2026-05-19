@@ -323,11 +323,14 @@ Swap the scheduler, config storage and link tracker to Redis or Azure Service Bu
 workers / serverless functions can share one crawl. `Examples/WebReaper.AzureFuncs` shows the serverless
 shape with two functions:
 
-* **StartScraping** builds the scraper configuration and enqueues the first job (the start URL) onto the
-  queue (e.g. Azure Service Bus).
-* **WebReaperSpider** is triggered by each queued job. It gets a bare `ISpider` from
-  `new ScraperEngineBuilder()...BuildSpider()`, executes the job (load → parse → save), and enqueues the
-  child jobs it discovers back onto the queue.
+* **StartScraping** builds the scraper configuration, seeds the distributed Outstanding-work latch,
+  and enqueues the first job (the start URL) onto the queue (e.g. Azure Service Bus).
+* **WebReaperSpider** is the distributed **Crawl driver**, triggered by each queued job. It gets a
+  bare `ISpider` from `new ScraperEngineBuilder()...BuildSpider()` (load → Crawl step → `JobReport`),
+  then interprets the report: an atomic visited-link test-and-set gates duplicates/redeliveries, a
+  parsed page is fanned out to the sink, discovered child jobs are enqueued back onto the queue, and
+  a distributed Outstanding-work latch detects when all work has drained. It never throws to signal
+  the crawl limit, so the queue is never poisoned (ADR-0022).
 
 `BuildSpider()` (the ADR-0009 distributed-worker seam) returns an `ISpider` without building or
 persisting a `ScraperConfig`, so — unlike `BuildAsync()` — it does not require `Get`/`Parse`; the worker's
@@ -418,7 +421,8 @@ For result callbacks without a custom sink, use `.Subscribe(Action<ParsedData>)`
 | `ILinkParser` | Takes HTML and returns the page's links. |
 | `IScraperSink` | A destination for scraping results. Receives `ParsedData` (`Url` + `JsonObject`). |
 | `ICrawlStep` | The crawl-step decision: maps a `Job` + loaded page + `Schema` to a `CrawlOutcome` (parse the page, follow links, or paginate). Swap it to customize crawl-vs-parse behavior. |
-| `ISpider` | The I/O shell around `ICrawlStep`: loads pages, tracks visited links, enforces the crawl limit, and fans parsed data to the sinks. Obtained from `ScraperEngineBuilder.BuildSpider()`. |
+| `ISpider` | The per-Job I/O shell around `ICrawlStep`: loads one page, runs the Crawl step, and returns a `JobReport` — nothing else. The Crawl driver (in-process `ScraperEngine` or the distributed worker) owns the visited-link tracker, the crawl-limit stop, sink fan-out and the callbacks. Obtained from `ScraperEngineBuilder.BuildSpider()`. |
+| `IOutstandingWorkLatch` | The Crawl driver's termination detector (ADR-0022): a unit-credit counter that trips exactly once when all work is drained. In-memory `Interlocked` adapter (in-process) and a distributed-atomic Redis adapter (`WebReaper.Redis`). |
 
 ### Main entities
 
