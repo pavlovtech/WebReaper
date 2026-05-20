@@ -32,25 +32,13 @@ internal sealed class AngleSharpSchemaBackend : ISchemaBackend<IParentNode>
 
     public object? ExtractRaw(IParentNode node, SchemaElement element)
     {
-        var el = (IElement)node;
-
-        string? content;
-
-        if (element.Attr is not null)
-        {
-            if (element.Attr == "src") element.Attr = "title";
-
-            content = el.GetAttribute(element.Attr);
-        }
-        else if (element.GetHtml == false)
-        {
-            content = el.Text();
-        }
-        else
-        {
-            content = el.InnerHtml;
-        }
-
-        return content ?? string.Empty;
+        // ADR-0007: this backend's quarantined legacy quirk — a requested
+        // src attribute is silently rewritten to title (the XPath backend
+        // deliberately does not copy it; pinned by SchemaFoldTests'
+        // Src_to_title_rewrite_is_quarantined_in_the_html_backend, which
+        // also asserts the in-place mutation on the SchemaElement).
+        // Quirk first, shared AngleSharp-DOM grammar second (ADR-0027).
+        if (element.Attr == "src") element.Attr = "title";
+        return AngleSharpRawExtractor.ExtractRaw((IElement)node, element);
     }
 }
