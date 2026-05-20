@@ -16,6 +16,7 @@ using WebReaper.Core.Spider.Abstract;
 using WebReaper.Domain;
 using WebReaper.Domain.PageActions;
 using WebReaper.Domain.Parsing;
+using WebReaper.Infra.Abstract;
 using WebReaper.Logging;
 using WebReaper.Proxy;
 using WebReaper.Proxy.Abstract;
@@ -435,6 +436,25 @@ public class ScraperEngineBuilder
         return this;
     }
 
+    /// <summary>
+    /// Replace the Crawl driver's retry around the per-Job Spider call
+    /// (ADR-0026). The default is the internal fixed-attempts policy — four
+    /// attempts total (one initial + three retries), no delay between them,
+    /// every exception except <see cref="OperationCanceledException"/>
+    /// triggers a retry. Supply your own <see cref="IRetryPolicy"/> for
+    /// exponential backoff (e.g. wrapping a Polly resilience pipeline), to
+    /// disable retries in tests, or for a satellite-aware policy. Cancellation
+    /// is always cooperative — implementations must propagate
+    /// <see cref="OperationCanceledException"/> without retrying.
+    /// </summary>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="retryPolicy"/> is null.</exception>
+    public ScraperEngineBuilder WithRetryPolicy(IRetryPolicy retryPolicy)
+    {
+        SpiderBuilder.WithRetryPolicy(retryPolicy);
+        return this;
+    }
+
     /// <summary>Persist cookies to a file so an authenticated session
     /// survives restarts.</summary>
     /// <exception cref="ArgumentException"><paramref name="fileName"/> is
@@ -517,6 +537,7 @@ public class ScraperEngineBuilder
         return new ScraperEngine(
             _parallelismDegree, ConfigStorage, Scheduler, spider,
             SpiderBuilder.DriverLinkTracker, SpiderBuilder.DriverSinks, Logger,
-            SpiderBuilder.DriverScrapedData, SpiderBuilder.DriverPostProcessor);
+            SpiderBuilder.DriverScrapedData, SpiderBuilder.DriverPostProcessor,
+            retryPolicy: SpiderBuilder.DriverRetryPolicy);
     }
 }

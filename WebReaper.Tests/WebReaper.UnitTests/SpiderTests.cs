@@ -84,8 +84,9 @@ public class SpiderTests
         // The reduced shell holds no tracker and no limit rule (ADR-0022):
         // even with PageCrawlLimit 0 it just loads, steps, and reports. This
         // pins the removal of PageCrawlLimitException-as-control-flow — the
-        // defect that, run through Executor's Handle<Exception> retry, this
-        // ADR exists to remove.
+        // defect that, run through the Crawl driver's catch-all retry, this
+        // ADR exists to remove (the retry itself is now a named IRetryPolicy
+        // seam, ADR-0026).
         const string html = "<html><body><h1 class='t'>x</h1></body></html>";
 
         var report = await Spider(html, Config(new Schema { new("title", "h1.t") }, limit: 0))
