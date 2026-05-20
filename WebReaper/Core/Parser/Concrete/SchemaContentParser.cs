@@ -101,13 +101,43 @@ public class SchemaContentParser<TNode> : IJsonContentParser where TNode : class
             return;
         }
 
+        // ADR-0029: the per-leaf swallow-and-log policy is the documented
+        // contract — a malformed value or a backend error on ONE field must
+        // not abort the whole page (a web scraper meets noisy pages by
+        // default). The catch arms are ordered most-specific first so the
+        // log message names the actual failure mode:
+        //   - FormatException: int.Parse/float.Parse/bool.Parse/DateTime.Parse
+        //     rejected the raw text — typed Coerce failure.
+        //   - OverflowException: int.Parse/long.Parse saw a value out of range
+        //     for the target type — typed Coerce failure, distinct from format.
+        //   - Exception (catch-all third arm): every other defect (backend
+        //     selector errors, the rare backend bug) — preserved verbatim
+        //     from pre-0029 to keep "a noisy page does not abort the crawl"
+        //     load-bearing. Field is left unset in every arm.
         try
         {
             result[item.Field] = item.IsList ? GetValueList(scope, item) : GetSingleValue(scope, item);
         }
+        catch (FormatException ex)
+        {
+            _logger.LogError(ex,
+                "Coercion to {Type} failed for field '{Field}' (raw input " +
+                "could not be parsed); field left unset",
+                item.Type, item.Field);
+        }
+        catch (OverflowException ex)
+        {
+            _logger.LogError(ex,
+                "Coercion to {Type} overflowed for field '{Field}' (raw " +
+                "input out of range for the target type); field left unset",
+                item.Type, item.Field);
+        }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error during parsing phase");
+            _logger.LogError(ex,
+                "Unexpected error extracting field '{Field}' (selector " +
+                "'{Selector}'); field left unset",
+                item.Field, item.Selector);
         }
     }
 
