@@ -80,11 +80,11 @@ internal class ConfigBuilder
     /// chain that drives the crawl state machine (ADR-0001).
     /// </summary>
     /// <exception cref="ArgumentException"><paramref name="linkSelector"/> is
-    /// null/empty/whitespace (fail-fast, 8.0.0).</exception>
+    /// null/empty/whitespace — enforced at <see cref="LinkPathSelector"/>
+    /// construction (ADR-0030).</exception>
     public ConfigBuilder Follow(string linkSelector)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(linkSelector);
-        _linkPathSelectors.Add(new LinkPathSelector(linkSelector));
+        _linkPathSelectors.Add(LinkPathSelector.Follow(linkSelector));
         return this;
     }
 
@@ -94,13 +94,14 @@ internal class ConfigBuilder
     /// the WebReaper.Puppeteer satellite (ADR-0009).
     /// </summary>
     /// <exception cref="ArgumentException"><paramref name="linkSelector"/> is
-    /// null/empty/whitespace.</exception>
+    /// null/empty/whitespace — enforced at <see cref="LinkPathSelector"/>
+    /// construction (ADR-0030).</exception>
     public ConfigBuilder FollowWithBrowser(
         string linkSelector,
         List<PageAction>? pageActions = null)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(linkSelector);
-        _linkPathSelectors.Add(new LinkPathSelector(linkSelector, null, PageType.Dynamic, pageActions));
+        _linkPathSelectors.Add(
+            LinkPathSelector.Follow(linkSelector, PageType.Dynamic, pageActions));
         return this;
     }
 
@@ -155,14 +156,14 @@ internal class ConfigBuilder
     /// yields the <c>Paginated</c> outcome (ADR-0001).
     /// </summary>
     /// <exception cref="ArgumentException">either selector is
-    /// null/empty/whitespace.</exception>
+    /// null/empty/whitespace — enforced at <see cref="LinkPathSelector"/>
+    /// construction (ADR-0030).</exception>
     public ConfigBuilder Paginate(
         string linkSelector,
         string paginationSelector)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(linkSelector);
-        ArgumentException.ThrowIfNullOrWhiteSpace(paginationSelector);
-        _linkPathSelectors.Add(new LinkPathSelector(linkSelector, paginationSelector));
+        _linkPathSelectors.Add(
+            LinkPathSelector.Paginate(linkSelector, paginationSelector));
         return this;
     }
 
@@ -172,15 +173,15 @@ internal class ConfigBuilder
     /// the WebReaper.Puppeteer satellite (ADR-0009).
     /// </summary>
     /// <exception cref="ArgumentException">either selector is
-    /// null/empty/whitespace.</exception>
+    /// null/empty/whitespace — enforced at <see cref="LinkPathSelector"/>
+    /// construction (ADR-0030).</exception>
     public ConfigBuilder PaginateWithBrowser(
         string linkSelector,
         string paginationSelector,
         List<PageAction>? pageActions = null)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(linkSelector);
-        ArgumentException.ThrowIfNullOrWhiteSpace(paginationSelector);
-        _linkPathSelectors.Add(new LinkPathSelector(linkSelector, paginationSelector, PageType.Dynamic, pageActions));
+        _linkPathSelectors.Add(LinkPathSelector.Paginate(
+            linkSelector, paginationSelector, PageType.Dynamic, pageActions));
         return this;
     }
 
