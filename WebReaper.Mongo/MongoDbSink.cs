@@ -45,8 +45,8 @@ public class MongoDbSink : IScraperSink
 
         var collection = database.GetCollection<BsonDocument>(CollectionName);
 
-        entity.Data["url"] = entity.Url;
-
+        // ADR-0031: the page URL is already folded into entity.Data by
+        // ParsedData's construction — no per-sink merge.
         // ADR 0008: entity.Data is a System.Text.Json JsonObject; ToJsonString
         // is the compact, valid-JSON BsonDocument.Parse expects (no Newtonsoft).
         var document = BsonDocument.Parse(entity.Data.ToJsonString());

@@ -235,7 +235,14 @@ public class ScraperEngine
         ScrapedData?.Invoke(result);
 
         Logger.LogInformation("Sending scraped data to sinks...");
-        var sinkTasks = Sinks.Select(sink => sink.EmitAsync(result, cancellationToken));
+        // ADR-0031: hand each sink its own deep-cloned Data. The fan-out runs
+        // sinks concurrently (Task.WhenAll) and JsonObject is not thread-safe,
+        // so a shared instance would race — e.g. CosmosSink writes "id", and
+        // BufferedFileSink queues the object to drain later. The `with` copy
+        // bypasses ParsedData's merge initializer (the clone is of the
+        // already-merged Data), so there is no double-merge.
+        var sinkTasks = Sinks.Select(sink => sink.EmitAsync(
+            result with { Data = (JsonObject)result.Data.DeepClone() }, cancellationToken));
 
         Logger.LogInformation("Waiting for sinks ...");
         await Task.WhenAll(sinkTasks);
