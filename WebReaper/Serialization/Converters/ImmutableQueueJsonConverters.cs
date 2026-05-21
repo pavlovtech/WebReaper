@@ -80,6 +80,14 @@ internal sealed class SelectorChainJsonConverter : JsonConverter<ImmutableQueue<
                 default: r.Skip(); break;
             }
         }
+        // ADR-0030: a corrupt persisted Job — a chain entry missing its
+        // 'selector' — fails fast here at queue-read with the JSON property
+        // name, not late at the Crawl step. The LinkPathSelector ctor
+        // enforces the other two grammar rules (empty paginationSelector,
+        // PageActions with a static transport).
+        if (string.IsNullOrWhiteSpace(sel))
+            throw new JsonException("missing or empty 'selector' on a LinkPathSelector entry");
+
         return new LinkPathSelector(sel, pag, pt, acts);
     }
 }
