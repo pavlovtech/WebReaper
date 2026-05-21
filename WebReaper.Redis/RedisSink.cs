@@ -28,8 +28,8 @@ public class RedisSink : IScraperSink
     {
         await Initialization;
 
-        entity.Data["url"] = entity.Url;
-
+        // ADR-0031: the page URL is already folded into entity.Data by
+        // ParsedData's construction — no per-sink merge.
         var db = _db;
         await db.SetAddAsync(_redisKey, entity.Data.ToString());
     }
