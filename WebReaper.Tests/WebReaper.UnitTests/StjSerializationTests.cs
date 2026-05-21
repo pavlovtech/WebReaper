@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using System.Text.Json;
 using WebReaper.Domain;
 using WebReaper.Domain.PageActions;
 using WebReaper.Domain.Selectors;
@@ -48,5 +49,23 @@ public class StjSerializationTests
         Assert.Equal(PageActionType.Click, got.PageActions![0].Type);
         Assert.Equal("button#go", got.PageActions![0].Parameters[0].ToString());
         Assert.Equal(42, Convert.ToInt32(got.PageActions![0].Parameters[1]));
+    }
+
+    [Fact]
+    public void DeserializeJob_throws_on_a_chain_entry_with_a_blank_selector()
+    {
+        // ADR-0030: a corrupt persisted Job — a selector-chain entry whose
+        // 'selector' is blank — fails fast at the codec (queue-read) with the
+        // JSON property name, not late at the Crawl step.
+        var job = new Job(
+            "https://x.test/p",
+            ImmutableQueue.CreateRange(new[] { new LinkPathSelector("sentinel-sel") }),
+            ImmutableQueue<string>.Empty);
+        var json = WebReaperJson.SerializeJob(job);
+
+        // Tamper: blank out the only selector value.
+        var tampered = json.Replace("sentinel-sel", "");
+
+        Assert.Throws<JsonException>(() => WebReaperJson.DeserializeJob(tampered));
     }
 }
