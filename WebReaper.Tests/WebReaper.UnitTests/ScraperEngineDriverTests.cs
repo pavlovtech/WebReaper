@@ -170,4 +170,36 @@ public class ScraperEngineDriverTests
         Assert.Equal(1, spider.Crawled.Count(u => u == "dup")); // crawled once; second was a no-op
         Assert.Contains("root", spider.Crawled);
     }
+
+    [Fact]
+    public async Task Each_sink_receives_its_own_clone_of_the_parsed_data()
+    {
+        // ADR-0031: the fan-out deep-clones Data per sink, so the concurrent
+        // sinks never share a JsonObject. Two sinks must receive distinct
+        // ParsedData with distinct Data — and both clones carry the url folded
+        // in at ParsedData construction.
+        var sinkA = new RecordingSink();
+        var sinkB = new RecordingSink();
+
+        var spider = new ScriptedSpider(job =>
+            job.Url == "root" ? Followed("item") : Parsed(job.Url));
+
+        var engine = new ScraperEngine(
+            parallelismDegree: 1,
+            new FakeConfigStorage(Config()),
+            new InMemoryScheduler(),
+            spider,
+            new InMemoryVisitedLinkTracker(),
+            new List<IScraperSink> { sinkA, sinkB },
+            NullLogger.Instance);
+
+        await engine.RunAsync().WaitAsync(TimeSpan.FromSeconds(10));
+
+        var a = Assert.Single(sinkA.Emitted);
+        var b = Assert.Single(sinkB.Emitted);
+        Assert.NotSame(a, b);
+        Assert.NotSame(a.Data, b.Data);
+        Assert.Equal("item", a.Data["url"]!.GetValue<string>());
+        Assert.Equal("item", b.Data["url"]!.GetValue<string>());
+    }
 }
