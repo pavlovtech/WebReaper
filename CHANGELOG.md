@@ -57,6 +57,72 @@ worker's `new ScraperEngineBuilder()….BuildSpider()` →
 the guardrail (whole-solution build, 94 unit + 27 satellite tests, Native-AOT
 smoke) is green.
 
+### Architecture deepening (ADR-0026 – ADR-0031)
+
+A wave of internal-architecture deepening landed on `master` after ADR-0025,
+from a fresh architecture review. Each change is internal-only or
+behaviourally-additive except for the narrow breaking edges called out below;
+full design, considered options and rejected alternatives are in each linked
+ADR.
+
+- **Retry around the per-Job Spider call is a named seam; Polly leaves core
+  (ADR-0026).** The `internal static Infra.Executor` Polly pass-through becomes
+  `IRetryPolicy.ExecuteAsync<T>`, a documented seam; the core default
+  `FixedAttemptsRetryPolicy` is hand-rolled (four attempts, no delay), so the
+  `Polly` package leaves the core dependency graph. A custom policy — e.g. a
+  Polly resilience pipeline with exponential backoff — wires in through
+  `ScraperEngineBuilder.WithRetryPolicy(...)`. A latent bug is fixed:
+  `OperationCanceledException` is no longer retried, so cancellation propagates
+  promptly. Additive, internal-only.
+  [`docs/adr/0026-retry-policy-seam.md`](docs/adr/0026-retry-policy-seam.md)
+
+- **Shared raw-extraction helper for the AngleSharp backends (ADR-0027).** The
+  attribute / inner-HTML / text dispatch that was copy-pasted across the CSS
+  and XPath `ISchemaBackend` implementations moves to one internal
+  `AngleSharpRawExtractor`; each backend's `ExtractRaw` shrinks to "apply this
+  backend's quirks, then delegate." The `ISchemaBackend<TNode>` seam and the
+  ADR-0007 CSS `src`→`title` behavioural difference are unchanged.
+  Internal-only.
+  [`docs/adr/0027-anglesharp-raw-extractor.md`](docs/adr/0027-anglesharp-raw-extractor.md)
+
+- **Schema construction enforces its grammar at the Add site (ADR-0028).**
+  `Schema.Add` rejects an empty `Field`, an empty leaf `Selector`, or an empty
+  list-container `Selector` at the add call instead of failing later in the
+  fold; `Schema.ListOf(field, selector, …children)` is a new named factory for
+  the list-of-objects shape. *Narrowly breaking:* a Schema constructed with one
+  of those defects now throws `ArgumentException` at construction rather than
+  silently dropping a field or aborting the parse.
+  [`docs/adr/0028-schema-construction-guards.md`](docs/adr/0028-schema-construction-guards.md)
+
+- **The Schema fold's coercion-failure policy is pinned, with differentiated
+  logs (ADR-0029).** The per-leaf swallow-and-log is now the documented
+  contract: a coercion failure (`FormatException` / `OverflowException`) is
+  logged with a coercion-specific message naming the target type and field,
+  distinct from the catch-all "unexpected error extracting field" message — so
+  operators can tell *page had bad data* from *selector is wrong*. Behaviour at
+  the contract surface is unchanged (the field is left unset; a noisy page
+  never aborts the crawl). Internal-only.
+  [`docs/adr/0029-coercion-failure-policy.md`](docs/adr/0029-coercion-failure-policy.md)
+
+- **LinkPathSelector enforces its grammar at construction (ADR-0030).** The
+  `LinkPathSelector` primary constructor rejects an empty `Selector`, an empty
+  (non-null) `PaginationSelector`, and `PageActions` paired with
+  `PageType.Static`; `LinkPathSelector.Follow` / `.Paginate` are new named
+  factories for the two intent-shapes. The four `ConfigBuilder` selector-chain
+  methods are unchanged in signature. *Narrowly breaking:* a `LinkPathSelector`
+  constructed with one of those defects now throws at construction instead of
+  failing late at the crawl.
+  [`docs/adr/0030-link-path-selector-construction-guards.md`](docs/adr/0030-link-path-selector-construction-guards.md)
+
+- **ParsedData's construction owns the URL-merge (ADR-0031).** The page URL is
+  folded into `ParsedData.Data` under `"url"` at construction, so every sink
+  writes `Data` as-is and none re-merges the URL — console output now includes
+  the URL, which it previously omitted. The Crawl driver hands each sink its
+  own deep-clone of `Data`, so concurrent sinks never share a `JsonObject`.
+  `ParsedData`'s public shape is unchanged; *one narrow edge:* constructing a
+  `ParsedData` mutates the passed `JsonObject` to fold the URL in.
+  [`docs/adr/0031-parseddata-url-merge.md`](docs/adr/0031-parseddata-url-merge.md)
+
 ## 9.0.0 — The public surface is the documented contract (breaking)
 
 The core public API is now exactly the contract — no wider, no narrower —
