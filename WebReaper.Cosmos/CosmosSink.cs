@@ -41,9 +41,11 @@ public class CosmosSink : IScraperSink
     {
         await Initialization; // make sure that initialization finished
 
+        // ADR-0031: the page URL is already folded into entity.Data by
+        // ParsedData's construction. The "id" write is Cosmos-specific (the
+        // /id partition key) and lands on this sink's own clone of Data.
         var id = Guid.NewGuid().ToString();
         entity.Data["id"] = id;
-        entity.Data["url"] = entity.Url;
 
         // ADR 0008: the Cosmos SDK's default serializer is Newtonsoft and
         // serialises a Newtonsoft JObject natively but not a System.Text.Json

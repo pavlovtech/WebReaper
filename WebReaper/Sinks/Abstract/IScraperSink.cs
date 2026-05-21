@@ -24,6 +24,12 @@ public interface IScraperSink
     /// Write one parsed record. Called once per target page per sink, and
     /// concurrently — the driver fans out under <c>Parallel.ForEachAsync</c>,
     /// so an implementation must be safe under concurrent calls.
+    ///
+    /// ADR-0031: each sink receives its own <see cref="ParsedData"/> — the
+    /// driver deep-clones <see cref="ParsedData.Data"/> per sink — so a sink
+    /// may mutate <c>entity.Data</c> freely. The page URL is already folded
+    /// into <c>Data</c> under <c>"url"</c>; a sink writes <c>Data</c> as-is and
+    /// need not merge the URL itself.
     /// </summary>
     public Task EmitAsync(ParsedData entity, CancellationToken cancellationToken = default);
 }
