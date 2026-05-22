@@ -77,25 +77,25 @@ namespace WebReaper.AzureFuncs
                 log.LogInformation($"Duplicate/redelivered, no-op: {job.Url}");
             }
 
-            if (children.Length > 0)
-            {
-                // Credit children BEFORE this message's unit is returned
-                // (credit conservation — the latch can't hit zero early).
-                await Latch.AddAsync(children.Length);
+            // Register this message with the Outstanding-work latch BEFORE
+            // enqueueing the discovered children: the latch credits the
+            // children and returns this message's own unit in one atomic step
+            // (credit conservation is structural — ADR-0032), so a fast worker
+            // cannot draw the distributed counter to zero before a child's
+            // credit exists.
+            var concluded = await Latch.SignalProcessedAsync(children.Length);
 
-                foreach (var newJob in children)
-                {
-                    log.LogInformation($"Adding to the queue: {newJob.Url}");
-                    await outputSbQueue.AddAsync(SerializeToJson(newJob));
-                }
+            foreach (var newJob in children)
+            {
+                log.LogInformation($"Adding to the queue: {newJob.Url}");
+                await outputSbQueue.AddAsync(SerializeToJson(newJob));
             }
 
-            // Return this message's one unit of credit. The CAS-fenced latch
-            // trips for exactly one caller when outstanding work hits zero —
-            // the distributed "stop cleanly when work runs out" the design
-            // required. Returning normally acks the message; nothing is ever
-            // thrown to signal termination.
-            if (await Latch.SignalProcessedAsync())
+            // The CAS-fenced latch trips for exactly one caller when
+            // outstanding work hits zero — the distributed "stop cleanly when
+            // work runs out". Returning normally acks the message; nothing is
+            // ever thrown to signal termination.
+            if (concluded)
                 log.LogInformation("Crawl complete: all work drained (distributed).");
         }
     }

@@ -105,13 +105,14 @@ public class ScraperEngine
 
         var startUrls = config.StartUrls.ToList();
 
-        // The Outstanding-work latch (ADR-0022 slice 3), behind its seam: seed
-        // one unit of credit per start Job. Children are credited BEFORE the
-        // parent's unit is returned (credit conservation — the counter can
-        // never hit zero prematurely). Only driven when StopWhenDrained is on,
-        // so default behavior is unchanged; the in-process adapter is the
-        // slice-1 Interlocked counter.
-        if (config.StopWhenDrained) await Latch.SeedAsync(startUrls.Count);
+        // ADR-0032: the stop rule is the one home for "should this Crawl stop,
+        // and why?" — it composes the Outstanding-work latch (drained) and the
+        // soft page limit. The driver consults it; it never inlines latch
+        // calls or limit arithmetic. Built per-run from the config it needs.
+        var stopRule = new StopRule(
+            Latch, LinkTracker, config.PageCrawlLimit, config.StopWhenDrained, Logger);
+
+        await stopRule.SeedAsync(startUrls.Count);
 
         foreach (var startUrl in startUrls)
         {
@@ -125,11 +126,9 @@ public class ScraperEngine
                 config.PageActions), cancellationToken);
         }
 
-        // No start urls at all — let the engine return right away.
-        if (config.StopWhenDrained && startUrls.Count == 0)
-        {
-            Scheduler.Complete();
-        }
+        // The Crawl was over before it started (no start URLs to drain, or a
+        // resumed visited count already at the limit) — let the engine return.
+        if (stopRule.IsCrawlOver) Scheduler.Complete();
 
         var options = new ParallelOptions { MaxDegreeOfParallelism = ParallelismDegree };
 
@@ -141,16 +140,10 @@ public class ScraperEngine
             {
                 Logger.LogInformation("Start crawling url {Url}", job.Url);
 
-                // Crawl-global stop rule. Was a PageCrawlLimitException thrown
-                // from the Spider shell and caught here; ADR-0022 makes it a
-                // value the driver checks. Soft/best-effort: in-flight
-                // iterations still finish (the universal crawler norm).
-                if (await LinkTracker.GetVisitedLinksCount() >= config.PageCrawlLimit)
-                {
-                    Logger.LogInformation("Page crawl limit {Limit} reached; stopping", config.PageCrawlLimit);
-                    Scheduler.Complete();
-                    return;
-                }
+                // The stop rule already concluded the Crawl — skip without
+                // crawling. Soft/best-effort: in-flight iterations still
+                // finish (the universal crawler norm).
+                if (stopRule.IsCrawlOver) return;
 
                 List<Job> newJobs;
 
@@ -160,13 +153,13 @@ public class ScraperEngine
                 }
                 else if (!await LinkTracker.TryAddVisitedLinkAsync(job.Url))
                 {
-                    // The idempotency authority (ADR-0022 slice 2): this URL
-                    // was already visited — a duplicate discovery now, a
+                    // The idempotency authority (ADR-0022): this URL was
+                    // already visited — a duplicate discovery now, a
                     // redelivered Job once distributed. One atomic test-and-set
                     // makes it a no-op: no crawl, no children, no double
-                    // emission. The Job's pending unit is still returned below,
-                    // so the Outstanding-work latch stays balanced (credit
-                    // conservation) — duplicates can't unbalance termination.
+                    // emission. The Job is still registered with the stop rule
+                    // below, so the Outstanding-work latch stays balanced —
+                    // duplicates can't unbalance termination.
                     newJobs = new List<Job>();
                 }
                 else
@@ -178,38 +171,31 @@ public class ScraperEngine
                     {
                         await ProcessTargetPage(job, report.Document, parsed.Data, cancellationToken);
                         newJobs = new List<Job>();
-
-                        if (await LinkTracker.GetVisitedLinksCount() >= config.PageCrawlLimit)
-                        {
-                            Logger.LogInformation("Page crawl limit {Limit} reached; stopping", config.PageCrawlLimit);
-                            Scheduler.Complete();
-                        }
                     }
                     else
                     {
                         // Children are enqueued UNFILTERED; discovery dedup is
                         // the per-Job TryAdd gate above when each child is
-                        // itself processed (ADR-0022 slice 2 — one atomic
-                        // membership check, not the old read-then-filter race).
+                        // itself processed (ADR-0022 — one atomic membership
+                        // check, not the old read-then-filter race).
                         newJobs = report.Outcome.NextJobs.ToList();
                     }
                 }
 
                 Logger.LogInformation("Received {JobsCount} new jobs", newJobs.Count);
 
+                // Register this Job with the stop rule BEFORE enqueueing its
+                // children: the Outstanding-work latch must credit the children
+                // before they can be dequeued, or a fast worker could draw the
+                // count to zero before a child's credit exists (credit
+                // conservation). RegisterProcessedAsync credits the children
+                // and returns this Job's unit in one atomic step.
+                var concluded = await stopRule.RegisterProcessedAsync(newJobs.Count);
+
                 if (newJobs.Count > 0)
-                {
-                    // Credit children BEFORE this Job's unit is returned
-                    // (credit conservation — ADR-0022).
-                    if (config.StopWhenDrained) await Latch.AddAsync(newJobs.Count);
-
                     await Scheduler.AddAsync(newJobs, cancellationToken);
-                }
 
-                if (config.StopWhenDrained && await Latch.SignalProcessedAsync())
-                {
-                    Scheduler.Complete();
-                }
+                if (concluded) Scheduler.Complete();
             });
         }
         catch (TaskCanceledException ex)
