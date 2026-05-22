@@ -10,7 +10,8 @@ namespace WebReaper.UnitTests;
 // XPath selectors over the AngleSharp DOM. Offline, no network.
 public class XPathParsingTests
 {
-    private static XPathContentParser Parser() => new(NullLogger.Instance);
+    private static SchemaFold<AngleSharp.Dom.IParentNode> Parser() =>
+        new(new AngleSharpXPathSchemaBackend(), NullLogger.Instance);
 
     [Fact]
     public async Task Parses_values_with_xpath_and_coerces_types()
@@ -25,7 +26,7 @@ public class XPathParsingTests
             new SchemaElement("views", "//span[@class='views']", DataType.Integer)
         };
 
-        var result = await Parser().ParseToJsonAsync(html, schema);
+        var result = await Parser().ExtractAsync(html, schema);
 
         Assert.Equal("Hello", result["title"]!.ToString());
         Assert.Equal(42, result["views"]!.GetValue<int>());
@@ -50,7 +51,7 @@ public class XPathParsingTests
             }
         };
 
-        var result = await Parser().ParseToJsonAsync(html, schema);
+        var result = await Parser().ExtractAsync(html, schema);
 
         var posts = Assert.IsType<JsonArray>(result["posts"]);
         Assert.Equal(2, posts.Count);
@@ -68,7 +69,7 @@ public class XPathParsingTests
             new SchemaElement("nums", "//li") { IsList = true, Type = DataType.Integer }
         };
 
-        var result = await Parser().ParseToJsonAsync(html, schema);
+        var result = await Parser().ExtractAsync(html, schema);
 
         var nums = Assert.IsType<JsonArray>(result["nums"]);
         Assert.Equal(new[] { 1, 2, 3 }, nums.Select(n => n!.GetValue<int>()));
@@ -87,7 +88,7 @@ public class XPathParsingTests
             new SchemaElement("src", "//a[@id='lnk']", "src")
         };
 
-        var result = await Parser().ParseToJsonAsync(html, schema);
+        var result = await Parser().ExtractAsync(html, schema);
 
         Assert.Equal("/x", result["href"]!.ToString());
         Assert.Equal("/y", result["src"]!.ToString());

@@ -5,7 +5,7 @@ using WebReaper.Domain.Parsing;
 namespace WebReaper.Core.Parser.Concrete;
 
 /// <summary>
-/// JSON backend for <see cref="SchemaContentParser{TNode}"/> (issue #27 —
+/// JSON backend for <see cref="SchemaFold{TNode}"/> (issue #27 —
 /// scraping JSON endpoints such as the WordPress REST API). The scope cursor
 /// is a <see cref="JsonNode"/> and each <see cref="SchemaElement.Selector"/>
 /// is a JSONPath expression.

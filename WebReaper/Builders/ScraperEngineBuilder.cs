@@ -134,11 +134,13 @@ public class ScraperEngineBuilder
     /// <see cref="WithProxies"/> / <see cref="WithValidatedProxies(IProxySource, IEnumerable{IProxyValidator}, ValidatedProxyProviderOptions)"/>.</summary>
     protected IProxyProvider? ProxyProvider { get; set; }
 
-    /// <summary>Use a custom content parser (the Schema-fold backend, ADR-0002)
-    /// instead of the default AngleSharp/CSS one.</summary>
-    public ScraperEngineBuilder WithContentParser(IJsonContentParser contentParser)
+    /// <summary>Register a custom <see cref="IContentExtractor"/> — an
+    /// alternative extraction strategy (e.g. an LLM-backed extractor), or the
+    /// deterministic <c>SchemaFold</c> over a custom <c>ISchemaBackend</c>
+    /// (ADR-0002 / ADR-0039) — instead of the default AngleSharp/CSS fold.</summary>
+    public ScraperEngineBuilder WithContentExtractor(IContentExtractor extractor)
     {
-        SpiderBuilder.WithContentParser(contentParser);
+        SpiderBuilder.WithContentExtractor(extractor);
         return this;
     }
 

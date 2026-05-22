@@ -6,8 +6,10 @@ using WebReaper.Domain.Parsing;
 namespace WebReaper.Core.Parser.Concrete;
 
 /// <summary>
-/// The single recursive <see cref="Schema"/> fold, shared by every
-/// backend. It owns the grammar the parsers used to each re-implement:
+/// The deterministic adapter of the <see cref="Abstract.IContentExtractor"/>
+/// content-extraction seam (ADR-0039): the single recursive
+/// <see cref="Schema"/> fold, shared by every backend. It owns the grammar
+/// the parsers used to each re-implement:
 /// the container / object-list / leaf / value-list branching, the
 /// <see cref="SchemaElement.Type"/> coercion, the missing-node →
 /// log → empty-string policy, and the swallow-and-log scope (only a
@@ -18,40 +20,40 @@ namespace WebReaper.Core.Parser.Concrete;
 /// <remarks>
 /// <para>
 /// Public and generic on purpose: a new backend is
-/// <c>new SchemaContentParser&lt;TNode&gt;(myBackend, logger)</c> passed
-/// to <c>WithContentParser</c>, reusing this proven fold rather than
+/// <c>new SchemaFold&lt;TNode&gt;(myBackend, logger)</c> passed
+/// to <c>WithContentExtractor</c>, reusing this proven fold rather than
 /// copying it. See docs/adr/0002.
 /// </para>
 /// <para>
 /// ADR 0008: the fold's terminal projection is
 /// <see cref="System.Text.Json.Nodes.JsonObject"/> (the typed
-/// <see cref="ParseToJsonAsync"/>). The legacy Newtonsoft <c>JObject</c>
+/// <see cref="ExtractAsync"/>). The legacy Newtonsoft <c>JObject</c>
 /// path and <c>IContentParser</c> were removed at the 6.0.0 major; this
 /// fold carries no Newtonsoft (the JSON backend's JToken→JsonNode bridge is
 /// backend-local in <c>JsonSchemaBackend.ExtractRaw</c>).
 /// </para>
 /// </remarks>
-public class SchemaContentParser<TNode> : IJsonContentParser where TNode : class
+public class SchemaFold<TNode> : IContentExtractor where TNode : class
 {
     private readonly ISchemaBackend<TNode> _backend;
     private readonly ILogger _logger;
 
     /// <summary>Reuse the proven fold with a custom
     /// <paramref name="backend"/> — the ADR-0002 extension point:
-    /// <c>new SchemaContentParser&lt;TNode&gt;(myBackend, logger)</c> passed to
-    /// <c>WithContentParser</c>.</summary>
-    public SchemaContentParser(ISchemaBackend<TNode> backend, ILogger logger)
+    /// <c>new SchemaFold&lt;TNode&gt;(myBackend, logger)</c> passed to
+    /// <c>WithContentExtractor</c>.</summary>
+    public SchemaFold(ISchemaBackend<TNode> backend, ILogger logger)
     {
         _backend = backend;
         _logger = logger;
     }
 
     /// <inheritdoc/>
-    public async Task<JsonObject> ParseToJsonAsync(string content, Schema? schema)
+    public async Task<JsonObject> ExtractAsync(string document, Schema? schema)
     {
         ArgumentNullException.ThrowIfNull(schema);
 
-        var root = await _backend.RootAsync(content);
+        var root = await _backend.RootAsync(document);
 
         try
         {
