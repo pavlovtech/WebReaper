@@ -3,6 +3,7 @@ using AngleSharp;
 using WebReaper.Core;
 using WebReaper.Domain;
 using WebReaper.Builders;
+using WebReaper.Processing;
 using WebReaper.Redis;
 
 namespace WebReaper.ScraperWorkerService;
@@ -42,7 +43,7 @@ public class ScrapingWorker : BackgroundService
             .Follow(".forumlink>a")
             .Paginate("a.torTopic", ".pg")
             .IgnoreUrls(blackList)
-            .PostProcess(ParseTorrentStats)
+            .Process(ParseTorrentStats)
             .WithRedisScheduler("localhost:6379", "jobs", true)
             .TrackVisitedLinksInRedis("localhost:6379", "rutracker-visited-links", true)
             .WriteToRedis("localhost:6379", "rutracker-audiobooks", true)
@@ -53,16 +54,21 @@ public class ScrapingWorker : BackgroundService
         await engine.RunAsync(stoppingToken);
     }
 
-    private static async Task ParseTorrentStats(Metadata meta, JsonObject result)
+    // ADR-0038: a page processor — runs over each extracted record before the
+    // sinks. Enriches the record with torrent stats scraped from the listing
+    // page, then keeps it.
+    private static async ValueTask<PageVerdict> ParseTorrentStats(PageContext ctx, CancellationToken ct)
     {
+        var result = ctx.Data.Data;
+
         var config = Configuration.Default.WithDefaultLoader();
         var context = BrowsingContext.New(config);
 
-        var document = await context.OpenAsync(meta.BackLinks.Last());
+        var document = await context.OpenAsync(ctx.BackLinks.Last());
 
         var torrentRow = document
             .QuerySelectorAll("tr.hl-tr")
-            .FirstOrDefault(e => e.QuerySelector($".torTopic>a[href*='{new Uri(meta.Url).Query}']") != null);
+            .FirstOrDefault(e => e.QuerySelector($".torTopic>a[href*='{new Uri(ctx.Data.Url).Query}']") != null);
 
         bool seedsParsed = int.TryParse(torrentRow?.QuerySelector(".seedmed")?.TextContent, out var seeds);
         bool leechesParsed = int.TryParse(torrentRow?.QuerySelector(".leechmed")?.TextContent, out var leeches);
@@ -77,6 +83,8 @@ public class ScrapingWorker : BackgroundService
         result["leeches"] = leechesParsed ? leeches : null;
         result["downloads"] = downloadsCountParsed ? downloadsCount : null;
         result["replays"] = replaysCountParsed ? replaysCount : null;
+
+        return PageVerdict.Keep(ctx.Data);
     }
 }
 

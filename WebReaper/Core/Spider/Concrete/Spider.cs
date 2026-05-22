@@ -10,9 +10,9 @@ namespace WebReaper.Core.Spider.Concrete;
 /// <summary>
 /// The per-Job I/O shell around the <see cref="ICrawlStep"/> (ADR-0022):
 /// load one Job's page, run the crawl step, return a <see cref="JobReport"/>.
-/// Nothing else. The visited-link tracker, the crawl-limit stop, Sink
-/// fan-out, and the PostProcessor / ScrapedData notification are the Crawl
-/// driver's — not the shell's. The shell <em>reports</em> what happened; the
+/// Nothing else. The visited-link tracker, the crawl-limit stop, the
+/// page-processor pipeline, and Sink fan-out are the Crawl driver's — not the
+/// shell's. The shell <em>reports</em> what happened; the
 /// driver <em>decides</em> what to do. No termination signal is thrown.
 /// <para>
 /// ADR-0034: the shell's two run-scoped inputs — the headless flag and the

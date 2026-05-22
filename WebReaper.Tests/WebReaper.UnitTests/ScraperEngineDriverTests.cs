@@ -13,7 +13,11 @@ using WebReaper.Core.Spider.Abstract;
 using WebReaper.Domain;
 using WebReaper.Domain.Selectors;
 using WebReaper.Infra.Abstract;
+using WebReaper.Processing;
+using WebReaper.Processing.Abstract;
+using WebReaper.Processing.Concrete;
 using WebReaper.Sinks.Abstract;
+using WebReaper.Sinks.Concrete;
 using WebReaper.Sinks.Models;
 
 namespace WebReaper.UnitTests;
@@ -188,14 +192,21 @@ public class ScraperEngineDriverTests
     }
 
     [Fact]
-    public async Task Sink_fan_out_and_callbacks_fire_only_for_target_pages()
+    public async Task Sink_fan_out_and_page_processors_run_only_for_target_pages()
     {
+        // ADR-0038: the page-processor pipeline, like the Sink fan-out, runs
+        // only for a Target page — never a Transit page.
         var sink = new RecordingSink();
-        var scraped = new List<ParsedData>();
-        var postProcessed = new List<string>();
+        var processed = new List<string>();
 
         var spider = new ScriptedSpider(job =>
             job.Url == "root" ? Followed("item") : Parsed(job.Url));
+
+        var processor = new DelegatePageProcessor((ctx, _) =>
+        {
+            lock (processed) processed.Add(ctx.Data.Url);
+            return ValueTask.FromResult(PageVerdict.Keep(ctx.Data));
+        });
 
         var engine = new ScraperEngine(
             parallelismDegree: 1,
@@ -205,15 +216,13 @@ public class ScraperEngineDriverTests
             new InMemoryVisitedLinkTracker(),
             new List<IScraperSink> { sink },
             NullLogger.Instance,
-            scrapedData: d => { lock (scraped) scraped.Add(d); },
-            postProcessor: (m, _) => { lock (postProcessed) postProcessed.Add(m.Url); return Task.CompletedTask; });
+            pageProcessors: new IPageProcessor[] { processor });
 
         await engine.RunAsync().WaitAsync(TimeSpan.FromSeconds(10));
 
-        // "root" is Followed -> no emission/notification; only "item" is Parsed.
+        // "root" is Followed -> no processing/emission; only "item" is Parsed.
         Assert.Equal(new[] { "item" }, sink.Emitted.Select(p => p.Url));
-        Assert.Equal(new[] { "item" }, scraped.Select(p => p.Url));
-        Assert.Equal(new[] { "item" }, postProcessed);
+        Assert.Equal(new[] { "item" }, processed);
     }
 
     [Fact]
@@ -312,6 +321,131 @@ public class ScraperEngineDriverTests
             .Select(_ => Task.Run(() => sink.InitializeAsync())));
 
         Assert.Equal(1, sink.CoreRuns);
+    }
+
+    [Fact]
+    public async Task Page_processors_run_in_order_each_seeing_the_previous_output()
+    {
+        // ADR-0038: an ordered pipeline — processor N sees processor N-1's
+        // record. p1 stamps "a"; p2 asserts "a" is already there, then stamps
+        // "b"; the sink sees both fields.
+        var sink = new RecordingSink();
+
+        var spider = new ScriptedSpider(job =>
+            job.Url == "root" ? Followed("item") : Parsed(job.Url));
+
+        var p1 = new DelegatePageProcessor((ctx, _) =>
+        {
+            ctx.Data.Data["a"] = 1;
+            return ValueTask.FromResult(PageVerdict.Keep(ctx.Data));
+        });
+        var p2 = new DelegatePageProcessor((ctx, _) =>
+        {
+            Assert.Equal(1, ctx.Data.Data["a"]!.GetValue<int>()); // p1 ran first
+            ctx.Data.Data["b"] = 2;
+            return ValueTask.FromResult(PageVerdict.Keep(ctx.Data));
+        });
+
+        var engine = new ScraperEngine(
+            parallelismDegree: 1,
+            new FakeConfigStorage(Config()),
+            new InMemoryScheduler(),
+            spider,
+            new InMemoryVisitedLinkTracker(),
+            new List<IScraperSink> { sink },
+            NullLogger.Instance,
+            pageProcessors: new IPageProcessor[] { p1, p2 });
+
+        await engine.RunAsync().WaitAsync(TimeSpan.FromSeconds(10));
+
+        var emitted = Assert.Single(sink.Emitted);
+        Assert.Equal(1, emitted.Data["a"]!.GetValue<int>());
+        Assert.Equal(2, emitted.Data["b"]!.GetValue<int>());
+    }
+
+    [Fact]
+    public async Task Processor_Drop_filters_the_page_so_no_sink_emits_it()
+    {
+        // ADR-0038: a processor returning Drop ends the pipeline — no sink
+        // emits the page — and the crawl still terminates.
+        var sink = new RecordingSink();
+
+        var spider = new ScriptedSpider(job =>
+            job.Url == "root" ? Followed("item") : Parsed(job.Url));
+
+        var dropAll = new DelegatePageProcessor((_, _) =>
+            ValueTask.FromResult(PageVerdict.Drop("test: drop everything")));
+
+        var engine = new ScraperEngine(
+            parallelismDegree: 1,
+            new FakeConfigStorage(Config()),
+            new InMemoryScheduler(),
+            spider,
+            new InMemoryVisitedLinkTracker(),
+            new List<IScraperSink> { sink },
+            NullLogger.Instance,
+            pageProcessors: new IPageProcessor[] { dropAll });
+
+        await engine.RunAsync().WaitAsync(TimeSpan.FromSeconds(10));
+
+        Assert.Empty(sink.Emitted); // the page was filtered out
+    }
+
+    [Fact]
+    public async Task Processor_that_throws_drops_only_that_page_and_the_crawl_continues()
+    {
+        // ADR-0038: a processor throwing (anything but OperationCanceledException)
+        // drops that page and is logged — the crawl continues and other pages
+        // still emit. A noisy page never aborts the crawl (ADR-0029).
+        var sink = new RecordingSink();
+
+        var spider = new ScriptedSpider(job =>
+            job.Url == "root" ? Followed("good", "bad") : Parsed(job.Url));
+
+        var throwOnBad = new DelegatePageProcessor((ctx, _) =>
+            ctx.Data.Url == "bad"
+                ? throw new InvalidOperationException("test: processor blew up")
+                : ValueTask.FromResult(PageVerdict.Keep(ctx.Data)));
+
+        var engine = new ScraperEngine(
+            parallelismDegree: 1,
+            new FakeConfigStorage(Config()),
+            new InMemoryScheduler(),
+            spider,
+            new InMemoryVisitedLinkTracker(),
+            new List<IScraperSink> { sink },
+            NullLogger.Instance,
+            pageProcessors: new IPageProcessor[] { throwOnBad });
+
+        await engine.RunAsync().WaitAsync(TimeSpan.FromSeconds(10));
+
+        // "bad" was dropped by the throw; "good" still emitted; crawl finished.
+        Assert.Equal(new[] { "good" }, sink.Emitted.Select(p => p.Url));
+    }
+
+    [Fact]
+    public async Task Subscribe_delegate_sink_forwards_each_record_to_the_handler()
+    {
+        // ADR-0038: ScraperEngineBuilder.Subscribe folds into a DelegateSink —
+        // a delegate destination on the Sink seam, not a separate notification.
+        var received = new List<string>();
+        var sink = new DelegateSink(d => { lock (received) received.Add(d.Url); });
+
+        var spider = new ScriptedSpider(job =>
+            job.Url == "root" ? Followed("item") : Parsed(job.Url));
+
+        var engine = new ScraperEngine(
+            parallelismDegree: 1,
+            new FakeConfigStorage(Config()),
+            new InMemoryScheduler(),
+            spider,
+            new InMemoryVisitedLinkTracker(),
+            new List<IScraperSink> { sink },
+            NullLogger.Instance);
+
+        await engine.RunAsync().WaitAsync(TimeSpan.FromSeconds(10));
+
+        Assert.Equal(new[] { "item" }, received);
     }
 
     [Fact]
