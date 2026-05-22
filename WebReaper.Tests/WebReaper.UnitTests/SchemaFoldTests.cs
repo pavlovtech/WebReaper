@@ -15,8 +15,10 @@ namespace WebReaper.UnitTests;
 // the walk. ADR 0008: the terminal is System.Text.Json.Nodes (no Newtonsoft).
 public class SchemaFoldTests
 {
-    private static AngleSharpContentParser Html() => new(NullLogger.Instance);
-    private static JsonContentParser Json() => new(NullLogger.Instance);
+    private static SchemaFold<AngleSharp.Dom.IParentNode> Html() =>
+        new(new AngleSharpSchemaBackend(), NullLogger.Instance);
+    private static SchemaFold<JsonNode> Json() =>
+        new(new JsonSchemaBackend(), NullLogger.Instance);
 
     [Fact]
     public async Task Same_schema_shape_folds_to_the_same_structure_on_html_and_json()
@@ -32,7 +34,7 @@ public class SchemaFoldTests
         const string json =
             @"{ ""post"": { ""title"": ""Hello"", ""views"": 42, ""tags"": [ ""a"", ""b"" ] } }";
 
-        var htmlResult = await Html().ParseToJsonAsync(html, new Schema
+        var htmlResult = await Html().ExtractAsync(html, new Schema
         {
             new Schema("post")
             {
@@ -45,7 +47,7 @@ public class SchemaFoldTests
             }
         });
 
-        var jsonResult = await Json().ParseToJsonAsync(json, new Schema
+        var jsonResult = await Json().ExtractAsync(json, new Schema
         {
             new Schema("post")
             {
@@ -69,10 +71,10 @@ public class SchemaFoldTests
         // raw value verbatim — HTML text is a string, a JSON number stays a
         // number. Do not "unify" this; that would silently regress every
         // JSON-endpoint user. This test fails loudly if someone tries.
-        var htmlList = await Html().ParseToJsonAsync(
+        var htmlList = await Html().ExtractAsync(
             "<i>1</i><i>2</i>",
             new Schema { new SchemaElement("n", "i") { IsList = true } });
-        var jsonList = await Json().ParseToJsonAsync(
+        var jsonList = await Json().ExtractAsync(
             @"{ ""n"": [ 1, 2 ] }",
             new Schema { new SchemaElement("n", "$.n[*]") { IsList = true } });
 
@@ -85,7 +87,7 @@ public class SchemaFoldTests
     {
         var element = new SchemaElement("u", ".img", "src");
 
-        var result = await Html().ParseToJsonAsync(
+        var result = await Html().ExtractAsync(
             "<img class='img' src='SRC' title='TITLE'>",
             new Schema { element });
 
@@ -98,7 +100,7 @@ public class SchemaFoldTests
     {
         var element = new SchemaElement("u", "u", "src");
 
-        var result = await Json().ParseToJsonAsync(@"{ ""u"": ""V"" }", new Schema { element });
+        var result = await Json().ExtractAsync(@"{ ""u"": ""V"" }", new Schema { element });
 
         Assert.Equal("V", result["u"]!.ToString());
         Assert.Equal("src", element.Attr); // quarantine boundary: no mutation on this side
@@ -107,14 +109,14 @@ public class SchemaFoldTests
     [Fact]
     public async Task Typed_coercion_is_backend_independent()
     {
-        var html = await Html().ParseToJsonAsync(
+        var html = await Html().ExtractAsync(
             "<i>7</i><b>true</b>",
             new Schema
             {
                 new SchemaElement("i", "i", DataType.Integer),
                 new SchemaElement("b", "b", DataType.Boolean)
             });
-        var json = await Json().ParseToJsonAsync(
+        var json = await Json().ExtractAsync(
             @"{ ""i"": 7, ""b"": true }",
             new Schema
             {
@@ -132,12 +134,12 @@ public class SchemaFoldTests
     {
         var schema = () => new Schema { new SchemaElement("x", "nope") };
 
-        var html = await Html().ParseToJsonAsync("<p>hi</p>",
+        var html = await Html().ExtractAsync("<p>hi</p>",
             new Schema { new SchemaElement("x", ".nope") });
-        var json = await Json().ParseToJsonAsync(@"{ ""y"": 1 }",
+        var json = await Json().ExtractAsync(@"{ ""y"": 1 }",
             new Schema { new SchemaElement("x", "$.nope") });
-        var custom = await new SchemaContentParser<KeyValueNode>(new KeyValueBackend(), NullLogger.Instance)
-            .ParseToJsonAsync("y=1", schema());
+        var custom = await new SchemaFold<KeyValueNode>(new KeyValueBackend(), NullLogger.Instance)
+            .ExtractAsync("y=1", schema());
 
         Assert.Equal(string.Empty, html["x"]!.ToString());
         Assert.Equal(string.Empty, json["x"]!.ToString());
@@ -151,9 +153,9 @@ public class SchemaFoldTests
         // nor JSON runs through the SAME fold (coercion, JsonObject assembly,
         // missing-node policy) with a ~15-line ISchemaBackend and zero
         // copied walk.
-        var parser = new SchemaContentParser<KeyValueNode>(new KeyValueBackend(), NullLogger.Instance);
+        var parser = new SchemaFold<KeyValueNode>(new KeyValueBackend(), NullLogger.Instance);
 
-        var result = await parser.ParseToJsonAsync(
+        var result = await parser.ExtractAsync(
             "title=Hello\nviews=42\ntag=a\ntag=b",
             new Schema
             {

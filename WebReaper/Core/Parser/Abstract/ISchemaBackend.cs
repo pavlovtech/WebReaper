@@ -4,7 +4,7 @@ namespace WebReaper.Core.Parser.Abstract;
 
 /// <summary>
 /// One document shape = one backend. Supplies only the four
-/// document-primitive operations the <see cref="Concrete.SchemaContentParser{TNode}"/>
+/// document-primitive operations the <see cref="Concrete.SchemaFold{TNode}"/>
 /// fold needs; it does NOT know the <see cref="Schema"/> grammar
 /// (container / object-list / leaf / value-list), type coercion, the
 /// missing-node policy, or the swallow-and-log scope — those live once,

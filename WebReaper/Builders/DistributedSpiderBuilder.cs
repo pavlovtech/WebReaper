@@ -48,11 +48,13 @@ public class DistributedSpiderBuilder
         return this;
     }
 
-    /// <summary>Use a custom content parser (the Schema-fold backend,
-    /// ADR-0002) instead of the default AngleSharp/CSS one.</summary>
-    public DistributedSpiderBuilder WithContentParser(IJsonContentParser contentParser)
+    /// <summary>Register a custom <see cref="IContentExtractor"/> — an
+    /// alternative extraction strategy, or the deterministic <c>SchemaFold</c>
+    /// over a custom <c>ISchemaBackend</c> (ADR-0002 / ADR-0039) — instead of
+    /// the default AngleSharp/CSS fold.</summary>
+    public DistributedSpiderBuilder WithContentExtractor(IContentExtractor extractor)
     {
-        _spiderBuilder.WithContentParser(contentParser);
+        _spiderBuilder.WithContentExtractor(extractor);
         return this;
     }
 

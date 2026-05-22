@@ -36,7 +36,7 @@ public class SpiderTests
     }
 
     private static CrawlStep CrawlStep() =>
-        new(new AngleSharpContentParser(NullLogger.Instance));
+        new(new SchemaFold<AngleSharp.Dom.IParentNode>(new AngleSharpSchemaBackend(), NullLogger.Instance));
 
     private static Core.Spider.Concrete.Spider Spider(
         IPageLoader loader, Schema? schema, bool headless = true) =>

@@ -46,7 +46,7 @@ internal class SpiderBuilder
 
     private IVisitedLinkTracker SiteLinkTracker { get; set; } = new InMemoryVisitedLinkTracker();
 
-    private IJsonContentParser? ContentParser { get; set; }
+    private IContentExtractor? ContentExtractor { get; set; }
 
     private IPageLoader? PageLoader { get; set; }
 
@@ -64,9 +64,9 @@ internal class SpiderBuilder
     // ScraperEngineBuilder.WithRetryPolicy.
     private IRetryPolicy RetryPolicy { get; set; } = new FixedAttemptsRetryPolicy();
 
-    public SpiderBuilder WithContentParser(IJsonContentParser contentParser)
+    public SpiderBuilder WithContentExtractor(IContentExtractor extractor)
     {
-        ContentParser = contentParser;
+        ContentExtractor = extractor;
         return this;
     }
 
@@ -75,13 +75,13 @@ internal class SpiderBuilder
     /// selectors become JSONPath expressions. For a different document
     /// shape (e.g. HtmlAgilityPack, XPath), implement
     /// <see cref="Core.Parser.Abstract.ISchemaBackend{TNode}"/> and pass
-    /// <c>new SchemaContentParser&lt;TNode&gt;(backend, logger)</c> to
-    /// <see cref="WithContentParser"/> — it reuses the shared Schema fold
+    /// <c>new SchemaFold&lt;TNode&gt;(backend, logger)</c> to
+    /// <see cref="WithContentExtractor"/> — it reuses the shared Schema fold
     /// rather than re-implementing the walk.
     /// </summary>
     public SpiderBuilder WithJsonContentParser()
     {
-        ContentParser = new JsonContentParser(Logger);
+        ContentExtractor = new SchemaFold<JsonNode>(new JsonSchemaBackend(), Logger);
         return this;
     }
 
@@ -96,7 +96,8 @@ internal class SpiderBuilder
     /// </summary>
     public SpiderBuilder WithXPathContentParser()
     {
-        ContentParser = new XPathContentParser(Logger);
+        ContentExtractor = new SchemaFold<AngleSharp.Dom.IParentNode>(
+            new AngleSharpXPathSchemaBackend(), Logger);
         return this;
     }
 
@@ -239,8 +240,10 @@ internal class SpiderBuilder
 
     public ISpider Build()
     {
-        // default implementations
-        ContentParser ??= new AngleSharpContentParser(Logger);
+        // Default extractor: the deterministic Schema fold over the CSS/HTML
+        // backend. ADR-0039 — no named shell; the builder constructs the fold.
+        ContentExtractor ??= new SchemaFold<AngleSharp.Dom.IParentNode>(
+            new AngleSharpSchemaBackend(), Logger);
 
         // One loader (ADR 0004). The HTTP transport is the core default; the
         // Dynamic slot is the registered transport factory (e.g.
@@ -257,7 +260,7 @@ internal class SpiderBuilder
 
         CookieStorage.AddAsync(Cookies);
 
-        var crawlStep = new CrawlStep(ContentParser);
+        var crawlStep = new CrawlStep(ContentExtractor);
 
         var spider = new Spider(
             crawlStep,

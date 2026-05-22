@@ -7,7 +7,8 @@ namespace WebReaper.UnitTests
 {
     public class ListParsingTests
     {
-        private static AngleSharpContentParser Parser() => new(NullLogger.Instance);
+        private static SchemaFold<AngleSharp.Dom.IParentNode> Parser() =>
+            new(new AngleSharpSchemaBackend(), NullLogger.Instance);
 
         private const string ListingsHtml = @"
             <html><body>
@@ -39,7 +40,7 @@ namespace WebReaper.UnitTests
                 }
             };
 
-            var result = await Parser().ParseToJsonAsync(ListingsHtml, schema);
+            var result = await Parser().ExtractAsync(ListingsHtml, schema);
 
             var listings = Assert.IsType<JsonArray>(result["listings"]);
             Assert.Equal(3, listings.Count);
@@ -57,7 +58,7 @@ namespace WebReaper.UnitTests
                 new SchemaElement("names", ".name") { IsList = true }
             };
 
-            var result = await Parser().ParseToJsonAsync(ListingsHtml, schema);
+            var result = await Parser().ExtractAsync(ListingsHtml, schema);
 
             var names = Assert.IsType<JsonArray>(result["names"]);
             Assert.Equal(new[] { "Alpha", "Beta", "Gamma" }, names.Select(n => n!.ToString()));
@@ -72,7 +73,7 @@ namespace WebReaper.UnitTests
                 new SchemaElement("name", ".name")
             };
 
-            var result = await Parser().ParseToJsonAsync(ListingsHtml, schema);
+            var result = await Parser().ExtractAsync(ListingsHtml, schema);
 
             Assert.Equal("Alpha", result["name"]!.ToString());
         }
