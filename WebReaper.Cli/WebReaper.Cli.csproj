@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    ADR-0043: the primitive agent surface — single-binary CLI built
+    Native-AOT clean. The same IL warning set as WebReaper.AotSmokeTest
+    is promoted to error so the funnel's AOT cold-start claim
+    (REPOSITIONING-PLAN §2.5) is verified by every publish, not just
+    the smoke. NuGet deps are deliberately zero — only ProjectReference
+    to WebReaper. The skill SKILL.md ships embedded so `init` does not
+    depend on the working directory layout.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>WebReaper.Cli</RootNamespace>
+    <!-- Assembly name stays WebReaper.Cli to avoid a case-insensitive
+         macOS clash with the WebReaper library assembly. The published
+         binary is renamed/symlinked to `webreaper` at the
+         `dotnet publish` step; the NuGet tool name follows the same
+         convention. -->
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>preview</LangVersion>
+
+    <PublishAot>true</PublishAot>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <WarningsAsErrors>$(WarningsAsErrors);IL2026;IL2027;IL2046;IL2055;IL2057;IL2058;IL2059;IL2060;IL2062;IL2067;IL2070;IL2072;IL2075;IL2080;IL2087;IL2090;IL2091;IL2104;IL3050;IL3051;IL3052;IL3053;IL3056</WarningsAsErrors>
+    <IsAotCompatible>true</IsAotCompatible>
+    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <EnableSingleFileAnalyzer>true</EnableSingleFileAnalyzer>
+    <EnableAotAnalyzer>true</EnableAotAnalyzer>
+    <NuGetAudit>false</NuGetAudit>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WebReaper\WebReaper.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="skill\SKILL.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="WebReaper.Cli.Tests" />
+  </ItemGroup>
+
+</Project>

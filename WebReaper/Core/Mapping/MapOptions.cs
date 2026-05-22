@@ -10,9 +10,9 @@ namespace WebReaper.Core.Mapping;
 /// directives, then <c>sitemap.xml</c>, and emit those URLs. Default true.</param>
 /// <param name="IncludeRootPageLinks">GET the root URL and emit
 /// <c>&lt;a href&gt;</c> URLs (resolved absolute). Default true.</param>
-/// <param name="AllowOffsite">Keep URLs whose host differs from
-/// <paramref name="url"/>'s. Default false — typical root pages link
-/// outbound to social/ads/CDNs which agents rarely want in the discovery
+/// <param name="AllowOffsite">Keep URLs whose host differs from the
+/// crawl root's. Default false — typical root pages link outbound to
+/// social/ads/CDNs which agents rarely want in the discovery
 /// result.</param>
 /// <param name="Search">Case-insensitive substring filter on the URLs
 /// (firecrawl-shaped ranking proxy). Default <c>null</c> — no filter. Real
