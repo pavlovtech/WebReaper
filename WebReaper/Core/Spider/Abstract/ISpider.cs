@@ -8,8 +8,8 @@ namespace WebReaper.Core.Spider.Abstract;
 /// return a <see cref="JobReport"/>. The shell reports; the Crawl driver
 /// (in-process <c>ScraperEngine</c> or the distributed worker) interprets the
 /// report. Termination never travels as a thrown exception, and the shell no
-/// longer owns the visited-link tracker, the crawl-limit stop, Sink fan-out,
-/// or the PostProcessor / ScrapedData notification.
+/// longer owns the visited-link tracker, the crawl-limit stop, the
+/// page-processor pipeline, or Sink fan-out.
 /// </summary>
 public interface ISpider
 {

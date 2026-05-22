@@ -16,7 +16,8 @@ namespace WebReaper.Domain;
 /// <param name="LinkPathSelectors">The remaining selector chain; empty ⇒ a
 /// target page (parsed with the Schema, no further Jobs).</param>
 /// <param name="ParentBacklinks">The ancestor URLs that led here, oldest
-/// first — surfaced to the PostProcessor as <see cref="Metadata"/>.</param>
+/// first — surfaced to a page processor as <c>PageContext.BackLinks</c>
+/// (ADR-0038).</param>
 /// <param name="PageType">Load statically (HTTP) or dynamically (headless
 /// browser).</param>
 /// <param name="PageActions">Browser actions to run before scraping a dynamic
