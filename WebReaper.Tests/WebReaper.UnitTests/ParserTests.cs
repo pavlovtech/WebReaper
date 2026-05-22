@@ -17,9 +17,9 @@ namespace WebReaper.UnitTests
         [Fact]
         public async Task ParserSimpleTest()
         {
-            var parser = new AngleSharpContentParser(logger);
+            var parser = new SchemaFold<AngleSharp.Dom.IParentNode>(new AngleSharpSchemaBackend(), logger);
             var page = await File.ReadAllTextAsync("TestData/TestPage.html", Encoding.GetEncoding("windows-1251"));
-            var result = await parser.ParseToJsonAsync(page, new()
+            var result = await parser.ExtractAsync(page, new()
             {
                 new("name", "#topic-title"),
                 new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
@@ -40,9 +40,9 @@ namespace WebReaper.UnitTests
         [Fact]
         public async Task ParserSimpleHtmlParsingTest()
         {
-            var parser = new AngleSharpContentParser(logger);
+            var parser = new SchemaFold<AngleSharp.Dom.IParentNode>(new AngleSharpSchemaBackend(), logger);
             var page = await File.ReadAllTextAsync("TestData/TestPage.html", Encoding.GetEncoding("windows-1251"));
-            var result = await parser.ParseToJsonAsync(page, new()
+            var result = await parser.ExtractAsync(page, new()
             {
                 new("link", ".attach_link.guest", true)
             });

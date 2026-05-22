@@ -8,7 +8,7 @@ namespace WebReaper.UnitTests
 {
     public class JsonParsingTests
     {
-        private static JsonContentParser Parser() => new(NullLogger.Instance);
+        private static SchemaFold<JsonNode> Parser() => new(new JsonSchemaBackend(), NullLogger.Instance);
 
         [Fact]
         public async Task ParsesNestedValuesWithJsonPath()
@@ -21,7 +21,7 @@ namespace WebReaper.UnitTests
                 new SchemaElement("views", "post.views", DataType.Integer)
             };
 
-            var result = await Parser().ParseToJsonAsync(json, schema);
+            var result = await Parser().ExtractAsync(json, schema);
 
             Assert.Equal("Hello", result["title"]!.ToString());
             Assert.Equal(42, result["views"]!.GetValue<int>());
@@ -42,7 +42,7 @@ namespace WebReaper.UnitTests
                 }
             };
 
-            var result = await Parser().ParseToJsonAsync(json, schema);
+            var result = await Parser().ExtractAsync(json, schema);
 
             var posts = Assert.IsType<JsonArray>(result["posts"]);
             Assert.Equal(2, posts.Count);
@@ -70,7 +70,7 @@ namespace WebReaper.UnitTests
                 new SchemaElement("shallowRelative", "x")
             };
 
-            var result = await Parser().ParseToJsonAsync(json, schema);
+            var result = await Parser().ExtractAsync(json, schema);
 
             Assert.Equal("deep", result["rooted"]!.ToString());
             Assert.Equal("deep", result["relative"]!.ToString());
@@ -88,7 +88,7 @@ namespace WebReaper.UnitTests
                 new SchemaElement("scores", "$.scores[*]") { IsList = true }
             };
 
-            var result = await Parser().ParseToJsonAsync(json, schema);
+            var result = await Parser().ExtractAsync(json, schema);
 
             var scores = Assert.IsType<JsonArray>(result["scores"]);
             // ADR 0002 divergence: untyped JSON scalars stay native JSON

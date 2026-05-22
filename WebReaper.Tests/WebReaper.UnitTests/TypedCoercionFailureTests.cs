@@ -11,10 +11,10 @@ namespace WebReaper.UnitTests;
 // the policy across every typed Coerce arm.
 public class TypedCoercionFailureTests
 {
-    private static (AngleSharpContentParser Parser, CapturingLogger Logger) Html()
+    private static (SchemaFold<AngleSharp.Dom.IParentNode> Parser, CapturingLogger Logger) Html()
     {
         var logger = new CapturingLogger();
-        return (new AngleSharpContentParser(logger), logger);
+        return (new SchemaFold<AngleSharp.Dom.IParentNode>(new AngleSharpSchemaBackend(), logger), logger);
     }
 
     [Fact]
@@ -22,7 +22,7 @@ public class TypedCoercionFailureTests
     {
         var (parser, logger) = Html();
 
-        var result = await parser.ParseToJsonAsync(
+        var result = await parser.ExtractAsync(
             "<i>abc</i>",
             new Schema { new SchemaElement("n", "i", DataType.Integer) });
 
@@ -38,7 +38,7 @@ public class TypedCoercionFailureTests
     {
         var (parser, logger) = Html();
 
-        var result = await parser.ParseToJsonAsync(
+        var result = await parser.ExtractAsync(
             "<i>99999999999</i>", // exceeds Int32.MaxValue
             new Schema { new SchemaElement("n", "i", DataType.Integer) });
 
@@ -54,7 +54,7 @@ public class TypedCoercionFailureTests
     {
         var (parser, logger) = Html();
 
-        var result = await parser.ParseToJsonAsync(
+        var result = await parser.ExtractAsync(
             "<i>xyz</i>",
             new Schema { new SchemaElement("f", "i", DataType.Float) });
 
@@ -69,7 +69,7 @@ public class TypedCoercionFailureTests
     {
         var (parser, logger) = Html();
 
-        var result = await parser.ParseToJsonAsync(
+        var result = await parser.ExtractAsync(
             "<i>neither</i>",
             new Schema { new SchemaElement("b", "i", DataType.Boolean) });
 
@@ -84,7 +84,7 @@ public class TypedCoercionFailureTests
     {
         var (parser, logger) = Html();
 
-        var result = await parser.ParseToJsonAsync(
+        var result = await parser.ExtractAsync(
             "<i>not-a-date</i>",
             new Schema { new SchemaElement("d", "i", DataType.DataTime) });
 
@@ -104,7 +104,7 @@ public class TypedCoercionFailureTests
         // "Considered options".
         var (parser, logger) = Html();
 
-        var result = await parser.ParseToJsonAsync(
+        var result = await parser.ExtractAsync(
             "<i>1</i><i>oops</i><i>3</i>",
             new Schema { new SchemaElement("ns", "i", DataType.Integer) { IsList = true } });
 
@@ -121,7 +121,7 @@ public class TypedCoercionFailureTests
         // pins above meaningful.
         var (parser, logger) = Html();
 
-        var result = await parser.ParseToJsonAsync(
+        var result = await parser.ExtractAsync(
             "<i>42</i>",
             new Schema { new SchemaElement("n", "i", DataType.Integer) });
 

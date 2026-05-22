@@ -13,13 +13,15 @@ namespace WebReaper.UnitTests;
 // SchemaFoldTests (unchanged, served by the compat shim).
 public class TypedFoldTests
 {
-    private static AngleSharpContentParser Html() => new(NullLogger.Instance);
-    private static JsonContentParser Json() => new(NullLogger.Instance);
+    private static SchemaFold<AngleSharp.Dom.IParentNode> Html() =>
+        new(new AngleSharpSchemaBackend(), NullLogger.Instance);
+    private static SchemaFold<JsonNode> Json() =>
+        new(new JsonSchemaBackend(), NullLogger.Instance);
 
     [Fact]
     public async Task Typed_path_folds_to_JsonObject_with_native_number()
     {
-        JsonObject result = await Html().ParseToJsonAsync(
+        JsonObject result = await Html().ExtractAsync(
             "<i>7</i>",
             new Schema { new SchemaElement("n", "i", DataType.Integer) });
 
@@ -34,10 +36,10 @@ public class TypedFoldTests
         // string; an untyped JSON leaf keeps its native number. The JObject
         // terminal carried this via JToken.FromObject; the typed terminal must
         // carry it via the JToken->JsonNode bridge.
-        var html = await Html().ParseToJsonAsync(
+        var html = await Html().ExtractAsync(
             "<i>1</i><i>2</i>",
             new Schema { new SchemaElement("n", "i") { IsList = true } });
-        var json = await Json().ParseToJsonAsync(
+        var json = await Json().ExtractAsync(
             @"{ ""n"": [ 1, 2 ] }",
             new Schema { new SchemaElement("n", "$.n[*]") { IsList = true } });
 
@@ -48,14 +50,14 @@ public class TypedFoldTests
     [Fact]
     public async Task Typed_coercion_is_backend_independent_on_typed_path()
     {
-        var html = await Html().ParseToJsonAsync(
+        var html = await Html().ExtractAsync(
             "<i>7</i><b>true</b>",
             new Schema
             {
                 new SchemaElement("i", "i", DataType.Integer),
                 new SchemaElement("b", "b", DataType.Boolean)
             });
-        var json = await Json().ParseToJsonAsync(
+        var json = await Json().ExtractAsync(
             @"{ ""i"": 7, ""b"": true }",
             new Schema
             {
@@ -71,9 +73,9 @@ public class TypedFoldTests
     [Fact]
     public async Task Missing_single_value_yields_empty_string_on_typed_path()
     {
-        var html = await Html().ParseToJsonAsync("<p>hi</p>",
+        var html = await Html().ExtractAsync("<p>hi</p>",
             new Schema { new SchemaElement("x", ".nope") });
-        var json = await Json().ParseToJsonAsync(@"{ ""y"": 1 }",
+        var json = await Json().ExtractAsync(@"{ ""y"": 1 }",
             new Schema { new SchemaElement("x", "$.nope") });
 
         Assert.Equal("", html["x"]!.GetValue<string>());
@@ -83,7 +85,7 @@ public class TypedFoldTests
     [Fact]
     public async Task Object_list_folds_to_JsonArray_of_JsonObjects()
     {
-        var result = await Html().ParseToJsonAsync(
+        var result = await Html().ExtractAsync(
             "<div class='p'><span class='t'>a</span></div>" +
             "<div class='p'><span class='t'>b</span></div>",
             new Schema

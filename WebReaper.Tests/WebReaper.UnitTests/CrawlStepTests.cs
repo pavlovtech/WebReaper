@@ -15,7 +15,7 @@ namespace WebReaper.UnitTests;
 public class CrawlStepTests
 {
     private static CrawlStep Step() =>
-        new(new AngleSharpContentParser(NullLogger.Instance));
+        new(new SchemaFold<AngleSharp.Dom.IParentNode>(new AngleSharpSchemaBackend(), NullLogger.Instance));
 
     private static Job Job(string url, params LinkPathSelector[] chain) =>
         new(url, ImmutableQueue.CreateRange(chain), ImmutableQueue.Create<string>());

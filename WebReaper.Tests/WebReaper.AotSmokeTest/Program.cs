@@ -1,7 +1,7 @@
 // ADR 0008 step 4 (re-scoped) AOT smoke test. Exercises ONLY the
 // Newtonsoft-free PRODUCTION path under PublishAot with the IL2026/IL3050
 // family promoted to build errors: WebReaperJson config + Job round-trip,
-// the typed JsonObject fold terminal (SchemaContentParser.ParseToJsonAsync)
+// the typed JsonObject fold terminal (SchemaFold.ExtractAsync)
 // over a trivial in-memory backend, and the JsonObject file formats. Exits
 // non-zero on any assertion failure; the build fails on any trim/AOT warning.
 
@@ -69,8 +69,8 @@ Check(gotJob.LinkPathSelectors.Single().Selector == "a.x"
     "Job round-trip with type fidelity (ADR-0005 closed)");
 
 // 3. Production typed fold terminal over a trivial Newtonsoft-free backend.
-var parser = new SchemaContentParser<KvNode>(new KvBackend(), NullLogger.Instance);
-JsonObject parsed = await parser.ParseToJsonAsync(
+var parser = new SchemaFold<KvNode>(new KvBackend(), NullLogger.Instance);
+JsonObject parsed = await parser.ExtractAsync(
     "title=Hello\nviews=42",
     new Schema
     {
@@ -87,8 +87,8 @@ Check(parsed["title"]!.GetValue<string>() == "Hello"
 //     publish (IL2104/IL3053 whole-assembly rollup, promoted to error);
 //     after, JsonSchemaBackend is JsonNode-only and AOT-clean. Exercises the
 //     full used dialect: relative dotted, $-rooted, and $.a[*] wildcard.
-var jsonParser = new JsonContentParser(NullLogger.Instance);
-JsonObject jp = await jsonParser.ParseToJsonAsync(
+var jsonParser = new SchemaFold<JsonNode>(new JsonSchemaBackend(), NullLogger.Instance);
+JsonObject jp = await jsonParser.ExtractAsync(
     @"{ ""post"": { ""title"": ""Hi"", ""views"": 42 }, ""tags"": [ ""a"", ""b"" ] }",
     new Schema
     {

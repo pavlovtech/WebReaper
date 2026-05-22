@@ -12,21 +12,22 @@ namespace WebReaper.Core.Crawling.Concrete;
 /// <summary>
 /// The crawl-step decision extracted from the old Spider.CrawlAsync. Holds the
 /// page-category dispatch, the selector-chain advance/retain rule, link
-/// extraction, content parsing, and child-Job provenance threading behind one
-/// pure method. Content parsing is the injected <see cref="IJsonContentParser"/>
-/// seam — never surfaced on <see cref="ICrawlStep"/>; link extraction is the
-/// concrete <see cref="LinkExtractor"/> function, called directly (ADR-0036 —
-/// one adapter, never a real seam). ADR 0008: the content seam is the typed
-/// <see cref="IJsonContentParser"/> (JsonObject); the legacy <c>IContentParser</c>
-/// (JObject) was removed at 6.0.0.
+/// extraction, content extraction, and child-Job provenance threading behind
+/// one pure method. Content extraction is the injected
+/// <see cref="IContentExtractor"/> seam (ADR-0039) — never surfaced on
+/// <see cref="ICrawlStep"/>; link extraction is the concrete
+/// <see cref="LinkExtractor"/> function, called directly (ADR-0036 — one
+/// adapter, never a real seam). ADR 0008: the seam's terminal is a typed
+/// <c>JsonObject</c>; the legacy Newtonsoft <c>IContentParser</c> (JObject)
+/// was removed at 6.0.0.
 /// </summary>
 internal sealed class CrawlStep : ICrawlStep
 {
-    private readonly IJsonContentParser _contentParser;
+    private readonly IContentExtractor _extractor;
 
-    public CrawlStep(IJsonContentParser contentParser)
+    public CrawlStep(IContentExtractor extractor)
     {
-        _contentParser = contentParser;
+        _extractor = extractor;
     }
 
     public async ValueTask<CrawlOutcome> StepAsync(Job job, string document, Schema? schema)
@@ -36,7 +37,7 @@ internal sealed class CrawlStep : ICrawlStep
         // Empty selector chain ⇒ target page: parse with the Schema, no Jobs.
         if (chain.IsEmpty)
         {
-            var data = await _contentParser.ParseToJsonAsync(document, schema);
+            var data = await _extractor.ExtractAsync(document, schema);
             return CrawlOutcome.Target(new ParsedData(job.Url, data));
         }
 

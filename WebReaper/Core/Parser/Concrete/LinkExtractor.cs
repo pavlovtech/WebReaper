@@ -7,7 +7,7 @@ namespace WebReaper.Core.Parser.Concrete;
 /// absolute URLs a CSS selector's elements point at, relative hrefs resolved
 /// against the page's base URL. The content half — turning a target page into
 /// data — is the Schema fold
-/// (<see cref="WebReaper.Core.Parser.Abstract.IJsonContentParser"/>, ADR-0002);
+/// (<see cref="WebReaper.Core.Parser.Abstract.IContentExtractor"/>, ADR-0002);
 /// the two stay separate concerns.
 ///
 /// A concrete static function, deliberately not a seam (ADR-0036). There is

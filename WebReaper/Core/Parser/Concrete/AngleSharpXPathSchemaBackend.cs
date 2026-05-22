@@ -7,7 +7,7 @@ using WebReaper.Domain.Parsing;
 namespace WebReaper.Core.Parser.Concrete;
 
 /// <summary>
-/// XPath backend for <see cref="SchemaContentParser{TNode}"/>: the same
+/// XPath backend for <see cref="SchemaFold{TNode}"/>: the same
 /// AngleSharp DOM as <see cref="AngleSharpSchemaBackend"/>, but each
 /// <see cref="SchemaElement.Selector"/> is an XPath 1.0 expression instead
 /// of a CSS selector (discussion #17, realising the ADR 0002 seam — a new
