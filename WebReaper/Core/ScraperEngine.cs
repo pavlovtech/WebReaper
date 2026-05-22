@@ -9,9 +9,12 @@ using WebReaper.Core.LinkTracker.Abstract;
 using WebReaper.Core.Scheduler.Abstract;
 using WebReaper.Core.Spider.Abstract;
 using WebReaper.Domain;
+using WebReaper.Domain.Parsing;
 using WebReaper.Extensions;
 using WebReaper.Infra.Abstract;
 using WebReaper.Infra.Concrete;
+using WebReaper.Processing;
+using WebReaper.Processing.Abstract;
 using WebReaper.Sinks.Abstract;
 using WebReaper.Sinks.Models;
 
@@ -20,9 +23,9 @@ namespace WebReaper.Core;
 /// <summary>
 /// The in-process Crawl driver (ADR-0022). It owns the Crawl-global state the
 /// per-Job <see cref="ISpider"/> shell deliberately does not: the visited-link
-/// tracker, the crawl-limit stop rule, Sink fan-out, the PostProcessor /
-/// ScrapedData notification, and the Outstanding-work latch (the
-/// <c>pending</c> counter, in-memory <c>Interlocked</c> adapter). It seeds the
+/// tracker, the crawl-limit stop rule, the page-processor pipeline, Sink
+/// fan-out, and the Outstanding-work latch (the <c>pending</c> counter,
+/// in-memory <c>Interlocked</c> adapter). It seeds the
 /// scheduler, drives <c>Parallel.ForEachAsync</c>, and interprets each
 /// <see cref="JobReport"/> the shell returns. The crawl-limit stop is a value
 /// the driver checks; on a concluded Crawl the driver ends its own
@@ -38,9 +41,9 @@ public class ScraperEngine
     /// consumers obtain an engine from the builder, not by calling this
     /// directly. Wires the in-process Crawl driver (ADR-0022): the scheduler,
     /// the persisted config storage, the per-Job <see cref="ISpider"/> shell,
-    /// the visited-link idempotency authority, the Sink fan-out, the optional
-    /// ScrapedData / PostProcessor callbacks, and the Outstanding-work latch
-    /// (an in-memory <c>Interlocked</c> latch by default).
+    /// the visited-link idempotency authority, the page-processor pipeline, the
+    /// Sink fan-out, and the Outstanding-work latch (an in-memory
+    /// <c>Interlocked</c> latch by default).
     /// </summary>
     internal ScraperEngine(
         int parallelismDegree,
@@ -50,8 +53,7 @@ public class ScraperEngine
         IVisitedLinkTracker linkTracker,
         List<IScraperSink> sinks,
         ILogger logger,
-        Action<ParsedData>? scrapedData = null,
-        Func<Metadata, JsonObject, Task>? postProcessor = null,
+        IReadOnlyList<IPageProcessor>? pageProcessors = null,
         IOutstandingWorkLatch? latch = null,
         IRetryPolicy? retryPolicy = null)
     {
@@ -65,8 +67,7 @@ public class ScraperEngine
 
         (Scheduler, Spider, LinkTracker, Sinks, Logger, ConfigStorage) =
             (jobScheduler, spider, linkTracker, sinks, logger, configStorage);
-        ScrapedData = scrapedData;
-        PostProcessor = postProcessor;
+        PageProcessors = pageProcessors ?? Array.Empty<IPageProcessor>();
         Latch = latch ?? new InMemoryOutstandingWorkLatch();
         // ADR-0026: the Crawl driver's retry around the per-Job Spider call
         // is now a named seam; default is the fixed-attempts core adapter
@@ -81,8 +82,7 @@ public class ScraperEngine
     private IVisitedLinkTracker LinkTracker { get; }
     private List<IScraperSink> Sinks { get; }
     private ILogger Logger { get; }
-    private Action<ParsedData>? ScrapedData { get; }
-    private Func<Metadata, JsonObject, Task>? PostProcessor { get; }
+    private IReadOnlyList<IPageProcessor> PageProcessors { get; }
     private IOutstandingWorkLatch Latch { get; }
     private IRetryPolicy RetryPolicy { get; }
 
@@ -190,7 +190,11 @@ public class ScraperEngine
 
                     if (report.Outcome is CrawlOutcome.Parsed parsed)
                     {
-                        await ProcessTargetPage(job, report.Document, parsed.Data, token);
+                        // ADR-0037: per-Job work runs on the iteration token,
+                        // so a Crawl concluding mid-flight cancels the in-flight
+                        // page-processor pipeline and Sink fan-out too.
+                        await ProcessTargetPage(job, report.Document, parsed.Data,
+                            config.ParsingScheme, token);
                         newJobs = new List<Job>();
                     }
                     else
@@ -246,8 +250,8 @@ public class ScraperEngine
     }
 
     // ADR-0033: warm up every adapter the driver holds that declares the
-    // IAsyncInitializable capability — the scheduler, the visited-link tracker
-    // and every sink — once, before the crawl loop (the IHostedService model).
+    // IAsyncInitializable capability — the scheduler, the visited-link tracker,
+    // every sink and every page processor — once, before the crawl loop.
     // Adapters with no async warm-up (the in-memory defaults, the console and
     // file sinks) implement nothing and are skipped. InitializeAsync is
     // idempotent, so a sink shared with a distributed driver stays correct.
@@ -262,17 +266,57 @@ public class ScraperEngine
         foreach (var sink in Sinks)
             if (sink is IAsyncInitializable initializableSink)
                 await initializableSink.InitializeAsync();
+
+        // ADR-0038: a page processor that holds an LLM client (or any durable
+        // resource) opts into the same warm-up capability — warm it here too.
+        foreach (var processor in PageProcessors)
+            if (processor is IAsyncInitializable initializableProcessor)
+                await initializableProcessor.InitializeAsync();
     }
 
     private async Task ProcessTargetPage(Job job, string doc, ParsedData result,
-        CancellationToken cancellationToken = default)
+        Schema? schema, CancellationToken cancellationToken = default)
     {
         Logger.LogInvocationCount();
 
-        if (PostProcessor is not null)
-            await PostProcessor.Invoke(new Metadata(job.ParentBacklinks.ToList(), job.Url, doc), result.Data);
+        // ADR-0038: the page-processor pipeline runs over the extracted record
+        // BEFORE the Sink fan-out — enrich / observe / filter / repair, in
+        // registration order, each processor handed the previous one's record.
+        // A Drop verdict, or a processor that throws (anything but
+        // OperationCanceledException), drops the page: no Sink emits it and the
+        // crawl continues — a noisy page never aborts the crawl (ADR-0029).
+        var record = result;
+        foreach (var processor in PageProcessors)
+        {
+            var context = new PageContext(record, doc, job.ParentBacklinks.ToList(), schema);
 
-        ScrapedData?.Invoke(result);
+            PageVerdict verdict;
+            try
+            {
+                verdict = await processor.ProcessAsync(context, cancellationToken);
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Page processor {Processor} threw on {Url}; dropping the page",
+                    processor.GetType().Name, job.Url);
+                return;
+            }
+
+            switch (verdict)
+            {
+                case PageVerdict.Dropped dropped:
+                    Logger.LogInformation("Page {Url} dropped by {Processor}: {Reason}",
+                        job.Url, processor.GetType().Name, dropped.Reason);
+                    return;
+                case PageVerdict.Kept kept:
+                    record = kept.Data;
+                    break;
+            }
+        }
 
         Logger.LogInformation("Sending scraped data to sinks...");
         // ADR-0031: hand each sink its own deep-cloned Data. The fan-out runs
@@ -282,7 +326,7 @@ public class ScraperEngine
         // bypasses ParsedData's merge initializer (the clone is of the
         // already-merged Data), so there is no double-merge.
         var sinkTasks = Sinks.Select(sink => sink.EmitAsync(
-            result with { Data = (JsonObject)result.Data.DeepClone() }, cancellationToken));
+            record with { Data = (JsonObject)record.Data.DeepClone() }, cancellationToken));
 
         Logger.LogInformation("Waiting for sinks ...");
         await Task.WhenAll(sinkTasks);
