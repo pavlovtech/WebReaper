@@ -41,8 +41,6 @@ internal class SpiderBuilder
 
     private ILogger Logger { get; set; } = NullLogger.Instance;
 
-    private ILinkParser LinkParser { get; } = new LinkParserByCssSelector();
-
     private ScraperConfig Config { get; set; }
 
     private IVisitedLinkTracker SiteLinkTracker { get; set; } = new InMemoryVisitedLinkTracker();
@@ -265,7 +263,7 @@ internal class SpiderBuilder
 
         CookieStorage.AddAsync(Cookies);
 
-        var crawlStep = new CrawlStep(LinkParser, ContentParser);
+        var crawlStep = new CrawlStep(ContentParser);
 
         var spider = new Spider(
             crawlStep,
