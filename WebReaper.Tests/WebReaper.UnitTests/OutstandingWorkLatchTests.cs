@@ -2,11 +2,12 @@ using WebReaper.Core.Crawling.Concrete;
 
 namespace WebReaper.UnitTests;
 
-// ADR-0022 slice 3: the Outstanding-work latch (in-memory adapter) is an
+// ADR-0022 / ADR-0032: the Outstanding-work latch (in-memory adapter) is an
 // exact unit-credit termination detector — it trips exactly once, when
-// outstanding credit reaches zero, and children credited before a parent's
-// unit is returned cannot let it trip early (the credit-conservation
-// precondition the research pins as load-bearing).
+// outstanding credit reaches zero. SignalProcessedAsync(childCount) credits a
+// Job's discovered children and returns the Job's own unit in ONE atomic step
+// (net childCount - 1), so credit conservation is structural — there is no
+// two-call ordering for a caller to get wrong.
 public class OutstandingWorkLatchTests
 {
     [Fact]
@@ -15,22 +16,37 @@ public class OutstandingWorkLatchTests
         var latch = new InMemoryOutstandingWorkLatch();
         await latch.SeedAsync(3);
 
-        Assert.False(await latch.SignalProcessedAsync()); // 3 -> 2
-        Assert.False(await latch.SignalProcessedAsync()); // 2 -> 1
-        Assert.True(await latch.SignalProcessedAsync());   // 1 -> 0  (trip)
+        Assert.False(await latch.SignalProcessedAsync(0)); // 3 -> 2
+        Assert.False(await latch.SignalProcessedAsync(0)); // 2 -> 1
+        Assert.True(await latch.SignalProcessedAsync(0));   // 1 -> 0  (trip)
     }
 
     [Fact]
-    public async Task Children_credited_before_parent_unit_returned_prevents_early_trip()
+    public async Task Childful_registration_credits_and_returns_in_one_step_so_the_latch_cannot_trip_early()
     {
         var latch = new InMemoryOutstandingWorkLatch();
-        await latch.SeedAsync(1);          // the root job
+        await latch.SeedAsync(1); // the root job
 
-        await latch.AddAsync(2);           // root discovered 2 children (credited first)
-        Assert.False(await latch.SignalProcessedAsync()); // root done: 3 -> 2 (NOT zero)
+        // Root done, having discovered 2 children: 2 credited, 1 returned, in
+        // one atomic op — net +1, so 1 -> 2. The latch cannot trip here, and
+        // no interleaving can observe a partially-credited count.
+        Assert.False(await latch.SignalProcessedAsync(2));
 
-        Assert.False(await latch.SignalProcessedAsync()); // child: 2 -> 1
-        Assert.True(await latch.SignalProcessedAsync());   // child: 1 -> 0 (trip)
+        Assert.False(await latch.SignalProcessedAsync(0)); // child: 2 -> 1
+        Assert.True(await latch.SignalProcessedAsync(0));   // child: 1 -> 0 (trip)
+    }
+
+    [Fact]
+    public async Task A_job_that_discovers_more_work_than_itself_pushes_the_count_up()
+    {
+        var latch = new InMemoryOutstandingWorkLatch();
+        await latch.SeedAsync(1);
+
+        Assert.False(await latch.SignalProcessedAsync(5)); // net +4: 1 -> 5
+
+        for (var i = 0; i < 4; i++)
+            Assert.False(await latch.SignalProcessedAsync(0)); // 5 -> 1
+        Assert.True(await latch.SignalProcessedAsync(0));       // 1 -> 0 (trip)
     }
 
     [Fact]
@@ -40,7 +56,7 @@ public class OutstandingWorkLatchTests
         await latch.SeedAsync(500);
 
         var trips = await Task.WhenAll(Enumerable.Range(0, 500)
-            .Select(_ => Task.Run(() => latch.SignalProcessedAsync())));
+            .Select(_ => Task.Run(() => latch.SignalProcessedAsync(0))));
 
         Assert.Equal(1, trips.Count(t => t));
     }
