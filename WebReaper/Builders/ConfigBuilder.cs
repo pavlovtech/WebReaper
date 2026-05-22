@@ -139,9 +139,10 @@ internal class ConfigBuilder
 
     /// <summary>
     /// Stop the engine once every discovered link has been crawled, instead of
-    /// running forever waiting for new jobs (issue #20). ADR-0022: this is the
-    /// Outstanding-work latch's in-memory adapter — it applies to the
-    /// in-memory scheduler.
+    /// running forever waiting for new jobs (issue #20). ADR-0022: the
+    /// Outstanding-work latch detects completion; ADR-0037: the Crawl driver
+    /// then ends its own consumption of the job stream, so this applies to
+    /// every scheduler — in-memory, File, Redis, Sqlite, Azure Service Bus.
     /// </summary>
     public ConfigBuilder StopWhenAllLinksProcessed()
     {
