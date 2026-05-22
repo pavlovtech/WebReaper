@@ -16,6 +16,7 @@ using WebReaper.Core.Spider.Concrete;
 using WebReaper.Domain;
 using WebReaper.Infra.Abstract;
 using WebReaper.Infra.Concrete;
+using WebReaper.Processing.Abstract;
 using WebReaper.Proxy;
 using WebReaper.Proxy.Abstract;
 using WebReaper.Proxy.Concrete;
@@ -35,7 +36,7 @@ namespace WebReaper.Builders;
 /// </summary>
 internal class SpiderBuilder
 {
-    private Func<Metadata, JsonObject, Task> PostProcessor { get; set; }
+    private List<IPageProcessor> PageProcessors { get; } = new();
 
     private List<IScraperSink> Sinks { get; } = new();
 
@@ -56,8 +57,6 @@ internal class SpiderBuilder
     private CookieContainer Cookies { get; } = new();
 
     private ICookiesStorage CookieStorage { get; set; } = new InMemoryCookieStorage();
-
-    private Action<ParsedData>? ScrapedData { get; set; }
 
     // ADR-0026: the Crawl driver's retry around the per-Job Spider call is a
     // named seam. Default is the internal fixed-attempts adapter (one initial
@@ -140,9 +139,9 @@ internal class SpiderBuilder
         return AddSink(new ConsoleSink());
     }
 
-    public SpiderBuilder AddSubscription(Action<ParsedData> eventHandler)
+    public SpiderBuilder AddProcessor(IPageProcessor processor)
     {
-        ScrapedData += eventHandler;
+        PageProcessors.Add(processor);
         return this;
     }
 
@@ -227,19 +226,14 @@ internal class SpiderBuilder
         return this;
     }
 
-    public void PostProcess(Func<Metadata, JsonObject, Task> callback)
-    {
-        PostProcessor = callback;
-    }
-
     // ADR-0022: the Crawl driver (ScraperEngine) owns these now — the reduced
-    // Spider shell no longer fans out to Sinks, tracks links, or fires the
-    // PostProcessor / ScrapedData notification. ScraperEngineBuilder reads
-    // them to construct the driver.
+    // Spider shell no longer fans out to Sinks, tracks links, or runs the
+    // page-processor pipeline. ScraperEngineBuilder reads them to construct
+    // the driver.
     internal List<IScraperSink> DriverSinks => Sinks;
     internal IVisitedLinkTracker DriverLinkTracker => SiteLinkTracker;
-    internal Action<ParsedData>? DriverScrapedData => ScrapedData;
-    internal Func<Metadata, JsonObject, Task>? DriverPostProcessor => PostProcessor;
+    // ADR-0038: the ordered page-processor pipeline.
+    internal IReadOnlyList<IPageProcessor> DriverPageProcessors => PageProcessors;
     // ADR-0026.
     internal IRetryPolicy DriverRetryPolicy => RetryPolicy;
 

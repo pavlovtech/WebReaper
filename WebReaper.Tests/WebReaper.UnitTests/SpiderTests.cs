@@ -58,7 +58,7 @@ public class SpiderTests
         var parsed = Assert.IsType<CrawlOutcome.Parsed>(report.Outcome);
         Assert.Equal("https://x.test/p/1", parsed.Data.Url);
         Assert.Equal("Hello", parsed.Data.Data["title"]?.ToString());
-        Assert.Equal(html, report.Document);          // the doc the driver needs for Metadata
+        Assert.Equal(html, report.Document);          // the doc the driver needs for PageContext
         Assert.Empty(report.Outcome.NextJobs);
     }
 

@@ -18,6 +18,9 @@ using WebReaper.Domain.PageActions;
 using WebReaper.Domain.Parsing;
 using WebReaper.Infra.Abstract;
 using WebReaper.Logging;
+using WebReaper.Processing;
+using WebReaper.Processing.Abstract;
+using WebReaper.Processing.Concrete;
 using WebReaper.Proxy;
 using WebReaper.Proxy.Abstract;
 using WebReaper.Sinks.Abstract;
@@ -264,12 +267,16 @@ public class ScraperEngineBuilder
 
     /// <summary>
     /// Invoke <paramref name="scrapingResultHandler"/> for every scraped
-    /// record. ADR-0022: the callback is wired onto the Crawl driver; this
-    /// builder surface is unchanged.
+    /// record. ADR-0038: sugar for registering a delegate
+    /// <see cref="IScraperSink"/> — an in-process delegate destination, not a
+    /// separate notification seam; it composes with the other sinks and
+    /// receives its own clone of the record, like any sink. To react to a page
+    /// <em>before</em> it reaches the sinks (enrich / filter / repair), use
+    /// <see cref="Process(IPageProcessor)"/> instead.
     /// </summary>
     public ScraperEngineBuilder Subscribe(Action<ParsedData> scrapingResultHandler)
     {
-        SpiderBuilder.AddSubscription(scrapingResultHandler);
+        SpiderBuilder.AddSink(new DelegateSink(scrapingResultHandler));
         return this;
     }
 
@@ -487,13 +494,45 @@ public class ScraperEngineBuilder
     }
 
     /// <summary>
-    /// Post-process every scraped record (e.g. enrich or reshape it) before it
-    /// reaches the sinks. ADR-0022: wired onto the Crawl driver; this surface
-    /// is unchanged.
+    /// Append a page processor to the pipeline (ADR-0038). Processors run in
+    /// registration order over each crawled target page's extracted record,
+    /// after the Schema fold and before the Sink fan-out — enrich, observe,
+    /// filter, or repair. Implement <see cref="IPageProcessor"/> for a
+    /// processor that holds state (e.g. an LLM client) or needs async warm-up.
     /// </summary>
-    public ScraperEngineBuilder PostProcess(Func<Metadata, JsonObject, Task> action)
+    public ScraperEngineBuilder Process(IPageProcessor processor)
     {
-        SpiderBuilder.PostProcess(action);
+        SpiderBuilder.AddProcessor(processor);
+        return this;
+    }
+
+    /// <summary>
+    /// Append a page processor expressed as a delegate (ADR-0038) — for a
+    /// stateless stage that needs no class. Return <see cref="PageVerdict.Keep"/>
+    /// to carry a record forward (enrich / observe / repair) or
+    /// <see cref="PageVerdict.Drop"/> to filter the page out so no sink emits it.
+    /// </summary>
+    public ScraperEngineBuilder Process(
+        Func<PageContext, CancellationToken, ValueTask<PageVerdict>> processor)
+    {
+        SpiderBuilder.AddProcessor(new DelegatePageProcessor(processor));
+        return this;
+    }
+
+    /// <summary>
+    /// Append a trivial synchronous enrich stage (ADR-0038): the action mutates
+    /// the extracted record's JSON in place (add or change fields) and the
+    /// record is kept. The dead-common page-processor case — no
+    /// <see cref="IPageProcessor"/> class and no <see cref="PageVerdict"/> to
+    /// learn.
+    /// </summary>
+    public ScraperEngineBuilder Process(Action<JsonObject> enrich)
+    {
+        SpiderBuilder.AddProcessor(new DelegatePageProcessor((context, _) =>
+        {
+            enrich(context.Data.Data);
+            return ValueTask.FromResult(PageVerdict.Keep(context.Data));
+        }));
         return this;
     }
 
@@ -539,7 +578,7 @@ public class ScraperEngineBuilder
         return new ScraperEngine(
             _parallelismDegree, ConfigStorage, Scheduler, spider,
             SpiderBuilder.DriverLinkTracker, SpiderBuilder.DriverSinks, Logger,
-            SpiderBuilder.DriverScrapedData, SpiderBuilder.DriverPostProcessor,
+            SpiderBuilder.DriverPageProcessors,
             retryPolicy: SpiderBuilder.DriverRetryPolicy);
     }
 }
