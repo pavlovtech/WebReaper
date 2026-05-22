@@ -5,91 +5,82 @@ using WebReaper.Domain.PageActions;
 namespace WebReaper.Serialization.Converters;
 
 /// <summary>
-/// <see cref="PageAction"/> codec (ADR 0008). <c>Parameters</c> is a
-/// genuinely-polymorphic <c>object[]</c>; STJ's default rematerialises a
-/// <see cref="JsonElement"/>, on which <c>Convert.ToInt32</c> throws — the
-/// exact ADR-0003/0005 "polymorphic member loses its type across a serializer
-/// boundary" defect. Each element is written <em>kind-tagged</em> and read
-/// back to its CLR type, so the round-trip keeps type fidelity.
+/// <see cref="PageAction"/> codec (ADR 0008, ADR-0035). Since ADR-0035
+/// <c>PageAction</c> is a closed sum of typed arms, not a
+/// <c>(PageActionType, object[])</c> pair — so the codec is a <c>type</c>
+/// discriminator plus the arm's typed fields, and the pre-0035 per-value
+/// kind-tagging (the workaround for a genuinely-polymorphic <c>object[]</c>)
+/// is gone.
 /// </summary>
 internal static class PageActionCodec
 {
     public static void Write(Utf8JsonWriter w, PageAction a)
     {
         w.WriteStartObject();
-        w.WriteString("type", a.Type.ToString());
-        w.WritePropertyName("parameters");
-        w.WriteStartArray();
-        foreach (var p in a.Parameters)
+        switch (a)
         {
-            w.WriteStartObject();
-            switch (p)
-            {
-                case null: w.WriteString("k", "n"); break;
-                case string s: w.WriteString("k", "s"); w.WriteString("v", s); break;
-                case bool b: w.WriteString("k", "b"); w.WriteBoolean("v", b); break;
-                case sbyte or byte or short or ushort or int or uint or long:
-                    w.WriteString("k", "i"); w.WriteNumber("v", Convert.ToInt64(p)); break;
-                case ulong ul: w.WriteString("k", "i"); w.WriteNumber("v", ul); break;
-                case float or double or decimal:
-                    w.WriteString("k", "d"); w.WriteNumber("v", Convert.ToDouble(p)); break;
-                default: w.WriteString("k", "s"); w.WriteString("v", p.ToString()); break;
-            }
-            w.WriteEndObject();
+            case PageAction.Click x:
+                w.WriteString("type", "click");
+                w.WriteString("selector", x.Selector);
+                break;
+            case PageAction.Wait x:
+                w.WriteString("type", "wait");
+                w.WriteNumber("ms", x.Milliseconds);
+                break;
+            case PageAction.ScrollToEnd:
+                w.WriteString("type", "scrollToEnd");
+                break;
+            case PageAction.EvaluateExpression x:
+                w.WriteString("type", "evaluateExpression");
+                w.WriteString("expression", x.Expression);
+                break;
+            case PageAction.WaitForSelector x:
+                w.WriteString("type", "waitForSelector");
+                w.WriteString("selector", x.Selector);
+                w.WriteNumber("timeoutMs", x.TimeoutMs);
+                break;
+            case PageAction.WaitForNetworkIdle:
+                w.WriteString("type", "waitForNetworkIdle");
+                break;
+            default:
+                throw new JsonException($"unhandled PageAction arm '{a.GetType().Name}'");
         }
-        w.WriteEndArray();
         w.WriteEndObject();
     }
 
     public static PageAction Read(ref Utf8JsonReader r)
     {
         if (r.TokenType != JsonTokenType.StartObject) throw new JsonException("expected object");
-        PageActionType type = default;
-        var ps = new List<object>();
+        string? type = null, selector = null, expression = null;
+        int ms = 0, timeoutMs = 0;
         while (r.Read() && r.TokenType != JsonTokenType.EndObject)
         {
             var prop = r.GetString();
             r.Read();
-            if (prop == "type")
+            switch (prop)
             {
-                type = r.GetString() switch
-                {
-                    "Click" => PageActionType.Click,
-                    "Wait" => PageActionType.Wait,
-                    "ScrollToEnd" => PageActionType.ScrollToEnd,
-                    "EvaluateExpression" => PageActionType.EvaluateExpression,
-                    "WaitForSelector" => PageActionType.WaitForSelector,
-                    "WaitForNetworkIdle" => PageActionType.WaitForNetworkIdle,
-                    var x => throw new JsonException($"unknown PageActionType '{x}'")
-                };
+                case "type": type = r.GetString(); break;
+                case "selector": selector = r.GetString(); break;
+                case "expression": expression = r.GetString(); break;
+                case "ms": ms = r.GetInt32(); break;
+                case "timeoutMs": timeoutMs = r.GetInt32(); break;
+                default: r.Skip(); break;
             }
-            else if (prop == "parameters")
-            {
-                while (r.Read() && r.TokenType != JsonTokenType.EndArray)
-                {
-                    string? kind = null; object? val = null;
-                    while (r.Read() && r.TokenType != JsonTokenType.EndObject)
-                    {
-                        var pn = r.GetString();
-                        r.Read();
-                        if (pn == "k") kind = r.GetString();
-                        else if (pn == "v")
-                            val = kind switch
-                            {
-                                "s" => r.GetString(),
-                                "b" => r.GetBoolean(),
-                                "i" => r.TryGetInt32(out var i) ? i : r.GetInt64(),
-                                "d" => r.GetDouble(),
-                                _ => r.GetString()
-                            };
-                    }
-                    ps.Add(kind == "n" ? null! : val!);
-                }
-            }
-            else r.Skip();
         }
-        return new PageAction(type, ps.ToArray());
+        return type switch
+        {
+            "click" => new PageAction.Click(Require(selector, "selector", type)),
+            "wait" => new PageAction.Wait(ms),
+            "scrollToEnd" => new PageAction.ScrollToEnd(),
+            "evaluateExpression" => new PageAction.EvaluateExpression(Require(expression, "expression", type)),
+            "waitForSelector" => new PageAction.WaitForSelector(Require(selector, "selector", type), timeoutMs),
+            "waitForNetworkIdle" => new PageAction.WaitForNetworkIdle(),
+            _ => throw new JsonException($"unknown PageAction type '{type}'")
+        };
     }
+
+    private static string Require(string? value, string field, string? type) =>
+        value ?? throw new JsonException($"PageAction '{type}' is missing required '{field}'");
 }
 
 internal sealed class PageActionJsonConverter : JsonConverter<PageAction>

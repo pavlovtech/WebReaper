@@ -63,7 +63,7 @@ public class LinkPathSelectorConstructionTests
     [Fact]
     public void Constructor_rejects_page_actions_with_a_static_transport()
     {
-        var actions = new List<PageAction> { new(PageActionType.Click, ".accept") };
+        var actions = new List<PageAction> { new PageAction.Click(".accept") };
 
         var ex = Assert.Throws<ArgumentException>(
             () => new LinkPathSelector("a.item", null, PageType.Static, actions));
@@ -84,7 +84,7 @@ public class LinkPathSelectorConstructionTests
     [Fact]
     public void Constructor_accepts_page_actions_with_a_dynamic_transport()
     {
-        var actions = new List<PageAction> { new(PageActionType.Click, ".accept") };
+        var actions = new List<PageAction> { new PageAction.Click(".accept") };
 
         var s = new LinkPathSelector("a.item", null, PageType.Dynamic, actions);
 
@@ -147,7 +147,7 @@ public class LinkPathSelectorConstructionTests
     [Fact]
     public void Follow_with_browser_actions_uses_a_dynamic_transport()
     {
-        var actions = new List<PageAction> { new(PageActionType.Click, ".accept") };
+        var actions = new List<PageAction> { new PageAction.Click(".accept") };
 
         var s = LinkPathSelector.Follow("a.item", PageType.Dynamic, actions);
 

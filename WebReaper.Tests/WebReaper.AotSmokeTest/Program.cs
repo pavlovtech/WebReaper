@@ -25,7 +25,7 @@ void Check(bool ok, string label)
 }
 
 // 1. Production WebReaperJson — ScraperConfig round-trip (polymorphic
-//    Schema/SchemaElement, ImmutableQueue<LinkPathSelector>, object[]).
+//    Schema/SchemaElement, ImmutableQueue<LinkPathSelector>, the PageAction sum).
 var config = new ScraperConfig(
     ParsingScheme: new Schema
     {
@@ -35,13 +35,13 @@ var config = new ScraperConfig(
     {
         new LinkPathSelector("a.cat", null, PageType.Static),
         new LinkPathSelector("a.item", "a.next", PageType.Dynamic,
-            new List<PageAction> { new(PageActionType.WaitForSelector, "div.x") })
+            new List<PageAction> { new PageAction.WaitForSelector("div.x", 5000) })
     }),
     StartUrls: new[] { "https://x.test/s" },
     UrlBlackList: new[] { "https://x.test/skip" },
     PageCrawlLimit: 7,
     StartPageType: PageType.Dynamic,
-    PageActions: new List<PageAction> { new(PageActionType.Click, "#go", 42) },
+    PageActions: new List<PageAction> { new PageAction.Click("#go") },
     Headless: false,
     StopWhenDrained: true);
 
@@ -51,8 +51,8 @@ Check(gotConfig.PageCrawlLimit == 7 && gotConfig.StartPageType == PageType.Dynam
 Check(gotConfig.LinkPathSelectors.Count() == 2
       && gotConfig.LinkPathSelectors.Last().PaginationSelector == "a.next",
     "ImmutableQueue<LinkPathSelector> round-trip");
-Check(Convert.ToInt32(gotConfig.PageActions![0].Parameters[1]) == 42,
-    "object[] int survives (Convert.ToInt32 == 42)");
+Check(gotConfig.PageActions![0] is PageAction.Click { Selector: "#go" },
+    "PageAction closed-sum arm round-trips");
 Check(((Schema)gotConfig.ParsingScheme!.Children[0]).Children[0].Type == DataType.Integer,
     "polymorphic Schema/SchemaElement round-trip");
 
@@ -61,11 +61,11 @@ var job = new Job("https://x.test/p",
     ImmutableQueue.CreateRange(new[] { new LinkPathSelector("a.x", null, PageType.Static) }),
     ImmutableQueue.CreateRange(new[] { "https://x.test" }),
     PageType.Dynamic,
-    new List<PageAction> { new(PageActionType.Click, "#b", 9) });
+    new List<PageAction> { new PageAction.Click("#b") });
 var gotJob = WebReaperJson.DeserializeJob(WebReaperJson.SerializeJob(job));
 Check(gotJob.LinkPathSelectors.Single().Selector == "a.x"
       && gotJob.ParentBacklinks.Single() == "https://x.test"
-      && Convert.ToInt32(gotJob.PageActions![0].Parameters[1]) == 9,
+      && gotJob.PageActions![0] is PageAction.Click { Selector: "#b" },
     "Job round-trip with type fidelity (ADR-0005 closed)");
 
 // 3. Production typed fold terminal over a trivial Newtonsoft-free backend.

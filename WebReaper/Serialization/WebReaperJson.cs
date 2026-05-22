@@ -2,7 +2,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 using WebReaper.Domain;
-using WebReaper.Domain.PageActions;
 using WebReaper.Domain.Parsing;
 using WebReaper.Domain.Selectors;
 using WebReaper.Serialization.Converters;
@@ -38,7 +37,6 @@ public static class WebReaperJson
         o.Converters.Add(new SelectorChainJsonConverter());
         o.Converters.Add(new BacklinkQueueJsonConverter());
         o.Converters.Add(new JsonStringEnumConverter<PageType>());
-        o.Converters.Add(new JsonStringEnumConverter<PageActionType>());
         o.Converters.Add(new JsonStringEnumConverter<DataType>());
         return o;
     }

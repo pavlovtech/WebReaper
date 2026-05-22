@@ -1,14 +1,42 @@
 namespace WebReaper.Domain.PageActions;
 
 /// <summary>
-/// One browser interaction performed on a dynamic page before scraping (built
-/// via <see cref="WebReaper.Builders.PageActionBuilder"/>). The
-/// <see cref="Parameters"/> shape depends on <see cref="Type"/> — e.g. a CSS
-/// selector for <see cref="PageActionType.Click"/>, a millisecond count for
-/// <see cref="PageActionType.Wait"/>. Interpreted by the WebReaper.Puppeteer
-/// satellite (ADR-0009).
+/// One browser interaction performed on a dynamic page before scraping — built
+/// via <see cref="WebReaper.Builders.PageActionBuilder"/> and interpreted by
+/// the WebReaper.Puppeteer satellite (ADR-0009).
+/// <para>
+/// A closed sum (ADR-0035, the ADR-0001 closed-sum pattern, as <c>CrawlOutcome</c>):
+/// exactly one of the six nested arms, each carrying its own typed parameters —
+/// no untyped <c>object[]</c>, no separate discriminant enum. Construct only via
+/// the nested arms; the union is not extensible.
+/// </para>
 /// </summary>
-/// <param name="Type">Which interaction to perform.</param>
-/// <param name="Parameters">The interaction's arguments, positional per
-/// <paramref name="Type"/>.</param>
-public record PageAction(PageActionType Type, params object[] Parameters);
+public abstract record PageAction
+{
+    private PageAction() { }
+
+    /// <summary>Click the element matching a CSS selector.</summary>
+    /// <param name="Selector">The CSS selector of the element to click.</param>
+    public sealed record Click(string Selector) : PageAction;
+
+    /// <summary>Wait a fixed number of milliseconds (e.g. to let scripted
+    /// content settle).</summary>
+    /// <param name="Milliseconds">How long to wait.</param>
+    public sealed record Wait(int Milliseconds) : PageAction;
+
+    /// <summary>Scroll to the bottom of the page (e.g. to trigger
+    /// infinite-scroll loading).</summary>
+    public sealed record ScrollToEnd : PageAction;
+
+    /// <summary>Evaluate a JavaScript expression in the page context.</summary>
+    /// <param name="Expression">The JavaScript expression to evaluate.</param>
+    public sealed record EvaluateExpression(string Expression) : PageAction;
+
+    /// <summary>Wait until an element matching a CSS selector appears.</summary>
+    /// <param name="Selector">The CSS selector to wait for.</param>
+    /// <param name="TimeoutMs">How long to wait for it, in milliseconds.</param>
+    public sealed record WaitForSelector(string Selector, int TimeoutMs) : PageAction;
+
+    /// <summary>Wait until the page's network activity goes idle.</summary>
+    public sealed record WaitForNetworkIdle : PageAction;
+}
