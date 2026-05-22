@@ -9,6 +9,7 @@ using WebReaper.Core.CookieStorage.Abstract;
 using WebReaper.Core.LinkTracker.Abstract;
 using WebReaper.Core.LinkTracker.Concrete;
 using WebReaper.Core.Loaders.Abstract;
+using WebReaper.Core.Loaders.Concrete;
 using WebReaper.Core.Parser.Abstract;
 using WebReaper.Core.Parser.Concrete;
 using WebReaper.Core.Scheduler.Abstract;
@@ -474,6 +475,37 @@ public class ScraperEngineBuilder
     public ScraperEngineBuilder WithRetryPolicy(IRetryPolicy retryPolicy)
     {
         SpiderBuilder.WithRetryPolicy(retryPolicy);
+        return this;
+    }
+
+    /// <summary>
+    /// Register a custom <see cref="IPageCache"/> at the page-loader's
+    /// cache-aside position (ADR-0041). The default is the no-op
+    /// <c>NullPageCache</c>; the firecrawl-shaped TTL adapter is
+    /// <c>InMemoryPageCache(TimeSpan maxAge)</c>, reached more directly via
+    /// <see cref="WithMaxAge"/>.
+    /// </summary>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="cache"/> is null.</exception>
+    public ScraperEngineBuilder WithPageCache(IPageCache cache)
+    {
+        SpiderBuilder.WithPageCache(cache);
+        return this;
+    }
+
+    /// <summary>
+    /// Cache successfully-loaded pages for <paramref name="maxAge"/>
+    /// (ADR-0041 — firecrawl-shaped <c>maxAge</c>). The cache is in-memory
+    /// (per-process; <see cref="InMemoryPageCache"/>); a Static and a
+    /// Dynamic load of the same URL are distinct entries.
+    /// <see cref="TimeSpan.Zero"/> stores but never serves — a "force-fresh"
+    /// crawl that still warms a snapshot for change-tracking (ADR-0048).
+    /// </summary>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// <paramref name="maxAge"/> is negative.</exception>
+    public ScraperEngineBuilder WithMaxAge(TimeSpan maxAge)
+    {
+        SpiderBuilder.WithPageCache(new InMemoryPageCache(maxAge));
         return this;
     }
 
