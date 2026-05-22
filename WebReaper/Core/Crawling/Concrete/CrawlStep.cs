@@ -1,6 +1,7 @@
 using System.Collections.Immutable;
 using WebReaper.Core.Crawling.Abstract;
 using WebReaper.Core.Parser.Abstract;
+using WebReaper.Core.Parser.Concrete;
 using WebReaper.Domain;
 using WebReaper.Domain.Parsing;
 using WebReaper.Domain.Selectors;
@@ -12,19 +13,19 @@ namespace WebReaper.Core.Crawling.Concrete;
 /// The crawl-step decision extracted from the old Spider.CrawlAsync. Holds the
 /// page-category dispatch, the selector-chain advance/retain rule, link
 /// extraction, content parsing, and child-Job provenance threading behind one
-/// pure method. <see cref="ILinkParser"/> / <see cref="IJsonContentParser"/>
-/// are internal seams — injected, never surfaced on <see cref="ICrawlStep"/>.
-/// ADR 0008: the content seam is the typed <see cref="IJsonContentParser"/>
-/// (JsonObject); the legacy <c>IContentParser</c> (JObject) was removed at 6.0.0.
+/// pure method. Content parsing is the injected <see cref="IJsonContentParser"/>
+/// seam — never surfaced on <see cref="ICrawlStep"/>; link extraction is the
+/// concrete <see cref="LinkExtractor"/> function, called directly (ADR-0036 —
+/// one adapter, never a real seam). ADR 0008: the content seam is the typed
+/// <see cref="IJsonContentParser"/> (JsonObject); the legacy <c>IContentParser</c>
+/// (JObject) was removed at 6.0.0.
 /// </summary>
 internal sealed class CrawlStep : ICrawlStep
 {
-    private readonly ILinkParser _linkParser;
     private readonly IJsonContentParser _contentParser;
 
-    public CrawlStep(ILinkParser linkParser, IJsonContentParser contentParser)
+    public CrawlStep(IJsonContentParser contentParser)
     {
-        _linkParser = linkParser;
         _contentParser = contentParser;
     }
 
@@ -42,7 +43,7 @@ internal sealed class CrawlStep : ICrawlStep
         var baseUrl = new Uri(job.Url);
         var advanced = chain.Dequeue(out var currentSelector);
 
-        var itemLinks = await _linkParser.GetLinksAsync(baseUrl, document, currentSelector.Selector);
+        var itemLinks = await LinkExtractor.GetLinksAsync(baseUrl, document, currentSelector.Selector);
         var items = CreateJobs(job, currentSelector, advanced, itemLinks);
 
         // Pagination fires only when the consumed selector was the LAST one and
@@ -52,7 +53,7 @@ internal sealed class CrawlStep : ICrawlStep
         if (!(advanced.IsEmpty && currentSelector.HasPagination))
             return CrawlOutcome.Transit(items);
 
-        var pageLinks = await _linkParser.GetLinksAsync(baseUrl, document, currentSelector.PaginationSelector!);
+        var pageLinks = await LinkExtractor.GetLinksAsync(baseUrl, document, currentSelector.PaginationSelector!);
         var nextPages = CreateJobs(job, currentSelector, chain, pageLinks);
 
         return CrawlOutcome.Pagination(items, nextPages);

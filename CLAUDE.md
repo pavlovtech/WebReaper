@@ -42,7 +42,7 @@ Terminate with `BuildAsync()` (persists the config to `IScraperConfigStorage`, c
 **`Spider.CrawlAsync` per job (ADR-0022 — the Spider only *reports*):**
 1. Load the page via the one `IPageLoader` (ADR-0004) — HTTP by default; the headless-browser transport ships in the `WebReaper.Puppeteer` satellite (ADR-0009) — per `PageType`.
 2. `CrawlStep.StepAsync` returns a closed `CrawlOutcome`; `Spider` wraps it as a `JobReport` and returns — nothing else. The **Crawl driver**, not the Spider, fans a `Parsed` outcome's `ParsedData` to every `IScraperSink` + the `PostProcess`/`Subscribe` callbacks, and turns `Followed`/`Paginated` into child (and pagination) jobs.
-3. Content parsing is the shared `SchemaContentParser<TNode>` fold over an `ISchemaBackend<TNode>` (AngleSharp HTML or JSON); link extraction is `ILinkParser`. Authoritative: `docs/adr/0002-schema-fold-and-node-backend-seam.md`.
+3. Content parsing is the shared `SchemaContentParser<TNode>` fold over an `ISchemaBackend<TNode>` (AngleSharp HTML or JSON); link extraction is the concrete `LinkExtractor` function (ADR-0036 — not a seam). Authoritative: `docs/adr/0002-schema-fold-and-node-backend-seam.md`.
 
 **Pluggable seams** (public interface in `*/Abstract`). As of 9.0.0 (ADR-0023, the documented-contract surface) the `*/Concrete` implementations are `internal` — select a built-in via a `ScraperEngineBuilder` method (`.WriteToConsole()`, `.WithTextFileScheduler(...)`, a satellite's `.WithRedis*()`/`.WriteToMongoDb()`/… extension), or supply your own implementation of the public interface; you no longer `new` the concrete type. The in-memory defaults the DIY-distributed pattern wires by hand stay public. The table's "impls" are the conceptual options, reached through the builder:
 
