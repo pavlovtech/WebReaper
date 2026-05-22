@@ -32,19 +32,14 @@ public interface IScheduler
     Task AddAsync(IEnumerable<Job> jobs, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// The async stream the Crawl driver drives. Yields Jobs as they arrive;
-    /// it ends only once <see cref="Complete"/> has been signalled (the
-    /// in-memory adapter) — a durable / distributed adapter keeps streaming by
-    /// default, since it cannot know that no other worker will ever add more.
+    /// The async stream the Crawl driver drives with <c>Parallel.ForEachAsync</c>.
+    /// Yields Jobs as they arrive; it ends when <paramref name="cancellationToken"/>
+    /// is cancelled — the in-process Crawl driver cancels it once the stop rule
+    /// concludes the Crawl (ADR-0037) — or, for a finite source, when the source
+    /// is exhausted. Every adapter MUST observe the token <em>promptly</em>: a
+    /// wait for the next Job (a poll delay, a blocking receive) must be
+    /// cancellable, so a Crawl terminates the same way for every adapter, not
+    /// only the in-memory one.
     /// </summary>
     IAsyncEnumerable<Job> GetAllAsync(CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Signals that no more jobs will ever be added, so
-    /// <see cref="GetAllAsync"/> can complete and the engine can stop
-    /// once everything has been crawled (issue #20). Default is a no-op:
-    /// durable / distributed schedulers keep their long-running
-    /// behavior unless they choose to override this.
-    /// </summary>
-    void Complete() { }
 }
