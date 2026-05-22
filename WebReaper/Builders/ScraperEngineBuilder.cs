@@ -10,6 +10,7 @@ using WebReaper.Core.LinkTracker.Abstract;
 using WebReaper.Core.LinkTracker.Concrete;
 using WebReaper.Core.Loaders.Abstract;
 using WebReaper.Core.Loaders.Concrete;
+using WebReaper.Core.Mapping;
 using WebReaper.Core.Parser.Abstract;
 using WebReaper.Core.Parser.Concrete;
 using WebReaper.Core.Scheduler.Abstract;
@@ -61,9 +62,26 @@ public class ScraperEngineBuilder
     internal ScraperEngineBuilder() { }
 
     /// <summary>
+    /// Discover the URLs of a site without running a Crawl (ADR-0042 —
+    /// firecrawl-shaped <c>/map</c>): sugar over
+    /// <c>new SiteMapper().MapAsync(url, options, ct)</c>. Returns the union
+    /// of <c>robots.txt</c>-declared sitemap entries (one level of index
+    /// recursion) and the root page's <c>&lt;a href&gt;</c> URLs, host-
+    /// filtered, deduplicated, ordered sitemap-then-root-page-links.
+    /// </summary>
+    /// <exception cref="ArgumentException"><paramref name="url"/> is
+    /// null/empty/whitespace.</exception>
+    public static Task<IReadOnlyList<string>> MapAsync(
+        string url,
+        MapOptions? options = null,
+        CancellationToken cancellationToken = default)
+        => new SiteMapper().MapAsync(url, options, cancellationToken);
+
+    /// <summary>
     /// Begin a scrape: the crawl's start URLs, loaded as static HTTP pages
     /// (the ADR-0025 Crawl seed). Returns an <see cref="ICrawlSeed"/> whose
-    /// only operation is <see cref="ICrawlSeed.Extract"/>.
+    /// terminals are <see cref="ICrawlSeed.Extract"/> and
+    /// <see cref="ICrawlSeed.AsMarkdown"/>.
     /// </summary>
     /// <exception cref="ArgumentException">no start URL was supplied
     /// (fail-fast).</exception>
