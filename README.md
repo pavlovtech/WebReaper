@@ -424,7 +424,6 @@ For result callbacks without a custom sink, use `.Subscribe(Action<ParsedData>)`
 | `IPageLoadTransport` | The per-mechanism adapter behind `IPageLoader`: HTTP (core) or headless browser (`WebReaper.Puppeteer`). The only home for that mechanism's client/launch quirks and proxy application. |
 | `IJsonContentParser` | Takes a document + `Schema` and returns its `System.Text.Json.Nodes.JsonObject` representation. The shipped HTML/CSS, HTML/XPath (`WithXPathContentParser()`) and JSON (`WithJsonContentParser()`) parsers are thin shells over one shared Schema fold. |
 | `ISchemaBackend<TNode>` | The per-document-shape seam the shared fold calls: parse a root, select many / one by selector, extract a leaf's raw value. The shipped CSS, XPath and JSON backends implement this. |
-| `ILinkParser` | Takes HTML and returns the page's links. |
 | `IScraperSink` | A destination for scraping results. Receives `ParsedData` (`Url` + `JsonObject`). |
 | `ICrawlStep` | The crawl-step decision: maps a `Job` + loaded page + `Schema` to a `CrawlOutcome` (parse the page, follow links, or paginate). Swap it to customize crawl-vs-parse behavior. |
 | `ISpider` | The per-Job I/O shell around `ICrawlStep`: loads one page, runs the Crawl step, and returns a `JobReport` — nothing else. The Crawl driver (in-process `ScraperEngine` or the distributed worker) owns the visited-link tracker, the crawl-limit stop, sink fan-out and the callbacks. Obtained from `DistributedSpiderBuilder.BuildSpider()` (the ADR-0009 reduced shell). |

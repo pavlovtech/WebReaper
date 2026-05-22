@@ -15,7 +15,7 @@ namespace WebReaper.UnitTests;
 public class CrawlStepTests
 {
     private static CrawlStep Step() =>
-        new(new LinkParserByCssSelector(), new AngleSharpContentParser(NullLogger.Instance));
+        new(new AngleSharpContentParser(NullLogger.Instance));
 
     private static Job Job(string url, params LinkPathSelector[] chain) =>
         new(url, ImmutableQueue.CreateRange(chain), ImmutableQueue.Create<string>());
@@ -56,6 +56,25 @@ public class CrawlStepTests
             Assert.Equal(tail, Assert.Single(j.LinkPathSelectors));
             Assert.Equal("https://x.test/", j.ParentBacklinks.Single()); // provenance
         });
+    }
+
+    [Fact]
+    public async Task Transit_page_skips_anchors_with_no_usable_href()
+    {
+        // An <a> matching the selector but with no usable href — absent or
+        // empty — is skipped, not a crash. Pre-ADR-0036 the missing href
+        // reached `new Uri(baseUrl, null)` and threw ArgumentNullException
+        // mid-step.
+        var job = Job("https://x.test/", new LinkPathSelector("a.item"));
+        const string html = "<html><body>" +
+                            "<a class='item' href='/a'>a</a>" +
+                            "<a class='item'>no href</a>" +
+                            "<a class='item' href=''>empty href</a></body></html>";
+
+        var outcome = await Step().StepAsync(job, html, null);
+
+        var followed = Assert.IsType<CrawlOutcome.Followed>(outcome);
+        Assert.Equal(new[] { "https://x.test/a" }, followed.Next.Select(j => j.Url));
     }
 
     [Fact]
