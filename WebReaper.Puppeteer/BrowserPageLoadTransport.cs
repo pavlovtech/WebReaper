@@ -25,20 +25,6 @@ namespace WebReaper.Puppeteer;
 /// </summary>
 public class BrowserPageLoadTransport : IPageLoadTransport
 {
-    // Preserved verbatim from the removed BrowserPageLoader base — same four
-    // handled actions (WaitForSelector / EvaluateExpression were never wired;
-    // out of scope for this deepening, see ADR 0004).
-    private static readonly Dictionary<PageActionType, Func<IPage, object[], Task>> PageActions = new()
-    {
-        {
-            PageActionType.ScrollToEnd,
-            async (page, _) => await page.EvaluateExpressionAsync("window.scrollTo(0, document.body.scrollHeight);")
-        },
-        { PageActionType.Wait, async (_, data) => await Task.Delay(Convert.ToInt32(data.First())) },
-        { PageActionType.WaitForNetworkIdle, async (page, _) => await page.WaitForNetworkIdleAsync() },
-        { PageActionType.Click, async (page, data) => await page.ClickAsync((string)data.First()) }
-    };
-
     private readonly ICookiesStorage _cookiesStorage;
     private readonly IProxyProvider? _proxyProvider;
     private readonly ILogger _logger;
@@ -101,14 +87,49 @@ public class BrowserPageLoadTransport : IPageLoadTransport
             {
                 var pageAction = request.PageActions[i];
                 _logger.LogInformation(
-                    "Performing page action {current} of {count} with type {actionType}",
-                    i, request.PageActions.Count - 1, pageAction.Type);
+                    "Performing page action {current} of {count}: {action}",
+                    i, request.PageActions.Count - 1, pageAction.GetType().Name);
 
-                await PageActions[pageAction.Type](page, pageAction.Parameters);
+                await PerformAsync(page, pageAction);
             }
         }
 
         return await page.GetContentAsync();
+    }
+
+    // ADR-0035: PageAction is a closed sum — dispatch is a switch over the
+    // arms, not a PageActionType-keyed dictionary that could silently lack an
+    // entry (the pre-0035 KeyNotFoundException for WaitForSelector /
+    // EvaluateExpression — both reachable from PageActionBuilder). A future arm
+    // with no case here is an actionable throw naming it, not a bare lookup
+    // miss mid-crawl.
+    private static async Task PerformAsync(IPage page, PageAction action)
+    {
+        switch (action)
+        {
+            case PageAction.Click a:
+                await page.ClickAsync(a.Selector);
+                break;
+            case PageAction.Wait a:
+                await Task.Delay(a.Milliseconds);
+                break;
+            case PageAction.ScrollToEnd:
+                await page.EvaluateExpressionAsync("window.scrollTo(0, document.body.scrollHeight);");
+                break;
+            case PageAction.EvaluateExpression a:
+                await page.EvaluateExpressionAsync(a.Expression);
+                break;
+            case PageAction.WaitForSelector a:
+                await page.WaitForSelectorAsync(
+                    a.Selector, new WaitForSelectorOptions { Timeout = a.TimeoutMs });
+                break;
+            case PageAction.WaitForNetworkIdle:
+                await page.WaitForNetworkIdleAsync();
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(
+                    nameof(action), action.GetType().Name, "unhandled PageAction arm");
+        }
     }
 
     private async Task<IBrowser> LaunchAsync(bool headless, string executablePath)
