@@ -422,7 +422,7 @@ For result callbacks without a custom sink, use `.Subscribe(Action<ParsedData>)`
 | `IVisitedLinkTracker` | Tracks visited links. Default is in-memory; file and Redis implementations are available. |
 | `IPageLoader` | Turns a `PageRequest` into a page's HTML, dispatching on `PageType` to one load transport. The Spider holds one and is loader-blind. |
 | `IPageLoadTransport` | The per-mechanism adapter behind `IPageLoader`: HTTP (core) or headless browser (`WebReaper.Puppeteer`). The only home for that mechanism's client/launch quirks and proxy application. |
-| `IJsonContentParser` | Takes a document + `Schema` and returns its `System.Text.Json.Nodes.JsonObject` representation. The shipped HTML/CSS, HTML/XPath (`WithXPathContentParser()`) and JSON (`WithJsonContentParser()`) parsers are thin shells over one shared Schema fold. |
+| `IContentExtractor` | The content-extraction seam: takes a loaded document + `Schema`, returns its `System.Text.Json.Nodes.JsonObject` representation. The core adapter is the deterministic `SchemaFold<TNode>` over an `ISchemaBackend` (`WithXPathContentParser()` / `WithJsonContentParser()` select the XPath / JSON backend). Implement it directly for an alternative extraction strategy, e.g. an LLM-backed extractor. |
 | `ISchemaBackend<TNode>` | The per-document-shape seam the shared fold calls: parse a root, select many / one by selector, extract a leaf's raw value. The shipped CSS, XPath and JSON backends implement this. |
 | `IScraperSink` | A destination for scraping results. Receives `ParsedData` (`Url` + `JsonObject`). |
 | `ICrawlStep` | The crawl-step decision: maps a `Job` + loaded page + `Schema` to a `CrawlOutcome` (parse the page, follow links, or paginate). Swap it to customize crawl-vs-parse behavior. |
@@ -434,7 +434,7 @@ For result callbacks without a custom sink, use `.Subscribe(Action<ParsedData>)`
 * **Job** — a record representing one unit of work for the spider.
 * **LinkPathSelector** — a selector for links to be crawled.
 * **CrawlOutcome** — the closed result of a crawl step: a parsed target page, followed links, or paginated pages.
-* **Schema fold** — the single recursive `Schema` interpreter (`SchemaContentParser<TNode>`); every backend reuses it instead of re-implementing the walk.
+* **Schema fold** — the single recursive `Schema` interpreter (`SchemaFold<TNode>`); every backend reuses it instead of re-implementing the walk.
 
 ## Repository structure
 

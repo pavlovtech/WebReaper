@@ -6,7 +6,7 @@ using WebReaper.Domain.Parsing;
 namespace WebReaper.Core.Parser.Concrete;
 
 /// <summary>
-/// HTML backend for <see cref="SchemaContentParser{TNode}"/>: AngleSharp
+/// HTML backend for <see cref="SchemaFold{TNode}"/>: AngleSharp
 /// DOM, CSS selectors. The scope cursor is <see cref="IParentNode"/>
 /// (the document at the top, a matched element when recursing). This is
 /// the ONLY place the <c>src</c>→<c>title</c> rewrite and the

@@ -67,7 +67,7 @@ public record Schema(string? Field = null)
         }
 
         // The leaf path: must locate the value via a non-empty Selector.
-        // The fold's per-leaf catch (SchemaContentParser) would swallow an
+        // The fold's per-leaf catch (SchemaFold) would swallow an
         // empty-selector leaf at parse time and leave the field unset
         // silently — ADR-0028 makes it a fast-fail at the add site.
         if (element is not Schema && string.IsNullOrWhiteSpace(element.Selector))
