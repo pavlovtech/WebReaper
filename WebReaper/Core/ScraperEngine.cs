@@ -25,9 +25,10 @@ namespace WebReaper.Core;
 /// <c>pending</c> counter, in-memory <c>Interlocked</c> adapter). It seeds the
 /// scheduler, drives <c>Parallel.ForEachAsync</c>, and interprets each
 /// <see cref="JobReport"/> the shell returns. The crawl-limit stop is a value
-/// the driver checks (soft/best-effort: in-flight iterations still finish) —
-/// no longer a <c>PageCrawlLimitException</c> thrown through the fault-retry
-/// policy.
+/// the driver checks; on a concluded Crawl the driver ends its own
+/// consumption of the job stream (ADR-0037), cancelling whatever Jobs are in
+/// flight at that moment — no longer a <c>PageCrawlLimitException</c> thrown
+/// through the fault-retry policy.
 /// </summary>
 public class ScraperEngine
 {
@@ -90,9 +91,12 @@ public class ScraperEngine
     /// <summary>
     /// Run the crawl to completion: seed the scheduler from the config's start
     /// URLs and drive <c>Parallel.ForEachAsync</c> over the job stream until
-    /// the Outstanding-work latch trips (all work drained) or the soft
-    /// crawl-page limit is reached (ADR-0022 — termination is a value, never a
-    /// thrown exception). Honours <paramref name="cancellationToken"/>.
+    /// the stop rule concludes the Crawl — the Outstanding-work latch trips
+    /// (all work drained) or the soft crawl-page limit is reached. The driver
+    /// then ends its own consumption of the stream (ADR-0037) and the run
+    /// returns normally; a caller cancellation of
+    /// <paramref name="cancellationToken"/> instead surfaces as a thrown
+    /// <see cref="OperationCanceledException"/>.
     /// </summary>
     public async Task RunAsync(CancellationToken cancellationToken = default)
     {
@@ -125,23 +129,37 @@ public class ScraperEngine
                 config.PageActions), cancellationToken);
         }
 
-        // The Crawl was over before it started (no start URLs to drain, or a
-        // resumed visited count already at the limit) — let the engine return.
-        if (stopRule.IsCrawlOver) Scheduler.Complete();
+        // ADR-0037: the Crawl was over before the loop began (no start URLs to
+        // drain, or a resumed visited count already at the limit) — nothing to
+        // consume, so return without driving the loop.
+        if (stopRule.IsCrawlOver) return;
 
-        var options = new ParallelOptions { MaxDegreeOfParallelism = ParallelismDegree };
+        // ADR-0037: the driver ends the Crawl by ceasing its OWN consumption,
+        // not by asking the scheduler to stop producing (Scheduler.Complete()
+        // was a no-op for every durable scheduler). This linked source is the
+        // "Crawl concluded" signal: cancelling it ends GetAllAsync's stream —
+        // every IScheduler adapter honours its GetAllAsync token — and unwinds
+        // Parallel.ForEachAsync. Linked to the caller's token so a caller
+        // cancellation still flows through.
+        using var crawlCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+
+        var options = new ParallelOptions
+        {
+            MaxDegreeOfParallelism = ParallelismDegree,
+            CancellationToken = crawlCts.Token
+        };
 
         try
         {
             Logger.LogInformation("Start consuming the scraping jobs");
 
-            await Parallel.ForEachAsync(Scheduler.GetAllAsync(cancellationToken), options, async (job, token) =>
+            await Parallel.ForEachAsync(Scheduler.GetAllAsync(crawlCts.Token), options, async (job, token) =>
             {
                 Logger.LogInformation("Start crawling url {Url}", job.Url);
 
                 // The stop rule already concluded the Crawl — skip without
-                // crawling. Soft/best-effort: in-flight iterations still
-                // finish (the universal crawler norm).
+                // crawling. A Job dequeued in the window between the
+                // conclusion and the loop unwinding still reaches a body here.
                 if (stopRule.IsCrawlOver) return;
 
                 List<Job> newJobs;
@@ -163,12 +181,16 @@ public class ScraperEngine
                 }
                 else
                 {
+                    // ADR-0037: per-Job work runs on the iteration token, so a
+                    // Crawl concluding mid-flight cancels the in-flight Spider
+                    // calls (the Retry policy never retries OCE — ADR-0026 —
+                    // so the abort is not retry-amplified).
                     var report = await RetryPolicy.ExecuteAsync(
-                        token => Spider.CrawlAsync(job, token), cancellationToken);
+                        ct => Spider.CrawlAsync(job, ct), token);
 
                     if (report.Outcome is CrawlOutcome.Parsed parsed)
                     {
-                        await ProcessTargetPage(job, report.Document, parsed.Data, cancellationToken);
+                        await ProcessTargetPage(job, report.Document, parsed.Data, token);
                         newJobs = new List<Job>();
                     }
                     else
@@ -192,12 +214,26 @@ public class ScraperEngine
                 var concluded = await stopRule.RegisterProcessedAsync(newJobs.Count);
 
                 if (newJobs.Count > 0)
-                    await Scheduler.AddAsync(newJobs, cancellationToken);
+                    await Scheduler.AddAsync(newJobs, token);
 
-                if (concluded) Scheduler.Complete();
+                // ADR-0037: this Job's registration concluded the Crawl. Cancel
+                // the driver's own consumption — GetAllAsync stops yielding and
+                // the parallel loop unwinds with an OperationCanceledException,
+                // caught below as the normal end of a finished Crawl.
+                if (concluded) crawlCts.Cancel();
             });
         }
-        catch (TaskCanceledException ex)
+        catch (OperationCanceledException)
+            when (crawlCts.IsCancellationRequested && !cancellationToken.IsCancellationRequested)
+        {
+            // ADR-0037: the driver cancelled its own consumption because the
+            // stop rule concluded the Crawl (all work drained, or the soft
+            // page limit reached). The caller's token is still live, so this
+            // is the normal, successful end of the Crawl — not a fault, not a
+            // caller cancellation. Swallow and return.
+            Logger.LogInformation("Crawl complete");
+        }
+        catch (OperationCanceledException ex)
         {
             Logger.LogWarning(ex, "Shutting down due to cancellation");
             throw;

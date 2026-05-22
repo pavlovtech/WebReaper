@@ -16,14 +16,13 @@ public class InMemoryScheduler : IScheduler
     private readonly Channel<Job> _jobChannel = Channel.CreateUnbounded<Job>();
 
     /// <inheritdoc/>
+    // ADR-0037: the channel is intentionally never completed — the stream
+    // ends when the Crawl driver cancels the token, the same mechanism every
+    // durable scheduler uses. Termination is the driver ceasing consumption.
     public IAsyncEnumerable<Job> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return _jobChannel.Reader.ReadAllAsync(cancellationToken);
     }
-
-    // TryComplete is idempotent: safe if the engine calls it more than once.
-    /// <inheritdoc/>
-    public void Complete() => _jobChannel.Writer.TryComplete();
 
     /// <inheritdoc/>
     public bool DataCleanupOnStart { get; set; }
