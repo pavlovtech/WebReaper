@@ -50,6 +50,11 @@ internal class SpiderBuilder
 
     private IPageLoader? PageLoader { get; set; }
 
+    // ADR-0041: cache-aside collaborator on PageLoader. NullPageCache is
+    // the default (preserves pre-0041 behaviour); WithPageCache /
+    // WithMaxAge wires a real cache.
+    private IPageCache PageCache { get; set; } = new NullPageCache();
+
     private Func<ICookiesStorage, IProxyProvider?, ILogger, IPageLoadTransport>? DynamicPageLoadTransportFactory { get; set; }
 
     private IProxyProvider? ProxyProvider { get; set; }
@@ -227,6 +232,15 @@ internal class SpiderBuilder
         return this;
     }
 
+    /// <summary>Register a custom <see cref="IPageCache"/> (ADR-0041);
+    /// the default is <see cref="NullPageCache"/> (no cache).</summary>
+    public SpiderBuilder WithPageCache(IPageCache cache)
+    {
+        ArgumentNullException.ThrowIfNull(cache);
+        PageCache = cache;
+        return this;
+    }
+
     // ADR-0022: the Crawl driver (ScraperEngine) owns these now — the reduced
     // Spider shell no longer fans out to Sinks, tracks links, or runs the
     // page-processor pipeline. ScraperEngineBuilder reads them to construct
@@ -251,12 +265,16 @@ internal class SpiderBuilder
         // actionable throw — core is HTTP-only by default (ADR-0009). The
         // proxy/no-proxy choice is still a (possibly null) provider handed in
         // to whichever transports exist, not a branch.
+        // ADR-0041: PageCache is woven in as a cache-aside collaborator —
+        // NullPageCache by default (no behaviour change), real cache when
+        // WithPageCache / WithMaxAge wired one.
         PageLoader ??= new PageLoader(
             new HttpPageLoadTransport(CookieStorage, ProxyProvider, Logger),
             DynamicPageLoadTransportFactory is null
                 ? new BrowserNotConfiguredPageLoadTransport()
                 : DynamicPageLoadTransportFactory(CookieStorage, ProxyProvider, Logger),
-            Logger);
+            Logger,
+            PageCache);
 
         CookieStorage.AddAsync(Cookies);
 
