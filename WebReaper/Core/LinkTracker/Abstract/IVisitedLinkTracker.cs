@@ -34,8 +34,9 @@ public interface IVisitedLinkTracker
     /// semantics. The default is the behaviour-preserving non-atomic
     /// check-then-add (it has a race window) so existing adapters compile
     /// unchanged; an adapter that can do this atomically overrides it
-    /// (InMemory here; the distributed adapters are ADR-0022 slice 3). The
-    /// default-interface-method shape mirrors IScheduler.Complete().
+    /// (InMemory here; the distributed adapters are ADR-0022 slice 3). It is a
+    /// default interface method — a default implementation an adapter may
+    /// override.
     /// </summary>
     async Task<bool> TryAddVisitedLinkAsync(string visitedLink)
     {
