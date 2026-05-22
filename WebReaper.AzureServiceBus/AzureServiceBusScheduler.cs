@@ -2,12 +2,13 @@ using System.Runtime.CompilerServices;
 using Azure.Messaging.ServiceBus;
 using WebReaper.Core.Scheduler.Abstract;
 using WebReaper.Domain;
+using WebReaper.Infra.Abstract;
 using WebReaper.Serialization;
 using Azure.Messaging.ServiceBus.Administration;
 
 namespace WebReaper.AzureServiceBus;
 
-public class AzureServiceBusScheduler : IScheduler, IAsyncDisposable
+public class AzureServiceBusScheduler : IScheduler, IAsyncInitializable, IAsyncDisposable
 {
     private readonly string _queueName;
     private readonly ServiceBusClient _client;
@@ -19,7 +20,7 @@ public class AzureServiceBusScheduler : IScheduler, IAsyncDisposable
 
     public bool DataCleanupOnStart { get; set; }
     
-    public Task Initialization { get; }
+    private readonly Lazy<Task> _initialization;
 
     public AzureServiceBusScheduler(string serviceBusConnectionString, string queueName, bool dataCleanupOnStart = false)
     {
@@ -36,10 +37,13 @@ public class AzureServiceBusScheduler : IScheduler, IAsyncDisposable
 
         _adminClient = new ServiceBusAdministrationClient(serviceBusConnectionString);
 
-        Initialization = InitializeAsync();
+        _initialization = new Lazy<Task>(InitializeCoreAsync);
     }
     
-    private async Task InitializeAsync()
+    // ADR-0033: idempotent async warm-up, driven once before the crawl.
+    public Task InitializeAsync() => _initialization.Value;
+
+    private async Task InitializeCoreAsync()
     {
         if (DataCleanupOnStart)
         {

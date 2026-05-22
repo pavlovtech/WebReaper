@@ -54,7 +54,7 @@ public class SqliteSchedulerTests : IDisposable
             new List<PageAction> { new(PageActionType.Click, "button#go", 42) });
 
         var scheduler = new SqliteScheduler(DbPath, NullLogger.Instance);
-        await scheduler.Initialization;
+        await scheduler.InitializeAsync();
         await scheduler.AddAsync(job);
 
         var got = (await TakeAsync(scheduler, 1)).Single();
@@ -79,7 +79,7 @@ public class SqliteSchedulerTests : IDisposable
         // A path in a not-yet-existing directory must work (the satellite
         // creates it — there is no core FilePersistencePrep reach).
         var first = new SqliteScheduler(DbPath, NullLogger.Instance);
-        await first.Initialization;
+        await first.InitializeAsync();
         await first.AddAsync(Enumerable.Range(1, 5).Select(i => UrlJob($"https://x/{i}")));
 
         var claimed = await TakeAsync(first, 2);
@@ -87,7 +87,7 @@ public class SqliteSchedulerTests : IDisposable
 
         // Fresh instance, same db file, no cleanup: resume is just the query.
         var resumed = new SqliteScheduler(DbPath, NullLogger.Instance);
-        await resumed.Initialization;
+        await resumed.InitializeAsync();
 
         var rest = await TakeAsync(resumed, 3);
         Assert.Equal(new[] { "https://x/3", "https://x/4", "https://x/5" },
@@ -98,11 +98,11 @@ public class SqliteSchedulerTests : IDisposable
     public async Task DataCleanupOnStart_clears_a_preexisting_job_table()
     {
         var first = new SqliteScheduler(DbPath, NullLogger.Instance);
-        await first.Initialization;
+        await first.InitializeAsync();
         await first.AddAsync(Enumerable.Range(1, 3).Select(i => UrlJob($"https://stale/{i}")));
 
         var fresh = new SqliteScheduler(DbPath, NullLogger.Instance, dataCleanupOnStart: true);
-        await fresh.Initialization;
+        await fresh.InitializeAsync();
         await fresh.AddAsync(UrlJob("https://fresh/1"));
 
         // Only the post-cleanup job remains; the three stale ones are gone.
@@ -114,7 +114,7 @@ public class SqliteSchedulerTests : IDisposable
     public async Task Batch_AddAsync_then_claim_preserves_FIFO_order()
     {
         var scheduler = new SqliteScheduler(DbPath, NullLogger.Instance);
-        await scheduler.Initialization;
+        await scheduler.InitializeAsync();
         await scheduler.AddAsync(new[] { "https://a/1", "https://a/2", "https://a/3" }
             .Select(UrlJob));
 

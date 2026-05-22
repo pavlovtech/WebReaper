@@ -1,12 +1,13 @@
 using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
+using WebReaper.Infra.Abstract;
 using WebReaper.Sinks.Abstract;
 using WebReaper.Sinks.Models;
 
 namespace WebReaper.Cosmos;
 
-public class CosmosSink : IScraperSink
+public class CosmosSink : IScraperSink, IAsyncInitializable
 {
     public CosmosSink(
         string endpointUrl,
@@ -23,7 +24,7 @@ public class CosmosSink : IScraperSink
         DataCleanupOnStart = dataCleanupOnStart;
         Logger = logger;
 
-        Initialization = InitializeAsync();
+        _initialization = new Lazy<Task>(InitializeCoreAsync);
     }
 
     private string EndpointUrl { get; }
@@ -33,14 +34,12 @@ public class CosmosSink : IScraperSink
     private ILogger Logger { get; }
     private Container? Container { get; set; }
 
-    public Task Initialization { get; }
+    private readonly Lazy<Task> _initialization;
 
     public bool DataCleanupOnStart { get; set; }
 
     public async Task EmitAsync(ParsedData entity, CancellationToken cancellationToken = default)
     {
-        await Initialization; // make sure that initialization finished
-
         // ADR-0031: the page URL is already folded into entity.Data by
         // ParsedData's construction. The "id" write is Cosmos-specific (the
         // /id partition key) and lands on this sink's own clone of Data.
@@ -66,7 +65,10 @@ public class CosmosSink : IScraperSink
         }
     }
 
-    private async Task InitializeAsync()
+    // ADR-0033: idempotent async warm-up, driven once before the crawl.
+    public Task InitializeAsync() => _initialization.Value;
+
+    private async Task InitializeCoreAsync()
     {
         var cosmosClient = new CosmosClient(EndpointUrl, AuthorizationKey);
         var databaseResponse = await cosmosClient.CreateDatabaseIfNotExistsAsync(DatabaseId);
