@@ -1,12 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using WebReaper.Infra.Abstract;
 using WebReaper.Sinks.Abstract;
 using WebReaper.Sinks.Models;
 
 namespace WebReaper.Mongo;
 
-public class MongoDbSink : IScraperSink
+public class MongoDbSink : IScraperSink, IAsyncInitializable
 {
     public MongoDbSink(
         string connectionString,
@@ -22,7 +23,7 @@ public class MongoDbSink : IScraperSink
         Client = new MongoClient(ConnectionString);
         Logger = logger;
 
-        Initialization = InitializeAsync();
+        _initialization = new Lazy<Task>(InitializeCoreAsync);
     }
 
     private string ConnectionString { get; }
@@ -31,14 +32,12 @@ public class MongoDbSink : IScraperSink
     private MongoClient Client { get; }
     private ILogger Logger { get; }
 
-    private Task Initialization { get; }
+    private readonly Lazy<Task> _initialization;
 
     public bool DataCleanupOnStart { get; set; }
 
     public async Task EmitAsync(ParsedData entity, CancellationToken cancellationToken = default)
     {
-        await Initialization;
-
         Logger.LogDebug($"Started {nameof(MongoDbSink)}.{nameof(EmitAsync)}");
 
         var database = Client.GetDatabase(DatabaseName);
@@ -54,7 +53,10 @@ public class MongoDbSink : IScraperSink
         await collection.InsertOneAsync(document, null, cancellationToken);
     }
 
-    private async Task InitializeAsync()
+    // ADR-0033: idempotent async warm-up, driven once before the crawl.
+    public Task InitializeAsync() => _initialization.Value;
+
+    private async Task InitializeCoreAsync()
     {
         if (!DataCleanupOnStart)
             return;

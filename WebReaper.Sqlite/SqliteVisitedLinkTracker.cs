@@ -1,5 +1,6 @@
 using Microsoft.Data.Sqlite;
 using WebReaper.Core.LinkTracker.Abstract;
+using WebReaper.Infra.Abstract;
 
 namespace WebReaper.Sqlite;
 
@@ -19,14 +20,14 @@ namespace WebReaper.Sqlite;
 /// (ADR-0009): the native <c>e_sqlite3</c>/SQLitePCLRaw graph stays off the
 /// dependency-light core, whose <c>FileVisitedLinkedTracker</c> is unchanged.
 /// </summary>
-public class SqliteVisitedLinkTracker : IVisitedLinkTracker
+public class SqliteVisitedLinkTracker : IVisitedLinkTracker, IAsyncInitializable
 {
     private readonly string _connectionString;
     private readonly string _databasePath;
 
     public bool DataCleanupOnStart { get; set; }
 
-    public Task Initialization { get; }
+    private readonly Lazy<Task> _initialization;
 
     public SqliteVisitedLinkTracker(string databasePath, bool dataCleanupOnStart = false)
     {
@@ -34,10 +35,13 @@ public class SqliteVisitedLinkTracker : IVisitedLinkTracker
         _connectionString = new SqliteConnectionStringBuilder { DataSource = databasePath }.ToString();
         DataCleanupOnStart = dataCleanupOnStart;
 
-        Initialization = InitializeAsync();
+        _initialization = new Lazy<Task>(InitializeCoreAsync);
     }
 
-    private async Task InitializeAsync()
+    // ADR-0033: idempotent async warm-up, driven once before the crawl.
+    public Task InitializeAsync() => _initialization.Value;
+
+    private async Task InitializeCoreAsync()
     {
         // SQLite creates the db file but not its directory; create it eagerly
         // and idempotently (the satellite owns its own pre-write prep — it
@@ -61,8 +65,6 @@ public class SqliteVisitedLinkTracker : IVisitedLinkTracker
 
     public async Task AddVisitedLinkAsync(string visitedLink)
     {
-        await Initialization;
-
         await using var connection = await OpenAsync();
         await using var cmd = connection.CreateCommand();
         // INSERT OR IGNORE = the set's idempotent add: a duplicate url hits
@@ -75,8 +77,6 @@ public class SqliteVisitedLinkTracker : IVisitedLinkTracker
 
     public async Task<List<string>> GetVisitedLinksAsync()
     {
-        await Initialization;
-
         await using var connection = await OpenAsync();
         await using var cmd = connection.CreateCommand();
         cmd.CommandText = "SELECT url FROM visited;";
@@ -89,8 +89,6 @@ public class SqliteVisitedLinkTracker : IVisitedLinkTracker
 
     public async Task<List<string>> GetNotVisitedLinks(IEnumerable<string> links)
     {
-        await Initialization;
-
         // Membership-per-link against the indexed PRIMARY KEY, input order
         // preserved — RedisVisitedLinkTracker's links.Where(!SetContains)
         // semantics. Deliberately NOT a full SELECT url FROM visited: that
@@ -115,8 +113,6 @@ public class SqliteVisitedLinkTracker : IVisitedLinkTracker
 
     public async Task<long> GetVisitedLinksCount()
     {
-        await Initialization;
-
         await using var connection = await OpenAsync();
         await using var cmd = connection.CreateCommand();
         cmd.CommandText = "SELECT COUNT(*) FROM visited;";

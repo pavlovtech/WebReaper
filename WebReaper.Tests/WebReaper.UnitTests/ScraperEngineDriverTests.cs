@@ -9,6 +9,7 @@ using WebReaper.Core.Scheduler.Concrete;
 using WebReaper.Core.Spider.Abstract;
 using WebReaper.Domain;
 using WebReaper.Domain.Selectors;
+using WebReaper.Infra.Abstract;
 using WebReaper.Sinks.Abstract;
 using WebReaper.Sinks.Models;
 
@@ -46,6 +47,36 @@ public class ScraperEngineDriverTests
         public Task EmitAsync(ParsedData entity, CancellationToken cancellationToken = default)
         {
             lock (Emitted) Emitted.Add(entity);
+            return Task.CompletedTask;
+        }
+    }
+
+    // ADR-0033: a sink that opts into the IAsyncInitializable warm-up
+    // capability — it records the order of warm-up vs emit and how many times
+    // the warm-up body actually ran.
+    private sealed class WarmUpRecordingSink : IScraperSink, IAsyncInitializable
+    {
+        public readonly List<string> Calls = new();
+        private int _coreRuns;
+        public int CoreRuns => Volatile.Read(ref _coreRuns);
+
+        private readonly Lazy<Task> _initialization;
+        public WarmUpRecordingSink() => _initialization = new Lazy<Task>(InitializeCoreAsync);
+
+        public bool DataCleanupOnStart { get; set; }
+
+        public Task InitializeAsync() => _initialization.Value;
+
+        private Task InitializeCoreAsync()
+        {
+            Interlocked.Increment(ref _coreRuns);
+            lock (Calls) Calls.Add("init");
+            return Task.CompletedTask;
+        }
+
+        public Task EmitAsync(ParsedData entity, CancellationToken cancellationToken = default)
+        {
+            lock (Calls) Calls.Add("emit");
             return Task.CompletedTask;
         }
     }
@@ -201,5 +232,45 @@ public class ScraperEngineDriverTests
         Assert.NotSame(a.Data, b.Data);
         Assert.Equal("item", a.Data["url"]!.GetValue<string>());
         Assert.Equal("item", b.Data["url"]!.GetValue<string>());
+    }
+
+    [Fact]
+    public async Task Driver_warms_up_an_initializable_sink_before_the_first_emit()
+    {
+        // ADR-0033: the Crawl driver calls InitializeAsync on every sink that
+        // declares the IAsyncInitializable capability, once, before the crawl
+        // loop — so warm-up always precedes the first EmitAsync.
+        var sink = new WarmUpRecordingSink();
+
+        var spider = new ScriptedSpider(job =>
+            job.Url == "root" ? Followed("item") : Parsed(job.Url));
+
+        var engine = new ScraperEngine(
+            parallelismDegree: 1,
+            new FakeConfigStorage(Config()),
+            new InMemoryScheduler(),
+            spider,
+            new InMemoryVisitedLinkTracker(),
+            new List<IScraperSink> { sink },
+            NullLogger.Instance);
+
+        await engine.RunAsync().WaitAsync(TimeSpan.FromSeconds(10));
+
+        Assert.Equal(new[] { "init", "emit" }, sink.Calls);
+        Assert.Equal(1, sink.CoreRuns);
+    }
+
+    [Fact]
+    public async Task InitializeAsync_runs_the_warm_up_once_under_concurrent_calls()
+    {
+        // ADR-0033: warm-up is idempotent — Lazy<Task> runs the body once and
+        // hands every caller the same task, so a per-message distributed
+        // driver may call InitializeAsync freely.
+        var sink = new WarmUpRecordingSink();
+
+        await Task.WhenAll(Enumerable.Range(0, 32)
+            .Select(_ => Task.Run(() => sink.InitializeAsync())));
+
+        Assert.Equal(1, sink.CoreRuns);
     }
 }

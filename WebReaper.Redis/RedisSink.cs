@@ -1,11 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
+using WebReaper.Infra.Abstract;
 using WebReaper.Sinks.Abstract;
 using WebReaper.Sinks.Models;
 
 namespace WebReaper.Redis;
 
-public class RedisSink : IScraperSink
+public class RedisSink : IScraperSink, IAsyncInitializable
 {
     private readonly IDatabase _db;
     private readonly ILogger _logger;
@@ -18,23 +19,24 @@ public class RedisSink : IScraperSink
         _redisKey = redisKey;
         _logger = logger;
 
-        Initialization = InitializeAsync();
+        _initialization = new Lazy<Task>(InitializeCoreAsync);
     }
 
-    private Task Initialization { get; }
+    private readonly Lazy<Task> _initialization;
     public bool DataCleanupOnStart { get; set; }
 
     public async Task EmitAsync(ParsedData entity, CancellationToken cancellationToken = default)
     {
-        await Initialization;
-
         // ADR-0031: the page URL is already folded into entity.Data by
         // ParsedData's construction — no per-sink merge.
         var db = _db;
         await db.SetAddAsync(_redisKey, entity.Data.ToString());
     }
 
-    private async Task InitializeAsync()
+    // ADR-0033: idempotent async warm-up, driven once before the crawl.
+    public Task InitializeAsync() => _initialization.Value;
+
+    private async Task InitializeCoreAsync()
     {
         if (!DataCleanupOnStart)
             return;

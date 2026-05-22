@@ -27,7 +27,7 @@ public class FilePersistenceAdaptersTests
         try
         {
             var tracker = new FileVisitedLinkedTracker(Path.Combine(dir, "visited.txt"));
-            await tracker.Initialization;
+            await tracker.InitializeAsync();
 
             await tracker.AddVisitedLinkAsync("http://x/1");
 
@@ -51,7 +51,7 @@ public class FilePersistenceAdaptersTests
                 Path.Combine(dir, "jobs.txt"),
                 Path.Combine(dir, "pos.txt"),
                 NullLogger.Instance);
-            await scheduler.Initialization;
+            await scheduler.InitializeAsync();
 
             await scheduler.AddAsync(new Job(
                 "http://x/1",

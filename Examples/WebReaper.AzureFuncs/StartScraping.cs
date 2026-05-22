@@ -83,6 +83,10 @@ namespace WebReaper.AzureFuncs
         {
             var urls = config.StartUrls.ToList();
 
+            // ADR-0033: warm up the scheduler before seeding — the distributed
+            // driver drives its own adapter warm-up (ADR-0009).
+            await _scheduler.InitializeAsync();
+
             // ADR-0022 slice 4: seed one unit of Outstanding-work-latch credit
             // per start Job BEFORE any is enqueued, so a fast worker cannot
             // drive the distributed counter to zero before seeding finishes
