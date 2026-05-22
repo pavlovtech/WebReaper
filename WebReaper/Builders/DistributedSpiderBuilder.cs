@@ -1,11 +1,10 @@
 using System.Net;
 using Microsoft.Extensions.Logging;
-using WebReaper.ConfigStorage.Abstract;
-using WebReaper.ConfigStorage.Concrete;
 using WebReaper.Core.CookieStorage.Abstract;
 using WebReaper.Core.Loaders.Abstract;
 using WebReaper.Core.Parser.Abstract;
 using WebReaper.Core.Spider.Abstract;
+using WebReaper.Domain;
 using WebReaper.Proxy;
 using WebReaper.Proxy.Abstract;
 
@@ -13,9 +12,10 @@ namespace WebReaper.Builders;
 
 /// <summary>
 /// The ADR-0009 distributed-worker reduced shell: builds a bare
-/// <see cref="ISpider"/> that reads its <see cref="Domain.ScraperConfig"/>
-/// from shared config storage at crawl time. Use it in the DIY-distributed
-/// pattern — pull one <c>Job</c> off your own queue, crawl it with
+/// <see cref="ISpider"/> from the <see cref="Domain.ScraperConfig"/> the
+/// worker hands to <see cref="BuildSpider"/> (ADR-0034 — the shell no longer
+/// reads config storage itself). Use it in the DIY-distributed pattern — pull
+/// one <c>Job</c> off your own queue, crawl it with
 /// <c>spider.CrawlAsync(job)</c>, and re-enqueue the returned child jobs
 /// yourself (see <c>Examples/WebReaper.AzureFuncs</c>).
 /// <para>
@@ -29,9 +29,10 @@ namespace WebReaper.Builders;
 /// constructor; this seam is config-agnostic by design.
 /// </para>
 /// <para>
-/// Distributed adapters (a shared Redis/Mongo link tracker, config storage,
-/// latch) are wired by hand here — pass a public concrete or a DI-resolved
-/// instance, as the ADR-0009 pattern intends. The satellite builder sugar
+/// Distributed adapters (a shared Redis/Mongo link tracker, latch, and the
+/// config store the worker reads its <see cref="Domain.ScraperConfig"/> from)
+/// are wired by hand here — pass a public concrete or a DI-resolved instance,
+/// as the ADR-0009 pattern intends. The satellite builder sugar
 /// (<c>.WithRedis*()</c>, …) is the engine-path convenience and stays on
 /// <see cref="ScraperEngineBuilder"/>.
 /// </para>
@@ -39,7 +40,6 @@ namespace WebReaper.Builders;
 public class DistributedSpiderBuilder
 {
     private readonly SpiderBuilder _spiderBuilder = new();
-    private IScraperConfigStorage _configStorage = new InMemoryScraperConfigStorage();
 
     /// <summary>Route library logging to your <see cref="ILogger"/>.</summary>
     public DistributedSpiderBuilder WithLogger(ILogger logger)
@@ -132,34 +132,21 @@ public class DistributedSpiderBuilder
         return this;
     }
 
-    /// <summary>The shared <see cref="IScraperConfigStorage"/> the worker's
-    /// spider reads its <see cref="Domain.ScraperConfig"/> from at crawl time
-    /// (written by the start endpoint, <see cref="ScraperEngineBuilder.Build"/>).</summary>
-    public DistributedSpiderBuilder WithConfigStorage(IScraperConfigStorage configStorage)
-    {
-        _configStorage = configStorage;
-        return this;
-    }
-
-    /// <summary>Read the shared <see cref="Domain.ScraperConfig"/> from a file.</summary>
-    /// <exception cref="ArgumentException"><paramref name="fileName"/> is
-    /// null/empty/whitespace.</exception>
-    public DistributedSpiderBuilder WithFileConfigStorage(string fileName)
-    {
-        ArgumentException.ThrowIfNullOrWhiteSpace(fileName);
-        _configStorage = new FileScraperConfigStorage(fileName);
-        return this;
-    }
-
     /// <summary>
-    /// Build the bare <see cref="ISpider"/> for this distributed worker. No
-    /// start URLs or schema required — the spider reads its
-    /// <see cref="Domain.ScraperConfig"/> from <see cref="WithConfigStorage"/>
-    /// at crawl time (ADR-0009).
+    /// Build the bare <see cref="ISpider"/> for this distributed worker from
+    /// the <see cref="Domain.ScraperConfig"/> the start endpoint persisted
+    /// (<see cref="ScraperEngineBuilder.Build"/>) — the worker fetches it from
+    /// shared storage and passes it here (ADR-0034). No Crawl seed or schema
+    /// is needed: a worker is config-agnostic by construction (ADR-0025).
+    /// <paramref name="config"/> is required, so a worker spider cannot be
+    /// built without one — the pre-0034 silent empty-config footgun is gone.
     /// </summary>
-    public ISpider BuildSpider()
+    /// <exception cref="ArgumentNullException"><paramref name="config"/> is
+    /// null.</exception>
+    public ISpider BuildSpider(ScraperConfig config)
     {
-        _spiderBuilder.WithConfigStorage(_configStorage);
+        ArgumentNullException.ThrowIfNull(config);
+        _spiderBuilder.WithConfig(config);
         return _spiderBuilder.Build();
     }
 }

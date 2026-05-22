@@ -482,7 +482,6 @@ public class ScraperEngineBuilder
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(fileName);
         ConfigStorage = new FileScraperConfigStorage(fileName);
-        SpiderBuilder.WithFileConfigStorage(fileName);
 
         return this;
     }
@@ -529,8 +528,11 @@ public class ScraperEngineBuilder
     /// </summary>
     public async Task<ScraperEngine> BuildAsync()
     {
-        SpiderBuilder.WithConfigStorage(ConfigStorage);
+        // ADR-0034: build the immutable config, hand it to the SpiderBuilder
+        // (the shell takes its Headless + ParsingScheme from it), then persist
+        // it. The engine still reads ConfigStorage itself in RunAsync.
         var config = ConfigBuilder.Build();
+        SpiderBuilder.WithConfig(config);
         var spider = SpiderBuilder.Build();
         await ConfigStorage.CreateConfigAsync(config);
 
