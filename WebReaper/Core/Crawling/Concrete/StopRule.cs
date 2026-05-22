@@ -15,10 +15,11 @@ namespace WebReaper.Core.Crawling.Concrete;
 /// </list>
 /// The driver consults it instead of inlining latch calls and limit
 /// arithmetic; the stop rule <em>reports</em> the verdict and the driver
-/// <em>acts</em> on it (calls <c>Scheduler.Complete()</c>) — the ADR-0001 /
-/// ADR-0022 posture. Once concluded it stays concluded, and the conclusion is
-/// CAS-fenced so exactly one caller is told to act. Built per-run inside
-/// <see cref="ScraperEngine.RunAsync"/> from the config it needs.
+/// <em>acts</em> on it (ceases its own consumption of the job stream —
+/// ADR-0037) — the ADR-0001 / ADR-0022 posture. Once concluded it stays
+/// concluded, and the conclusion is CAS-fenced so exactly one caller is told
+/// to act. Built per-run inside <see cref="ScraperEngine.RunAsync"/> from the
+/// config it needs.
 /// </summary>
 internal sealed class StopRule
 {
@@ -73,7 +74,7 @@ internal sealed class StopRule
     /// atomic step (credit conservation is structural — ADR-0032), then check
     /// the page limit. Returns <c>true</c> to exactly one caller — the Job
     /// whose registration concluded the Crawl — which the driver answers by
-    /// calling <c>Scheduler.Complete()</c>.
+    /// cancelling its own consumption of the job stream (ADR-0037).
     /// </summary>
     public async Task<bool> RegisterProcessedAsync(int childCount)
     {

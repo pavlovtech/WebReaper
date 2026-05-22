@@ -1,10 +1,13 @@
+using System.Collections.Concurrent;
 using System.Collections.Immutable;
+using System.Runtime.CompilerServices;
 using System.Text.Json.Nodes;
 using Microsoft.Extensions.Logging.Abstractions;
 using WebReaper.ConfigStorage.Abstract;
 using WebReaper.Core;
 using WebReaper.Core.Crawling;
 using WebReaper.Core.LinkTracker.Concrete;
+using WebReaper.Core.Scheduler.Abstract;
 using WebReaper.Core.Scheduler.Concrete;
 using WebReaper.Core.Spider.Abstract;
 using WebReaper.Domain;
@@ -82,6 +85,43 @@ public class ScraperEngineDriverTests
         {
             lock (Calls) Calls.Add("emit");
             return Task.CompletedTask;
+        }
+    }
+
+    // ADR-0037: a durable-style scheduler — its GetAllAsync is a poll loop
+    // that ends ONLY when its token is cancelled, never by self-completion,
+    // exactly like FileScheduler / RedisScheduler / SqliteScheduler. It has no
+    // Complete() (the interface no longer has one). A crawl over it terminates
+    // only because the Crawl driver cancels its own consumption; before
+    // ADR-0037 it would hang forever.
+    private sealed class PollingScheduler : IScheduler
+    {
+        private readonly ConcurrentQueue<Job> _jobs = new();
+
+        public bool DataCleanupOnStart { get; set; }
+
+        public Task AddAsync(Job job, CancellationToken cancellationToken = default)
+        {
+            _jobs.Enqueue(job);
+            return Task.CompletedTask;
+        }
+
+        public Task AddAsync(IEnumerable<Job> jobs, CancellationToken cancellationToken = default)
+        {
+            foreach (var job in jobs) _jobs.Enqueue(job);
+            return Task.CompletedTask;
+        }
+
+        public async IAsyncEnumerable<Job> GetAllAsync(
+            [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        {
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                if (_jobs.TryDequeue(out var job))
+                    yield return job;
+                else
+                    await Task.Delay(10, cancellationToken);
+            }
         }
     }
 
@@ -406,5 +446,54 @@ public class ScraperEngineDriverTests
         await engine.RunAsync().WaitAsync(TimeSpan.FromSeconds(10));
 
         Assert.Equal(new[] { "item" }, received);
+    }
+
+    [Fact]
+    public async Task Run_terminates_over_a_durable_style_scheduler_that_drains()
+    {
+        // ADR-0037: termination no longer depends on IScheduler.Complete().
+        // PollingScheduler's stream ends only when its token is cancelled — the
+        // shape of every durable scheduler. The crawl drains (root + 2
+        // children); the stop rule concludes and the driver cancels its own
+        // consumption. Before ADR-0037 this hung forever (Complete() was a
+        // no-op for every durable scheduler) — WaitAsync would time out.
+        var spider = new ScriptedSpider(job =>
+            job.Url == "root" ? Followed("child-A", "child-B") : Followed());
+
+        var engine = new ScraperEngine(
+            parallelismDegree: 4,
+            new FakeConfigStorage(Config()),
+            new PollingScheduler(),
+            spider,
+            new InMemoryVisitedLinkTracker(),
+            new List<IScraperSink>(),
+            NullLogger.Instance);
+
+        await engine.RunAsync().WaitAsync(TimeSpan.FromSeconds(10));
+
+        Assert.Equal(3, spider.Crawled.Count); // root + 2 children, then drained
+    }
+
+    [Fact]
+    public async Task Run_terminates_over_a_durable_style_scheduler_when_the_page_limit_is_hit()
+    {
+        // ADR-0037: the cutoff (soft page limit) path also ends the crawl by
+        // the driver ceasing consumption, so it too terminates over a durable
+        // scheduler. The spider follows an endless chain; the limit of 3
+        // visited pages concludes the crawl.
+        var spider = new ScriptedSpider(job => Followed(job.Url + "-x"));
+
+        var engine = new ScraperEngine(
+            parallelismDegree: 1,
+            new FakeConfigStorage(Config(limit: 3, stopWhenDrained: false)),
+            new PollingScheduler(),
+            spider,
+            new InMemoryVisitedLinkTracker(),
+            new List<IScraperSink>(),
+            NullLogger.Instance);
+
+        await engine.RunAsync().WaitAsync(TimeSpan.FromSeconds(10));
+
+        Assert.True(spider.Crawled.Count >= 3); // soft limit: at least the cap
     }
 }
