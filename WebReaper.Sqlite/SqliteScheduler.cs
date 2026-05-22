@@ -3,6 +3,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Logging;
 using WebReaper.Core.Scheduler.Abstract;
 using WebReaper.Domain;
+using WebReaper.Infra.Abstract;
 using WebReaper.Serialization;
 
 namespace WebReaper.Sqlite;
@@ -20,7 +21,7 @@ namespace WebReaper.Sqlite;
 /// whose <c>FileScheduler</c> is unchanged and remains the zero-dependency
 /// local default — this is the opt-in robust-local tier.
 /// </summary>
-public class SqliteScheduler : IScheduler
+public class SqliteScheduler : IScheduler, IAsyncInitializable
 {
     private readonly string _connectionString;
     private readonly string _databasePath;
@@ -28,7 +29,7 @@ public class SqliteScheduler : IScheduler
 
     public bool DataCleanupOnStart { get; set; }
 
-    public Task Initialization { get; }
+    private readonly Lazy<Task> _initialization;
 
     public SqliteScheduler(string databasePath, ILogger logger, bool dataCleanupOnStart = false)
     {
@@ -37,10 +38,13 @@ public class SqliteScheduler : IScheduler
         _logger = logger;
         DataCleanupOnStart = dataCleanupOnStart;
 
-        Initialization = InitializeAsync();
+        _initialization = new Lazy<Task>(InitializeCoreAsync);
     }
 
-    private async Task InitializeAsync()
+    // ADR-0033: idempotent async warm-up, driven once before the crawl.
+    public Task InitializeAsync() => _initialization.Value;
+
+    private async Task InitializeCoreAsync()
     {
         // The satellite cannot (InternalsVisibleTo is core's unit tests only)
         // and should not reach core's internal FilePersistencePrep (ADR-0011);
@@ -78,8 +82,6 @@ public class SqliteScheduler : IScheduler
 
     public async Task AddAsync(Job job, CancellationToken cancellationToken = default)
     {
-        await Initialization;
-
         await using var connection = await OpenAsync(cancellationToken);
         await using var cmd = connection.CreateCommand();
         cmd.CommandText = "INSERT INTO jobs (payload) VALUES ($p);";
@@ -89,8 +91,6 @@ public class SqliteScheduler : IScheduler
 
     public async Task AddAsync(IEnumerable<Job> jobs, CancellationToken cancellationToken = default)
     {
-        await Initialization;
-
         await using var connection = await OpenAsync(cancellationToken);
         // deferred:false ⇒ BEGIN IMMEDIATE — take the write lock up front so a
         // batch insert never half-applies under a concurrent claim/insert
@@ -112,8 +112,6 @@ public class SqliteScheduler : IScheduler
     public async IAsyncEnumerable<Job> GetAllAsync(
         [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        await Initialization;
-
         _logger.LogInformation("Start {class}.{method}", nameof(SqliteScheduler), nameof(GetAllAsync));
 
         while (!cancellationToken.IsCancellationRequested)

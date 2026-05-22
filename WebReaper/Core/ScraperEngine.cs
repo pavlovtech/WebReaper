@@ -96,8 +96,7 @@ public class ScraperEngine
     /// </summary>
     public async Task RunAsync(CancellationToken cancellationToken = default)
     {
-        await Scheduler.Initialization;
-        await LinkTracker.Initialization;
+        await WarmUpAdaptersAsync();
 
         Logger.LogInformation("Start {class}.{method}", nameof(ScraperEngine), nameof(RunAsync));
 
@@ -208,6 +207,25 @@ public class ScraperEngine
             Logger.LogError(ex, "Shutting down due to unhandled exception");
             throw;
         }
+    }
+
+    // ADR-0033: warm up every adapter the driver holds that declares the
+    // IAsyncInitializable capability — the scheduler, the visited-link tracker
+    // and every sink — once, before the crawl loop (the IHostedService model).
+    // Adapters with no async warm-up (the in-memory defaults, the console and
+    // file sinks) implement nothing and are skipped. InitializeAsync is
+    // idempotent, so a sink shared with a distributed driver stays correct.
+    private async Task WarmUpAdaptersAsync()
+    {
+        if (Scheduler is IAsyncInitializable scheduler)
+            await scheduler.InitializeAsync();
+
+        if (LinkTracker is IAsyncInitializable linkTracker)
+            await linkTracker.InitializeAsync();
+
+        foreach (var sink in Sinks)
+            if (sink is IAsyncInitializable initializableSink)
+                await initializableSink.InitializeAsync();
     }
 
     private async Task ProcessTargetPage(Job job, string doc, ParsedData result,

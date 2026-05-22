@@ -3,11 +3,12 @@ using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
 using WebReaper.Core.Scheduler.Abstract;
 using WebReaper.Domain;
+using WebReaper.Infra.Abstract;
 using WebReaper.Serialization;
 
 namespace WebReaper.Redis;
 
-public class RedisScheduler : IScheduler
+public class RedisScheduler : IScheduler, IAsyncInitializable
 {
     private readonly IDatabase _db;
     private readonly ILogger _logger;
@@ -15,7 +16,7 @@ public class RedisScheduler : IScheduler
 
     public bool DataCleanupOnStart { get; set; }
 
-    public Task Initialization { get; }
+    private readonly Lazy<Task> _initialization;
 
     public RedisScheduler(string connectionString, string queueName, ILogger logger, bool dataCleanupOnStart = false)
     {
@@ -24,10 +25,13 @@ public class RedisScheduler : IScheduler
         _queueName = queueName;
         _logger = logger;
         
-        Initialization = InitializeAsync();
+        _initialization = new Lazy<Task>(InitializeCoreAsync);
     }
     
-    private async Task InitializeAsync()
+    // ADR-0033: idempotent async warm-up, driven once before the crawl.
+    public Task InitializeAsync() => _initialization.Value;
+
+    private async Task InitializeCoreAsync()
     {
         if (!DataCleanupOnStart)
             return;
