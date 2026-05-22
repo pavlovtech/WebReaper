@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Immutable;
 using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using WebReaper.Builders;
+using WebReaper.ConfigStorage.Abstract;
 using WebReaper.Core.Crawling;
 using WebReaper.Core.Crawling.Abstract;
 using WebReaper.Core.LinkTracker.Abstract;
@@ -19,11 +21,24 @@ namespace WebReaper.AzureFuncs
         public CosmosSink CosmosSink { get; }
         public IOutstandingWorkLatch Latch { get; }
 
-        public WebReaperSpider(IVisitedLinkTracker linkTracker, CosmosSink cosmosSink, IOutstandingWorkLatch latch)
+        // ADR-0034: the worker fetches the crawl's ScraperConfig and hands it
+        // to BuildSpider — the Spider shell no longer reads config storage
+        // itself. Lazy<Task<...>> hoists the fetch: one round-trip to shared
+        // storage on the first message this function instance handles, reused
+        // for every later message (the Lazy<Task> idiom ADR-0033 used for
+        // adapter warm-up).
+        private readonly Lazy<Task<ScraperConfig>> _config;
+
+        public WebReaperSpider(
+            IVisitedLinkTracker linkTracker,
+            CosmosSink cosmosSink,
+            IOutstandingWorkLatch latch,
+            IScraperConfigStorage configStorage)
         {
             LinkTracker = linkTracker;
             CosmosSink = cosmosSink;
             Latch = latch;
+            _config = new Lazy<Task<ScraperConfig>>(configStorage.GetConfigAsync);
         }
 
         private string SerializeToJson(Job job)
@@ -61,9 +76,11 @@ namespace WebReaper.AzureFuncs
             // reduced shell is built by DistributedSpiderBuilder. The link
             // tracker is the driver's idempotency authority (ADR-0022) — used
             // directly below, not wired into the spider shell.
+            // ADR-0034: BuildSpider takes the ScraperConfig the worker fetched
+            // (hoisted via the Lazy above) — the shell no longer reads it.
             var spider = new DistributedSpiderBuilder()
                 .WithLogger(log)
-                .BuildSpider();
+                .BuildSpider(await _config.Value);
 
             var children = ImmutableArray<Job>.Empty;
 
