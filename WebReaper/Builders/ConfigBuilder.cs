@@ -198,15 +198,20 @@ internal class ConfigBuilder
     }
 
     /// <summary>
-    /// Produce the immutable <see cref="ScraperConfig"/>. Start URLs and a
-    /// schema are present by construction (ADR-0025): the only way here is
-    /// <see cref="ScraperEngineBuilder.Crawl(string[])"/> then
-    /// <see cref="ICrawlSeed.Extract"/>, so the old runtime guards are gone.
+    /// Produce the immutable <see cref="ScraperConfig"/>. Start URLs and an
+    /// extraction strategy are present by construction (ADR-0025, widened by
+    /// ADR-0040): the only way here is <see cref="ScraperEngineBuilder.Crawl(string[])"/>
+    /// then a strategy terminal on <see cref="ICrawlSeed"/>
+    /// (<see cref="ICrawlSeed.Extract"/> or <see cref="ICrawlSeed.AsMarkdown"/>),
+    /// so the old runtime guards are gone. <see cref="ScraperConfig.ParsingScheme"/>
+    /// may be null — Markdown extraction (ADR-0040) leaves it unset; the
+    /// <see cref="Core.Spider.Concrete.Spider"/> and
+    /// <see cref="Core.Crawling.Concrete.CrawlStep"/> are already null-tolerant.
     /// </summary>
     public ScraperConfig Build()
     {
         return new ScraperConfig(
-            _schema!,
+            _schema,
             ImmutableQueue.Create(_linkPathSelectors.ToArray()),
             _startUrls,
             _blockedUrls,
