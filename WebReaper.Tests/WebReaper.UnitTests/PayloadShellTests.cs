@@ -26,7 +26,7 @@ public class PayloadShellTests
         {
             new LinkPathSelector("a.cat", null, PageType.Static),
             new LinkPathSelector("a.item", "a.next", PageType.Dynamic,
-                new List<PageAction> { new(PageActionType.WaitForSelector, "div.loaded") })
+                new List<PageAction> { new PageAction.WaitForSelector("div.loaded", 5000) })
         });
 
         var config = new ScraperConfig(
@@ -36,7 +36,7 @@ public class PayloadShellTests
             UrlBlackList: new[] { "https://x.test/skip" },
             PageCrawlLimit: 123,
             StartPageType: PageType.Dynamic,
-            PageActions: new List<PageAction> { new(PageActionType.Click, "button#go", 42) },
+            PageActions: new List<PageAction> { new PageAction.Click("button#go") },
             Headless: false,
             StopWhenDrained: true);
 
@@ -56,13 +56,13 @@ public class PayloadShellTests
         Assert.Equal("a.cat", selectors[0].Selector);
         Assert.Equal("a.next", selectors[1].PaginationSelector);
         Assert.Equal(PageType.Dynamic, selectors[1].PageType);
-        Assert.Equal(PageActionType.WaitForSelector, selectors[1].PageActions![0].Type);
+        var wfs = Assert.IsType<PageAction.WaitForSelector>(selectors[1].PageActions![0]);
+        Assert.Equal(5000, wfs.TimeoutMs);
 
         Assert.NotNull(got.PageActions);
         Assert.Single(got.PageActions!);
-        Assert.Equal(PageActionType.Click, got.PageActions![0].Type);
-        Assert.Equal("button#go", got.PageActions![0].Parameters[0].ToString());
-        Assert.Equal(42, Convert.ToInt32(got.PageActions![0].Parameters[1]));
+        var pa = Assert.IsType<PageAction.Click>(got.PageActions![0]);
+        Assert.Equal("button#go", pa.Selector);
     }
 
     [Fact]

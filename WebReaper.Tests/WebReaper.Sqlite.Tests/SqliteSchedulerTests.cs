@@ -51,7 +51,7 @@ public class SqliteSchedulerTests : IDisposable
             }),
             ImmutableQueue.CreateRange(new[] { "https://x.test", "https://x.test/c" }),
             PageType.Dynamic,
-            new List<PageAction> { new(PageActionType.Click, "button#go", 42) });
+            new List<PageAction> { new PageAction.Click("button#go") });
 
         var scheduler = new SqliteScheduler(DbPath, NullLogger.Instance);
         await scheduler.InitializeAsync();
@@ -68,9 +68,8 @@ public class SqliteSchedulerTests : IDisposable
         Assert.Equal(PageType.Dynamic, chain[1].PageType);
         Assert.Equal(new[] { "https://x.test", "https://x.test/c" },
             got.ParentBacklinks.ToArray());
-        Assert.Equal(PageActionType.Click, got.PageActions![0].Type);
-        Assert.Equal("button#go", got.PageActions![0].Parameters[0].ToString());
-        Assert.Equal(42, Convert.ToInt32(got.PageActions![0].Parameters[1]));
+        var pa = Assert.IsType<PageAction.Click>(got.PageActions![0]);
+        Assert.Equal("button#go", pa.Selector);
     }
 
     [Fact]
