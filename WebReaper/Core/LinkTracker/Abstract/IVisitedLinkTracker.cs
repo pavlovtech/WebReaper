@@ -63,10 +63,4 @@ public interface IVisitedLinkTracker
     /// limit is a value the driver checks, not a thrown exception).
     /// </summary>
     Task<long> GetVisitedLinksCount();
-
-    /// <summary>
-    /// Awaited once before use; durable / distributed adapters connect /
-    /// restore here.
-    /// </summary>
-    Task Initialization { get; }
 }

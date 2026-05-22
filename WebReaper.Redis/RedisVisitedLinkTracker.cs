@@ -1,16 +1,17 @@
 ﻿using StackExchange.Redis;
 using WebReaper.Core.LinkTracker.Abstract;
+using WebReaper.Infra.Abstract;
 
 namespace WebReaper.Redis;
 
-public class RedisVisitedLinkTracker : IVisitedLinkTracker
+public class RedisVisitedLinkTracker : IVisitedLinkTracker, IAsyncInitializable
 {
     private readonly IDatabase _db;
     private readonly string _redisKey;
 
     public bool DataCleanupOnStart { get; set; }
 
-    public Task Initialization { get; }
+    private readonly Lazy<Task> _initialization;
 
     public RedisVisitedLinkTracker(string connectionString, string redisKey, bool dataCleanupOnStart = false)
     {
@@ -18,10 +19,13 @@ public class RedisVisitedLinkTracker : IVisitedLinkTracker
         _redisKey = redisKey;
         DataCleanupOnStart = dataCleanupOnStart;
         
-        Initialization = InitializeAsync();
+        _initialization = new Lazy<Task>(InitializeCoreAsync);
     }
 
-    private async Task InitializeAsync()
+    // ADR-0033: idempotent async warm-up, driven once before the crawl.
+    public Task InitializeAsync() => _initialization.Value;
+
+    private async Task InitializeCoreAsync()
     {
         if (!DataCleanupOnStart)
             return;

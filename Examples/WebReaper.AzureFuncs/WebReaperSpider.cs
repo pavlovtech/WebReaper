@@ -9,6 +9,7 @@ using WebReaper.Core.Crawling.Abstract;
 using WebReaper.Core.LinkTracker.Abstract;
 using WebReaper.Cosmos;
 using WebReaper.Domain;
+using WebReaper.Infra.Abstract;
 
 namespace WebReaper.AzureFuncs
 {
@@ -45,6 +46,15 @@ namespace WebReaper.AzureFuncs
             {
                 NullValueHandling = NullValueHandling.Ignore
             });
+
+            // ADR-0033: the distributed driver warms its adapters up itself —
+            // it is consumer-authored (ADR-0009), and a per-message function
+            // has no single "before the crawl" moment the in-process driver
+            // has. InitializeAsync is idempotent, so a per-message call costs
+            // one warm-up round-trip across the whole crawl.
+            await CosmosSink.InitializeAsync();
+            if (LinkTracker is IAsyncInitializable initializableTracker)
+                await initializableTracker.InitializeAsync();
 
             // ADR-0022 slice 4: this Service Bus function IS the distributed
             // Crawl driver. ADR-0009/0025: SpiderBuilder is internal; the bare

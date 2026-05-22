@@ -22,7 +22,7 @@ public class SqliteVisitedLinkTrackerTests : IDisposable
     public async Task AddVisitedLink_is_an_idempotent_set_add()
     {
         var tracker = new SqliteVisitedLinkTracker(DbPath);
-        await tracker.Initialization;
+        await tracker.InitializeAsync();
 
         await tracker.AddVisitedLinkAsync("https://x/a");
         await tracker.AddVisitedLinkAsync("https://x/b");
@@ -37,7 +37,7 @@ public class SqliteVisitedLinkTrackerTests : IDisposable
     public async Task GetNotVisitedLinks_returns_only_unvisited_in_input_order()
     {
         var tracker = new SqliteVisitedLinkTracker(DbPath);
-        await tracker.Initialization;
+        await tracker.InitializeAsync();
         await tracker.AddVisitedLinkAsync("https://x/a");
         await tracker.AddVisitedLinkAsync("https://x/c");
 
@@ -51,7 +51,7 @@ public class SqliteVisitedLinkTrackerTests : IDisposable
     public async Task Membership_and_count_survive_reopen_without_an_in_memory_mirror()
     {
         var first = new SqliteVisitedLinkTracker(DbPath);
-        await first.Initialization;
+        await first.InitializeAsync();
         await first.AddVisitedLinkAsync("https://x/a");
         await first.AddVisitedLinkAsync("https://x/b");
         await first.AddVisitedLinkAsync("https://x/c");
@@ -59,7 +59,7 @@ public class SqliteVisitedLinkTrackerTests : IDisposable
         // Fresh instance, same db, no cleanup: its in-memory state is empty,
         // yet it answers from the table — proving the no-mirror design.
         var reopened = new SqliteVisitedLinkTracker(DbPath);
-        await reopened.Initialization;
+        await reopened.InitializeAsync();
 
         Assert.Equal(3, await reopened.GetVisitedLinksCount());
         Assert.Equal(
@@ -74,12 +74,12 @@ public class SqliteVisitedLinkTrackerTests : IDisposable
     public async Task DataCleanupOnStart_clears_a_preexisting_visited_table()
     {
         var first = new SqliteVisitedLinkTracker(DbPath);
-        await first.Initialization;
+        await first.InitializeAsync();
         await first.AddVisitedLinkAsync("https://stale/1");
         await first.AddVisitedLinkAsync("https://stale/2");
 
         var fresh = new SqliteVisitedLinkTracker(DbPath, dataCleanupOnStart: true);
-        await fresh.Initialization;
+        await fresh.InitializeAsync();
 
         Assert.Equal(0, await fresh.GetVisitedLinksCount());
 

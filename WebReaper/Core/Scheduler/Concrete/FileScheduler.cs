@@ -3,11 +3,12 @@ using Microsoft.Extensions.Logging;
 using WebReaper.Core.Scheduler.Abstract;
 using WebReaper.DataAccess;
 using WebReaper.Domain;
+using WebReaper.Infra.Abstract;
 using WebReaper.Serialization;
 
 namespace WebReaper.Core.Scheduler.Concrete;
 
-internal class FileScheduler : IScheduler
+internal class FileScheduler : IScheduler, IAsyncInitializable
 {
     private readonly string _currentJobPositionFileName;
     private readonly string _fileName;
@@ -15,7 +16,7 @@ internal class FileScheduler : IScheduler
 
     private readonly SemaphoreSlim _semaphore = new(1, 1);
     private long _currentJobPosition;
-    public Task Initialization { get; }
+    private readonly Lazy<Task> _initialization;
 
     public bool DataCleanupOnStart { get; set; }
     
@@ -26,10 +27,13 @@ internal class FileScheduler : IScheduler
         _currentJobPositionFileName = currentJobPositionFileName;
         _logger = logger;
 
-        Initialization = InitializeAsync();
+        _initialization = new Lazy<Task>(InitializeCoreAsync);
     }
     
-    private async Task InitializeAsync()
+    // ADR-0033: idempotent async warm-up, driven once before the crawl.
+    public Task InitializeAsync() => _initialization.Value;
+
+    private async Task InitializeCoreAsync()
     {
         // ADR-0011: directory creation, cleanup-on-start and the missing-file
         // policy are delegated to FilePersistencePrep, for both the job file

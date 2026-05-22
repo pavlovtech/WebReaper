@@ -20,13 +20,6 @@ public interface IScheduler
     public bool DataCleanupOnStart { get; set; }
 
     /// <summary>
-    /// Awaited once before the queue is used. A durable / distributed adapter
-    /// performs its async connect / restore here; the in-memory adapter
-    /// completes synchronously.
-    /// </summary>
-    public Task Initialization { get; }
-
-    /// <summary>
     /// Enqueue one discovered Job. The Crawl driver calls this to push a
     /// surviving child Job back onto the queue.
     /// </summary>

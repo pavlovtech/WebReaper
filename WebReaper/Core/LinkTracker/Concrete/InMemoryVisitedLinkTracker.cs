@@ -66,7 +66,4 @@ public class InMemoryVisitedLinkTracker : IVisitedLinkTracker
     {
         return Task.FromResult((long)visitedUrls.Count);
     }
-
-    /// <inheritdoc/>
-    public Task Initialization => Task.CompletedTask;
 }
