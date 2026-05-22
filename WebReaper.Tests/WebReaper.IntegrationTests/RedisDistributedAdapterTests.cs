@@ -44,21 +44,22 @@ public class RedisDistributedAdapterTests : IClassFixture<RedisContainerFixture>
         var latch = Latch();
         await latch.SeedAsync(3);
 
-        Assert.False(await latch.SignalProcessedAsync()); // 3 -> 2
-        Assert.False(await latch.SignalProcessedAsync()); // 2 -> 1
-        Assert.True(await latch.SignalProcessedAsync());   // 1 -> 0  (trip)
+        Assert.False(await latch.SignalProcessedAsync(0)); // 3 -> 2
+        Assert.False(await latch.SignalProcessedAsync(0)); // 2 -> 1
+        Assert.True(await latch.SignalProcessedAsync(0));   // 1 -> 0  (trip)
     }
 
     [Fact]
-    public async Task Latch_children_credited_before_parent_prevents_early_trip()
+    public async Task Latch_childful_registration_credits_and_returns_in_one_atomic_step()
     {
         var latch = Latch();
         await latch.SeedAsync(1);
 
-        await latch.AddAsync(2);
-        Assert.False(await latch.SignalProcessedAsync()); // 3 -> 2 (NOT zero)
-        Assert.False(await latch.SignalProcessedAsync()); // 2 -> 1
-        Assert.True(await latch.SignalProcessedAsync());   // 1 -> 0 (trip)
+        // Root done with 2 children: 2 credited + 1 returned in one INCRBY —
+        // net +1, so 1 -> 2. The latch cannot trip here.
+        Assert.False(await latch.SignalProcessedAsync(2)); // 1 -> 2 (NOT zero)
+        Assert.False(await latch.SignalProcessedAsync(0)); // 2 -> 1
+        Assert.True(await latch.SignalProcessedAsync(0));   // 1 -> 0 (trip)
     }
 
     [Fact]
@@ -67,11 +68,11 @@ public class RedisDistributedAdapterTests : IClassFixture<RedisContainerFixture>
         var latch = Latch();
         await latch.SeedAsync(1);
 
-        Assert.True(await latch.SignalProcessedAsync());   // trip + completion claimed
+        Assert.True(await latch.SignalProcessedAsync(0));   // trip + completion claimed
         // At-least-once redelivery drives the counter to/below zero again; the
         // SET-NX fence must keep the one-shot from firing a second time.
-        Assert.False(await latch.SignalProcessedAsync());
-        Assert.False(await latch.SignalProcessedAsync());
+        Assert.False(await latch.SignalProcessedAsync(0));
+        Assert.False(await latch.SignalProcessedAsync(0));
     }
 
     [Fact]
@@ -81,7 +82,7 @@ public class RedisDistributedAdapterTests : IClassFixture<RedisContainerFixture>
         await latch.SeedAsync(200);
 
         var trips = await Task.WhenAll(Enumerable.Range(0, 200)
-            .Select(_ => Task.Run(() => latch.SignalProcessedAsync())));
+            .Select(_ => Task.Run(() => latch.SignalProcessedAsync(0))));
 
         Assert.Equal(1, trips.Count(t => t));
     }
