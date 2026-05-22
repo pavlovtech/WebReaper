@@ -2,8 +2,6 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System.Text.Json.Nodes;
-using WebReaper.ConfigStorage.Abstract;
-using WebReaper.ConfigStorage.Concrete;
 using WebReaper.Core.CookieStorage.Abstract;
 using WebReaper.Core.CookieStorage.Concrete;
 using WebReaper.Core.LinkTracker.Abstract;
@@ -45,7 +43,7 @@ internal class SpiderBuilder
 
     private ILinkParser LinkParser { get; } = new LinkParserByCssSelector();
 
-    private IScraperConfigStorage ScraperConfigStorage { get; set; }
+    private ScraperConfig Config { get; set; }
 
     private IVisitedLinkTracker SiteLinkTracker { get; set; } = new InMemoryVisitedLinkTracker();
 
@@ -117,15 +115,13 @@ internal class SpiderBuilder
         return this;
     }
 
-    public SpiderBuilder WithConfigStorage(IScraperConfigStorage scraperConfigStorage)
+    // ADR-0034: the immutable ScraperConfig the per-Job Spider shell needs
+    // (its Headless flag and ParsingScheme). Supplied by whichever Crawl
+    // driver builds the Spider — ScraperEngineBuilder has the object in hand,
+    // the distributed worker fetches it. The shell never reads config storage.
+    public SpiderBuilder WithConfig(ScraperConfig config)
     {
-        ScraperConfigStorage = scraperConfigStorage;
-        return this;
-    }
-
-    public SpiderBuilder WithFileConfigStorage(string fileName)
-    {
-        ScraperConfigStorage = new FileScraperConfigStorage(fileName);
+        Config = config;
         return this;
     }
 
@@ -274,7 +270,8 @@ internal class SpiderBuilder
         var spider = new Spider(
             crawlStep,
             PageLoader,
-            ScraperConfigStorage);
+            Config.Headless,
+            Config.ParsingScheme);
 
         return spider;
     }
