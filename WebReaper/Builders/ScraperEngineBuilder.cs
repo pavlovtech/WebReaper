@@ -10,6 +10,7 @@ using WebReaper.Core.LinkTracker.Abstract;
 using WebReaper.Core.LinkTracker.Concrete;
 using WebReaper.Core.Loaders.Abstract;
 using WebReaper.Core.Parser.Abstract;
+using WebReaper.Core.Parser.Concrete;
 using WebReaper.Core.Scheduler.Abstract;
 using WebReaper.Core.Scheduler.Concrete;
 using WebReaper.Core.Spider.Abstract;
@@ -112,8 +113,9 @@ public class ScraperEngineBuilder
     }
 
     /// <summary>The <see cref="ICrawlSeed"/> implementation: holds the
-    /// half-built builder so the only operation reachable after
-    /// <see cref="Crawl(string[])"/> is <see cref="ICrawlSeed.Extract"/>.</summary>
+    /// half-built builder so the only operations reachable after
+    /// <see cref="Crawl(string[])"/> are the strategy terminals
+    /// (<see cref="ICrawlSeed.Extract"/>, <see cref="ICrawlSeed.AsMarkdown"/>).</summary>
     private sealed class CrawlSeed : ICrawlSeed
     {
         private readonly ScraperEngineBuilder _builder;
@@ -122,6 +124,17 @@ public class ScraperEngineBuilder
         public ScraperEngineBuilder Extract(Schema schema)
         {
             _builder.ConfigBuilder.WithScheme(schema);
+            return _builder;
+        }
+
+        public ScraperEngineBuilder AsMarkdown()
+        {
+            // ADR-0040: the no-schema strategy terminal. Leaves
+            // ConfigBuilder._schema null (Spider/CrawlStep/Config are
+            // already null-tolerant — ADR-0008 / ADR-0025 read-side
+            // wiring) and registers the Markdown extractor on the
+            // ADR-0039 IContentExtractor seam.
+            _builder.SpiderBuilder.WithContentExtractor(new MarkdownContentExtractor());
             return _builder;
         }
     }
