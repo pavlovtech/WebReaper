@@ -3,37 +3,39 @@ using WebReaper.Domain.PageActions;
 
 namespace WebReaper.UnitTests;
 
-// #61: PageActionBuilder.WaitForNetworkIdle() tagged the action
-// WaitForSelector (a copy-paste typo) — silently producing a different,
-// unimplemented action. These pin every single-action builder method to its
-// matching PageActionType so a future copy-paste typo fails a fast unit test
-// instead of silently at the Puppeteer dispatcher.
+// ADR-0035: PageAction is a closed sum — each builder method constructs a
+// typed arm record, not a (PageActionType, object[]) pair. The #61 class of
+// bug (WaitForNetworkIdle() mis-tagged WaitForSelector — a copy-paste typo on
+// the enum discriminant, silently producing a different, unimplemented action)
+// is now structurally impossible: the arm IS the type, so a mis-tag is a
+// different record type with different fields — a compile error. These pin
+// each builder method to its arm and typed fields, and the Repeat* combinators.
 public class PageActionBuilderTests
 {
     [Fact]
-    public void WaitForNetworkIdle_tags_the_action_WaitForNetworkIdle()
+    public void Every_single_action_method_builds_its_matching_typed_arm()
     {
-        var actions = new PageActionBuilder().WaitForNetworkIdle().Build();
+        Assert.Equal(".x",
+            Assert.IsType<PageAction.Click>(
+                Assert.Single(new PageActionBuilder().Click(".x").Build())).Selector);
 
-        var action = Assert.Single(actions);
-        Assert.Equal(PageActionType.WaitForNetworkIdle, action.Type);
-    }
+        Assert.Equal(250,
+            Assert.IsType<PageAction.Wait>(
+                Assert.Single(new PageActionBuilder().Wait(250).Build())).Milliseconds);
 
-    [Fact]
-    public void Every_single_action_method_tags_the_action_with_its_matching_type()
-    {
-        Assert.Equal(PageActionType.Click,
-            Assert.Single(new PageActionBuilder().Click("sel").Build()).Type);
-        Assert.Equal(PageActionType.Wait,
-            Assert.Single(new PageActionBuilder().Wait(10).Build()).Type);
-        Assert.Equal(PageActionType.ScrollToEnd,
-            Assert.Single(new PageActionBuilder().ScrollToEnd().Build()).Type);
-        Assert.Equal(PageActionType.EvaluateExpression,
-            Assert.Single(new PageActionBuilder().EvaluateExpression("expr").Build()).Type);
-        Assert.Equal(PageActionType.WaitForSelector,
-            Assert.Single(new PageActionBuilder().WaitForSelector("sel", 100).Build()).Type);
-        Assert.Equal(PageActionType.WaitForNetworkIdle,
-            Assert.Single(new PageActionBuilder().WaitForNetworkIdle().Build()).Type);
+        Assert.IsType<PageAction.ScrollToEnd>(
+            Assert.Single(new PageActionBuilder().ScrollToEnd().Build()));
+
+        Assert.Equal("document.title",
+            Assert.IsType<PageAction.EvaluateExpression>(
+                Assert.Single(new PageActionBuilder().EvaluateExpression("document.title").Build())).Expression);
+
+        var wfs = Assert.IsType<PageAction.WaitForSelector>(
+            Assert.Single(new PageActionBuilder().WaitForSelector(".ready", 5000).Build()));
+        Assert.Equal((".ready", 5000), (wfs.Selector, wfs.TimeoutMs));
+
+        Assert.IsType<PageAction.WaitForNetworkIdle>(
+            Assert.Single(new PageActionBuilder().WaitForNetworkIdle().Build()));
     }
 
     // 8.0.0 hardening: the Repeat* methods replay the last-added action via
@@ -61,14 +63,13 @@ public class PageActionBuilderTests
 
         // seed ScrollToEnd, then 3 more copies of it
         Assert.Equal(4, actions.Count);
-        Assert.All(actions, a => Assert.Equal(PageActionType.ScrollToEnd, a.Type));
+        Assert.All(actions, a => Assert.IsType<PageAction.ScrollToEnd>(a));
     }
 
     [Fact]
     public void RepeatAndWaitForNetworkIdle_repeats_the_seed_then_a_WaitForNetworkIdle()
     {
-        // Sibling of the bug and a copy-paste hot spot: the action inserted
-        // between repeats must be WaitForNetworkIdle, not WaitForSelector.
+        // The action inserted between repeats must be WaitForNetworkIdle.
         var actions = new PageActionBuilder()
             .ScrollToEnd()
             .RepeatAndWaitForNetworkIdle(2)
@@ -76,7 +77,7 @@ public class PageActionBuilderTests
 
         // seed ScrollToEnd, then 2x [ScrollToEnd, WaitForNetworkIdle]
         Assert.Equal(5, actions.Count);
-        Assert.Equal(PageActionType.WaitForNetworkIdle, actions[2].Type);
-        Assert.Equal(PageActionType.WaitForNetworkIdle, actions[4].Type);
+        Assert.IsType<PageAction.WaitForNetworkIdle>(actions[2]);
+        Assert.IsType<PageAction.WaitForNetworkIdle>(actions[4]);
     }
 }

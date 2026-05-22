@@ -20,7 +20,7 @@ public class PageActionBuilder
     /// <summary>Click the element matching the CSS <paramref name="selector"/>.</summary>
     public PageActionBuilder Click(string selector)
     {
-        _pageActions.Add(new PageAction(PageActionType.Click, selector));
+        _pageActions.Add(new PageAction.Click(selector));
         return this;
     }
 
@@ -28,7 +28,7 @@ public class PageActionBuilder
     /// scripted content settle).</summary>
     public PageActionBuilder Wait(int milliseconds)
     {
-        _pageActions.Add(new PageAction(PageActionType.Wait, milliseconds));
+        _pageActions.Add(new PageAction.Wait(milliseconds));
         return this;
     }
 
@@ -37,7 +37,7 @@ public class PageActionBuilder
     /// <see cref="RepeatAndWaitForNetworkIdle"/> for multiple loads).</summary>
     public PageActionBuilder ScrollToEnd()
     {
-        _pageActions.Add(new PageAction(PageActionType.ScrollToEnd));
+        _pageActions.Add(new PageAction.ScrollToEnd());
         return this;
     }
 
@@ -66,7 +66,7 @@ public class PageActionBuilder
                 .Select(_ => new[]
                 {
                     lastEl,
-                    new(PageActionType.Wait, milliseconds)
+                    new PageAction.Wait(milliseconds)
                 })
                 .SelectMany(x => x));
 
@@ -90,7 +90,7 @@ public class PageActionBuilder
                 .Select(_ => new[]
                 {
                     lastEl,
-                    new(PageActionType.WaitForNetworkIdle)
+                    new PageAction.WaitForNetworkIdle()
                 })
                 .SelectMany(x => x));
 
@@ -114,7 +114,7 @@ public class PageActionBuilder
     /// page context.</summary>
     public PageActionBuilder EvaluateExpression(string expression)
     {
-        _pageActions.Add(new PageAction(PageActionType.EvaluateExpression, expression));
+        _pageActions.Add(new PageAction.EvaluateExpression(expression));
         return this;
     }
 
@@ -122,7 +122,7 @@ public class PageActionBuilder
     /// appears, up to <paramref name="timeout"/> ms.</summary>
     public PageActionBuilder WaitForSelector(string selector, int timeout)
     {
-        _pageActions.Add(new PageAction(PageActionType.WaitForSelector, selector, timeout));
+        _pageActions.Add(new PageAction.WaitForSelector(selector, timeout));
         return this;
     }
 
@@ -130,7 +130,7 @@ public class PageActionBuilder
     /// fixed duration).</summary>
     public PageActionBuilder WaitForNetworkIdle()
     {
-        _pageActions.Add(new PageAction(PageActionType.WaitForNetworkIdle));
+        _pageActions.Add(new PageAction.WaitForNetworkIdle());
         return this;
     }
 
