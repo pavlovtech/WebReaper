@@ -29,7 +29,7 @@ All projects target **net10.0**; `global.json` pins SDK `10.0.100` (`rollForward
 
 Fluent builder → immutable config + pluggable spider → parallel job loop.
 
-**Build path (ADR-0025):** a scrape begins with a **Crawl seed**. `ScraperEngineBuilder.Crawl(urls)` / `.CrawlWithBrowser(urls)` are **static** → return `ICrawlSeed`; `.Extract(schema)` → the `ScraperEngineBuilder`. That builder's constructor is `internal` (test-only via `InternalsVisibleTo`), so it is unreachable without the seed — "build with no start URLs or no schema" is structurally impossible, not a runtime throw. It composes two internal builders:
+**Build path (ADR-0025, widened by ADR-0040):** a scrape begins with a **Crawl seed**. `ScraperEngineBuilder.Crawl(urls)` / `.CrawlWithBrowser(urls)` are **static** → return `ICrawlSeed`; the seed has two strategy terminals — `.Extract(schema)` (Schema-driven JSON via the deterministic fold) or `.AsMarkdown()` (no-schema LLM-ready Markdown via `MarkdownContentExtractor`, ADR-0040) — both yielding the `ScraperEngineBuilder`. The builder's constructor is `internal` (test-only via `InternalsVisibleTo`), so it is unreachable without the seed — "build with no start URLs or no extraction strategy" is structurally impossible, not a runtime throw. It composes two internal builders:
 - `ConfigBuilder` (internal) → immutable `ScraperConfig` (start URLs, the `LinkPathSelector` chain, crawl limit, headless flag).
 - `SpiderBuilder` (internal) → runtime components (loaders, parsers, sinks, trackers, cookie storage), all with in-memory defaults.
 
@@ -57,6 +57,13 @@ Terminate with `BuildAsync()` (persists the config to `IScraperConfigStorage`, c
 
 **Distributed mode:** swapping scheduler + config storage + link tracker to Redis or Azure Service Bus lets multiple workers / serverless functions share crawl state. See `Examples/WebReaper.AzureFuncs` and `Examples/WebReaper.DistributedScraperWorkerService`.
 
+**AI-native (ADR-0040..0049):** three composing pieces on top of the existing pipeline:
+- **`IContentExtractor` adapters** (ADR-0039 seam): `SchemaFold` (deterministic), `MarkdownContentExtractor` (no-schema, ADR-0040), `LlmContentExtractor` (LLM via `Microsoft.Extensions.AI`, ADR-0044 — in the `WebReaper.AI` satellite). `ExtractionRouter` (ADR-0046) composes any two — `.WithFallbackExtractor` / `.WithLlmFallback`. `SelfHealingContentExtractor` (ADR-0047) wraps the deterministic primary with an `ISelectorRepairer` — `.WithSelfHealing` / `.WithLlmSelfHealing`.
+- **Page cache** (`IPageCache`, ADR-0041): cache-aside on the loader; `.WithMaxAge(TimeSpan)` is the firecrawl-shaped one-liner.
+- **Discovery + monitoring**: `ScraperEngineBuilder.MapAsync(url, opts?)` for URL discovery (`ISiteMapper`, ADR-0042); `.WithChangeTracking()` for the change-tracking page processor (`IChangeStore`, ADR-0048).
+- **Agent surfaces**: the `WebReaper.Cli` AOT single binary (ADR-0043) — `webreaper scrape|map|init` — is the primitive; the bundled Agent Skill is the discoverable adapter (`webreaper init` writes `.claude/skills/webreaper/SKILL.md`); the `WebReaper.Mcp` satellite (ADR-0049) is the interop adapter for MCP-only clients (Cursor, Claude Desktop, Copilot Studio).
+- **Source-gen**: `[ScrapeSchema]` on a `partial class` with `[ScrapeField("selector")]` on properties — the `WebReaper.Extraction.Generators` Roslyn analyzer (ADR-0045) emits a `static Schema` and a reflection-free `static Materialize(JsonObject)`.
+
 Namespace mirrors folder path throughout (`WebReaper.Core.Spider.Concrete` = `WebReaper/Core/Spider/Concrete/`).
 
 ## Gotchas
@@ -64,3 +71,9 @@ Namespace mirrors folder path throughout (`WebReaper.Core.Spider.Concrete` = `We
 - `WriteToJsonFile` defaults `dataCleanupOnStart: true` (wipes the file on start) — opposite of the other sinks, which default `false`.
 - The "JSON" sink writes **JSON Lines** (`JsonLinesFileSink`), one object per line, not a JSON array.
 - First dynamic-page run downloads Chromium via Puppeteer.
+- The `MarkdownContentExtractor` (ADR-0040) silently ignores the `Schema` parameter; the deterministic `SchemaFold` throws on a null Schema. Strategy-local schema requirement — the `IContentExtractor.ExtractAsync` doc explains the distinction.
+- The `IPageCache` in-memory adapter (ADR-0041) is per-process; distributed crawls need a satellite adapter (future ADR). `WithMaxAge(TimeSpan.Zero)` stores but never serves — "force-fresh".
+- The `[ScrapeSchema]` source generator (ADR-0045) requires the class to be `partial`; properties must have a public setter. v1 does NOT support nested `[ScrapeSchema]` types (single-level + lists of primitives only).
+- The self-heal cache (ADR-0047) is keyed by Schema reference identity; the same Schema instance reused across Crawls shares its patch.
+- The `WebReaper.AI` satellite pulls `Microsoft.Extensions.AI.Abstractions` (preview); not AOT-required by design (ADR-0009 quarantine).
+- The `WebReaper.Mcp` satellite uses the preview `ModelContextProtocol` SDK; pin the version explicitly when shipping a release.
