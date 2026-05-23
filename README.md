@@ -46,6 +46,76 @@ await engine.RunAsync();
 That example is pure HTTP — no browser, no extra packages. For JavaScript-rendered pages, add
 `WebReaper.Puppeteer` (see [Parsing dynamic pages](#parsing-dynamic-pages-spa)).
 
+### AI-native — the smallest possible call
+
+Since **10.0.0** (the AI-native wave, ADR-0040..0049), the funnel's no-schema wedge — one page,
+LLM-ready Markdown, no boilerplate:
+
+```C#
+var engine = await ScraperEngineBuilder
+    .Crawl("https://example.com")
+    .AsMarkdown()
+    .WriteToConsole()
+    .BuildAsync();
+
+await engine.RunAsync();
+```
+
+The CLI mirrors it:
+
+```
+dotnet tool install --global WebReaper.Cli
+webreaper scrape https://example.com
+webreaper map https://example.com --search /blog/
+webreaper init    # installs the Agent Skill to .claude/skills/webreaper/
+```
+
+Drop in an LLM extractor when the deterministic path can't reach a field
+([WebReaper.AI](https://www.nuget.org/packages/WebReaper.AI) satellite — Microsoft.Extensions.AI binding):
+
+```C#
+using Microsoft.Extensions.AI;
+using WebReaper.AI;
+
+var chatClient = /* your IChatClient — OpenAI, Anthropic, Ollama, … */;
+
+var engine = await ScraperEngineBuilder
+    .Crawl("https://example.com")
+    .Extract(schema)
+    .WithLlmFallback(chatClient)        // ADR-0046: det-first → LLM-fallback router
+    // or .WithLlmSelfHealing(chatClient)  // ADR-0047: LLM proposes selectors, fold validates, cache demotes back to deterministic
+    .WriteToJsonFile("out.jsonl")
+    .BuildAsync();
+
+await engine.RunAsync();
+```
+
+Generate the `Schema` from a typed POCO — `[ScrapeSchema]`, Pydantic-parity that Python's
+reflection structurally cannot match
+([WebReaper.Extraction.Generators](https://www.nuget.org/packages/WebReaper.Extraction.Generators)):
+
+```C#
+using WebReaper.Extraction.Attributes;
+
+[ScrapeSchema]
+public partial class Article
+{
+    [ScrapeField("h1")]            public string? Title { get; set; }
+    [ScrapeField(".views", Type = SchemaFieldType.Integer)]  public int Views { get; set; }
+    [ScrapeField(".tag", IsList = true)]  public List<string> Tags { get; set; } = new();
+}
+
+// Generated at compile time, reflection-free, AOT-clean:
+//   public static Schema Schema { get; }
+//   public static Article Materialize(JsonObject json)
+
+var engine = await ScraperEngineBuilder
+    .Crawl("https://example.com/post")
+    .Extract(Article.Schema)
+    .Subscribe(p => HandleArticle(Article.Materialize(p.Data)))
+    .BuildAsync();
+```
+
 ## Table of contents
 
 - [Install](#install)
