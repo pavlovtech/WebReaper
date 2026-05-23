@@ -12,14 +12,14 @@ for this exact change. **Phase-0 gate** of the [repositioning plan](../REPOSITIO
 **Merge gates** (this PR sits open until all green):
 
 - [x] **Gate 1 — DISSOLVED.** The 41 commits previously under
-      `olpavlov@deloitte.com` were rewritten via `git filter-repo`
+      `olpavlov@<old-employer>.com` were rewritten via `git filter-repo`
       to use the owner's personal email
       (`alexppavlov93@gmail.com`) in a prior step in this same PR.
-      The Deloitte identity no longer appears in `git shortlog`;
+      The old work-account identity no longer appears in `git shortlog`;
       the employer-IP-claim risk that previously gated the relicense
-      is structurally removed. See [§History rewrite](#history-rewrite-deloitte-email-normalisation)
-      below; old history preserved as `origin/pre-deloitte-cleanup-master`
-      and `origin/pre-deloitte-cleanup-ai-native-wave`.
+      is structurally removed. See [§History rewrite](#history-rewrite-email-normalisation)
+      below; old history preserved as `origin/pre-email-rewrite-master`
+      and `origin/pre-email-rewrite-ai-native-wave`.
 - [x] **Gate 2 — CLEARED on the analyses below; no outreach sent.**
       Owner elected (2026-05-23) to proceed on the supersession
       (Justyn) + de-minimis (mike) analyses recorded below rather
@@ -77,24 +77,24 @@ keeps every right they had).
 | `Alex Pavlov <alexppavlov93@gmail.com>` | 382 | Owner |
 | `Alexander Pavlov <alexppavlov93@gmail.com>` | 254 | Owner (includes 5 ex-quoted-email-variant) |
 | `Alex <business@highcraft.io>` | 91 | Owner |
-| `Oleksandr Pavlov <alexppavlov93@gmail.com>` | 36 | Owner (ex-Deloitte commits, email rewritten) |
+| `Oleksandr Pavlov <alexppavlov93@gmail.com>` | 36 | Owner (ex-old work-account commits, email rewritten) |
 | `mike <mmccabe1993@gmail.com>` | 4 | External — csproj metadata only (see analysis) |
 | `Justyn Hunter <jhunter@gsandf.com>` | 1 | External — content superseded (see analysis) |
 | `Justyn Hunter <justynhunter@gmail.com>` | 1 | External — whitespace undo |
 | `fossabot <badges@fossa.io>` | 1 | Automated — n/a |
 
 The owner is **763 commits** across four self-identities, all under
-personal email. The previously-separate Deloitte-email identity (the
-Ukrainian transliteration "Oleksandr" was used by the owner's
+personal email. The previously-separate old-work-account identity
+(the Ukrainian transliteration "Oleksandr" was used by the owner's
 work-account git config at the time) has been normalised — emails
 rewritten to the personal address via `git filter-repo`; names
 preserved as-is.
 
 **The Gate 1 employer-IP risk is structurally removed.** There is no
-longer a `@deloitte.com` email anywhere in the git history; the prior
+longer a `@<old-employer>.com` email anywhere in the git history; the prior
 analysis (work-for-hire check) is moot because the relevant author
 identity is now indistinguishable from the owner's personal one.
-See [§History rewrite](#history-rewrite-deloitte-email-normalisation)
+See [§History rewrite](#history-rewrite-email-normalisation)
 below.
 
 ### External — `mike <mmccabe1993@gmail.com>` (4 commits, Nov 2025)
@@ -155,18 +155,18 @@ the code in the current tree owes nothing to Justyn's expression.
 
 A badge update by an automated bot; no human authorship. N/A.
 
-## History rewrite — Deloitte email normalisation
+## History rewrite — old work-account email normalisation
 
 Before the relicense files were drafted, `git filter-repo` rewrote
-the 41 commits authored under `olpavlov@deloitte.com` (and the 5
-smart-quote-variant `"olpavlov@deloitte.com"` malformation) to use
+the 41 commits authored under `olpavlov@<old-employer>.com` (and the 5
+smart-quote-variant `"olpavlov@<old-employer>.com"` malformation) to use
 the owner's personal email `alexppavlov93@gmail.com`. The
 substitution was email-only — author names ("Oleksandr Pavlov" /
 "Alexander Pavlov") were preserved exactly as committed.
 
 **Why this happened**: the owner had configured the work-account
-git identity (`Deloitte` email) on a laptop used for personal OSS
-work during 2023–2024. The Deloitte email was committed-from by
+git identity (`the old employer` email) on a laptop used for personal OSS
+work during 2023–2024. The old work-account email was committed-from by
 accident; it was never the intended public identity for the project.
 Relicensing without normalising would have left the unintended email
 in MIT-licensed commits forever, plus required the employer
@@ -177,13 +177,13 @@ rewrite.
 
 ```bash
 # Backup the old history to recoverable refs on origin
-git push origin master:refs/heads/pre-deloitte-cleanup-master
-git push origin ai-native-wave:refs/heads/pre-deloitte-cleanup-ai-native-wave
+git push origin master:refs/heads/pre-email-rewrite-master
+git push origin ai-native-wave:refs/heads/pre-email-rewrite-ai-native-wave
 
 # Rewrite via filter-repo (email-only substitution)
 git filter-repo --force \
   --email-callback \
-  'return b"alexppavlov93@gmail.com" if b"olpavlov@deloitte.com" in email else email'
+  'return b"alexppavlov93@gmail.com" if b"olpavlov@<old-employer>.com" in email else email'
 
 # Re-add origin (filter-repo strips it as a safety default)
 git remote add origin https://github.com/pavlovtech/WebReaper.git
@@ -212,9 +212,9 @@ git push origin ai-native-wave --force
 
 ### Safety net
 
-- `origin/pre-deloitte-cleanup-master` (= old 454dcf8) — old history
+- `origin/pre-email-rewrite-master` (= old 454dcf8) — old history
   before any rewrite.
-- `origin/pre-deloitte-cleanup-ai-native-wave` (= old d67694a) — old
+- `origin/pre-email-rewrite-ai-native-wave` (= old d67694a) — old
   AI-native-wave tip before any rewrite.
 
 Both refs can be deleted after the rewrite has been live long enough
@@ -360,7 +360,7 @@ third is the standard sequence.
   tree only in superseded or de-minimis form.** The supersession
   (Justyn) and de-minimis (mike) analyses are recorded here so the
   decision is defensible whether or not consent arrives.
-- **Risk of Deloitte-employer claim** is the largest residual. The
+- **Risk of old-employer claim** is the largest residual. The
   Gate 1 self-attestation + employer check is the standard
   mitigation.
 
@@ -404,7 +404,7 @@ Landed on `adr-0017-relicense-mit`:
 - **Send the contributor emails.** The owner sends them after
   reviewing the templates. (`docs/RELICENSE-CONTRIBUTOR-OUTREACH.md`
   is the source; the owner copy-pastes and personalises.)
-- **Speak with Deloitte.** The owner does that himself.
+- **Speak with the old employer.** The owner does that himself.
 - **Tag a release.** The 10.0.0 release is a separate task (and
   the relicense PR can ship as 9.x point-release if the owner
   prefers to decouple).

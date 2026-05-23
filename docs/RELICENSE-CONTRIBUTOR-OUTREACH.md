@@ -112,26 +112,26 @@ alternative path that was considered.
 
 ## Gate 1 status: dissolved by history rewrite
 
-Gate 1 in ADR-0017 was originally the Deloitte employer-IP check —
-confirming with Deloitte that the project was personal work and not
+Gate 1 in ADR-0017 was originally the old-employer IP-assignment check —
+confirming with the old employer that the project was personal work and not
 employer-claimed. **This gate is now structurally dissolved.** The
 `git filter-repo` rewrite (documented in ADR-0017's "History rewrite"
-section) replaced the `olpavlov@deloitte.com` email with the owner's
+section) replaced the `olpavlov@<old-employer>.com` email with the owner's
 personal `alexppavlov93@gmail.com` across all 41 affected commits.
-The Deloitte identity no longer exists in the project's git history;
+The old work-account identity no longer exists in the project's git history;
 there is nothing for an employer-IP claim to point at.
 
 The author NAMES on those commits (`Oleksandr Pavlov` / `Alexander
 Pavlov`) were left intact — they are valid personal-name variants
 the owner used at the time. The rewrite is email-only.
 
-Old history is preserved on `origin/pre-deloitte-cleanup-master` and
-`origin/pre-deloitte-cleanup-ai-native-wave` for ~30 days for
+Old history is preserved on `origin/pre-email-rewrite-master` and
+`origin/pre-email-rewrite-ai-native-wave` for ~30 days for
 recoverability; after that those refs can be deleted.
 
 ## When Gate 3 clears
 
-Gate 1 (Deloitte employer-IP check) dissolved by the email rewrite.
+Gate 1 (old-employer IP-assignment check) dissolved by the email rewrite.
 Gate 2 cleared on the supersession (Justyn) + de-minimis (mike)
 analyses without outreach (2026-05-23). Only **Gate 3** remains:
 
