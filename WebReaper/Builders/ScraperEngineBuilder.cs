@@ -177,6 +177,37 @@ public class ScraperEngineBuilder
     }
 
     /// <summary>
+    /// Compose the currently-registered (or default <c>SchemaFold</c>)
+    /// content extractor with a <paramref name="fallback"/> via an
+    /// <see cref="WebReaper.Core.Parser.Concrete.ExtractionRouter"/>
+    /// (ADR-0046): run the primary first; on validation failure
+    /// (default: any required schema leaf empty or absent), escalate to
+    /// the fallback. The deterministic-first → LLM-fallback wedge.
+    /// </summary>
+    /// <param name="fallback">The fallback extractor — typically an
+    /// LLM (ADR-0044) but any <see cref="IContentExtractor"/>
+    /// works.</param>
+    /// <param name="isValid">Optional custom validator; defaults to
+    /// <see cref="WebReaper.Core.Parser.Concrete.SchemaSatisfiedValidator.IsSatisfied"/>.</param>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="fallback"/> is null.</exception>
+    public ScraperEngineBuilder WithFallbackExtractor(
+        IContentExtractor fallback,
+        Func<System.Text.Json.Nodes.JsonObject, Domain.Parsing.Schema?, bool>? isValid = null)
+    {
+        ArgumentNullException.ThrowIfNull(fallback);
+        // The "currently registered or default" rule: read the spider
+        // builder's current extractor; if null, use a SchemaFold over
+        // the default AngleSharp/CSS backend (the same default
+        // SpiderBuilder.Build wires).
+        var primary = SpiderBuilder.GetContentExtractorOrDefault(Logger);
+        SpiderBuilder.WithContentExtractor(
+            new WebReaper.Core.Parser.Concrete.ExtractionRouter(
+                primary, fallback, isValid, Logger));
+        return this;
+    }
+
+    /// <summary>
     /// Parse responses as JSON instead of HTML (issue #27). Schema
     /// selectors become JSONPath expressions.
     /// </summary>
