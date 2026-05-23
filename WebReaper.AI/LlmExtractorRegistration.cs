@@ -47,4 +47,22 @@ public static class LlmExtractorRegistration
         ArgumentNullException.ThrowIfNull(chatClient);
         return builder.WithFallbackExtractor(new LlmContentExtractor(chatClient, options));
     }
+
+    /// <summary>
+    /// Wrap the current/default deterministic extractor with the
+    /// LLM-driven self-healing wrapper (ADR-0047): on a failed
+    /// deterministic pass, ask the LLM for patched selectors,
+    /// validate by re-running the fold, and cache the patch for
+    /// every subsequent page of the Crawl. The LLM-as-proposer /
+    /// fold-as-validator wedge in one method.
+    /// </summary>
+    public static ScraperEngineBuilder WithLlmSelfHealing(
+        this ScraperEngineBuilder builder,
+        IChatClient chatClient,
+        LlmExtractorOptions? options = null)
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentNullException.ThrowIfNull(chatClient);
+        return builder.WithSelfHealing(new LlmSelectorRepairer(chatClient, options));
+    }
 }

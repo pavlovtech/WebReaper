@@ -208,6 +208,27 @@ public class ScraperEngineBuilder
     }
 
     /// <summary>
+    /// Wrap the currently-registered (or default <c>SchemaFold</c>)
+    /// extractor with a <see cref="WebReaper.Core.Parser.Concrete.SelfHealingContentExtractor"/>
+    /// (ADR-0047): on a failed deterministic pass, ask the
+    /// <paramref name="repairer"/> for a patched Schema, validate it
+    /// by re-running the fold, and cache the patch for every
+    /// subsequent page of the Crawl. The LLM-as-proposer / fold-as-
+    /// validator wedge.
+    /// </summary>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="repairer"/> is null.</exception>
+    public ScraperEngineBuilder WithSelfHealing(WebReaper.Core.Parser.Abstract.ISelectorRepairer repairer)
+    {
+        ArgumentNullException.ThrowIfNull(repairer);
+        var primary = SpiderBuilder.GetContentExtractorOrDefault(Logger);
+        SpiderBuilder.WithContentExtractor(
+            new WebReaper.Core.Parser.Concrete.SelfHealingContentExtractor(
+                primary, repairer, Logger));
+        return this;
+    }
+
+    /// <summary>
     /// Parse responses as JSON instead of HTML (issue #27). Schema
     /// selectors become JSONPath expressions.
     /// </summary>
