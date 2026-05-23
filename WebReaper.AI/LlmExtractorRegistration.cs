@@ -29,4 +29,22 @@ public static class LlmExtractorRegistration
         ArgumentNullException.ThrowIfNull(chatClient);
         return builder.WithContentExtractor(new LlmContentExtractor(chatClient, options));
     }
+
+    /// <summary>
+    /// Compose the currently-registered (or default) deterministic
+    /// extractor with an LLM fallback (ADR-0046 routing + ADR-0044 LLM
+    /// extractor). Run the deterministic fold first; on validation
+    /// failure (default: any required schema leaf empty or absent),
+    /// escalate to the LLM. The deterministic-first → LLM-fallback
+    /// wedge in one method.
+    /// </summary>
+    public static ScraperEngineBuilder WithLlmFallback(
+        this ScraperEngineBuilder builder,
+        IChatClient chatClient,
+        LlmExtractorOptions? options = null)
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentNullException.ThrowIfNull(chatClient);
+        return builder.WithFallbackExtractor(new LlmContentExtractor(chatClient, options));
+    }
 }

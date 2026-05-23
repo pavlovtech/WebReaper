@@ -241,6 +241,15 @@ internal class SpiderBuilder
         return this;
     }
 
+    // ADR-0046: read the current extractor (or build the default
+    // SchemaFold over the AngleSharp/CSS backend) so ScraperEngineBuilder
+    // .WithFallbackExtractor can compose it into an ExtractionRouter.
+    // Idempotent and does NOT mutate ContentExtractor — the caller is
+    // expected to replace it via WithContentExtractor.
+    internal IContentExtractor GetContentExtractorOrDefault(ILogger logger)
+        => ContentExtractor ?? new SchemaFold<AngleSharp.Dom.IParentNode>(
+            new AngleSharpSchemaBackend(), logger);
+
     // ADR-0022: the Crawl driver (ScraperEngine) owns these now — the reduced
     // Spider shell no longer fans out to Sinks, tracks links, or runs the
     // page-processor pipeline. ScraperEngineBuilder reads them to construct
