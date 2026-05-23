@@ -92,8 +92,9 @@ dotnet add package WebReaper.Sqlite           # SQLite local durable scheduler +
 All seven packages are versioned in lockstep — the latest published version is `9.0.0`; the
 next wave, **`10.0.0`, is accumulating on `master` and is not yet released**. Core and the six
 satellites move together in release waves (ADR-0022 → `8.0.0`, ADR-0023 → `9.0.0`, ADR-0025 →
-`10.0.0` *(unreleased)*); `WebReaper.Sqlite`, added at `7.1.0`, joined the lockstep from `8.0.0`. All packages are GPL-3.0-or-later, and every satellite
-wires itself in through the builder's public registration seam.
+`10.0.0` *(unreleased)*); `WebReaper.Sqlite`, added at `7.1.0`, joined the lockstep from `8.0.0`. All packages are **MIT-licensed** (ADR-0017; relicensed from
+GPL-3.0-or-later in the 10.0.0 wave), and every satellite wires itself in
+through the builder's public registration seam.
 
 | Package | Add it for | Key builder calls |
 |---|---|---|
@@ -455,4 +456,18 @@ For result callbacks without a custom sink, use `.Subscribe(Action<ParsedData>)`
 
 ## License
 
-See the [LICENSE](LICENSE.txt) file for license rights and limitations (GNU GPLv3).
+WebReaper is licensed under the [MIT License](LICENSE.txt) (ADR-0017). All
+ten packages — core + six satellites + the four AI-native packages — ship
+under the same terms. Use it commercially, embed it in proprietary
+software, fork it, modify it, redistribute it; the only ask is that you
+keep the copyright notice.
+
+Prior to the 10.0.0 wave, WebReaper was GPL-3.0-or-later. The relicense
+is strictly more permissive: every existing user is unaffected; new users
+who couldn't embed under GPL now can. Historical contributors are
+credited in [`CONTRIBUTORS.md`](CONTRIBUTORS.md). See
+[`docs/adr/0017-relicense-gpl-mit.md`](docs/adr/0017-relicense-gpl-mit.md)
+for the analysis and contributor consent path.
+
+Contributions are welcome under the same MIT terms; sign-off via DCO
+([`CONTRIBUTING.md`](CONTRIBUTING.md)).

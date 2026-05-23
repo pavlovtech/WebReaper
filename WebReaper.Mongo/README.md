@@ -40,4 +40,4 @@ await engine.RunAsync();
 
 ## License
 
-GPL-3.0-or-later. Part of the WebReaper project.
+MIT (ADR-0017). Part of the WebReaper project.

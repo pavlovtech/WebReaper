@@ -157,7 +157,7 @@ Assert every item (inspect each `.nupkg` as a zip + its `.nuspec`):
 
 - Exactly **6** `*.nupkg`, **zero** `*.snupkg` (symbol packages out of scope).
 - Every `<version>` == `<VERSION>`.
-- License `GPL-3.0-or-later` on all 6.
+- License `MIT` on all 7+ packages (ADR-0017; relicensed from GPL-3.0-or-later in the 10.0.0 wave).
 - **Core** `WebReaper.nupkg`: `lib/<tfm>/WebReaper.dll` **and
   `lib/<tfm>/WebReaper.xml`** (post-PR-#52 the doc ships under the
   IDE-resolvable name — **there must be no `API.xml`**), plus root

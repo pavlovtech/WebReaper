@@ -16,6 +16,8 @@
     <PackageId>WebReaper.Redis</PackageId>
     <Title>WebReaper.Redis</Title>
     <Description>Redis adapters for WebReaper: the Redis scheduler, visited-link tracker, sink, and Redis-backed scraper-config and cookie storage, all sharing one connection pool (ADR-0005). Adds ScraperEngineBuilder.WithRedisScheduler / TrackVisitedLinksInRedis / WriteToRedis / WithRedisConfigStorage / WithRedisCookieStorage. Satellite package (ADR-0009) so the WebReaper core stays dependency-light and AOT-clean.</Description>
+    <!-- ADR-0017: relicensed to MIT to remove funnel-adoption friction. -->
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>scraper, crawler, parser, redis, distributed</PackageTags>
     <PackageIcon>logo.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>

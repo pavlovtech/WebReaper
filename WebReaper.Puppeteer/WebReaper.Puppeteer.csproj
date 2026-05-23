@@ -16,6 +16,8 @@
     <PackageId>WebReaper.Puppeteer</PackageId>
     <Title>WebReaper.Puppeteer</Title>
     <Description>Headless-browser (Puppeteer/Chromium) page-load transport for WebReaper, for scraping JavaScript-rendered pages (GetWithBrowser / FollowWithBrowser / PaginateWithBrowser). Adds ScraperEngineBuilder.WithPuppeteerPageLoader() over the core WithLoadTransport registration seam. Satellite package (ADR-0009) so the WebReaper core stays dependency-light and AOT-clean — core is HTTP-only by default and no longer references PuppeteerSharp/PuppeteerExtraSharp or the Chromium provisioning path.</Description>
+    <!-- ADR-0017: relicensed to MIT to remove funnel-adoption friction. -->
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>scraper, crawler, parser, puppeteer, headless, browser, chromium</PackageTags>
     <PackageIcon>logo.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>

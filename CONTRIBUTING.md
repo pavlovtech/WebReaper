@@ -1,44 +1,129 @@
 # Contributing to WebReaper
 
-:+1::tada: First off, thanks for taking the time to contribute! :tada::+1:
+Thanks for your interest! WebReaper is an ADR-driven codebase: most
+non-trivial changes are documented as an ADR (`docs/adr/`) before
+they ship, and the ADR's *reasoning* is as important as the code
+diff.
 
-## How Can I Contribute?
+## Quick start
 
-### Reporting Bugs
+1. Open an issue describing the change you want to make. For anything
+   substantial, expect a short design-pass discussion first — we'd
+   rather catch a shape problem before you write a thousand lines.
+2. Fork → branch → PR against `master`.
+3. Sign off your commits (`git commit -s`) — see [DCO](#dco) below.
+4. CI runs the full unit suite + Native-AOT smoke. The PR is ready
+   when those are green and the design discussion (if any) is
+   concluded.
 
-This section guides you through submitting a bug report for WebReaper. Following these guidelines helps maintainers and the community understand your report :pencil:, reproduce the behavior :computer: :computer:, and find related reports :mag_right:.
+## Build & test
 
-When you are creating a bug report, please include as many details as possible.
+```bash
+dotnet build WebReaper.sln
+dotnet test WebReaper.Tests/WebReaper.UnitTests/WebReaper.UnitTests.csproj
+```
 
-#### Before Submitting A Bug Report
+For Native-AOT verification (the WebReaper core + the CLI both
+publish clean):
 
-* You might be able to find the cause of the problem and fix things yourself. Most importantly, check if you can reproduce the problem.
+```bash
+cd WebReaper.Tests/WebReaper.AotSmokeTest
+dotnet publish -c Release -r osx-arm64 --self-contained true
+./bin/Release/net10.0/osx-arm64/publish/WebReaper.AotSmokeTest
+```
 
-#### How Do I Submit A (Good) Bug Report?
+The integration tests (`WebReaper.Tests/WebReaper.IntegrationTests`)
+hit a live site and run real Puppeteer; skip them locally — CI runs
+them.
 
-Bugs are tracked as [GitHub issues](https://guides.github.com/features/issues/). Create an issue and provide the following information.
+## Coding standards
 
-Explain the problem and include additional details to help maintainers reproduce the problem:
+- **Match the surrounding code.** Comment density, naming, and idiom
+  should be consistent with the file you're changing.
+- **Public API additions are documented.** `WarningsAsErrors=CS1591`
+  is on for the core (ADR-0023); every Tier-1 public type and member
+  needs an XML doc.
+- **No reflection / `dynamic` / `Activator.CreateInstance` on the
+  hot path.** AOT-cleanliness is a core guarantee (ADR-0008);
+  Native-AOT must publish zero IL/AOT warnings.
+- **Tests-by-construction over tests-after.** A new seam typically
+  comes with focused unit tests that pin its contract.
+- **ADRs are the design memory.** When in doubt about why something
+  is the way it is, search `docs/adr/`; the answer is usually there.
 
-* **Use a clear and descriptive title** for the issue to identify the problem.
-* **Describe the exact steps which reproduce the problem** in as many details as possible. For example, start by explaining how you started WebReaper. When listing steps, **don't just say what you did, but explain how you did it**. 
-* **Provide specific examples to demonstrate the steps**. Include links to files or GitHub projects, or copy/pasteable snippets, which you use in those examples. If you're providing snippets in the issue, use [Markdown code blocks](https://help.github.com/articles/markdown-basics/#multiple-lines).
-* **Describe the behavior you observed after following the steps** and point out what exactly is the problem with that behavior.
-* **Explain which behavior you expected to see instead and why.**
-* **Include screenshots and animated GIFs** which show you following the described steps and clearly demonstrate the problem. If you use the keyboard while following the steps, **record the GIF with the [Keybinding Resolver](https://github.com/atom/keybinding-resolver) shown**. You can use [this tool](https://www.cockos.com/licecap/) to record GIFs on macOS and Windows, and [this tool](https://github.com/colinkeenan/silentcast) or [this tool](https://github.com/GNOME/byzanz) on Linux.
-* **If you're reporting that WebReaper crashed**, include a crash report with a stack trace from the operating system. On macOS, the crash report will be available in `Console.app` under "Diagnostic and usage information" > "User diagnostic reports". Include the crash report in the issue in a [code block](https://help.github.com/articles/markdown-basics/#multiple-lines), a [file attachment](https://help.github.com/articles/file-attachments-on-issues-and-pull-requests/), or put it in a [gist](https://gist.github.com/) and provide link to that gist.
-* **If the problem wasn't triggered by a specific action**, describe what you were doing before the problem happened and share more information using the guidelines below.
+## ADRs
 
-### Suggesting Enhancements
+For changes that touch the public surface, introduce a new seam, or
+make a non-obvious shape decision, write an ADR
+(`docs/adr/00NN-*.md`). The existing ADRs are the format reference.
+Number sequentially — the project deliberately jumps numbers when
+ADRs are dropped (gaps are intentional, never reused).
 
-This section guides you through submitting an enhancement suggestion for WebReaper, including completely new features and minor improvements to existing functionality. Following these guidelines helps maintainers and the community understand your suggestion :pencil: and find related suggestions :mag_right:.
+The exception: small bug fixes, doc tweaks, and dependency bumps
+don't need an ADR.
 
-#### How Do I Submit A (Good) Enhancement Suggestion?
+## Reporting bugs
 
-Enhancement suggestions are tracked as [GitHub issues](https://guides.github.com/features/issues/). After you've determined [which repository](#atom-and-packages) your enhancement suggestion is related to, create an issue on that repository and provide the following information:
+Bugs are tracked as [GitHub Issues](https://github.com/pavlovtech/WebReaper/issues).
+A good bug report includes:
 
-* **Use a clear and descriptive title** for the issue to identify the suggestion.
-* **Provide a step-by-step description of the suggested enhancement** in as many details as possible.
-* **Provide specific examples to demonstrate the steps**. Include copy/pasteable snippets which you use in those examples, as [Markdown code blocks](https://help.github.com/articles/markdown-basics/#multiple-lines).
-* **Describe the current behavior** and **explain which behavior you expected to see instead** and why.
-* **Include screenshots and animated GIFs** which help you demonstrate the steps or point out the part of WebReaper which the suggestion is related to. 
+- A clear, descriptive title.
+- The exact steps to reproduce — what you ran, what URL was crawled
+  (if any), what Schema (if any).
+- The behavior you observed and the behavior you expected.
+- The shortest possible reproducing code snippet (a failing unit
+  test is ideal).
+- Stack trace if the library threw; relevant log lines if it didn't.
+
+## Suggesting enhancements
+
+Enhancement suggestions are also [GitHub Issues](https://github.com/pavlovtech/WebReaper/issues).
+A good enhancement suggestion includes:
+
+- A clear description of the use case.
+- An example of the current API workflow if any.
+- A sketched API for the new functionality (a builder method
+  signature is enough).
+- Whether you're willing to take a swing at implementing it.
+
+## DCO
+
+WebReaper requires contributions to be signed off under the
+[Developer Certificate of Origin v1.1](https://developercertificate.org/).
+Adding `Signed-off-by: Your Name <you@example.com>` to every commit
+message attests:
+
+> By making a contribution to this project, I certify that:
+>
+> (a) The contribution was created in whole or in part by me and I
+>     have the right to submit it under the open source license
+>     indicated in the file; or
+>
+> (b) The contribution is based upon previous work that, to the
+>     best of my knowledge, is licensed under an appropriate open
+>     source license and I have the right under that license to
+>     submit that work with modifications, whether created in whole
+>     or in part by me, under the same open source license (unless
+>     I am permitted to submit under a different license), as
+>     indicated in the file; or
+>
+> (c) The contribution is based upon previous work that has been
+>     provided under an open source license and has the right to
+>     submit it under the same open source license (unless I am
+>     permitted to submit under a different license), as indicated
+>     in the file; or
+>
+> (d) The contribution is made free of any other party's rights
+>     with permission, beyond a license signed off by me as
+>     documented in the file.
+
+The shortcut: `git commit -s` adds the sign-off automatically. To
+sign off a recent commit you forgot to sign:
+`git commit --amend --signoff`.
+
+## License
+
+WebReaper is licensed under [MIT](LICENSE.txt) (ADR-0017). By
+contributing, you agree your contribution is licensed under the same
+terms. The DCO sign-off is your attestation that you have the right
+to so license your contribution.
