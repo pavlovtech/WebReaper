@@ -109,11 +109,11 @@ The open-core/`Pro.*` table is **retired** (Rev 3). The boundary is now funnel v
 
 **Relicensing (GPL-3.0 → MIT) — reframed & de-risked.** Still required: GPL is a poor funnel license (deters commercial embedding → kills adoption). But Rev 3 *dissolves the hard part*: contributor code is **not** being relicensed into a closed commercial tier — it stays permissive OSS, only *more* permissive. **Contributor audit — run 2026-05-18 (`git shortlog -sne --all`), folded in:** the bulk (≈ 641 commits) is the owner under three of his own identities (`Alex Pavlov`/`Alexander Pavlov` `<alexppavlov93@gmail.com>`, `Alex <business@highcraft.io>`) — not a consent question. Consent-relevant identities, by materiality:
 
-- **`olpavlov@deloitte.com` — 43 commits** (38 + 5 under a quoted-email variant). This is **the only load-bearing one** and is almost certainly the owner under an old employer email — so it is **not a clean-room case**; it needs a written self-attestation *plus* an employer IP-assignment / work-for-hire check (Deloitte). Rev 1–3 understated this as one of four equal "external identities"; it is 43 commits and the real relicense risk.
+- **`olpavlov@<old-employer>.com` — 43 commits** (38 + 5 under a quoted-email variant). This is **the only load-bearing one** and is almost certainly the owner under an old employer email — so it is **not a clean-room case**; it needs a written self-attestation *plus* an employer IP-assignment / work-for-hire check. Rev 1–3 understated this as one of four equal "external identities"; it is 43 commits and the real relicense risk. *(Update: dissolved at ADR-0017 ship by a git history rewrite that normalised the email to the personal one; the analysis below describes the pre-rewrite state.)*
 - **`mike <mmccabe1993@gmail.com>` — 4 commits**; **`Justyn Hunter`** (`jhunter@gsandf.com` + `justynhunter@gmail.com`, one person) — **2 commits**. Genuinely external but tiny and well-seamed → trivially clean-roomable if consent is unreachable.
 - **`fossabot <badges@fossa.io>` — 1 commit**, automated badge bot, n/a.
 
-Then written GPL→MIT consent for `mike`/`Justyn` (or clean-room), the employer check for the `@deloitte.com` identity, `CONTRIBUTING.md` + DCO going forward, then flip `LICENSE.txt`/`.csproj`/README. **ADR-0017** (lower stakes than Rev 2: more-permissive, all-OSS, no commercial-tier optics).
+Then written GPL→MIT consent for `mike`/`Justyn` (or clean-room), the employer check for the `@<old-employer>.com` identity, `CONTRIBUTING.md` + DCO going forward, then flip `LICENSE.txt`/`.csproj`/README. **ADR-0017** (lower stakes than Rev 2: more-permissive, all-OSS, no commercial-tier optics).
 
 ---
 
