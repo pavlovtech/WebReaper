@@ -20,10 +20,25 @@ for this exact change. **Phase-0 gate** of the [repositioning plan](../REPOSITIO
       is structurally removed. See [§History rewrite](#history-rewrite-deloitte-email-normalisation)
       below; old history preserved as `origin/pre-deloitte-cleanup-master`
       and `origin/pre-deloitte-cleanup-ai-native-wave`.
-- [ ] **Gate 2 — External contributor consent or supersession**:
-      `mike` (4 commits, csproj-metadata only) and `Justyn Hunter`
-      (2 commits, content-superseded). Either written consent, or the
-      analysis below stands and the supersession is documented.
+- [x] **Gate 2 — CLEARED on the analyses below; no outreach sent.**
+      Owner elected (2026-05-23) to proceed on the supersession
+      (Justyn) + de-minimis (mike) analyses recorded below rather
+      than send the consent emails. Reasoning:
+      - **Justyn's contribution is entirely gone from the current
+        tree** — `IContentParser` was removed at 6.0.0;
+        `WithContentParser` was renamed to `WithContentExtractor` at
+        ADR-0039 (just merged). The only artefact of his work in the
+        current source is his name in `git log`. The whitespace-only
+        commit has no copyrightable content.
+      - **mike's csproj-metadata edits are factual-not-creative.**
+        TFM strings (`net10.0`), NuGet description text, dep version
+        numbers — the same change is the only correct change.
+        Standard *de minimis* / merger-doctrine analysis applies.
+
+      The consent-email templates in
+      [docs/RELICENSE-CONTRIBUTOR-OUTREACH.md](../RELICENSE-CONTRIBUTOR-OUTREACH.md)
+      are kept as a record of what was considered. Both contributors
+      remain credited in `CONTRIBUTORS.md`.
 - [ ] **Gate 3 — Owner has reviewed the LICENSE/CONTRIBUTING/csproj
       diff** and accepts that ship-time is now.
 

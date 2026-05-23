@@ -1,16 +1,24 @@
 # Contributor outreach templates — GPL → MIT relicense (ADR-0017)
 
-These are draft email templates the owner sends to the two external
-contributors (`mike` and `Justyn Hunter`) before the relicense PR
-([ADR-0017](adr/0017-relicense-gpl-mit.md)) merges. Personalise the
-opening line and the timeline; the legal substance can stay as-is.
+> **Status: NOT SENT.** The owner elected (2026-05-23) to proceed on
+> the supersession (Justyn) + de-minimis (mike) analyses in ADR-0017
+> rather than send these emails. The templates are kept as a record
+> of the path considered, not as a to-do.
+>
+> If a future contributor situation makes consent-outreach the right
+> path (e.g. a substantive external contribution arrives), these
+> templates are a starting point.
 
-The goal of these emails is **consent for the relicense, in writing**
-— a one-line reply is sufficient. The PR is structured so that
-*neither* response (consent OR no response within ~2 weeks) blocks
-the relicense; ADR-0017 documents the supersession (Justyn) and
-de-minimis (mike) analyses that cover the no-response case. Consent
-is preferred as the cleanest path.
+These are draft email templates the owner *would have sent* to the
+two external contributors (`mike` and `Justyn Hunter`) before the
+relicense PR ([ADR-0017](adr/0017-relicense-gpl-mit.md)) merges.
+
+The goal of these emails would have been **consent for the relicense,
+in writing** — a one-line reply is sufficient. The PR is structured
+so that *neither* response (consent OR no response) blocks the
+relicense; ADR-0017 documents the supersession (Justyn) and
+de-minimis (mike) analyses that cover the no-consent case, and the
+owner elected to proceed on those analyses without outreach.
 
 ---
 
@@ -93,13 +101,14 @@ Thanks for the original work — it was the right shape at the time.
 
 ## Tracking
 
-| Contributor | Email sent | Response | Response date | Outcome |
-|---|---|---|---|---|
-| mike | _pending_ | — | — | _pending_ |
-| Justyn Hunter | _pending_ | — | — | _pending_ |
+| Contributor | Email sent | Outcome |
+|---|---|---|
+| mike | **No — owner elected to proceed on the de-minimis analysis** (2026-05-23) | Proceeded under analysis in ADR-0017 |
+| Justyn Hunter | **No — owner elected to proceed on the supersession analysis** (2026-05-23) | Proceeded under analysis in ADR-0017 |
 
-Fill in as the outreach progresses. The PR description references
-this table.
+The supersession (Justyn) and de-minimis (mike) analyses in ADR-0017
+were judged sufficient; the templates above are the record of the
+alternative path that was considered.
 
 ## Gate 1 status: dissolved by history rewrite
 
@@ -120,14 +129,13 @@ Old history is preserved on `origin/pre-deloitte-cleanup-master` and
 `origin/pre-deloitte-cleanup-ai-native-wave` for ~30 days for
 recoverability; after that those refs can be deleted.
 
-## When the two remaining gates clear
+## When Gate 3 clears
 
-The owner:
-1. Updates the tracking table here with the responses received from
-   `mike` and `Justyn Hunter`.
-2. Updates ADR-0017's Gate 2 + Gate 3 checkboxes (this file →
-   that ADR).
-3. Reviews the PR diff one final time.
-4. Clicks merge.
+Gate 1 (Deloitte employer-IP check) dissolved by the email rewrite.
+Gate 2 cleared on the supersession (Justyn) + de-minimis (mike)
+analyses without outreach (2026-05-23). Only **Gate 3** remains:
+
+1. Owner reviews the PR diff one final time.
+2. Clicks merge.
 
 The merge is the moment the project becomes MIT.
