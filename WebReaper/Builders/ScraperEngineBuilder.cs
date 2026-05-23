@@ -229,6 +229,24 @@ public class ScraperEngineBuilder
     }
 
     /// <summary>
+    /// Track changes across crawls (ADR-0048): hash the Markdown
+    /// extraction of every page, compare to the previously-stored
+    /// hash for the URL, and annotate every emitted record with a
+    /// <c>change_status</c> field of <c>"new"</c>, <c>"same"</c>, or
+    /// <c>"changed"</c> (plus <c>previous_hash</c> when not new).
+    /// </summary>
+    /// <param name="store">Optional custom <see cref="WebReaper.Processing.Abstract.IChangeStore"/>;
+    /// defaults to <see cref="WebReaper.Processing.Concrete.InMemoryChangeStore"/>.</param>
+    public ScraperEngineBuilder WithChangeTracking(
+        WebReaper.Processing.Abstract.IChangeStore? store = null)
+    {
+        SpiderBuilder.AddProcessor(
+            new WebReaper.Processing.Concrete.ChangeTrackingProcessor(
+                store ?? new WebReaper.Processing.Concrete.InMemoryChangeStore()));
+        return this;
+    }
+
+    /// <summary>
     /// Parse responses as JSON instead of HTML (issue #27). Schema
     /// selectors become JSONPath expressions.
     /// </summary>
