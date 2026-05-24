@@ -42,6 +42,15 @@ internal static class PageActionCodec
             case PageAction.WaitForNetworkIdle:
                 w.WriteString("type", "waitForNetworkIdle");
                 break;
+            case PageAction.SemanticAct x:
+                // ADR-0050: persisted as the intent string only — the
+                // resolved arm is a per-crawl runtime concern and is
+                // intentionally never persisted (it'd freeze the LLM's
+                // selector across crawls, defeating the resolve-on-cache-miss
+                // recovery path).
+                w.WriteString("type", "semanticAct");
+                w.WriteString("intent", x.Intent);
+                break;
             default:
                 throw new JsonException($"unhandled PageAction arm '{a.GetType().Name}'");
         }
@@ -51,7 +60,7 @@ internal static class PageActionCodec
     public static PageAction Read(ref Utf8JsonReader r)
     {
         if (r.TokenType != JsonTokenType.StartObject) throw new JsonException("expected object");
-        string? type = null, selector = null, expression = null;
+        string? type = null, selector = null, expression = null, intent = null;
         int ms = 0, timeoutMs = 0;
         while (r.Read() && r.TokenType != JsonTokenType.EndObject)
         {
@@ -62,6 +71,7 @@ internal static class PageActionCodec
                 case "type": type = r.GetString(); break;
                 case "selector": selector = r.GetString(); break;
                 case "expression": expression = r.GetString(); break;
+                case "intent": intent = r.GetString(); break;
                 case "ms": ms = r.GetInt32(); break;
                 case "timeoutMs": timeoutMs = r.GetInt32(); break;
                 default: r.Skip(); break;
@@ -75,6 +85,7 @@ internal static class PageActionCodec
             "evaluateExpression" => new PageAction.EvaluateExpression(Require(expression, "expression", type)),
             "waitForSelector" => new PageAction.WaitForSelector(Require(selector, "selector", type), timeoutMs),
             "waitForNetworkIdle" => new PageAction.WaitForNetworkIdle(),
+            "semanticAct" => new PageAction.SemanticAct(Require(intent, "intent", type)),
             _ => throw new JsonException($"unknown PageAction type '{type}'")
         };
     }

@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System.Text.Json.Nodes;
+using WebReaper.Core.Actions.Abstract;
+using WebReaper.Core.Actions.Concrete;
 using WebReaper.Core.CookieStorage.Abstract;
 using WebReaper.Core.CookieStorage.Concrete;
 using WebReaper.Core.LinkTracker.Abstract;
@@ -55,7 +57,14 @@ internal class SpiderBuilder
     // WithMaxAge wires a real cache.
     private IPageCache PageCache { get; set; } = new NullPageCache();
 
-    private Func<ICookiesStorage, IProxyProvider?, ILogger, IPageLoadTransport>? DynamicPageLoadTransportFactory { get; set; }
+    private Func<ICookiesStorage, IProxyProvider?, ILogger, IActionResolver, IPageLoadTransport>? DynamicPageLoadTransportFactory { get; set; }
+
+    // ADR-0050: the per-Spider IActionResolver collaborator that resolves
+    // SemanticAct(intent) arms to concrete PageActions. NullActionResolver is
+    // the default — dispatching SemanticAct with it registered throws at the
+    // transport, and a warning fires at engine construction if the config
+    // contains any SemanticAct.
+    private IActionResolver ActionResolver { get; set; } = NullActionResolver.Instance;
 
     private IProxyProvider? ProxyProvider { get; set; }
 
@@ -179,9 +188,20 @@ internal class SpiderBuilder
     /// message (<see cref="BrowserNotConfiguredPageLoadTransport"/>).
     /// </summary>
     public SpiderBuilder WithLoadTransport(
-        Func<ICookiesStorage, IProxyProvider?, ILogger, IPageLoadTransport> dynamicTransportFactory)
+        Func<ICookiesStorage, IProxyProvider?, ILogger, IActionResolver, IPageLoadTransport> dynamicTransportFactory)
     {
         DynamicPageLoadTransportFactory = dynamicTransportFactory;
+        return this;
+    }
+
+    /// <summary>Register the <see cref="IActionResolver"/> the Puppeteer
+    /// transport invokes for <see cref="PageAction.SemanticAct"/> arms
+    /// (ADR-0050). The default is <see cref="NullActionResolver"/>; the
+    /// LLM-backed implementation ships in the <c>WebReaper.AI</c> satellite.</summary>
+    public SpiderBuilder WithActionResolver(IActionResolver actionResolver)
+    {
+        ArgumentNullException.ThrowIfNull(actionResolver);
+        ActionResolver = actionResolver;
         return this;
     }
 
@@ -281,7 +301,7 @@ internal class SpiderBuilder
             new HttpPageLoadTransport(CookieStorage, ProxyProvider, Logger),
             DynamicPageLoadTransportFactory is null
                 ? new BrowserNotConfiguredPageLoadTransport()
-                : DynamicPageLoadTransportFactory(CookieStorage, ProxyProvider, Logger),
+                : DynamicPageLoadTransportFactory(CookieStorage, ProxyProvider, Logger, ActionResolver),
             Logger,
             PageCache);
 

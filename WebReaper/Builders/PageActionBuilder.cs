@@ -134,6 +134,23 @@ public class PageActionBuilder
         return this;
     }
 
+    /// <summary>
+    /// Resolve a natural-language <paramref name="intent"/> (e.g. "click sign in")
+    /// to a concrete <see cref="PageAction"/> at runtime via the registered
+    /// <see cref="WebReaper.Core.Actions.Abstract.IActionResolver"/> (ADR-0050).
+    /// The first dispatch on each crawl calls the resolver; the resolution is
+    /// cached per-crawl by intent string and reused on every subsequent
+    /// dispatch — the deterministic path is the hot path.
+    /// </summary>
+    /// <exception cref="ArgumentException"><paramref name="intent"/> is
+    /// null/empty/whitespace.</exception>
+    public PageActionBuilder SemanticAct(string intent)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(intent);
+        _pageActions.Add(new PageAction.SemanticAct(intent));
+        return this;
+    }
+
     /// <summary>The accumulated actions, in the order they were added.</summary>
     public List<PageAction> Build()
     {

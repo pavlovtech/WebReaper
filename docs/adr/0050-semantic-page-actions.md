@@ -2,11 +2,13 @@
 
 ## Status
 
-**Proposed — design pass only** (2026-05-24). Sibling pattern to ADR-0047
+**Accepted — implemented** (2026-05-24). Sibling pattern to ADR-0047
 (self-healing extractor) applied to the *action* surface instead of the
 *extraction* surface. Lands on the closed sum from ADR-0035 and the
-satellite-resolver pattern from ADR-0044/0047. No implementation in this
-ADR; the proposal lives or dies on the design call.
+satellite-resolver pattern from ADR-0044/0047. Implementation slice
+shipped in the 10.0.0 wave: see the file ledger in §Implementation
+(all items landed). Two cache-key forks deferred to v2 per
+"Considered options" (a) and (e).
 
 ## Context
 
@@ -319,41 +321,116 @@ per intent — too much for v1. Lives in v2 when a real caller surfaces.
 
 ## Implementation
 
-Proposed; no code in this ADR. The implementation slice would be:
+Shipped. The slice landed exactly as designed, with three notable
+refinements recorded inline:
 
-1. **`WebReaper/Domain/PageActions/PageAction.cs`** — add `SemanticAct`.
-2. **`WebReaper/Builders/PageActionBuilder.cs`** — `.SemanticAct(intent)`.
-3. **`WebReaper/Core/Actions/Abstract/IActionResolver.cs`** — new seam.
+1. **`WebReaper/Domain/PageActions/PageAction.cs`** —
+   `SemanticAct(string Intent)` added as the seventh sealed-record arm;
+   the doc updated "six arms" → "seven arms".
+2. **`WebReaper/Builders/PageActionBuilder.cs`** — `.SemanticAct(intent)`
+   with `ArgumentException.ThrowIfNullOrWhiteSpace`.
+3. **`WebReaper/Core/Actions/Abstract/IActionResolver.cs`** — new
+   public seam (one method).
 4. **`WebReaper/Core/Actions/Concrete/NullActionResolver.cs`** —
-   warning default.
-5. **`WebReaper/Builders/ScraperEngineBuilder.cs`** —
-   `WithActionResolver(IActionResolver)`.
-6. **`WebReaper.Puppeteer/PageActionExecutor.cs`** — `SemanticAct`
-   dispatch case + the per-crawl cache.
+   `internal sealed`, singleton `Instance` (stateless), returns `null`.
+5. **`WebReaper/Core/Actions/Concrete/SemanticActResolutionException.cs`**
+   — the typed exception the transport throws (two ctors: bare intent,
+   intent + inner). Public.
+6. **`WebReaper/Core/Actions/Concrete/SemanticActCoordinator.cs`** —
+   *refinement.* The cache lifecycle + resolve-then-dispatch sequencing
+   lives in core as a *public* class instead of being buried in the
+   Puppeteer transport. This makes the asymmetric-retry contract
+   unit-testable from core without `IPage` or Chromium (the
+   `SemanticActDispatchTests` exercise it directly with stub callbacks).
+   The transport instantiates one per Spider and delegates each
+   `SemanticAct` case to `DispatchAsync`, supplying two `IPage`-bound
+   callbacks (`getHtmlAsync` for the cache-miss HTML read; `dispatch`
+   for the per-arm dispatcher). Per ADR-0023's deletion test, the
+   coordinator passes Tier-1 (named by a documented consumer — the
+   Puppeteer satellite — and would be inherited / re-used by any other
+   transport satellite).
 7. **`WebReaper/Serialization/Converters/PageActionJsonConverter.cs`**
-   — `SemanticAct` codec entry (the ADR-0035 codec, one new arm).
-8. **`WebReaper.AI/LlmActionResolver.cs`** — the satellite resolver.
-9. **`WebReaper.AI/LlmActionResolverOptions.cs`** — options record.
-10. **`WebReaper.AI/LlmActionResolverRegistration.cs`** —
-    `WithLlmActionResolver`.
-11. **`WebReaper.Tests/WebReaper.UnitTests/SemanticActDispatchTests.cs`**
-    — pins cache hit/miss, null-resolver throws,
-    dispatch-failure-invalidates-cache.
-12. **`WebReaper.Tests/WebReaper.AI.Tests/LlmActionResolverTests.cs`**
-    — pins prompt shape, JSON parsing, arm construction.
-13. **CONTEXT.md** — Action resolver term + relationship line.
-14. **CHANGELOG.md** — under a future 10.1.0 entry (post-10.0.0 wave).
+   — the `"semanticAct"` codec entry with the `"intent"` field. The
+   resolved arm is deliberately *not* persisted — see the inline comment
+   in the converter (would freeze the LLM's selector across crawls,
+   defeating the re-resolve-on-cache-miss recovery path).
+8. **`WebReaper/Builders/SpiderBuilder.cs`** — `WithActionResolver`
+   setter, `IActionResolver` field with `NullActionResolver.Instance`
+   default, and the widened factory. *Refinement:*
+   `WithLoadTransport`'s factory delegate widens from 3 to 4 arguments
+   (the 4th is `IActionResolver`). This is the design's one breaking
+   edge — the public registration seam's contract changes. The
+   `WebReaper.Puppeteer` satellite is updated in lockstep; called out
+   in the 10.0.0 CHANGELOG.
+9. **`WebReaper/Builders/DistributedSpiderBuilder.cs`** — the
+   distributed-worker reduced shell gained the same `WithActionResolver`
+   + widened `WithLoadTransport`.
+10. **`WebReaper/Builders/ScraperEngineBuilder.cs`** —
+    `WithActionResolver` pass-through; `BuildAsync` runs the
+    `WarnIfSemanticActWithoutResolver` check (scans
+    `ScraperConfig.PageActions` + every `LinkPathSelector.PageActions`)
+    and logs a Warning if any `SemanticAct` is present with the default
+    `NullActionResolver` still registered.
+11. **`WebReaper.Puppeteer/PuppeteerPageLoaderBuilderExtensions.cs`** —
+    `WithPuppeteerPageLoader()` passes the resolver through.
+12. **`WebReaper.Puppeteer/BrowserPageLoadTransport.cs`** — the
+    dispatch case delegates to a per-transport `SemanticActCoordinator`;
+    `PerformAsync` is now instance + carries the `CancellationToken`
+    (`Task.Delay` honours it); the closed-sum `default` throw still
+    names a future unhandled arm actionably.
+13. **`WebReaper.AI/LlmActionResolver.cs`** — the satellite resolver.
+    Prompt whitelists four shapes (`click` / `waitFor` / `wait` /
+    `evaluate`) — *not* `semanticAct`. JSON parse → `ParseArm` (the
+    closed whitelist); unknown shape → `null` (the transport surfaces
+    the typed exception). Code-fence stripping mirrors
+    `LlmContentExtractor`. *Refinement:* token-budget options use a
+    character cap (`MaxHtmlChars`, default 32_000), not a token cap —
+    keeps the satellite zero-dependency beyond
+    `Microsoft.Extensions.AI.Abstractions`.
+14. **`WebReaper.AI/LlmActionResolverOptions.cs`** — `record` with
+    `Model`, `Temperature` (default 0), `MaxResponseTokens` (default
+    512), `MaxHtmlChars` (default 32_000), `SystemPrompt`.
+15. **`WebReaper.AI/LlmActionResolverRegistration.cs`** —
+    `WithLlmActionResolver` extension method, mirrors
+    `WithLlmExtractor`.
+16. **`WebReaper.Tests/WebReaper.UnitTests/SemanticActDispatchTests.cs`**
+    — 18 tests pinning every ADR-named guarantee on the coordinator
+    (cache hit, cache miss, cached-arm-failure invalidates,
+    resolver-returns-null throws, resolver-throws wraps,
+    resolver-returns-SemanticAct surfaces, dispatch-failure doesn't
+    cache, cancellation propagates, distinct intents distinct cache
+    entries), the codec round-trip via `Job`, the builder, and the
+    `BuildAsync` warning forks (warning fires / doesn't fire when no
+    SemanticAct / doesn't fire when a resolver is registered).
+17. **`WebReaper.Tests/WebReaper.AI.Tests/LlmActionResolverTests.cs`** —
+    20 tests pinning every arm-shape resolution, the unknown-kind null
+    contract, the never-returns-SemanticAct discipline, the code-fence
+    stripping, the truncation, and the `ChatOptions` flow-through.
+18. **CONTEXT.md** — new "Semantic action / Action resolver" term in
+    the AI-native section + a new Relationships line linking the cache
+    lifecycle to the proposer-validator pattern (ADR-0046, ADR-0047).
+19. **CLAUDE.md** — the AI-native architecture paragraph extended from
+    "ADR-0040..0049" to "ADR-0040..0050" with the semantic-actions
+    bullet; two new gotchas (the dispatch-throws-without-a-resolver
+    contract and the `WithLoadTransport` factory-signature breaking
+    edge).
+20. **CHANGELOG.md** — 10.0.0 entry top line updated to "AI-native
+    funnel + semantic actions"; "24 ADRs" → "25 ADRs"; new bullet under
+    "AI-native wave".
 
-### Guardrails (when implemented)
+### Guardrails (verified at slice end)
 
-- `dotnet build WebReaper.sln` — 0 errors; the ADR-0035 exhaustiveness
-  analyzer fires on the new arm until every dispatch switch has it.
-- `dotnet test WebReaper.Tests/WebReaper.UnitTests` — all pass.
-- `dotnet test WebReaper.Tests/WebReaper.AI.Tests` — all pass.
-- `dotnet test WebReaper.Tests/WebReaper.Puppeteer.Tests` — all pass
-  (the dispatch test lands here).
-- `WebReaper.AotSmokeTest` — unchanged (no AOT-touching code added to
-  core).
+- `dotnet build WebReaper.sln` — 0 errors, 23 pre-existing warnings.
+- `dotnet test WebReaper.Tests/WebReaper.UnitTests` — **256/256** pass
+  (was 238; +18 from `SemanticActDispatchTests`).
+- `dotnet test WebReaper.Tests/WebReaper.AI.Tests` — **42/42** pass
+  (was 22; +20 from `LlmActionResolverTests`).
+- `dotnet test WebReaper.Tests/WebReaper.Puppeteer.Tests` — 4/4 pass
+  (the existing wire-up smoke is unchanged; the dispatch logic moved
+  to core where it's testable without Chromium).
+- `WebReaper.AotSmokeTest` — unchanged graph; core gained one
+  `SemanticActCoordinator` + the `ConcurrentDictionary` it owns, no
+  AOT-hostile reflection.
 
 ## References
 

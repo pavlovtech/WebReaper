@@ -4,6 +4,8 @@ using PuppeteerExtraSharp;
 using PuppeteerExtraSharp.Plugins.ExtraStealth;
 using PuppeteerSharp;
 using PuppeteerSharp.BrowserData;
+using WebReaper.Core.Actions.Abstract;
+using WebReaper.Core.Actions.Concrete;
 using WebReaper.Core.CookieStorage.Abstract;
 using WebReaper.Core.Loaders.Abstract;
 using WebReaper.Domain.PageActions;
@@ -30,11 +32,24 @@ public class BrowserPageLoadTransport : IPageLoadTransport
     private readonly ILogger _logger;
     private readonly SemaphoreSlim _downloadSemaphore = new(1, 1);
 
-    public BrowserPageLoadTransport(ICookiesStorage cookiesStorage, IProxyProvider? proxyProvider, ILogger logger)
+    // ADR-0050: the per-Spider SemanticAct cache + resolve sequencing live in
+    // the core SemanticActCoordinator so the lifecycle is unit-testable
+    // without IPage. The transport's dispatch just delegates.
+    private readonly SemanticActCoordinator _semanticActCoordinator;
+
+    /// <summary>Construct with the per-Spider collaborators (ADR-0009 factory
+    /// pattern). The <paramref name="actionResolver"/> resolves
+    /// <see cref="PageAction.SemanticAct"/> arms at runtime (ADR-0050).</summary>
+    public BrowserPageLoadTransport(
+        ICookiesStorage cookiesStorage,
+        IProxyProvider? proxyProvider,
+        ILogger logger,
+        IActionResolver actionResolver)
     {
         _cookiesStorage = cookiesStorage;
         _proxyProvider = proxyProvider;
         _logger = logger;
+        _semanticActCoordinator = new SemanticActCoordinator(actionResolver, logger);
     }
 
     public async Task<string> LoadAsync(PageRequest request, CancellationToken cancellationToken = default)
@@ -90,7 +105,7 @@ public class BrowserPageLoadTransport : IPageLoadTransport
                     "Performing page action {current} of {count}: {action}",
                     i, request.PageActions.Count - 1, pageAction.GetType().Name);
 
-                await PerformAsync(page, pageAction);
+                await PerformAsync(page, pageAction, cancellationToken);
             }
         }
 
@@ -102,8 +117,8 @@ public class BrowserPageLoadTransport : IPageLoadTransport
     // entry (the pre-0035 KeyNotFoundException for WaitForSelector /
     // EvaluateExpression — both reachable from PageActionBuilder). A future arm
     // with no case here is an actionable throw naming it, not a bare lookup
-    // miss mid-crawl.
-    private static async Task PerformAsync(IPage page, PageAction action)
+    // miss mid-crawl. ADR-0050 added SemanticAct.
+    private async Task PerformAsync(IPage page, PageAction action, CancellationToken cancellationToken)
     {
         switch (action)
         {
@@ -111,7 +126,7 @@ public class BrowserPageLoadTransport : IPageLoadTransport
                 await page.ClickAsync(a.Selector);
                 break;
             case PageAction.Wait a:
-                await Task.Delay(a.Milliseconds);
+                await Task.Delay(a.Milliseconds, cancellationToken);
                 break;
             case PageAction.ScrollToEnd:
                 await page.EvaluateExpressionAsync("window.scrollTo(0, document.body.scrollHeight);");
@@ -125,6 +140,16 @@ public class BrowserPageLoadTransport : IPageLoadTransport
                 break;
             case PageAction.WaitForNetworkIdle:
                 await page.WaitForNetworkIdleAsync();
+                break;
+            case PageAction.SemanticAct a:
+                // ADR-0050: cache + resolve sequencing lives in
+                // SemanticActCoordinator (core, unit-testable). The transport
+                // supplies the IPage-bound callbacks.
+                await _semanticActCoordinator.DispatchAsync(
+                    a.Intent,
+                    getHtmlAsync: _ => page.GetContentAsync(),
+                    dispatch: (arm, ct) => PerformAsync(page, arm, ct),
+                    cancellationToken);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(

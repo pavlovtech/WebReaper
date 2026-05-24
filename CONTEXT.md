@@ -330,6 +330,23 @@ Heavy MCP SDK deps quarantined here per the ADR-0009 satellite pattern;
 core stays dependency-light + AOT-clean.
 _Avoid_: MCP integration, agent server, JSON-RPC endpoint.
 
+**Semantic action / Action resolver** (ADR-0050):
+The seventh `PageAction` arm — `PageAction.SemanticAct(intent)` —
+carries a natural-language intent string ("click sign in") instead of a
+CSS selector. At dispatch the Puppeteer transport calls the registered
+`IActionResolver` (typically the `WebReaper.AI` satellite's
+`LlmActionResolver`) with the intent + the current page HTML; the
+resolver returns a concrete arm (`Click` / `WaitForSelector` / `Wait` /
+`EvaluateExpression`); the transport caches it per crawl by intent
+string and dispatches the cached arm on every subsequent same-intent
+page. Same LLM-as-proposer / deterministic-as-decider pattern as the
+**Extraction router** (ADR-0046) and **Self-healing content extractor**
+(ADR-0047), generalised from the extraction surface to the action
+surface — the self-heal pattern stops being one feature and becomes a
+project-level pattern (see [Relationships](#relationships)).
+_Avoid_: `Click("sign in")` (selectors are CSS, not intents), "AI page
+action", "smart click", agent step.
+
 ## Relationships
 
 - A **Crawl** processes many **Job**s.
@@ -350,6 +367,7 @@ _Avoid_: MCP integration, agent server, JSON-RPC endpoint.
 - The **Outstanding-work latch** trips once when credit reaches zero; its correctness rests on the **Visited-link tracker**'s atomic test-and-set, not on queue delivery semantics. The in-process and distributed **Crawl driver**s are its two adapters — the in-process driver reaches it through the **Stop rule**, the distributed driver consults the latch primitive directly.
 - The in-process **Crawl driver** consults one **Stop rule**, which composes the **Outstanding-work latch** (completion) and the soft page limit (cutoff) into the single stop verdict; completion and cutoff are distinct mechanisms, composed, never merged.
 - The in-process **Crawl driver** holds one **Retry policy** and runs every per-Job **Spider** call through `IRetryPolicy.ExecuteAsync`; the policy bounds attempts and never retries cancellation. The distributed-worker reduced shell holds no **Retry policy** — its retry boundary is the queue's redelivery.
+- A **Semantic action** (`PageAction.SemanticAct(intent)`) dispatches through one **Action resolver**: cache miss ⇒ call the resolver with the rendered HTML, receive a concrete arm (Click / WaitForSelector / Wait / EvaluateExpression), dispatch it, cache by intent; cache hit ⇒ dispatch the cached arm; cached-arm dispatch failure ⇒ invalidate + re-resolve. The deterministic path is the hot path — first page pays the LLM, every subsequent same-intent page dispatches the cached arm with no LLM call. Same proposer-validator shape as the **Extraction router** and **Self-healing content extractor** on the extraction surface (ADR-0046, ADR-0047).
 
 ## Example dialogue
 

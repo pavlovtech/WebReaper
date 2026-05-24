@@ -5,6 +5,8 @@ using System.Text.Json.Nodes;
 using WebReaper.ConfigStorage.Abstract;
 using WebReaper.ConfigStorage.Concrete;
 using WebReaper.Core;
+using WebReaper.Core.Actions.Abstract;
+using WebReaper.Core.Actions.Concrete;
 using WebReaper.Core.CookieStorage.Abstract;
 using WebReaper.Core.LinkTracker.Abstract;
 using WebReaper.Core.LinkTracker.Concrete;
@@ -437,11 +439,39 @@ public class ScraperEngineBuilder
     /// dispatcher is unchanged.
     /// </summary>
     public ScraperEngineBuilder WithLoadTransport(
-        Func<ICookiesStorage, IProxyProvider?, ILogger, IPageLoadTransport> dynamicTransportFactory)
+        Func<ICookiesStorage, IProxyProvider?, ILogger, IActionResolver, IPageLoadTransport> dynamicTransportFactory)
     {
         SpiderBuilder.WithLoadTransport(dynamicTransportFactory);
         return this;
     }
+
+    /// <summary>
+    /// Register the <see cref="IActionResolver"/> the Puppeteer transport
+    /// invokes for <see cref="PageAction.SemanticAct"/> arms (ADR-0050) —
+    /// resolving the natural-language intent to a concrete arm at runtime, then
+    /// caching the resolution per crawl. Default is <see cref="NullActionResolver"/>:
+    /// dispatching a <c>SemanticAct</c> throws
+    /// <see cref="SemanticActResolutionException"/>, and a warning fires on
+    /// <see cref="BuildAsync"/> when the config contains any
+    /// <c>SemanticAct</c>. The LLM-backed implementation ships in the
+    /// <c>WebReaper.AI</c> satellite as <c>LlmActionResolver</c> — reach it
+    /// directly via the satellite's <c>WithLlmActionResolver</c>.
+    /// </summary>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="resolver"/> is null.</exception>
+    public ScraperEngineBuilder WithActionResolver(IActionResolver resolver)
+    {
+        ArgumentNullException.ThrowIfNull(resolver);
+        SpiderBuilder.WithActionResolver(resolver);
+        _actionResolver = resolver;
+        return this;
+    }
+
+    // ADR-0050: held here in addition to the SpiderBuilder so BuildAsync can
+    // detect the misconfiguration (SemanticAct in the config + the no-op
+    // default resolver) and log a warning before the crawl starts. The
+    // SpiderBuilder owns the runtime wiring; this is the build-time check.
+    private IActionResolver _actionResolver = NullActionResolver.Instance;
 
     /// <summary>Rotate over proxies from <paramref name="source"/>, keeping
     /// only those every <paramref name="validators"/> approves.</summary>
@@ -707,6 +737,14 @@ public class ScraperEngineBuilder
         // it. The engine still reads ConfigStorage itself in RunAsync.
         var config = ConfigBuilder.Build();
         SpiderBuilder.WithConfig(config);
+
+        // ADR-0050: surface the SemanticAct-without-a-real-resolver
+        // misconfiguration BEFORE the crawl starts. The transport would throw
+        // SemanticActResolutionException on the first dispatch anyway; this
+        // makes the cause visible at build time when the config + the resolver
+        // are both in hand.
+        WarnIfSemanticActWithoutResolver(config);
+
         var spider = SpiderBuilder.Build();
         await ConfigStorage.CreateConfigAsync(config);
 
@@ -715,5 +753,35 @@ public class ScraperEngineBuilder
             SpiderBuilder.DriverLinkTracker, SpiderBuilder.DriverSinks, Logger,
             SpiderBuilder.DriverPageProcessors,
             retryPolicy: SpiderBuilder.DriverRetryPolicy);
+    }
+
+    // ADR-0050: the SemanticAct-without-a-resolver detector. Reads both
+    // potential homes (start-page actions on the ScraperConfig + per-step
+    // actions on every LinkPathSelector) for any SemanticAct arm. Logs at
+    // Warning when one is found AND the resolver is still the default
+    // NullActionResolver — no exception, the throw happens at dispatch.
+    private void WarnIfSemanticActWithoutResolver(ScraperConfig config)
+    {
+        if (!ReferenceEquals(_actionResolver, NullActionResolver.Instance)) return;
+        if (!HasSemanticAct(config)) return;
+        Logger.LogWarning(
+            "Crawl config contains a PageAction.SemanticAct but no IActionResolver " +
+            "is registered. The SemanticAct dispatch will throw " +
+            "SemanticActResolutionException at the first dynamic page. Register a " +
+            "resolver via ScraperEngineBuilder.WithActionResolver(...) — or, for " +
+            "the LLM-backed default, add the WebReaper.AI satellite and call " +
+            ".WithLlmActionResolver(chatClient).");
+    }
+
+    private static bool HasSemanticAct(ScraperConfig config)
+    {
+        if (config.PageActions is { } start && start.Any(a => a is PageAction.SemanticAct))
+            return true;
+        foreach (var selector in config.LinkPathSelectors)
+        {
+            if (selector.PageActions is { } actions && actions.Any(a => a is PageAction.SemanticAct))
+                return true;
+        }
+        return false;
     }
 }
