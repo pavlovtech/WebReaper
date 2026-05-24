@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Microsoft.Extensions.AI;
+using WebReaper.AI.Llm;
 using WebReaper.Core.Actions.Abstract;
 using WebReaper.Domain.PageActions;
 
@@ -26,11 +27,16 @@ namespace WebReaper.AI;
 /// </para>
 /// <para>
 /// Unsupported JSON shapes (a <c>kind</c> the prompt doesn't whitelist,
-/// missing required fields, malformed JSON) result in a <c>null</c> return —
-/// the transport translates that to
+/// missing required fields, malformed JSON after retry) result in a <c>null</c>
+/// return — the transport translates that to
 /// <see cref="WebReaper.Core.Actions.Concrete.SemanticActResolutionException"/>.
 /// The resolver never returns a <see cref="PageAction.SemanticAct"/> arm — it
 /// would loop the transport's dispatch.
+/// </para>
+/// <para>
+/// Internally delegates to <see cref="LlmCall{TResponse}"/> (ADR-0059) — the
+/// fence-stripping, the bounded parse-retry, and
+/// <see cref="ChatResponse.Usage"/> capture all live there.
 /// </para>
 /// </summary>
 public sealed class LlmActionResolver : IActionResolver
@@ -50,7 +56,7 @@ public sealed class LlmActionResolver : IActionResolver
         "If the intent cannot be satisfied by any of these shapes, return " +
         "an empty object: {}.";
 
-    private readonly IChatClient _chatClient;
+    private readonly LlmCall<PageAction?> _call;
     private readonly LlmActionResolverOptions _options;
 
     /// <summary>Construct with an <see cref="IChatClient"/> and optional
@@ -58,8 +64,17 @@ public sealed class LlmActionResolver : IActionResolver
     public LlmActionResolver(IChatClient chatClient, LlmActionResolverOptions? options = null)
     {
         ArgumentNullException.ThrowIfNull(chatClient);
-        _chatClient = chatClient;
         _options = options ?? new LlmActionResolverOptions();
+        _call = new LlmCall<PageAction?>(chatClient, new LlmCallDescriptor<PageAction?>
+        {
+            Name = nameof(LlmActionResolver),
+            SystemPrompt = _options.SystemPrompt ?? DefaultSystemPrompt,
+            BuildUserMessage = input => BuildUserPrompt((ResolveInput)input),
+            ParseResponse = ParseArmFromElement,
+            Model = _options.Model,
+            Temperature = _options.Temperature,
+            MaxResponseTokens = _options.MaxResponseTokens,
+        });
     }
 
     /// <inheritdoc/>
@@ -75,39 +90,40 @@ public sealed class LlmActionResolver : IActionResolver
             ? pageHtml[.._options.MaxHtmlChars]
             : pageHtml;
 
-        var userPrompt =
-            "Intent: " + intent + "\n\n" +
-            "Page (HTML, may be truncated):\n" + trimmedHtml;
+        var input = new ResolveInput(intent, trimmedHtml);
 
-        var messages = new List<ChatMessage>
-        {
-            new(ChatRole.System, _options.SystemPrompt ?? DefaultSystemPrompt),
-            new(ChatRole.User,   userPrompt)
-        };
-
-        var chatOptions = new ChatOptions
-        {
-            ModelId = _options.Model,
-            Temperature = _options.Temperature,
-            MaxOutputTokens = _options.MaxResponseTokens,
-            ResponseFormat = ChatResponseFormat.Json
-        };
-
-        var response = await _chatClient.GetResponseAsync(messages, chatOptions, cancellationToken);
-
-        var text = StripJsonFences(response.Text ?? string.Empty);
-        if (string.IsNullOrWhiteSpace(text)) return null;
-
-        JsonNode? parsed;
         try
         {
-            parsed = JsonNode.Parse(text);
+            var result = await _call.InvokeAsync(input, cancellationToken);
+            return result.Value;
         }
-        catch (JsonException)
+        catch (LlmCallException)
         {
+            // Adapter policy: parse-after-retry failure → null (the
+            // transport translates that to SemanticActResolutionException).
             return null;
         }
-        if (parsed is not JsonObject obj) return null;
+    }
+
+    private static string BuildUserPrompt(ResolveInput input) =>
+        "Intent: " + input.Intent + "\n\n" +
+        "Page (HTML, may be truncated):\n" + input.Html;
+
+    private static PageAction? ParseArmFromElement(JsonElement element)
+    {
+        if (element.ValueKind != JsonValueKind.Object)
+        {
+            // A non-object response is "unsupported shape" — return null
+            // (not throw). The descriptor's ParseResponse contract:
+            // throwing forces a retry; returning the default(TResponse)
+            // is a clean "model said nothing actionable."
+            return null;
+        }
+
+        // Round-trip into a JsonObject so the per-arm parsing matches the
+        // existing shape and keeps the whitelist authority in one place.
+        var node = JsonNode.Parse(element.GetRawText());
+        if (node is not JsonObject obj) return null;
 
         return ParseArm(obj);
     }
@@ -139,17 +155,5 @@ public sealed class LlmActionResolver : IActionResolver
         catch { return fallback; }
     }
 
-    // Strip ```json ... ``` or ``` ... ``` if the model wrapped its JSON
-    // despite the system instruction. Same defence as LlmContentExtractor.
-    private static string StripJsonFences(string text)
-    {
-        var trimmed = text.Trim();
-        if (!trimmed.StartsWith("```", StringComparison.Ordinal)) return trimmed;
-        var newlineIdx = trimmed.IndexOf('\n');
-        if (newlineIdx < 0) return trimmed;
-        var body = trimmed[(newlineIdx + 1)..];
-        var endIdx = body.LastIndexOf("```", StringComparison.Ordinal);
-        if (endIdx > 0) body = body[..endIdx];
-        return body.Trim();
-    }
+    private readonly record struct ResolveInput(string Intent, string Html);
 }

@@ -151,6 +151,29 @@ public class LlmContentExtractorTests
     }
 
     [Fact]
+    public async Task Retries_once_on_invalid_JSON_then_succeeds()
+    {
+        // ADR-0059 regression: the LlmCall mechanism's bounded parse-retry
+        // lets the extractor recover from a single bad-comma response. Prior
+        // to ADR-0059 this would have hard-failed on the first try.
+        var calls = 0;
+        var chat = new StubChatClient(_ =>
+        {
+            calls++;
+            return calls == 1
+                ? "{\"title\":\"x\","   // trailing comma -> JsonException
+                : "{\"title\":\"Hello\"}";
+        });
+
+        var schema = new Schema { new SchemaElement("title", "h1", DataType.String) };
+        var result = await new LlmContentExtractor(chat).ExtractAsync(
+            "<article><h1>Hello</h1></article>", schema);
+
+        Assert.Equal(2, calls);
+        Assert.Equal("Hello", result["title"]!.GetValue<string>());
+    }
+
+    [Fact]
     public async Task Options_flow_into_chat_options()
     {
         ChatOptions? captured = null;

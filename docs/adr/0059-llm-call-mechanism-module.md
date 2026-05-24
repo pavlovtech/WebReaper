@@ -2,7 +2,7 @@
 
 ## Status
 
-**Proposed** (2026-05-24). First ADR of the post-AI-native-wave
+**Accepted — implemented** (2026-05-24). First ADR of the post-AI-native-wave
 deepening campaign. The four LLM adapters shipped in 10.0.0
 (`LlmContentExtractor` — ADR-0044, `LlmSelectorRepairer` — ADR-0047,
 `LlmActionResolver` — ADR-0050, `LlmAgentBrain` — ADR-0051) each

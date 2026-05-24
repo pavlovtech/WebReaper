@@ -125,6 +125,28 @@ public class LlmAgentBrainTests
     }
 
     [Fact]
+    public async Task Retries_once_on_invalid_JSON_then_succeeds()
+    {
+        // ADR-0059 regression: the LlmCall mechanism's bounded parse-retry
+        // recovers when the first response is malformed JSON.
+        var calls = 0;
+        var chat = new StubChatClient(_ =>
+        {
+            calls++;
+            return calls == 1
+                ? "{\"type\":\"stop\","   // trailing comma -> JsonException
+                : "{\"type\":\"stop\",\"reason\":\"after retry\"}";
+        });
+        var brain = new LlmAgentBrain(chat);
+
+        var decision = await brain.DecideAsync(DummyState);
+
+        Assert.Equal(2, calls);
+        var stop = Assert.IsType<AgentDecision.Stop>(decision);
+        Assert.Equal("after retry", stop.Reason);
+    }
+
+    [Fact]
     public async Task Strips_Markdown_code_fences_around_JSON()
     {
         var chat = new StubChatClient(_ =>

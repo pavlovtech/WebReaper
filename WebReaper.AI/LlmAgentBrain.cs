@@ -2,6 +2,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Microsoft.Extensions.AI;
+using WebReaper.AI.Llm;
 using WebReaper.Core.Agent.Abstract;
 using WebReaper.Domain.Agent;
 using WebReaper.Domain.PageActions;
@@ -22,9 +23,9 @@ namespace WebReaper.AI;
 /// the bounded <see cref="AgentState"/> view (goal, current page Markdown,
 /// candidate URLs, history, visited, extracted-count) and parses the
 /// response as one of the four <see cref="AgentDecision"/> arms — Extract /
-/// Follow / Act / Stop. The Extract arm carries a single-level Schema (the
-/// v1 shape — nested Schemas are a v2 deferral); the Act arm uses the same
-/// concrete-arm shape as <see cref="LlmActionResolver"/>.
+/// Follow / Act / Stop. Internally delegates to <see cref="LlmCall{TResponse}"/>
+/// (ADR-0059); the JSON discriminator shape stays the same — the pivot to
+/// tool-calling is ADR-0060's job.
 /// </para>
 /// </summary>
 public sealed class LlmAgentBrain : IAgentBrain
@@ -55,16 +56,24 @@ public sealed class LlmAgentBrain : IAgentBrain
         "selectors (one selector per field, single level — no nested " +
         "objects in v1).";
 
-    private readonly IChatClient _chatClient;
-    private readonly LlmAgentBrainOptions _options;
+    private readonly LlmCall<AgentDecision> _call;
 
     /// <summary>Construct with an <see cref="IChatClient"/> and optional
     /// <see cref="LlmAgentBrainOptions"/>.</summary>
     public LlmAgentBrain(IChatClient chatClient, LlmAgentBrainOptions? options = null)
     {
         ArgumentNullException.ThrowIfNull(chatClient);
-        _chatClient = chatClient;
-        _options = options ?? new LlmAgentBrainOptions();
+        var opts = options ?? new LlmAgentBrainOptions();
+        _call = new LlmCall<AgentDecision>(chatClient, new LlmCallDescriptor<AgentDecision>
+        {
+            Name = nameof(LlmAgentBrain),
+            SystemPrompt = opts.SystemPrompt ?? DefaultSystemPrompt,
+            BuildUserMessage = input => BuildUserPrompt((AgentState)input),
+            ParseResponse = ParseDecisionElement,
+            Model = opts.Model,
+            Temperature = opts.Temperature,
+            MaxResponseTokens = opts.MaxResponseTokens,
+        });
     }
 
     /// <inheritdoc/>
@@ -74,44 +83,18 @@ public sealed class LlmAgentBrain : IAgentBrain
     {
         ArgumentNullException.ThrowIfNull(state);
 
-        var userPrompt = BuildUserPrompt(state);
-
-        var messages = new List<ChatMessage>
-        {
-            new(ChatRole.System, _options.SystemPrompt ?? DefaultSystemPrompt),
-            new(ChatRole.User,   userPrompt)
-        };
-
-        var chatOptions = new ChatOptions
-        {
-            ModelId = _options.Model,
-            Temperature = _options.Temperature,
-            MaxOutputTokens = _options.MaxResponseTokens,
-            ResponseFormat = ChatResponseFormat.Json
-        };
-
-        var response = await _chatClient.GetResponseAsync(messages, chatOptions, cancellationToken);
-
-        var text = StripJsonFences(response.Text ?? string.Empty);
-        if (string.IsNullOrWhiteSpace(text))
-            return new AgentDecision.Stop { Reason = "brain returned empty response" };
-
-        JsonNode? parsed;
         try
         {
-            parsed = JsonNode.Parse(text);
+            var result = await _call.InvokeAsync(state, cancellationToken);
+            return result.Value;
         }
-        catch (JsonException)
+        catch (LlmCallException ex)
         {
-            return new AgentDecision.Stop { Reason = "brain returned non-JSON response" };
+            return new AgentDecision.Stop { Reason = $"brain returned non-JSON response: {ex.Message}" };
         }
-        if (parsed is not JsonObject obj)
-            return new AgentDecision.Stop { Reason = "brain response was not a JSON object" };
-
-        return ParseDecision(obj);
     }
 
-    private string BuildUserPrompt(AgentState state)
+    private static string BuildUserPrompt(AgentState state)
     {
         var sb = new StringBuilder();
         sb.Append("Goal: ").AppendLine(state.Goal);
@@ -149,6 +132,26 @@ public sealed class LlmAgentBrain : IAgentBrain
         sb.AppendLine(state.CurrentPageMarkdown);
 
         return sb.ToString();
+    }
+
+    // The descriptor's ParseResponse: JsonElement → AgentDecision. A non-
+    // object element, or a malformed arm, throws — the mechanism translates
+    // it to LlmCallException (after retry), which DecideAsync catches and
+    // returns AgentDecision.Stop for.
+    private static AgentDecision ParseDecisionElement(JsonElement element)
+    {
+        if (element.ValueKind != JsonValueKind.Object)
+            throw new InvalidOperationException(
+                $"brain response was not a JSON object (kind={element.ValueKind})");
+
+        // Round-trip into a mutable JsonObject for the existing arm-parsing
+        // shape — preserves the per-arm validation discipline.
+        var node = JsonNode.Parse(element.GetRawText())
+            ?? throw new InvalidOperationException("brain response parsed to null");
+        if (node is not JsonObject obj)
+            throw new InvalidOperationException("brain response was not a JSON object");
+
+        return ParseDecision(obj);
     }
 
     private static AgentDecision ParseDecision(JsonObject obj)
@@ -227,17 +230,5 @@ public sealed class LlmAgentBrain : IAgentBrain
         if (!obj.TryGetPropertyValue(key, out var node) || node is null) return fallback;
         try { return node.GetValue<int>(); }
         catch { return fallback; }
-    }
-
-    private static string StripJsonFences(string text)
-    {
-        var trimmed = text.Trim();
-        if (!trimmed.StartsWith("```", StringComparison.Ordinal)) return trimmed;
-        var newlineIdx = trimmed.IndexOf('\n');
-        if (newlineIdx < 0) return trimmed;
-        var body = trimmed[(newlineIdx + 1)..];
-        var endIdx = body.LastIndexOf("```", StringComparison.Ordinal);
-        if (endIdx > 0) body = body[..endIdx];
-        return body.Trim();
     }
 }

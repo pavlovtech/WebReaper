@@ -2,6 +2,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Microsoft.Extensions.AI;
+using WebReaper.AI.Llm;
 using WebReaper.Core.Parser.Abstract;
 using WebReaper.Core.Parser.Concrete;
 using WebReaper.Domain.Parsing;
@@ -12,6 +13,9 @@ namespace WebReaper.AI;
 /// The default <see cref="ISelectorRepairer"/> (ADR-0047): asks the
 /// LLM for patched selectors when the deterministic fold's output
 /// fails validation, returns a Schema with the selectors swapped.
+/// Internally delegates to <see cref="LlmCall{TResponse}"/> (ADR-0059)
+/// — the fence-stripping, the bounded parse-retry, and
+/// <see cref="ChatResponse.Usage"/> capture all live there.
 /// </summary>
 public sealed class LlmSelectorRepairer : ISelectorRepairer
 {
@@ -25,15 +29,26 @@ public sealed class LlmSelectorRepairer : ISelectorRepairer
         "Only include fields you can repair; omit fields where you cannot " +
         "find a working selector. Output only the JSON, no commentary.";
 
-    private readonly IChatClient _chatClient;
+    private readonly LlmCall<JsonObject?> _call;
     private readonly LlmExtractorOptions _options;
     private readonly MarkdownContentExtractor _markdown = new();
 
+    /// <summary>Construct with an <see cref="IChatClient"/> and optional
+    /// <see cref="LlmExtractorOptions"/>.</summary>
     public LlmSelectorRepairer(IChatClient chatClient, LlmExtractorOptions? options = null)
     {
         ArgumentNullException.ThrowIfNull(chatClient);
-        _chatClient = chatClient;
         _options = options ?? new LlmExtractorOptions();
+        _call = new LlmCall<JsonObject?>(chatClient, new LlmCallDescriptor<JsonObject?>
+        {
+            Name = nameof(LlmSelectorRepairer),
+            SystemPrompt = _options.SystemPrompt ?? DefaultSystemPrompt,
+            BuildUserMessage = input => BuildUserPrompt((RepairInput)input),
+            ParseResponse = ParseSelectorMap,
+            Model = _options.Model,
+            Temperature = _options.Temperature,
+            MaxResponseTokens = _options.MaxTokens,
+        });
     }
 
     /// <inheritdoc/>
@@ -53,51 +68,54 @@ public sealed class LlmSelectorRepairer : ISelectorRepairer
             ? await PreCleanToMarkdownAsync(document)
             : document;
 
-        // Build the user prompt: original selectors + failed result + page.
         var originalSelectors = CollectSelectors(original);
-        var sb = new StringBuilder();
-        sb.AppendLine("Original selectors (field → selector):");
-        foreach (var (field, selector) in originalSelectors)
-            sb.AppendLine($"  {field} → {selector}");
-        sb.AppendLine();
-        sb.AppendLine("Failed result:");
-        sb.AppendLine(failedResult.ToJsonString());
-        sb.AppendLine();
-        sb.AppendLine("Page:");
-        sb.AppendLine(pageContent);
-        sb.AppendLine();
-        sb.AppendLine("Propose new selectors as JSON (field name → selector string).");
-
-        var messages = new List<ChatMessage>
-        {
-            new(ChatRole.System, _options.SystemPrompt ?? DefaultSystemPrompt),
-            new(ChatRole.User, sb.ToString())
-        };
-
-        var response = await _chatClient.GetResponseAsync(messages, new ChatOptions
-        {
-            ModelId = _options.Model,
-            Temperature = _options.Temperature,
-            MaxOutputTokens = _options.MaxTokens,
-            ResponseFormat = ChatResponseFormat.Json
-        }, cancellationToken);
-
-        var text = response.Text ?? string.Empty;
-        text = StripJsonFences(text);
+        var input = new RepairInput(originalSelectors, failedResult, pageContent);
 
         JsonObject? selectorMap;
         try
         {
-            selectorMap = JsonNode.Parse(text) as JsonObject;
+            var result = await _call.InvokeAsync(input, cancellationToken);
+            selectorMap = result.Value;
         }
-        catch (JsonException)
+        catch (LlmCallException)
         {
+            // Adapter policy: parse-after-retry failure → null. The
+            // SelfHealingContentExtractor falls back to the original
+            // deterministic output.
             return null;
         }
 
         if (selectorMap is null || selectorMap.Count == 0) return null;
 
         return ApplySelectors(original, selectorMap);
+    }
+
+    private static string BuildUserPrompt(RepairInput input)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine("Original selectors (field → selector):");
+        foreach (var (field, selector) in input.OriginalSelectors)
+            sb.AppendLine($"  {field} → {selector}");
+        sb.AppendLine();
+        sb.AppendLine("Failed result:");
+        sb.AppendLine(input.FailedResult.ToJsonString());
+        sb.AppendLine();
+        sb.AppendLine("Page:");
+        sb.AppendLine(input.PageContent);
+        sb.AppendLine();
+        sb.AppendLine("Propose new selectors as JSON (field name → selector string).");
+        return sb.ToString();
+    }
+
+    private static JsonObject? ParseSelectorMap(JsonElement element)
+    {
+        // A non-object response is "no repairs proposed" — return null
+        // (not throw). Throwing would force a retry, but the empty
+        // shape is a valid model response meaning "I don't know."
+        if (element.ValueKind != JsonValueKind.Object) return null;
+
+        var node = JsonNode.Parse(element.GetRawText());
+        return node as JsonObject;
     }
 
     private async Task<string> PreCleanToMarkdownAsync(string document)
@@ -182,15 +200,8 @@ public sealed class LlmSelectorRepairer : ISelectorRepairer
         };
     }
 
-    private static string StripJsonFences(string text)
-    {
-        var trimmed = text.Trim();
-        if (!trimmed.StartsWith("```", StringComparison.Ordinal)) return trimmed;
-        var newlineIdx = trimmed.IndexOf('\n');
-        if (newlineIdx < 0) return trimmed;
-        var body = trimmed.Substring(newlineIdx + 1);
-        var endIdx = body.LastIndexOf("```", StringComparison.Ordinal);
-        if (endIdx > 0) body = body.Substring(0, endIdx);
-        return body.Trim();
-    }
+    private readonly record struct RepairInput(
+        List<(string Field, string Selector)> OriginalSelectors,
+        JsonObject FailedResult,
+        string PageContent);
 }
