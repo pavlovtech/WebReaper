@@ -54,6 +54,13 @@ jobs:
       run: |
         dotnet publish WebReaper.Cli/WebReaper.Cli.csproj -c Release -r linux-x64
         ls -lh WebReaper.Cli/bin/Release/net10.0/linux-x64/publish/WebReaper.Cli
-        # Smoke the produced binary — `--version` is the cheapest
-        # invariant we have that the JIT/AOT bridge actually wires up.
-        ./WebReaper.Cli/bin/Release/net10.0/linux-x64/publish/WebReaper.Cli version
+        # ADR-0055 invariant smoke: every CLI subcommand's bundled-graph
+        # path is exercised against the AOT'd binary. A regression that
+        # only manifests post-AOT (e.g. a reflection-driven JSON case
+        # surviving the static `dotnet build` but failing the AOT publish
+        # graph) surfaces here.
+        WEBREAPER=./WebReaper.Cli/bin/Release/net10.0/linux-x64/publish/WebReaper.Cli
+        $WEBREAPER version
+        $WEBREAPER help
+        $WEBREAPER browser list
+        $WEBREAPER stealth list

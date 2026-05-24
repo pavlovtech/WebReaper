@@ -28,7 +28,12 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Misc\WebReaper.ProxyProviders\WebReaper.ProxyProviders.csproj" />
     <ProjectReference Include="..\..\WebReaper\WebReaper.csproj" />
+    <ProjectReference Include="..\..\WebReaper.Cdp\WebReaper.Cdp.csproj" />
     <ProjectReference Include="..\..\WebReaper.Playwright\WebReaper.Playwright.csproj" />
     <ProjectReference Include="..\..\WebReaper.Redis\WebReaper.Redis.csproj" />
+    <!-- ADR-0054 + handoff item #5: gated end-to-end smoke for the
+         CloakBrowser satellite's installer + launcher. Test class
+         vacuously-passes when WEBREAPER_STEALTH_SMOKE is unset. -->
+    <ProjectReference Include="..\..\WebReaper.Stealth.CloakBrowser\WebReaper.Stealth.CloakBrowser.csproj" />
   </ItemGroup>
 </Project>
