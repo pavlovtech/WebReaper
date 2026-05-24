@@ -143,3 +143,93 @@ public abstract class AgentRunStoreContract
         Assert.Equal(new[] { "u2" }, loaded2?.VisitedUrls);
     }
 }
+
+/// <summary>
+/// Back-compat pin for ADR-0061's snapshot shape evolution. A pre-0061
+/// snapshot persisted with the six-field shape (no <c>lastOutcome</c>) must
+/// deserialise with <see cref="AgentDecisionOutcome.None"/> on read — the
+/// snapshot codec accepts the absent field and the record constructor
+/// normalises null to <c>None</c>.
+/// </summary>
+public class AgentRunSnapshotBackCompatTests
+{
+    private static readonly System.Text.Json.JsonSerializerOptions JsonOpts = new()
+    {
+        Converters = { new WebReaper.Serialization.Converters.AgentRunSnapshotJsonConverter() }
+    };
+
+    [Fact]
+    public void Pre_ADR_0061_snapshot_without_lastOutcome_field_deserialises_with_None()
+    {
+        // Hand-written JSON in the v1 ADR-0051 shape — no `lastOutcome`
+        // field. This is exactly what an InMemoryAgentRunStore.SaveStepAsync
+        // would have persisted before ADR-0061 shipped.
+        const string v1Json =
+            """
+            {
+              "goal": "demo goal",
+              "lastDecidedStep": 3,
+              "history": [
+                { "type": "follow", "url": "https://example.com/p2", "reason": "next" }
+              ],
+              "visitedUrls": ["https://example.com/", "https://example.com/p2"],
+              "records": [{"title": "Hello"}],
+              "currentUrl": "https://example.com/p2"
+            }
+            """;
+
+        var snapshot = System.Text.Json.JsonSerializer.Deserialize<AgentRunSnapshot>(v1Json, JsonOpts);
+
+        Assert.NotNull(snapshot);
+        Assert.Equal("demo goal", snapshot.Goal);
+        Assert.Equal(3, snapshot.LastDecidedStep);
+        Assert.IsType<AgentDecisionOutcome.None>(snapshot.LastOutcome);
+    }
+
+    [Fact]
+    public void Post_ADR_0061_snapshot_with_lastOutcome_field_round_trips_the_arm()
+    {
+        // Explicit lastOutcome present — the post-0061 shape. Confirms the
+        // codec writes and reads symmetrically, and the back-compat path
+        // doesn't accidentally silence a present field.
+        var written = new AgentRunSnapshot(
+            Goal: "demo goal",
+            LastDecidedStep: 5,
+            History: Array.Empty<AgentDecision>(),
+            VisitedUrls: Array.Empty<string>(),
+            Records: Array.Empty<JsonObject>(),
+            CurrentUrl: "https://example.com/",
+            LastOutcome: new AgentDecisionOutcome.Followed(
+                ActualUrl: "https://example.com/redirected",
+                StatusCode: 200));
+
+        var json = System.Text.Json.JsonSerializer.Serialize(written, JsonOpts);
+        var roundTripped = System.Text.Json.JsonSerializer.Deserialize<AgentRunSnapshot>(json, JsonOpts);
+
+        Assert.NotNull(roundTripped);
+        var followed = Assert.IsType<AgentDecisionOutcome.Followed>(roundTripped.LastOutcome);
+        Assert.Equal("https://example.com/redirected", followed.ActualUrl);
+        Assert.Equal(200, followed.StatusCode);
+    }
+
+    [Fact]
+    public void None_outcome_is_omitted_on_write_for_byte_compat_with_v1_readers()
+    {
+        // A snapshot with the default None outcome serialises without the
+        // lastOutcome field — keeps the on-disk shape identical to v1 for
+        // the common case. Pre-0061 readers (none in tree, but external
+        // consumers) won't see an unknown field.
+        var snapshot = new AgentRunSnapshot(
+            Goal: "g",
+            LastDecidedStep: 0,
+            History: Array.Empty<AgentDecision>(),
+            VisitedUrls: Array.Empty<string>(),
+            Records: Array.Empty<JsonObject>(),
+            CurrentUrl: null,
+            LastOutcome: new AgentDecisionOutcome.None());
+
+        var json = System.Text.Json.JsonSerializer.Serialize(snapshot, JsonOpts);
+
+        Assert.DoesNotContain("lastOutcome", json);
+    }
+}

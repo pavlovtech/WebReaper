@@ -49,6 +49,107 @@ Also in this wave:
   `WEBREAPER_STEALTH_SMOKE=1`. Vacuously passes when unset (CI stays
   hermetic). Handoff item #5.
 
+## 10.0.0 (in progress) — AI-native deepening campaign (ADR-0059..0064)
+
+Post-AI-native-wave architecture deepening surfaced by the post-wave review.
+Six interlocking ADRs that take the friction (four LLM adapters
+reimplementing the same mechanism; brain + resolver hand-parsing JSON
+discriminators; agent brain blind to its own decisions' outcomes; validator
+hardcoded as a static; Markdown adapter shadowing the primitive; five
+`WithLlm*` calls per builder) and ship the deep-modules-and-real-seams
+version of the satellite. **All six ride v10.x — the major break is the
+v10.0.0 Puppeteer-deletion arc above.**
+
+- **ADR-0059 — `LlmCall<TResponse>` mechanism module.** The four
+  `WebReaper.AI` LLM adapters (`LlmContentExtractor`, `LlmAgentBrain`,
+  `LlmActionResolver`, `LlmSelectorRepairer`) share one mechanism module
+  under `WebReaper.AI/Llm/`. Owns: prompt marshalling, `IChatClient`
+  transport, code-fence stripping, the bounded one-shot parse-retry, tool-
+  call dispatch (the 0060 seam), `ChatResponse.Usage` capture. Each adapter
+  shrinks to ~40-60 lines of policy (system prompt + user-message builder +
+  parser + optional tool list). Consumer-authored AI adapters reuse the
+  same module for consistency.
+- **ADR-0060 — Tool-calling on `LlmAgentBrain` + `LlmActionResolver`.**
+  Microsoft.Extensions.AI's `AIFunction` + `ChatOptions.Tools`. The brain's
+  10-tool registry IS the `AgentDecision` closed sum (Extract / Follow /
+  Stop + 7 flat `Act*` arms); the resolver's 6-tool registry IS the
+  concrete `PageAction` arms (no `ActSemanticAct` ever — structurally
+  prevents the resolver from looping). JSON-mode parsing for these two
+  adapters is **gone**; chat clients without tool-calling are unsupported.
+  Hand-rolled JSON Schemas (`HandRolledAIFunction`) keep AOT clean.
+- **ADR-0061 — `AgentDecisionOutcome` on `AgentState.LastOutcome`.** Closes
+  the brain's feedback gap. New six-arm closed sum (`None` / `Extracted` /
+  `Followed` / `ActDispatched` / `Failed` / `Stopped`). Engine populates
+  from the prior step's execution. **Behaviour change:** page-load failures
+  stop being terminal — they surface as `Failed("load: …")`; the loop
+  continues; the brain re-decides. `AgentRunSnapshot` v2 (the new field) is
+  backward-compatible on read — pre-0061 snapshots deserialise with
+  `LastOutcome = None`.
+- **ADR-0062 — `ISchemaValidator` seam.** Promotes
+  `SchemaSatisfiedValidator` from a static helper to a public seam.
+  `ExtractionRouter` + `SelfHealingContentExtractor` consume it; the agent
+  driver consults it after every Extract decision and surfaces failed
+  verdicts as `Failed("validation: <reason>")` in `LastOutcome`.
+  `ISelectorRepairer.RepairAsync` widens with `string? failureReason` so
+  the repairer's prompt sees what the validator flagged. The
+  proposer-validator pattern's missing half ships as a real seam.
+  **Breaking:** `ExtractionRouter`'s constructor `Func<JsonObject, Schema?,
+  bool>?` parameter is replaced by `ISchemaValidator?`; `.WithFallbackExtractor`
+  loses its `Func` parameter (sugar callers unaffected; consumers who
+  passed a custom predicate migrate to `.WithSchemaValidator(...) +
+  .WithFallbackExtractor(fallback)`).
+- **ADR-0063 — `HtmlToMarkdown` primitive.** Public pure-function in
+  `WebReaper.Core.Markdown`. `MarkdownContentExtractor` becomes a thin
+  shell (the `AsMarkdown()` seed terminal still works); `LlmContentExtractor`
+  pre-clean, `LlmSelectorRepairer` pre-clean, `AgentEngine`'s
+  `CurrentPageMarkdown`, and `ChangeTrackingProcessor`'s hash call the
+  primitive directly. Resolves the "Markdown extractor wraps Markdown
+  extractor" awkwardness.
+- **ADR-0064 — `.UseAi(client, opts?)` aggregator.** One-line AI
+  enablement on both `ScraperEngineBuilder` and `AgentEngineBuilder`.
+  `AiPolicyMode.Recommended` (default) wires the firecrawl-shaped triple:
+  deterministic primary + LLM fallback + LLM selector repair + LLM action
+  resolver. `LlmPrimary` swaps the deterministic primary for LLM.
+  `ExtractionOnly` drops the resolver. `None` is the escape hatch.
+  Per-role options inherit global `Model` / `Temperature` /
+  `MaxResponseTokens`; à la carte `WithLlm*` methods remain.
+  `AgentEngineBuilder` grows `.WithFallbackExtractor`, `.WithSelfHealing`,
+  and `.WithSchemaValidator` (siblings of the scraper-side equivalents) so
+  `Recommended` wires symmetrically across both builders — the agent path
+  matches the scraper path now.
+
+#### Breaking changes (v10.x only — the v10.0.0 major already owns the version)
+
+- **`ExtractionRouter` constructor**: `Func<JsonObject, Schema?, bool>?
+  isValid` parameter replaced by `ISchemaValidator? validator`. Existing
+  callers who passed a custom predicate must migrate to
+  `.WithSchemaValidator(validator)` + `.WithFallbackExtractor(fallback)`.
+- **`SelfHealingContentExtractor` constructor**: gains optional
+  `ISchemaValidator?` parameter (additive — nullary default preserves
+  behaviour).
+- **`ISelectorRepairer.RepairAsync`**: widens with `string? failureReason =
+  null` (additive — pre-0062 callers + implementations remain valid).
+- **`LlmAgentBrain` + `LlmActionResolver`**: require chat clients whose
+  provider supports tool-calling (function calling). Chat clients without
+  tool support throw `LlmCallException` on first invocation with an
+  actionable message. JSON-mode discrimination is gone for these two.
+- **`AgentState`**: gains `LastOutcome` field (additive — default `None`).
+- **`AgentRunSnapshot`**: gains `LastOutcome` field (additive — older
+  snapshots deserialise with `None`; the codec writes `lastOutcome` only
+  when non-default, keeping v1 readers byte-compatible for the common
+  case).
+
+#### Validation
+
+- `dotnet build WebReaper.sln`: **0 errors**, 4 pre-existing warnings.
+- `WebReaper.UnitTests`: **376 / 376** pass.
+- `WebReaper.AI.Tests`: **136 / 136** pass.
+- `WebReaper.Cdp.Tests` / `WebReaper.Cli.Tests` / `WebReaper.Sqlite.Tests` /
+  `WebReaper.Extraction.Generators.Tests` / `WebReaper.AzureServiceBus.Tests`:
+  all green.
+- `dotnet publish WebReaper.AotSmokeTest -c Release`: native code generated
+  for `osx-arm64`, no IL-trim warnings.
+
 ## 10.0.0 — AI-native funnel + semantic actions + transports wave, on a deepened architecture; MIT relicense (breaking)
 
 The headline release of the year — 30 ADRs (0025–0055, with ADR-0017 the

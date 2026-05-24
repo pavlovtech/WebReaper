@@ -18,31 +18,39 @@ namespace WebReaper.Core.Parser.Concrete;
 /// implementation is a class composing the existing seam, not a new
 /// public interface.
 /// </para>
+/// <para>
+/// ADR-0062 replaced the <c>Func&lt;JsonObject, Schema?, bool&gt;?</c>
+/// constructor parameter with an <see cref="ISchemaValidator"/>?
+/// — a custom predicate now implements the seam directly. The default
+/// is <see cref="SchemaSatisfiedValidator.Instance"/> (ADR-0029 policy).
+/// </para>
 /// </summary>
 public sealed class ExtractionRouter : IContentExtractor
 {
     private readonly IContentExtractor _primary;
     private readonly IContentExtractor _fallback;
-    private readonly Func<JsonObject, Schema?, bool> _isValid;
+    private readonly ISchemaValidator _validator;
     private readonly ILogger _logger;
 
     /// <summary>
     /// Compose a primary and a fallback extractor with an optional
-    /// validation predicate. The default predicate is
-    /// <see cref="SchemaSatisfiedValidator.IsSatisfied"/> — escalates
+    /// <paramref name="validator"/>. The default validator is
+    /// <see cref="SchemaSatisfiedValidator.Instance"/> — escalates
     /// when a required schema leaf is empty or absent.
     /// </summary>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="primary"/> or <paramref name="fallback"/> is null.</exception>
     public ExtractionRouter(
         IContentExtractor primary,
         IContentExtractor fallback,
-        Func<JsonObject, Schema?, bool>? isValid = null,
+        ISchemaValidator? validator = null,
         ILogger? logger = null)
     {
         ArgumentNullException.ThrowIfNull(primary);
         ArgumentNullException.ThrowIfNull(fallback);
         _primary = primary;
         _fallback = fallback;
-        _isValid = isValid ?? SchemaSatisfiedValidator.IsSatisfied;
+        _validator = validator ?? SchemaSatisfiedValidator.Instance;
         _logger = logger ?? NullLogger.Instance;
     }
 
@@ -51,13 +59,16 @@ public sealed class ExtractionRouter : IContentExtractor
     {
         var primaryResult = await _primary.ExtractAsync(document, schema);
 
-        if (_isValid(primaryResult, schema))
+        var verdict = _validator.Validate(primaryResult, schema);
+        if (verdict.IsValid)
         {
             _logger.LogInformation("Extraction router: primary extractor's result is valid; no fallback.");
             return primaryResult;
         }
 
-        _logger.LogInformation("Extraction router: primary's result failed validation; escalating to fallback.");
+        _logger.LogInformation(
+            "Extraction router: primary's result failed validation ({Reason}); escalating to fallback.",
+            verdict.Reason);
         return await _fallback.ExtractAsync(document, schema);
     }
 }

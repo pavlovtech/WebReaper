@@ -11,9 +11,18 @@ namespace WebReaper.Domain.Agent;
 /// The snapshot is the entire load-bearing record of the run: the goal (so a
 /// caller can resume by <c>runId</c> alone without re-supplying it), the
 /// step counter, the decision history, the visited list, the records pulled
-/// so far, and the current URL the engine was about to consult the brain on.
+/// so far, the current URL the engine was about to consult the brain on,
+/// and the prior step's outcome (ADR-0061 — so the brain's first decision
+/// on resume sees the just-persisted outcome and the run picks up causally).
 /// At-least-once on effects, exactly-once on brain decisions — see
 /// ADR-0051 §Decision §6 for the persist-before-execute semantics.
+/// </para>
+/// <para>
+/// Snapshot shape evolution: v1 was the ADR-0051 six-field shape; v2 (the
+/// ADR-0061 wave) adds <see cref="LastOutcome"/>. The serialization codec
+/// (<see cref="WebReaper.Serialization.WebReaperAgentJson"/>) reads the
+/// field defensively — older snapshots without it deserialise with
+/// <see cref="AgentDecisionOutcome.None"/>.
 /// </para>
 /// </summary>
 /// <param name="Goal">The natural-language goal the run was started with.</param>
@@ -33,10 +42,25 @@ namespace WebReaper.Domain.Agent;
 /// <param name="CurrentUrl">The URL the engine was about to consult the brain
 /// on at the moment of the last persist — re-seeded into the scheduler on
 /// resume.</param>
+/// <param name="LastOutcome">What happened when the engine executed the
+/// most-recent <see cref="AgentDecision"/> in <see cref="History"/> (the
+/// prior step's outcome from the agent's perspective). On resume the brain's
+/// first <c>DecideAsync</c> sees this on its <see cref="AgentState"/>.
+/// Defaults to <see cref="AgentDecisionOutcome.None"/> (the first-step
+/// value, and the default for snapshots persisted by pre-ADR-0061
+/// versions).</param>
 public sealed record AgentRunSnapshot(
     string Goal,
     int LastDecidedStep,
     IReadOnlyList<AgentDecision> History,
     IReadOnlyList<string> VisitedUrls,
     IReadOnlyList<JsonObject> Records,
-    string? CurrentUrl);
+    string? CurrentUrl,
+    AgentDecisionOutcome? LastOutcome = null)
+{
+    /// <summary>The prior step's outcome (ADR-0061). Defaults to
+    /// <see cref="AgentDecisionOutcome.None"/> for snapshots persisted before
+    /// the field existed — the constructor accepts <c>null</c> and normalises
+    /// it to <see cref="AgentDecisionOutcome.None"/>.</summary>
+    public AgentDecisionOutcome LastOutcome { get; init; } = LastOutcome ?? new AgentDecisionOutcome.None();
+}

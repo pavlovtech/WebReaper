@@ -1,7 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Nodes;
-using WebReaper.Core.Parser.Concrete;
+using WebReaper.Core.Markdown;
 using WebReaper.Processing.Abstract;
 using WebReaper.Sinks.Models;
 
@@ -13,10 +13,11 @@ namespace WebReaper.Processing.Concrete;
 /// for the URL, decide <c>new</c> / <c>same</c> / <c>changed</c>,
 /// annotate the record with <c>change_status</c>.
 /// <para>
-/// Reuses the deterministic <see cref="MarkdownContentExtractor"/>
-/// (ADR-0040) — no LLM dependency. The Markdown extraction strips
-/// template chrome so timestamp / ad-rotation / session-ID noise does
-/// not flip the status spuriously.
+/// As of ADR-0063 the processor calls the
+/// <see cref="HtmlToMarkdown.Convert"/> primitive directly — no LLM
+/// dependency, no JsonObject wrapping/unwrapping. The Markdown
+/// extraction strips template chrome so timestamp / ad-rotation /
+/// session-ID noise does not flip the status spuriously.
 /// </para>
 /// </summary>
 public sealed class ChangeTrackingProcessor : Abstract.IPageProcessor
@@ -30,7 +31,6 @@ public sealed class ChangeTrackingProcessor : Abstract.IPageProcessor
     public const string PreviousHashKey = "previous_hash";
 
     private readonly IChangeStore _store;
-    private readonly MarkdownContentExtractor _markdown = new();
 
     /// <summary>Construct with a backing store (in-memory default;
     /// satellites are pluggable).</summary>
@@ -43,10 +43,10 @@ public sealed class ChangeTrackingProcessor : Abstract.IPageProcessor
     /// <inheritdoc/>
     public async ValueTask<PageVerdict> ProcessAsync(PageContext context, CancellationToken cancellationToken)
     {
-        // Hash the Markdown extraction. The extractor never throws on
-        // null/empty content — empty markdown still hashes.
-        var markdownResult = await _markdown.ExtractAsync(context.Html, schema: null);
-        var markdown = markdownResult["markdown"]?.GetValue<string>() ?? string.Empty;
+        // ADR-0063: hash the Markdown directly via the public primitive;
+        // no JsonObject construct-and-discard. Empty html still hashes
+        // (the primitive returns an empty string, never throws).
+        var markdown = HtmlToMarkdown.Convert(context.Html);
         var hash = ComputeHash(markdown);
 
         var url = context.Data.Url;

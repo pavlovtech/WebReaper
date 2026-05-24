@@ -1,7 +1,9 @@
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using Microsoft.Extensions.AI;
+using WebReaper.AI.Llm;
+using WebReaper.Core.Markdown;
 using WebReaper.Core.Parser.Abstract;
-using WebReaper.Core.Parser.Concrete;
 using WebReaper.Domain.Parsing;
 
 namespace WebReaper.AI;
@@ -23,6 +25,11 @@ namespace WebReaper.AI;
 /// schema are dropped — the LLM extracts semantically, not by
 /// selector.
 /// </para>
+/// <para>
+/// Internally delegates to <see cref="LlmCall{TResponse}"/> (ADR-0059) —
+/// fence-stripping, the bounded parse-retry, and
+/// <see cref="ChatResponse.Usage"/> capture all live there.
+/// </para>
 /// </summary>
 public sealed class LlmContentExtractor : IContentExtractor
 {
@@ -34,9 +41,8 @@ public sealed class LlmContentExtractor : IContentExtractor
         "If a field cannot be found, output an empty string for it (or " +
         "an empty array for list fields). Preserve the structure.";
 
-    private readonly IChatClient _chatClient;
+    private readonly LlmCall<JsonObject> _call;
     private readonly LlmExtractorOptions _options;
-    private readonly MarkdownContentExtractor _markdown = new();
 
     /// <summary>Construct with an <see cref="IChatClient"/> and
     /// optional options (defaults: Markdown pre-clean, 4096-token
@@ -44,8 +50,17 @@ public sealed class LlmContentExtractor : IContentExtractor
     public LlmContentExtractor(IChatClient chatClient, LlmExtractorOptions? options = null)
     {
         ArgumentNullException.ThrowIfNull(chatClient);
-        _chatClient = chatClient;
         _options = options ?? new LlmExtractorOptions();
+        _call = new LlmCall<JsonObject>(chatClient, new LlmCallDescriptor<JsonObject>
+        {
+            Name = nameof(LlmContentExtractor),
+            SystemPrompt = _options.SystemPrompt ?? DefaultSystemPrompt,
+            BuildUserMessage = input => BuildUserMessage((ExtractInput)input),
+            ParseResponse = ParseExtractedJson,
+            Model = _options.Model,
+            Temperature = _options.Temperature,
+            MaxResponseTokens = _options.MaxTokens,
+        });
     }
 
     /// <inheritdoc/>
@@ -54,90 +69,61 @@ public sealed class LlmContentExtractor : IContentExtractor
         ArgumentNullException.ThrowIfNull(schema);
 
         var content = _options.UseMarkdownPreClean
-            ? await PreCleanToMarkdownAsync(document)
+            ? PreCleanToMarkdown(document)
             : document;
 
         var jsonSchema = SchemaJsonSchemaBridge.ToJsonSchema(schema);
+        var input = new ExtractInput(content, jsonSchema);
 
-        var systemPrompt = _options.SystemPrompt ?? DefaultSystemPrompt;
-        var userPrompt =
-            "JSON Schema:\n" + jsonSchema.ToJsonString() + "\n\n" +
-            "Page content:\n" + content + "\n\n" +
-            "Extract.";
-
-        var messages = new List<ChatMessage>
+        try
         {
-            new(ChatRole.System, systemPrompt),
-            new(ChatRole.User, userPrompt)
-        };
-
-        var chatOptions = new ChatOptions
+            var result = await _call.InvokeAsync(input);
+            return result.Value;
+        }
+        catch (LlmCallException ex)
         {
-            ModelId = _options.Model,
-            Temperature = _options.Temperature,
-            MaxOutputTokens = _options.MaxTokens,
-            // JSON response format. The chat client transparently
-            // upgrades to native JSON Schema mode if the underlying
-            // model supports it (OpenAI's response_format, etc.).
-            ResponseFormat = ChatResponseFormat.Json
-        };
-
-        var response = await _chatClient.GetResponseAsync(messages, chatOptions);
-
-        var text = ExtractText(response);
-        text = StripJsonFences(text);
-
-        var parsed = JsonNode.Parse(text)
-            ?? throw new InvalidOperationException(
-                "LLM returned empty or null JSON response.");
-
-        if (parsed is not JsonObject obj)
             throw new InvalidOperationException(
-                $"LLM response was not a JSON object (was {parsed.GetType().Name}).");
+                "LLM extractor failed to parse a structured response: " + ex.Message, ex);
+        }
+    }
 
+    private static string BuildUserMessage(ExtractInput input) =>
+        "JSON Schema:\n" + input.JsonSchema.ToJsonString() + "\n\n" +
+        "Page content:\n" + input.Content + "\n\n" +
+        "Extract.";
+
+    private static JsonObject ParseExtractedJson(JsonElement element)
+    {
+        if (element.ValueKind != JsonValueKind.Object)
+            throw new InvalidOperationException(
+                $"LLM response was not a JSON object (kind={element.ValueKind}).");
+
+        // Round-trip through ToString for a fresh JsonObject — the
+        // descriptor's JsonElement was cloned in LlmCall, so the
+        // mutation-safe JsonObject is what callers expect.
+        var node = JsonNode.Parse(element.GetRawText())
+            ?? throw new InvalidOperationException("LLM response parsed to null.");
+        if (node is not JsonObject obj)
+            throw new InvalidOperationException(
+                $"LLM response was not a JSON object (was {node.GetType().Name}).");
         return obj;
     }
 
-    private async Task<string> PreCleanToMarkdownAsync(string document)
+    private static string PreCleanToMarkdown(string document)
     {
-        // MarkdownContentExtractor returns {title, markdown} — we want
-        // just the Markdown body for the prompt.
-        var markdownResult = await _markdown.ExtractAsync(document, schema: null);
-        var md = markdownResult["markdown"]?.GetValue<string>() ?? string.Empty;
-        var title = markdownResult["title"]?.GetValue<string>();
+        // ADR-0063: call the HtmlToMarkdown primitive directly instead
+        // of going through the MarkdownContentExtractor adapter. The
+        // adapter would wrap the result in a JsonObject only for us to
+        // pull the markdown string back out — eight tokens of friction
+        // resolved by the primitive's two-overload shape.
+        var content = HtmlToMarkdown.ExtractMainContent(document);
 
         // Prepend the title as an H1 so the model sees it in-context
         // even when the heuristic moved it from the document body.
-        return string.IsNullOrEmpty(title) ? md : $"# {title}\n\n{md}";
+        return string.IsNullOrEmpty(content.Title)
+            ? content.Markdown
+            : $"# {content.Title}\n\n{content.Markdown}";
     }
 
-    private static string ExtractText(ChatResponse response)
-    {
-        // Modern Microsoft.Extensions.AI surfaces text via the
-        // ChatResponse.Text helper (shorthand for the concatenated
-        // text contents of the last assistant message).
-        var text = response.Text;
-        return text ?? string.Empty;
-    }
-
-    // Strip ```json ... ``` or ``` ... ``` if the model wrapped its
-    // JSON despite being told not to (cheap defence; some smaller
-    // models ignore the system instruction).
-    private static string StripJsonFences(string text)
-    {
-        var trimmed = text.Trim();
-
-        if (!trimmed.StartsWith("```", StringComparison.Ordinal)) return trimmed;
-
-        // Drop the opening fence + optional language tag.
-        var newlineIdx = trimmed.IndexOf('\n');
-        if (newlineIdx < 0) return trimmed;
-        var body = trimmed[(newlineIdx + 1)..];
-
-        // Drop the trailing fence.
-        var endIdx = body.LastIndexOf("```", StringComparison.Ordinal);
-        if (endIdx > 0) body = body[..endIdx];
-
-        return body.Trim();
-    }
+    private readonly record struct ExtractInput(string Content, JsonObject JsonSchema);
 }

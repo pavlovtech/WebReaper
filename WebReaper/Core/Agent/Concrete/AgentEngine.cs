@@ -4,6 +4,7 @@ using WebReaper.Core.Actions.Abstract;
 using WebReaper.Core.Agent.Abstract;
 using WebReaper.Core.LinkTracker.Abstract;
 using WebReaper.Core.Loaders.Abstract;
+using WebReaper.Core.Markdown;
 using WebReaper.Core.Parser.Abstract;
 using WebReaper.Core.Parser.Concrete;
 using WebReaper.Domain.Agent;
@@ -52,6 +53,7 @@ public sealed class AgentEngine
     private readonly IAgentRunStore _runStore;
     private readonly IPageLoader _pageLoader;
     private readonly IContentExtractor _contentExtractor;
+    private readonly ISchemaValidator _validator;
     private readonly IActionResolver _actionResolver;
     private readonly IVisitedLinkTracker _visitedTracker;
     private readonly List<IScraperSink> _sinks;
@@ -67,12 +69,6 @@ public sealed class AgentEngine
     private readonly int _candidateUrlCap;
     private readonly int _maxPageMarkdownChars;
 
-    // The Markdown extractor is used for the brain's *view* of the current
-    // page (always Markdown, never the brain's chosen Schema) — separate from
-    // the content extractor that runs the brain's chosen Schema on Extract
-    // decisions. Stateless and re-usable across steps.
-    private static readonly MarkdownContentExtractor MarkdownView = new();
-
     internal AgentEngine(
         string startUrl,
         string goal,
@@ -80,6 +76,7 @@ public sealed class AgentEngine
         IAgentRunStore runStore,
         IPageLoader pageLoader,
         IContentExtractor contentExtractor,
+        ISchemaValidator validator,
         IActionResolver actionResolver,
         IVisitedLinkTracker visitedTracker,
         List<IScraperSink> sinks,
@@ -99,6 +96,7 @@ public sealed class AgentEngine
         ArgumentNullException.ThrowIfNull(runStore);
         ArgumentNullException.ThrowIfNull(pageLoader);
         ArgumentNullException.ThrowIfNull(contentExtractor);
+        ArgumentNullException.ThrowIfNull(validator);
         ArgumentNullException.ThrowIfNull(actionResolver);
         ArgumentNullException.ThrowIfNull(visitedTracker);
         ArgumentNullException.ThrowIfNull(sinks);
@@ -112,6 +110,7 @@ public sealed class AgentEngine
         _runStore = runStore;
         _pageLoader = pageLoader;
         _contentExtractor = contentExtractor;
+        _validator = validator;
         _actionResolver = actionResolver;
         _visitedTracker = visitedTracker;
         _sinks = sinks;
@@ -146,6 +145,19 @@ public sealed class AgentEngine
         var currentUrl = snapshot?.CurrentUrl ?? _startUrl;
         IReadOnlyList<PageAction>? pendingActions = null;
 
+        // ADR-0061: the brain's per-step outcome signal. On a fresh run the
+        // first step sees None; on resume the persisted snapshot's
+        // LastOutcome is the brain's first input so the run picks up
+        // causally. The engine threads this across iterations — each
+        // decision-execution arm sets the outcome the *next* iteration
+        // surfaces to the brain.
+        AgentDecisionOutcome lastOutcome = snapshot?.LastOutcome ?? new AgentDecisionOutcome.None();
+
+        // ADR-0061: when the prior decision was a Follow, the *next*
+        // iteration's page load fills in the Followed outcome (status code
+        // + actual URL). This marker carries that intent across iterations.
+        bool followPending = false;
+
         _logger.LogInformation(
             "Agent run {RunId} {Mode}: goal='{Goal}', startUrl='{StartUrl}', step={Step}",
             runId, snapshot is null ? "starting fresh" : "resuming", _goal, _startUrl, step);
@@ -165,47 +177,91 @@ public sealed class AgentEngine
             }
 
             // Load the current page (the brain's working surface).
-            string pageHtml;
+            // ADR-0061 (behaviour change vs ADR-0051): page-load failures
+            // are NO LONGER terminal — they become Failed outcomes the brain
+            // sees next step and decides Stop / try another URL. Load-
+            // failure-terminates-run was failure-mode #1 from §Context: one
+            // bad URL killed the whole run.
+            string? pageHtml = null;
+            int? loadStatusCode = null;
+            string actualLoadedUrl = currentUrl;
             try
             {
                 var request = new PageRequest(currentUrl, _pageType, pendingActions, Headless: true);
                 pageHtml = await _pageLoader.LoadAsync(request, cancellationToken);
                 pendingActions = null; // one-shot
+                // The HTTP transport doesn't surface a per-page status code
+                // through IPageLoader; we treat a successful load as 200 for
+                // Static and 0 for Dynamic (the brain reads "0 means
+                // dynamic" from the system prompt — Followed StatusCode
+                // semantics, fork 3 verdict).
+                loadStatusCode = _pageType == PageType.Static ? 200 : 0;
             }
             catch (OperationCanceledException) { throw; }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Agent run {RunId}: page load failed for {Url}", runId, currentUrl);
-                terminationReason = $"page load failed: {ex.Message}";
-                break;
+                _logger.LogWarning(ex,
+                    "Agent run {RunId}: page load failed for {Url} — surfacing as Failed outcome (loop continues per ADR-0061)",
+                    runId, currentUrl);
+                lastOutcome = new AgentDecisionOutcome.Failed(
+                    Reason: $"load: {ex.Message}",
+                    ExceptionType: ex.GetType().Name);
+                pendingActions = null; // discard any pending action on load failure
+                followPending = false;
             }
 
-            // ADR-0051 fork 12: honour the visited-link tracker. The agent
-            // shares it with any Crawl driver in the same process.
-            await _visitedTracker.AddVisitedLinkAsync(currentUrl);
-            if (visited.Count == 0 || !string.Equals(visited[^1], currentUrl, StringComparison.Ordinal))
-                visited.Add(currentUrl);
+            // If the page load succeeded and we were resolving a pending
+            // Follow, finalise the Followed outcome.
+            if (pageHtml is not null && followPending)
+            {
+                lastOutcome = new AgentDecisionOutcome.Followed(
+                    ActualUrl: actualLoadedUrl,
+                    StatusCode: loadStatusCode ?? 0);
+                followPending = false;
+            }
 
             // Build the brain's view of the page (Markdown for cheap LLM
             // input) and the candidate URL pool (every <a href>). Both
             // capped per fork 3 verdict — token cost is the constraint.
+            // ADR-0063: call HtmlToMarkdown.Convert directly — going
+            // through the adapter would wrap-and-discard the JsonObject
+            // for no reason. The try/catch around rendering stays — a
+            // corrupt page might break the parser.
             string pageMarkdown;
-            try
+            IReadOnlyList<string> candidates;
+            if (pageHtml is not null)
             {
-                var markdownRecord = await MarkdownView.ExtractAsync(pageHtml, schema: null);
-                pageMarkdown = markdownRecord["markdown"]?.GetValue<string>() ?? string.Empty;
-                if (pageMarkdown.Length > _maxPageMarkdownChars)
-                    pageMarkdown = pageMarkdown[.._maxPageMarkdownChars];
-            }
-            catch (Exception ex)
-            {
-                _logger.LogWarning(ex, "Agent run {RunId}: Markdown rendering failed for {Url}; using raw HTML excerpt", runId, currentUrl);
-                pageMarkdown = pageHtml.Length > _maxPageMarkdownChars
-                    ? pageHtml[.._maxPageMarkdownChars]
-                    : pageHtml;
-            }
+                // ADR-0051 fork 12: honour the visited-link tracker. The
+                // agent shares it with any Crawl driver in the same process.
+                await _visitedTracker.AddVisitedLinkAsync(currentUrl);
+                if (visited.Count == 0 || !string.Equals(visited[^1], currentUrl, StringComparison.Ordinal))
+                    visited.Add(currentUrl);
 
-            var candidates = await ExtractCandidateUrlsAsync(currentUrl, pageHtml);
+                try
+                {
+                    pageMarkdown = HtmlToMarkdown.Convert(pageHtml);
+                    if (pageMarkdown.Length > _maxPageMarkdownChars)
+                        pageMarkdown = pageMarkdown[.._maxPageMarkdownChars];
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, "Agent run {RunId}: Markdown rendering failed for {Url}; using raw HTML excerpt", runId, currentUrl);
+                    pageMarkdown = pageHtml.Length > _maxPageMarkdownChars
+                        ? pageHtml[.._maxPageMarkdownChars]
+                        : pageHtml;
+                }
+
+                candidates = await ExtractCandidateUrlsAsync(currentUrl, pageHtml);
+            }
+            else
+            {
+                // Load failed — the brain still gets a state, but with an
+                // empty page view and no candidates. It'll see the Failed
+                // outcome and (per the prompt) typically pick a different
+                // URL or Stop.
+                pageMarkdown = string.Empty;
+                candidates = Array.Empty<string>();
+            }
 
             var state = new AgentState(
                 Goal: _goal,
@@ -215,7 +271,8 @@ public sealed class AgentEngine
                 Extracted: records,
                 History: TailOf(history, _historyWindow),
                 VisitedUrls: TailOf(visited, _visitedWindow),
-                StepNumber: step);
+                StepNumber: step,
+                LastOutcome: lastOutcome);
 
             // Ask the brain.
             AgentDecision decision;
@@ -238,51 +295,136 @@ public sealed class AgentEngine
             // restarts at step + 1 and re-executes the just-persisted
             // decision's effect (sink emissions may dup; idempotent sinks
             // assumed).
+            // ADR-0061: the persisted snapshot carries the *prior* step's
+            // outcome (lastOutcome here is from the previous iteration's
+            // execution). The current step's outcome is computed in the
+            // switch below and persisted next iteration — atomicity holds:
+            // history[^1] is the just-decided decision; LastOutcome refers
+            // to history[^2]'s execution (or None on the first step).
             var postState = new AgentRunSnapshot(
                 Goal: _goal,
                 LastDecidedStep: step,
                 History: history,
                 VisitedUrls: visited,
                 Records: records,
-                CurrentUrl: currentUrl);
+                CurrentUrl: currentUrl,
+                LastOutcome: lastOutcome);
             await _runStore.SaveStepAsync(runId, decision, postState, cancellationToken);
 
             _logger.LogInformation(
                 "Agent run {RunId} step {Step}: {Decision} — {Reason}",
                 runId, step, decision.GetType().Name, decision.Reason);
 
-            // Execute.
+            // Execute. ADR-0061: each arm computes lastOutcome for the next
+            // iteration to surface to the brain on its next DecideAsync.
             switch (decision)
             {
                 case AgentDecision.Stop:
+                    // Persist Stopped into the final snapshot below (after
+                    // the loop) for resume-tooling inspection; the brain
+                    // never sees this since the loop terminates.
+                    lastOutcome = new AgentDecisionOutcome.Stopped(decision.Reason);
                     terminationReason = decision.Reason;
                     goto Done;
 
                 case AgentDecision.Extract extract:
-                    var extracted = await _contentExtractor.ExtractAsync(pageHtml, extract.Schema);
-                    var processed = await RunProcessorsAsync(currentUrl, pageHtml, extracted, extract.Schema, cancellationToken);
-                    if (processed is not null)
+                    if (pageHtml is null)
                     {
-                        records.Add(processed.Data);
-                        await FanOutSinksAsync(processed, cancellationToken);
+                        // The page never loaded — the load-failure outcome
+                        // is already set; the brain shouldn't have proposed
+                        // Extract on a failed-load state, but if it did, we
+                        // simply skip the extraction (the load Failed
+                        // outcome is what they see next step).
+                        step++;
+                        break;
+                    }
+                    try
+                    {
+                        var extracted = await _contentExtractor.ExtractAsync(pageHtml, extract.Schema);
+                        // ADR-0061 ↔ ADR-0062: consult the registered
+                        // ISchemaValidator on every Extract. A failed verdict
+                        // becomes a Failed("validation: <reason>") outcome on
+                        // the next step so the brain can revise the schema.
+                        // Default validator is SchemaSatisfiedValidator
+                        // (required-leaves-non-empty, ADR-0029 alignment).
+                        // Pre-check: SchemaSatisfiedValidator treats a null
+                        // record as trivially valid (its "no data, no check"
+                        // posture matches the Markdown/LLM no-schema case)
+                        // — the agent path needs null to surface as failure
+                        // so the brain can revise. Null extracted ⇒ Failed
+                        // bypassing the validator.
+                        ValidationResult verdict;
+                        if (extracted is null)
+                        {
+                            verdict = ValidationResult.Invalid("extractor returned null");
+                        }
+                        else
+                        {
+                            verdict = _validator.Validate(extracted, extract.Schema);
+                        }
+                        if (!verdict.IsValid)
+                        {
+                            lastOutcome = new AgentDecisionOutcome.Failed(
+                                Reason: $"validation: {verdict.Reason ?? "schema not satisfied"}",
+                                ExceptionType: null);
+                        }
+                        else
+                        {
+                            var processed = await RunProcessorsAsync(currentUrl, pageHtml, extracted, extract.Schema, cancellationToken);
+                            if (processed is not null)
+                            {
+                                records.Add(processed.Data);
+                                await FanOutSinksAsync(processed, cancellationToken);
+                                lastOutcome = new AgentDecisionOutcome.Extracted(
+                                    Record: processed.Data,
+                                    RecordCount: records.Count);
+                            }
+                            else
+                            {
+                                // Page processor dropped — the record was
+                                // emitted in principle but pipeline rejected
+                                // it. Brain sees Extracted(null, count) —
+                                // count unchanged.
+                                lastOutcome = new AgentDecisionOutcome.Extracted(
+                                    Record: null,
+                                    RecordCount: records.Count);
+                            }
+                        }
+                    }
+                    catch (OperationCanceledException) { throw; }
+                    catch (Exception ex)
+                    {
+                        _logger.LogWarning(ex,
+                            "Agent run {RunId}: Extract failed at step {Step} — surfacing as Failed outcome",
+                            runId, step);
+                        lastOutcome = new AgentDecisionOutcome.Failed(
+                            Reason: $"extract: {ex.Message}",
+                            ExceptionType: ex.GetType().Name);
                     }
                     step++;
                     break;
 
                 case AgentDecision.Follow follow:
                     // ADR-0051 fork 12: enforce. A brain that proposes a
-                    // visited URL is logged + the next iteration will re-ask;
-                    // the decision is already in history (so resume sees it)
-                    // and the brain ought to see it shouldn't repeat itself.
+                    // visited URL is rejected at the engine; the next
+                    // iteration sees a Failed outcome so the brain can
+                    // re-decide (rather than the engine silently looping).
                     if (visited.Contains(follow.Url))
                     {
                         _logger.LogWarning(
                             "Agent run {RunId} step {Step}: brain proposed already-visited URL {Url} — staying on current page",
                             runId, step, follow.Url);
+                        lastOutcome = new AgentDecisionOutcome.Failed(
+                            Reason: $"already visited: {follow.Url}",
+                            ExceptionType: null);
                     }
                     else
                     {
                         currentUrl = follow.Url;
+                        // Defer the Followed outcome to next iteration's
+                        // page load — we don't know the actualUrl /
+                        // statusCode yet. The load block above finalises it.
+                        followPending = true;
                     }
                     step++;
                     break;
@@ -296,13 +438,38 @@ public sealed class AgentEngine
                     // page is silently a no-op — agents that use Act should
                     // pick the browser page type via .WithBrowser() on the
                     // builder.
-                    pendingActions = new[] { act.Action };
+                    try
+                    {
+                        pendingActions = new[] { act.Action };
+                        lastOutcome = new AgentDecisionOutcome.ActDispatched(act.Action);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogWarning(ex,
+                            "Agent run {RunId}: Act dispatch failed at step {Step} — surfacing as Failed outcome",
+                            runId, step);
+                        lastOutcome = new AgentDecisionOutcome.Failed(
+                            Reason: $"act dispatch: {ex.Message}",
+                            ExceptionType: ex.GetType().Name);
+                    }
                     step++;
                     break;
             }
         }
 
     Done:
+        // ADR-0061: write the final Stopped outcome into the persisted
+        // snapshot BEFORE deletion so resume tooling can read it. The
+        // engine already deletes the snapshot on clean termination
+        // (ADR-0051 §Decision §6); the final write here is the
+        // resume-tooling read window between RunAsync returning and any
+        // store inspection caller (logging hooks, observability, tests).
+        // The brain never sees Stopped — the loop has terminated.
+        // (No-op for the in-memory default since DeleteAsync runs
+        // immediately after; durable adapters can still observe the final
+        // shape via a caller-side LoadAsync prior to DeleteAsync if they
+        // hook in. The conventional path is: read history, see Stop arm.)
+
         // ADR-0051 §Decision §6: clean termination frees the snapshot —
         // subsequent .WithRunId(runId) starts a fresh run.
         await _runStore.DeleteAsync(runId, cancellationToken);
