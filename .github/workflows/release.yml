@@ -287,3 +287,133 @@ jobs:
           fi
           gh release create "$TAG" --verify-tag \
             --title "WebReaper $VERSION" --notes-file /tmp/notes.md
+
+  cli-publish:
+    # ADR-0043: the WebReaper.Cli is intentionally NOT a NuGet package
+    # (PackAsTool=true and PublishAot=true are mutually exclusive on one
+    # target — RELEASE-RUNBOOK §1.48). The CLI ships as a Native-AOT
+    # single-binary attached to each tagged GitHub release; the `release`
+    # job above creates the release with CHANGELOG notes, this matrix
+    # uploads one prebuilt archive per RID with `--clobber`.
+    #
+    # Matrix shape — one runner per RID:
+    #   * linux-arm64 uses `ubuntu-24.04-arm` (ARM-native, free for
+    #     public repos since Jan 2025). The dotnet docs explicitly warn
+    #     that linux-x64 → linux-arm64 cross-toolchain is "not documented
+    #     or guaranteed by Ubuntu", so we use a native runner instead.
+    #   * win-arm64 cross-publishes from `windows-latest` (x64) — the
+    #     VS 2022 `VC.Tools.ARM64` component is preinstalled on the
+    #     Windows 2025 runner image, which is the documented supported
+    #     path.
+    #   * osx-x64 and osx-arm64 both cross-publish from `macos-latest` —
+    #     Xcode bundles both toolchains, the documented supported path.
+    #
+    # `fail-fast: false` — one broken RID does NOT abort the others; the
+    # release is already created, individual asset upload failures can
+    # be re-run by re-dispatching the workflow against the same tag
+    # (the `release` job is idempotent because the `release create`
+    # there 422s without --clobber, but we run cli-publish gated by the
+    # same dry_run check and `gh release upload --clobber` is idempotent
+    # for asset re-uploads).
+    name: Publish CLI AOT binaries
+    needs: [pack, release]
+    if: ${{ github.event_name != 'workflow_dispatch' || inputs.dry_run == false }}
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: ubuntu-latest,    rid: linux-x64,   archive: tar.gz, ext: ''     }
+          - { os: ubuntu-24.04-arm, rid: linux-arm64, archive: tar.gz, ext: ''     }
+          - { os: macos-latest,     rid: osx-x64,     archive: zip,    ext: ''     }
+          - { os: macos-latest,     rid: osx-arm64,   archive: zip,    ext: ''     }
+          - { os: windows-latest,   rid: win-x64,     archive: zip,    ext: '.exe' }
+          - { os: windows-latest,   rid: win-arm64,   archive: zip,    ext: '.exe' }
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref }}
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Install Native AOT prerequisites (Linux)
+        if: startsWith(matrix.rid, 'linux-')
+        run: sudo apt-get update && sudo apt-get install -y clang zlib1g-dev
+
+      - name: AOT publish ${{ matrix.rid }}
+        # `--self-contained true` is redundant with PublishAot=true (which
+        # implies self-contained) but the user-spec asked for it explicitly
+        # and it makes the intent unambiguous at the call site.
+        run: |
+          dotnet publish WebReaper.Cli/WebReaper.Cli.csproj \
+            -c Release -r ${{ matrix.rid }} \
+            --self-contained true /p:PublishAot=true \
+            --nologo
+        shell: bash
+
+      - name: Stage + archive (Linux + macOS)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION="${{ needs.pack.outputs.version }}"
+          RID="${{ matrix.rid }}"
+          ARCHIVE="${{ matrix.archive }}"
+          PUB="WebReaper.Cli/bin/Release/net10.0/$RID/publish"
+          ASSET_BASE="webreaper-v$VERSION-$RID"
+          STAGE="$RUNNER_TEMP/$ASSET_BASE"
+          mkdir -p "$STAGE"
+          # ADR-0043: the published binary is named WebReaper.Cli (assembly
+          # name; avoids a case-insensitive macOS clash with the WebReaper
+          # library assembly). The shipped binary is renamed to `webreaper`
+          # so the agent ergonomic — `./webreaper scrape …` — matches the
+          # SKILL.md and README.
+          cp "$PUB/WebReaper.Cli" "$STAGE/webreaper"
+          chmod +x "$STAGE/webreaper"
+          cp LICENSE.txt "$STAGE/LICENSE.txt"
+          cp README.md "$STAGE/README.md"
+          if [ "$ARCHIVE" = "tar.gz" ]; then
+            ASSET="$ASSET_BASE.tar.gz"
+            tar -czf "$RUNNER_TEMP/$ASSET" -C "$RUNNER_TEMP" "$ASSET_BASE"
+          else
+            ASSET="$ASSET_BASE.zip"
+            (cd "$RUNNER_TEMP" && zip -r "$ASSET" "$ASSET_BASE")
+          fi
+          ls -lh "$RUNNER_TEMP/$ASSET"
+          echo "ASSET_PATH=$RUNNER_TEMP/$ASSET" >> "$GITHUB_ENV"
+
+      - name: Stage + archive (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $version = '${{ needs.pack.outputs.version }}'
+          $rid     = '${{ matrix.rid }}'
+          $base    = "webreaper-v$version-$rid"
+          $pub     = "WebReaper.Cli/bin/Release/net10.0/$rid/publish"
+          $stage   = Join-Path $env:RUNNER_TEMP $base
+          New-Item -ItemType Directory -Force -Path $stage | Out-Null
+          # See the bash counterpart above for the WebReaper.Cli → webreaper
+          # rename rationale (ADR-0043).
+          Copy-Item "$pub/WebReaper.Cli.exe" "$stage/webreaper.exe"
+          Copy-Item LICENSE.txt "$stage/LICENSE.txt"
+          Copy-Item README.md "$stage/README.md"
+          $asset = "$base.zip"
+          $assetPath = Join-Path $env:RUNNER_TEMP $asset
+          # Compress-Archive is preinstalled; produces a portable .zip.
+          Compress-Archive -Path "$stage/*" -DestinationPath $assetPath -Force
+          Get-Item $assetPath | Format-List Name,Length
+          "ASSET_PATH=$assetPath" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+
+      - name: Upload to GitHub release (--clobber for idempotent re-run)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          TAG="${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}"
+          gh release upload "$TAG" "$ASSET_PATH" --clobber
