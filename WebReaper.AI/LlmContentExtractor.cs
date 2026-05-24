@@ -1,7 +1,7 @@
 using System.Text.Json.Nodes;
 using Microsoft.Extensions.AI;
+using WebReaper.Core.Markdown;
 using WebReaper.Core.Parser.Abstract;
-using WebReaper.Core.Parser.Concrete;
 using WebReaper.Domain.Parsing;
 
 namespace WebReaper.AI;
@@ -36,7 +36,6 @@ public sealed class LlmContentExtractor : IContentExtractor
 
     private readonly IChatClient _chatClient;
     private readonly LlmExtractorOptions _options;
-    private readonly MarkdownContentExtractor _markdown = new();
 
     /// <summary>Construct with an <see cref="IChatClient"/> and
     /// optional options (defaults: Markdown pre-clean, 4096-token
@@ -54,7 +53,7 @@ public sealed class LlmContentExtractor : IContentExtractor
         ArgumentNullException.ThrowIfNull(schema);
 
         var content = _options.UseMarkdownPreClean
-            ? await PreCleanToMarkdownAsync(document)
+            ? PreCleanToMarkdown(document)
             : document;
 
         var jsonSchema = SchemaJsonSchemaBridge.ToJsonSchema(schema);
@@ -98,17 +97,20 @@ public sealed class LlmContentExtractor : IContentExtractor
         return obj;
     }
 
-    private async Task<string> PreCleanToMarkdownAsync(string document)
+    private static string PreCleanToMarkdown(string document)
     {
-        // MarkdownContentExtractor returns {title, markdown} — we want
-        // just the Markdown body for the prompt.
-        var markdownResult = await _markdown.ExtractAsync(document, schema: null);
-        var md = markdownResult["markdown"]?.GetValue<string>() ?? string.Empty;
-        var title = markdownResult["title"]?.GetValue<string>();
+        // ADR-0063: call the HtmlToMarkdown primitive directly instead
+        // of going through the MarkdownContentExtractor adapter. The
+        // adapter would wrap the result in a JsonObject only for us to
+        // pull the markdown string back out — eight tokens of friction
+        // resolved by the primitive's two-overload shape.
+        var content = HtmlToMarkdown.ExtractMainContent(document);
 
         // Prepend the title as an H1 so the model sees it in-context
         // even when the heuristic moved it from the document body.
-        return string.IsNullOrEmpty(title) ? md : $"# {title}\n\n{md}";
+        return string.IsNullOrEmpty(content.Title)
+            ? content.Markdown
+            : $"# {content.Title}\n\n{content.Markdown}";
     }
 
     private static string ExtractText(ChatResponse response)
