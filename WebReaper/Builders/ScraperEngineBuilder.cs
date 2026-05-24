@@ -473,6 +473,31 @@ public class ScraperEngineBuilder
     // SpiderBuilder owns the runtime wiring; this is the build-time check.
     private IActionResolver _actionResolver = NullActionResolver.Instance;
 
+    // ADR-0058: builder-time-spawned satellite resources (CloakBrowser
+    // subprocess, future Playwright IBrowser, …) register here; BuildAsync
+    // hands the list to the engine, which disposes them in LIFO order
+    // on engine teardown.
+    private readonly List<IAsyncDisposable> _teardownHooks = new();
+
+    /// <summary>
+    /// ADR-0058: register an <see cref="IAsyncDisposable"/> the engine will
+    /// dispose on teardown (LIFO order, after the adapter chain). The hook
+    /// for satellite extensions that <em>spawn</em> a resource at builder
+    /// time (e.g. <c>.WithCloakBrowser()</c> spawns the CloakBrowser
+    /// subprocess; without this, the process would leak until the host
+    /// exits). Library consumers don't typically call this directly —
+    /// satellite extension methods do.
+    /// </summary>
+    /// <param name="disposable">The resource to dispose on engine teardown.</param>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="disposable"/> is null.</exception>
+    public ScraperEngineBuilder OnTeardown(IAsyncDisposable disposable)
+    {
+        ArgumentNullException.ThrowIfNull(disposable);
+        _teardownHooks.Add(disposable);
+        return this;
+    }
+
     /// <summary>Rotate over proxies from <paramref name="source"/>, keeping
     /// only those every <paramref name="validators"/> approves.</summary>
     public ScraperEngineBuilder WithValidatedProxies(
@@ -752,7 +777,12 @@ public class ScraperEngineBuilder
             _parallelismDegree, ConfigStorage, Scheduler, spider,
             SpiderBuilder.DriverLinkTracker, SpiderBuilder.DriverSinks, Logger,
             SpiderBuilder.DriverPageProcessors,
-            retryPolicy: SpiderBuilder.DriverRetryPolicy);
+            retryPolicy: SpiderBuilder.DriverRetryPolicy,
+            // ADR-0058: hand the LIFO list of builder-registered teardown
+            // hooks to the engine; await using on the engine fires them on
+            // scope exit. List shared by reference so a same-builder build
+            // is rare (and would still see the same hooks).
+            ownedDisposables: _teardownHooks);
     }
 
     // ADR-0050: the SemanticAct-without-a-resolver detector. Reads both
