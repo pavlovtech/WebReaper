@@ -178,8 +178,12 @@ The single seam (`IPageLoader`) that turns a **PageRequest** into a page's HTML,
 _Avoid_: page fetcher, downloader, static/dynamic loader.
 
 **Load transport**:
-The per-mechanism adapter behind the **page loader** — HTTP (`HttpPageLoadTransport`) or headless browser (`BrowserPageLoadTransport`) — and the only place that mechanism's client/launch quirks and its proxy application live.
+The per-mechanism adapter behind the **page loader** — HTTP (`HttpPageLoadTransport`, in core), Playwright (browser SDK, `WebReaper.Playwright` satellite), or CDP-direct (raw protocol, `WebReaper.Cdp` satellite — the bedrock for **Browser backend** swaps) — and the only place that mechanism's client/launch quirks and its proxy application live. Browser transports launch and drive a **Browser backend** (the Chromium binary, a separate axis). ADR-0050's `(cookies, proxy, logger, actionResolver)` factory contract applies uniformly across transports.
 _Avoid_: requester, loader, driver, channel.
+
+**Browser backend**:
+The Chromium binary a browser **Load transport** launches and drives — system Chrome (detected on `PATH`), managed Chromium (the CLI's `~/.webreaper/browsers/` cache, downloaded on first use), or a stealth Chromium fork (CloakBrowser, Patchright, …). One transport (the CDP-direct transport) drives many backends; each stealth fork has its own per-launch flag set and binary-discovery rules. The `WebReaper.Stealth.X` satellites are per-backend, not per-transport — they ship installer + launcher helpers that conform to ADR-0055's backend-fork detection registry. Distinct from **Load transport**: transport is *how* WebReaper drives the page-loader; backend is *which binary* it launches.
+_Avoid_: transport (that is how we drive, not what we drive), driver, runtime.
 
 **PageRequest**:
 What the **page loader** needs to fetch one page — URL, **PageType**, optional page actions, headless flag — projected from a **Job** plus the crawl's headless setting (the loader never sees the selector chain or backlinks).
