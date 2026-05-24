@@ -203,7 +203,7 @@ _Avoid_: factory, DI container, plugin host, service registration.
 The one-time async work a durable adapter does before first use — a connection, a cursor restore, a `DataCleanupOnStart` wipe. It is an opt-in capability, `IAsyncInitializable` (one member, `Task InitializeAsync()`; ADR-0033): an adapter that warms up implements it; one that does not (the in-memory scheduler / tracker, `ConsoleSink`, the file **Sink**s) implements nothing — the init-side mirror of `IAsyncDisposable`, orthogonal to the role interfaces, never welded onto them. The in-process **Crawl driver** drives it: it calls `InitializeAsync` once, before the crawl loop, on every adapter it holds that has the capability (the scheduler, the **Visited-link tracker**, every **Sink**); the consumer-authored distributed driver drives its own. `InitializeAsync` is idempotent — a `Lazy<Task>` runs the work once — and the constructor does no async work; the pre-0033 `Initialization`-property-fired-from-the-constructor shape is retired.
 _Avoid_: initialization, connect, startup, IAsyncInitialization (the property-shaped predecessor).
 
-### AI-native (the ADR-0040..0049 wave)
+### AI-native (the ADR-0040..0051 wave)
 
 **Markdown extraction**:
 The no-schema **Content extractor** strategy (`MarkdownContentExtractor`,
@@ -347,6 +347,65 @@ project-level pattern (see [Relationships](#relationships)).
 _Avoid_: `Click("sign in")` (selectors are CSS, not intents), "AI page
 action", "smart click", agent step.
 
+**Agent driver** (ADR-0051):
+The sibling driver to the **Crawl driver** — page-spanning, sequential,
+goal-driven. `AgentEngine` runs a `decide → persist → execute` loop:
+the **Agent brain** (`IAgentBrain`) returns an **Agent decision** from
+the bounded **Agent state**, the engine persists it via the
+**Agent run store**, then dispatches the decision's effect — reusing
+every existing seam (`IPageLoader`, `IContentExtractor`,
+`IActionResolver`, sinks, processors, `IVisitedLinkTracker`). Built via
+the sibling `AgentEngineBuilder.Start(url, goal)` (the ADR-0009 /
+ADR-0025 two-seam pattern, third instance — beside `ScraperEngineBuilder`
+and `DistributedSpiderBuilder`). Static sugar `Agent.RunAsync` /
+`Agent.ResumeAsync` for the one-liner; the `WebReaper.AI` satellite's
+`LlmAgentBrain` + `WithLlmBrain(chatClient)` + `LlmAgent.RunAsync(url,
+goal, chatClient)` is the firecrawl-shaped AI-first surface.
+_Avoid_: "scraper engine" (that's the Crawl driver), "AI scraper", "bot".
+
+**Agent decision** (ADR-0051):
+The closed sum the brain returns each step — `Extract(schema)` /
+`Follow(url)` / `Act(PageAction)` / `Stop`. Every arm carries a
+`Reason` for the audit-trail log. Same closed-sum lineage as
+**Crawl outcome** (ADR-0001) and **Page action** (ADR-0035) — the
+arm count is the documented decision (ADR-0051 fork 1: four arms, not
+three; `Act` is page-local and re-invokes the brain post-action).
+_Avoid_: "action", "step", "choice".
+
+**Agent state** (ADR-0051):
+The bounded view the brain sees on every `DecideAsync` call — goal,
+current URL, current-page Markdown (capped), candidate `<a href>` URLs
+(capped), records extracted so far, recent decisions (capped), recently
+visited URLs (capped), step number. Capped by default (fork 3 verdict)
+because token cost is the constraint; the caps live on
+`LlmAgentBrainOptions` for the LLM brain and on `AgentEngineBuilder`
+for the engine.
+_Avoid_: "context", "memory".
+
+**Agent step / Agent run** (ADR-0051):
+One brain-decision-and-execute cycle is a step; a sequence of steps
+from start URL until termination is a run. Termination precedence:
+brain `Stop` → `MaxSteps` cap → `MaxBudgetTokens` cap → caller
+cancellation. Each run has a `runId` (`AgentResult.RunId`); the
+caller can resume via `Agent.ResumeAsync(runId, brain, store)` if the
+store still holds the snapshot.
+
+**Agent run store** (ADR-0051):
+The fourth load-bearing piece of agent state — `IAgentRunStore` —
+sibling to `IScheduler`, `IVisitedLinkTracker`, `IScraperConfigStorage`,
+`ICookiesStorage`. Stores the full `AgentRunSnapshot` per `runId` so a
+process restart resumes the run from `LastDecidedStep + 1`. **Persist-
+before-execute**, at-least-once on effects, exactly-once on brain
+decisions — the same semantics as the existing retry policy (ADR-0026),
+applied to agent steps. Default `InMemoryAgentRunStore`; core also ships
+`FileAgentRunStore` (JSON file per runId); satellite adapters
+`RedisAgentRunStore`, `MongoAgentRunStore`, `SqliteAgentRunStore`,
+`CosmosAgentRunStore` (AzureServiceBus skipped — queue-shaped doesn't
+fit a snapshot store). The serialization is hand-written
+(`AgentRunSnapshotCodec` + the public `WebReaperAgentJson` surface) —
+AOT-trivially-safe via `Utf8JsonWriter` / `JsonObject.WriteTo`.
+_Avoid_: "checkpointer", "memory store", "agent persistence".
+
 ## Relationships
 
 - A **Crawl** processes many **Job**s.
@@ -368,6 +427,8 @@ action", "smart click", agent step.
 - The in-process **Crawl driver** consults one **Stop rule**, which composes the **Outstanding-work latch** (completion) and the soft page limit (cutoff) into the single stop verdict; completion and cutoff are distinct mechanisms, composed, never merged.
 - The in-process **Crawl driver** holds one **Retry policy** and runs every per-Job **Spider** call through `IRetryPolicy.ExecuteAsync`; the policy bounds attempts and never retries cancellation. The distributed-worker reduced shell holds no **Retry policy** — its retry boundary is the queue's redelivery.
 - A **Semantic action** (`PageAction.SemanticAct(intent)`) dispatches through one **Action resolver**: cache miss ⇒ call the resolver with the rendered HTML, receive a concrete arm (Click / WaitForSelector / Wait / EvaluateExpression), dispatch it, cache by intent; cache hit ⇒ dispatch the cached arm; cached-arm dispatch failure ⇒ invalidate + re-resolve. The deterministic path is the hot path — first page pays the LLM, every subsequent same-intent page dispatches the cached arm with no LLM call. Same proposer-validator shape as the **Extraction router** and **Self-healing content extractor** on the extraction surface (ADR-0046, ADR-0047).
+- An **Agent driver** drives an **Agent run**: it loads the start URL, asks the **Agent brain** for an **Agent decision** from the **Agent state**, persists via the **Agent run store** (persist-before-execute), dispatches the decision's effect using the same seams the **Crawl driver** uses (`IPageLoader`, `IContentExtractor`, `IActionResolver`, `IScraperSink`, `IPageProcessor`, `IVisitedLinkTracker`), and loops until the brain returns `Stop` or a cap fires.
+- The four proposer-validator docks — **Extraction router** (ADR-0046), **Self-healing content extractor** (ADR-0047), **Semantic action** dispatch (ADR-0050), and **Agent driver** page-selection (ADR-0051) — share one shape: an LLM proposer is asked once, a deterministic validator decides, the cached deterministic answer is the hot path. The first three are page-local; the fourth is page-spanning. The pattern is now a project-level invariant, not three features that happen to look alike.
 
 ## Example dialogue
 

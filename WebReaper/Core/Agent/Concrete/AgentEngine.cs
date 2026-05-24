@@ -317,7 +317,11 @@ public sealed class AgentEngine
             TerminationReason: terminationReason,
             History: history,
             VisitedUrls: visited,
-            StepsExecuted: step);
+            // StepsExecuted is the number of brain decisions returned —
+            // includes Stop, which is itself a decision but doesn't advance
+            // the in-loop step counter. history.Count is the correct count
+            // for the result; the inner `step` is the next-decision index.
+            StepsExecuted: history.Count);
     }
 
     private async Task<List<string>> ExtractCandidateUrlsAsync(string baseUrl, string html)
