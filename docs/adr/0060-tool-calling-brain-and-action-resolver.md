@@ -2,8 +2,8 @@
 
 ## Status
 
-**Proposed** (2026-05-24). Second ADR of the post-AI-native-wave
-deepening campaign; depends on ADR-0059's `LlmCall<TResponse>`
+**Accepted — implemented** (2026-05-24). Second ADR of the post-AI-
+native-wave deepening campaign; depends on ADR-0059's `LlmCall<TResponse>`
 mechanism module. Pivots `LlmAgentBrain` (ADR-0051) and
 `LlmActionResolver` (ADR-0050) from JSON-mode parsing to
 Microsoft.Extensions.AI's `AIFunction` + `ChatOptions.Tools`. The

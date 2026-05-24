@@ -5,19 +5,21 @@ using WebReaper.Domain.PageActions;
 
 namespace WebReaper.AI.Tests;
 
-// ADR-0050: the LLM-backed IActionResolver. Tests use a stub IChatClient
-// that returns a canned response — no real model call — so we can pin the
-// prompt composition, JSON parsing, every supported arm shape, the unknown
-// shape -> null contract, code-fence stripping, and the never-return-
-// SemanticAct discipline (a SemanticAct response is treated as unknown
-// because the prompt's whitelist doesn't include it).
+// ADR-0050 + ADR-0060: the LLM-backed IActionResolver, post tool-calling
+// pivot. Tests use a stub IChatClient that returns canned FunctionCallContent
+// — no real model call — so we can pin tool-call composition, every supported
+// arm shape, the unknown-tool-name -> null contract, and the never-return-
+// SemanticAct discipline (structural — the resolver's tool registry never
+// includes ActSemanticAct, fork 8).
 public class LlmActionResolverTests
 {
+    // ---- Concrete arms ------------------------------------------------------
+
     [Fact]
-    public async Task Returns_Click_for_click_intent_and_valid_json()
+    public async Task Returns_Click_for_ActClick_tool_call()
     {
-        var chat = new StubChatClient(_ =>
-            "{\"kind\":\"click\",\"selector\":\".header-nav .signin\"}");
+        var chat = ToolCallStub("ActClick",
+            ("selector", ".header-nav .signin"));
 
         var result = await new LlmActionResolver(chat).ResolveAsync(
             "click sign in", "<html><body><button class=\"signin\"/></body></html>");
@@ -27,10 +29,10 @@ public class LlmActionResolverTests
     }
 
     [Fact]
-    public async Task Returns_WaitForSelector_for_waitFor_intent_with_timeout()
+    public async Task Returns_WaitForSelector_for_ActWaitForSelector_with_timeout()
     {
-        var chat = new StubChatClient(_ =>
-            "{\"kind\":\"waitFor\",\"selector\":\".modal\",\"timeoutMs\":2500}");
+        var chat = ToolCallStub("ActWaitForSelector",
+            ("selector", ".modal"), ("timeoutMs", 2500));
 
         var result = await new LlmActionResolver(chat).ResolveAsync(
             "wait for the modal", "<html/>");
@@ -41,10 +43,9 @@ public class LlmActionResolverTests
     }
 
     [Fact]
-    public async Task WaitFor_without_timeoutMs_defaults_to_30s()
+    public async Task ActWaitForSelector_without_timeoutMs_defaults_to_30s()
     {
-        var chat = new StubChatClient(_ =>
-            "{\"kind\":\"waitFor\",\"selector\":\".modal\"}");
+        var chat = ToolCallStub("ActWaitForSelector", ("selector", ".modal"));
 
         var result = await new LlmActionResolver(chat).ResolveAsync("wait", "<html/>");
 
@@ -53,9 +54,9 @@ public class LlmActionResolverTests
     }
 
     [Fact]
-    public async Task Returns_Wait_for_wait_intent_with_ms()
+    public async Task Returns_Wait_for_ActWait_with_ms()
     {
-        var chat = new StubChatClient(_ => "{\"kind\":\"wait\",\"ms\":500}");
+        var chat = ToolCallStub("ActWait", ("ms", 500));
 
         var result = await new LlmActionResolver(chat).ResolveAsync("pause", "<html/>");
 
@@ -64,10 +65,9 @@ public class LlmActionResolverTests
     }
 
     [Fact]
-    public async Task Returns_EvaluateExpression_for_evaluate_intent()
+    public async Task Returns_EvaluateExpression_for_ActEvaluate()
     {
-        var chat = new StubChatClient(_ =>
-            "{\"kind\":\"evaluate\",\"expression\":\"document.title\"}");
+        var chat = ToolCallStub("ActEvaluate", ("expression", "document.title"));
 
         var result = await new LlmActionResolver(chat).ResolveAsync("run js", "<html/>");
 
@@ -76,9 +76,34 @@ public class LlmActionResolverTests
     }
 
     [Fact]
-    public async Task Returns_null_for_unknown_kind()
+    public async Task Returns_WaitForNetworkIdle_for_parameterless_tool()
     {
-        var chat = new StubChatClient(_ => "{\"kind\":\"submit\",\"selector\":\".form\"}");
+        var chat = ToolCallStub("ActWaitForNetworkIdle");
+
+        var result = await new LlmActionResolver(chat).ResolveAsync("settle", "<html/>");
+
+        Assert.IsType<PageAction.WaitForNetworkIdle>(result);
+    }
+
+    [Fact]
+    public async Task Returns_ScrollToEnd_for_parameterless_tool()
+    {
+        var chat = ToolCallStub("ActScrollToEnd");
+
+        var result = await new LlmActionResolver(chat).ResolveAsync("scroll", "<html/>");
+
+        Assert.IsType<PageAction.ScrollToEnd>(result);
+    }
+
+    // ---- Unknown / malformed -----------------------------------------------
+
+    [Fact]
+    public async Task Returns_null_for_unknown_tool_name()
+    {
+        // Model called a function with a name that's not in the registry.
+        // (E.g. provider hallucination or a brain-only tool — the closed
+        // sum's structural protection.)
+        var chat = ToolCallStub("ActSubmit", ("selector", ".form"));
 
         var result = await new LlmActionResolver(chat).ResolveAsync("submit", "<html/>");
 
@@ -86,9 +111,11 @@ public class LlmActionResolverTests
     }
 
     [Fact]
-    public async Task Returns_null_for_click_without_selector()
+    public async Task Returns_null_for_ActClick_without_selector()
     {
-        var chat = new StubChatClient(_ => "{\"kind\":\"click\"}");
+        // Required arg missing — closed-sum-at-the-LLM-boundary still has a
+        // belt-and-braces guard in ParseToolCall.
+        var chat = ToolCallStub("ActClick");
 
         var result = await new LlmActionResolver(chat).ResolveAsync("click", "<html/>");
 
@@ -96,9 +123,11 @@ public class LlmActionResolverTests
     }
 
     [Fact]
-    public async Task Returns_null_for_empty_object()
+    public async Task Returns_null_when_model_omits_tool_call()
     {
-        var chat = new StubChatClient(_ => "{}");
+        // Two strikes (initial + retry) of plain-text response -> the
+        // mechanism throws LlmCallException -> adapter swallows -> null.
+        var chat = new StubChatClient(_ => "I cannot do that.");
 
         var result = await new LlmActionResolver(chat).ResolveAsync("anything", "<html/>");
 
@@ -106,109 +135,90 @@ public class LlmActionResolverTests
     }
 
     [Fact]
-    public async Task Returns_null_for_malformed_json()
+    public async Task Resolver_tool_registry_excludes_ActSemanticAct_so_resolver_cannot_loop()
     {
-        var chat = new StubChatClient(_ => "not json at all");
-
-        var result = await new LlmActionResolver(chat).ResolveAsync("anything", "<html/>");
-
-        Assert.Null(result);
-    }
-
-    [Fact]
-    public async Task Resolver_never_returns_SemanticAct_unknown_kind_treats_as_null()
-    {
-        // The prompt's whitelist doesn't include "semanticAct" so even if the
-        // model tries to return one, ParseArm doesn't know it -> null. This
-        // closes the loop the SemanticActCoordinator also guards against.
-        var chat = new StubChatClient(_ =>
-            "{\"kind\":\"semanticAct\",\"intent\":\"do something else\"}");
+        // Fork 8: the resolver's tool registry never contains
+        // ActSemanticAct — the model literally cannot call it. If the
+        // provider hallucinates one, the adapter treats it as unknown.
+        var chat = ToolCallStub("ActSemanticAct", ("intent", "do something else"));
 
         var result = await new LlmActionResolver(chat).ResolveAsync("outer", "<html/>");
 
         Assert.Null(result);
     }
 
+    // ---- On-the-wire request shape -----------------------------------------
+    //
+    // The most useful "before-and-after" regression: pin that the
+    // ChatOptions.Tools list is set (six entries, the right names) and the
+    // ResponseFormat is NOT — providers reject combining the two.
+
     [Fact]
-    public async Task Retries_once_on_invalid_JSON_then_succeeds()
+    public async Task ChatOptions_carries_the_six_resolver_tools_and_no_ResponseFormat()
     {
-        // ADR-0059 regression: the LlmCall mechanism's bounded parse-retry
-        // recovers when the first response is malformed JSON.
-        var calls = 0;
-        var chat = new StubChatClient(_ =>
+        ChatOptions? captured = null;
+        var chat = new StubChatClient((_, opts) =>
         {
-            calls++;
-            return calls == 1
-                ? "{\"kind\":\"click\","          // trailing comma -> JsonException
-                : "{\"kind\":\"click\",\"selector\":\".retried\"}";
+            captured = opts;
+            return ToolCallResponse("ActClick", ("selector", ".x"));
         });
 
-        var result = await new LlmActionResolver(chat).ResolveAsync("click", "<html/>");
+        await new LlmActionResolver(chat).ResolveAsync("click", "<html/>");
 
-        Assert.Equal(2, calls);
-        Assert.Equal(".retried", Assert.IsType<PageAction.Click>(result).Selector);
+        Assert.NotNull(captured);
+        Assert.NotNull(captured!.Tools);
+        Assert.Equal(6, captured.Tools!.Count);
+        var names = captured.Tools.OfType<AIFunction>().Select(f => f.Name).ToHashSet();
+        Assert.Contains("ActClick", names);
+        Assert.Contains("ActWait", names);
+        Assert.Contains("ActWaitForSelector", names);
+        Assert.Contains("ActWaitForNetworkIdle", names);
+        Assert.Contains("ActScrollToEnd", names);
+        Assert.Contains("ActEvaluate", names);
+        // Structural — fork 8.
+        Assert.DoesNotContain("ActSemanticAct", names);
+        // Tool-call mode does NOT set ResponseFormat (providers reject the combo).
+        Assert.Null(captured.ResponseFormat);
     }
 
     [Fact]
-    public async Task Strips_markdown_code_fences_with_language_tag()
+    public async Task System_prompt_no_longer_enumerates_JSON_shapes()
     {
-        var chat = new StubChatClient(_ =>
-            "```json\n{\"kind\":\"click\",\"selector\":\".x\"}\n```");
-
-        var result = await new LlmActionResolver(chat).ResolveAsync("click", "<html/>");
-
-        Assert.Equal(".x", Assert.IsType<PageAction.Click>(result).Selector);
-    }
-
-    [Fact]
-    public async Task Strips_bare_triple_fences_without_language_tag()
-    {
-        var chat = new StubChatClient(_ =>
-            "```\n{\"kind\":\"click\",\"selector\":\".x\"}\n```");
-
-        var result = await new LlmActionResolver(chat).ResolveAsync("click", "<html/>");
-
-        Assert.Equal(".x", Assert.IsType<PageAction.Click>(result).Selector);
-    }
-
-    [Fact]
-    public async Task Prompt_contains_intent_and_page_html()
-    {
-        List<ChatMessage>? capturedMessages = null;
+        // Post-pivot the system prompt is short — the tool list IS the
+        // schema. The old "kind: click/waitFor/..." JSON enumeration is
+        // gone. This is a behavioural pin so a regression to a JSON-mode
+        // shape is impossible without test failure.
+        List<ChatMessage>? captured = null;
         var chat = new StubChatClient((msgs, _) =>
         {
-            capturedMessages = msgs.ToList();
-            return "{\"kind\":\"click\",\"selector\":\".x\"}";
+            captured = msgs.ToList();
+            return ToolCallResponse("ActClick", ("selector", ".x"));
+        });
+
+        await new LlmActionResolver(chat).ResolveAsync("intent", "<html/>");
+
+        var systemMsg = captured!.Single(m => m.Role == ChatRole.System).Text;
+        // The prompt mentions calling tools, not returning JSON shapes.
+        Assert.Contains("tool", systemMsg, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("\"kind\"", systemMsg);
+    }
+
+    [Fact]
+    public async Task Prompt_still_contains_intent_and_page_html()
+    {
+        List<ChatMessage>? captured = null;
+        var chat = new StubChatClient((msgs, _) =>
+        {
+            captured = msgs.ToList();
+            return ToolCallResponse("ActClick", ("selector", ".x"));
         });
 
         await new LlmActionResolver(chat).ResolveAsync(
             "click sign in", "<html><body>SIGNIN BUTTON</body></html>");
 
-        Assert.NotNull(capturedMessages);
-        var userMsg = capturedMessages!.Single(m => m.Role == ChatRole.User).Text;
+        var userMsg = captured!.Single(m => m.Role == ChatRole.User).Text;
         Assert.Contains("click sign in", userMsg);
         Assert.Contains("SIGNIN BUTTON", userMsg);
-    }
-
-    [Fact]
-    public async Task System_prompt_whitelists_the_four_shapes()
-    {
-        List<ChatMessage>? capturedMessages = null;
-        var chat = new StubChatClient((msgs, _) =>
-        {
-            capturedMessages = msgs.ToList();
-            return "{}";
-        });
-
-        await new LlmActionResolver(chat).ResolveAsync("anything", "<html/>");
-
-        var systemMsg = capturedMessages!.Single(m => m.Role == ChatRole.System).Text;
-        Assert.Contains("click", systemMsg);
-        Assert.Contains("waitFor", systemMsg);
-        Assert.Contains("wait", systemMsg);
-        Assert.Contains("evaluate", systemMsg);
-        // The whitelist deliberately does NOT include semanticAct.
-        Assert.DoesNotContain("semanticAct", systemMsg);
     }
 
     [Fact]
@@ -219,38 +229,38 @@ public class LlmActionResolverTests
         var chat = new StubChatClient((msgs, _) =>
         {
             capturedUser = msgs.Single(m => m.Role == ChatRole.User).Text;
-            return "{\"kind\":\"click\",\"selector\":\".x\"}";
+            return ToolCallResponse("ActClick", ("selector", ".x"));
         });
 
         await new LlmActionResolver(chat, new LlmActionResolverOptions(MaxHtmlChars: 1000))
             .ResolveAsync("intent", big);
 
-        Assert.NotNull(capturedUser);
-        // user prompt has the intent line + the truncated HTML; cap on the
-        // raw HTML, not on the whole prompt — assert the trim happened.
         Assert.True(capturedUser!.Length < 50_000, "expected HTML to be truncated below 50000 chars");
     }
 
     [Fact]
     public async Task ChatOptions_carries_model_temperature_and_max_response_tokens()
     {
-        ChatOptions? capturedOpts = null;
+        ChatOptions? captured = null;
         var chat = new StubChatClient((_, opts) =>
         {
-            capturedOpts = opts;
-            return "{\"kind\":\"wait\",\"ms\":0}";
+            captured = opts;
+            return ToolCallResponse("ActWait", ("ms", 0));
         });
 
         await new LlmActionResolver(chat, new LlmActionResolverOptions(
             Model: "claude-sonnet-4-6", Temperature: 0.3f, MaxResponseTokens: 256))
             .ResolveAsync("intent", "<html/>");
 
-        Assert.NotNull(capturedOpts);
-        Assert.Equal("claude-sonnet-4-6", capturedOpts!.ModelId);
-        Assert.Equal(0.3f, capturedOpts.Temperature);
-        Assert.Equal(256, capturedOpts.MaxOutputTokens);
-        Assert.NotNull(capturedOpts.ResponseFormat);
+        Assert.NotNull(captured);
+        Assert.Equal("claude-sonnet-4-6", captured!.ModelId);
+        Assert.Equal(0.3f, captured.Temperature);
+        Assert.Equal(256, captured.MaxOutputTokens);
+        // Tool-call mode: no ResponseFormat.
+        Assert.Null(captured.ResponseFormat);
     }
+
+    // ---- Argument validation -----------------------------------------------
 
     [Theory]
     [InlineData(null)]
@@ -258,10 +268,7 @@ public class LlmActionResolverTests
     [InlineData("   ")]
     public async Task ResolveAsync_rejects_blank_intent(string? intent)
     {
-        var chat = new StubChatClient(_ => "{}");
-        // ArgumentException family — ArgumentNullException for null,
-        // ArgumentException for empty/whitespace. ThrowsAnyAsync pins the
-        // family without coupling to the exact subtype.
+        var chat = ToolCallStub("ActClick", ("selector", ".x"));
         await Assert.ThrowsAnyAsync<ArgumentException>(() =>
             new LlmActionResolver(chat).ResolveAsync(intent!, "<html/>"));
     }
@@ -272,27 +279,42 @@ public class LlmActionResolverTests
         Assert.Throws<ArgumentNullException>(() => new LlmActionResolver(null!));
     }
 
-    // Stub IChatClient — same shape as LlmContentExtractorTests' stub, kept
-    // local to this test for symmetry; extracting to a shared file would
-    // muddy the tier-1 / tier-2 split (each test class owns its own seam).
+    // ---- Helpers -----------------------------------------------------------
+
+    private static StubChatClient ToolCallStub(string name, params (string Name, object Value)[] args)
+        => new(_ => ToolCallResponse(name, args));
+
+    private static ChatResponse ToolCallResponse(string name, params (string Name, object Value)[] args)
+    {
+        var dict = new Dictionary<string, object?>(args.Length);
+        foreach (var (k, v) in args) dict[k] = v;
+        return new ChatResponse(new ChatMessage(ChatRole.Assistant, new List<AIContent>
+        {
+            new FunctionCallContent("call-1", name, dict)
+        }));
+    }
+
     private sealed class StubChatClient : IChatClient
     {
-        private readonly Func<IEnumerable<ChatMessage>, ChatOptions?, string> _respond;
+        private readonly Func<IEnumerable<ChatMessage>, ChatOptions?, ChatResponse> _respond;
 
         public StubChatClient(Func<IEnumerable<ChatMessage>, string> respond)
-            : this((m, _) => respond(m)) { }
+            : this((m, _) => new ChatResponse(new ChatMessage(ChatRole.Assistant, respond(m)))) { }
 
         public StubChatClient(Func<IEnumerable<ChatMessage>, ChatOptions?, string> respond)
+            : this((m, o) => new ChatResponse(new ChatMessage(ChatRole.Assistant, respond(m, o)))) { }
+
+        public StubChatClient(Func<IEnumerable<ChatMessage>, ChatResponse> respond)
+            : this((m, _) => respond(m)) { }
+
+        public StubChatClient(Func<IEnumerable<ChatMessage>, ChatOptions?, ChatResponse> respond)
             => _respond = respond;
 
         public Task<ChatResponse> GetResponseAsync(
             IEnumerable<ChatMessage> messages,
             ChatOptions? options = null,
             CancellationToken cancellationToken = default)
-        {
-            var text = _respond(messages, options);
-            return Task.FromResult(new ChatResponse(new ChatMessage(ChatRole.Assistant, text)));
-        }
+            => Task.FromResult(_respond(messages, options));
 
         public IAsyncEnumerable<ChatResponseUpdate> GetStreamingResponseAsync(
             IEnumerable<ChatMessage> messages,

@@ -357,6 +357,113 @@ public class LlmCallTests
     }
 
     [Fact]
+    public async Task ToolCall_mode_retries_with_reminder_then_succeeds_on_tool_call()
+    {
+        // ADR-0060: mechanism retries once when the model returns no
+        // FunctionCallContent; the second response with a tool call wins.
+        var calls = 0;
+        List<string>? userMessages = null;
+        var chat = new StubChatClient((msgs, _) =>
+        {
+            calls++;
+            userMessages ??= new List<string>();
+            userMessages.Add(msgs.Single(m => m.Role == ChatRole.User).Text!);
+            return calls == 1
+                ? new ChatResponse(new ChatMessage(ChatRole.Assistant, "no tool here"))
+                : new ChatResponse(new ChatMessage(ChatRole.Assistant, new List<AIContent>
+                {
+                    new FunctionCallContent("c2", "fname",
+                        new Dictionary<string, object?> { ["x"] = 1 })
+                }));
+        });
+
+        var tool = new TestAIFunction("fname", "x");
+        var descriptor = new LlmCallDescriptor<string>
+        {
+            Name = "tool",
+            SystemPrompt = "s",
+            BuildUserMessage = i => $"USER:{i}",
+            ParseResponse = _ => "should-not-be-called",
+            Tools = new[] { tool },
+            ParseToolCall = (n, _) => n
+        };
+
+        var call = new LlmCall<string>(chat, descriptor);
+        var result = await call.InvokeAsync("input");
+
+        Assert.Equal(2, calls);
+        Assert.Equal("fname", result.Value);
+        Assert.Equal(1, result.ParseRetries);
+        // The reminder is appended on the retry — mentions calling a tool.
+        Assert.NotNull(userMessages);
+        Assert.Equal(2, userMessages!.Count);
+        Assert.Equal("USER:input", userMessages[0]);
+        Assert.Contains("tool", userMessages[1], StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public async Task ToolCall_mode_does_not_invoke_ParseResponse()
+    {
+        // Structural property: in tool-call mode the descriptor's
+        // ParseResponse is bypassed entirely. The brain + resolver pin
+        // ParseResponse to a throwing default; this proves the throw
+        // never fires.
+        var chat = new StubChatClient((msgs, opts) =>
+            new ChatResponse(new ChatMessage(ChatRole.Assistant, new List<AIContent>
+            {
+                new FunctionCallContent("c1", "fname",
+                    new Dictionary<string, object?> { ["x"] = 1 })
+            })));
+
+        var parseResponseCalled = false;
+        var tool = new TestAIFunction("fname", "x");
+        var descriptor = new LlmCallDescriptor<string>
+        {
+            Name = "tool",
+            SystemPrompt = "s",
+            BuildUserMessage = _ => "u",
+            ParseResponse = _ => { parseResponseCalled = true; return "should-not-be-called"; },
+            Tools = new[] { tool },
+            ParseToolCall = (n, _) => n
+        };
+
+        var call = new LlmCall<string>(chat, descriptor);
+        var result = await call.InvokeAsync("x");
+
+        Assert.False(parseResponseCalled, "ParseResponse must not be called in tool-call mode");
+        Assert.Equal("fname", result.Value);
+    }
+
+    [Fact]
+    public async Task ToolCall_mode_uses_first_FunctionCallContent_and_ignores_subsequent()
+    {
+        // Fork (multi-tool-per-response v2 deferral): take the first
+        // FunctionCallContent and ignore the rest. v1 behaviour.
+        var chat = new StubChatClient((msgs, opts) =>
+            new ChatResponse(new ChatMessage(ChatRole.Assistant, new List<AIContent>
+            {
+                new FunctionCallContent("c1", "first", new Dictionary<string, object?> { ["a"] = 1 }),
+                new FunctionCallContent("c2", "second", new Dictionary<string, object?> { ["b"] = 2 }),
+            })));
+
+        var tool = new TestAIFunction("first", "x");
+        var descriptor = new LlmCallDescriptor<string>
+        {
+            Name = "tool",
+            SystemPrompt = "s",
+            BuildUserMessage = _ => "u",
+            ParseResponse = _ => "ignored",
+            Tools = new[] { tool },
+            ParseToolCall = (n, _) => n
+        };
+
+        var call = new LlmCall<string>(chat, descriptor);
+        var result = await call.InvokeAsync("x");
+
+        Assert.Equal("first", result.Value);
+    }
+
+    [Fact]
     public void Constructor_rejects_Tools_without_ParseToolCall()
     {
         var chat = new StubChatClient(_ => "{}");
