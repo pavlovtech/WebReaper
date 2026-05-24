@@ -53,6 +53,7 @@ public sealed class AgentEngine
     private readonly IAgentRunStore _runStore;
     private readonly IPageLoader _pageLoader;
     private readonly IContentExtractor _contentExtractor;
+    private readonly ISchemaValidator _validator;
     private readonly IActionResolver _actionResolver;
     private readonly IVisitedLinkTracker _visitedTracker;
     private readonly List<IScraperSink> _sinks;
@@ -75,6 +76,7 @@ public sealed class AgentEngine
         IAgentRunStore runStore,
         IPageLoader pageLoader,
         IContentExtractor contentExtractor,
+        ISchemaValidator validator,
         IActionResolver actionResolver,
         IVisitedLinkTracker visitedTracker,
         List<IScraperSink> sinks,
@@ -94,6 +96,7 @@ public sealed class AgentEngine
         ArgumentNullException.ThrowIfNull(runStore);
         ArgumentNullException.ThrowIfNull(pageLoader);
         ArgumentNullException.ThrowIfNull(contentExtractor);
+        ArgumentNullException.ThrowIfNull(validator);
         ArgumentNullException.ThrowIfNull(actionResolver);
         ArgumentNullException.ThrowIfNull(visitedTracker);
         ArgumentNullException.ThrowIfNull(sinks);
@@ -107,6 +110,7 @@ public sealed class AgentEngine
         _runStore = runStore;
         _pageLoader = pageLoader;
         _contentExtractor = contentExtractor;
+        _validator = validator;
         _actionResolver = actionResolver;
         _visitedTracker = visitedTracker;
         _sinks = sinks;
@@ -337,18 +341,31 @@ public sealed class AgentEngine
                     try
                     {
                         var extracted = await _contentExtractor.ExtractAsync(pageHtml, extract.Schema);
-                        // ADR-0061 / ADR-0062 placeholder validator: in the
-                        // absence of ISchemaValidator (ADR-0062's job), the
-                        // engine does a minimal check — non-null and
-                        // non-empty JsonObject. A truly-empty extract is
-                        // surfaced as a Failed("validation: ...") outcome
-                        // so the brain can revise the schema next step.
-                        if (extracted is null || extracted.Count == 0)
+                        // ADR-0061 ↔ ADR-0062: consult the registered
+                        // ISchemaValidator on every Extract. A failed verdict
+                        // becomes a Failed("validation: <reason>") outcome on
+                        // the next step so the brain can revise the schema.
+                        // Default validator is SchemaSatisfiedValidator
+                        // (required-leaves-non-empty, ADR-0029 alignment).
+                        // Pre-check: SchemaSatisfiedValidator treats a null
+                        // record as trivially valid (its "no data, no check"
+                        // posture matches the Markdown/LLM no-schema case)
+                        // — the agent path needs null to surface as failure
+                        // so the brain can revise. Null extracted ⇒ Failed
+                        // bypassing the validator.
+                        ValidationResult verdict;
+                        if (extracted is null)
+                        {
+                            verdict = ValidationResult.Invalid("extractor returned null");
+                        }
+                        else
+                        {
+                            verdict = _validator.Validate(extracted, extract.Schema);
+                        }
+                        if (!verdict.IsValid)
                         {
                             lastOutcome = new AgentDecisionOutcome.Failed(
-                                Reason: extracted is null
-                                    ? "validation: extractor returned null"
-                                    : "validation: extractor returned empty object",
+                                Reason: $"validation: {verdict.Reason ?? "schema not satisfied"}",
                                 ExceptionType: null);
                         }
                         else

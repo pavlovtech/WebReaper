@@ -315,12 +315,12 @@ public class AgentEngineDriverTests
     [Fact]
     public async Task Extract_returning_empty_object_surfaces_validation_Failed_outcome()
     {
-        // The placeholder validator (ADR-0062's hook will replace this with
-        // a real ISchemaValidator seam) flags an empty JsonObject as a
-        // validation Failed outcome. We feed a hand-rolled extractor that
-        // returns {} directly to pin the engine's behaviour independently
-        // of the SchemaFold's per-field "empty string" fill semantics
-        // (ADR-0029).
+        // ADR-0061 ↔ ADR-0062: the default SchemaSatisfiedValidator flags an
+        // extraction missing required leaves as invalid; the engine surfaces
+        // the verdict as Failed("validation: <reason>") on the next step so
+        // the brain can revise. Here the schema declares a 'title' leaf; the
+        // empty extractor returns {} (no title key); the validator reports
+        // the missing required field; the engine surfaces it.
         var schema = new Schema { new SchemaElement("title", "h1") };
         var observed = new List<AgentDecisionOutcome>();
         var brain = new CapturingBrain(observed,
@@ -341,6 +341,74 @@ public class AgentEngineDriverTests
         var failed = Assert.IsType<AgentDecisionOutcome.Failed>(observed[1]);
         Assert.StartsWith("validation:", failed.Reason);
         Assert.Null(failed.ExceptionType);
+    }
+
+    [Fact]
+    public async Task Custom_schema_validator_verdict_surfaces_in_LastOutcome_Failed_reason()
+    {
+        // ADR-0062 seam integration on the agent path. A consumer-supplied
+        // ISchemaValidator with a specific Reason flows through to the
+        // engine's LastOutcome.Failed.Reason — the brain sees the policy
+        // verdict, not just "validation: schema not satisfied". Tests that
+        // the validator's verdict propagates verbatim (post the
+        // "validation: " prefix the engine adds).
+        var schema = new Schema { new SchemaElement("title", "h1") };
+        var observed = new List<AgentDecisionOutcome>();
+        var brain = new CapturingBrain(observed,
+            new AgentDecision.Extract(schema) { Reason = "extract" },
+            new AgentDecision.Stop { Reason = "give up" });
+
+        var rejectingValidator = new AlwaysRejectValidator("custom policy: at least 5 records");
+        var extractor = new EmptyObjectExtractor();
+
+        var engine = await AgentEngineBuilder
+            .Start("https://example.com/", "validator pin")
+            .WithBrain(brain)
+            .WithPageLoader(new FakeLoader("<html><body><p>x</p></body></html>"))
+            .WithContentExtractor(extractor)
+            .WithSchemaValidator(rejectingValidator)
+            .BuildAsync();
+
+        await engine.RunAsync();
+
+        var failed = Assert.IsType<AgentDecisionOutcome.Failed>(observed[1]);
+        Assert.Equal("validation: custom policy: at least 5 records", failed.Reason);
+        Assert.Null(failed.ExceptionType);
+        Assert.True(rejectingValidator.Invoked, "Validator should have been consulted by the engine.");
+    }
+
+    [Fact]
+    public async Task Null_extractor_output_surfaces_validation_Failed_without_consulting_validator()
+    {
+        // Defensive pre-check: SchemaSatisfiedValidator treats null record
+        // as trivially valid (the no-schema/no-data posture). The agent
+        // path needs null to fail loudly so the brain can revise — the
+        // engine pre-checks and bypasses the validator on null.
+        var schema = new Schema { new SchemaElement("title", "h1") };
+        var observed = new List<AgentDecisionOutcome>();
+        var brain = new CapturingBrain(observed,
+            new AgentDecision.Extract(schema) { Reason = "extract" },
+            new AgentDecision.Stop { Reason = "give up" });
+
+        // A validator that would say "valid" on every input — must be
+        // bypassed by the null pre-check.
+        var permissiveValidator = new AlwaysAcceptValidator();
+        var nullExtractor = new NullReturningExtractor();
+
+        var engine = await AgentEngineBuilder
+            .Start("https://example.com/", "null pin")
+            .WithBrain(brain)
+            .WithPageLoader(new FakeLoader("<html/>"))
+            .WithContentExtractor(nullExtractor)
+            .WithSchemaValidator(permissiveValidator)
+            .BuildAsync();
+
+        await engine.RunAsync();
+
+        var failed = Assert.IsType<AgentDecisionOutcome.Failed>(observed[1]);
+        Assert.Equal("validation: extractor returned null", failed.Reason);
+        Assert.False(permissiveValidator.Invoked,
+            "Validator should NOT be consulted when extractor returned null — the pre-check fires first.");
     }
 
     [Fact]
@@ -610,13 +678,50 @@ public class AgentEngineDriverTests
             => throw new InvalidOperationException("simulated extractor failure");
     }
 
-    // Returns the empty object `{}` for every page — the placeholder validator
-    // (ADR-0062's hook will replace it) treats this as a validation failure
-    // and the engine surfaces Failed("validation: ...") in LastOutcome.
+    // Returns the empty object `{}` for every page — the SchemaSatisfiedValidator
+    // (the ADR-0062 default the engine now consults) treats this as a
+    // validation failure because required leaves are absent; the engine
+    // surfaces Failed("validation: ...") in LastOutcome.
     private sealed class EmptyObjectExtractor : IContentExtractor
     {
         public Task<JsonObject> ExtractAsync(string document, Schema? schema)
             => Task.FromResult(new JsonObject());
+    }
+
+    // Returns null — exercises the engine's null pre-check (the
+    // SchemaSatisfiedValidator default treats null as trivially valid,
+    // which is wrong for the agent path; the engine pre-checks).
+    private sealed class NullReturningExtractor : IContentExtractor
+    {
+        public Task<JsonObject> ExtractAsync(string document, Schema? schema)
+            => Task.FromResult<JsonObject>(null!);
+    }
+
+    // A stub ISchemaValidator that rejects every input with a fixed reason
+    // — pins that the agent surfaces the validator's verdict verbatim.
+    private sealed class AlwaysRejectValidator(string reason) : ISchemaValidator
+    {
+        public bool Invoked { get; private set; }
+
+        public ValidationResult Validate(JsonObject? extracted, Schema? schema)
+        {
+            Invoked = true;
+            return ValidationResult.Invalid(reason);
+        }
+    }
+
+    // A stub ISchemaValidator that accepts every input — used to prove the
+    // engine bypasses the validator on null extractions (the validator must
+    // not be invoked when there's no record to check).
+    private sealed class AlwaysAcceptValidator : ISchemaValidator
+    {
+        public bool Invoked { get; private set; }
+
+        public ValidationResult Validate(JsonObject? extracted, Schema? schema)
+        {
+            Invoked = true;
+            return ValidationResult.Valid;
+        }
     }
 
     private sealed class HangingBrain : IAgentBrain

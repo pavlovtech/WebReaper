@@ -51,6 +51,7 @@ public sealed class AgentEngineBuilder
     private IAgentRunStore _runStore = new InMemoryAgentRunStore();
     private IPageLoader? _pageLoader;
     private IContentExtractor? _contentExtractor;
+    private ISchemaValidator? _schemaValidator;
     private IActionResolver _actionResolver = NullActionResolver.Instance;
     private IVisitedLinkTracker _visitedTracker = new InMemoryVisitedLinkTracker();
     private readonly List<IScraperSink> _sinks = new();
@@ -152,6 +153,67 @@ public sealed class AgentEngineBuilder
     {
         ArgumentNullException.ThrowIfNull(extractor);
         _contentExtractor = extractor;
+        return this;
+    }
+
+    /// <summary>
+    /// Wrap the currently-registered (or default <c>SchemaFold</c>) extractor
+    /// with an <see cref="ExtractionRouter"/> (ADR-0046): on a validation
+    /// failure (per the builder-registered <see cref="ISchemaValidator"/> or
+    /// the default <see cref="SchemaSatisfiedValidator"/>) the agent falls
+    /// back to <paramref name="fallback"/>. Sibling to
+    /// <see cref="ScraperEngineBuilder.WithFallbackExtractor(IContentExtractor)"/>
+    /// — same shape on both builders so satellite policy aggregators
+    /// (<c>UseAi</c>) wire identically.
+    /// </summary>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="fallback"/> is null.</exception>
+    public AgentEngineBuilder WithFallbackExtractor(IContentExtractor fallback)
+    {
+        ArgumentNullException.ThrowIfNull(fallback);
+        var primary = _contentExtractor ?? new SchemaFold<IParentNode>(new AngleSharpSchemaBackend(), _logger);
+        _contentExtractor = new ExtractionRouter(primary, fallback, _schemaValidator, _logger);
+        return this;
+    }
+
+    /// <summary>
+    /// Wrap the currently-registered (or default <c>SchemaFold</c>) extractor
+    /// with a <see cref="SelfHealingContentExtractor"/> (ADR-0047): on a
+    /// failed deterministic pass, ask <paramref name="repairer"/> for a
+    /// patched Schema, re-validate, and cache the patch. Sibling to
+    /// <see cref="ScraperEngineBuilder.WithSelfHealing(ISelectorRepairer)"/>.
+    /// </summary>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="repairer"/> is null.</exception>
+    public AgentEngineBuilder WithSelfHealing(ISelectorRepairer repairer)
+    {
+        ArgumentNullException.ThrowIfNull(repairer);
+        var primary = _contentExtractor ?? new SchemaFold<IParentNode>(new AngleSharpSchemaBackend(), _logger);
+        _contentExtractor = new SelfHealingContentExtractor(primary, repairer, _schemaValidator, _logger);
+        return this;
+    }
+
+    /// <summary>
+    /// Register a custom <see cref="ISchemaValidator"/> (ADR-0062) — consulted
+    /// by the agent driver after every Extract decision (a failed verdict
+    /// becomes <c>AgentDecisionOutcome.Failed("validation: &lt;reason&gt;")</c>
+    /// in <c>AgentState.LastOutcome</c>). Also passed to
+    /// <see cref="WithFallbackExtractor"/> / <see cref="WithSelfHealing"/>
+    /// when those wrappers are composed. Defaults to
+    /// <see cref="SchemaSatisfiedValidator"/> (required-leaves-non-empty,
+    /// ADR-0029 alignment).
+    /// <para>
+    /// Call <em>before</em> <see cref="WithFallbackExtractor"/> /
+    /// <see cref="WithSelfHealing"/> — the wrapper composes against
+    /// whatever validator is registered at that moment.
+    /// </para>
+    /// </summary>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="validator"/> is null.</exception>
+    public AgentEngineBuilder WithSchemaValidator(ISchemaValidator validator)
+    {
+        ArgumentNullException.ThrowIfNull(validator);
+        _schemaValidator = validator;
         return this;
     }
 
@@ -292,6 +354,7 @@ public sealed class AgentEngineBuilder
 
         var loader = _pageLoader ?? BuildDefaultPageLoader();
         var contentExtractor = _contentExtractor ?? new SchemaFold<IParentNode>(new AngleSharpSchemaBackend(), _logger);
+        var validator = _schemaValidator ?? SchemaSatisfiedValidator.Instance;
 
         var engine = new AgentEngine(
             startUrl: _startUrl,
@@ -300,6 +363,7 @@ public sealed class AgentEngineBuilder
             runStore: _runStore,
             pageLoader: loader,
             contentExtractor: contentExtractor,
+            validator: validator,
             actionResolver: _actionResolver,
             visitedTracker: _visitedTracker,
             sinks: _sinks,

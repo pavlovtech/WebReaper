@@ -86,21 +86,21 @@ public static class UseAiRegistration
     /// One-line AI enablement for the agent builder (ADR-0064). The brain
     /// is wired unconditionally on every mode (the agent is structurally
     /// useless without one — ADR-0051), then the extractor and action
-    /// resolver per <paramref name="options"/>'s <see cref="AiOptions.Policy"/>:
+    /// resolver per <paramref name="options"/>'s <see cref="AiOptions.Policy"/>.
+    /// Behaviour is symmetric with the scraper overload now that
+    /// <see cref="AgentEngineBuilder.WithFallbackExtractor"/> and
+    /// <see cref="AgentEngineBuilder.WithSelfHealing"/> exist:
     /// <list type="bullet">
     /// <item><description><see cref="AiPolicyMode.Recommended"/> (default) —
-    /// brain + LLM content extractor + action resolver. The agent has no
-    /// scraper-side <c>ExtractionRouter</c> (the brain's <c>Extract</c>
-    /// decisions reach the configured extractor directly), so the agent's
-    /// <c>Recommended</c> wires the LLM extractor as the agent's extractor
-    /// — equivalent to <see cref="AiPolicyMode.LlmPrimary"/> on the agent
-    /// side. The mode names remain consistent across both builders; the
-    /// behavioural difference is honest (the agent doesn't have a
-    /// deterministic-first wedge to bypass).</description></item>
-    /// <item><description><see cref="AiPolicyMode.LlmPrimary"/> — same as
-    /// <see cref="AiPolicyMode.Recommended"/> on the agent side.</description></item>
+    /// brain + deterministic primary with LLM fallback + LLM selector
+    /// repair + LLM action resolver. Same firecrawl-shaped triple as the
+    /// scraper.</description></item>
+    /// <item><description><see cref="AiPolicyMode.LlmPrimary"/> — brain +
+    /// LLM content extractor (replaces the deterministic fold) + LLM
+    /// selector repair + LLM action resolver.</description></item>
     /// <item><description><see cref="AiPolicyMode.ExtractionOnly"/> — brain
-    /// + LLM content extractor; no action resolver.</description></item>
+    /// + deterministic primary with LLM fallback; no self-heal, no
+    /// action resolver.</description></item>
     /// <item><description><see cref="AiPolicyMode.None"/> — brain only
     /// (escape hatch for tests / bespoke compositions; the brain is the
     /// agent's structural requirement).</description></item>
@@ -108,7 +108,7 @@ public static class UseAiRegistration
     /// </summary>
     /// <param name="builder">The agent builder.</param>
     /// <param name="chatClient">The <see cref="IChatClient"/> threaded into
-    /// every wired adapter (brain, extractor, action resolver).</param>
+    /// every wired adapter (brain, extractor, repairer, action resolver).</param>
     /// <param name="options">Optional policy + per-role overrides. Defaults
     /// to <c>new AiOptions()</c> — <see cref="AiPolicyMode.Recommended"/>
     /// with the global defaults.</param>
@@ -130,6 +130,7 @@ public static class UseAiRegistration
         var brainOpts     = options.ResolveBrainOptions();
         var extractorOpts = options.ResolveExtractorOptions();
         var resolverOpts  = options.ResolveResolverOptions();
+        var repairerOpts  = options.ResolveRepairerOptions();
 
         // Brain is always wired (the agent is structurally useless without one
         // — ADR-0051 §Decision §5; AgentEngineBuilder.BuildAsync throws when
@@ -140,12 +141,22 @@ public static class UseAiRegistration
         switch (options.Policy)
         {
             case AiPolicyMode.Recommended:
+                // Deterministic primary + LLM fallback + LLM self-heal +
+                // LLM action resolver — the firecrawl-shaped triple,
+                // mirror of the scraper-side wiring.
+                builder.WithFallbackExtractor(new LlmContentExtractor(chatClient, extractorOpts));
+                builder.WithSelfHealing(new LlmSelectorRepairer(chatClient, repairerOpts));
+                builder.WithActionResolver(new LlmActionResolver(chatClient, resolverOpts));
+                break;
             case AiPolicyMode.LlmPrimary:
-                WireAgentExtractor(builder, chatClient, extractorOpts);
-                WireAgentResolver(builder, chatClient, resolverOpts);
+                // LLM-primary extraction + LLM self-heal + LLM action
+                // resolver — mirror of the scraper-side wiring.
+                builder.WithContentExtractor(new LlmContentExtractor(chatClient, extractorOpts));
+                builder.WithSelfHealing(new LlmSelectorRepairer(chatClient, repairerOpts));
+                builder.WithActionResolver(new LlmActionResolver(chatClient, resolverOpts));
                 break;
             case AiPolicyMode.ExtractionOnly:
-                WireAgentExtractor(builder, chatClient, extractorOpts);
+                builder.WithFallbackExtractor(new LlmContentExtractor(chatClient, extractorOpts));
                 break;
             case AiPolicyMode.None:
                 // Brain already wired above; nothing else.
@@ -157,26 +168,5 @@ public static class UseAiRegistration
                     $"Unknown {nameof(AiPolicyMode)} value.");
         }
         return builder;
-    }
-
-    // Agent-side helpers — kept private to UseAiRegistration. The agent
-    // builder has no satellite-level WithLlmFallback / WithLlmExtractor /
-    // WithLlmActionResolver companions (those exist only on the scraper
-    // side today); ADR-0064 sugars over the core AgentEngineBuilder seams
-    // (WithContentExtractor / WithActionResolver) directly. Adding agent-
-    // side WithLlm* companions is a future ADR if the à la carte demand
-    // materialises; .UseAi(...) is sufficient for now.
-    private static void WireAgentExtractor(
-        AgentEngineBuilder builder, IChatClient chatClient, LlmExtractorOptions opts)
-    {
-        IContentExtractor extractor = new LlmContentExtractor(chatClient, opts);
-        builder.WithContentExtractor(extractor);
-    }
-
-    private static void WireAgentResolver(
-        AgentEngineBuilder builder, IChatClient chatClient, LlmActionResolverOptions opts)
-    {
-        IActionResolver resolver = new LlmActionResolver(chatClient, opts);
-        builder.WithActionResolver(resolver);
     }
 }

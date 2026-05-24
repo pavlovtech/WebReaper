@@ -11,25 +11,22 @@ method + an options bag — the firecrawl-shaped "one line to AI-enable
 a crawler" that ADR-0044..0051 designed *for* without ever offering.
 Folds into the same v10.x release.
 
-**Implementation note** (2026-05-24, divergence from §Decision §3):
-the agent's `Recommended` arm does *not* compose an `ExtractionRouter`
-with the deterministic fold as primary (as the §Decision example
-shows for the scraper). The agent's core builder
-(`AgentEngineBuilder`) has no `WithFallbackExtractor` seam, and the
-default deterministic fold (`AngleSharpSchemaBackend`) is internal to
-core — the satellite cannot construct the same composition without
-either a core change (forbidden by the implementation slice's
-constraints) or InternalsVisibleTo to `WebReaper.AI` (would invert the
-ADR-0009 quarantine). Resolution: the agent's `Recommended` and
-`LlmPrimary` modes wire the LLM extractor *directly* via
-`AgentEngineBuilder.WithContentExtractor(new LlmContentExtractor(...))`.
-The behavioural difference from the scraper's `Recommended` (which
-*does* wire the fallback router) is documented on the agent overload's
-XML doc and pinned by the test suite. Closing the agent-side gap
-properly is a v10.x follow-up — either a satellite-side public
-`SchemaFold<TNode>` factory the AI satellite can call, or a core
-`AgentEngineBuilder.WithFallbackExtractor` seam (the latter mirrors
-the scraper-side shape).
+**Implementation note** (2026-05-25, asymmetry closed):
+the original implementation diverged from §Decision §3 — the agent's
+`Recommended` arm wired the LLM extractor directly because
+`AgentEngineBuilder` lacked a `WithFallbackExtractor` seam. The post-PR
+review (issue 4) closed this gap by promoting the scraper-side
+extractor-composition methods onto `AgentEngineBuilder` itself:
+`.WithFallbackExtractor(IContentExtractor)`,
+`.WithSelfHealing(ISelectorRepairer)`, and
+`.WithSchemaValidator(ISchemaValidator)`. The agent's `Recommended` and
+`LlmPrimary` modes now wire the same composition shape as the scraper —
+the asymmetry is gone, and the v1 deferral above is satisfied in v10.x.
+The agent's `Extract` decision additionally consults the
+`ISchemaValidator` after the extractor returns; a failed verdict
+becomes `AgentDecisionOutcome.Failed("validation: <reason>")` in
+`AgentState.LastOutcome` (the ADR-0061 ↔ ADR-0062 composition the
+original PR documented but did not fully wire).
 
 ## Context
 

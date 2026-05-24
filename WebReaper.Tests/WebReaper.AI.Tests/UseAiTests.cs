@@ -132,7 +132,7 @@ public class UseAiTests
     // -------------------------------------------------------------------
 
     [Fact]
-    public async Task Agent_Recommended_wires_brain_extractor_and_action_resolver()
+    public async Task Agent_Recommended_wires_brain_self_healing_fallback_router_and_action_resolver()
     {
         var engine = await AgentEngineBuilder
             .Start("https://example.com", "goal")
@@ -140,12 +140,19 @@ public class UseAiTests
             .BuildAsync();
 
         Assert.IsType<LlmAgentBrain>(ReadAgentBrain(engine));
-        Assert.IsType<LlmContentExtractor>(ReadAgentExtractor(engine));
+        // Recommended composes: SelfHealing(primary=ExtractionRouter(fold, llm), repairer=llm).
+        // Mirrors the scraper-side wiring now that ADR-0064 closes the
+        // agent-side asymmetry via AgentEngineBuilder.WithFallbackExtractor +
+        // .WithSelfHealing (review issue 4 fix).
+        var extractor = ReadAgentExtractor(engine);
+        var selfHealing = Assert.IsType<SelfHealingContentExtractor>(extractor);
+        var inner = ReadPrivateField<IContentExtractor>(selfHealing, "_primary");
+        Assert.IsType<ExtractionRouter>(inner);
         Assert.IsType<LlmActionResolver>(ReadAgentResolver(engine));
     }
 
     [Fact]
-    public async Task Agent_LlmPrimary_wires_brain_extractor_and_action_resolver()
+    public async Task Agent_LlmPrimary_wires_brain_self_healing_llm_primary_and_action_resolver()
     {
         var engine = await AgentEngineBuilder
             .Start("https://example.com", "goal")
@@ -153,12 +160,16 @@ public class UseAiTests
             .BuildAsync();
 
         Assert.IsType<LlmAgentBrain>(ReadAgentBrain(engine));
-        Assert.IsType<LlmContentExtractor>(ReadAgentExtractor(engine));
+        // LlmPrimary composes: SelfHealing(primary=LlmContentExtractor, repairer=llm).
+        var extractor = ReadAgentExtractor(engine);
+        var selfHealing = Assert.IsType<SelfHealingContentExtractor>(extractor);
+        var inner = ReadPrivateField<IContentExtractor>(selfHealing, "_primary");
+        Assert.IsType<LlmContentExtractor>(inner);
         Assert.IsType<LlmActionResolver>(ReadAgentResolver(engine));
     }
 
     [Fact]
-    public async Task Agent_ExtractionOnly_wires_brain_and_extractor_no_action_resolver()
+    public async Task Agent_ExtractionOnly_wires_brain_and_fallback_router_no_self_healing_no_action_resolver()
     {
         var engine = await AgentEngineBuilder
             .Start("https://example.com", "goal")
@@ -166,7 +177,9 @@ public class UseAiTests
             .BuildAsync();
 
         Assert.IsType<LlmAgentBrain>(ReadAgentBrain(engine));
-        Assert.IsType<LlmContentExtractor>(ReadAgentExtractor(engine));
+        // ExtractionOnly is fallback only — ExtractionRouter is the outer
+        // wrapper, no SelfHealing wrapping.
+        Assert.IsType<ExtractionRouter>(ReadAgentExtractor(engine));
         Assert.Equal("NullActionResolver", ReadAgentResolver(engine).GetType().Name);
     }
 

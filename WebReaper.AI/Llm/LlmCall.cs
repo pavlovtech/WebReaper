@@ -1,5 +1,4 @@
 using System.Text.Json;
-using System.Text.Json.Nodes;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -204,7 +203,9 @@ public sealed class LlmCall<TResponse>
         return (response, raw);
     }
 
-    // JSON-mode parse: strip fences, JsonNode.Parse, dispatch to ParseResponse.
+    // JSON-mode parse: strip fences, JsonDocument.Parse, dispatch to ParseResponse.
+    // Single round-trip — the older shape went stripped → JsonNode → ToJsonString →
+    // JsonDocument → Clone; that triple-trip was historic and unnecessary.
     private (TResponse? Value, string Raw, Exception? Error) TryParseJson(string raw)
     {
         var stripped = StripJsonFences(raw);
@@ -213,28 +214,12 @@ public sealed class LlmCall<TResponse>
             return (default, stripped, new InvalidOperationException("Empty response from model."));
         }
 
-        JsonNode? parsed;
-        try
-        {
-            parsed = JsonNode.Parse(stripped);
-        }
-        catch (JsonException jex)
-        {
-            return (default, stripped, jex);
-        }
-
-        if (parsed is null)
-        {
-            return (default, stripped, new InvalidOperationException("Model response parsed to null."));
-        }
-
-        // Convert JsonNode -> JsonElement for the descriptor's ParseResponse.
-        // The conversion is via the JsonNode's serialised representation —
-        // canonical for both objects and primitives.
         JsonElement element;
         try
         {
-            using var doc = JsonDocument.Parse(parsed.ToJsonString(_descriptor.JsonOptions));
+            using var doc = JsonDocument.Parse(stripped);
+            // Clone — the doc is disposed on exit; ParseResponse needs the
+            // JsonElement to outlive the using block.
             element = doc.RootElement.Clone();
         }
         catch (JsonException jex)
