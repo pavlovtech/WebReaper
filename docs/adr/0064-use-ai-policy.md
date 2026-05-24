@@ -2,14 +2,34 @@
 
 ## Status
 
-**Proposed** (2026-05-24). Sixth and last ADR of the post-AI-native-
-wave deepening campaign. Consolidates the five `WithLlm*` builder
-extensions on two builders into one headline entry point per
-builder. À la carte `WithLlm*` methods stay for fine-tuning. The
-deep entry point trades five-method ceremony for one method + an
-options bag — the firecrawl-shaped "one line to AI-enable a crawler"
-that ADR-0044..0051 designed *for* without ever offering. Folds into
-the same v10.x release.
+**Accepted — implemented** (2026-05-24). Sixth and last ADR of the
+post-AI-native-wave deepening campaign. Consolidates the five
+`WithLlm*` builder extensions on two builders into one headline entry
+point per builder. À la carte `WithLlm*` methods stay for
+fine-tuning. The deep entry point trades five-method ceremony for one
+method + an options bag — the firecrawl-shaped "one line to AI-enable
+a crawler" that ADR-0044..0051 designed *for* without ever offering.
+Folds into the same v10.x release.
+
+**Implementation note** (2026-05-24, divergence from §Decision §3):
+the agent's `Recommended` arm does *not* compose an `ExtractionRouter`
+with the deterministic fold as primary (as the §Decision example
+shows for the scraper). The agent's core builder
+(`AgentEngineBuilder`) has no `WithFallbackExtractor` seam, and the
+default deterministic fold (`AngleSharpSchemaBackend`) is internal to
+core — the satellite cannot construct the same composition without
+either a core change (forbidden by the implementation slice's
+constraints) or InternalsVisibleTo to `WebReaper.AI` (would invert the
+ADR-0009 quarantine). Resolution: the agent's `Recommended` and
+`LlmPrimary` modes wire the LLM extractor *directly* via
+`AgentEngineBuilder.WithContentExtractor(new LlmContentExtractor(...))`.
+The behavioural difference from the scraper's `Recommended` (which
+*does* wire the fallback router) is documented on the agent overload's
+XML doc and pinned by the test suite. Closing the agent-side gap
+properly is a v10.x follow-up — either a satellite-side public
+`SchemaFold<TNode>` factory the AI satellite can call, or a core
+`AgentEngineBuilder.WithFallbackExtractor` seam (the latter mirrors
+the scraper-side shape).
 
 ## Context
 
