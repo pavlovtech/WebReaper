@@ -20,25 +20,17 @@ for this exact change. **Phase-0 gate** of the [repositioning plan](../REPOSITIO
       is structurally removed. See [§History rewrite](#history-rewrite-email-normalisation)
       below; old history preserved as `origin/pre-email-rewrite-master`
       and `origin/pre-email-rewrite-ai-native-wave`.
-- [x] **Gate 2 — CLEARED on the analyses below; no outreach sent.**
-      Owner elected (2026-05-23) to proceed on the supersession
-      (Justyn) + de-minimis (mike) analyses recorded below rather
-      than send the consent emails. Reasoning:
-      - **Justyn's contribution is entirely gone from the current
-        tree** — `IContentParser` was removed at 6.0.0;
-        `WithContentParser` was renamed to `WithContentExtractor` at
-        ADR-0039 (just merged). The only artefact of his work in the
-        current source is his name in `git log`. The whitespace-only
-        commit has no copyrightable content.
-      - **mike's csproj-metadata edits are factual-not-creative.**
-        TFM strings (`net10.0`), NuGet description text, dep version
-        numbers — the same change is the only correct change.
-        Standard *de minimis* / merger-doctrine analysis applies.
-
-      The consent-email templates in
-      [docs/RELICENSE-CONTRIBUTOR-OUTREACH.md](../RELICENSE-CONTRIBUTOR-OUTREACH.md)
-      are kept as a record of what was considered. Both contributors
-      remain credited in `CONTRIBUTORS.md`.
+- [x] **Gate 2 — CLEARED on the analysis below; no outreach sent.**
+      Owner elected (2026-05-23) to proceed on the *external-
+      contributions* analysis recorded below: every external
+      contribution in the project's history is either content-
+      superseded (re-implemented away by later ADRs; not present in
+      the current source) or *de minimis* / merger-doctrine (csproj-
+      metadata factual edits — TFM strings, NuGet description text,
+      dep version numbers — where the same change is the only
+      correct change). The current tree contains no external code in
+      copyrightable form; the relicense touches only the owner's
+      authorship and the auto-generated infrastructure.
 - [ ] **Gate 3 — Owner has reviewed the LICENSE/CONTRIBUTING/csproj
       diff** and accepts that ship-time is now.
 
@@ -74,13 +66,8 @@ keeps every right they had).
 
 | Identity | Commits | Classification |
 |---|---|---|
-| `Alex Pavlov <alexppavlov93@gmail.com>` | 382 | Owner |
-| `Alexander Pavlov <alexppavlov93@gmail.com>` | 254 | Owner (includes 5 ex-quoted-email-variant) |
-| `Alex <business@highcraft.io>` | 91 | Owner |
-| `Oleksandr Pavlov <alexppavlov93@gmail.com>` | 36 | Owner (ex-old work-account commits, email rewritten) |
-| `mike <mmccabe1993@gmail.com>` | 4 | External — csproj metadata only (see analysis) |
-| `Justyn Hunter <jhunter@gsandf.com>` | 1 | External — content superseded (see analysis) |
-| `Justyn Hunter <justynhunter@gmail.com>` | 1 | External — whitespace undo |
+| Owner (4 personal-identity variants) | 763 | Owner — see name normalisation below |
+| External contributions (3 commit-author identities) | 6 | All de-minimis / content-superseded — see analysis below |
 | `fossabot <badges@fossa.io>` | 1 | Automated — n/a |
 
 The owner is **763 commits** across four self-identities, all under
@@ -97,59 +84,43 @@ identity is now indistinguishable from the owner's personal one.
 See [§History rewrite](#history-rewrite-email-normalisation)
 below.
 
-### External — `mike <mmccabe1993@gmail.com>` (4 commits, Nov 2025)
+### External contributions (6 commits total)
 
-Per `git show`:
+Two categories, both analysed as not requiring per-contributor consent
+for the GPL→MIT relicense:
 
-| SHA | Subject | Files touched |
-|---|---|---|
-| `dc002a5` | "Updated projects to .NET 10. Tests pass." | Examples/*.csproj (TFM bump) |
-| `48e7368` | "Updated nuget package info." | WebReaper/WebReaper.csproj (NuGet metadata) |
-| `62cd65e` | "A couple more dependencies updated. Updated nuget package version." | WebReaper/WebReaper.csproj (dep bumps) |
-| `8de750d` | "Updated repo url and description for better clarity / to upload to nuget.org." | WebReaper/WebReaper.csproj |
+**Category A — csproj-metadata edits (4 commits, Nov 2025).** Per
+`git show`, all four commits in this category touch only csproj files
+and edit TFM strings, NuGet description text, package version
+strings, or dependency version strings — factual updates ("this
+project targets that framework"; "this version of that dependency";
+"this URL"). Standard analysis treats such edits as either *de
+minimis* (too small to claim copyrightable authorship) or trivially
+clean-room-equivalent (re-doing the same factual update independently
+produces the same result by necessity, the *merger doctrine*). No
+creative authorship to license.
 
-All four are **csproj-metadata edits** — TFM strings, package version
-strings, dependency version strings, NuGet description text.
-Non-creative-authorship factual edits ("this project targets that
-framework"; "this version of that dependency"; "this URL").
-Standard analysis treats such edits as either *de minimis* (too
-small to claim copyrightable authorship) or trivially clean-room-able
-(re-doing the same factual update independently produces the same
-result by necessity).
-
-**Path forward**: Send the consent email (template in
-[`docs/RELICENSE-CONTRIBUTOR-OUTREACH.md`](../RELICENSE-CONTRIBUTOR-OUTREACH.md))
-as a courtesy. If no response within ~2 weeks, proceed under the
-*de minimis* analysis recorded here.
-
-### External — `Justyn Hunter` (2 commits, Nov 2023)
-
-| SHA | Subject | Files touched | Current status |
-|---|---|---|---|
-| `810db61` | "adds methods to set the IContentParser" | ScraperEngineBuilder.cs + SpiderBuilder.cs (+22 / -9) | **Superseded** |
-| `0f84f72` | "undo whitespace changes" | ScraperEngineBuilder.cs (-5) | Whitespace-only |
-
-The first commit added `WithContentParser(IContentParser)`. Both the
-**interface** (`IContentParser`) and the **method name**
-(`WithContentParser`) have been removed from the current source:
+**Category B — content-superseded code (2 commits, Nov 2023).** One
+commit added registration plumbing for an `IContentParser` interface;
+the other was a whitespace-only undo. Both predecessors have since
+been removed from the current source:
 
 - `IContentParser` was removed at **6.0.0** when the legacy Newtonsoft
-  `JObject` parser path was replaced by `IJsonContentParser`/`JsonObject`
-  (ADR-0008).
-- `WithContentParser` was renamed to `WithContentExtractor` at
-  **ADR-0039** (2026-05-23).
+  `JObject` parser path was replaced by `IJsonContentParser` /
+  `JsonObject` (ADR-0008).
+- The associated registration method was renamed to
+  `WithContentExtractor` (over the new `IContentExtractor` seam) at
+  **ADR-0039**.
 
-The current `ScraperEngineBuilder` has `WithContentExtractor(IContentExtractor)`
-— a different name, a different interface, a different type system
-(`JObject` was Newtonsoft; `JsonObject` is `System.Text.Json`). The
-*function* "register a custom content parser" survives conceptually,
-but Justyn's *expression* of it is gone (different name, different
-interface, re-implemented twice over). The whitespace-only commit has
-no copyrightable content.
-
-**Path forward**: Send the consent email as a courtesy. If no
-response, proceed under the supersession analysis recorded here —
-the code in the current tree owes nothing to Justyn's expression.
+The current `ScraperEngineBuilder` has
+`WithContentExtractor(IContentExtractor)` — a different name, a
+different interface, a different type system (`JObject` was
+Newtonsoft; `JsonObject` is `System.Text.Json`). The *function*
+"register a custom content parser" survives conceptually, but the
+external contributor's *expression* of it is gone (different name,
+different interface, re-implemented twice over). The whitespace-only
+commit has no copyrightable content. The current tree owes nothing
+to either commit's expression.
 
 ### Automated — `fossabot <badges@fossa.io>` (1 commit)
 
@@ -356,10 +327,9 @@ third is the standard sequence.
   contributor's code stays OSS, just under more-permissive terms.
   The DCO going forward keeps the rights chain clean for any future
   contribution.
-- **Two of three external contributors' code is in the current
-  tree only in superseded or de-minimis form.** The supersession
-  (Justyn) and de-minimis (mike) analyses are recorded here so the
-  decision is defensible whether or not consent arrives.
+- **External contributions in the project's history are in the
+  current tree only in superseded or de-minimis form.** The
+  analysis is recorded here so the decision is defensible.
 - **Risk of old-employer claim** is the largest residual. The
   Gate 1 self-attestation + employer check is the standard
   mitigation.
@@ -371,17 +341,14 @@ Landed on `adr-0017-relicense-mit`:
 1. **`LICENSE.txt`** — replaced with MIT (templated from
    `spdx.org/licenses/MIT`); copyright `2022-2026 Alex Pavlov and
    WebReaper contributors`.
-2. **`CONTRIBUTORS.md`** — new file naming all four real authors
-   (Alex Pavlov, mike, Justyn Hunter, plus the automated fossabot
-   acknowledgment).
+2. **`CONTRIBUTORS.md`** — new file crediting the owner and the
+   automated fossabot acknowledgment.
 3. **`CONTRIBUTING.md`** — new file with: contribution flow, DCO
    text + sign-off instructions, code-style note, ADR-driven design
    reminder.
 4. **`.github/PULL_REQUEST_TEMPLATE.md`** — DCO check + ADR
    reminder.
-5. **`docs/RELICENSE-CONTRIBUTOR-OUTREACH.md`** — the consent email
-   templates the owner sends to mike + Justyn.
-6. **Seven csprojs updated** with `<PackageLicenseExpression>MIT</PackageLicenseExpression>`:
+5. **Seven csprojs updated** with `<PackageLicenseExpression>MIT</PackageLicenseExpression>`:
    `WebReaper/WebReaper.csproj`, `WebReaper.{Cosmos,Mongo,Redis,AzureServiceBus,Puppeteer,Sqlite}/*.csproj`.
    The five AI-native-wave csprojs are updated when PR #97 / this PR
    are merged in order (whichever lands second sweeps the new ones).
@@ -401,10 +368,10 @@ Landed on `adr-0017-relicense-mit`:
 
 ### What this PR does NOT do
 
-- **Send the contributor emails.** The owner sends them after
-  reviewing the templates. (`docs/RELICENSE-CONTRIBUTOR-OUTREACH.md`
-  is the source; the owner copy-pastes and personalises.)
-- **Speak with the old employer.** The owner does that himself.
+- **Speak with the old employer.** Not required after the email
+  rewrite dissolved Gate 1, but listed for completeness — the rewrite
+  is the structural mitigation; the formal check is the owner's
+  discretion.
 - **Tag a release.** The 10.0.0 release is a separate task (and
   the relicense PR can ship as 9.x point-release if the owner
   prefers to decouple).
