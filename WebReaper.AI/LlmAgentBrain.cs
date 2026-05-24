@@ -1,8 +1,8 @@
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Nodes;
 using Microsoft.Extensions.AI;
 using WebReaper.AI.Llm;
+using WebReaper.AI.Tools;
 using WebReaper.Core.Agent.Abstract;
 using WebReaper.Domain.Agent;
 using WebReaper.Domain.PageActions;
@@ -21,11 +21,19 @@ namespace WebReaper.AI;
 /// <para>
 /// On each <see cref="DecideAsync"/> call the brain prompts the model with
 /// the bounded <see cref="AgentState"/> view (goal, current page Markdown,
-/// candidate URLs, history, visited, extracted-count) and parses the
-/// response as one of the four <see cref="AgentDecision"/> arms — Extract /
-/// Follow / Act / Stop. Internally delegates to <see cref="LlmCall{TResponse}"/>
-/// (ADR-0059); the JSON discriminator shape stays the same — the pivot to
-/// tool-calling is ADR-0060's job.
+/// candidate URLs, history, visited, extracted-count, last outcome) and
+/// translates the model's tool call into one of the four
+/// <see cref="AgentDecision"/> arms — Extract / Follow / Act / Stop —
+/// per ADR-0060. The closed-sum is load-bearing at the LLM boundary:
+/// the registered 10-tool registry IS the schema; the SDK validates the
+/// per-arm args against the per-arm schema before they reach
+/// <see cref="ParseDecisionTool"/>. JSON-mode parsing is gone for this
+/// adapter (ADR-0060 §Decision §5).
+/// </para>
+/// <para>
+/// Internally delegates to <see cref="LlmCall{TResponse}"/> (ADR-0059) with
+/// <c>Tools</c> + <c>ParseToolCall</c> set; the mechanism takes the tool-call
+/// path automatically.
 /// </para>
 /// </summary>
 public sealed class LlmAgentBrain : IAgentBrain
@@ -36,25 +44,16 @@ public sealed class LlmAgentBrain : IAgentBrain
         "observe the current page (rendered to Markdown), the candidate " +
         "links, your prior decisions, the URLs you have already visited, " +
         "the records you have already extracted, and the outcome of your " +
-        "previous decision. You then decide ONE action and return it as a " +
-        "JSON object — no commentary, no Markdown code fences.\n\n" +
-        "Return EXACTLY one of these JSON shapes:\n" +
-        "  { \"type\": \"extract\", \"reason\": \"<why>\", \"schema\": { \"<field>\": \"<cssSelector>\", ... } }\n" +
-        "  { \"type\": \"follow\",  \"reason\": \"<why>\", \"url\": \"<absolute-url-from-candidates>\" }\n" +
-        "  { \"type\": \"act\",     \"reason\": \"<why>\", \"action\": { \"kind\": \"click|wait|waitFor|evaluate\", ... } }\n" +
-        "  { \"type\": \"stop\",    \"reason\": \"<why-the-goal-is-met-or-unsatisfiable>\" }\n\n" +
-        "Action object shapes:\n" +
-        "  { \"kind\": \"click\",    \"selector\": \"<css>\" }\n" +
-        "  { \"kind\": \"waitFor\",  \"selector\": \"<css>\", \"timeoutMs\": <int> }\n" +
-        "  { \"kind\": \"wait\",     \"ms\":       <int>   }\n" +
-        "  { \"kind\": \"evaluate\", \"expression\": \"<js>\" }\n\n" +
-        "Stop when the goal is satisfied OR the page set has been exhausted " +
-        "without progress. Prefer Follow over Act when a link will do — Act " +
-        "is for buttons, forms, infinite-scroll triggers, etc. Pick Follow " +
+        "previous decision. You then call EXACTLY ONE of the provided tools " +
+        "to indicate your next step. Always supply a 'reason' explaining " +
+        "your choice.\n\n" +
+        "Prefer Follow over an Act* tool when a link will do. Pick Follow " +
         "URLs FROM the candidate list, not from memory. Don't propose a URL " +
-        "you've already visited. The schema's value strings are CSS " +
-        "selectors (one selector per field, single level — no nested " +
-        "objects in v1).\n\n" +
+        "you've already visited. Use Extract when the current page contains " +
+        "the records you want. Use one of the Act* tools (or ActSemanticAct " +
+        "for natural-language intents) when the page needs a click, wait, " +
+        "scroll, or JS evaluation to reveal content. Use Stop when the goal " +
+        "is satisfied OR the page set has been exhausted without progress.\n\n" +
         "The 'Last outcome' line tells you what happened when the engine " +
         "executed your previous decision:\n" +
         "  - None             — first step; you have no prior outcome.\n" +
@@ -83,7 +82,14 @@ public sealed class LlmAgentBrain : IAgentBrain
             Name = nameof(LlmAgentBrain),
             SystemPrompt = opts.SystemPrompt ?? DefaultSystemPrompt,
             BuildUserMessage = input => BuildUserPrompt((AgentState)input),
-            ParseResponse = ParseDecisionElement,
+            // Unused in tool-call mode (the mechanism never invokes
+            // ParseResponse when Tools is set); kept as a structural
+            // requirement of the descriptor record. Pinning to a
+            // throwing default surfaces a mechanism bug loudly.
+            ParseResponse = _ => throw new InvalidOperationException(
+                "LlmAgentBrain is tool-call mode; ParseResponse must not be called."),
+            Tools = AgentDecisionTools.ForBrain(),
+            ParseToolCall = ParseDecisionTool,
             Model = opts.Model,
             Temperature = opts.Temperature,
             MaxResponseTokens = opts.MaxResponseTokens,
@@ -104,7 +110,10 @@ public sealed class LlmAgentBrain : IAgentBrain
         }
         catch (LlmCallException ex)
         {
-            return new AgentDecision.Stop { Reason = $"brain returned non-JSON response: {ex.Message}" };
+            // ADR-0060 fork 5: model returned no tool call (or the retry
+            // also failed); default to Stop with a structural reason —
+            // matches the existing parse-failure shape on this adapter.
+            return new AgentDecision.Stop { Reason = $"brain returned no tool call: {ex.Message}" };
         }
     }
 
@@ -175,101 +184,154 @@ public sealed class LlmAgentBrain : IAgentBrain
         _ => "Unknown"
     };
 
-    // The descriptor's ParseResponse: JsonElement → AgentDecision. A non-
-    // object element, or a malformed arm, throws — the mechanism translates
-    // it to LlmCallException (after retry), which DecideAsync catches and
-    // returns AgentDecision.Stop for.
-    private static AgentDecision ParseDecisionElement(JsonElement element)
+    // ADR-0060: ParseToolCall delegate. Switches on the model's tool name,
+    // constructs the matching AgentDecision arm with the SDK-validated
+    // arguments. Unknown tool name -> Stop with structural reason; missing
+    // required property -> Stop with structural reason. The closed sum is
+    // load-bearing at the LLM boundary — the model picked from a list of
+    // ten arm-shaped tools; "the model emitted a JSON object with an
+    // unknown discriminator" is structurally impossible.
+    private static AgentDecision ParseDecisionTool(string toolName, JsonElement args)
     {
-        if (element.ValueKind != JsonValueKind.Object)
-            throw new InvalidOperationException(
-                $"brain response was not a JSON object (kind={element.ValueKind})");
+        var reason = TryGetString(args, "reason") ?? "";
 
-        // Round-trip into a mutable JsonObject for the existing arm-parsing
-        // shape — preserves the per-arm validation discipline.
-        var node = JsonNode.Parse(element.GetRawText())
-            ?? throw new InvalidOperationException("brain response parsed to null");
-        if (node is not JsonObject obj)
-            throw new InvalidOperationException("brain response was not a JSON object");
-
-        return ParseDecision(obj);
-    }
-
-    private static AgentDecision ParseDecision(JsonObject obj)
-    {
-        var type = obj["type"]?.GetValue<string>();
-        var reason = obj["reason"]?.GetValue<string>() ?? "";
-
-        switch (type)
+        switch (toolName)
         {
-            case "extract":
-                if (obj["schema"] is not JsonObject schemaObj)
-                    return new AgentDecision.Stop { Reason = $"brain Extract missing 'schema': {reason}" };
-                var schema = ParseFlatSchema(schemaObj);
+            case "Extract":
+                if (!args.TryGetProperty("schema", out var schemaEl) ||
+                    schemaEl.ValueKind != JsonValueKind.Object)
+                {
+                    return new AgentDecision.Stop
+                    {
+                        Reason = $"brain Extract missing 'schema': {reason}"
+                    };
+                }
+                var schema = BuildFlatSchema(schemaEl);
                 if (schema.Children.Count == 0)
-                    return new AgentDecision.Stop { Reason = $"brain Extract schema was empty: {reason}" };
+                {
+                    return new AgentDecision.Stop
+                    {
+                        Reason = $"brain Extract schema was empty: {reason}"
+                    };
+                }
                 return new AgentDecision.Extract(schema) { Reason = reason };
 
-            case "follow":
-                var url = obj["url"]?.GetValue<string>();
+            case "Follow":
+                var url = TryGetString(args, "url");
                 if (string.IsNullOrWhiteSpace(url))
-                    return new AgentDecision.Stop { Reason = $"brain Follow missing 'url': {reason}" };
+                {
+                    return new AgentDecision.Stop
+                    {
+                        Reason = $"brain Follow missing 'url': {reason}"
+                    };
+                }
                 return new AgentDecision.Follow(url) { Reason = reason };
 
-            case "act":
-                if (obj["action"] is not JsonObject actionObj)
-                    return new AgentDecision.Stop { Reason = $"brain Act missing 'action': {reason}" };
-                var action = ParseAction(actionObj);
-                if (action is null)
-                    return new AgentDecision.Stop { Reason = $"brain Act had unsupported action shape: {reason}" };
-                return new AgentDecision.Act(action) { Reason = reason };
-
-            case "stop":
+            case "Stop":
                 return new AgentDecision.Stop { Reason = reason };
 
+            case "ActClick":
+                var clickSel = TryGetString(args, "selector");
+                if (string.IsNullOrWhiteSpace(clickSel))
+                {
+                    return new AgentDecision.Stop
+                    {
+                        Reason = $"brain ActClick missing 'selector': {reason}"
+                    };
+                }
+                return new AgentDecision.Act(new PageAction.Click(clickSel)) { Reason = reason };
+
+            case "ActWait":
+                return new AgentDecision.Act(new PageAction.Wait(TryGetInt(args, "ms") ?? 0)) { Reason = reason };
+
+            case "ActWaitForSelector":
+                var wfsSel = TryGetString(args, "selector");
+                if (string.IsNullOrWhiteSpace(wfsSel))
+                {
+                    return new AgentDecision.Stop
+                    {
+                        Reason = $"brain ActWaitForSelector missing 'selector': {reason}"
+                    };
+                }
+                return new AgentDecision.Act(
+                    new PageAction.WaitForSelector(wfsSel, TryGetInt(args, "timeoutMs") ?? 30_000))
+                { Reason = reason };
+
+            case "ActWaitForNetworkIdle":
+                return new AgentDecision.Act(new PageAction.WaitForNetworkIdle()) { Reason = reason };
+
+            case "ActScrollToEnd":
+                return new AgentDecision.Act(new PageAction.ScrollToEnd()) { Reason = reason };
+
+            case "ActEvaluate":
+                var expr = TryGetString(args, "expression");
+                if (string.IsNullOrWhiteSpace(expr))
+                {
+                    return new AgentDecision.Stop
+                    {
+                        Reason = $"brain ActEvaluate missing 'expression': {reason}"
+                    };
+                }
+                return new AgentDecision.Act(new PageAction.EvaluateExpression(expr)) { Reason = reason };
+
+            case "ActSemanticAct":
+                var intent = TryGetString(args, "intent");
+                if (string.IsNullOrWhiteSpace(intent))
+                {
+                    return new AgentDecision.Stop
+                    {
+                        Reason = $"brain ActSemanticAct missing 'intent': {reason}"
+                    };
+                }
+                return new AgentDecision.Act(new PageAction.SemanticAct(intent)) { Reason = reason };
+
             default:
-                return new AgentDecision.Stop { Reason = $"brain returned unknown decision type '{type}'" };
+                return new AgentDecision.Stop
+                {
+                    Reason = $"brain called unregistered tool '{toolName}'"
+                };
         }
     }
 
     // v1: single-level flat schema { "field": "selector", ... }. Nested
     // schemas (objects-within-objects, lists-of-objects) are a v2 deferral
     // matching ADR-0045's source-gen v2 deferral.
-    private static Schema ParseFlatSchema(JsonObject schemaObj)
+    private static Schema BuildFlatSchema(JsonElement schemaEl)
     {
         var s = new Schema();
-        foreach (var kvp in schemaObj)
+        foreach (var prop in schemaEl.EnumerateObject())
         {
-            var fieldName = kvp.Key;
-            var selector = kvp.Value?.GetValue<string>();
+            if (prop.Value.ValueKind != JsonValueKind.String) continue;
+            var fieldName = prop.Name;
+            var selector = prop.Value.GetString();
             if (string.IsNullOrWhiteSpace(fieldName) || string.IsNullOrWhiteSpace(selector)) continue;
             s.Add(new SchemaElement(fieldName, selector));
         }
         return s;
     }
 
-    // Same arm whitelist as LlmActionResolver (ADR-0050) so the satellite
-    // resolver and the satellite brain agree on action shape grammar.
-    private static PageAction? ParseAction(JsonObject obj)
+    private static string? TryGetString(JsonElement args, string name)
     {
-        var kind = obj["kind"]?.GetValue<string>();
-        return kind switch
+        if (args.ValueKind != JsonValueKind.Object) return null;
+        if (!args.TryGetProperty(name, out var el)) return null;
+        return el.ValueKind switch
         {
-            "click" when obj["selector"]?.GetValue<string>() is { Length: > 0 } sel
-                => new PageAction.Click(sel),
-            "waitFor" when obj["selector"]?.GetValue<string>() is { Length: > 0 } sel
-                => new PageAction.WaitForSelector(sel, GetIntOrDefault(obj, "timeoutMs", 30_000)),
-            "wait" => new PageAction.Wait(GetIntOrDefault(obj, "ms", 0)),
-            "evaluate" when obj["expression"]?.GetValue<string>() is { Length: > 0 } expr
-                => new PageAction.EvaluateExpression(expr),
-            _ => null
+            JsonValueKind.String => el.GetString(),
+            JsonValueKind.Null => null,
+            _ => null,
         };
     }
 
-    private static int GetIntOrDefault(JsonObject obj, string key, int fallback)
+    private static int? TryGetInt(JsonElement args, string name)
     {
-        if (!obj.TryGetPropertyValue(key, out var node) || node is null) return fallback;
-        try { return node.GetValue<int>(); }
-        catch { return fallback; }
+        if (args.ValueKind != JsonValueKind.Object) return null;
+        if (!args.TryGetProperty(name, out var el)) return null;
+        return el.ValueKind switch
+        {
+            JsonValueKind.Number when el.TryGetInt32(out var i) => i,
+            // Some providers may serialise ints as strings; tolerate it.
+            JsonValueKind.String when int.TryParse(el.GetString(), out var i) => i,
+            _ => null,
+        };
     }
 }

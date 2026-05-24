@@ -1,7 +1,7 @@
 using System.Text.Json;
-using System.Text.Json.Nodes;
 using Microsoft.Extensions.AI;
 using WebReaper.AI.Llm;
+using WebReaper.AI.Tools;
 using WebReaper.Core.Actions.Abstract;
 using WebReaper.Domain.PageActions;
 
@@ -17,44 +17,38 @@ namespace WebReaper.AI;
 /// client (OpenAI, Anthropic via wrapper, Ollama, anything implementing the
 /// interface).
 /// <para>
-/// Asked once per intent string per crawl: the model returns a JSON object
-/// naming one of the four supported action shapes (<c>click</c>,
-/// <c>waitFor</c>, <c>wait</c>, <c>evaluate</c>). The resolver constructs the
-/// matching <see cref="PageAction"/> arm; the Puppeteer transport caches it
-/// and dispatches the cached arm on every subsequent same-intent invocation
-/// (the LLM-as-proposer / deterministic-as-decider pattern, ADR-0046 /
-/// ADR-0047 generalised to actions).
+/// Asked once per intent string per crawl: the model calls EXACTLY ONE of the
+/// six concrete action tools (<c>ActClick</c>, <c>ActWait</c>,
+/// <c>ActWaitForSelector</c>, <c>ActWaitForNetworkIdle</c>,
+/// <c>ActScrollToEnd</c>, <c>ActEvaluate</c>) per ADR-0060. The resolver
+/// constructs the matching <see cref="PageAction"/> arm; the Puppeteer
+/// transport caches it and dispatches the cached arm on every subsequent
+/// same-intent invocation (the LLM-as-proposer / deterministic-as-decider
+/// pattern, ADR-0046 / ADR-0047 generalised to actions).
 /// </para>
 /// <para>
-/// Unsupported JSON shapes (a <c>kind</c> the prompt doesn't whitelist,
-/// missing required fields, malformed JSON after retry) result in a <c>null</c>
-/// return — the transport translates that to
+/// The resolver's tool registry has six arms — never <c>ActSemanticAct</c>
+/// (fork 8 verdict — the closed sum is closed at the resolver's tool list,
+/// structurally preventing the resolver from looping the transport's
+/// resolution path). Unknown tool name -> <c>null</c>; the transport
+/// translates that to
 /// <see cref="WebReaper.Core.Actions.Concrete.SemanticActResolutionException"/>.
-/// The resolver never returns a <see cref="PageAction.SemanticAct"/> arm — it
-/// would loop the transport's dispatch.
 /// </para>
 /// <para>
 /// Internally delegates to <see cref="LlmCall{TResponse}"/> (ADR-0059) — the
-/// fence-stripping, the bounded parse-retry, and
-/// <see cref="ChatResponse.Usage"/> capture all live there.
+/// transport, the bounded retry, and <see cref="ChatResponse.Usage"/> capture
+/// all live there.
 /// </para>
 /// </summary>
 public sealed class LlmActionResolver : IActionResolver
 {
     private const string DefaultSystemPrompt =
         "You are resolving a user's natural-language intent to a concrete " +
-        "browser action on the supplied HTML page. " +
-        "Return a single JSON object with one of these exact shapes:\n" +
-        "  { \"kind\": \"click\",    \"selector\": \"<css>\" }\n" +
-        "  { \"kind\": \"waitFor\",  \"selector\": \"<css>\", \"timeoutMs\": <int> }\n" +
-        "  { \"kind\": \"wait\",     \"ms\":       <int>   }\n" +
-        "  { \"kind\": \"evaluate\", \"expression\": \"<js>\" }\n" +
-        "Pick the simplest action that satisfies the intent. Prefer a CSS " +
-        "selector specific enough not to collide with other elements " +
-        "(prefer id over class, class over tag; combine if needed). " +
-        "Return JSON only — no commentary, no Markdown code fences. " +
-        "If the intent cannot be satisfied by any of these shapes, return " +
-        "an empty object: {}.";
+        "browser action on the supplied HTML page. Call EXACTLY ONE of the " +
+        "provided action tools to indicate the concrete action. Pick the " +
+        "simplest action that satisfies the intent. Prefer a CSS selector " +
+        "specific enough not to collide with other elements (prefer id over " +
+        "class, class over tag; combine if needed).";
 
     private readonly LlmCall<PageAction?> _call;
     private readonly LlmActionResolverOptions _options;
@@ -70,7 +64,12 @@ public sealed class LlmActionResolver : IActionResolver
             Name = nameof(LlmActionResolver),
             SystemPrompt = _options.SystemPrompt ?? DefaultSystemPrompt,
             BuildUserMessage = input => BuildUserPrompt((ResolveInput)input),
-            ParseResponse = ParseArmFromElement,
+            // Unused in tool-call mode; pinning to a throwing default
+            // surfaces a mechanism bug loudly.
+            ParseResponse = _ => throw new InvalidOperationException(
+                "LlmActionResolver is tool-call mode; ParseResponse must not be called."),
+            Tools = AgentDecisionTools.ForResolver(),
+            ParseToolCall = ParseActionTool,
             Model = _options.Model,
             Temperature = _options.Temperature,
             MaxResponseTokens = _options.MaxResponseTokens,
@@ -99,8 +98,10 @@ public sealed class LlmActionResolver : IActionResolver
         }
         catch (LlmCallException)
         {
-            // Adapter policy: parse-after-retry failure → null (the
-            // transport translates that to SemanticActResolutionException).
+            // Adapter policy: tool-call-after-retry failure (model
+            // returned no FunctionCallContent twice in a row) -> null.
+            // The transport translates that to
+            // SemanticActResolutionException.
             return null;
         }
     }
@@ -109,50 +110,60 @@ public sealed class LlmActionResolver : IActionResolver
         "Intent: " + input.Intent + "\n\n" +
         "Page (HTML, may be truncated):\n" + input.Html;
 
-    private static PageAction? ParseArmFromElement(JsonElement element)
-    {
-        if (element.ValueKind != JsonValueKind.Object)
+    // ADR-0060 fork 8: the resolver's tool list has six arms; the closed
+    // sum is closed structurally (no ActSemanticAct ever, so the model
+    // cannot loop). Unknown tool name (the model invented one or called
+    // a brain-only arm) -> null; the transport surfaces a typed
+    // SemanticActResolutionException.
+    private static PageAction? ParseActionTool(string toolName, JsonElement args)
+        => toolName switch
         {
-            // A non-object response is "unsupported shape" — return null
-            // (not throw). The descriptor's ParseResponse contract:
-            // throwing forces a retry; returning the default(TResponse)
-            // is a clean "model said nothing actionable."
-            return null;
-        }
+            "ActClick"
+                when TryGetString(args, "selector") is { Length: > 0 } sel
+                => new PageAction.Click(sel),
 
-        // Round-trip into a JsonObject so the per-arm parsing matches the
-        // existing shape and keeps the whitelist authority in one place.
-        var node = JsonNode.Parse(element.GetRawText());
-        if (node is not JsonObject obj) return null;
+            "ActWait"
+                => new PageAction.Wait(TryGetInt(args, "ms") ?? 0),
 
-        return ParseArm(obj);
-    }
+            "ActWaitForSelector"
+                when TryGetString(args, "selector") is { Length: > 0 } sel
+                => new PageAction.WaitForSelector(sel, TryGetInt(args, "timeoutMs") ?? 30_000),
 
-    // The whitelist of arm shapes. Any other "kind" -> null (the transport
-    // surfaces a typed SemanticActResolutionException). SemanticAct
-    // deliberately not in this list — the resolver must never return one
-    // (would loop the transport).
-    private static PageAction? ParseArm(JsonObject obj)
+            "ActWaitForNetworkIdle"
+                => new PageAction.WaitForNetworkIdle(),
+
+            "ActScrollToEnd"
+                => new PageAction.ScrollToEnd(),
+
+            "ActEvaluate"
+                when TryGetString(args, "expression") is { Length: > 0 } expr
+                => new PageAction.EvaluateExpression(expr),
+
+            _ => null,
+        };
+
+    private static string? TryGetString(JsonElement args, string name)
     {
-        var kind = obj["kind"]?.GetValue<string>();
-        return kind switch
+        if (args.ValueKind != JsonValueKind.Object) return null;
+        if (!args.TryGetProperty(name, out var el)) return null;
+        return el.ValueKind switch
         {
-            "click"    when obj["selector"]?.GetValue<string>() is { Length: > 0 } sel
-                                  => new PageAction.Click(sel),
-            "waitFor"  when obj["selector"]?.GetValue<string>() is { Length: > 0 } sel
-                                  => new PageAction.WaitForSelector(sel, GetIntOrDefault(obj, "timeoutMs", 30_000)),
-            "wait"                => new PageAction.Wait(GetIntOrDefault(obj, "ms", 0)),
-            "evaluate" when obj["expression"]?.GetValue<string>() is { Length: > 0 } expr
-                                  => new PageAction.EvaluateExpression(expr),
-            _ => null
+            JsonValueKind.String => el.GetString(),
+            JsonValueKind.Null => null,
+            _ => null,
         };
     }
 
-    private static int GetIntOrDefault(JsonObject obj, string key, int fallback)
+    private static int? TryGetInt(JsonElement args, string name)
     {
-        if (!obj.TryGetPropertyValue(key, out var node) || node is null) return fallback;
-        try { return node.GetValue<int>(); }
-        catch { return fallback; }
+        if (args.ValueKind != JsonValueKind.Object) return null;
+        if (!args.TryGetProperty(name, out var el)) return null;
+        return el.ValueKind switch
+        {
+            JsonValueKind.Number when el.TryGetInt32(out var i) => i,
+            JsonValueKind.String when int.TryParse(el.GetString(), out var i) => i,
+            _ => null,
+        };
     }
 
     private readonly record struct ResolveInput(string Intent, string Html);
