@@ -39,6 +39,13 @@ Flags (per-command):
                         and BYO browser farms.
     --follow <selector> Follow links matching this CSS selector before
                         extraction (the Crawl chain's first step).
+    --stealth           Skip the vanilla-browser attempt; go straight to
+                        the stealth backend. Implies --browser.
+    --auto-stealth      Bypass the Y/n prompt when a bot-check is detected
+                        (CI / unattended). Equivalent to env
+                        WEBREAPER_AUTO_STEALTH=1.
+    --no-auto-stealth   Warn-only on bot-check detection; never install or
+                        retry (ADR-0056 escape hatch).
 
   browser:
     install [--revision N]   Download managed Chromium to ~/.webreaper/.
