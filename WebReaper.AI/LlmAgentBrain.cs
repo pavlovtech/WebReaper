@@ -33,10 +33,10 @@ public sealed class LlmAgentBrain : IAgentBrain
         "You are an autonomous web-scraping agent reasoning step-by-step on " +
         "pages of a single site to satisfy the user's goal. At each step you " +
         "observe the current page (rendered to Markdown), the candidate " +
-        "links, your prior decisions, the URLs you have already visited, and " +
-        "the records you have already extracted. You then decide ONE action " +
-        "and return it as a JSON object — no commentary, no Markdown code " +
-        "fences.\n\n" +
+        "links, your prior decisions, the URLs you have already visited, " +
+        "the records you have already extracted, and the outcome of your " +
+        "previous decision. You then decide ONE action and return it as a " +
+        "JSON object — no commentary, no Markdown code fences.\n\n" +
         "Return EXACTLY one of these JSON shapes:\n" +
         "  { \"type\": \"extract\", \"reason\": \"<why>\", \"schema\": { \"<field>\": \"<cssSelector>\", ... } }\n" +
         "  { \"type\": \"follow\",  \"reason\": \"<why>\", \"url\": \"<absolute-url-from-candidates>\" }\n" +
@@ -53,7 +53,21 @@ public sealed class LlmAgentBrain : IAgentBrain
         "URLs FROM the candidate list, not from memory. Don't propose a URL " +
         "you've already visited. The schema's value strings are CSS " +
         "selectors (one selector per field, single level — no nested " +
-        "objects in v1).";
+        "objects in v1).\n\n" +
+        "The 'Last outcome' line tells you what happened when the engine " +
+        "executed your previous decision:\n" +
+        "  - None             — first step; you have no prior outcome.\n" +
+        "  - Extracted        — the record was emitted; the count is the running total. If the count didn't grow, the processor pipeline dropped the record; consider a different schema next time.\n" +
+        "  - Followed         — the page loaded; actualUrl may differ from your proposed URL after redirects; statusCode is the HTTP status (0 means a dynamic browser page with no single per-page status).\n" +
+        "  - ActDispatched    — the action ran; resolvedAction shows what your intent became.\n" +
+        "  - Failed           — the decision failed; reason and exceptionType describe the failure class.\n" +
+        "If the last decision Failed, prefer a different approach: a Failed " +
+        "Extract with 'validation: ...' means the schema didn't yield " +
+        "useful fields on this page — pick a different schema or a " +
+        "different URL. A Failed Follow with '404' or 'load: ...' means " +
+        "the URL didn't load — don't re-propose it. A Failed Act means the " +
+        "page didn't accept the action — pick a different selector or move " +
+        "on. Don't repeat a decision the engine just told you failed.";
 
     private readonly IChatClient _chatClient;
     private readonly LlmAgentBrainOptions _options;
@@ -119,6 +133,10 @@ public sealed class LlmAgentBrain : IAgentBrain
         sb.Append("Current URL: ").AppendLine(state.CurrentUrl);
         sb.AppendLine();
         sb.Append("Records extracted so far: ").Append(state.Extracted.Count).AppendLine();
+        // ADR-0061: surface the engine's per-step outcome so the brain can
+        // see what happened on the previous decision and avoid re-running a
+        // failing decision. One compact line.
+        sb.Append("Last outcome: ").AppendLine(FormatOutcome(state.LastOutcome));
         sb.AppendLine();
 
         if (state.History.Count > 0)
@@ -150,6 +168,29 @@ public sealed class LlmAgentBrain : IAgentBrain
 
         return sb.ToString();
     }
+
+    // ADR-0061: compact one-line representation of the outcome closed sum
+    // for the brain prompt. Records are stringified to a short JSON
+    // excerpt — the brain has the cumulative Extracted list already; this
+    // line is the *signal* about the just-executed step, not the data.
+    private static string FormatOutcome(AgentDecisionOutcome outcome) => outcome switch
+    {
+        AgentDecisionOutcome.None => "None (first step)",
+        AgentDecisionOutcome.Extracted x =>
+            x.Record is null
+                ? $"Extracted (record dropped by processor; count={x.RecordCount})"
+                : $"Extracted (count={x.RecordCount}; record={x.Record.ToJsonString()})",
+        AgentDecisionOutcome.Followed x =>
+            $"Followed (actualUrl={x.ActualUrl}; statusCode={x.StatusCode})",
+        AgentDecisionOutcome.ActDispatched x =>
+            $"ActDispatched (resolvedAction={x.ResolvedAction.GetType().Name})",
+        AgentDecisionOutcome.Failed x =>
+            x.ExceptionType is null
+                ? $"Failed (reason={x.Reason})"
+                : $"Failed (reason={x.Reason}; exceptionType={x.ExceptionType})",
+        AgentDecisionOutcome.Stopped x => $"Stopped (reason={x.Reason})",
+        _ => "Unknown"
+    };
 
     private static AgentDecision ParseDecision(JsonObject obj)
     {
