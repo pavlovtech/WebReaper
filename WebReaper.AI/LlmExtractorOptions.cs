@@ -1,9 +1,11 @@
+using WebReaper.AI.Llm;
+
 namespace WebReaper.AI;
 
 /// <summary>
 /// Knobs for <see cref="LlmContentExtractor"/> (ADR-0044). Defaults are
 /// cheap and deterministic: Markdown pre-clean, 4096-token response cap,
-/// temperature 0, no overridden system prompt.
+/// temperature 0, no overridden system prompt, no cache-policy override.
 /// </summary>
 /// <param name="Model">The model id passed to
 /// <c>ChatOptions.ModelId</c>. <c>null</c> means the chat client's
@@ -24,9 +26,21 @@ namespace WebReaper.AI;
 /// <param name="SystemPrompt">Override the default extraction system
 /// prompt. <c>null</c> uses the built-in prompt; supply a string to
 /// override entirely.</param>
+/// <param name="CachePolicy">Per-role system-prompt caching policy
+/// (ADR-0065). <c>null</c> (the default) means "inherit from
+/// <see cref="AiOptions.CachePolicy"/>" when the adapter is wired via
+/// <see cref="UseAiRegistration.UseAi(WebReaper.Builders.ScraperEngineBuilder, Microsoft.Extensions.AI.IChatClient, AiOptions?)"/>;
+/// when the adapter is constructed à la carte (e.g. via
+/// <see cref="LlmExtractorRegistration.WithLlmExtractor"/>), <c>null</c>
+/// is treated as <see cref="WebReaper.AI.Llm.CachePolicy.Default"/> —
+/// no provider-specific hint added. Set explicitly to
+/// <see cref="WebReaper.AI.Llm.CachePolicy.Hinted"/> or
+/// <see cref="WebReaper.AI.Llm.CachePolicy.Default"/> to override the
+/// inheritance.</param>
 public sealed record LlmExtractorOptions(
     string? Model = null,
     bool UseMarkdownPreClean = true,
     int MaxTokens = 4096,
     float Temperature = 0.0f,
-    string? SystemPrompt = null);
+    string? SystemPrompt = null,
+    CachePolicy? CachePolicy = null);

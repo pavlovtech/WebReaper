@@ -73,6 +73,7 @@ public sealed class LlmActionResolver : IActionResolver
             Model = _options.Model,
             Temperature = _options.Temperature,
             MaxResponseTokens = _options.MaxResponseTokens,
+            SystemPromptCache = _options.CachePolicy ?? CachePolicy.Default,
         });
     }
 

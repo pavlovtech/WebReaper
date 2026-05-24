@@ -84,4 +84,16 @@ public sealed record LlmCallDescriptor<TResponse>
     /// <see cref="LlmCallException"/> messages for diagnostics. Default
     /// <see cref="string.Empty"/>; adapters pass their type name.</summary>
     public string Name { get; init; } = string.Empty;
+
+    /// <summary>Per-role caching policy for the system prompt (ADR-0065).
+    /// Default <see cref="CachePolicy.Default"/> — providers that auto-cache
+    /// (OpenAI) still benefit; explicit-hint providers (Anthropic) do not.
+    /// Set to <see cref="CachePolicy.Hinted"/> to add the provider-specific
+    /// <c>cache_control</c> hint to the system <see cref="ChatMessage.AdditionalProperties"/>.
+    /// The four built-in adapters read this from their per-role
+    /// <c>*Options.CachePolicy</c>; <see cref="WebReaper.AI.UseAiRegistration.UseAi(WebReaper.Builders.ScraperEngineBuilder, Microsoft.Extensions.AI.IChatClient, WebReaper.AI.AiOptions?)"/>
+    /// flows the global <see cref="WebReaper.AI.AiOptions.CachePolicy"/>
+    /// through the <c>Resolve*</c> helpers when synthesising per-role
+    /// records from global defaults.</summary>
+    public CachePolicy SystemPromptCache { get; init; } = CachePolicy.Default;
 }

@@ -60,6 +60,7 @@ public sealed class LlmContentExtractor : IContentExtractor
             Model = _options.Model,
             Temperature = _options.Temperature,
             MaxResponseTokens = _options.MaxTokens,
+            SystemPromptCache = _options.CachePolicy ?? CachePolicy.Default,
         });
     }
 

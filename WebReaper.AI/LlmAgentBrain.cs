@@ -93,6 +93,7 @@ public sealed class LlmAgentBrain : IAgentBrain
             Model = opts.Model,
             Temperature = opts.Temperature,
             MaxResponseTokens = opts.MaxResponseTokens,
+            SystemPromptCache = opts.CachePolicy ?? CachePolicy.Default,
         });
     }
 

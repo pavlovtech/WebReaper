@@ -1,3 +1,5 @@
+using WebReaper.AI.Llm;
+
 namespace WebReaper.AI;
 
 /// <summary>
@@ -55,6 +57,15 @@ namespace WebReaper.AI;
 /// <param name="Policy">Which canned configuration to wire. Default
 /// <see cref="AiPolicyMode.Recommended"/> — the firecrawl-shaped
 /// deterministic-first + LLM-rescue posture.</param>
+/// <param name="CachePolicy">Global system-prompt caching policy (ADR-0065).
+/// Default <see cref="WebReaper.AI.Llm.CachePolicy.Hinted"/> — the AI-native
+/// ethos (cheaper by default when safe). Flows down to per-role records
+/// when they are <c>null</c>; per-role records that ARE non-null carry
+/// their own <c>CachePolicy</c> (default
+/// <see cref="WebReaper.AI.Llm.CachePolicy.Default"/>) — matches the
+/// existing all-or-nothing per-role-wins convention on this record (see
+/// the type-level XML doc). To override a non-null per-role record's
+/// cache policy, set the field on the per-role record explicitly.</param>
 public sealed record AiOptions(
     string? Model = null,
     float Temperature = 0.0f,
@@ -64,7 +75,8 @@ public sealed record AiOptions(
     LlmActionResolverOptions? Resolver = null,
     LlmAgentBrainOptions? Brain = null,
     LlmExtractorOptions? Repairer = null,
-    AiPolicyMode Policy = AiPolicyMode.Recommended)
+    AiPolicyMode Policy = AiPolicyMode.Recommended,
+    CachePolicy CachePolicy = CachePolicy.Hinted)
 {
     /// <summary>
     /// Synthesise the effective <see cref="LlmExtractorOptions"/> for the
@@ -80,8 +92,9 @@ public sealed record AiOptions(
                 UseMarkdownPreClean: MarkdownPreClean,
                 MaxTokens: MaxResponseTokens,
                 Temperature: Temperature,
-                SystemPrompt: null)
-            : Extractor;
+                SystemPrompt: null,
+                CachePolicy: CachePolicy)
+            : Extractor with { CachePolicy = Extractor.CachePolicy ?? CachePolicy };
 
     /// <summary>
     /// Synthesise the effective <see cref="LlmExtractorOptions"/> for the
@@ -96,8 +109,9 @@ public sealed record AiOptions(
                 UseMarkdownPreClean: MarkdownPreClean,
                 MaxTokens: MaxResponseTokens,
                 Temperature: Temperature,
-                SystemPrompt: null)
-            : Repairer;
+                SystemPrompt: null,
+                CachePolicy: CachePolicy)
+            : Repairer with { CachePolicy = Repairer.CachePolicy ?? CachePolicy };
 
     /// <summary>
     /// Synthesise the effective <see cref="LlmActionResolverOptions"/> for
@@ -115,8 +129,9 @@ public sealed record AiOptions(
                 Temperature: Temperature,
                 MaxResponseTokens: Math.Min(MaxResponseTokens, 512),
                 MaxHtmlChars: 32_000,
-                SystemPrompt: null)
-            : Resolver;
+                SystemPrompt: null,
+                CachePolicy: CachePolicy)
+            : Resolver with { CachePolicy = Resolver.CachePolicy ?? CachePolicy };
 
     /// <summary>
     /// Synthesise the effective <see cref="LlmAgentBrainOptions"/> for the
@@ -131,8 +146,9 @@ public sealed record AiOptions(
                 Model: Model,
                 Temperature: Temperature,
                 MaxResponseTokens: Math.Min(MaxResponseTokens, 1024),
-                SystemPrompt: null)
-            : Brain;
+                SystemPrompt: null,
+                CachePolicy: CachePolicy)
+            : Brain with { CachePolicy = Brain.CachePolicy ?? CachePolicy };
 }
 
 /// <summary>

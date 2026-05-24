@@ -98,7 +98,9 @@ public sealed class LlmCall<TResponse>
 
         // First attempt.
         var (response, raw) = await CallAsync(userMessage, includeRetryReminder: false, cancellationToken).ConfigureAwait(false);
-        var totalTokens = response.Usage?.TotalTokenCount;
+        // ADR-0065: capture the split usage (input / output / cached /
+        // total) — was a single TotalTokenCount read pre-0065.
+        var usage = ReadUsage(response.Usage);
 
         // Parse — JSON-mode or tool-call mode.
         TResponse? value;
@@ -114,7 +116,14 @@ public sealed class LlmCall<TResponse>
 
         if (firstParseError is null)
         {
-            return new LlmCallResult<TResponse>(value!, totalTokens, raw, ParseRetries: 0);
+            return new LlmCallResult<TResponse>(
+                value!,
+                InputTokens: usage.Input,
+                OutputTokens: usage.Output,
+                CachedInputTokens: usage.Cached,
+                TotalTokens: usage.Total,
+                raw,
+                ParseRetries: 0);
         }
 
         _logger.LogWarning(firstParseError,
@@ -125,15 +134,13 @@ public sealed class LlmCall<TResponse>
         var reminder = isToolCall ? ToolCallRetryReminder : ParseRetryReminder;
         var userWithReminder = userMessage + "\n\n" + reminder;
         var (retryResponse, retryRaw) = await CallAsync(userWithReminder, includeRetryReminder: true, cancellationToken).ConfigureAwait(false);
-        // Accumulate token usage if both calls surfaced it.
-        var retryTokens = retryResponse.Usage?.TotalTokenCount;
-        totalTokens = (totalTokens, retryTokens) switch
-        {
-            (null, null) => null,
-            (long a, null) => a,
-            (null, long b) => b,
-            (long a, long b) => a + b
-        };
+        // ADR-0065: accumulate across both calls — input / output / cached
+        // / total summed independently with null-respecting semantics
+        // (matches the pre-0065 TotalTokens-only accumulator). M.E.AI's
+        // UsageDetails.AdditionalCounts is documented "all values set
+        // here are assumed to be summable" — explicitly endorses this
+        // pattern.
+        usage = AccumulateUsage(usage, ReadUsage(retryResponse.Usage));
 
         TResponse? retryValue;
         Exception? secondParseError;
@@ -151,7 +158,14 @@ public sealed class LlmCall<TResponse>
             _logger.LogInformation(
                 "LlmCall[{Name}] retry parse succeeded. retries=1",
                 _descriptor.Name);
-            return new LlmCallResult<TResponse>(retryValue!, totalTokens, retryRaw, ParseRetries: 1);
+            return new LlmCallResult<TResponse>(
+                retryValue!,
+                InputTokens: usage.Input,
+                OutputTokens: usage.Output,
+                CachedInputTokens: usage.Cached,
+                TotalTokens: usage.Total,
+                retryRaw,
+                ParseRetries: 1);
         }
 
         _logger.LogError(secondParseError,
@@ -174,9 +188,25 @@ public sealed class LlmCall<TResponse>
         bool includeRetryReminder,
         CancellationToken cancellationToken)
     {
+        // ADR-0065: optional cache_control hint on the system message.
+        // Anthropic-standard encoding via AdditionalProperties (M.E.AI
+        // 9.4-preview documents AdditionalProperties as the "any
+        // additional properties associated with the message" channel —
+        // verified at design time). OpenAI / Gemini / local-model
+        // adapters ignore the unknown key without error; the descriptor
+        // surface is stable regardless of where the encoding lands at
+        // the wire.
+        var systemMessage = new ChatMessage(ChatRole.System, _descriptor.SystemPrompt);
+        if (_descriptor.SystemPromptCache == CachePolicy.Hinted)
+        {
+            systemMessage.AdditionalProperties ??= new AdditionalPropertiesDictionary();
+            systemMessage.AdditionalProperties["cache_control"]
+                = new Dictionary<string, object?> { ["type"] = "ephemeral" };
+        }
+
         var messages = new List<ChatMessage>
         {
-            new(ChatRole.System, _descriptor.SystemPrompt),
+            systemMessage,
             new(ChatRole.User, userMessage)
         };
 
@@ -311,4 +341,55 @@ public sealed class LlmCall<TResponse>
 
     private static string Truncate(string text, int max = 200)
         => text.Length <= max ? text : text[..max] + "…";
+
+    // ADR-0065: read UsageDetails into the per-call split tuple
+    // (input / output / cached / total). CachedInputTokens scans
+    // AdditionalCounts for the provider-specific key — M.E.AI 9.4
+    // doesn't normalise across providers, so the mechanism tries the
+    // conventional names. Null when no key matches.
+    private static (long? Input, long? Output, long? Cached, long? Total) ReadUsage(UsageDetails? usage)
+    {
+        if (usage is null) return (null, null, null, null);
+        var input = usage.InputTokenCount;
+        var output = usage.OutputTokenCount;
+        long? cached = null;
+        if (usage.AdditionalCounts is { } ac)
+        {
+            // Try the conventional cache-read key names across providers.
+            // Anthropic: "cache_read_input_tokens"; OpenAI: typically
+            // surfaces "InputTokenCount.Cached" via the M.E.AI OpenAI
+            // adapter; the generic "cached_input_tokens" and
+            // "prompt_tokens_details.cached_tokens" round out the
+            // recognised set. Unknown providers / adapters: null.
+            if (ac.TryGetValue("cached_input_tokens", out var c1)) cached = c1;
+            else if (ac.TryGetValue("InputTokenCount.Cached", out var c2)) cached = c2;
+            else if (ac.TryGetValue("prompt_tokens_details.cached_tokens", out var c3)) cached = c3;
+            else if (ac.TryGetValue("cache_read_input_tokens", out var c4)) cached = c4;
+        }
+        var total = (input, output) switch
+        {
+            (long i, long o) => (long?)(i + o),
+            _ => usage.TotalTokenCount
+        };
+        return (input, output, cached, total);
+    }
+
+    // ADR-0065: per-field null-respecting accumulator (matches the
+    // pre-0065 totalTokens-only accumulator's semantics — applied
+    // independently to each of input / output / cached / total).
+    private static (long? Input, long? Output, long? Cached, long? Total) AccumulateUsage(
+        (long? Input, long? Output, long? Cached, long? Total) a,
+        (long? Input, long? Output, long? Cached, long? Total) b)
+        => (Input: SumNullable(a.Input, b.Input),
+            Output: SumNullable(a.Output, b.Output),
+            Cached: SumNullable(a.Cached, b.Cached),
+            Total: SumNullable(a.Total, b.Total));
+
+    private static long? SumNullable(long? a, long? b) => (a, b) switch
+    {
+        (null, null) => null,
+        (long x, null) => x,
+        (null, long x) => x,
+        (long x, long y) => x + y
+    };
 }
