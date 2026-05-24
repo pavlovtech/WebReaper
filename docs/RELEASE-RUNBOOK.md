@@ -41,17 +41,23 @@ workflow ports** and the **manual fallback** if CI is unavailable.
 | `WebReaper.AzureServiceBus` | satellite |
 | `WebReaper.Puppeteer` | satellite |
 | `WebReaper.Sqlite` | satellite (added after the 7.0.0 wave) |
+| `WebReaper.AI` | satellite (added in the 10.0.0 AI-native wave — LLM extractor on `Microsoft.Extensions.AI.Abstractions`; ADR-0044, ADR-0047) |
+| `WebReaper.Extraction.Attributes` | satellite (added in 10.0.0 — `[ScrapeSchema]` / `[ScrapeField]` markers; ADR-0045) |
+| `WebReaper.Extraction.Generators` | satellite (added in 10.0.0 — Roslyn source generator; `DevelopmentDependency=true`; ADR-0045) |
+| `WebReaper.Mcp` | satellite (added in 10.0.0 — MCP server `Exe` over stdio; ADR-0049) |
+| `WebReaper.Cli` | **not** published as a NuGet package in 10.0.0. The CLI ships as a Native-AOT single-binary via GitHub Releases (ADR-0043: *"the single-binary publish is the headline AOT artifact"*). The `dotnet tool install` path is deferred — `PackAsTool=true` is incompatible with `PublishAot=true` on the same target, and the AOT artifact is the priority. Revisit in a 10.x to add a non-AOT, framework-dependent tool target if real consumer demand surfaces. |
 
 The version lives in **one** place — `<Version>` in the root
-`Directory.Build.props`, inherited by all seven projects. A **lockstep**
-release (the norm: ADR-0022's 8.0.0 wave, ADR-0023's 9.0.0 wave) is that one
-line bumped once — structural, so core/satellite skew is unrepresentable
-(it twice got stranded as a separate prep PR, #75 / #77, when it was seven
-hand-edited lines). An **additive single-satellite** release (e.g.
-`WebReaper.Sqlite` `7.1.0` while the six stay `7.0.0`, depending on the
-already-published `WebReaper 7.0.0`) is that satellite's `.csproj`
-overriding `<Version>` locally — a project property wins over the import,
-making the divergence explicit and visible.
+`Directory.Build.props`, inherited by all packaged projects. A **lockstep**
+release (the norm: ADR-0022's 8.0.0 wave, ADR-0023's 9.0.0 wave,
+ADR-0025+ADR-0040..0049's 10.0.0 wave) is that one line bumped once —
+structural, so core/satellite skew is unrepresentable (it twice got stranded
+as a separate prep PR, #75 / #77, back when it was seven hand-edited lines).
+An **additive single-satellite** release (e.g. `WebReaper.Sqlite` `7.1.0`
+while the six stay `7.0.0`, depending on the already-published
+`WebReaper 7.0.0`) is that satellite's `.csproj` overriding `<Version>`
+locally — a project property wins over the import, making the divergence
+explicit and visible.
 
 A release publishes exactly the candidates whose **effective** `Version`
 equals `<VERSION>` (`dotnet msbuild -getProperty:Version`, resolving the
@@ -118,10 +124,16 @@ Warnings are fine (pre-existing CS1591/CS8618/analyzer noise); **0 errors**
 is the bar. Then the full **guardrail on this commit** (not a PR branch):
 
 ```bash
-# Unit + 5 satellite test projects (IntegrationTests excluded — live/flaky)
-for t in WebReaper.UnitTests WebReaper.Cosmos.Tests WebReaper.Mongo.Tests \
-         WebReaper.Redis.Tests WebReaper.AzureServiceBus.Tests WebReaper.Puppeteer.Tests; do
-  dotnet test "WebReaper.Tests/$t/$t.csproj" -c Release --no-build --nologo
+# Unit + satellite test projects (IntegrationTests excluded — live/flaky).
+# A pattern over the WebReaper.Tests/ tree so a new satellite's tests are
+# auto-included as long as they live under WebReaper.Tests/WebReaper.*.Tests/
+# (the convention every satellite's test project follows). 10.0.0 added
+# WebReaper.AI.Tests, WebReaper.Cli.Tests, and WebReaper.Extraction.Generators.Tests.
+for t in $(ls WebReaper.Tests | grep -E '^WebReaper\.(UnitTests|.*\.Tests)$'); do
+  case "$t" in
+    WebReaper.IntegrationTests) ;;   # live/flaky — runbook excludes
+    *) dotnet test "WebReaper.Tests/$t/$t.csproj" -c Release --no-build --nologo ;;
+  esac
 done
 
 # Native-AOT publish + smoke (CI uses linux-x64; locally use the host RID)
@@ -132,8 +144,10 @@ dotnet publish WebReaper.Tests/WebReaper.AotSmokeTest/WebReaper.AotSmokeTest.csp
 
 # Dependency-light core (run from repo root — no cwd drift)
 dotnet list WebReaper/WebReaper.csproj package --include-transitive \
-  | grep -iE 'newtonsoft|cosmos|mongodb|stackexchange|servicebus|puppeteer|sharpcompress'
-  # MUST be empty — core pulls only AngleSharp/Http/Polly/Logging.Abstractions
+  | grep -iE 'newtonsoft|cosmos|mongodb|stackexchange|servicebus|puppeteer|sharpcompress|sqlite|modelcontextprotocol|microsoft.extensions.ai'
+  # MUST be empty — core pulls only AngleSharp/Http/Logging.Abstractions
+  # (Polly left core in ADR-0026; AI/MCP/Sqlite stay quarantined in
+  # their respective satellites per ADR-0009).
 ```
 
 All green → proceed. Any red → stop; nothing irreversible has happened.
@@ -148,29 +162,49 @@ omitted a satellite `.xml` after clean/stash churn and failed with NU5026:
 ```bash
 rm -rf /tmp/wr-rel && mkdir /tmp/wr-rel
 for p in WebReaper WebReaper.Cosmos WebReaper.Mongo WebReaper.Redis \
-         WebReaper.AzureServiceBus WebReaper.Puppeteer; do
+         WebReaper.AzureServiceBus WebReaper.Puppeteer WebReaper.Sqlite \
+         WebReaper.AI WebReaper.Extraction.Attributes \
+         WebReaper.Extraction.Generators WebReaper.Mcp; do
   dotnet pack "$p/$p.csproj" -c Release -o /tmp/wr-rel --nologo
 done
 ```
 
 Assert every item (inspect each `.nupkg` as a zip + its `.nuspec`):
 
-- Exactly **6** `*.nupkg`, **zero** `*.snupkg` (symbol packages out of scope).
+- Exactly **11** `*.nupkg` (the lockstep 10.0.0 wave: 1 core + 10
+  satellites), **zero** `*.snupkg` (symbol packages out of scope).
 - Every `<version>` == `<VERSION>`.
-- License `MIT` on all 7+ packages (ADR-0017; relicensed from GPL-3.0-or-later in the 10.0.0 wave).
+- License `MIT` on every package (ADR-0017; relicensed from
+  GPL-3.0-or-later in the 10.0.0 wave; `Directory.Build.props` carries the
+  expression so each csproj inherits it, with per-csproj overrides as a
+  redundant no-op anchor for the ADR-0017 comment).
 - **Core** `WebReaper.nupkg`: `lib/<tfm>/WebReaper.dll` **and
   `lib/<tfm>/WebReaper.xml`** (post-PR-#52 the doc ships under the
   IDE-resolvable name — **there must be no `API.xml`**), plus root
   `README.md` + `logo.png`.
-- **Each satellite**: root `README.md` + `logo.png`; nuspec `<readme>`,
-  `<icon>`; nuspec `<dependency id="WebReaper" version="<VERSION>">`; and its
-  own `lib/<tfm>/<Name>.xml` (satellites generate docs and suppress CS1591;
+- **Most satellites** (`WebReaper.{Cosmos,Mongo,Redis,AzureServiceBus,Puppeteer,Sqlite,AI}`):
+  root `README.md` + `logo.png`; nuspec `<readme>`, `<icon>`; nuspec
+  `<dependency id="WebReaper" version="<VERSION>">`; and its own
+  `lib/<tfm>/<Name>.xml` (satellites generate docs and suppress CS1591;
   core keeps CS1591 visible as its live doc backlog).
+- **The two source-generator packages** are shaped differently:
+  - `WebReaper.Extraction.Attributes` — lib targets `netstandard2.0` *and*
+    `net10.0` (two `lib/<tfm>/` folders). No transitive `WebReaper`
+    dependency — the attributes are intentionally consumable from any
+    project that targets either tfm.
+  - `WebReaper.Extraction.Generators` — `IncludeBuildOutput=false`,
+    `DevelopmentDependency=true`, the assembly ships in
+    `analyzers/dotnet/cs/` (NOT `lib/`); empty `lib/` is correct. Roslyn
+    deps `PrivateAssets="all"` so they don't leak to consumers.
+- **`WebReaper.Mcp`** is an `Exe` csproj that still produces a NuGet (no
+  `OutputType`-special handling needed in `dotnet pack`); the `.nupkg`
+  carries the `Exe` assembly under `lib/<tfm>/` so consumers can `dotnet
+  run --project` after referencing.
 
 A scripted inspector that fails loudly on any miss is in this runbook's
 git history (the Phase 2 step of the release that introduced this file).
 
-**⛔ HARD STOP.** Print a 6-package summary table. The release owner
+**⛔ HARD STOP.** Print an 11-package summary table. The release owner
 explicitly authorises the push. **This is the last reversible moment.**
 
 ---
@@ -195,9 +229,11 @@ for i in $(seq 1 12); do
   sleep 30
 done
 
-# 3) the 5 satellites by EXPLICIT filename (never a glob — ordering/safety)
+# 3) the 10 satellites by EXPLICIT filename (never a glob — ordering/safety)
 for f in WebReaper.Cosmos WebReaper.Mongo WebReaper.Redis \
-         WebReaper.AzureServiceBus WebReaper.Puppeteer; do
+         WebReaper.AzureServiceBus WebReaper.Puppeteer WebReaper.Sqlite \
+         WebReaper.AI WebReaper.Extraction.Attributes \
+         WebReaper.Extraction.Generators WebReaper.Mcp; do
   dotnet nuget push "$DIR/$f.<VERSION>.nupkg" --api-key "$KEY" --source "$SRC" --skip-duplicate
 done
 ```
@@ -228,7 +264,9 @@ done
 
 ```bash
 for id in webreaper webreaper.cosmos webreaper.mongo webreaper.redis \
-          webreaper.azureservicebus webreaper.puppeteer; do
+          webreaper.azureservicebus webreaper.puppeteer webreaper.sqlite \
+          webreaper.ai webreaper.extraction.attributes \
+          webreaper.extraction.generators webreaper.mcp; do
   curl -s "https://api.nuget.org/v3-flatcontainer/$id/index.json" | grep -q '"<VERSION>"' \
     && echo "$id INDEXED" || echo "$id NOT YET"
 done

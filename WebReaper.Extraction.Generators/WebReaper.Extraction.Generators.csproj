@@ -18,6 +18,7 @@
     <!-- ADR-0017: relicensed to MIT to remove funnel-adoption friction. -->
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>scraper, source-generator, roslyn, extraction</PackageTags>
+    <PackageReleaseNotes>10.0.0: initial release. Roslyn IIncrementalGenerator (ADR-0045) emitting a compile-time `static Schema Schema` and a reflection-free `static Materialize(JsonObject)` on partial classes marked with [ScrapeSchema]. AOT-clean — no reflection, no dynamic; the source-generator runs at compile time and emits ordinary C# the AOT publish trims and inlines. The .NET-native structural differentiator (REPOSITIONING-PLAN §2.3) — Pydantic-parity Python cannot match. v1 ships the common case: single-level schemas, primitive fields, List&lt;T&gt; of primitives. Nested [ScrapeSchema] POCOs are explicitly deferred. Pairs with WebReaper.Extraction.Attributes; requires WebReaper 10.0.0 at runtime.</PackageReleaseNotes>
 
     <DevelopmentDependency>true</DevelopmentDependency>
   </PropertyGroup>
