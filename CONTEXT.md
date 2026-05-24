@@ -211,17 +211,23 @@ _Avoid_: initialization, connect, startup, IAsyncInitialization (the property-sh
 The dual of **Adapter warm-up** (ADR-0058). `ScraperEngine` is `IAsyncDisposable`; `DisposeAsync` walks adapters in *reverse* warm-up order — page processors → sinks → tracker → scheduler → spider — then runs builder-registered teardown hooks in LIFO order (`ScraperEngineBuilder.OnTeardown(IAsyncDisposable)`). The reverse order keeps dependent adapters valid while their dependencies flush; the LIFO hook list closes satellite-spawned subprocess resources (CloakBrowser's stealth Chromium, future Playwright `IBrowser`) whose lifecycle is the engine's, not the loader's. Per-adapter exceptions log at Warning and are swallowed — a scrape that succeeded is not retroactively failed by a teardown burp. The recommended consumer pattern is `await using var engine = await builder.BuildAsync();`. The ADR-0009 distributed-driver consumer disposes its own adapters by hand; the chain ships on the in-process `ScraperEngineBuilder` only.
 _Avoid_: shutdown, close, finalize.
 
-### AI-native (the ADR-0040..0051 wave)
+### AI-native (the ADR-0040..0064 wave)
 
 **Markdown extraction**:
 The no-schema **Content extractor** strategy (`MarkdownContentExtractor`,
 ADR-0040) — the second adapter of the `IContentExtractor` seam. Reached
 via the second `ICrawlSeed` terminal `AsMarkdown()`; produces a
-`{ title, markdown }` `JsonObject` of the page's main content. A
-tag-based Readability heuristic picks `<article>`/`<main>`/`[role=main]`
-over `<body>`, strips chrome (nav/footer/aside/script/etc.), and walks
-the surviving DOM into GFM Markdown. Deterministic, AOT-clean, no LLM
-dependency — the funnel's "LLM-ready output without an LLM call" wedge.
+`{ title, markdown }` `JsonObject` of the page's main content. Since
+ADR-0063 the adapter is a ~20-line thin shell over the public
+**HTML-to-Markdown primitive** (`HtmlToMarkdown` in
+`WebReaper.Core.Markdown`) — the heuristic + strip + GFM-render
+implementation lives in the primitive; the adapter delegates and
+wraps the result as the `JsonObject` shape the sinks expect.
+Deterministic, AOT-clean, no LLM dependency — the funnel's
+"LLM-ready output without an LLM call" wedge. Callers needing just
+the Markdown string (the LLM extractor's pre-clean, the change-
+tracking processor's hash, the agent engine's state-building) reach
+the primitive directly, not the adapter.
 _Avoid_: markdown adapter, markdownifier.
 
 **Page cache**:
@@ -414,6 +420,144 @@ fit a snapshot store). The serialization is hand-written
 AOT-trivially-safe via `Utf8JsonWriter` / `JsonObject.WriteTo`.
 _Avoid_: "checkpointer", "memory store", "agent persistence".
 
+**LLM call** (ADR-0059):
+The deep mechanism module the four `Llm*` adapters share —
+`LlmCall<TResponse>` in `WebReaper.AI/Llm/`. Owns the parts every
+adapter would otherwise duplicate: `ChatOptions` construction,
+`IChatClient.GetResponseAsync` invocation, text extraction,
+code-fence stripping (one canonical implementation),
+JSON-parse-failure retry (bounded at one inline retry with a
+"respond with valid JSON only" reminder), `ChatResponse.Usage.
+TotalTokenCount` capture, and — when the per-role descriptor
+ships a tool list — the tool-call dispatch path (ADR-0060). Does
+not own prompt content, response shape, or domain-type
+construction; those are the **Llm call descriptor**'s policy.
+Public — consumer-authored AI adapters reuse the canonical
+mechanism for consistent fence-stripping / parse-retry / Usage
+capture. **The mechanism is the only place** an LLM-output
+post-processing decision lives; per-role adapters become thin
+descriptors.
+_Avoid_: LLM wrapper, LLM client (that is `IChatClient`),
+prompt runner, model invoker.
+
+**Llm call descriptor** (ADR-0059):
+The per-role policy record — `LlmCallDescriptor<TResponse>`.
+Carries the role's invariant `SystemPrompt`, the per-call
+`BuildUserMessage` `Func<>`, the per-role `ParseResponse`
+`Func<JsonElement, TResponse>`, the optional `Tools` list (the
+ADR-0060 seam — when non-null the mechanism switches to tool-
+call mode) and its companion `ParseToolCall`, plus per-role
+defaults (`Model`, `Temperature`, `MaxResponseTokens`,
+`ResponseFormat`). Composition over inheritance: every `Llm*`
+adapter is a descriptor + a `LlmCall<T>` delegate. Sibling-of-
+**LLM call**; one descriptor per role; each `Llm*` adapter
+shrinks to ~40-60 lines of "what's my descriptor."
+_Avoid_: prompt template, prompt config, role config.
+
+**Brain tool registry** (ADR-0060):
+The closed-sum-as-tools mapping the brain and the action resolver
+register through `Microsoft.Extensions.AI`'s `ChatOptions.Tools`
++ `AIFunction`. Each `AgentDecision` arm (Extract / Follow /
+Act\* / Stop) is one tool on the brain's registry; each concrete
+`PageAction` arm (six — no `SemanticAct`, ever) is one tool on
+the resolver's registry. The model picks one tool by call; the
+SDK delivers the typed arguments; `LlmCall<T>`'s tool-call path
+dispatches to the descriptor's `ParseToolCall`. The closed sum
+becomes load-bearing **at the LLM boundary** the same way it is
+in C#: an unknown arm is structurally impossible at the seam,
+not a `default:` branch. Flat packaging on both registries
+(brain ships nine flat tools — three decision arms plus seven
+flat `Act*` arms; resolver ships six — only the concrete `Act*`
+arms; the `ActSemanticAct` absence is the structural loop
+prevention). Resolver's "must not return SemanticAct" rule is
+enforced by NOT registering the tool, not by runtime check.
+_Avoid_: tool list (unqualified — there are two distinct
+registries), function registry, brain commands.
+
+**Agent decision outcome** (ADR-0061):
+The closed-sum companion to **Agent decision** — `AgentDecisionOutcome`
+on `WebReaper.Domain.Agent`. The brain's feedback signal:
+"what happened when the engine executed your last decision?"
+Six arms — `None` (first step), `Extracted(Record?, RecordCount)`,
+`Followed(ActualUrl, StatusCode)`, `ActDispatched(ResolvedAction)`,
+`Failed(Reason, ExceptionType?)`, `Stopped(Reason)` (end-state
+marker; brain never sees it). Carried on `AgentState.LastOutcome`
+(default `None`) and persisted on `AgentRunSnapshot.LastOutcome`
+so resumed runs pick up causally. Same closed-sum lineage as
+`AgentDecision` itself (ADR-0001 / ADR-0051). On Extract,
+the validator's verdict (ADR-0062) becomes
+`Failed("validation: <reason>", null)` — the brain reads the
+specific failure and revises. Load failures stop being terminal
+(ADR-0051's behaviour change): they become `Failed(...)` and
+the loop continues; the brain decides whether to retry / pivot /
+Stop.
+_Avoid_: agent feedback, agent result-of-step, decision result.
+
+**Schema validator** (ADR-0062):
+The validator half of the proposer-validator pattern —
+`ISchemaValidator` in `WebReaper/Core/Parser/Abstract/`. Sibling
+seam to the **Content extractor**. One method:
+`ValidationResult Validate(JsonObject? extracted, Schema? schema)`.
+Default `SchemaSatisfiedValidator` preserves the ADR-0029 +
+ADR-0046 policy (string-empty / list-empty triggers; integer 0,
+boolean false are valid; missing field path surfaces in
+`Reason`). Three sites consume it: the **Extraction router**
+(ADR-0046, primary-to-fallback decision); the **Self-healing
+content extractor** (ADR-0047, repair trigger — the
+`ISelectorRepairer.RepairAsync` signature widens to carry the
+`failureReason` string the validator emitted); and the **Agent
+brain** (ADR-0051), through the agent driver's Extract switch
+arm — a failed verdict becomes `AgentDecisionOutcome.Failed
+("validation: ...")` (ADR-0061 composition). Selected via
+`WithSchemaValidator(...)` on both builders.
+_Avoid_: schema checker, extraction validator, content validator.
+
+**HTML-to-Markdown primitive** (ADR-0063):
+The pure synchronous conversion function — `HtmlToMarkdown` in
+`WebReaper.Core.Markdown`. Two overloads: `Convert(html) →
+string` for the just-Markdown callers (the LLM extractor's pre-
+clean, the LLM repairer's pre-clean, the change-tracking hash,
+the agent engine's state-building); `ExtractMainContent(html) →
+MainContent { Title, Markdown }` for the adapter case. The
+canonical tag-based Readability heuristic (article → main →
+[role=main] → body), the chrome-strip list, the GFM rendering
+all live here. `MarkdownContentExtractor` becomes a ~20-line
+thin `IContentExtractor` shell over the primitive — the
+adapter survives because the `AsMarkdown()` seed terminal needs
+the seam-implementing class, but its body is "one call, one
+wrap." Public; AOT-clean.
+_Avoid_: Markdown converter (use the function name), GFM
+renderer, content-to-markdown.
+
+**AI policy** (ADR-0064):
+The one-shot `UseAi(IChatClient, AiOptions?)` registration on
+both builders — `ScraperEngineBuilder` and `AgentEngineBuilder`.
+Aggregates the five `WithLlm*` registrations into one method;
+mode-gated (the **AI policy mode** enum picks the canned
+configuration). Per-role overrides via nested options records:
+global `Model` / `Temperature` / `MaxResponseTokens` flow down;
+per-role options-record fields override on conflict. The à la
+carte `WithLlm*` methods stay; `.UseAi(...)` is sugar over them.
+On the agent side `.UseAi(...)` always wires the brain (the
+agent is structurally useless without one — ADR-0051); on the
+scraper side `.UseAi(Recommended)` wires the firecrawl-shaped
+fall-back-first triple (LLM-as-fallback extractor +
+self-healing repairer + action resolver).
+_Avoid_: AI config, AI setup, AI bundle.
+
+**AI policy mode** (ADR-0064):
+The closed enum picking the canned `.UseAi(...)` configuration —
+`AiPolicyMode { Recommended, LlmPrimary, ExtractionOnly, None }`.
+Mutually exclusive (not flags — composition is what à la carte
+is for). `Recommended` is the default: deterministic-first +
+LLM-as-rescue (matches ADR-0046 / ADR-0047 structural posture).
+`LlmPrimary` replaces the deterministic extractor with the LLM
+on every page. `ExtractionOnly` wires just the extractor + (on
+scraper) fallback. `None` is the explicit escape — wires the
+brain only on agent-side, nothing on scraper-side; useful for
+tests and bespoke compositions.
+_Avoid_: policy flags, AI features, configuration preset.
+
 ## Relationships
 
 - A **Crawl** processes many **Job**s.
@@ -437,6 +581,12 @@ _Avoid_: "checkpointer", "memory store", "agent persistence".
 - A **Semantic action** (`PageAction.SemanticAct(intent)`) dispatches through one **Action resolver**: cache miss ⇒ call the resolver with the rendered HTML, receive a concrete arm (Click / WaitForSelector / Wait / EvaluateExpression), dispatch it, cache by intent; cache hit ⇒ dispatch the cached arm; cached-arm dispatch failure ⇒ invalidate + re-resolve. The deterministic path is the hot path — first page pays the LLM, every subsequent same-intent page dispatches the cached arm with no LLM call. Same proposer-validator shape as the **Extraction router** and **Self-healing content extractor** on the extraction surface (ADR-0046, ADR-0047).
 - An **Agent driver** drives an **Agent run**: it loads the start URL, asks the **Agent brain** for an **Agent decision** from the **Agent state**, persists via the **Agent run store** (persist-before-execute), dispatches the decision's effect using the same seams the **Crawl driver** uses (`IPageLoader`, `IContentExtractor`, `IActionResolver`, `IScraperSink`, `IPageProcessor`, `IVisitedLinkTracker`), and loops until the brain returns `Stop` or a cap fires.
 - The four proposer-validator docks — **Extraction router** (ADR-0046), **Self-healing content extractor** (ADR-0047), **Semantic action** dispatch (ADR-0050), and **Agent driver** page-selection (ADR-0051) — share one shape: an LLM proposer is asked once, a deterministic validator decides, the cached deterministic answer is the hot path. The first three are page-local; the fourth is page-spanning. The pattern is now a project-level invariant, not three features that happen to look alike.
+- Every `Llm*` adapter in `WebReaper.AI` is a **Llm call descriptor** composed with one **LLM call** mechanism — `LlmContentExtractor` / `LlmSelectorRepairer` / `LlmActionResolver` / `LlmAgentBrain` are all "what's my descriptor" classes around a shared `LlmCall<TResponse>`. The mechanism owns code-fence stripping, JSON-parse-failure retry, `ChatResponse.Usage` capture, and the tool-call dispatch path; the descriptor owns prompt content + response shape + per-role failure policy. Consumer-authored AI adapters reuse the mechanism for consistent behaviour.
+- The **Brain tool registry** (ADR-0060) is one **Llm call descriptor**'s `Tools` field — when set, `LlmCall<T>` takes the tool-call path instead of JSON-mode parsing. The closed sum (`AgentDecision` arms on the brain; concrete `PageAction` arms on the resolver) becomes load-bearing at the LLM boundary the same way it is in C#; the resolver's "must not return SemanticAct" rule is enforced by the absence of an `ActSemanticAct` tool, not by runtime validation.
+- The brain's view of the previous step is one closed-sum field — `AgentState.LastOutcome`, an **Agent decision outcome**. The engine populates it from the prior step's execution result; first-step brains see `None`. The validator's verdict on Extract (a failed **Schema validator** check) surfaces as `Failed("validation: <reason>", null)`; load failures surface as `Failed(...)` and the loop continues; SemanticAct's resolution becomes `ActDispatched(ResolvedAction)`. The brain reads the previous outcome alongside its history and decides next.
+- The **Schema validator** seam (ADR-0062) is consumed by three sites — the **Extraction router** (primary-to-fallback decision), the **Self-healing content extractor** (repair trigger + failure-reason propagation to `ISelectorRepairer.RepairAsync`), and the **Agent driver** (Extract switch arm; verdict becomes the **Agent decision outcome**). The default `SchemaSatisfiedValidator` preserves the ADR-0029 / ADR-0046 policy; consumers swap via `WithSchemaValidator(...)` on either builder.
+- The **HTML-to-Markdown primitive** (ADR-0063) is a public static function shared by **Markdown extraction** (the adapter is a thin shell), the **LLM extractor**'s pre-clean, the **Self-healing extractor**'s pre-clean, the **Change tracking** processor's hash, and the **Agent driver**'s state-building. One canonical function in `WebReaper.Core.Markdown`; the adapter survives only because the `AsMarkdown()` seed terminal needs the seam-implementing class.
+- **AI policy** (`.UseAi(client, opts?)`, ADR-0064) is the one-line wiring that aggregates the five `WithLlm*` registrations. The **AI policy mode** enum (`Recommended` / `LlmPrimary` / `ExtractionOnly` / `None`) picks the canned configuration; per-role nested options override the global defaults. On the agent builder `.UseAi(...)` always wires the brain (`Recommended` / `LlmPrimary` / `ExtractionOnly` differ only in what *else* gets wired); on the scraper builder `.UseAi(Recommended)` is the firecrawl-shaped fall-back-first triple (LLM-fallback extractor + self-healing repairer + action resolver). À la carte `WithLlm*` methods remain for fine-tuning.
 
 ## Example dialogue
 
