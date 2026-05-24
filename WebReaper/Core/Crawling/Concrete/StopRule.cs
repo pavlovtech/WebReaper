@@ -30,6 +30,7 @@ internal sealed class StopRule
     private readonly ILogger _logger;
 
     private int _concluded;
+    private string? _stopReason;
 
     public StopRule(
         IOutstandingWorkLatch latch,
@@ -50,6 +51,11 @@ internal sealed class StopRule
     /// lock-free flag read, no per-Job visited-count round-trip.
     /// </summary>
     public bool IsCrawlOver => Volatile.Read(ref _concluded) == 1;
+
+    /// <summary>The human-readable reason the Crawl concluded — set on the
+    /// CAS-winning <see cref="Conclude"/> call; null until then. Consumed
+    /// by the Crawl driver's ADR-0018 <c>CrawlStopped</c> trace event.</summary>
+    public string? StopReason => Volatile.Read(ref _stopReason);
 
     /// <summary>
     /// Seed the Outstanding-work latch (under <c>StopWhenDrained</c>) and
@@ -93,6 +99,11 @@ internal sealed class StopRule
     {
         if (Interlocked.CompareExchange(ref _concluded, 1, 0) != 0)
             return false;
+
+        var reason = drained
+            ? "all outstanding work drained"
+            : $"page crawl limit {_pageCrawlLimit} reached";
+        Volatile.Write(ref _stopReason, reason);
 
         if (drained)
             _logger.LogInformation("Crawl complete: all outstanding work drained");

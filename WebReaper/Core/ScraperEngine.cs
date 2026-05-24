@@ -6,6 +6,9 @@ using WebReaper.Core.Crawling;
 using WebReaper.Core.Crawling.Abstract;
 using WebReaper.Core.Crawling.Concrete;
 using WebReaper.Core.LinkTracker.Abstract;
+using WebReaper.Core.Observability;
+using WebReaper.Core.Observability.Abstract;
+using WebReaper.Core.Observability.Concrete;
 using WebReaper.Core.Scheduler.Abstract;
 using WebReaper.Core.Spider.Abstract;
 using WebReaper.Domain;
@@ -65,7 +68,8 @@ public class ScraperEngine : IAsyncDisposable
         IReadOnlyList<IPageProcessor>? pageProcessors = null,
         IOutstandingWorkLatch? latch = null,
         IRetryPolicy? retryPolicy = null,
-        IReadOnlyList<IAsyncDisposable>? ownedDisposables = null)
+        IReadOnlyList<IAsyncDisposable>? ownedDisposables = null,
+        IExtractionTrace? trace = null)
     {
         ParallelismDegree = parallelismDegree;
         ArgumentNullException.ThrowIfNull(configStorage);
@@ -90,6 +94,9 @@ public class ScraperEngine : IAsyncDisposable
         _ownedDisposables = ownedDisposables is { Count: > 0 }
             ? new List<IAsyncDisposable>(ownedDisposables)
             : new List<IAsyncDisposable>(0);
+        // ADR-0018: the trace adapter for PageProcessed / SinkEmit /
+        // CrawlStopped events. Default is no-op (zero allocation per event).
+        Trace = trace ?? NullExtractionTrace.Instance;
     }
 
     private IScraperConfigStorage ConfigStorage { get; }
@@ -102,6 +109,7 @@ public class ScraperEngine : IAsyncDisposable
     private IOutstandingWorkLatch Latch { get; }
     private IRetryPolicy RetryPolicy { get; }
     private readonly List<IAsyncDisposable> _ownedDisposables;
+    private IExtractionTrace Trace { get; }
     private bool _disposed;
 
     private int ParallelismDegree { get; }
@@ -254,6 +262,19 @@ public class ScraperEngine : IAsyncDisposable
             // is the normal, successful end of the Crawl — not a fault, not a
             // caller cancellation. Swallow and return.
             Logger.LogInformation("Crawl complete");
+            // ADR-0018: emit the CrawlStopped trace event on a natural
+            // completion. Not emitted on caller-cancellation (that's a
+            // distinct lifecycle — the caller knows what they cancelled).
+            // Url field is the crawl-as-a-whole — a sentinel non-URL value
+            // ("crawl") communicates "this is a crawl-level, not a page-
+            // level, event"; a real consumer would parse `kind` first.
+            try
+            {
+                await Trace.RecordAsync(
+                    new TraceEvent.CrawlStopped(stopRule.StopReason ?? "concluded") { Url = "crawl" },
+                    cancellationToken);
+            }
+            catch { /* trace failures never mask completion */ }
         }
         catch (OperationCanceledException ex)
         {
@@ -329,12 +350,35 @@ public class ScraperEngine : IAsyncDisposable
                 case PageVerdict.Dropped dropped:
                     Logger.LogInformation("Page {Url} dropped by {Processor}: {Reason}",
                         job.Url, processor.GetType().Name, dropped.Reason);
+                    // ADR-0018: emit the Dropped verdict before returning so
+                    // the trace records the drop reason; the page never
+                    // reaches the sinks (no SinkEmit follows).
+                    try
+                    {
+                        await Trace.RecordAsync(
+                            new TraceEvent.PageProcessed(
+                                $"Dropped by {processor.GetType().Name}: {dropped.Reason}")
+                            { Url = job.Url },
+                            cancellationToken);
+                    }
+                    catch { /* trace never aborts the pipeline */ }
                     return;
                 case PageVerdict.Kept kept:
                     record = kept.Data;
                     break;
             }
         }
+
+        // ADR-0018: the page survived every processor. Emit the Kept verdict
+        // before fan-out so a trace reader sees "PageProcessed then SinkEmit
+        // per sink" in order.
+        try
+        {
+            await Trace.RecordAsync(
+                new TraceEvent.PageProcessed("Kept") { Url = job.Url },
+                cancellationToken);
+        }
+        catch { /* trace never aborts the pipeline */ }
 
         Logger.LogInformation("Sending scraped data to sinks...");
         // ADR-0031: hand each sink its own deep-cloned Data. The fan-out runs
@@ -343,8 +387,21 @@ public class ScraperEngine : IAsyncDisposable
         // BufferedFileSink queues the object to drain later. The `with` copy
         // bypasses ParsedData's merge initializer (the clone is of the
         // already-merged Data), so there is no double-merge.
-        var sinkTasks = Sinks.Select(sink => sink.EmitAsync(
-            record with { Data = (JsonObject)record.Data.DeepClone() }, cancellationToken));
+        // ADR-0018: one SinkEmit per sink, emitted BEFORE Task.WhenAll so the
+        // trace pre-records "this sink was invoked" even if the sink's task
+        // races to completion before we observe it.
+        var sinkTasks = Sinks.Select(sink =>
+        {
+            try
+            {
+                _ = Trace.RecordAsync(
+                    new TraceEvent.SinkEmit(sink.GetType().Name) { Url = job.Url },
+                    cancellationToken);
+            }
+            catch { /* trace never aborts the pipeline */ }
+            return sink.EmitAsync(
+                record with { Data = (JsonObject)record.Data.DeepClone() }, cancellationToken);
+        });
 
         Logger.LogInformation("Waiting for sinks ...");
         await Task.WhenAll(sinkTasks);

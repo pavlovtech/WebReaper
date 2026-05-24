@@ -1,5 +1,9 @@
 using System.Collections.Immutable;
+using System.Security.Cryptography;
+using System.Text;
 using WebReaper.Core.Crawling.Abstract;
+using WebReaper.Core.Observability;
+using WebReaper.Core.Observability.Abstract;
 using WebReaper.Core.Parser.Abstract;
 using WebReaper.Core.Parser.Concrete;
 using WebReaper.Domain;
@@ -20,14 +24,23 @@ namespace WebReaper.Core.Crawling.Concrete;
 /// adapter, never a real seam). ADR 0008: the seam's terminal is a typed
 /// <c>JsonObject</c>; the legacy Newtonsoft <c>IContentParser</c> (JObject)
 /// was removed at 6.0.0.
+/// <para>
+/// ADR-0018: emits <see cref="TraceEvent.ExtractionStarted"/> +
+/// <see cref="TraceEvent.ExtractionCompleted"/> around the
+/// <see cref="IContentExtractor.ExtractAsync"/> call on target pages
+/// (chain-empty branch). Transit / pagination branches don't extract,
+/// so they don't trace.
+/// </para>
 /// </summary>
 internal sealed class CrawlStep : ICrawlStep
 {
     private readonly IContentExtractor _extractor;
+    private readonly IExtractionTrace _trace;
 
-    public CrawlStep(IContentExtractor extractor)
+    public CrawlStep(IContentExtractor extractor, IExtractionTrace? trace = null)
     {
         _extractor = extractor;
+        _trace = trace ?? Observability.Concrete.NullExtractionTrace.Instance;
     }
 
     public async ValueTask<CrawlOutcome> StepAsync(Job job, string document, Schema? schema)
@@ -37,7 +50,11 @@ internal sealed class CrawlStep : ICrawlStep
         // Empty selector chain ⇒ target page: parse with the Schema, no Jobs.
         if (chain.IsEmpty)
         {
+            await _trace.RecordAsync(
+                new TraceEvent.ExtractionStarted(HashSchema(schema)) { Url = job.Url });
             var data = await _extractor.ExtractAsync(document, schema);
+            await _trace.RecordAsync(
+                new TraceEvent.ExtractionCompleted(data) { Url = job.Url });
             return CrawlOutcome.Target(new ParsedData(job.Url, data));
         }
 
@@ -58,6 +75,18 @@ internal sealed class CrawlStep : ICrawlStep
         var nextPages = CreateJobs(job, currentSelector, chain, pageLinks);
 
         return CrawlOutcome.Pagination(items, nextPages);
+    }
+
+    // Stable schema-shape hash for the trace event. Null Schema (Markdown
+    // extractor / no-schema strategy) returns null. We hash the schema's
+    // ToString() — Schema is a deterministic record-ish shape; same shape
+    // ⇒ same string. Compact 16-hex-char prefix so the trace JSONL stays
+    // grep-able.
+    private static string? HashSchema(Schema? schema)
+    {
+        if (schema is null) return null;
+        var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(schema.ToString() ?? ""));
+        return Convert.ToHexString(bytes, 0, 8).ToLowerInvariant();
     }
 
     private static ImmutableArray<Job> CreateJobs(

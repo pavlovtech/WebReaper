@@ -9,6 +9,8 @@ using WebReaper.Core.Actions.Abstract;
 using WebReaper.Core.Actions.Concrete;
 using WebReaper.Core.CookieStorage.Abstract;
 using WebReaper.Core.LinkTracker.Abstract;
+using WebReaper.Core.Observability.Abstract;
+using WebReaper.Core.Observability.Concrete;
 using WebReaper.Core.LinkTracker.Concrete;
 using WebReaper.Core.Loaders.Abstract;
 using WebReaper.Core.Loaders.Concrete;
@@ -479,6 +481,36 @@ public class ScraperEngineBuilder
     // on engine teardown.
     private readonly List<IAsyncDisposable> _teardownHooks = new();
 
+    // ADR-0018: page-lifecycle trace adapter. Default is the no-op
+    // (zero allocation per event). WithExtractionTrace / TraceToFile
+    // replaces it AND propagates to SpiderBuilder so Spider + CrawlStep
+    // emit through the same adapter as the Crawl driver.
+    private IExtractionTrace _extractionTrace = NullExtractionTrace.Instance;
+
+    /// <summary>
+    /// ADR-0018: register the page-lifecycle <see cref="IExtractionTrace"/>
+    /// adapter. Emits seven event arms across the load → extract →
+    /// process → emit pipeline. Default is <c>NullExtractionTrace</c>
+    /// (zero allocation per event). The free shipped alternative is
+    /// <c>FileExtractionTrace</c> — see <see cref="TraceToFile"/>.
+    /// </summary>
+    /// <exception cref="ArgumentNullException"><paramref name="trace"/> is null.</exception>
+    public ScraperEngineBuilder WithExtractionTrace(IExtractionTrace trace)
+    {
+        ArgumentNullException.ThrowIfNull(trace);
+        _extractionTrace = trace;
+        SpiderBuilder.ExtractionTrace = trace;
+        return this;
+    }
+
+    /// <summary>
+    /// ADR-0018: register a <c>FileExtractionTrace</c> appending JSONL
+    /// trace events to <paramref name="path"/>. One-liner for the common
+    /// case (mirrors <c>WriteToJsonFile</c>'s shape).
+    /// </summary>
+    public ScraperEngineBuilder TraceToFile(string path)
+        => WithExtractionTrace(new FileExtractionTrace(path));
+
     /// <summary>
     /// ADR-0058: register an <see cref="IAsyncDisposable"/> the engine will
     /// dispose on teardown (LIFO order, after the adapter chain). The hook
@@ -782,7 +814,11 @@ public class ScraperEngineBuilder
             // hooks to the engine; await using on the engine fires them on
             // scope exit. List shared by reference so a same-builder build
             // is rare (and would still see the same hooks).
-            ownedDisposables: _teardownHooks);
+            ownedDisposables: _teardownHooks,
+            // ADR-0018: same trace adapter the SpiderBuilder routed into the
+            // Spider + CrawlStep, so all eight event arms emit through one
+            // consistent adapter.
+            trace: _extractionTrace);
     }
 
     // ADR-0050: the SemanticAct-without-a-resolver detector. Reads both

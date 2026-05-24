@@ -10,6 +10,7 @@ using WebReaper.Core.LinkTracker.Abstract;
 using WebReaper.Core.LinkTracker.Concrete;
 using WebReaper.Core.Loaders.Abstract;
 using WebReaper.Core.Loaders.Concrete;
+using WebReaper.Core.Observability.Abstract;
 using WebReaper.Core.Parser.Abstract;
 using WebReaper.Core.Parser.Concrete;
 using WebReaper.Core.Crawling.Concrete;
@@ -65,6 +66,13 @@ internal class SpiderBuilder
     // transport, and a warning fires at engine construction if the config
     // contains any SemanticAct.
     private IActionResolver ActionResolver { get; set; } = NullActionResolver.Instance;
+
+    // ADR-0018: page-lifecycle trace adapter. NullExtractionTrace is the
+    // default (zero allocation per event). ScraperEngineBuilder's
+    // WithExtractionTrace / TraceToFile sets this and the driver-side trace
+    // in lockstep.
+    internal IExtractionTrace ExtractionTrace { get; set; } =
+        WebReaper.Core.Observability.Concrete.NullExtractionTrace.Instance;
 
     private IProxyProvider? ProxyProvider { get; set; }
 
@@ -307,13 +315,14 @@ internal class SpiderBuilder
 
         CookieStorage.AddAsync(Cookies);
 
-        var crawlStep = new CrawlStep(ContentExtractor);
+        var crawlStep = new CrawlStep(ContentExtractor, ExtractionTrace);
 
         var spider = new Spider(
             crawlStep,
             PageLoader,
             Config.Headless,
-            Config.ParsingScheme);
+            Config.ParsingScheme,
+            ExtractionTrace);
 
         return spider;
     }

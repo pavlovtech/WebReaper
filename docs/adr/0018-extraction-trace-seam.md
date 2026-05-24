@@ -2,11 +2,23 @@
 
 ## Status
 
-**Proposed — design pass only** (2026-05-24). Cashes
-[REPOSITIONING-PLAN §2.10](../REPOSITIONING-PLAN.md). The next plan-defined
-ADR; the first one with a *paid* surface (hosted dashboard / replay UI),
-all of which is gated and deferred — this ADR ships the free OSS half. No
-implementation in this ADR; the proposal lives or dies on the design call.
+**Accepted — implementation complete** (2026-05-24). Sibling to the v10.x
+transports cleanup wave (ADRs 0056..0058). Implements the free OSS half
+named in [REPOSITIONING-PLAN §2.10](../REPOSITIONING-PLAN.md): the
+`IExtractionTrace` seam + `NullExtractionTrace` (default, allocation-free)
++ `FileExtractionTrace` (JSONL appender). The hosted-dashboard third
+adapter (the paid future) remains deferred per the original design.
+
+**v1 deviations from the design's §"Decision §1" event sum** — both
+additive when their upstream sources land:
+
+- `PageLoadCompleted` ships without `ContentType`. The
+  `IPageLoadTransport` seam returns `Task<string>` — the response
+  Content-Type isn't on the surface; widening it is the same follow-up
+  ADR-0056 §"HTTP-status surface" already names.
+- `ExtractionCompleted` ships without `MissingRequired`. The
+  `SchemaSatisfiedValidator` (ADR-0046) is the source for that signal;
+  routing its output into the trace event is a follow-up enrichment.
 
 ## Context
 

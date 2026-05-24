@@ -1,5 +1,31 @@
 # Changelog
 
+## 10.0.0 (in progress) — v10.x cleanup wave (ADR-0017 flip + ADR-0018 impl + ADR-0056..0058)
+
+Two more ADRs ship in this same wave alongside the transports-cleanup
+trio above. Both are additive minors that close named pre-shipped gaps:
+
+- **ADR-0017 — status flip Draft → Accepted.** The GPL→MIT relicense
+  shipped 2026-05-23 via PR #98; the ADR's Status line was stale.
+  Document now matches reality (LICENSE.txt is MIT; the seven csprojs
+  carry `PackageLicenseExpression=MIT`; the shared property is in
+  `Directory.Build.props` per ADR-0023).
+- **ADR-0018 — `IExtractionTrace` seam + Null/File adapters.**
+  Implements the free OSS half of the page-lifecycle observability
+  story named in REPOSITIONING-PLAN §2.10. Eight-arm closed-sum
+  `TraceEvent` (Load × 3 + Extraction × 2 + PageProcessed + SinkEmit +
+  CrawlStopped); `NullExtractionTrace` (default, `ValueTask.CompletedTask`
+  per call); `FileExtractionTrace` (JSONL appender, buffered-drain
+  pattern from ADR-0006); `ScraperEngineBuilder.WithExtractionTrace` +
+  `TraceToFile(path)` one-liner. The hosted-dashboard third adapter
+  (paid future, REPOSITIONING-PLAN §3) remains deferred — the seam is
+  the same. v1 deviations from the ADR's exact field set:
+  `PageLoadCompleted` ships without `ContentType` (loader doesn't
+  surface it yet — same gap ADR-0056 §"HTTP-status surface" names);
+  `ExtractionCompleted` ships without `MissingRequired` (the
+  `SchemaSatisfiedValidator` from ADR-0046 owns that signal; routing
+  it into the trace is a future enrichment).
+
 ## 10.0.0 (in progress) — v10.x transports cleanup wave (ADR-0056..0058)
 
 The deliberate post-Transports-wave follow-ups named in ADRs 0052..0055 — the

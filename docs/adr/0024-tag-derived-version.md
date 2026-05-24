@@ -2,12 +2,15 @@
 
 ## Status
 
-**Proposed** — design pass. One fork is deliberately left open for the
-maintainer to grill: how an **additive single-satellite** release expresses a
-version divergence once there is no `<Version>` to override (see *The grilling
-fork*). No implementation has landed; ADR-0023's `Directory.Build.props`
-single-source change (the same PR as this ADR) is the accepted interim and
-stands on its own regardless of how this resolves.
+**Proposed — awaiting maintainer grilling** (re-confirmed 2026-05-24).
+The single open fork — how additive single-satellite releases express a
+version divergence once `<Version>` is tag-derived — is explicitly a
+maintainer-HITL decision (the runbook trade between three named options:
+scoped tags, `workflow_dispatch` input, or lockstep-only). Autonomous
+implementation is deferred until the fork is closed; the
+`Directory.Build.props` single-source interim from ADR-0023 has shipped
+and continues to stand on its own. No code lands from this ADR until
+the maintainer picks the divergence-expression path.
 
 ## Context
 
