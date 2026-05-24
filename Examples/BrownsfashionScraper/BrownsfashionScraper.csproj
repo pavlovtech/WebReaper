@@ -25,7 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\WebReaper\WebReaper.csproj" />
-    <ProjectReference Include="..\..\WebReaper.Puppeteer\WebReaper.Puppeteer.csproj" />
+    <ProjectReference Include="..\..\WebReaper.Playwright\WebReaper.Playwright.csproj" />
   </ItemGroup>
 
   <ItemGroup>

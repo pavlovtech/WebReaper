@@ -5,9 +5,14 @@
     Native-AOT clean. The same IL warning set as WebReaper.AotSmokeTest
     is promoted to error so the funnel's AOT cold-start claim
     (REPOSITIONING-PLAN §2.5) is verified by every publish, not just
-    the smoke. NuGet deps are deliberately zero — only ProjectReference
-    to WebReaper. The skill SKILL.md ships embedded so `init` does not
+    the smoke. The skill SKILL.md ships embedded so `init` does not
     depend on the working directory layout.
+
+    ADR-0055: the CLI bakes ONLY WebReaper.Cdp for browser support.
+    Microsoft.Playwright and WebReaper.Stealth.* are never baked — both
+    are AOT-hostile inside this binary. The CLI re-implements minimal
+    per-backend launcher logic via KnownStealthBackends; full launchers
+    live in their library satellites for JIT consumers.
   -->
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -34,6 +39,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WebReaper\WebReaper.csproj" />
+    <ProjectReference Include="..\WebReaper.Cdp\WebReaper.Cdp.csproj" />
   </ItemGroup>
 
   <ItemGroup>

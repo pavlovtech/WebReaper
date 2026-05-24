@@ -1,5 +1,5 @@
 ﻿using WebReaper.Builders;
-using WebReaper.Puppeteer;
+using WebReaper.Playwright;
 
 var engine = await ScraperEngineBuilder
     .CrawlWithBrowser("https://www.alexpavlov.dev/blog")
@@ -8,7 +8,7 @@ var engine = await ScraperEngineBuilder
         new("title", ".text-3xl.font-bold"),
         new("text", ".max-w-max.prose.prose-dark")
     })
-    .WithPuppeteerPageLoader()
+    .WithPlaywrightPageLoader()
     .FollowWithBrowser(".text-gray-900.transition")
     .WriteToJsonFile("output.json")
     .PageCrawlLimit(10)

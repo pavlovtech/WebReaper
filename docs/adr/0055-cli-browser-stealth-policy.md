@@ -2,7 +2,7 @@
 
 ## Status
 
-**Proposed** (2026-05-24). Slice 4 of 4 in the **Transports wave** (v11.0.0
+**Accepted — implementation complete** (2026-05-24). Slice 4 of 4 in the **Transports wave** (v10.0.0
 target). The CLI's documented browser story. Pins the policy decisions
 the rest of the wave (ADR-0052..0054) imply but don't own.
 
@@ -14,9 +14,9 @@ published across six RIDs (`linux-x64`, `linux-arm64`, `osx-x64`,
 constraint is load-bearing: a single self-contained binary the user
 downloads from a GitHub release and runs without a .NET runtime install.
 
-Through v10, the CLI's relationship to browser-mode page loading is
-implicit: the CLI references core only, and Dynamic page loading throws
-the core's `BrowserNotConfiguredPageLoadTransport` error directing users
+Before this wave landed in v10, the CLI's relationship to browser-mode page
+loading was implicit: the CLI referenced core only, and Dynamic page loading
+threw the core's `BrowserNotConfiguredPageLoadTransport` error directing users
 to add the `WebReaper.Puppeteer` satellite — which an AOT-distributed CLI
 cannot bake (PuppeteerSharp is not AOT-clean). The CLI's `--browser` flag
 existed at the surface but had no working backing transport.
@@ -287,20 +287,20 @@ pattern is the alternative.*
 **Minor (additive).** New CLI subcommands; no break to existing surface.
 `webreaper scrape ... --browser` *behaviour* changes (previously threw,
 now works via the auto-spawn path) — that's a bug-fix-shaped behaviour
-delta, not a contract break. v11.0.0's major is owned by ADR-0053.
+delta, not a contract break. v10.0.0's major is owned by ADR-0053.
 
-## v2 deferrals (named so they don't drift into v11)
+## v2 deferrals (named so they don't drift into v10)
 
 - **Captcha-solver install pattern** (`webreaper captcha install`) — F5
-  from Round 1, deferred to v12+.
+  from Round 1, deferred to post-v10 follow-up wave.
 - **Library-level transport escalation** (`TransportRouter`, the
   proposer-validator dock applied to transports) — F7 from Round 1,
-  deferred to v12 pending demand.
+  deferred to a follow-up wave pending demand.
 - **CLI auto-update for cached browser/stealth binaries** — a separate UX
-  question (background updater? manual? periodic check?); not in v11.
+  question (background updater? manual? periodic check?); not in v10.
 - **Mirror-CDN config for `webreaper browser install`** beyond the
   README documentation — first-class CLI flag (`--cdn-base-url`)
   deferred until users in restricted regions report blocking.
 - **Multi-platform CloakBrowser RID coverage** — depends on what
-  CloakBrowser publishes. v11 satellite covers the RIDs the upstream
+  CloakBrowser publishes. v10 satellite covers the RIDs the upstream
   ships; gaps documented in the satellite README.

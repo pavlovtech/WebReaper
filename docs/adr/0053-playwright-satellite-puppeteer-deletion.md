@@ -2,8 +2,8 @@
 
 ## Status
 
-**Proposed** (2026-05-24). Slice 2 of 4 in the **Transports wave** (v11.0.0
-target). Carries the **major break** of v11.0.0: the `WebReaper.Puppeteer`
+**Accepted — implementation complete** (2026-05-24). Slice 2 of 4 in the **Transports wave** (v10.0.0
+target). Carries the **major break** of v10.0.0: the `WebReaper.Puppeteer`
 satellite and its `WebReaper.Puppeteer.Tests` companion are deleted in the
 same release that ships `WebReaper.Playwright`. Actions the future named
 in ADR-0009 ("Puppeteer becomes removable as a package-drop — a stated
@@ -87,7 +87,7 @@ build on top.
 
 - **Multi-browser default = Chromium.** `WithPlaywrightPageLoader()` with
   no argument launches Chromium; the `PlaywrightBrowser` parameter opts
-  into Firefox or WebKit. Integration tests in v11 cover Chromium only —
+  into Firefox or WebKit. Integration tests in v10 cover Chromium only —
   the existing flaky `WebReaper.IntegrationTests` suite is too slow
   (live `alexpavlov.dev`, `Task.Delay` up to 25s) to triple. Firefox/WebKit
   parity tests are explicitly community-contributable and documented as
@@ -131,7 +131,7 @@ build on top.
   forwarder" that silently changes the runtime is worse than a compile-time
   error pointing at the new method.
 - **Parallel-ship: both satellites coexist; mark Puppeteer `[Obsolete]`
-  with one-major deprecation window, remove in v12 (considered, rejected).**
+  with one-major deprecation window, remove in a follow-up wave (considered, rejected).**
   Was the original recommendation in HITL Round 1; user reversed it to
   clean-cut. Cost: extra ongoing maintenance of a satellite the project
   is moving off; users on the deprecation path stuck on a less-capable
@@ -177,7 +177,7 @@ build on top.
 
 ## Deliberate consequences
 
-- **The Dynamic-slot picker UX is now genuine.** Through v11 a consumer
+- **The Dynamic-slot picker UX is now genuine.** From v10 onward a consumer
   picks between three transport satellites: the existing HTTP transport
   in core (Static slot), and for the Dynamic slot one of Playwright
   (`WebReaper.Playwright`) or CDP-direct (`WebReaper.Cdp` — including all
@@ -189,14 +189,14 @@ build on top.
   per-transport features pick it explicitly at the library level. Two
   distinct surfaces, both supported, no ambiguity.
 - **`PuppeteerExtraSharp` is dropped from the consumer graph.** The
-  `WebReaper.Puppeteer` satellite pulled it; nothing in v11 does. Any
+  `WebReaper.Puppeteer` satellite pulled it; nothing in v10 does. Any
   consumer using the `PuppeteerExtraSharp`-based stealth plugins through
   the deleted satellite migrates to `WebReaper.Stealth.CloakBrowser`
   (ADR-0054) — a cleaner path than the puppeteer-extra plugin ecosystem.
 
 ## SemVer
 
-**Major (11.0.0).** Public surface — the entire `WebReaper.Puppeteer`
+**Major (10.0.0).** Public surface — the entire `WebReaper.Puppeteer`
 package — is deleted. Clean cut, no compat shell, no deprecation window.
 Announced via this ADR, CHANGELOG migration section, and the `README`
 upgrade guide. Consistent with ADR-0009's exact precedent ("the project's
