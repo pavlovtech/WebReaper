@@ -203,6 +203,133 @@ _Avoid_: factory, DI container, plugin host, service registration.
 The one-time async work a durable adapter does before first use — a connection, a cursor restore, a `DataCleanupOnStart` wipe. It is an opt-in capability, `IAsyncInitializable` (one member, `Task InitializeAsync()`; ADR-0033): an adapter that warms up implements it; one that does not (the in-memory scheduler / tracker, `ConsoleSink`, the file **Sink**s) implements nothing — the init-side mirror of `IAsyncDisposable`, orthogonal to the role interfaces, never welded onto them. The in-process **Crawl driver** drives it: it calls `InitializeAsync` once, before the crawl loop, on every adapter it holds that has the capability (the scheduler, the **Visited-link tracker**, every **Sink**); the consumer-authored distributed driver drives its own. `InitializeAsync` is idempotent — a `Lazy<Task>` runs the work once — and the constructor does no async work; the pre-0033 `Initialization`-property-fired-from-the-constructor shape is retired.
 _Avoid_: initialization, connect, startup, IAsyncInitialization (the property-shaped predecessor).
 
+### AI-native (the ADR-0040..0049 wave)
+
+**Markdown extraction**:
+The no-schema **Content extractor** strategy (`MarkdownContentExtractor`,
+ADR-0040) — the second adapter of the `IContentExtractor` seam. Reached
+via the second `ICrawlSeed` terminal `AsMarkdown()`; produces a
+`{ title, markdown }` `JsonObject` of the page's main content. A
+tag-based Readability heuristic picks `<article>`/`<main>`/`[role=main]`
+over `<body>`, strips chrome (nav/footer/aside/script/etc.), and walks
+the surviving DOM into GFM Markdown. Deterministic, AOT-clean, no LLM
+dependency — the funnel's "LLM-ready output without an LLM call" wedge.
+_Avoid_: markdown adapter, markdownifier.
+
+**Page cache**:
+The `IPageLoader`'s cache-aside collaborator (`IPageCache`, ADR-0041):
+firecrawl-shaped `maxAge` TTL keyed by `(url, page-type)`. Default
+`NullPageCache` (no behaviour change); `InMemoryPageCache(TimeSpan)`
+the firecrawl-shaped adapter, reached via `WithMaxAge(TimeSpan)`. A
+`TimeSpan.Zero` is the "store but never serve" mode used for
+change-tracking and "force-fresh" crawls. A cache *write* failure is
+logged and swallowed — the load succeeded.
+_Avoid_: HTTP cache, response cache.
+
+**Site mapper**:
+The URL-discovery seam (`ISiteMapper`, ADR-0042) — separate from
+extraction. Default `SiteMapper` reads `robots.txt` for `Sitemap:`
+directives, parses each sitemap (one level of sitemap-index recursion),
+extracts root-page `<a href>` URLs, unions, host-filters, optionally
+substring-filters, caps at `MaxUrls`. Reached via the static
+`ScraperEngineBuilder.MapAsync(url, options?)`. Best-effort: a 404 or
+malformed XML at any step is logged and skipped; a partial result is
+more useful than a thrown exception. Discovery is one HTTP request,
+not a Crawl — routing it through the Spider pipeline would spend
+visited-link / page-processor / sink budgets a discovery operation
+doesn't need.
+_Avoid_: sitemap parser, URL discoverer, crawler.
+
+**Source-gen schema**:
+The compile-time alternative to hand-constructed `Schema` (ADR-0045) —
+the .NET-native structural differentiator per
+[REPOSITIONING-PLAN §2.3](docs/REPOSITIONING-PLAN.md): mark a `partial`
+class with `[ScrapeSchema]`, decorate `{ get; set; }` properties with
+`[ScrapeField("selector", Type?, IsList?, Attr?)]`, and the Roslyn
+generator (`WebReaper.Extraction.Generators`) emits a
+`public static Schema Schema` and `public static T Materialize(JsonObject)`
+on the class. CLR property types map to `DataType` automatically (`int`
+→ `Integer`, etc.); `IsList=true` pairs with `List<T>`/`T[]`. Pydantic-
+parity that Python's late-binding + Pydantic's reflective introspection
+structurally cannot match — reflection-free, AOT-clean, IDE-visible at
+compile time.
+_Avoid_: schema source generator, Pydantic-port.
+
+**Extraction router**:
+The composition class (`ExtractionRouter : IContentExtractor`,
+ADR-0046) — itself an `IContentExtractor`, not a seam-of-a-seam — that
+composes a primary + fallback extractor with an optional validation
+predicate. Default predicate is `SchemaSatisfiedValidator.IsSatisfied`:
+escalates to the fallback when any required schema leaf is empty or
+absent. Integer 0 / boolean false are *valid* values (legitimate data,
+not missing); only string-empty triggers — matches the fold's ADR-0029
+fold-output policy. Reached via `WithFallbackExtractor` / the satellite
+sugar `WithLlmFallback`.
+_Avoid_: failover, decorator, fallback chain.
+
+**LLM extractor**:
+The third `IContentExtractor` adapter (`LlmContentExtractor`,
+ADR-0044), shipped in the `WebReaper.AI` satellite — bound to
+`Microsoft.Extensions.AI.Abstractions`'s `IChatClient` (the durable
+GA layer, REPOSITIONING-PLAN §2.4). The consumer brings any concrete
+chat client; the extractor pre-cleans to Markdown by default (~10×
+token savings), converts the **Schema** to JSON Schema via
+`SchemaJsonSchemaBridge` (selectors dropped — LLMs extract
+semantically), composes a system+user prompt, sets
+`ResponseFormat.Json`, calls the model, parses the response. The
+LLM call is the most expensive path — defaults are cheap and
+deterministic (Markdown pre-clean, temperature 0, 4096-token cap,
+no retries inside the extractor; the per-Job retry seam ADR-0026
+covers that).
+_Avoid_: AI extractor, GPT extractor.
+
+**Self-healing extractor**:
+The cached-selector-demotion wrapper (`SelfHealingContentExtractor`,
+ADR-0047) — itself an `IContentExtractor`. On a failed deterministic
+pass, calls an `ISelectorRepairer` (the new seam) for a patched Schema,
+re-runs the primary with the patch, validates, and caches the patch
+*if* validation succeeds. Cache key is the original Schema by reference
+identity — one patch per Schema instance, the common case. The
+default repairer (`LlmSelectorRepairer`, in `WebReaper.AI`) asks the
+LLM for a `field-name → selector` JSON map and walks the original
+Schema emitting a copy with selectors swapped. The plan §2.2's
+LLM-as-proposer / fold-as-validator wedge; after the first repair,
+subsequent pages run the deterministic fast path again.
+_Avoid_: AI healer, self-correcting, magic-fix.
+
+**Change tracking**:
+The monitoring page processor (`ChangeTrackingProcessor`, ADR-0048) — a
+plain `IPageProcessor` (ADR-0038) on the existing pipeline. Hashes the
+page's Markdown extraction (SHA-256), compares to the previously-stored
+hash for that URL via the new `IChangeStore` seam (default
+`InMemoryChangeStore`), annotates the record's `JsonObject` with a
+`change_status` field of `"new"` / `"same"` / `"changed"`. Markdown-
+based hashing strips template noise (ad rotation / timestamps) so the
+status only flips on real content change. `"removed"` is out of scope —
+detecting it needs Crawl-level state outside a per-page processor.
+_Avoid_: diff tracker, content monitor.
+
+**CLI**:
+The primitive agent surface (`WebReaper.Cli`, ADR-0043) — a single AOT
+binary with three commands: `scrape <url>` (Markdown by default; JSON
+with `--schema`), `map <url>` (URL discovery), `init` (writes the
+bundled Agent **Skill** to `.claude/skills/webreaper/`). Per
+[REPOSITIONING-PLAN §2.5](docs/REPOSITIONING-PLAN.md): ~35× cheaper
+than MCP per token; the CLI is the wedge, Skill and MCP are adapters.
+Hand-rolled `~120`-line argument parser (no `System.CommandLine` preview
+deps); zero NuGet deps; `PublishAot=true` with the AotSmokeTest's IL
+warning set promoted to errors.
+_Avoid_: command-line tool, console app, scraper.exe.
+
+**MCP server**:
+The interop adapter (`WebReaper.Mcp`, ADR-0049) — a satellite exposing
+`scrape` / `map` / `extract` as `[McpServerTool]`-decorated methods
+over stdio, for MCP-only agent clients (Cursor, Claude Desktop,
+Copilot Studio). Per REPOSITIONING-PLAN §2.5: interop, not the wedge.
+Heavy MCP SDK deps quarantined here per the ADR-0009 satellite pattern;
+core stays dependency-light + AOT-clean.
+_Avoid_: MCP integration, agent server, JSON-RPC endpoint.
+
 ## Relationships
 
 - A **Crawl** processes many **Job**s.
