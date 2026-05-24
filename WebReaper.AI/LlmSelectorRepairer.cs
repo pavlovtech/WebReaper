@@ -12,6 +12,13 @@ namespace WebReaper.AI;
 /// The default <see cref="ISelectorRepairer"/> (ADR-0047): asks the
 /// LLM for patched selectors when the deterministic fold's output
 /// fails validation, returns a Schema with the selectors swapped.
+/// <para>
+/// ADR-0062: when the wrapper supplies a <c>failureReason</c> argument
+/// (the validator's <see cref="ValidationResult.Reason"/>), it is
+/// injected into the prompt so the model sees which fields the
+/// validator flagged. A null <c>failureReason</c> omits the hint
+/// section — the prompt still works with just the failed result.
+/// </para>
 /// </summary>
 public sealed class LlmSelectorRepairer : ISelectorRepairer
 {
@@ -41,6 +48,7 @@ public sealed class LlmSelectorRepairer : ISelectorRepairer
         Schema original,
         string document,
         JsonObject failedResult,
+        string? failureReason = null,
         CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(original);
@@ -53,9 +61,18 @@ public sealed class LlmSelectorRepairer : ISelectorRepairer
             ? await PreCleanToMarkdownAsync(document)
             : document;
 
-        // Build the user prompt: original selectors + failed result + page.
+        // Build the user prompt: validator hint (optional) + original
+        // selectors + failed result + page.
         var originalSelectors = CollectSelectors(original);
         var sb = new StringBuilder();
+        if (!string.IsNullOrWhiteSpace(failureReason))
+        {
+            // ADR-0062: the validator reported the failing field path(s).
+            // Surfacing it to the model is the whole point of the seam
+            // — without it the model has to re-scan the failed result.
+            sb.AppendLine($"Validator report: {failureReason}");
+            sb.AppendLine();
+        }
         sb.AppendLine("Original selectors (field → selector):");
         foreach (var (field, selector) in originalSelectors)
             sb.AppendLine($"  {field} → {selector}");

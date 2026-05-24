@@ -2,7 +2,7 @@
 
 ## Status
 
-**Proposed** (2026-05-24). Fourth ADR of the post-AI-native-wave
+**Accepted — implemented** (2026-05-24). Fourth ADR of the post-AI-native-wave
 deepening campaign. Composes with ADR-0061's `AgentDecisionOutcome`.
 Promotes `SchemaSatisfiedValidator.IsSatisfied` from a static method
 to a first-class seam — default implementation preserves the

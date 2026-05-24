@@ -185,17 +185,18 @@ public class ScraperEngineBuilder
     /// (ADR-0046): run the primary first; on validation failure
     /// (default: any required schema leaf empty or absent), escalate to
     /// the fallback. The deterministic-first → LLM-fallback wedge.
+    /// <para>
+    /// The validator is the builder-registered <see cref="WebReaper.Core.Parser.Abstract.ISchemaValidator"/>
+    /// (ADR-0062 — register via <see cref="WithSchemaValidator"/>) or the
+    /// default <see cref="WebReaper.Core.Parser.Concrete.SchemaSatisfiedValidator"/>.
+    /// </para>
     /// </summary>
     /// <param name="fallback">The fallback extractor — typically an
     /// LLM (ADR-0044) but any <see cref="IContentExtractor"/>
     /// works.</param>
-    /// <param name="isValid">Optional custom validator; defaults to
-    /// <see cref="WebReaper.Core.Parser.Concrete.SchemaSatisfiedValidator.IsSatisfied"/>.</param>
     /// <exception cref="ArgumentNullException">
     /// <paramref name="fallback"/> is null.</exception>
-    public ScraperEngineBuilder WithFallbackExtractor(
-        IContentExtractor fallback,
-        Func<System.Text.Json.Nodes.JsonObject, Domain.Parsing.Schema?, bool>? isValid = null)
+    public ScraperEngineBuilder WithFallbackExtractor(IContentExtractor fallback)
     {
         ArgumentNullException.ThrowIfNull(fallback);
         // The "currently registered or default" rule: read the spider
@@ -205,7 +206,7 @@ public class ScraperEngineBuilder
         var primary = SpiderBuilder.GetContentExtractorOrDefault(Logger);
         SpiderBuilder.WithContentExtractor(
             new WebReaper.Core.Parser.Concrete.ExtractionRouter(
-                primary, fallback, isValid, Logger));
+                primary, fallback, _schemaValidator, Logger));
         return this;
     }
 
@@ -217,6 +218,11 @@ public class ScraperEngineBuilder
     /// by re-running the fold, and cache the patch for every
     /// subsequent page of the Crawl. The LLM-as-proposer / fold-as-
     /// validator wedge.
+    /// <para>
+    /// The validator is the builder-registered <see cref="WebReaper.Core.Parser.Abstract.ISchemaValidator"/>
+    /// (ADR-0062 — register via <see cref="WithSchemaValidator"/>) or the
+    /// default <see cref="WebReaper.Core.Parser.Concrete.SchemaSatisfiedValidator"/>.
+    /// </para>
     /// </summary>
     /// <exception cref="ArgumentNullException">
     /// <paramref name="repairer"/> is null.</exception>
@@ -226,7 +232,45 @@ public class ScraperEngineBuilder
         var primary = SpiderBuilder.GetContentExtractorOrDefault(Logger);
         SpiderBuilder.WithContentExtractor(
             new WebReaper.Core.Parser.Concrete.SelfHealingContentExtractor(
-                primary, repairer, Logger));
+                primary, repairer, _schemaValidator, Logger));
+        return this;
+    }
+
+    // ADR-0062: the builder-registered schema validator, read by
+    // WithFallbackExtractor / WithSelfHealing at the time they compose
+    // their wrapper. Null defaults to SchemaSatisfiedValidator.Instance
+    // at construction time (each wrapper picks the default itself when
+    // we pass null in — keeps the "one obvious default" invariant).
+    private WebReaper.Core.Parser.Abstract.ISchemaValidator? _schemaValidator;
+
+    /// <summary>
+    /// Register a custom <see cref="WebReaper.Core.Parser.Abstract.ISchemaValidator"/>
+    /// (ADR-0062) — the verdict source for both
+    /// <see cref="WithFallbackExtractor"/> (ADR-0046 routing) and
+    /// <see cref="WithSelfHealing"/> (ADR-0047 repair). Defaults to
+    /// <see cref="WebReaper.Core.Parser.Concrete.SchemaSatisfiedValidator"/>
+    /// (the ADR-0029-aligned "every required leaf non-empty" rule —
+    /// integer 0 / boolean false count as valid).
+    /// <para>
+    /// The validator's policy is global to the build — same instance
+    /// for every site. Per-schema specialisation is a v2 deferral. To
+    /// force-pass or force-fail in tests, implement
+    /// <see cref="WebReaper.Core.Parser.Abstract.ISchemaValidator"/>
+    /// directly with the desired verdict.
+    /// </para>
+    /// <para>
+    /// Call <em>before</em> <see cref="WithFallbackExtractor"/> /
+    /// <see cref="WithSelfHealing"/> — the wrapper composes against
+    /// whatever validator is registered at that moment.
+    /// </para>
+    /// </summary>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="validator"/> is null.</exception>
+    public ScraperEngineBuilder WithSchemaValidator(
+        WebReaper.Core.Parser.Abstract.ISchemaValidator validator)
+    {
+        ArgumentNullException.ThrowIfNull(validator);
+        _schemaValidator = validator;
         return this;
     }
 
