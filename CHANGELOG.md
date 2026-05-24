@@ -1,6 +1,6 @@
 # Changelog
 
-## 10.0.0 *(unreleased — accumulating on `master`)* — AI-native funnel, on a deepened architecture; MIT relicense (breaking)
+## 10.0.0 — AI-native funnel, on a deepened architecture; MIT relicense (breaking)
 
 The headline release of the year — 24 ADRs (0025–0049, with ADR-0017 the
 parallel licence move) — splits into three arcs. The first is the *staged

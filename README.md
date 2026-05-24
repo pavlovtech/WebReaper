@@ -11,11 +11,12 @@ WebReaper is a declarative, high-performance web scraper, crawler and parser in 
 parse the data, and save the structured result to a file, a database, or pretty much anywhere you want — with
 a simple, extensible fluent API.
 
-As of **9.0.0** the core `WebReaper` package is **dependency-light, Native-AOT-ready and Newtonsoft-free**:
-a plain HTTP → file crawl pulls only AngleSharp, `Microsoft.Extensions.*` and Polly. Heavier capabilities
-(headless browser, MongoDB, Redis, Azure Cosmos DB, Azure Service Bus, SQLite-backed local durable
-scheduler/tracker) ship as **optional satellite packages** you add only when you need them — see
-[Packages](#packages).
+As of **10.0.0** the core `WebReaper` package is **dependency-light, Native-AOT-ready and Newtonsoft-free**:
+a plain HTTP → file crawl pulls only AngleSharp and `Microsoft.Extensions.*` (Polly left core in ADR-0026
+in favour of the `IRetryPolicy` seam — the default `FixedAttemptsRetryPolicy` is hand-rolled). Heavier
+capabilities (headless browser, MongoDB, Redis, Azure Cosmos DB, Azure Service Bus, SQLite-backed local
+durable scheduler/tracker, LLM extraction, MCP server, `[ScrapeSchema]` source generator) ship as
+**optional satellite packages** you add only when you need them — see [Packages](#packages).
 
 ## Quick start
 
@@ -61,13 +62,17 @@ var engine = await ScraperEngineBuilder
 await engine.RunAsync();
 ```
 
-The CLI mirrors it:
+The CLI mirrors it — the Native-AOT single-binary `WebReaper.Cli` (ADR-0043) is the
+priority artifact, built from source in 10.0.0 (`PackAsTool=true` is incompatible with
+`PublishAot=true` on one target — a non-AOT `dotnet tool install` target is deferred to a
+10.0.x; multi-RID GitHub-Releases asset publish is the tracked follow-up):
 
 ```
-dotnet tool install --global WebReaper.Cli
-webreaper scrape https://example.com
-webreaper map https://example.com --search /blog/
-webreaper init    # installs the Agent Skill to .claude/skills/webreaper/
+git clone https://github.com/pavlovtech/WebReaper.git && cd WebReaper
+dotnet publish WebReaper.Cli -c Release -r <rid> --self-contained true   # rid: osx-arm64, linux-x64, win-x64, ...
+./WebReaper.Cli/bin/Release/net10.0/<rid>/publish/WebReaper.Cli scrape https://example.com
+./WebReaper.Cli/bin/Release/net10.0/<rid>/publish/WebReaper.Cli map https://example.com --search /blog/
+./WebReaper.Cli/bin/Release/net10.0/<rid>/publish/WebReaper.Cli init    # installs the Agent Skill to .claude/skills/webreaper/
 ```
 
 Drop in an LLM extractor when the deterministic path can't reach a field
@@ -171,12 +176,15 @@ dotnet add package WebReaper.Sqlite           # SQLite local durable scheduler +
 
 ## Packages
 
-All seven packages are versioned in lockstep — the latest published version is `9.0.0`; the
-next wave, **`10.0.0`, is accumulating on `master` and is not yet released**. Core and the six
-satellites move together in release waves (ADR-0022 → `8.0.0`, ADR-0023 → `9.0.0`, ADR-0025 →
-`10.0.0` *(unreleased)*); `WebReaper.Sqlite`, added at `7.1.0`, joined the lockstep from `8.0.0`. All packages are **MIT-licensed** (ADR-0017; relicensed from
-GPL-3.0-or-later in the 10.0.0 wave), and every satellite wires itself in
-through the builder's public registration seam.
+All eleven NuGet packages are versioned in lockstep at **`10.0.0`** (1 core + 10 satellites).
+Core and the satellites move together in release waves (ADR-0022 → `8.0.0`, ADR-0023 → `9.0.0`,
+ADR-0025 + ADR-0040..0049 → `10.0.0`); `WebReaper.Sqlite`, added at `7.1.0`, joined the lockstep
+from `8.0.0`; `WebReaper.AI`, `WebReaper.Mcp`, `WebReaper.Extraction.Attributes`, and
+`WebReaper.Extraction.Generators` joined at `10.0.0` (the AI-native wave). All packages are
+**MIT-licensed** (ADR-0017; relicensed from GPL-3.0-or-later in the 10.0.0 wave), and every
+satellite wires itself in through the builder's public registration seam.
+`WebReaper.Cli` (ADR-0043, the AOT single-binary agent surface) is **not** a NuGet package in
+10.0.0 — build from source per [Quick start](#ai-native--the-smallest-possible-call).
 
 | Package | Add it for | Key builder calls |
 |---|---|---|
@@ -187,6 +195,10 @@ through the builder's public registration seam.
 | **WebReaper.AzureServiceBus** | Distributed scheduler over an Azure Service Bus queue | `.WithAzureServiceBusScheduler(...)` |
 | **WebReaper.Cosmos** | Azure Cosmos DB result sink | `.WriteToCosmosDb(...)` |
 | **WebReaper.Sqlite** | Local **durable** scheduler & visited-link tracker on an embedded SQLite store — resume is a query, no position file. Opt-in robust-local tier (no server, unlike Redis). | `.WithSqliteScheduler(...)` `.TrackVisitedLinksInSqlite(...)` |
+| **WebReaper.AI** | LLM content extraction over `Microsoft.Extensions.AI` (ADR-0044) — fallback after the deterministic fold (ADR-0046 router) or self-healing selectors (ADR-0047). Bring your own `IChatClient` (OpenAI, Anthropic, Ollama, …). | `.WithLlmFallback(chatClient)` `.WithLlmSelfHealing(chatClient)` `.WithLlmExtractor(chatClient)` |
+| **WebReaper.Extraction.Attributes** | The `[ScrapeSchema]` / `[ScrapeField]` marker types — depend on these from POCOs that the source generator should pick up. Standalone, no runtime cost. | `[ScrapeSchema]` `[ScrapeField("selector")]` |
+| **WebReaper.Extraction.Generators** | Roslyn source generator that emits `static Schema` + reflection-free `static Materialize(JsonObject)` for a `[ScrapeSchema] partial class` (ADR-0045). `DevelopmentDependency=true` — does not propagate at runtime. | — (compile-time only) |
+| **WebReaper.Mcp** | MCP server `Exe` that exposes scrape / map / extract as MCP tools over stdio (ADR-0049) — interop adapter for MCP-only clients (Cursor, Claude Desktop, Copilot Studio). | — (the package _is_ the executable) |
 
 > The core default page loader is **HTTP-only**. Crawling a dynamic page (`CrawlWithBrowser` /
 > `FollowWithBrowser` / `PaginateWithBrowser`) without `WebReaper.Puppeteer` registered throws an
@@ -539,10 +551,10 @@ For result callbacks without a custom sink, use `.Subscribe(Action<ParsedData>)`
 ## License
 
 WebReaper is licensed under the [MIT License](LICENSE.txt) (ADR-0017). All
-ten packages — core + six satellites + the four AI-native packages — ship
-under the same terms. Use it commercially, embed it in proprietary
-software, fork it, modify it, redistribute it; the only ask is that you
-keep the copyright notice.
+eleven NuGet packages (core + ten satellites) plus the `WebReaper.Cli`
+project ship under the same terms. Use it commercially, embed it in
+proprietary software, fork it, modify it, redistribute it; the only ask is
+that you keep the copyright notice.
 
 Prior to the 10.0.0 wave, WebReaper was GPL-3.0-or-later. The relicense
 is strictly more permissive: every existing user is unaffected; new users
