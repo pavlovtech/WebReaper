@@ -8,6 +8,7 @@
 using System.Collections.Immutable;
 using System.Text.Json.Nodes;
 using Microsoft.Extensions.Logging.Abstractions;
+using WebReaper.Core.Loaders.Concrete;
 using WebReaper.Core.Parser.Abstract;
 using WebReaper.Core.Parser.Concrete;
 using WebReaper.Domain;
@@ -110,6 +111,33 @@ Check(new JsonLinesFormat().FormatRow(parsed)
 Check(new CsvFormat().Header(parsed) == "title,views,url"
       && new CsvFormat().FormatRow(parsed) == "\"Hello\",\"42\",\"https://x.test/p\"",
     "CsvFormat over JsonObject");
+
+// 5. ADR-0040: the Markdown content extractor — the second adapter of
+//    IContentExtractor, no Schema, AngleSharp DOM walker, JsonObject
+//    terminal. AOT-clean: no reflection, no dynamic, no Activator —
+//    just JsonValue.Create(string) over a StringBuilder render.
+var markdown = new MarkdownContentExtractor();
+var md = await markdown.ExtractAsync(
+    "<html><head><title>Head</title></head><body>" +
+    "<article><h1>Hello</h1><p>This <strong>is</strong> a paragraph.</p>" +
+    "<ul><li>One</li><li>Two</li></ul></article>" +
+    "<footer>Strip me.</footer></body></html>", schema: null);
+Check(md["title"]!.GetValue<string>() == "Hello"
+      && md["markdown"]!.GetValue<string>().Contains("# Hello")
+      && md["markdown"]!.GetValue<string>().Contains("**is**")
+      && md["markdown"]!.GetValue<string>().Contains("- One")
+      && !md["markdown"]!.GetValue<string>().Contains("Strip me"),
+    "MarkdownContentExtractor (no-schema, AOT-clean)");
+
+// 6. ADR-0041: the in-memory page cache — the cache-aside collaborator on
+//    PageLoader. AOT-clean: ConcurrentDictionary<string, struct> with no
+//    reflection paths.
+var pageCache = new InMemoryPageCache(TimeSpan.FromMinutes(1));
+await pageCache.WriteAsync("https://x.test/p", WebReaper.Domain.Selectors.PageType.Static, "<cached/>", default);
+var staticHit = await pageCache.TryReadAsync("https://x.test/p", WebReaper.Domain.Selectors.PageType.Static, default);
+var dynamicMiss = await pageCache.TryReadAsync("https://x.test/p", WebReaper.Domain.Selectors.PageType.Dynamic, default);
+Check(staticHit == "<cached/>" && dynamicMiss is null,
+    "InMemoryPageCache hit/miss with (url, pageType) keying (ADR-0041)");
 
 Console.WriteLine();
 if (failures.Count == 0) { Console.WriteLine("AOT SMOKE: ALL PASS"); return 0; }

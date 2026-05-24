@@ -9,7 +9,10 @@ using WebReaper.Core.CookieStorage.Abstract;
 using WebReaper.Core.LinkTracker.Abstract;
 using WebReaper.Core.LinkTracker.Concrete;
 using WebReaper.Core.Loaders.Abstract;
+using WebReaper.Core.Loaders.Concrete;
+using WebReaper.Core.Mapping;
 using WebReaper.Core.Parser.Abstract;
+using WebReaper.Core.Parser.Concrete;
 using WebReaper.Core.Scheduler.Abstract;
 using WebReaper.Core.Scheduler.Concrete;
 using WebReaper.Core.Spider.Abstract;
@@ -59,9 +62,26 @@ public class ScraperEngineBuilder
     internal ScraperEngineBuilder() { }
 
     /// <summary>
+    /// Discover the URLs of a site without running a Crawl (ADR-0042 —
+    /// firecrawl-shaped <c>/map</c>): sugar over
+    /// <c>new SiteMapper().MapAsync(url, options, ct)</c>. Returns the union
+    /// of <c>robots.txt</c>-declared sitemap entries (one level of index
+    /// recursion) and the root page's <c>&lt;a href&gt;</c> URLs, host-
+    /// filtered, deduplicated, ordered sitemap-then-root-page-links.
+    /// </summary>
+    /// <exception cref="ArgumentException"><paramref name="url"/> is
+    /// null/empty/whitespace.</exception>
+    public static Task<IReadOnlyList<string>> MapAsync(
+        string url,
+        MapOptions? options = null,
+        CancellationToken cancellationToken = default)
+        => new SiteMapper().MapAsync(url, options, cancellationToken);
+
+    /// <summary>
     /// Begin a scrape: the crawl's start URLs, loaded as static HTTP pages
     /// (the ADR-0025 Crawl seed). Returns an <see cref="ICrawlSeed"/> whose
-    /// only operation is <see cref="ICrawlSeed.Extract"/>.
+    /// terminals are <see cref="ICrawlSeed.Extract"/> and
+    /// <see cref="ICrawlSeed.AsMarkdown"/>.
     /// </summary>
     /// <exception cref="ArgumentException">no start URL was supplied
     /// (fail-fast).</exception>
@@ -112,8 +132,9 @@ public class ScraperEngineBuilder
     }
 
     /// <summary>The <see cref="ICrawlSeed"/> implementation: holds the
-    /// half-built builder so the only operation reachable after
-    /// <see cref="Crawl(string[])"/> is <see cref="ICrawlSeed.Extract"/>.</summary>
+    /// half-built builder so the only operations reachable after
+    /// <see cref="Crawl(string[])"/> are the strategy terminals
+    /// (<see cref="ICrawlSeed.Extract"/>, <see cref="ICrawlSeed.AsMarkdown"/>).</summary>
     private sealed class CrawlSeed : ICrawlSeed
     {
         private readonly ScraperEngineBuilder _builder;
@@ -122,6 +143,17 @@ public class ScraperEngineBuilder
         public ScraperEngineBuilder Extract(Schema schema)
         {
             _builder.ConfigBuilder.WithScheme(schema);
+            return _builder;
+        }
+
+        public ScraperEngineBuilder AsMarkdown()
+        {
+            // ADR-0040: the no-schema strategy terminal. Leaves
+            // ConfigBuilder._schema null (Spider/CrawlStep/Config are
+            // already null-tolerant — ADR-0008 / ADR-0025 read-side
+            // wiring) and registers the Markdown extractor on the
+            // ADR-0039 IContentExtractor seam.
+            _builder.SpiderBuilder.WithContentExtractor(new MarkdownContentExtractor());
             return _builder;
         }
     }
@@ -141,6 +173,76 @@ public class ScraperEngineBuilder
     public ScraperEngineBuilder WithContentExtractor(IContentExtractor extractor)
     {
         SpiderBuilder.WithContentExtractor(extractor);
+        return this;
+    }
+
+    /// <summary>
+    /// Compose the currently-registered (or default <c>SchemaFold</c>)
+    /// content extractor with a <paramref name="fallback"/> via an
+    /// <see cref="WebReaper.Core.Parser.Concrete.ExtractionRouter"/>
+    /// (ADR-0046): run the primary first; on validation failure
+    /// (default: any required schema leaf empty or absent), escalate to
+    /// the fallback. The deterministic-first → LLM-fallback wedge.
+    /// </summary>
+    /// <param name="fallback">The fallback extractor — typically an
+    /// LLM (ADR-0044) but any <see cref="IContentExtractor"/>
+    /// works.</param>
+    /// <param name="isValid">Optional custom validator; defaults to
+    /// <see cref="WebReaper.Core.Parser.Concrete.SchemaSatisfiedValidator.IsSatisfied"/>.</param>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="fallback"/> is null.</exception>
+    public ScraperEngineBuilder WithFallbackExtractor(
+        IContentExtractor fallback,
+        Func<System.Text.Json.Nodes.JsonObject, Domain.Parsing.Schema?, bool>? isValid = null)
+    {
+        ArgumentNullException.ThrowIfNull(fallback);
+        // The "currently registered or default" rule: read the spider
+        // builder's current extractor; if null, use a SchemaFold over
+        // the default AngleSharp/CSS backend (the same default
+        // SpiderBuilder.Build wires).
+        var primary = SpiderBuilder.GetContentExtractorOrDefault(Logger);
+        SpiderBuilder.WithContentExtractor(
+            new WebReaper.Core.Parser.Concrete.ExtractionRouter(
+                primary, fallback, isValid, Logger));
+        return this;
+    }
+
+    /// <summary>
+    /// Wrap the currently-registered (or default <c>SchemaFold</c>)
+    /// extractor with a <see cref="WebReaper.Core.Parser.Concrete.SelfHealingContentExtractor"/>
+    /// (ADR-0047): on a failed deterministic pass, ask the
+    /// <paramref name="repairer"/> for a patched Schema, validate it
+    /// by re-running the fold, and cache the patch for every
+    /// subsequent page of the Crawl. The LLM-as-proposer / fold-as-
+    /// validator wedge.
+    /// </summary>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="repairer"/> is null.</exception>
+    public ScraperEngineBuilder WithSelfHealing(WebReaper.Core.Parser.Abstract.ISelectorRepairer repairer)
+    {
+        ArgumentNullException.ThrowIfNull(repairer);
+        var primary = SpiderBuilder.GetContentExtractorOrDefault(Logger);
+        SpiderBuilder.WithContentExtractor(
+            new WebReaper.Core.Parser.Concrete.SelfHealingContentExtractor(
+                primary, repairer, Logger));
+        return this;
+    }
+
+    /// <summary>
+    /// Track changes across crawls (ADR-0048): hash the Markdown
+    /// extraction of every page, compare to the previously-stored
+    /// hash for the URL, and annotate every emitted record with a
+    /// <c>change_status</c> field of <c>"new"</c>, <c>"same"</c>, or
+    /// <c>"changed"</c> (plus <c>previous_hash</c> when not new).
+    /// </summary>
+    /// <param name="store">Optional custom <see cref="WebReaper.Processing.Abstract.IChangeStore"/>;
+    /// defaults to <see cref="WebReaper.Processing.Concrete.InMemoryChangeStore"/>.</param>
+    public ScraperEngineBuilder WithChangeTracking(
+        WebReaper.Processing.Abstract.IChangeStore? store = null)
+    {
+        SpiderBuilder.AddProcessor(
+            new WebReaper.Processing.Concrete.ChangeTrackingProcessor(
+                store ?? new WebReaper.Processing.Concrete.InMemoryChangeStore()));
         return this;
     }
 
@@ -461,6 +563,37 @@ public class ScraperEngineBuilder
     public ScraperEngineBuilder WithRetryPolicy(IRetryPolicy retryPolicy)
     {
         SpiderBuilder.WithRetryPolicy(retryPolicy);
+        return this;
+    }
+
+    /// <summary>
+    /// Register a custom <see cref="IPageCache"/> at the page-loader's
+    /// cache-aside position (ADR-0041). The default is the no-op
+    /// <c>NullPageCache</c>; the firecrawl-shaped TTL adapter is
+    /// <c>InMemoryPageCache(TimeSpan maxAge)</c>, reached more directly via
+    /// <see cref="WithMaxAge"/>.
+    /// </summary>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="cache"/> is null.</exception>
+    public ScraperEngineBuilder WithPageCache(IPageCache cache)
+    {
+        SpiderBuilder.WithPageCache(cache);
+        return this;
+    }
+
+    /// <summary>
+    /// Cache successfully-loaded pages for <paramref name="maxAge"/>
+    /// (ADR-0041 — firecrawl-shaped <c>maxAge</c>). The cache is in-memory
+    /// (per-process; <see cref="InMemoryPageCache"/>); a Static and a
+    /// Dynamic load of the same URL are distinct entries.
+    /// <see cref="TimeSpan.Zero"/> stores but never serves — a "force-fresh"
+    /// crawl that still warms a snapshot for change-tracking (ADR-0048).
+    /// </summary>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// <paramref name="maxAge"/> is negative.</exception>
+    public ScraperEngineBuilder WithMaxAge(TimeSpan maxAge)
+    {
+        SpiderBuilder.WithPageCache(new InMemoryPageCache(maxAge));
         return this;
     }
 

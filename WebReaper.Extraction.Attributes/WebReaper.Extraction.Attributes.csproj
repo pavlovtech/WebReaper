@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- Multi-target so the analyzer (netstandard2.0) and the runtime
+         (net10.0) see the same attribute types. ADR-0045 §1. -->
+    <TargetFrameworks>netstandard2.0;net10.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591;NETSDK1138</NoWarn>
+
+    <PackageId>WebReaper.Extraction.Attributes</PackageId>
+    <Title>WebReaper.Extraction.Attributes</Title>
+    <Description>The [ScrapeSchema] and [ScrapeField] attributes consumed by the WebReaper.Extraction.Generators Roslyn source generator. Lightweight (no runtime deps beyond BCL). Multi-targeted to netstandard2.0 (so the analyzer can reference it) and net10.0 (so user code can use it at runtime).</Description>
+    <!-- ADR-0017: relicensed to MIT to remove funnel-adoption friction. -->
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>scraper, source-generator, attributes, extraction</PackageTags>
+  </PropertyGroup>
+
+</Project>

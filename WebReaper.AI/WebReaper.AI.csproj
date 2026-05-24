@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>preview</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- Tier-2 implementation classes are public only because the
+         extension method and tests bind to them; not the satellite's
+         documented contract. CS1591 silenced for those. -->
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+
+    <PackageId>WebReaper.AI</PackageId>
+    <Title>WebReaper.AI</Title>
+    <Description>LLM-backed IContentExtractor for WebReaper, bound to Microsoft.Extensions.AI.Abstractions (IChatClient). Bring your own model — OpenAI, Anthropic, Ollama, anything implementing IChatClient. Adds ScraperEngineBuilder.WithLlmExtractor. Satellite package (ADR-0009) so the WebReaper core stays dependency-light and AOT-clean.</Description>
+    <!-- ADR-0017: relicensed to MIT to remove funnel-adoption friction. -->
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>scraper, crawler, llm, ai, extraction, openai, anthropic</PackageTags>
+    <PackageIcon>logo.png</PackageIcon>
+
+    <!-- ADR-0009 quarantine: the consumer's chat client makes the AOT
+         call; the satellite isn't AOT-required so the core's clean
+         AOT story is unaffected. -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.AI.Abstractions" Version="9.4.0-preview.1.25207.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WebReaper\WebReaper.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\WebReaper\logo.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="WebReaper.AI.Tests" />
+  </ItemGroup>
+
+</Project>
