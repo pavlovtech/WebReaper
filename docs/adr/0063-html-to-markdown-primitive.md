@@ -2,13 +2,13 @@
 
 ## Status
 
-**Proposed** (2026-05-24). Fifth ADR of the post-AI-native-wave
-deepening campaign. Extracts the HTML→Markdown conversion (currently
-buried in `MarkdownContentExtractor`) into a public static primitive
-under `WebReaper.Core.Markdown`. `MarkdownContentExtractor` becomes a
-thin `IContentExtractor` shell. Resolves the structural awkwardness
-where three callers reach for the *function* but have to instantiate
-and call the *adapter*. Folds into the same v10.x release.
+**Accepted — implemented** (2026-05-24). Fifth ADR of the post-AI-
+native-wave deepening campaign. Extracts the HTML→Markdown conversion
+(previously buried in `MarkdownContentExtractor`) into a public static
+primitive under `WebReaper.Core.Markdown`. `MarkdownContentExtractor`
+became a thin `IContentExtractor` shell. Resolves the structural
+awkwardness where three callers reached for the *function* but had to
+instantiate and call the *adapter*. Folded into the same v10.x release.
 
 ## Context
 

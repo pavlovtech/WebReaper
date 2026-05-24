@@ -86,6 +86,35 @@ public class ChangeTrackingProcessorTests
     }
 
     [Fact]
+    public async Task Template_chrome_changes_are_invisible_to_the_hash()
+    {
+        // ADR-0063: the HtmlToMarkdown primitive strips nav/footer/aside
+        // chrome before hashing. A timestamp in <footer> rotating between
+        // visits must NOT flip the status — only real content changes do.
+        // This is what makes change-tracking useful on dynamic templates.
+        var processor = new ChangeTrackingProcessor(new InMemoryChangeStore());
+
+        await processor.ProcessAsync(
+            MakeContext(Url,
+                "<html><body>" +
+                "<article><h1>Hello</h1><p>Stable body.</p></article>" +
+                "<footer>Generated at 2026-05-24 10:00:00</footer>" +
+                "</body></html>"), default);
+
+        var second = await processor.ProcessAsync(
+            MakeContext(Url,
+                "<html><body>" +
+                "<article><h1>Hello</h1><p>Stable body.</p></article>" +
+                "<footer>Generated at 2026-05-24 10:00:42</footer>" +
+                "</body></html>"), default);
+
+        // Footer (template noise) was stripped before hashing — same
+        // Markdown → same hash → "same".
+        var kept = Assert.IsType<PageVerdict.Kept>(second);
+        Assert.Equal("same", kept.Data.Data[ChangeTrackingProcessor.StatusKey]!.GetValue<string>());
+    }
+
+    [Fact]
     public void Constructor_rejects_null_store()
     {
         Assert.Throws<ArgumentNullException>(() => new ChangeTrackingProcessor(null!));

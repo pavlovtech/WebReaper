@@ -4,6 +4,7 @@ using WebReaper.Core.Actions.Abstract;
 using WebReaper.Core.Agent.Abstract;
 using WebReaper.Core.LinkTracker.Abstract;
 using WebReaper.Core.Loaders.Abstract;
+using WebReaper.Core.Markdown;
 using WebReaper.Core.Parser.Abstract;
 using WebReaper.Core.Parser.Concrete;
 using WebReaper.Domain.Agent;
@@ -66,12 +67,6 @@ public sealed class AgentEngine
     private readonly int _visitedWindow;
     private readonly int _candidateUrlCap;
     private readonly int _maxPageMarkdownChars;
-
-    // The Markdown extractor is used for the brain's *view* of the current
-    // page (always Markdown, never the brain's chosen Schema) — separate from
-    // the content extractor that runs the brain's chosen Schema on Extract
-    // decisions. Stateless and re-usable across steps.
-    private static readonly MarkdownContentExtractor MarkdownView = new();
 
     internal AgentEngine(
         string startUrl,
@@ -189,11 +184,14 @@ public sealed class AgentEngine
             // Build the brain's view of the page (Markdown for cheap LLM
             // input) and the candidate URL pool (every <a href>). Both
             // capped per fork 3 verdict — token cost is the constraint.
+            // ADR-0063: call HtmlToMarkdown.Convert directly — going
+            // through the adapter would wrap-and-discard the JsonObject
+            // for no reason. The try/catch around rendering stays — a
+            // corrupt page might break the parser.
             string pageMarkdown;
             try
             {
-                var markdownRecord = await MarkdownView.ExtractAsync(pageHtml, schema: null);
-                pageMarkdown = markdownRecord["markdown"]?.GetValue<string>() ?? string.Empty;
+                pageMarkdown = HtmlToMarkdown.Convert(pageHtml);
                 if (pageMarkdown.Length > _maxPageMarkdownChars)
                     pageMarkdown = pageMarkdown[.._maxPageMarkdownChars];
             }
