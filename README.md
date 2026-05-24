@@ -49,7 +49,7 @@ That example is pure HTTP — no browser, no extra packages. For JavaScript-rend
 
 ### AI-native — the smallest possible call
 
-Since **10.0.0** (the AI-native wave, ADR-0040..0049), the funnel's no-schema wedge — one page,
+Since **10.0.0** (the AI-native wave + deepening, ADR-0040..0064), the funnel's no-schema wedge — one page,
 LLM-ready Markdown, no boilerplate:
 
 ```C#
@@ -195,7 +195,7 @@ dotnet add package WebReaper.Sqlite           # SQLite local durable scheduler +
 
 All eleven NuGet packages are versioned in lockstep at **`10.0.0`** (1 core + 10 satellites).
 Core and the satellites move together in release waves (ADR-0022 → `8.0.0`, ADR-0023 → `9.0.0`,
-ADR-0025 + ADR-0040..0049 → `10.0.0`); `WebReaper.Sqlite`, added at `7.1.0`, joined the lockstep
+ADR-0025 + ADR-0040..0064 → `10.0.0`); `WebReaper.Sqlite`, added at `7.1.0`, joined the lockstep
 from `8.0.0`; `WebReaper.AI`, `WebReaper.Mcp`, `WebReaper.Extraction.Attributes`, and
 `WebReaper.Extraction.Generators` joined at `10.0.0` (the AI-native wave). All packages are
 **MIT-licensed** (ADR-0017; relicensed from GPL-3.0-or-later in the 10.0.0 wave), and every

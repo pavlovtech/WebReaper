@@ -1,6 +1,6 @@
 # Changelog
 
-## 10.0.0 (in progress) — v10.x transports cleanup wave (ADR-0056..0058)
+## 10.0.0 — v10.x transports cleanup wave (ADR-0056..0058)
 
 The deliberate post-Transports-wave follow-ups named in ADRs 0052..0055 — the
 cleanup queue that the original wave shipped with documented gaps. Three new
@@ -49,7 +49,7 @@ Also in this wave:
   `WEBREAPER_STEALTH_SMOKE=1`. Vacuously passes when unset (CI stays
   hermetic). Handoff item #5.
 
-## 10.0.0 (in progress) — AI-native deepening campaign (ADR-0059..0064)
+## 10.0.0 — AI-native deepening campaign (ADR-0059..0064)
 
 Post-AI-native-wave architecture deepening surfaced by the post-wave review.
 Six interlocking ADRs that take the friction (four LLM adapters
