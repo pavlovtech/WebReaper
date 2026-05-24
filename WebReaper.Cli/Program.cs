@@ -20,6 +20,8 @@ static async Task<int> Run(string[] args)
             "map" => await MapCommand.RunAsync(parsed),
             "init" => InitCommand.Run(parsed),
             "version" => VersionCommand.Run(),
+            "browser" => await BrowserCommand.RunAsync(parsed),
+            "stealth" => await StealthCommand.RunAsync(parsed),
             "help" => HelpAndExit(0),
             _ => HelpAndExit(2, $"Unknown command: '{parsed.Command}'")
         };

@@ -2,7 +2,7 @@ using System.Net;
 using WebReaper.Builders;
 using WebReaper.Core;
 using WebReaper.Domain.Selectors;
-using WebReaper.Puppeteer;
+using WebReaper.Playwright;
 
 namespace BrownsfashionScraper
 {
@@ -31,7 +31,7 @@ namespace BrownsfashionScraper
                     new("subcategory2", "#modal-controller-container > main > nav > ol > li:nth-child(3) > a]"),
                 })
                 .WithLogger(_logger)
-                .WithPuppeteerPageLoader()
+                .WithPlaywrightPageLoader()
                 .SetCookies(cookies =>
                 {
                     cookies.Add(new CookieCollection

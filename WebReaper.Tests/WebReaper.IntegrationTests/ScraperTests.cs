@@ -1,9 +1,7 @@
-using System.Reflection;
 using WebReaper.ProxyProviders.WebShareProxy;
 using Xunit.Abstractions;
-using PuppeteerSharp;
 using WebReaper.Builders;
-using WebReaper.Puppeteer;
+using WebReaper.Playwright;
 using WebReaper.Sinks.Models;
 
 namespace WebReaper.IntegrationTests
@@ -104,13 +102,9 @@ namespace WebReaper.IntegrationTests
         [Fact]
         public async Task SimpleTestWithSPA()
         {
-            var browserFetcher = new BrowserFetcher(new BrowserFetcherOptions
-            {
-                Path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
-            });
-
-            await browserFetcher.DownloadAsync();
-
+            // ADR-0053: WebReaper.Playwright manages browser binaries via the
+            // standard `playwright install` step (auto-runs on first use); the
+            // pre-v10 PuppeteerSharp BrowserFetcher block is gone.
             var result = new List<ParsedData>();
 
             var engine = await ScraperEngineBuilder
@@ -120,7 +114,7 @@ namespace WebReaper.IntegrationTests
                     new("title", ".text-3xl.font-bold"),
                     new("text", ".max-w-max.prose.prose-dark")
                 })
-                .WithPuppeteerPageLoader()
+                .WithPlaywrightPageLoader()
                 .FollowWithBrowser(".text-gray-900.transition")
                 .WithLogger(new TestOutputLogger(this.output))
                 .Subscribe(x => result.Add(x))

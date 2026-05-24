@@ -1,22 +1,110 @@
 # Changelog
 
-## 10.0.0 — AI-native funnel + semantic actions, on a deepened architecture; MIT relicense (breaking)
+## 10.0.0 — AI-native funnel + semantic actions + transports wave, on a deepened architecture; MIT relicense (breaking)
 
-The headline release of the year — 25 ADRs (0025–0050, with ADR-0017 the
-parallel licence move) — splits into three arcs. The first is the *staged
+The headline release of the year — 30 ADRs (0025–0055, with ADR-0017 the
+parallel licence move) — splits into four arcs. The first is the *staged
 builder* that closes the last runtime construction trap (ADR-0025). The
 second is *architecture deepening* — two review waves (ADR-0026..0031 and
 ADR-0032..0039) that turn the in-process Crawl driver into a small,
 audit-clean composition over named seams. The third is the *AI-native wave*
-(ADR-0040..0049): a no-schema Markdown terminal, a CLI + Agent Skill, an LLM
+(ADR-0040..0051): a no-schema Markdown terminal, a CLI + Agent Skill, an LLM
 extractor satellite, a `[ScrapeSchema]` source generator, a deterministic→LLM
-extraction router, a self-healing extractor, a change-tracking processor, and
-an MCP server satellite — all bolted onto the seams the architecture
-deepening exposed. **In parallel, the project is relicensed GPL-3.0-or-later
-→ MIT** (ADR-0017) to remove the funnel's last adoption-friction edge for
-downstream consumers and SaaS integrators. *Every* breaking change is in this
-release; the post-10.0.0 cadence returns to additive minor releases on the
-seams introduced here.
+extraction router, a self-healing extractor, a change-tracking processor, an
+MCP server satellite, semantic page actions, and an autonomous agent driver
+— all bolted onto the seams the architecture deepening exposed. The fourth
+is the *transports wave* (ADR-0052..0055): the `WebReaper.Puppeteer` satellite
+is deleted; in its place ship `WebReaper.Playwright` (Microsoft.Playwright SDK,
+modern default), `WebReaper.Cdp` (raw CDP, AOT-clean, bedrock for stealth
+backends), `WebReaper.Stealth.CloakBrowser` (first per-backend stealth fork
+adapter), and a documented CLI browser/stealth acquisition policy.
+**In parallel, the project is relicensed GPL-3.0-or-later → MIT** (ADR-0017)
+to remove the funnel's last adoption-friction edge for downstream consumers
+and SaaS integrators. *Every* breaking change is in this release; the
+post-10.0.0 cadence returns to additive minor releases on the seams
+introduced here.
+
+### Transports wave: WebReaper.Puppeteer deleted; Playwright + CDP + stealth (ADR-0052..0055)
+
+The `WebReaper.Puppeteer` satellite — ADR-0009's named successor target since
+2026 — is deleted in this release. In its place ship two browser transports
+(both addressing the singleton Dynamic-slot of ADR-0004's `IPageLoader`), a
+per-backend stealth-Chromium-fork pattern, and a documented CLI policy that
+preserves the ADR-0043 AOT guarantee end-to-end.
+
+`WebReaper.Cdp` (ADR-0052) is the bedrock: a raw Chrome DevTools Protocol
+transport built on `System.Net.WebSockets` + `System.Text.Json` source-gen —
+AOT-clean, no PuppeteerSharp / Microsoft.Playwright dependency. Two builder
+overloads (`.WithCdpPageLoader(cdpUrl)` connect-to-existing for BYO browsers,
+`.WithCdpPageLoader(CdpLaunchOptions)` launch-and-connect for managed
+Chromium). Public `CdpLaunchHelpers` utility (PATH search, free-port spawn,
+CDP-connect-validate, teardown) — the shared layer every `WebReaper.Stealth.*`
+satellite composes on. All seven `PageAction` arms (ADR-0035) including
+`SemanticAct` (ADR-0050).
+
+`WebReaper.Playwright` (ADR-0053) is the modern SDK-shaped transport:
+multi-browser (Chromium default; Firefox/WebKit opt-in via `PlaywrightBrowser`
+enum); `.WithPlaywrightPageLoader(browser?, opts?)`; all seven `PageAction`
+arms (closes the ADR-0004 §"Out of scope" four-arm Puppeteer gap that left
+`WaitForSelector` and `EvaluateExpression` throwing at runtime). First-run
+browser provisioning via the standard `playwright install` step.
+
+`WebReaper.Stealth.CloakBrowser` (ADR-0054) is the first concrete satellite of
+the per-backend stealth-fork pattern. Convention (not interface) — each
+fork-specific satellite ships an installer + launcher pair composing on
+`CdpLaunchHelpers` and exposing one `WithXBackend()` extension. CloakBrowser
+solves invisible bot-checks (Cloudflare Turnstile, reCAPTCHA v3, FingerprintJS)
+via C++ source-level fingerprint patches. Install model = `playwright install`
+/ `winget` (download from upstream on first use; no redistribution; license
+acknowledgment via logger). Composes naturally with `IProxyProvider` for the
+hardest sites (DataDome + residential proxies).
+
+`WebReaper.Cli` (ADR-0055) bakes ONLY `WebReaper.Cdp` for browser support —
+Microsoft.Playwright and `WebReaper.Stealth.*` are never baked, both
+AOT-hostile inside the CLI's single-binary publish. Layered auto-spawn (BYO
+`--browser-cdp-url` → system Chrome detection → managed Chromium from
+`webreaper browser install`). New subcommands: `webreaper browser install` +
+`webreaper stealth install` (interactive picker over the curated
+`KnownStealthBackends` static registry; `--yes` for unattended CI).
+
+#### Breaking changes
+
+- **`WebReaper.Puppeteer` satellite deleted.** Consumers using
+  `.WithPuppeteerPageLoader()` migrate to `.WithPlaywrightPageLoader()` (one
+  `using` swap + one method-name swap). The `WebReaper.Puppeteer.Tests`
+  package is also deleted. Examples and integration tests are migrated in
+  lockstep. No `[Obsolete]` deprecation window — clean cut, matches the
+  ADR-0009 precedent exactly.
+- **`BrowserNotConfiguredPageLoadTransport` error message updated** to name
+  both new satellites (`WebReaper.Playwright` and `WebReaper.Cdp`) instead of
+  the deleted `WebReaper.Puppeteer`. Consumers running on Dynamic pages
+  without a registered browser transport see the new message.
+- **CLAUDE.md transport table updated**: `page loaders` row flips from
+  `Http + Puppeteer` to `Http + Playwright + Cdp`.
+
+#### Migration
+
+Common case (one-line per file):
+```diff
+- using WebReaper.Puppeteer;
++ using WebReaper.Playwright;
+  …
+- .WithPuppeteerPageLoader()
++ .WithPlaywrightPageLoader()
+```
+
+For stealth scenarios (Cloudflare-blocked sites, etc.) — new in this release:
+```csharp
+using WebReaper.Stealth.CloakBrowser;
+…
+.WithCloakBrowser()
+```
+
+For CLI users: `webreaper scrape ... --browser` now auto-spawns a system
+Chrome / Chromium / Edge via `WebReaper.Cdp`. Install a managed Chromium with
+`webreaper browser install` if none is on PATH. For BYO browsers:
+`--browser-cdp-url http://localhost:9222`.
+
 
 ### A scrape begins with a Crawl seed (ADR-0025)
 
