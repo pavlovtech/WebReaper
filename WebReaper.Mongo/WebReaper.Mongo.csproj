@@ -16,6 +16,8 @@
     <PackageId>WebReaper.Mongo</PackageId>
     <Title>WebReaper.Mongo</Title>
     <Description>MongoDB adapters for WebReaper: the MongoDbSink, plus MongoDB-backed scraper-config and cookie storage. Adds ScraperEngineBuilder.WriteToMongoDb / WithMongoDbConfigStorage / WithMongoDbCookieStorage. Satellite package (ADR-0009) so the WebReaper core stays dependency-light and AOT-clean.</Description>
+    <!-- ADR-0017: relicensed to MIT to remove funnel-adoption friction. -->
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>scraper, crawler, parser, mongodb, mongo</PackageTags>
     <PackageIcon>logo.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>

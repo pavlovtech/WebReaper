@@ -16,6 +16,8 @@
     <PackageId>WebReaper.Cosmos</PackageId>
     <Title>WebReaper.Cosmos</Title>
     <Description>Azure Cosmos DB sink for WebReaper. Adds ScraperEngineBuilder.WriteToCosmosDb(...). Satellite package (ADR-0009) so the WebReaper core stays dependency-light and AOT-clean.</Description>
+    <!-- ADR-0017: relicensed to MIT to remove funnel-adoption friction. -->
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>scraper, crawler, parser, cosmosdb, azure</PackageTags>
     <PackageIcon>logo.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>

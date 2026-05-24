@@ -16,6 +16,8 @@
     <PackageId>WebReaper.AzureServiceBus</PackageId>
     <Title>WebReaper.AzureServiceBus</Title>
     <Description>Azure Service Bus scheduler for WebReaper: a distributed job queue backed by an Azure Service Bus queue, for sharing crawl state across workers and serverless functions. Adds ScraperEngineBuilder.WithAzureServiceBusScheduler. Satellite package (ADR-0009) so the WebReaper core stays dependency-light and AOT-clean.</Description>
+    <!-- ADR-0017: relicensed to MIT to remove funnel-adoption friction. -->
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>scraper, crawler, parser, azure, servicebus, distributed</PackageTags>
     <PackageIcon>logo.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>

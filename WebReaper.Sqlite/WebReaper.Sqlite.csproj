@@ -16,6 +16,8 @@
     <PackageId>WebReaper.Sqlite</PackageId>
     <Title>WebReaper.Sqlite</Title>
     <Description>SQLite embedded-store adapters for WebReaper: a local durable scheduler (and, from the next slice, a visited-link tracker) backed by SQLite via Microsoft.Data.Sqlite — resume is a query, not a hand-rolled position file. The opt-in robust-local durability tier between the zero-dependency core file adapters and the distributed Redis / Azure Service Bus satellites. Adds ScraperEngineBuilder.WithSqliteScheduler. Satellite package (ADR-0009 / ADR-0012) so the WebReaper core stays dependency-light and Native-AOT-clean — the native e_sqlite3 (SQLitePCLRaw) graph is quarantined here.</Description>
+    <!-- ADR-0017: relicensed to MIT to remove funnel-adoption friction. -->
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>scraper, crawler, parser, sqlite, durable, embedded</PackageTags>
     <PackageIcon>logo.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
