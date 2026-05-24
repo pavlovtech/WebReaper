@@ -14,6 +14,8 @@
     <PackageId>WebReaper.AI</PackageId>
     <Title>WebReaper.AI</Title>
     <Description>LLM-backed IContentExtractor for WebReaper, bound to Microsoft.Extensions.AI.Abstractions (IChatClient). Bring your own model — OpenAI, Anthropic, Ollama, anything implementing IChatClient. Adds ScraperEngineBuilder.WithLlmExtractor. Satellite package (ADR-0009) so the WebReaper core stays dependency-light and AOT-clean.</Description>
+    <!-- ADR-0017: relicensed to MIT to remove funnel-adoption friction. -->
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>scraper, crawler, llm, ai, extraction, openai, anthropic</PackageTags>
     <PackageIcon>logo.png</PackageIcon>
 
