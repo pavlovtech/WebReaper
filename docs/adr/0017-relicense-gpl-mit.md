@@ -2,14 +2,18 @@
 
 ## Status
 
-**Draft — ready to land** (2026-05-23; branch `adr-0017-relicense-mit`
-off `origin/master`). The number was reserved in
-[ADR-0008's out-of-scope bullet](0008-system-text-json-typed-pipeline.md)
-for this exact change. **Phase-0 gate** of the [repositioning plan](../REPOSITIONING-PLAN.md)
-— the funnel positioning rests on this. Folds into the unreleased
-10.0.0 wave (or ships as 9.x point-release pre-10 if owner prefers).
+**Accepted — implementation complete** (2026-05-23; merged via
+[PR #98](https://github.com/pavlovtech/WebReaper/pull/98) at commit
+`139b071`; status flipped 2026-05-24). All three merge gates cleared
+by the owner; the relicense shipped into the 10.0.0 wave (`LICENSE.txt`
++ all seven csproj `<PackageLicenseExpression>` lines are MIT;
+`Directory.Build.props` carries the shared MIT property post-ADR-0023).
+Backup branches `origin/pre-email-rewrite-master` and
+`origin/pre-email-rewrite-ai-native-wave` deletable from ≈ 2026-06-22
+(30 days post-rewrite).
 
-**Merge gates** (this PR sits open until all green):
+The original three merge gates — preserved for archeological
+reference:
 
 - [x] **Gate 1 — DISSOLVED.** The 41 commits previously under
       `olpavlov@<old-employer>.com` were rewritten via `git filter-repo`
@@ -31,10 +35,8 @@ for this exact change. **Phase-0 gate** of the [repositioning plan](../REPOSITIO
       correct change). The current tree contains no external code in
       copyrightable form; the relicense touches only the owner's
       authorship and the auto-generated infrastructure.
-- [ ] **Gate 3 — Owner has reviewed the LICENSE/CONTRIBUTING/csproj
-      diff** and accepts that ship-time is now.
-
-The PR's body restates these gates so the owner is the merge decider.
+- [x] **Gate 3 — CLEARED.** Owner reviewed the LICENSE/CONTRIBUTING/csproj
+      diff and merged 2026-05-23 (PR #98 at `139b071`).
 
 ## Context
 
