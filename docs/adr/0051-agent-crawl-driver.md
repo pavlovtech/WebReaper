@@ -2,11 +2,12 @@
 
 ## Status
 
-**Proposed — design pass only** (2026-05-24). Generalises the proposer-validator
+**Accepted — implemented** (2026-05-24). Generalises the proposer-validator
 pattern across the fourth surface — *page selection*. ADR-0046 (router) and
 ADR-0047 (self-heal) put it on **extraction**; ADR-0050 put it on **actions**;
-this puts it on **which page to look at next**. No implementation in this ADR;
-the proposal lives or dies on the design call.
+this puts it on **which page to look at next**. Design pass, twelve HITL
+forks, durable-state flip, and the 30-item implementation slice all land
+in v10.
 
 ## Context
 
