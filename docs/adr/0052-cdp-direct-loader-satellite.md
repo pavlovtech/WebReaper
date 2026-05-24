@@ -2,7 +2,7 @@
 
 ## Status
 
-**Proposed** (2026-05-24). Slice 1 of 4 in the **Transports wave** (v11.0.0
+**Accepted — implementation complete** (2026-05-24). Slice 1 of 4 in the **Transports wave** (v10.0.0
 target): ADR-0052 (this one, CDP-direct), ADR-0053 (Playwright satellite +
 Puppeteer deletion), ADR-0054 (`WebReaper.Stealth.CloakBrowser`), ADR-0055
 (CLI browser/stealth acquisition policy). New satellite per ADR-0009 — core
@@ -166,7 +166,7 @@ that exposes a CDP endpoint, including every stealth fork.
   super-seam (rejected).** Would unify Playwright and CDP-direct under one
   abstraction. The Dynamic-slot singleton constraint stays — `IPageLoader`
   holds at most one browser transport at a time — so the super-seam earns
-  no rent in v11. Premature; revisit if a third browser transport
+  no rent in v10. Premature; revisit if a third browser transport
   (WebDriver-BiDi, e.g.) appears.
 
 ## Accepted cost
@@ -183,16 +183,16 @@ that exposes a CDP endpoint, including every stealth fork.
   ADR-0004 cost we already accepted ("per-mechanism client/launch quirks
   live in the transport"). A future ADR may extract a shared
   `PageActionDispatcher` over CDP primitives once the pattern has stabilised
-  across two adapters; v11 ships the duplication knowingly.
+  across two adapters; v10 ships the duplication knowingly.
 - **`PageRequest` carries `Headless` and `PageActions` that the HTTP
   transport ignores** — the ADR-0004 "mildly fat request type" cost is
   preserved. The CDP transport reads both fields; no widening needed.
 
 ## Deliberate consequences
 
-- **The Dynamic-slot picker becomes meaningful.** Through v10, users
+- **The Dynamic-slot picker becomes meaningful.** Before this wave, users
   wired the Browser transport by adding `WebReaper.Puppeteer` and calling
-  `.WithPuppeteerPageLoader()` — only one choice. Through v11+, the user
+  `.WithPuppeteerPageLoader()` — only one choice. From v10 onward, the user
   picks between `WebReaper.Playwright` (`.WithPlaywrightPageLoader(...)`)
   and `WebReaper.Cdp` (`.WithCdpPageLoader(...)`) plus the stealth
   satellites that compose on top of `WebReaper.Cdp`. The
@@ -215,5 +215,5 @@ that exposes a CDP endpoint, including every stealth fork.
 **Minor (additive).** The transport is new public surface in a new
 satellite package; nothing in core or existing satellites changes
 behaviour because of this ADR. The deletion of `WebReaper.Puppeteer`
-(carried by ADR-0053) is the **major** break of v11.0.0; the satellites
+(carried by ADR-0053) is the **major** break of v10.0.0; the satellites
 ship together in the lockstep wave.

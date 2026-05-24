@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>12</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+
+    <PackageId>WebReaper.Stealth.CloakBrowser</PackageId>
+    <Title>WebReaper.Stealth.CloakBrowser</Title>
+    <Description>CloakBrowser stealth Chromium fork backend for WebReaper. Adds .WithCloakBrowser() — one-liner that finds (or downloads from upstream) the CloakBrowser binary, launches it with the fork's recommended flags, and wires the resulting CDP endpoint into WebReaper.Cdp. CloakBrowser solves invisible bot-checks (Cloudflare Turnstile, reCAPTCHA v3, FingerprintJS) via C++ source-level fingerprint patches. The first concrete satellite of the ADR-0054 stealth-backend pattern. CloakBrowser binary: free to use; license at https://github.com/CloakHQ/CloakBrowser/blob/main/BINARY-LICENSE.md (no redistribution — this satellite downloads from upstream, does not bundle).</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>scraper, crawler, stealth, cloakbrowser, anti-bot, cloudflare, fingerprint</PackageTags>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>10.0.0: initial release. First concrete satellite of the ADR-0054 stealth-backend pattern. WithCloakBrowser() one-liner — detects pre-installed CloakBrowser binary or downloads from upstream (legal model = `playwright install`), launches with the fork's recommended flags, wires CDP into WebReaper.Cdp. CloakBrowser solves invisible bot-checks (Cloudflare, reCAPTCHA v3, FingerprintJS) via C++ source-level fingerprint patches. License-acknowledgment logger one-liner on first install; CLI surface (ADR-0055) gets a Y/n prompt. Requires WebReaper 10.0.0 + WebReaper.Cdp 10.0.0.</PackageReleaseNotes>
+
+    <!-- The satellite itself is AOT-compatible (System.Net.Http + minimal
+         logic). The launched binary is external. -->
+    <IsAotCompatible>true</IsAotCompatible>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="..\WebReaper\logo.png" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WebReaper\WebReaper.csproj" />
+    <ProjectReference Include="..\WebReaper.Cdp\WebReaper.Cdp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.8" />
+  </ItemGroup>
+</Project>

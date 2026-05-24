@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using WebReaper.Builders;
+using WebReaper.Cdp;
 using WebReaper.Domain.Parsing;
 using WebReaper.Sinks.Models;
 
@@ -20,7 +21,8 @@ internal static class ScrapeCommand
         var output = args.GetFlag("output");
         var maxAge = args.GetTimeSpanFlag("max-age");
         var follow = args.GetFlag("follow");
-        var browser = args.HasFlag("browser");
+        var cdpUrl = args.GetFlag("browser-cdp-url");
+        var browser = args.HasFlag("browser") || cdpUrl is not null;
 
         // ADR-0040: AsMarkdown is the default; Extract(schema) is the
         // upgrade. A future LLM extractor (ADR-0044) will land as a
@@ -32,6 +34,22 @@ internal static class ScrapeCommand
         var builder = schemaPath is not null
             ? seed.Extract(LoadSchema(schemaPath))
             : seed.AsMarkdown();
+
+        // ADR-0055 layered auto-spawn:
+        //   1. BYO via --browser-cdp-url → WithCdpPageLoader(url)
+        //   2. --browser only → managed Chromium spawn via WithCdpPageLoader(CdpLaunchOptions)
+        //   3. (future) auto-escalate on bot-check detection — Hybrid C UX
+        if (cdpUrl is not null)
+        {
+            builder = builder.WithCdpPageLoader(cdpUrl);
+        }
+        else if (browser)
+        {
+            builder = builder.WithCdpPageLoader(new CdpLaunchOptions
+            {
+                Headless = true,
+            });
+        }
 
         if (follow is not null) builder = builder.Follow(follow);
         if (maxAge is { } age) builder = builder.WithMaxAge(age);

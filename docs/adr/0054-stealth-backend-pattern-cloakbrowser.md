@@ -2,7 +2,7 @@
 
 ## Status
 
-**Proposed** (2026-05-24). Slice 3 of 4 in the **Transports wave** (v11.0.0
+**Accepted — implementation complete** (2026-05-24). Slice 3 of 4 in the **Transports wave** (v10.0.0
 target). New satellite per ADR-0009 — `WebReaper.Stealth.CloakBrowser`
 ships as the first concrete backend. The recipe other stealth Chromium
 forks follow (Patchright, Camoufox, undetected-chromedriver, …) is
@@ -190,7 +190,7 @@ hardcoded list. The pattern is shallow because the seam beneath it
   the satellite-per-fork shape pays the cost once on our side and saves
   every consumer N hours of integration work.
 - **`IStealthBackend` shared interface + DI-registered backends
-  (rejected).** New abstraction earning no rent in v11; doesn't match
+  (rejected).** New abstraction earning no rent in v10; doesn't match
   existing satellite ecosystem; over-engineered. Consumers don't pick a
   backend from a list at runtime — they pick at compile time by which
   `WithXBackend()` extension they call. Future ADR may extract if a
@@ -202,8 +202,8 @@ hardcoded list. The pattern is shallow because the seam beneath it
   community-acceptable size range.
 - **Auto-escalation in the library (vanilla Chrome → bot-check detected →
   swap to CloakBrowser) (rejected — deferred).** This is the
-  `TransportRouter` pattern (F7 in Round 1 grilling), deferred to v12
-  pending demand. v11 library users pick a backend at build time;
+  `TransportRouter` pattern (F7 in Round 1 grilling), deferred to a follow-up wave
+  pending demand. v10 library users pick a backend at build time;
   the CLI surface (ADR-0055) implements escalation as a CLI-only feature.
 
 ## Accepted cost
@@ -215,7 +215,7 @@ hardcoded list. The pattern is shallow because the seam beneath it
   surface.
 - **Cross-platform installer logic per fork.** Six RIDs × N forks × release-
   manifest formats per upstream. Mitigation: `CdpLaunchHelpers` and a
-  forthcoming `StealthInstallerBase` (not in v11, planned for v12 once
+  forthcoming `StealthInstallerBase` (not in v10, planned for a follow-up wave once
   the second satellite lands and the actual shared code is visible)
   carry the cross-cutting work; per-fork code is the per-fork details.
 - **License-acknowledgment surface is per-satellite.** Each
@@ -226,7 +226,7 @@ hardcoded list. The pattern is shallow because the seam beneath it
   trackers use Cloudflare or reCAPTCHA v3 — CloakBrowser handles those
   silently. Trackers using interactive captchas (reCAPTCHA v2 image
   grid, hCaptcha) still require an external captcha-solving service;
-  the v12+ captcha wave addresses that.
+  the post-v10 captcha wave addresses that.
 
 ## Deliberate consequences
 
@@ -243,10 +243,10 @@ hardcoded list. The pattern is shallow because the seam beneath it
   UX, `webreaper scrape ... --browser` detects a bot-check, prompts the
   user to download CloakBrowser, runs `webreaper stealth install`,
   retries. The "what backend does --stealth install" question has one
-  answer (CloakBrowser is the v11 default; community satellites added
+  answer (CloakBrowser is the v10 default; community satellites added
   via the registry PR over time).
 
 ## SemVer
 
 **Minor (additive).** New satellite package in the lockstep wave; no core
-surface change. v11.0.0's major is owned by ADR-0053's Puppeteer deletion.
+surface change. v10.0.0's major is owned by ADR-0053's Puppeteer deletion.
