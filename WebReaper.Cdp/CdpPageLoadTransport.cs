@@ -82,6 +82,9 @@ public sealed class CdpPageLoadTransport : IPageLoadTransport, IAsyncDisposable
         var targetId = createTargetResult["targetId"]?.GetValue<string>()
             ?? throw new CdpException("Target.createTarget returned no targetId.");
 
+        // Hoisted out of try{} so the finally{} can deregister the
+        // ADR-0057 per-session network tracker after the page closes.
+        string? sessionId = null;
         try
         {
             // Attach with flatten: true so subsequent commands carry sessionId
@@ -89,7 +92,7 @@ public sealed class CdpPageLoadTransport : IPageLoadTransport, IAsyncDisposable
             var attachResult = await browser.SendAsync("Target.attachToTarget",
                 new JsonObject { ["targetId"] = targetId, ["flatten"] = true },
                 sessionId: null, cancellationToken);
-            var sessionId = attachResult["sessionId"]?.GetValue<string>()
+            sessionId = attachResult["sessionId"]?.GetValue<string>()
                 ?? throw new CdpException("Target.attachToTarget returned no sessionId.");
 
             await browser.SendAsync("Page.enable", null, sessionId, cancellationToken);
@@ -128,12 +131,16 @@ public sealed class CdpPageLoadTransport : IPageLoadTransport, IAsyncDisposable
                 }
             }
 
-            var html = await EvaluateAsync(browser, sessionId,
+            var html = await CdpPageActionDispatcher.EvaluateAsync(browser, sessionId,
                 "document.documentElement.outerHTML", cancellationToken);
             return html ?? "";
         }
         finally
         {
+            // ADR-0057: drop the per-session network-activity tracker before
+            // closing the target — keeps the tracker map bounded across a
+            // long-lived browser-WebSocket / many short-lived sessions.
+            if (sessionId is not null) browser.RemoveNetworkTracker(sessionId);
             try
             {
                 await browser.SendAsync("Target.closeTarget",
@@ -143,102 +150,13 @@ public sealed class CdpPageLoadTransport : IPageLoadTransport, IAsyncDisposable
         }
     }
 
-    // ADR-0035 closed-sum dispatch — switch over the seven arms.
-    // Same shape as the Puppeteer transport's PerformAsync; under CDP every
-    // arm reduces to one or two Runtime.evaluate / CDP primitive calls.
-    private async Task PerformAsync(CdpClient browser, string sessionId, PageAction action, CancellationToken ct)
-    {
-        switch (action)
-        {
-            case PageAction.Click a:
-                // Use the page's own click() to honour pointer-events/disabled.
-                await EvaluateAsync(browser, sessionId,
-                    $"(() => {{ const el = document.querySelector({JsonStringLiteral(a.Selector)}); if (!el) throw new Error('Selector not found: ' + {JsonStringLiteral(a.Selector)}); el.click(); }})()",
-                    ct);
-                break;
-            case PageAction.Wait a:
-                await Task.Delay(a.Milliseconds, ct);
-                break;
-            case PageAction.ScrollToEnd:
-                await EvaluateAsync(browser, sessionId,
-                    "window.scrollTo(0, document.body.scrollHeight)", ct);
-                break;
-            case PageAction.EvaluateExpression a:
-                await EvaluateAsync(browser, sessionId, a.Expression, ct);
-                break;
-            case PageAction.WaitForSelector a:
-                await WaitForSelectorAsync(browser, sessionId, a.Selector, a.TimeoutMs, ct);
-                break;
-            case PageAction.WaitForNetworkIdle:
-                // v1: a simple settle wait. Full request-tracking implementation
-                // is a follow-up (instrument Network.requestWillBeSent +
-                // Network.loadingFinished/Failed, debounce on zero in-flight).
-                await Task.Delay(500, ct);
-                break;
-            case PageAction.SemanticAct a:
-                await _semanticActCoordinator.DispatchAsync(
-                    a.Intent,
-                    getHtmlAsync: token => GetHtmlAsync(browser, sessionId, token),
-                    dispatch: (arm, token) => PerformAsync(browser, sessionId, arm, token),
-                    ct);
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(
-                    nameof(action), action.GetType().Name, "unhandled PageAction arm");
-        }
-    }
-
-    private static async Task WaitForSelectorAsync(CdpClient browser, string sessionId, string selector, int timeoutMs, CancellationToken ct)
-    {
-        // Poll every 50ms. Cheap; bounded by timeoutMs.
-        var deadline = DateTime.UtcNow + TimeSpan.FromMilliseconds(timeoutMs);
-        while (DateTime.UtcNow < deadline)
-        {
-            ct.ThrowIfCancellationRequested();
-            var found = await EvaluateAsync(browser, sessionId,
-                $"!!document.querySelector({JsonStringLiteral(selector)})", ct);
-            if (found == "true") return;
-            await Task.Delay(50, ct);
-        }
-        throw new TimeoutException($"Timed out waiting {timeoutMs}ms for selector: {selector}");
-    }
-
-    private static async Task<string?> EvaluateAsync(CdpClient browser, string sessionId, string expression, CancellationToken ct)
-    {
-        var result = await browser.SendAsync("Runtime.evaluate",
-            new JsonObject
-            {
-                ["expression"] = expression,
-                ["awaitPromise"] = true,
-                ["returnByValue"] = true,
-            },
-            sessionId, ct);
-
-        if (result["exceptionDetails"] is JsonObject ex)
-        {
-            var text = ex["text"]?.GetValue<string>() ?? "Runtime.evaluate failed";
-            throw new CdpException(text);
-        }
-
-        // result.result.value carries the boxed primitive when returnByValue.
-        var value = result["result"]?["value"];
-        if (value is null) return null;
-        return value.GetValueKind() switch
-        {
-            System.Text.Json.JsonValueKind.String => value.GetValue<string>(),
-            _ => value.ToJsonString(),
-        };
-    }
-
-    private static Task<string> GetHtmlAsync(CdpClient browser, string sessionId, CancellationToken ct) =>
-        EvaluateAsync(browser, sessionId, "document.documentElement.outerHTML", ct)!;
-
-    private static string JsonStringLiteral(string s)
-    {
-        // Inline JSON-string literal for embedding selector text into a JS
-        // expression. JsonNode handles the escaping correctly.
-        return JsonValue.Create(s)!.ToJsonString();
-    }
+    // ADR-0035 closed-sum dispatch — delegated to CdpPageActionDispatcher
+    // (extracted in ADR-0057 follow-up so the dispatch table is testable
+    // against a FakeCdpSession in WebReaper.Cdp.Tests). The transport stays
+    // responsible for life-cycle (the surrounding LoadAsync) but not for
+    // per-arm CDP-primitive plumbing.
+    private Task PerformAsync(CdpClient browser, string sessionId, PageAction action, CancellationToken ct) =>
+        CdpPageActionDispatcher.PerformAsync(browser, sessionId, action, _semanticActCoordinator, ct);
 
     private async Task ApplyCookiesAsync(CdpClient browser, string sessionId, string url, CancellationToken ct)
     {

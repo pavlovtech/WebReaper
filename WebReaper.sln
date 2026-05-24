@@ -78,6 +78,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebReaper.Playwright", "Web
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebReaper.Stealth.CloakBrowser", "WebReaper.Stealth.CloakBrowser\WebReaper.Stealth.CloakBrowser.csproj", "{01F662E7-9F18-4867-B9D0-F8057497C84D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebReaper.Cdp.Tests", "WebReaper.Tests\WebReaper.Cdp.Tests\WebReaper.Cdp.Tests.csproj", "{9EB0063B-5B41-43FE-A100-C0536A83D586}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -460,6 +462,18 @@ Global
 		{01F662E7-9F18-4867-B9D0-F8057497C84D}.Release|x64.Build.0 = Release|Any CPU
 		{01F662E7-9F18-4867-B9D0-F8057497C84D}.Release|x86.ActiveCfg = Release|Any CPU
 		{01F662E7-9F18-4867-B9D0-F8057497C84D}.Release|x86.Build.0 = Release|Any CPU
+		{9EB0063B-5B41-43FE-A100-C0536A83D586}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EB0063B-5B41-43FE-A100-C0536A83D586}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EB0063B-5B41-43FE-A100-C0536A83D586}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9EB0063B-5B41-43FE-A100-C0536A83D586}.Debug|x64.Build.0 = Debug|Any CPU
+		{9EB0063B-5B41-43FE-A100-C0536A83D586}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9EB0063B-5B41-43FE-A100-C0536A83D586}.Debug|x86.Build.0 = Debug|Any CPU
+		{9EB0063B-5B41-43FE-A100-C0536A83D586}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EB0063B-5B41-43FE-A100-C0536A83D586}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EB0063B-5B41-43FE-A100-C0536A83D586}.Release|x64.ActiveCfg = Release|Any CPU
+		{9EB0063B-5B41-43FE-A100-C0536A83D586}.Release|x64.Build.0 = Release|Any CPU
+		{9EB0063B-5B41-43FE-A100-C0536A83D586}.Release|x86.ActiveCfg = Release|Any CPU
+		{9EB0063B-5B41-43FE-A100-C0536A83D586}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -481,6 +495,7 @@ Global
 		{1072D71F-39E2-44FF-91D5-C337551C1C4B} = {13348F52-7CE2-02CA-9AD9-07ADD8A5D840}
 		{1C6D3A0A-B364-4B82-A6D3-E8FC340D9912} = {13348F52-7CE2-02CA-9AD9-07ADD8A5D840}
 		{B0F5F3BE-EFEF-48C9-8B7C-5C96AFD674FA} = {75C97094-26FC-484A-A354-E33BBD6355A8}
+		{9EB0063B-5B41-43FE-A100-C0536A83D586} = {13348F52-7CE2-02CA-9AD9-07ADD8A5D840}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8413198B-8D26-4E30-A5E2-E0FBC4DCEA59}
