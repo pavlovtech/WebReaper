@@ -49,6 +49,10 @@ env:
   NUGET_SOURCE: https://api.nuget.org/v3/index.json
   # Explicit, ordered, core FIRST (runbook: "never a glob — ordering/safety").
   # New packages are added here deliberately, like the runbook's explicit set.
+  # WebReaper.Cli is intentionally NOT here: PackAsTool=true is incompatible
+  # with PublishAot=true on one target, so the CLI ships as a Native-AOT
+  # single-binary via GitHub Releases (ADR-0043), not via NuGet. Revisit in a
+  # 10.x if there is real consumer demand for the framework-dependent tool.
   CANDIDATES: >-
     WebReaper
     WebReaper.Cosmos
@@ -57,6 +61,10 @@ env:
     WebReaper.AzureServiceBus
     WebReaper.Puppeteer
     WebReaper.Sqlite
+    WebReaper.AI
+    WebReaper.Extraction.Attributes
+    WebReaper.Extraction.Generators
+    WebReaper.Mcp
 
 jobs:
   pack:
@@ -142,8 +150,12 @@ jobs:
       - name: Guardrail — dependency-light core (must be empty)
         run: |
           set -euo pipefail
+          # ADR-0009: every heavy/native/AOT-dirty dep stays in its satellite.
+          # 10.0.0 added the AI-native wave: AI/MCP/source-gen satellites must
+          # not leak their packages into core (Microsoft.Extensions.AI*,
+          # ModelContextProtocol, Microsoft.CodeAnalysis*).
           out=$(dotnet list WebReaper/WebReaper.csproj package --include-transitive \
-            | grep -iE 'newtonsoft|cosmos|mongodb|stackexchange|servicebus|puppeteer|sharpcompress|sqlite' || true)
+            | grep -iE 'newtonsoft|cosmos|mongodb|stackexchange|servicebus|puppeteer|sharpcompress|sqlite|modelcontextprotocol|microsoft\.extensions\.ai|microsoft\.codeanalysis' || true)
           if [ -n "$out" ]; then
             echo "::error::core dependency graph is not light:"; echo "$out"; exit 1
           fi

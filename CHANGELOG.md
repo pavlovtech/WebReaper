@@ -1,6 +1,24 @@
 # Changelog
 
-## 10.0.0 *(unreleased — accumulating on `master`)* — A scrape begins with a Crawl seed (breaking)
+## 10.0.0 *(unreleased — accumulating on `master`)* — AI-native funnel, on a deepened architecture; MIT relicense (breaking)
+
+The headline release of the year — 24 ADRs (0025–0049, with ADR-0017 the
+parallel licence move) — splits into three arcs. The first is the *staged
+builder* that closes the last runtime construction trap (ADR-0025). The
+second is *architecture deepening* — two review waves (ADR-0026..0031 and
+ADR-0032..0039) that turn the in-process Crawl driver into a small,
+audit-clean composition over named seams. The third is the *AI-native wave*
+(ADR-0040..0049): a no-schema Markdown terminal, a CLI + Agent Skill, an LLM
+extractor satellite, a `[ScrapeSchema]` source generator, a deterministic→LLM
+extraction router, a self-healing extractor, a change-tracking processor, and
+an MCP server satellite — all bolted onto the seams the architecture
+deepening exposed. **In parallel, the project is relicensed GPL-3.0-or-later
+→ MIT** (ADR-0017) to remove the funnel's last adoption-friction edge for
+downstream consumers and SaaS integrators. *Every* breaking change is in this
+release; the post-10.0.0 cadence returns to additive minor releases on the
+seams introduced here.
+
+### A scrape begins with a Crawl seed (ADR-0025)
 
 The builder front door no longer has a runtime trap. Start URLs and a schema
 were a *runtime* `InvalidOperationException` from `ConfigBuilder.Build()` if you
@@ -17,7 +35,7 @@ alternatives (type-state phantom generics; the multi-param factory; R-narrow),
 the trilemma surfaced at implementation and the two-seam resolution:
 [`docs/adr/0025-staged-builder-entry.md`](docs/adr/0025-staged-builder-entry.md).
 
-### Breaking changes
+#### Breaking changes
 
 - **The entry point moved.** `new ScraperEngineBuilder()` (public ctor) +
   `.Get(...)` / `.GetWithBrowser(...)` + `.Parse(...)` are replaced by the
@@ -43,7 +61,7 @@ the trilemma surfaced at implementation and the two-seam resolution:
   wire shared adapters by direct construction (public satellite concretes), as
   the canonical `AzureFuncs` example already did.
 
-### Migration
+#### Migration
 
 `new ScraperEngineBuilder().Get(url)….Parse(schema)….BuildAsync()` →
 `ScraperEngineBuilder.Crawl(url).Extract(schema)….BuildAsync()` — move the
@@ -57,7 +75,7 @@ worker's `new ScraperEngineBuilder()….BuildSpider()` →
 the guardrail (whole-solution build, 94 unit + 27 satellite tests, Native-AOT
 smoke) is green.
 
-### Architecture deepening (ADR-0026 – ADR-0031)
+### Architecture deepening — wave 1 (ADR-0026 – ADR-0031)
 
 A wave of internal-architecture deepening landed on `master` after ADR-0025,
 from a fresh architecture review. Each change is internal-only or
@@ -122,6 +140,92 @@ ADR.
   `ParsedData`'s public shape is unchanged; *one narrow edge:* constructing a
   `ParsedData` mutates the passed `JsonObject` to fold the URL in.
   [`docs/adr/0031-parseddata-url-merge.md`](docs/adr/0031-parseddata-url-merge.md)
+
+### Architecture deepening — wave 2 (ADR-0032 – ADR-0039)
+
+A second review wave following wave-1. The Crawl driver becomes a small
+composition over named seams; several latent footguns in durable adapters
+fall out by construction; and the extraction surface is renamed honestly,
+opening the seat the AI-native wave drops into.
+
+- **The Crawl driver's stop rule becomes a module; the latch's credit protocol collapses to one atomic op (ADR-0032).** *"Is the Crawl over, and why?"* lands in a new internal `StopRule` that composes the **Outstanding-work latch** and the page limit behind one verdict; `IOutstandingWorkLatch` loses `AddAsync` and `SignalProcessedAsync` takes a child count, so the two-call credit-ordering footgun is gone — the Redis latch does one round-trip, not two. *Breaking:* a Tier-1 public seam re-signatures; `RedisOutstandingWorkLatch` is updated, custom latch adapters must adopt the new shape.
+  [`docs/adr/0032-stop-rule-module.md`](docs/adr/0032-stop-rule-module.md)
+
+- **Async adapter warm-up becomes an opt-in capability the Crawl driver drives (ADR-0033).** A new public `IAsyncInitializable` (one idempotent `InitializeAsync()`) replaces the ad-hoc `Task Initialization` property; the ten durable adapters get pure constructors backed by `Lazy<Task>`, and the driver warms scheduler + tracker + every sink uniformly before the loop — sinks are warmed where they used to self-guard on first emit. *Breaking:* `IScheduler` and `IVisitedLinkTracker` lose `Initialization`; durable adapters must implement `IAsyncInitializable`. `IScraperSink` is unchanged.
+  [`docs/adr/0033-async-warmup-seam.md`](docs/adr/0033-async-warmup-seam.md)
+
+- **The Spider takes its run-scoped inputs at construction; `IScraperConfigStorage` leaves the shell (ADR-0034).** `Spider`'s constructor becomes `(ICrawlStep, IPageLoader, bool headless, Schema? parsingScheme)` and the per-Job `GetConfigAsync()` round-trip is gone — config storage is purely the Crawl driver's concern now. *Breaking:* `DistributedSpiderBuilder` loses `WithConfigStorage` / `WithFileConfigStorage`; `BuildSpider()` gains a required `ScraperConfig` parameter, making "build a worker with no config" a compile error. `ScraperEngineBuilder.WithConfigStorage` is unchanged.
+  [`docs/adr/0034-spider-config-at-construction.md`](docs/adr/0034-spider-config-at-construction.md)
+
+- **`PageAction` becomes a closed sum of typed arms (ADR-0035).** `PageAction` is now an abstract record with six sealed-record arms (`Click`, `Wait`, `ScrollToEnd`, `EvaluateExpression`, `WaitForSelector`, `WaitForNetworkIdle`), each carrying typed fields — the `PageActionType` enum, the `object[] Parameters`, the ~75-line kind-tagging codec and the transport's runtime casts are all gone. `EvaluateExpression` and `WaitForSelector` (publicly advertised but silently unwired) now actually run. *Breaking:* `PageAction` re-shaped, `PageActionType` removed, wire format changes; `PageActionBuilder`'s public signatures are unchanged.
+  [`docs/adr/0035-pageaction-closed-sum.md`](docs/adr/0035-pageaction-closed-sum.md)
+
+- **Link extraction collapses to a concrete function; `ILinkParser` is removed (ADR-0036).** The one-adapter, one-caller `ILinkParser` seam becomes a single `internal static LinkExtractor.GetLinksAsync` called directly by `CrawlStep`. A latent mid-crawl crash on `<a>` elements without `href` is fixed in the rewrite — hrefless anchors are skipped, not `ArgumentNullException`. *Breaking:* `ILinkParser` and `LinkParserByCssSelector` removed; no fluent-path migration exists (there was never a `WithLinkParser`).
+  [`docs/adr/0036-link-extraction-not-a-seam.md`](docs/adr/0036-link-extraction-not-a-seam.md)
+
+- **Stop ceases the Crawl driver's consumption; `IScheduler.Complete()` is removed (ADR-0037).** Termination is now a consumer-side cancel of `GetAllAsync`'s token — uniform across every scheduler. Previously `Complete()` was a no-op on `FileScheduler` / `RedisScheduler` / `SqliteScheduler` / `AzureServiceBusScheduler`, so a durable scheduler with `StopWhenAllLinksProcessed()` ran forever; that footgun is gone. `GetAllAsync`'s token contract is now stated explicitly. *Breaking:* `IScheduler.Complete()` removed; in-flight Jobs abort on a cutoff instead of draining.
+  [`docs/adr/0037-stop-ceases-consumption.md`](docs/adr/0037-stop-ceases-consumption.md)
+
+- **The post-extraction surface becomes two seams: a page-processor pipeline and the Sink (ADR-0038).** A new `IPageProcessor` / `PageContext` / `PageVerdict` (`Kept | Dropped`) surface in `WebReaper.Processing` runs ordered over each extracted page before the sink fan-out — enrich, observe, filter, or replace the record, with the raw HTML and `Schema` in hand. `Subscribe` keeps its signature but is now sugar over an internal `DelegateSink` (closing the ADR-0031 shared-record leak in passing). *Breaking:* `ScraperEngineBuilder.PostProcess` and the public `Metadata` type are removed; move a `PostProcess` callback to `.Process(...)`.
+  [`docs/adr/0038-page-processor-seam.md`](docs/adr/0038-page-processor-seam.md)
+
+- **`IJsonContentParser` becomes `IContentExtractor`; the three `*ContentParser` shells collapse onto `SchemaFold` (ADR-0039).** The seam is renamed honestly (the "Json" qualifier was a 6.0.0 fossil), `SchemaContentParser<TNode>` becomes the public `SchemaFold<TNode>`, and the pass-through `AngleSharpContentParser` / `XPathContentParser` / `JsonContentParser` shells are deleted — `SpiderBuilder` constructs the fold directly, the same way ADR-0002's custom-backend extension path does. *Breaking:* `IJsonContentParser` → `IContentExtractor`, `ParseToJsonAsync` → `ExtractAsync`, `WithContentParser` → `WithContentExtractor`; `WithJsonContentParser` / `WithXPathContentParser` keep their names.
+  [`docs/adr/0039-content-extractor-seam.md`](docs/adr/0039-content-extractor-seam.md)
+
+### AI-native wave (ADR-0040 – ADR-0049)
+
+The strategic move of the release. The architecture deepening exposed clean
+seams for *content extraction* (ADR-0039), *post-extraction processing*
+(ADR-0038), and *page loading* (ADR-0004). This wave drops AI-native
+features onto those seams: a no-schema Markdown terminal, a CLI, an LLM
+extractor satellite, a Roslyn `[ScrapeSchema]` source generator
+(Pydantic-parity Python cannot match), a deterministic→LLM router, a
+self-healing extractor, change-tracking, and MCP interop. Core stays
+dependency-light and AOT-clean; every heavy dependency stays quarantined in
+its satellite per ADR-0009.
+
+- **`.AsMarkdown()` — a second `ICrawlSeed` terminal returning LLM-ready Markdown (ADR-0040).** `ICrawlSeed` gains `AsMarkdown()` alongside `Extract(Schema)`; a new `MarkdownContentExtractor` (AngleSharp-driven, AOT-clean, zero new transitive deps) cleans the DOM via a tag-based Readability heuristic and emits `{ title, markdown }`. The schema-required gate becomes a strategy-choice lattice — ADR-0025's structural promise is stated correctly: *a Crawl declares its extraction strategy before `BuildAsync`*. *Breaking:* `ICrawlSeed` gains one method; `IContentExtractor`'s doc widens (the schema requirement is strategy-local).
+  [`docs/adr/0040-markdown-extraction-seed-terminal.md`](docs/adr/0040-markdown-extraction-seed-terminal.md)
+
+- **`IPageCache` — a cache-read seam on the page loader, with the firecrawl-shaped `WithMaxAge(TimeSpan)` one-liner (ADR-0041).** A new public `IPageCache` (`TryReadAsync` / `WriteAsync`, keyed on `(url, pageType)`) sits beside `PageLoader` as a cache-aside collaborator; `InMemoryPageCache(TimeSpan maxAge)` ships as the firecrawl-shaped TTL adapter, `NullPageCache` is the no-op default. Enables iterative crawl development without re-fetching and gives the router (ADR-0046) and self-heal (ADR-0047) free re-reads. Additive — no Tier-1 break.
+  [`docs/adr/0041-page-cache-seam.md`](docs/adr/0041-page-cache-seam.md)
+
+- **`ISiteMapper` — URL discovery via `sitemap.xml` ∪ root-page links (ADR-0042).** A new public `ISiteMapper` + default `SiteMapper` adapter parses `robots.txt` for `Sitemap:` lines, recurses one level of sitemap-indexes, extracts root-page `<a href>`s, and returns a deduped ordered URL list — without spending the Crawl/visited-link/page-processor pipeline on a one-HTTP-request operation. `ScraperEngineBuilder.MapAsync(url, options?)` is the one-liner; `MapOptions` exposes `MaxUrls` / `Search` / `AllowOffsite` knobs. Additive.
+  [`docs/adr/0042-site-mapper.md`](docs/adr/0042-site-mapper.md)
+
+- **`WebReaper.Cli` — the AOT single-binary primitive agent surface, plus a bundled Agent Skill (ADR-0043).** A new AOT-clean executable (`PublishAot=true`, zero NuGet deps beyond the BCL, hand-rolled ~120-line arg parser) ships `webreaper scrape <url>` (defaults to Markdown, `--schema <path>` switches to typed JSON), `webreaper map <url>`, `webreaper init` (writes an embedded `SKILL.md` into `.claude/skills/webreaper/`), and `webreaper version`. The CLI is the primitive; Skill and MCP are adapters over it. Additive.
+  [`docs/adr/0043-cli-and-agent-skill.md`](docs/adr/0043-cli-and-agent-skill.md)
+
+- **`WebReaper.AI` — an LLM-backed `IContentExtractor` satellite bound to `Microsoft.Extensions.AI.Abstractions` (ADR-0044).** New satellite shipping `LlmContentExtractor` (Markdown pre-clean by default, deterministic `Temperature = 0`, `MaxTokens = 4096`), a `Schema` → JSON Schema bridge, and `WithLlmExtractor(IChatClient, LlmExtractorOptions?)`. BYO model — the consumer brings their own `IChatClient`; core stays dependency-light and AOT-clean per ADR-0009 quarantine. Additive.
+  [`docs/adr/0044-llm-extractor-satellite.md`](docs/adr/0044-llm-extractor-satellite.md)
+
+- **`[ScrapeSchema]` — a Roslyn source generator emitting `Schema` from attributed POCOs (ADR-0045).** Two new packages — `WebReaper.Extraction.Attributes` (the `[ScrapeSchema]` / `[ScrapeField]` markers + `SchemaFieldType`) and `WebReaper.Extraction.Generators` (an `IIncrementalGenerator`). A `partial` POCO with attributed properties gets a compile-time `static Schema Schema` and a reflection-free `static Materialize(JsonObject)`, both AOT-clean. v1 ships the common case (single-level, primitive fields, `List<T>` of primitives); nested `[ScrapeSchema]` POCOs are explicitly deferred. Additive.
+  [`docs/adr/0045-scrape-schema-source-generator.md`](docs/adr/0045-scrape-schema-source-generator.md)
+
+- **`ExtractionRouter` — deterministic-first → fallback composition on the `IContentExtractor` seam (ADR-0046).** A new public `ExtractionRouter(primary, fallback, isValid?, logger?)` is itself an `IContentExtractor` — no seam-of-a-seam. Runs the deterministic fold, validates via `SchemaSatisfiedValidator` (a required leaf is missing iff absent or string-empty / list-empty), falls back to e.g. the LLM extractor only when the cheap path fails. `ScraperEngineBuilder.WithFallbackExtractor` is the sugar; `WebReaper.AI` ships `WithLlmFallback`. Additive.
+  [`docs/adr/0046-extraction-router.md`](docs/adr/0046-extraction-router.md)
+
+- **`SelfHealingContentExtractor` — LLM proposes selectors, the fold validates, the schema-cache persists the fix (ADR-0047).** New public `ISelectorRepairer` seam plus a `SelfHealingContentExtractor` wrapper: on a deterministic-fold failure, the repairer proposes new selectors, the fold re-runs with the patched `Schema`, and if it validates, the patch is cached (reference-identity, per-crawl in-memory) so every subsequent page runs deterministic again — no recurring LLM cost. `WebReaper.AI` ships `LlmSelectorRepairer` + `WithLlmSelfHealing`. Additive.
+  [`docs/adr/0047-self-healing-selectors.md`](docs/adr/0047-self-healing-selectors.md)
+
+- **`ChangeTrackingProcessor` — snapshot Markdown per URL, emit `change_status` on the page-processor pipeline (ADR-0048).** A new `IPageProcessor` (ADR-0038) hashes each page's Markdown extraction (SHA-256, robust to template noise), looks up the prior hash in a new `IChangeStore` seam (`InMemoryChangeStore` default), and annotates the record with `change_status` (`new` / `same` / `changed`) plus `previous_hash`. `ScraperEngineBuilder.WithChangeTracking(IChangeStore? = null)` is the sugar. Additive; `removed` detection and diff text are deferred.
+  [`docs/adr/0048-change-tracking-processor.md`](docs/adr/0048-change-tracking-processor.md)
+
+- **`WebReaper.Mcp` — MCP server satellite exposing scrape/map/extract as MCP tools (ADR-0049).** New Exe satellite over the `ModelContextProtocol` C# SDK with stdio transport, exposing three `[McpServerTool]` methods that wrap the existing library API — for MCP-only clients (Cursor, ChatGPT Desktop, Copilot Studio) that can't reach the CLI. Thin facade; pre-1.0 SDK churn quarantined per ADR-0009. Additive.
+  [`docs/adr/0049-mcp-server-satellite.md`](docs/adr/0049-mcp-server-satellite.md)
+
+### Licence (ADR-0017)
+
+- **WebReaper relicenses GPL-3.0-or-later → MIT.** Every NuGet package in the
+  release ships `<PackageLicenseExpression>MIT</PackageLicenseExpression>`
+  (core + every satellite, including the four new AI-native satellites). The
+  funnel's last legal-adoption-friction edge for downstream consumers and
+  SaaS integrators is gone. Full gates, contributor analysis, and history
+  rewrite (Deloitte → personal email on 41 commits) recorded in
+  [`docs/adr/0017-relicense-gpl-mit.md`](docs/adr/0017-relicense-gpl-mit.md);
+  the rewrite's backup branches `origin/pre-email-rewrite-master` and
+  `origin/pre-email-rewrite-ai-native-wave` are deletable once the owner is
+  satisfied (~30 days).
 
 ## 9.0.0 — The public surface is the documented contract (breaking)
 

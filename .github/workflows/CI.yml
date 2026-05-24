@@ -43,3 +43,17 @@ jobs:
       run: |
         dotnet publish WebReaper.Tests/WebReaper.AotSmokeTest/WebReaper.AotSmokeTest.csproj -c Release -r linux-x64
         ./WebReaper.Tests/WebReaper.AotSmokeTest/bin/Release/net10.0/linux-x64/publish/WebReaper.AotSmokeTest
+    # ADR-0043: the CLI is the headline AOT artifact ("the single-binary
+    # publish is the headline AOT artifact"). Its csproj promotes the same IL
+    # warning set to errors as WebReaper.AotSmokeTest, so a Native-AOT publish
+    # is the only way to catch a regression in the *bundled* graph (CLI +
+    # WebReaper core) before a real consumer hits it on `dotnet tool install`
+    # day. The smoke test above covers core in isolation; this covers the
+    # composed AOT publish.
+    - name: AOT publish — WebReaper.Cli (the headline single-binary)
+      run: |
+        dotnet publish WebReaper.Cli/WebReaper.Cli.csproj -c Release -r linux-x64
+        ls -lh WebReaper.Cli/bin/Release/net10.0/linux-x64/publish/WebReaper.Cli
+        # Smoke the produced binary — `--version` is the cheapest
+        # invariant we have that the JIT/AOT bridge actually wires up.
+        ./WebReaper.Cli/bin/Release/net10.0/linux-x64/publish/WebReaper.Cli version

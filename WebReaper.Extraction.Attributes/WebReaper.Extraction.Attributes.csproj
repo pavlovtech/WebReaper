@@ -16,6 +16,7 @@
     <!-- ADR-0017: relicensed to MIT to remove funnel-adoption friction. -->
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>scraper, source-generator, attributes, extraction</PackageTags>
+    <PackageReleaseNotes>10.0.0: initial release. The [ScrapeSchema] and [ScrapeField] attributes plus SchemaFieldType consumed by the WebReaper.Extraction.Generators Roslyn source generator (ADR-0045). Multi-targeted to netstandard2.0 (so the analyzer can reference it) and net10.0 (so user code can use it at runtime). Lightweight — no runtime deps beyond the BCL. Pairs with WebReaper.Extraction.Generators; requires WebReaper 10.0.0 at runtime.</PackageReleaseNotes>
   </PropertyGroup>
 
 </Project>
