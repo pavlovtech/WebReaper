@@ -62,17 +62,34 @@ var engine = await ScraperEngineBuilder
 await engine.RunAsync();
 ```
 
-The CLI mirrors it — the Native-AOT single-binary `WebReaper.Cli` (ADR-0043) is the
-priority artifact, built from source in 10.0.0 (`PackAsTool=true` is incompatible with
-`PublishAot=true` on one target — a non-AOT `dotnet tool install` target is deferred to a
-10.0.x; multi-RID GitHub-Releases asset publish is the tracked follow-up):
+The CLI mirrors it — the Native-AOT single-binary `webreaper` (ADR-0043) ships as a
+prebuilt asset on every tagged GitHub release across six RIDs (`linux-x64`,
+`linux-arm64`, `osx-x64`, `osx-arm64`, `win-x64`, `win-arm64`). `PackAsTool=true` is
+incompatible with `PublishAot=true` on one target, so a non-AOT `dotnet tool install`
+target is deferred to a 10.0.x — file an issue if you need it.
 
+```bash
+# Latest release, RID = same name dotnet uses (osx-arm64, linux-x64, win-x64, …)
+RID=osx-arm64
+gh release download --repo pavlovtech/WebReaper --pattern "webreaper-*-$RID.*"
+# Linux is .tar.gz; macOS + Windows are .zip
+case "$RID" in linux-*) tar -xzf webreaper-*-"$RID".tar.gz ;;
+               *)       unzip   webreaper-*-"$RID".zip    ;; esac
+cd webreaper-*-"$RID"
+./webreaper scrape https://example.com
+./webreaper map https://example.com --search /blog/
+./webreaper init    # installs the Agent Skill to .claude/skills/webreaper/
 ```
+
+The release pages serve direct URLs too — no `gh` required:
+`https://github.com/pavlovtech/WebReaper/releases/download/<TAG>/webreaper-<TAG>-<RID>.<ext>`.
+
+Or build from source — useful between tags or on an unlisted RID:
+
+```bash
 git clone https://github.com/pavlovtech/WebReaper.git && cd WebReaper
-dotnet publish WebReaper.Cli -c Release -r <rid> --self-contained true   # rid: osx-arm64, linux-x64, win-x64, ...
+dotnet publish WebReaper.Cli -c Release -r <rid> --self-contained true
 ./WebReaper.Cli/bin/Release/net10.0/<rid>/publish/WebReaper.Cli scrape https://example.com
-./WebReaper.Cli/bin/Release/net10.0/<rid>/publish/WebReaper.Cli map https://example.com --search /blog/
-./WebReaper.Cli/bin/Release/net10.0/<rid>/publish/WebReaper.Cli init    # installs the Agent Skill to .claude/skills/webreaper/
 ```
 
 Drop in an LLM extractor when the deterministic path can't reach a field
