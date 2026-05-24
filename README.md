@@ -116,6 +116,18 @@ var engine = await ScraperEngineBuilder
     .BuildAsync();
 ```
 
+Runnable end-to-end demo of every AI-native API in this section —
+[`Examples/WebReaper.AiNativeShowcase`](Examples/WebReaper.AiNativeShowcase/Program.cs):
+
+```bash
+dotnet run --project Examples/WebReaper.AiNativeShowcase -- markdown
+dotnet run --project Examples/WebReaper.AiNativeShowcase -- map
+dotnet run --project Examples/WebReaper.AiNativeShowcase -- sourcegen
+dotnet run --project Examples/WebReaper.AiNativeShowcase -- llm
+dotnet run --project Examples/WebReaper.AiNativeShowcase -- router
+dotnet run --project Examples/WebReaper.AiNativeShowcase -- changetrack
+```
+
 ## Table of contents
 
 - [Install](#install)

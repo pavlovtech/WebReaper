@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    Showcase example for the 10.0.0 AI-native wave. One project, one
+    Program.cs that dispatches by sub-command: `dotnet run` plus markdown,
+    map, sourcegen, llm, router, or changetrack. Each sub-command is the
+    minimal viable demo of one new public API (ADRs 0040 through 0048).
+
+    Why one project, not six: the funnel's value is that the new APIs are
+    visible together, so a consumer scanning Examples/ sees "Markdown is
+    one line; the LLM extractor is a builder method; source-gen is an
+    attribute" in one place. Six tiny projects would fragment that.
+
+    The LLM-extractor demo uses a deterministic in-process IChatClient
+    fake by default so the example runs offline; swap in an OpenAI or
+    Anthropic IChatClient implementation in production code.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>preview</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\WebReaper\WebReaper.csproj" />
+    <ProjectReference Include="..\..\WebReaper.AI\WebReaper.AI.csproj" />
+    <ProjectReference Include="..\..\WebReaper.Extraction.Attributes\WebReaper.Extraction.Attributes.csproj" />
+    <ProjectReference Include="..\..\WebReaper.Extraction.Generators\WebReaper.Extraction.Generators.csproj"
+                      OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+</Project>
