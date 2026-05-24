@@ -1,5 +1,54 @@
 # Changelog
 
+## 10.0.0 (in progress) — v10.x transports cleanup wave (ADR-0056..0058)
+
+The deliberate post-Transports-wave follow-ups named in ADRs 0052..0055 — the
+cleanup queue that the original wave shipped with documented gaps. Three new
+ADRs land additively; v10.0.0's major break (Puppeteer deletion, ADR-0053)
+still owns the version, so this wave rides minor:
+
+- **ADR-0056 — Hybrid C bot-check escalation in `webreaper scrape`.** Pins the
+  concrete detector heuristic + Y/n prompt + inline install + single-retry
+  composition that ADR-0055 §Hybrid C named but did not detail. Conservative
+  detector (`BotCheckDetector`) is a pure function over (httpStatus,
+  renderedHtml, recordCount); challenge markers cover Cloudflare / DataDome /
+  PerimeterX / Incapsula / Akamai. Subprocess install for substitutability —
+  the same `webreaper stealth install cloakbrowser --yes` the user could
+  type. New flags: `--stealth` (skip vanilla attempt), `--auto-stealth` (CI;
+  also `WEBREAPER_AUTO_STEALTH=1`), `--no-auto-stealth` (escape hatch).
+- **ADR-0057 — CDP Network-idle event tracking.** `PageAction.WaitForNetworkIdle`
+  on the CDP transport now tracks real `Network.requestWillBeSent` /
+  `loadingFinished` / `loadingFailed` events with a 500 ms debounce + 30 s
+  total timeout. Retires the v10.0.0 `Task.Delay(500)` placeholder; matches
+  Puppeteer's `networkidle0` shape. AOT-clean (`ConcurrentDictionary` +
+  `TaskCompletionSource`, no reflection).
+- **ADR-0058 — Engine-teardown disposal chain.** `ScraperEngine` becomes
+  `IAsyncDisposable` (dual of ADR-0033's `IAsyncInitializable`). Disposal
+  walks adapters in reverse warm-up order, then builder-registered hooks in
+  LIFO. `ScraperEngineBuilder.OnTeardown(IAsyncDisposable)` is the public
+  hook satellites use for builder-time-spawned resources. **Closes the named
+  CLAUDE.md gotcha:** `WithCloakBrowser()` no longer leaks the 220 MB stealth
+  subprocess until host exit; `await using var engine = await
+  builder.BuildAsync()` is the recommended pattern.
+
+Also in this wave:
+
+- **CDP transport unit-test infrastructure.** New `WebReaper.Cdp.Tests`
+  project; `ICdpSession` interface extracted (internal) so
+  `CdpPageActionDispatcher` (extracted from `CdpPageLoadTransport`) is
+  testable against a `FakeCdpSession`. 16 tests cover the seven
+  `PageAction` arms + the `NetworkActivity` tracker. Handoff item #4.
+- **CLI test coverage of `BrowserCommand` + `KnownStealthBackends`** —
+  pin shape so a future PR adding a stealth backend can't ship a partial
+  row. Handoff item #7.
+- **CI smoke widened.** The AOT-published CLI is now exercised against
+  `version` + `help` + `browser list` + `stealth list` — every new
+  command's bundled-graph path survives the publish. Handoff item #6.
+- **Gated CloakBrowser end-to-end integration test.** `CloakBrowserSmokeTests`
+  runs the real installer + launcher + a scrape + engine disposal when
+  `WEBREAPER_STEALTH_SMOKE=1`. Vacuously passes when unset (CI stays
+  hermetic). Handoff item #5.
+
 ## 10.0.0 — AI-native funnel + semantic actions + transports wave, on a deepened architecture; MIT relicense (breaking)
 
 The headline release of the year — 30 ADRs (0025–0055, with ADR-0017 the

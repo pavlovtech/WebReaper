@@ -49,12 +49,13 @@ public static class CloakBrowserBuilderExtensions
         var endpoint = CloakBrowserLauncher.LaunchAsync(binaryPath, opts, logger, CancellationToken.None)
             .GetAwaiter().GetResult();
 
-        // Endpoint disposal is wired through the CDP transport's lifecycle —
-        // when the transport disposes, the BYO CDP URL it connected to is
-        // not torn down. We need a teardown hook. v1 leaves the spawned
-        // CloakBrowser process running until process exit; the OS reaps
-        // it. v2 (after ADR-0033 IAsyncDisposable seams reach into the
-        // builder) will register the endpoint for disposal.
-        return builder.WithCdpPageLoader(endpoint.CdpUrl);
+        // ADR-0058: register the launched-endpoint's IAsyncDisposable with
+        // the builder; engine teardown kills the CloakBrowser subprocess
+        // via the LIFO-ordered teardown chain (await using on the engine).
+        // Pre-ADR-0058 (v10.0.0) this dropped the disposable and the
+        // process OS-reaped only on host exit — the named CLAUDE.md gotcha.
+        return builder
+            .WithCdpPageLoader(endpoint.CdpUrl)
+            .OnTeardown(endpoint);
     }
 }

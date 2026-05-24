@@ -32,8 +32,17 @@ namespace WebReaper.Core;
 /// consumption of the job stream (ADR-0037), cancelling whatever Jobs are in
 /// flight at that moment — no longer a <c>PageCrawlLimitException</c> thrown
 /// through the fault-retry policy.
+/// <para>
+/// ADR-0058: <see cref="IAsyncDisposable"/> dual of ADR-0033's
+/// <see cref="IAsyncInitializable"/>. <see cref="DisposeAsync"/> walks
+/// adapters in reverse warm-up order (processors → sinks → tracker →
+/// scheduler → spider → builder-registered teardown hooks). Consumers
+/// use <c>await using var engine = await builder.BuildAsync();</c> to
+/// guarantee satellite-spawned subprocesses (CloakBrowser, …) tear down
+/// on scope exit.
+/// </para>
 /// </summary>
-public class ScraperEngine
+public class ScraperEngine : IAsyncDisposable
 {
     /// <summary>
     /// Constructed by
@@ -55,7 +64,8 @@ public class ScraperEngine
         ILogger logger,
         IReadOnlyList<IPageProcessor>? pageProcessors = null,
         IOutstandingWorkLatch? latch = null,
-        IRetryPolicy? retryPolicy = null)
+        IRetryPolicy? retryPolicy = null,
+        IReadOnlyList<IAsyncDisposable>? ownedDisposables = null)
     {
         ParallelismDegree = parallelismDegree;
         ArgumentNullException.ThrowIfNull(configStorage);
@@ -74,6 +84,12 @@ public class ScraperEngine
         // (one initial + three retries, pre-0026 behaviour minus the
         // cancellation-swallow bug).
         RetryPolicy = retryPolicy ?? new FixedAttemptsRetryPolicy();
+        // ADR-0058: builder-registered teardown hooks (satellite-spawned
+        // subprocesses, e.g. CloakBrowser via .OnTeardown(...)). Empty by
+        // default; the in-tree builder is the one v10.x caller that fills it.
+        _ownedDisposables = ownedDisposables is { Count: > 0 }
+            ? new List<IAsyncDisposable>(ownedDisposables)
+            : new List<IAsyncDisposable>(0);
     }
 
     private IScraperConfigStorage ConfigStorage { get; }
@@ -85,6 +101,8 @@ public class ScraperEngine
     private IReadOnlyList<IPageProcessor> PageProcessors { get; }
     private IOutstandingWorkLatch Latch { get; }
     private IRetryPolicy RetryPolicy { get; }
+    private readonly List<IAsyncDisposable> _ownedDisposables;
+    private bool _disposed;
 
     private int ParallelismDegree { get; }
 
@@ -331,5 +349,57 @@ public class ScraperEngine
         Logger.LogInformation("Waiting for sinks ...");
         await Task.WhenAll(sinkTasks);
         Logger.LogInformation("Finished waiting for sinks");
+    }
+
+    /// <summary>
+    /// ADR-0058: dispose every adapter the driver holds that implements
+    /// <see cref="IAsyncDisposable"/> or <see cref="IDisposable"/>, in
+    /// REVERSE warm-up order (so dependents see their dependencies still
+    /// valid mid-flush): page processors → sinks → link tracker →
+    /// scheduler → spider. Then dispose builder-registered teardown hooks
+    /// in LIFO order (satellite-spawned subprocesses like CloakBrowser).
+    /// Per-adapter disposal exceptions are swallowed with a Warning log —
+    /// a scrape that succeeded should not retroactively fail because a
+    /// Redis-connection close timed out.
+    /// </summary>
+    /// <remarks>
+    /// Idempotent: a second call short-circuits on <c>_disposed</c>.
+    /// </remarks>
+    public async ValueTask DisposeAsync()
+    {
+        if (_disposed) return;
+        _disposed = true;
+
+        foreach (var p in PageProcessors.Reverse())
+            await SafeDisposeAsync(p);
+        foreach (var s in Enumerable.Reverse(Sinks))
+            await SafeDisposeAsync(s);
+        await SafeDisposeAsync(LinkTracker);
+        await SafeDisposeAsync(Scheduler);
+        await SafeDisposeAsync(Spider);
+
+        // LIFO over builder-registered hooks — a transport-spawned process
+        // is usually a downstream resource of a tracker/sink that may have
+        // been talking to it; tear them down in reverse registration order.
+        for (var i = _ownedDisposables.Count - 1; i >= 0; i--)
+            await SafeDisposeAsync(_ownedDisposables[i]);
+    }
+
+    private async ValueTask SafeDisposeAsync(object? obj)
+    {
+        try
+        {
+            switch (obj)
+            {
+                case IAsyncDisposable a: await a.DisposeAsync(); break;
+                case IDisposable d: d.Dispose(); break;
+            }
+        }
+        catch (Exception ex)
+        {
+            // Warning, not Error: scrape's outcome is the scrape's outcome;
+            // teardown problems are observability, not run failure.
+            Logger.LogWarning(ex, "Disposal of {Type} threw", obj?.GetType().Name ?? "(null)");
+        }
     }
 }
