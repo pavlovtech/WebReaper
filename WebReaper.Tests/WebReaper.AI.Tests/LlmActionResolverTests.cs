@@ -130,6 +130,26 @@ public class LlmActionResolverTests
     }
 
     [Fact]
+    public async Task Retries_once_on_invalid_JSON_then_succeeds()
+    {
+        // ADR-0059 regression: the LlmCall mechanism's bounded parse-retry
+        // recovers when the first response is malformed JSON.
+        var calls = 0;
+        var chat = new StubChatClient(_ =>
+        {
+            calls++;
+            return calls == 1
+                ? "{\"kind\":\"click\","          // trailing comma -> JsonException
+                : "{\"kind\":\"click\",\"selector\":\".retried\"}";
+        });
+
+        var result = await new LlmActionResolver(chat).ResolveAsync("click", "<html/>");
+
+        Assert.Equal(2, calls);
+        Assert.Equal(".retried", Assert.IsType<PageAction.Click>(result).Selector);
+    }
+
+    [Fact]
     public async Task Strips_markdown_code_fences_with_language_tag()
     {
         var chat = new StubChatClient(_ =>
