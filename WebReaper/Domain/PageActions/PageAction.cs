@@ -6,7 +6,7 @@ namespace WebReaper.Domain.PageActions;
 /// the WebReaper.Puppeteer satellite (ADR-0009).
 /// <para>
 /// A closed sum (ADR-0035, the ADR-0001 closed-sum pattern, as <c>CrawlOutcome</c>):
-/// exactly one of the six nested arms, each carrying its own typed parameters —
+/// exactly one of the seven nested arms, each carrying its own typed parameters —
 /// no untyped <c>object[]</c>, no separate discriminant enum. Construct only via
 /// the nested arms; the union is not extensible.
 /// </para>
@@ -39,4 +39,19 @@ public abstract record PageAction
 
     /// <summary>Wait until the page's network activity goes idle.</summary>
     public sealed record WaitForNetworkIdle : PageAction;
+
+    /// <summary>
+    /// Resolve a natural-language intent to a concrete <see cref="PageAction"/>
+    /// arm at runtime (ADR-0050). The first dispatch on each crawl invokes the
+    /// registered <see cref="WebReaper.Core.Actions.Abstract.IActionResolver"/>
+    /// — typically an LLM in the <c>WebReaper.AI</c> satellite — to produce a
+    /// selector-based arm (<see cref="Click"/>, <see cref="WaitForSelector"/>,
+    /// <see cref="Wait"/>, or <see cref="EvaluateExpression"/>); the resolution
+    /// is cached per-crawl by intent string, so every subsequent dispatch of
+    /// the same intent runs the cached deterministic arm with no LLM call. The
+    /// LLM-as-proposer / deterministic-as-decider pattern (ADR-0046, ADR-0047)
+    /// applied to the action surface.
+    /// </summary>
+    /// <param name="Intent">The natural-language intent (e.g. "click sign in").</param>
+    public sealed record SemanticAct(string Intent) : PageAction;
 }

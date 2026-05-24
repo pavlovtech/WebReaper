@@ -1,8 +1,8 @@
 # Changelog
 
-## 10.0.0 — AI-native funnel, on a deepened architecture; MIT relicense (breaking)
+## 10.0.0 — AI-native funnel + semantic actions, on a deepened architecture; MIT relicense (breaking)
 
-The headline release of the year — 24 ADRs (0025–0049, with ADR-0017 the
+The headline release of the year — 25 ADRs (0025–0050, with ADR-0017 the
 parallel licence move) — splits into three arcs. The first is the *staged
 builder* that closes the last runtime construction trap (ADR-0025). The
 second is *architecture deepening* — two review waves (ADR-0026..0031 and
@@ -213,6 +213,9 @@ its satellite per ADR-0009.
 
 - **`WebReaper.Mcp` — MCP server satellite exposing scrape/map/extract as MCP tools (ADR-0049).** New Exe satellite over the `ModelContextProtocol` C# SDK with stdio transport, exposing three `[McpServerTool]` methods that wrap the existing library API — for MCP-only clients (Cursor, ChatGPT Desktop, Copilot Studio) that can't reach the CLI. Thin facade; pre-1.0 SDK churn quarantined per ADR-0009. Additive.
   [`docs/adr/0049-mcp-server-satellite.md`](docs/adr/0049-mcp-server-satellite.md)
+
+- **`PageAction.SemanticAct(intent)` — natural-language page actions; LLM resolves once, deterministic thereafter (ADR-0050).** A seventh closed-sum `PageAction` arm carrying an intent string ("click sign in") instead of a CSS selector. New public `IActionResolver` seam + `ScraperEngineBuilder.WithActionResolver(...)`; the `WebReaper.AI` satellite ships `LlmActionResolver` + `WithLlmActionResolver(chatClient)`. The Puppeteer transport resolves the intent on the first dynamic page, dispatches the concrete arm, and caches the resolution per crawl by intent string — every subsequent same-intent page dispatches the cached arm with no LLM call. The cache lives in core (`SemanticActCoordinator`), unit-testable without an `IPage`. Same proposer-validator pattern as the extraction router (ADR-0046) and self-healing extractor (ADR-0047), generalised from extraction to actions — self-heal stops being one feature and becomes a *project-level pattern*. **Narrow breaking edge:** `ScraperEngineBuilder.WithLoadTransport`'s factory delegate widens from 3 to 4 arguments (the fourth is `IActionResolver`); the in-tree `WebReaper.Puppeteer` satellite is updated in lockstep. A `SemanticAct` in the config without a registered resolver logs a warning at `BuildAsync` and throws `SemanticActResolutionException` on the first dispatch.
+  [`docs/adr/0050-semantic-page-actions.md`](docs/adr/0050-semantic-page-actions.md)
 
 ### Licence (ADR-0017)
 

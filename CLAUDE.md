@@ -57,12 +57,13 @@ Terminate with `BuildAsync()` (persists the config to `IScraperConfigStorage`, c
 
 **Distributed mode:** swapping scheduler + config storage + link tracker to Redis or Azure Service Bus lets multiple workers / serverless functions share crawl state. See `Examples/WebReaper.AzureFuncs` and `Examples/WebReaper.DistributedScraperWorkerService`.
 
-**AI-native (ADR-0040..0049):** three composing pieces on top of the existing pipeline:
+**AI-native (ADR-0040..0050):** four composing pieces on top of the existing pipeline:
 - **`IContentExtractor` adapters** (ADR-0039 seam): `SchemaFold` (deterministic), `MarkdownContentExtractor` (no-schema, ADR-0040), `LlmContentExtractor` (LLM via `Microsoft.Extensions.AI`, ADR-0044 — in the `WebReaper.AI` satellite). `ExtractionRouter` (ADR-0046) composes any two — `.WithFallbackExtractor` / `.WithLlmFallback`. `SelfHealingContentExtractor` (ADR-0047) wraps the deterministic primary with an `ISelectorRepairer` — `.WithSelfHealing` / `.WithLlmSelfHealing`.
 - **Page cache** (`IPageCache`, ADR-0041): cache-aside on the loader; `.WithMaxAge(TimeSpan)` is the firecrawl-shaped one-liner.
 - **Discovery + monitoring**: `ScraperEngineBuilder.MapAsync(url, opts?)` for URL discovery (`ISiteMapper`, ADR-0042); `.WithChangeTracking()` for the change-tracking page processor (`IChangeStore`, ADR-0048).
 - **Agent surfaces**: the `WebReaper.Cli` AOT single binary (ADR-0043) — `webreaper scrape|map|init` — is the primitive; the bundled Agent Skill is the discoverable adapter (`webreaper init` writes `.claude/skills/webreaper/SKILL.md`); the `WebReaper.Mcp` satellite (ADR-0049) is the interop adapter for MCP-only clients (Cursor, Claude Desktop, Copilot Studio).
 - **Source-gen**: `[ScrapeSchema]` on a `partial class` with `[ScrapeField("selector")]` on properties — the `WebReaper.Extraction.Generators` Roslyn analyzer (ADR-0045) emits a `static Schema` and a reflection-free `static Materialize(JsonObject)`.
+- **Semantic actions** (ADR-0050): `PageAction.SemanticAct(intent)` is the seventh closed-sum arm — a natural-language intent ("click sign in"). The Puppeteer transport resolves it on the first dynamic page via the registered `IActionResolver` (the `WebReaper.AI` satellite ships `LlmActionResolver`; `.WithLlmActionResolver(chatClient)` is the one-liner) into a concrete arm, dispatches it, and caches the resolution per crawl by intent string. Same LLM-as-proposer / deterministic-as-decider pattern as ADR-0046/0047 applied to actions — first page pays the LLM, every subsequent same-intent page dispatches the cached arm with no LLM call. The cache lifecycle lives in core (`SemanticActCoordinator`, unit-testable without an `IPage`); the transport delegates.
 
 Namespace mirrors folder path throughout (`WebReaper.Core.Spider.Concrete` = `WebReaper/Core/Spider/Concrete/`).
 
@@ -77,3 +78,5 @@ Namespace mirrors folder path throughout (`WebReaper.Core.Spider.Concrete` = `We
 - The self-heal cache (ADR-0047) is keyed by Schema reference identity; the same Schema instance reused across Crawls shares its patch.
 - The `WebReaper.AI` satellite pulls `Microsoft.Extensions.AI.Abstractions` (preview); not AOT-required by design (ADR-0009 quarantine).
 - The `WebReaper.Mcp` satellite uses the preview `ModelContextProtocol` SDK; pin the version explicitly when shipping a release.
+- `PageAction.SemanticAct(intent)` (ADR-0050) needs an `IActionResolver` — without one the transport throws `SemanticActResolutionException` on the first dispatch. `ScraperEngineBuilder.BuildAsync()` logs a warning at build time when the config carries a `SemanticAct` and the resolver is still the default `NullActionResolver`. The cache is per-Spider in-memory, intent-string-keyed (single-host crawls assumed); a multi-host crawl with intent collisions surfaces as a cached-arm dispatch failure → re-resolve loop.
+- ADR-0050 widened the `WithLoadTransport(...)` factory delegate to four arguments (cookies, proxy, logger, **actionResolver**). The Puppeteer satellite's `WithPuppeteerPageLoader()` extension was updated in lockstep. A custom transport satellite needs to accept the resolver argument even if it ignores it.

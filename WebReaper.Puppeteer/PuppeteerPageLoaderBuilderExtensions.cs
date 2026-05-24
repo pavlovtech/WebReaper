@@ -22,9 +22,12 @@ public static class PuppeteerPageLoaderBuilderExtensions
     /// pages (<c>GetWithBrowser</c> / <c>FollowWithBrowser</c> /
     /// <c>PaginateWithBrowser</c>). Required since 7.0.0 (ADR-0009) — without
     /// it a Dynamic load throws an actionable message. First Dynamic run
-    /// downloads Chromium via Puppeteer.
+    /// downloads Chromium via Puppeteer. Since ADR-0050 the transport also
+    /// receives the registered
+    /// <see cref="WebReaper.Core.Actions.Abstract.IActionResolver"/> for
+    /// <c>SemanticAct</c> dispatch.
     /// </summary>
     public static ScraperEngineBuilder WithPuppeteerPageLoader(this ScraperEngineBuilder builder) =>
-        builder.WithLoadTransport((cookies, proxy, logger) =>
-            new BrowserPageLoadTransport(cookies, proxy, logger));
+        builder.WithLoadTransport((cookies, proxy, logger, actionResolver) =>
+            new BrowserPageLoadTransport(cookies, proxy, logger, actionResolver));
 }

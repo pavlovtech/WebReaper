@@ -1,5 +1,6 @@
 using System.Net;
 using Microsoft.Extensions.Logging;
+using WebReaper.Core.Actions.Abstract;
 using WebReaper.Core.CookieStorage.Abstract;
 using WebReaper.Core.Loaders.Abstract;
 using WebReaper.Core.Parser.Abstract;
@@ -74,11 +75,26 @@ public class DistributedSpiderBuilder
     }
 
     /// <summary>Register the Dynamic (headless-browser) transport
-    /// (ADR-0004/0009). Core is HTTP-only by default.</summary>
+    /// (ADR-0004/0009/0050). Core is HTTP-only by default. The factory's
+    /// fourth argument is the <see cref="IActionResolver"/> for
+    /// <see cref="WebReaper.Domain.PageActions.PageAction.SemanticAct"/>
+    /// dispatch (ADR-0050).</summary>
     public DistributedSpiderBuilder WithLoadTransport(
-        Func<ICookiesStorage, IProxyProvider?, ILogger, IPageLoadTransport> dynamicTransportFactory)
+        Func<ICookiesStorage, IProxyProvider?, ILogger, IActionResolver, IPageLoadTransport> dynamicTransportFactory)
     {
         _spiderBuilder.WithLoadTransport(dynamicTransportFactory);
+        return this;
+    }
+
+    /// <summary>Register the <see cref="IActionResolver"/> the Puppeteer
+    /// transport invokes for <see cref="WebReaper.Domain.PageActions.PageAction.SemanticAct"/>
+    /// arms (ADR-0050). The default is the no-op resolver — dispatching a
+    /// <c>SemanticAct</c> with it throws
+    /// <see cref="WebReaper.Core.Actions.Concrete.SemanticActResolutionException"/>
+    /// at the transport.</summary>
+    public DistributedSpiderBuilder WithActionResolver(IActionResolver resolver)
+    {
+        _spiderBuilder.WithActionResolver(resolver);
         return this;
     }
 
