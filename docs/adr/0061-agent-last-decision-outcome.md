@@ -2,7 +2,7 @@
 
 ## Status
 
-**Proposed** (2026-05-24). Third ADR of the post-AI-native-wave
+**Accepted — implemented** (2026-05-24). Third ADR of the post-AI-native-wave
 deepening campaign. Adds the brain's per-step *outcome* signal —
 "what happened when the engine executed your last decision" — to the
 bounded `AgentState` view. Composes with ADR-0062's `ISchemaValidator`

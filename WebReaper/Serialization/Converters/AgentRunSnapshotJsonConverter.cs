@@ -2,18 +2,27 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using WebReaper.Domain.Agent;
+using WebReaper.Domain.PageActions;
 
 namespace WebReaper.Serialization.Converters;
 
 /// <summary>
-/// <see cref="AgentRunSnapshot"/> codec (ADR-0051 §Decision §6). Hand-written
+/// <see cref="AgentRunSnapshot"/> codec (ADR-0051 §Decision §6, extended by
+/// ADR-0061 for the <c>LastOutcome</c> field). Hand-written
 /// Utf8JsonReader/Writer plumbing — AOT-safe (no reflection, no source-gen
 /// metadata required for the snapshot's polymorphic <see cref="AgentDecision"/>
-/// arms or its <see cref="JsonObject"/> record payloads). Delegates to
-/// <see cref="AgentDecisionCodec"/> for the History arms and
+/// arms, its <see cref="JsonObject"/> record payloads, or its
+/// <see cref="AgentDecisionOutcome"/> arms). Delegates to
+/// <see cref="AgentDecisionCodec"/> for the History arms,
+/// <see cref="AgentDecisionOutcomeCodec"/> for the LastOutcome arms, and
 /// <see cref="JsonObject.WriteTo(Utf8JsonWriter, JsonSerializerOptions)"/> /
 /// <see cref="JsonNode.Parse(ref Utf8JsonReader, JsonNodeOptions?)"/> for the
 /// Records payloads.
+/// <para>
+/// Backward-compatible read: snapshots persisted by pre-ADR-0061 versions
+/// omit <c>lastOutcome</c>; the reader defaults to
+/// <see cref="AgentDecisionOutcome.None"/>.
+/// </para>
 /// </summary>
 internal static class AgentRunSnapshotCodec
 {
@@ -40,6 +49,16 @@ internal static class AgentRunSnapshotCodec
 
         if (s.CurrentUrl is not null) w.WriteString("currentUrl", s.CurrentUrl);
 
+        // ADR-0061: write LastOutcome — omit when it's the default None to
+        // keep older snapshots' shape stable on round-trip (a snapshot with
+        // None outcome reads identically whether the field is absent or
+        // explicit). Saves a few bytes on the common case.
+        if (s.LastOutcome is not AgentDecisionOutcome.None)
+        {
+            w.WritePropertyName("lastOutcome");
+            AgentDecisionOutcomeCodec.Write(w, s.LastOutcome);
+        }
+
         w.WriteEndObject();
     }
 
@@ -52,6 +71,7 @@ internal static class AgentRunSnapshotCodec
         var visited = new List<string>();
         var records = new List<JsonObject>();
         string? currentUrl = null;
+        AgentDecisionOutcome? lastOutcome = null;
 
         while (r.Read() && r.TokenType != JsonTokenType.EndObject)
         {
@@ -81,6 +101,9 @@ internal static class AgentRunSnapshotCodec
                             ?? throw new JsonException("records: entry was not a JSON object"));
                     }
                     break;
+                case "lastOutcome":
+                    lastOutcome = AgentDecisionOutcomeCodec.Read(ref r);
+                    break;
                 default: r.Skip(); break;
             }
         }
@@ -91,7 +114,10 @@ internal static class AgentRunSnapshotCodec
             history,
             visited,
             records,
-            currentUrl);
+            currentUrl,
+            // ADR-0061: missing lastOutcome on a pre-existing snapshot
+            // deserialises to None (the constructor's default).
+            lastOutcome);
     }
 }
 

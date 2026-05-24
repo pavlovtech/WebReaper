@@ -5,8 +5,8 @@ namespace WebReaper.Domain.Agent;
 /// <summary>
 /// The bounded view of the agent's run that the
 /// <see cref="WebReaper.Core.Agent.Abstract.IAgentBrain"/> sees on each
-/// <c>DecideAsync</c> call (ADR-0051). Built fresh per step by the engine; the
-/// brain reads, never writes.
+/// <c>DecideAsync</c> call (ADR-0051, extended by ADR-0061). Built fresh per
+/// step by the engine; the brain reads, never writes.
 /// <para>
 /// All collection-shaped fields are <em>capped</em> (fork 3 verdict — bounded
 /// history, bounded visited list, bounded candidate URLs, bounded current-page
@@ -40,6 +40,13 @@ namespace WebReaper.Domain.Agent;
 /// re-proposing.</param>
 /// <param name="StepNumber">Zero-based index of the current step — the engine
 /// increments after each non-Stop decision.</param>
+/// <param name="LastOutcome">What happened when the engine executed the
+/// previous <see cref="AgentDecision"/> (ADR-0061). The closed sum has six
+/// arms; first-step brains see <see cref="AgentDecisionOutcome.None"/>. The
+/// brain pattern-matches the arms to decide its next move. Defaults to
+/// <see cref="AgentDecisionOutcome.None"/> so callers constructing states
+/// directly (tests, custom adapters) don't have to thread it through every
+/// site — the engine always supplies it explicitly.</param>
 public sealed record AgentState(
     string Goal,
     string CurrentUrl,
@@ -48,4 +55,12 @@ public sealed record AgentState(
     IReadOnlyList<JsonObject> Extracted,
     IReadOnlyList<AgentDecision> History,
     IReadOnlyList<string> VisitedUrls,
-    int StepNumber);
+    int StepNumber,
+    AgentDecisionOutcome? LastOutcome = null)
+{
+    /// <summary>The prior step's outcome (ADR-0061). Constructor accepts
+    /// <c>null</c> and normalises to <see cref="AgentDecisionOutcome.None"/>
+    /// so callers (tests, custom adapters) get a working default and the
+    /// brain never needs to null-check.</summary>
+    public AgentDecisionOutcome LastOutcome { get; init; } = LastOutcome ?? new AgentDecisionOutcome.None();
+}
