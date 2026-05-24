@@ -16,6 +16,7 @@
     <!-- ADR-0017: relicensed to MIT to remove funnel-adoption friction. -->
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>scraper, crawler, mcp, model-context-protocol, agent</PackageTags>
+    <PackageReleaseNotes>10.0.0: initial release. MCP (Model Context Protocol) server satellite (ADR-0049) exposing scrape / map / extract as MCP tools over stdio for Cursor, ChatGPT Desktop, Copilot Studio and other MCP-only agent frameworks that can't reach the WebReaper CLI. Built over the ModelContextProtocol C# SDK; thin facade over the existing library API. Interop adapter — the primary agent surface remains WebReaper.Cli (ADR-0043). New satellite package per ADR-0009: the heavy MCP SDK deps stay quarantined off the dependency-light, Native-AOT-clean core. Requires WebReaper 10.0.0.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

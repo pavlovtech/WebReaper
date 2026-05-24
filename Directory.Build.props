@@ -33,15 +33,19 @@
   -->
 
   <PropertyGroup>
-    <Version>9.0.0</Version>
+    <Version>10.0.0</Version>
 
     <Authors>Alex Pavlov</Authors>
     <Company>Alex Pavlov</Company>
     <Product>WebReaper</Product>
-    <Copyright>GPL-3.0 license</Copyright>
+    <Copyright>Copyright (c) Alex Pavlov</Copyright>
     <PackageProjectUrl>https://github.com/pavlovtech/WebReaper</PackageProjectUrl>
     <RepositoryUrl>https://github.com/pavlovtech/WebReaper</RepositoryUrl>
-    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <!-- ADR-0017: relicensed to MIT to remove funnel-adoption friction.
+         Per-csproj <PackageLicenseExpression>MIT</PackageLicenseExpression>
+         entries (added with the original sweep) remain as a redundant,
+         no-op override and a visible anchor for the ADR-0017 comment. -->
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
 </Project>
