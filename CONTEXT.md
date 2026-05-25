@@ -211,7 +211,7 @@ _Avoid_: initialization, connect, startup, IAsyncInitialization (the property-sh
 The dual of **Adapter warm-up** (ADR-0058). `ScraperEngine` is `IAsyncDisposable`; `DisposeAsync` walks adapters in *reverse* warm-up order — page processors → sinks → tracker → scheduler → spider — then runs builder-registered teardown hooks in LIFO order (`ScraperEngineBuilder.OnTeardown(IAsyncDisposable)`). The reverse order keeps dependent adapters valid while their dependencies flush; the LIFO hook list closes satellite-spawned subprocess resources (CloakBrowser's stealth Chromium, future Playwright `IBrowser`) whose lifecycle is the engine's, not the loader's. Per-adapter exceptions log at Warning and are swallowed — a scrape that succeeded is not retroactively failed by a teardown burp. The recommended consumer pattern is `await using var engine = await builder.BuildAsync();`. The ADR-0009 distributed-driver consumer disposes its own adapters by hand; the chain ships on the in-process `ScraperEngineBuilder` only.
 _Avoid_: shutdown, close, finalize.
 
-### AI-native (the ADR-0040..0067 wave)
+### AI-native (the ADR-0040..0069 wave)
 
 **Markdown extraction**:
 The no-schema **Content extractor** strategy (`MarkdownContentExtractor`,
@@ -582,17 +582,24 @@ fall-back-first triple (LLM-as-fallback extractor +
 self-healing repairer + action resolver).
 _Avoid_: AI config, AI setup, AI bundle.
 
-**AI policy mode** (ADR-0064):
+**AI policy mode** (ADR-0064, extended by ADR-0068):
 The closed enum picking the canned `.UseAi(...)` configuration —
-`AiPolicyMode { Recommended, LlmPrimary, ExtractionOnly, None }`.
-Mutually exclusive (not flags — composition is what à la carte
-is for). `Recommended` is the default: deterministic-first +
-LLM-as-rescue (matches ADR-0046 / ADR-0047 structural posture).
-`LlmPrimary` replaces the deterministic extractor with the LLM
-on every page. `ExtractionOnly` wires just the extractor + (on
-scraper) fallback. `None` is the explicit escape — wires the
-brain only on agent-side, nothing on scraper-side; useful for
-tests and bespoke compositions.
+`AiPolicyMode { Recommended, LlmPrimary, ExtractionOnly, None,
+Inferred }`. Mutually exclusive (not flags — composition is what
+à la carte is for). `Recommended` is the default: deterministic-
+first + LLM-as-rescue (matches ADR-0046 / ADR-0047 structural
+posture). `LlmPrimary` replaces the deterministic extractor with
+the LLM on every page. `ExtractionOnly` wires just the extractor
++ (on scraper) fallback. `None` is the explicit escape — wires
+the brain only on agent-side, nothing on scraper-side. `Inferred`
+(ADR-0068) wires the schema inferrer + action resolver — the
+scraper-side companion to `.ExtractInferred(goal?)`; mutually
+exclusive with the LLM-fallback / LLM-primary modes (both
+register an `IContentExtractor` that would shadow the
+`LearnedSchemaContentExtractor` wrapper). On the agent builder,
+`Inferred` throws actionably (the brain proposes its own schemas
+per Extract decision; an external inferrer is structurally
+redundant).
 _Avoid_: policy flags, AI features, configuration preset.
 
 **Cache policy** (ADR-0065):
@@ -689,7 +696,8 @@ _Avoid_: telemetry result, AI report, usage report.
 - The brain's view of the previous step is one closed-sum field — `AgentState.LastOutcome`, an **Agent decision outcome**. The engine populates it from the prior step's execution result; first-step brains see `None`. The validator's verdict on Extract (a failed **Schema validator** check) surfaces as `Failed("validation: <reason>", null)`; load failures surface as `Failed(...)` and the loop continues; SemanticAct's resolution becomes `ActDispatched(ResolvedAction)`. The brain reads the previous outcome alongside its history and decides next.
 - The **Schema validator** seam (ADR-0062) is consumed by three sites — the **Extraction router** (primary-to-fallback decision), the **Self-healing content extractor** (repair trigger + failure-reason propagation to `ISelectorRepairer.RepairAsync`), and the **Agent driver** (Extract switch arm; verdict becomes the **Agent decision outcome**). The default `SchemaSatisfiedValidator` preserves the ADR-0029 / ADR-0046 policy; consumers swap via `WithSchemaValidator(...)` on either builder.
 - The **HTML-to-Markdown primitive** (ADR-0063) is a public static function shared by **Markdown extraction** (the adapter is a thin shell), the **LLM extractor**'s pre-clean, the **Self-healing extractor**'s pre-clean, the **Change tracking** processor's hash, and the **Agent driver**'s state-building. One canonical function in `WebReaper.Core.Markdown`; the adapter survives only because the `AsMarkdown()` seed terminal needs the seam-implementing class.
-- **AI policy** (`.UseAi(client, opts?)`, ADR-0064) is the one-line wiring that aggregates the five `WithLlm*` registrations. The **AI policy mode** enum (`Recommended` / `LlmPrimary` / `ExtractionOnly` / `None`) picks the canned configuration; per-role nested options override the global defaults. On the agent builder `.UseAi(...)` always wires the brain (`Recommended` / `LlmPrimary` / `ExtractionOnly` differ only in what *else* gets wired); on the scraper builder `.UseAi(Recommended)` is the firecrawl-shaped fall-back-first triple (LLM-fallback extractor + self-healing repairer + action resolver). À la carte `WithLlm*` methods remain for fine-tuning.
+- **AI policy** (`.UseAi(client, opts?)`, ADR-0064; extended by ADR-0068) is the one-line wiring that aggregates the `WithLlm*` registrations. The **AI policy mode** enum (`Recommended` / `LlmPrimary` / `ExtractionOnly` / `None` / `Inferred`) picks the canned configuration; per-role nested options (including `Inferrer: LlmSchemaInferrerOptions?` since ADR-0068) override the global defaults. On the agent builder `.UseAi(...)` always wires the brain (`Recommended` / `LlmPrimary` / `ExtractionOnly` differ only in what *else* gets wired; `Inferred` throws actionably — the brain is the agent's own inferrer); on the scraper builder `.UseAi(Recommended)` is the firecrawl-shaped fall-back-first triple, and `.UseAi(Inferred)` is the schema-inference companion to `.ExtractInferred(goal?)`. À la carte `WithLlm*` methods remain for fine-tuning.
+- The **Schema validator** seam (ADR-0062) now has four consumer sites — the three named in ADR-0062 (**Extraction router**, **Self-healing content extractor**, **Agent driver**) plus the **Learned-schema content extractor** (ADR-0069). The wrapper consults the registered validator on every inner-extractor output; N consecutive invalid verdicts drop the cached inferred schema and trigger re-inference on the next call. The cost-cap argument (`MaxReInferencesPerInstance`) bounds total LLM spend on a single instance. Default `ReInferAfterFailures = 3` via the satellite's `LlmSchemaInferrerOptions` — opt-out by setting it to `0` (preserves ADR-0067 v1 trust-the-cache).
 - The **Cache policy** (ADR-0065) is one more field on the **Llm call descriptor** alongside `Tools` / `ParseToolCall`; the **LLM call** mechanism writes the Anthropic-standard `cache_control` hint to the outbound system `ChatMessage.AdditionalProperties` when `Hinted`. Default in `AiOptions.CachePolicy` is `Hinted` (the cheap-default ethos); per-role nullable `CachePolicy?` flows through the `Resolve*` helpers (null = inherit global). `LlmCallResult` grows the cached-vs-uncached split — `CachedInputTokens` reads from `UsageDetails.AdditionalCounts` for known provider keys. Anthropic users get ~5–10× cheaper system prompts; OpenAI users see no change (auto-cache continues); Gemini / local-model users see the hint ignored.
 - The **LLM call** mechanism (ADR-0059) reports each completed call to one **LLM call telemetry** accumulator (ADR-0066) — `LlmCall<T>`'s ctor takes an optional `ILlmCallTelemetry?`; the four `Llm*` adapters thread one in from the builder via the satellite's `BuilderTelemetryExtensions` (the `ConditionalWeakTable` per-builder lookup). Multiple `WithLlm*` calls on one builder share one accumulator. The engine consumes the accumulator's snapshot through the AI-clean `RunTelemetryHooks` record — `ScraperEngine.RunAsync` returns a **Run report** (`Task → Task<RunReport>` — pre-tag breaking change, discard semantics keeps `await engine.RunAsync(ct)` working); `AgentResult.Report` carries the same record (the result's positional shape evolves 6 → 7). The agent engine's `MaxBudgetTokens` cap (widened `int? → long?`) is finally enforced inside the loop via the hooks' `TotalLlmTokens` getter — termination precedence is `Stop → MaxSteps → MaxBudgetTokens → cancellation`.
 
