@@ -1,5 +1,31 @@
 # Changelog
 
+## 10.0.0 — `WebReaper.SchemaInferenceShowcase` example project
+
+Funnel-side companion to [`WebReaper.AiNativeShowcase`](Examples/WebReaper.AiNativeShowcase/)
+(PR #101, which covered the original AI-native wave ADR-0040..0049).
+Closes the documentation gap for the v10.0.0 schema-inference dock —
+three sub-commands, each the minimal viable demo of one new public API:
+
+- **`alacarte`** (ADR-0067) — à la carte registration via
+  `.ExtractInferred(goal).WithLlmSchemaInferrer(client)`.
+- **`useai`** (ADR-0068) — one-line policy via `.UseAi(client,
+  new AiOptions(Policy: AiPolicyMode.Inferred))`.
+- **`reinfer`** (ADR-0069) — validator-driven re-inference,
+  demonstrated with scripted stubs across three configurations
+  (default opt-out auto-heal, strict opt-out, cost cap).
+
+All three sub-commands use a deterministic in-process `StubChatClient`
+so the example runs offline; the production swap is any
+`Microsoft.Extensions.AI.IChatClient` adapter (OpenAI / Anthropic /
+Ollama / Azure AI / …). `alacarte` and `useai` actually crawl
+`example.com` end-to-end and print the extracted record.
+
+Also fixes one cref warning on `LearnedSchemaContentExtractor.cs`
+introduced by the ADR-0069 implementation (the satellite-side
+`LlmSchemaInferrer` type was referenced via `<see cref=>` from core
+where it cannot resolve; replaced with `<c>`).
+
 ## 10.0.0 — AI-native completion wave (ADR-0068 + ADR-0069)
 
 Two paired ADRs closing the named v1 deferrals on ADR-0067 (the schema
