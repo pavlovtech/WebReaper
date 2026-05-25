@@ -150,6 +150,100 @@ v10.0.0 Puppeteer-deletion arc above.**
 - `dotnet publish WebReaper.AotSmokeTest -c Release`: native code generated
   for `osx-arm64`, no IL-trim warnings.
 
+## 10.0.0 — Cost-optimisation slice (ADR-0065..0066)
+
+The deliberate pre-tag cost-optimisation pass — two paired ADRs that turn
+the v10 LLM surface from "works" into "cheap and observable." Both ride
+v10.0.0 — the major break (Puppeteer deletion, ADR-0053) still owns the
+version; this slice lands additively.
+
+- **ADR-0065 — `LlmCall<TResponse>` system-prompt caching + cached-token
+  capture.** `CachePolicy { Default, Hinted }` enum on
+  `LlmCallDescriptor.SystemPromptCache`; the mechanism writes the
+  Anthropic-standard `cache_control: ephemeral` hint on the system
+  `ChatMessage.AdditionalProperties` (M.E.AI 9.4 surface — verified
+  against the NuGet cache XML docs) when `Hinted`. Default in
+  `AiOptions.CachePolicy` is `Hinted` — the AI-native cheap-default
+  ethos: Anthropic users get ~5–10× cheaper system prompts; OpenAI users
+  see no change (auto-cache continues regardless); Gemini / local-model
+  users see the hint ignored without error. `LlmCallResult` expands from
+  4 → 7 positional fields with the cached-vs-uncached split
+  (`InputTokens` / `OutputTokens` / `CachedInputTokens` / `TotalTokens`);
+  the mechanism's `ReadUsage` helper scans
+  `UsageDetails.AdditionalCounts` for the known provider keys
+  (`cached_input_tokens` / `cache_read_input_tokens` /
+  `InputTokenCount.Cached` / `prompt_tokens_details.cached_tokens`).
+  Per-role `LlmExtractorOptions.CachePolicy` /
+  `LlmActionResolverOptions.CachePolicy` /
+  `LlmAgentBrainOptions.CachePolicy` are nullable (null = inherit from
+  `AiOptions.CachePolicy` via the `Resolve*` helpers); à la carte
+  adapter construction defaults to `CachePolicy.Default`.
+- **ADR-0066 — Engine cost telemetry + `MaxBudgetTokens` enforcement.**
+  New `ILlmCallTelemetry` seam + `LlmCallTelemetry` thread-safe
+  accumulator (`Interlocked` on aggregates + `ConcurrentDictionary`
+  per-adapter; has-value sentinels distinguish "no call surfaced a
+  value" from "some calls reported 0"). `LlmCallUsage` per-call record;
+  `LlmTelemetrySnapshot` + `LlmAdapterStats` immutable read records
+  (per-adapter attribution keyed by ADR-0059's `descriptor.Name`).
+  `LlmCall` ctor gains an optional `ILlmCallTelemetry?`; Stopwatch
+  wraps `InvokeAsync`; usage reported on every success / failure-after-
+  retry exit point before return / throw. The four `Llm*` adapters
+  thread the telemetry through their ctors.
+  `BuilderTelemetryExtensions` (satellite-internal) —
+  `ConditionalWeakTable` per-builder maps to the typed accumulator;
+  `WithLlm*` / `.UseAi(...)` retrieve via `GetOrCreateLlmTelemetry`,
+  guaranteeing one accumulator per builder shared across all
+  registrations. Core gains `WebReaper.Domain.Telemetry` namespace with
+  two records: `RunReport(object? Llm, TimeSpan Duration)` — returned
+  by `ScraperEngine.RunAsync` (the engine's return type widened
+  `Task → Task<RunReport>`; discard semantics keeps
+  `await engine.RunAsync(ct)` working — Examples all
+  unaffected) and exposed via `AgentResult.Report` (positional shape
+  evolves 6 → 7); and `RunTelemetryHooks(Func<object?> Snapshot,
+  Action Reset, Func<long?>? TotalLlmTokens = null)` — the
+  satellite-clean callback channel into the engine ctors. `RunReport.Llm`
+  is `object?` to keep the ADR-0009 satellite quarantine — consumers
+  cast to `WebReaper.AI.Llm.LlmTelemetrySnapshot` when the AI satellite
+  is in use. Both builders gain a public `TelemetryHooks` property (the
+  satellite hook — the ADR-0058 `OnTeardown` pattern).
+  `AgentEngineOptions.MaxBudgetTokens` is finally ENFORCED inside the
+  agent loop via the hooks' `TotalLlmTokens` getter (was documented-but-
+  inert since ADR-0051; grep-confirmed); widened `int? → long?` (token
+  counts use `long` headroom). Termination precedence per ADR-0051
+  fork 6: `Stop > MaxSteps > MaxBudgetTokens > cancellation`.
+
+Tests added across the slice:
+
+- **`CachePolicyTests`** — cache hint encoding (Default vs Hinted, retry
+  path, tool-call mode), descriptor default, split-usage capture
+  (Anthropic / OpenAI / generic key recognition via Theory),
+  null-AdditionalCounts fallback, TotalTokenCount fallback, retry
+  accumulation across both calls.
+- **`AiOptionsCachingTests`** — global default `Hinted`; per-role
+  nullable `CachePolicy?` default null; `Resolve*` inheritance from
+  global when per-role null; explicit per-role override wins; `with`
+  clause preserves other per-role fields; à la carte semantics.
+- **`LlmCallTelemetryTests`** — empty snapshot, single Record, multi-
+  Record sum, per-adapter split, null-token sentinels (no value vs zero),
+  ParseRetries + TotalDuration sums, Reset clears + fresh accumulation,
+  parallel safety (50 tasks × 100 records), Snapshot immutability.
+- **`LlmCallTelemetryWiringTests`** — each of three adapters reports
+  under its descriptor name; null-telemetry doesn't throw; two adapters
+  sharing one telemetry aggregate globally + split per-adapter.
+- **`UseAiTelemetryTests`** — `WithLlmExtractor` / `WithLlmFallback` /
+  `WithLlmBrain` / `.UseAi` each set builder `TelemetryHooks`; repeated
+  `WithLlm` calls share the same accumulator; `TelemetryHooks.Snapshot`
+  returns `LlmTelemetrySnapshot` when cast; `None` policy on scraper
+  wires nothing.
+
+Guardrails (post-slice):
+
+- `dotnet build WebReaper.sln`: **0 errors**.
+- `WebReaper.UnitTests`: **376 / 376** pass.
+- `WebReaper.AI.Tests`: **198 / 198** pass (62 new across the slice).
+- `dotnet publish WebReaper.AotSmokeTest -c Release`: native code
+  generated for `osx-arm64`, no IL-trim warnings.
+
 ## 10.0.0 — AI-native funnel + semantic actions + transports wave, on a deepened architecture; MIT relicense (breaking)
 
 The headline release of the year — 30 ADRs (0025–0055, with ADR-0017 the

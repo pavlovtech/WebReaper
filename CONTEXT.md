@@ -211,7 +211,7 @@ _Avoid_: initialization, connect, startup, IAsyncInitialization (the property-sh
 The dual of **Adapter warm-up** (ADR-0058). `ScraperEngine` is `IAsyncDisposable`; `DisposeAsync` walks adapters in *reverse* warm-up order — page processors → sinks → tracker → scheduler → spider — then runs builder-registered teardown hooks in LIFO order (`ScraperEngineBuilder.OnTeardown(IAsyncDisposable)`). The reverse order keeps dependent adapters valid while their dependencies flush; the LIFO hook list closes satellite-spawned subprocess resources (CloakBrowser's stealth Chromium, future Playwright `IBrowser`) whose lifecycle is the engine's, not the loader's. Per-adapter exceptions log at Warning and are swallowed — a scrape that succeeded is not retroactively failed by a teardown burp. The recommended consumer pattern is `await using var engine = await builder.BuildAsync();`. The ADR-0009 distributed-driver consumer disposes its own adapters by hand; the chain ships on the in-process `ScraperEngineBuilder` only.
 _Avoid_: shutdown, close, finalize.
 
-### AI-native (the ADR-0040..0064 wave)
+### AI-native (the ADR-0040..0066 wave)
 
 **Markdown extraction**:
 The no-schema **Content extractor** strategy (`MarkdownContentExtractor`,
@@ -558,6 +558,71 @@ brain only on agent-side, nothing on scraper-side; useful for
 tests and bespoke compositions.
 _Avoid_: policy flags, AI features, configuration preset.
 
+**Cache policy** (ADR-0065):
+The per-role system-prompt caching policy — `CachePolicy { Default,
+Hinted }` in `WebReaper.AI.Llm`. The **LLM call** mechanism
+(ADR-0059) encodes `Hinted` as the Anthropic-standard
+`cache_control: { type: "ephemeral" }` hint on the system
+`ChatMessage.AdditionalProperties` (M.E.AI 9.4 surface); providers
+that don't recognise the key ignore it silently. Default in
+`AiOptions.CachePolicy` is `Hinted` — the AI-native cheap-default
+ethos (Anthropic users get ~5–10× cheaper system prompts;
+OpenAI users see no change because the OpenAI auto-cache
+continues regardless of the hint). Per-role `LlmExtractorOptions.
+CachePolicy` / `LlmActionResolverOptions.CachePolicy` /
+`LlmAgentBrainOptions.CachePolicy` are nullable (null = inherit
+from `AiOptions.CachePolicy` via the `Resolve*` helpers when
+wired through `.UseAi(...)`; null = `CachePolicy.Default` when
+the adapter is constructed à la carte). `LlmCallResult` carries
+the cached-vs-uncached split — `InputTokens` / `OutputTokens` /
+`CachedInputTokens` / `TotalTokens` — read from
+`UsageDetails.AdditionalCounts` for the known provider keys
+(`cached_input_tokens`, `cache_read_input_tokens`,
+`InputTokenCount.Cached`, `prompt_tokens_details.cached_tokens`).
+_Avoid_: cache mode, prompt cache (the hint is a per-call
+metadata write, not a separate cache).
+
+**LLM call telemetry** (ADR-0066):
+The thread-safe accumulator the **LLM call** mechanism reports
+completed calls into — `ILlmCallTelemetry` seam in
+`WebReaper.AI.Llm` (default `LlmCallTelemetry`; `Interlocked`
+on aggregates + `ConcurrentDictionary` for per-adapter). One
+instance per engine via the builder-side `TelemetryHooks` hook;
+the satellite's `BuilderTelemetryExtensions` materialises it on
+first `WithLlm*` / `.UseAi(...)` call (a per-builder
+`ConditionalWeakTable` lookup — multiple registrations on one
+builder share one accumulator). Per-adapter attribution keyed by
+**Llm call descriptor**'s `Name`. `Snapshot()` returns immutable
+`LlmTelemetrySnapshot` (aggregate totals + `PerAdapter` dict of
+`LlmAdapterStats`); `Reset()` clears (called by the engine at
+the start of each `RunAsync` to isolate runs). Null-token
+sentinel logic distinguishes "no call surfaced a value"
+(snapshot field null) from "some calls reported 0" (snapshot
+field 0). Consumer-authored telemetry implementations are
+valid — wire via the builder's `TelemetryHooks` property
+directly.
+_Avoid_: LLM usage tracker, cost meter, AI metrics.
+
+**Run report** (ADR-0066):
+The per-run telemetry summary — `RunReport(object? Llm,
+TimeSpan Duration)` in `WebReaper.Domain.Telemetry` (core).
+Returned by `ScraperEngine.RunAsync` (the engine's return type
+widened `Task → Task<RunReport>` in v10.0.0 — pre-tag breaking
+change; `await engine.RunAsync(ct)` discard semantics keeps
+working) and exposed via `AgentResult.Report` (the record's
+positional shape evolves 6 → 7 fields). `Llm` is `object?` to
+keep the ADR-0009 satellite quarantine — consumers cast to
+`WebReaper.AI.Llm.LlmTelemetrySnapshot` when the AI satellite is
+in use; `null` when no LLM adapter ran on the engine. Sibling
+type `RunTelemetryHooks(Func<object?> Snapshot, Action Reset,
+Func<long?>? TotalLlmTokens = null)` is the satellite-clean
+callback channel into the engine ctors; the satellite constructs
+it once at `BuildAsync` time, the engine calls `Reset` at
+`RunAsync` entry and `Snapshot` at exit (and `TotalLlmTokens`
+between steps on the agent path for the `MaxBudgetTokens`
+check).
+_Avoid_: telemetry result, AI report, usage report.
+
 ## Relationships
 
 - A **Crawl** processes many **Job**s.
@@ -587,6 +652,8 @@ _Avoid_: policy flags, AI features, configuration preset.
 - The **Schema validator** seam (ADR-0062) is consumed by three sites — the **Extraction router** (primary-to-fallback decision), the **Self-healing content extractor** (repair trigger + failure-reason propagation to `ISelectorRepairer.RepairAsync`), and the **Agent driver** (Extract switch arm; verdict becomes the **Agent decision outcome**). The default `SchemaSatisfiedValidator` preserves the ADR-0029 / ADR-0046 policy; consumers swap via `WithSchemaValidator(...)` on either builder.
 - The **HTML-to-Markdown primitive** (ADR-0063) is a public static function shared by **Markdown extraction** (the adapter is a thin shell), the **LLM extractor**'s pre-clean, the **Self-healing extractor**'s pre-clean, the **Change tracking** processor's hash, and the **Agent driver**'s state-building. One canonical function in `WebReaper.Core.Markdown`; the adapter survives only because the `AsMarkdown()` seed terminal needs the seam-implementing class.
 - **AI policy** (`.UseAi(client, opts?)`, ADR-0064) is the one-line wiring that aggregates the five `WithLlm*` registrations. The **AI policy mode** enum (`Recommended` / `LlmPrimary` / `ExtractionOnly` / `None`) picks the canned configuration; per-role nested options override the global defaults. On the agent builder `.UseAi(...)` always wires the brain (`Recommended` / `LlmPrimary` / `ExtractionOnly` differ only in what *else* gets wired); on the scraper builder `.UseAi(Recommended)` is the firecrawl-shaped fall-back-first triple (LLM-fallback extractor + self-healing repairer + action resolver). À la carte `WithLlm*` methods remain for fine-tuning.
+- The **Cache policy** (ADR-0065) is one more field on the **Llm call descriptor** alongside `Tools` / `ParseToolCall`; the **LLM call** mechanism writes the Anthropic-standard `cache_control` hint to the outbound system `ChatMessage.AdditionalProperties` when `Hinted`. Default in `AiOptions.CachePolicy` is `Hinted` (the cheap-default ethos); per-role nullable `CachePolicy?` flows through the `Resolve*` helpers (null = inherit global). `LlmCallResult` grows the cached-vs-uncached split — `CachedInputTokens` reads from `UsageDetails.AdditionalCounts` for known provider keys. Anthropic users get ~5–10× cheaper system prompts; OpenAI users see no change (auto-cache continues); Gemini / local-model users see the hint ignored.
+- The **LLM call** mechanism (ADR-0059) reports each completed call to one **LLM call telemetry** accumulator (ADR-0066) — `LlmCall<T>`'s ctor takes an optional `ILlmCallTelemetry?`; the four `Llm*` adapters thread one in from the builder via the satellite's `BuilderTelemetryExtensions` (the `ConditionalWeakTable` per-builder lookup). Multiple `WithLlm*` calls on one builder share one accumulator. The engine consumes the accumulator's snapshot through the AI-clean `RunTelemetryHooks` record — `ScraperEngine.RunAsync` returns a **Run report** (`Task → Task<RunReport>` — pre-tag breaking change, discard semantics keeps `await engine.RunAsync(ct)` working); `AgentResult.Report` carries the same record (the result's positional shape evolves 6 → 7). The agent engine's `MaxBudgetTokens` cap (widened `int? → long?`) is finally enforced inside the loop via the hooks' `TotalLlmTokens` getter — termination precedence is `Stop → MaxSteps → MaxBudgetTokens → cancellation`.
 
 ## Example dialogue
 
