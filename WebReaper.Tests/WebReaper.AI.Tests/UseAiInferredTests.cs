@@ -79,7 +79,7 @@ public class UseAiInferredTests
     }
 
     [Fact]
-    public void Per_role_Inferrer_override_threads_to_satellite_descriptor()
+    public async Task Per_role_Inferrer_override_threads_to_satellite_descriptor()
     {
         // The per-role record's CachePolicy + MaxContentChars should
         // make it into the wired inferrer's options. Capturing happens
@@ -103,7 +103,7 @@ public class UseAiInferredTests
 
         var inferrer = (LlmSchemaInferrer)builder.SchemaInferrerForTests;
         // Force an inference call to exercise the descriptor.
-        _ = inferrer.InferAsync("<article><h1>x</h1></article>").GetAwaiter().GetResult();
+        _ = await inferrer.InferAsync("<article><h1>x</h1></article>");
 
         Assert.NotNull(capturedSystem);
         Assert.NotNull(capturedSystem!.AdditionalProperties);
@@ -111,7 +111,7 @@ public class UseAiInferredTests
     }
 
     [Fact]
-    public void UseAi_synthesised_inferrer_inherits_global_CachePolicy_Hinted_by_default()
+    public async Task UseAi_synthesised_inferrer_inherits_global_CachePolicy_Hinted_by_default()
     {
         // Default AiOptions has CachePolicy.Hinted. When the per-role
         // Inferrer is null, the synthesised one inherits Hinted (via
@@ -129,14 +129,47 @@ public class UseAiInferredTests
         builder.UseAi(chat, new AiOptions(Policy: AiPolicyMode.Inferred));
 
         var inferrer = (LlmSchemaInferrer)builder.SchemaInferrerForTests;
-        _ = inferrer.InferAsync("<article><h1>x</h1></article>").GetAwaiter().GetResult();
+        _ = await inferrer.InferAsync("<article><h1>x</h1></article>");
 
         Assert.NotNull(capturedSystem!.AdditionalProperties);
         Assert.True(capturedSystem.AdditionalProperties!.ContainsKey("cache_control"));
     }
 
     [Fact]
-    public void Scraper_UseAi_Inferred_does_NOT_wire_LlmFallback_or_LlmExtractor()
+    public async Task A_la_carte_WithLlmSchemaInferrer_defaults_to_CachePolicy_Default()
+    {
+        // Symmetry test for the asymmetric default documented in
+        // ADR-0068 §F-6 + the ADR-0067 CLAUDE.md gotcha: à-la-carte
+        // construction (`.WithLlmSchemaInferrer(client)` without
+        // `.UseAi(...)`) defaults to CachePolicy.Default. The previous
+        // test pins the `.UseAi(...)` synthesised-path inherits
+        // CachePolicy.Hinted; this one pins the à-la-carte path
+        // stays Default — together they pin both halves of the
+        // explicit-wiring-is-defensive-default discipline.
+        ChatMessage? capturedSystem = null;
+        var chat = new StubChatClient(messages =>
+        {
+            capturedSystem = messages.FirstOrDefault(m => m.Role == ChatRole.System);
+            return "{\"fields\":{\"title\":\"h1\"}}";
+        });
+
+        var builder = (ScraperEngineBuilder)ScraperEngineBuilder
+            .Crawl("https://example.com")
+            .ExtractInferred();
+        builder.WithLlmSchemaInferrer(chat);                // no .UseAi(...)
+
+        var inferrer = (LlmSchemaInferrer)builder.SchemaInferrerForTests;
+        _ = await inferrer.InferAsync("<article><h1>x</h1></article>");
+
+        Assert.NotNull(capturedSystem);
+        var hasCacheHint = capturedSystem!.AdditionalProperties is { } props
+            && props.ContainsKey("cache_control");
+        Assert.False(hasCacheHint,
+            "à-la-carte WithLlmSchemaInferrer should default to CachePolicy.Default — no cache_control hint");
+    }
+
+    [Fact]
+    public async Task Scraper_UseAi_Inferred_does_NOT_wire_LlmFallback_or_LlmExtractor()
     {
         // Mutually-exclusive arms per the closed-sum discipline.
         // Verified by builder accessor exposure not being needed — if
@@ -150,10 +183,7 @@ public class UseAiInferredTests
         builder.UseAi(chat, new AiOptions(Policy: AiPolicyMode.Inferred));
 
         // No exception during build = the wiring is self-consistent.
-        var task = builder.BuildAsync();
-        task.Wait();
-        var engine = task.Result;
-        engine.DisposeAsync().AsTask().Wait();
+        await using var engine = await builder.BuildAsync();
     }
 
     [Fact]
