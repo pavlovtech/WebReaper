@@ -1,11 +1,12 @@
+using WebReaper.AI.Llm;
+
 namespace WebReaper.AI;
 
 /// <summary>
 /// Knobs for <see cref="LlmAgentBrain"/> (ADR-0051). Defaults are cheap and
 /// deterministic: temperature 0, a 1024-token response cap (the JSON object
-/// is small but Extract schemas can be several fields), and the
-/// brain's-view caps for history / visited / candidate URLs / page markdown
-/// (fork 3 verdict — bounded state).
+/// is small but Extract schemas can be several fields), no overridden
+/// system prompt, no cache-policy override.
 /// </summary>
 /// <param name="Model">The model id passed to <c>ChatOptions.ModelId</c>.
 /// <c>null</c> means the chat client's default — most consumers configure
@@ -19,8 +20,15 @@ namespace WebReaper.AI;
 /// naming the decision arm, with room for a multi-field Extract schema.</param>
 /// <param name="SystemPrompt">Override the default system prompt. <c>null</c>
 /// uses the built-in prompt; supply a string to override entirely.</param>
+/// <param name="CachePolicy">Per-role system-prompt caching policy
+/// (ADR-0065). <c>null</c> (default) inherits from
+/// <see cref="AiOptions.CachePolicy"/> via
+/// <see cref="UseAiRegistration.UseAi(WebReaper.Builders.AgentEngineBuilder, Microsoft.Extensions.AI.IChatClient, AiOptions?)"/>;
+/// see <see cref="LlmExtractorOptions.CachePolicy"/> for the full
+/// inheritance / à-la-carte semantics.</param>
 public sealed record LlmAgentBrainOptions(
     string? Model = null,
     float Temperature = 0.0f,
     int MaxResponseTokens = 1024,
-    string? SystemPrompt = null);
+    string? SystemPrompt = null,
+    CachePolicy? CachePolicy = null);

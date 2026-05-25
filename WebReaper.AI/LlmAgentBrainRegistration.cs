@@ -1,4 +1,5 @@
 using Microsoft.Extensions.AI;
+using WebReaper.AI.Llm;
 using WebReaper.Builders;
 
 namespace WebReaper.AI;
@@ -23,6 +24,7 @@ public static class LlmAgentBrainRegistration
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(chatClient);
-        return builder.WithBrain(new LlmAgentBrain(chatClient, options));
+        var telemetry = builder.GetOrCreateLlmTelemetry();
+        return builder.WithBrain(new LlmAgentBrain(chatClient, options, telemetry));
     }
 }

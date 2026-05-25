@@ -1,4 +1,5 @@
 using Microsoft.Extensions.AI;
+using WebReaper.AI.Llm;
 using WebReaper.Builders;
 
 namespace WebReaper.AI;
@@ -27,6 +28,7 @@ public static class LlmActionResolverRegistration
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(chatClient);
-        return builder.WithActionResolver(new LlmActionResolver(chatClient, options));
+        var telemetry = builder.GetOrCreateLlmTelemetry();
+        return builder.WithActionResolver(new LlmActionResolver(chatClient, options, telemetry));
     }
 }

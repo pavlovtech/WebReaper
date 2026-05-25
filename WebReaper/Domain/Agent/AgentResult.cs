@@ -1,4 +1,5 @@
 using System.Text.Json.Nodes;
+using WebReaper.Domain.Telemetry;
 
 namespace WebReaper.Domain.Agent;
 
@@ -17,6 +18,13 @@ namespace WebReaper.Domain.Agent;
 /// satisfies the firecrawl-shaped <c>jobId</c> contract from the
 /// <see cref="WebReaper.Core.Agent.Abstract.IAgentRunStore"/> design.
 /// </para>
+/// <para>
+/// ADR-0066: <see cref="Report"/> carries the per-run telemetry summary
+/// (LLM token aggregates, per-adapter breakdown, wall-clock duration).
+/// <c>Report.Llm</c> is opaque <see cref="object"/> in core — cast to
+/// <c>WebReaper.AI.Llm.LlmTelemetrySnapshot</c> when the AI satellite is
+/// in use; <c>null</c> when no LLM adapter ran on the engine.
+/// </para>
 /// </summary>
 /// <param name="RunId">The unique identifier for this run — the resume key
 /// against the <see cref="WebReaper.Core.Agent.Abstract.IAgentRunStore"/>.</param>
@@ -27,7 +35,7 @@ namespace WebReaper.Domain.Agent;
 /// <param name="TerminationReason">Human-readable explanation of why the run
 /// ended — the brain's <see cref="AgentDecision.Stop.Reason"/> when the brain
 /// stopped, otherwise the engine's cap label
-/// (<c>"MaxSteps reached"</c>, <c>"MaxBudgetTokens reached"</c>,
+/// (<c>"MaxSteps reached"</c>, <c>"MaxBudgetTokens (X) reached (spent=Y)"</c>,
 /// <c>"Scheduler drained"</c>).</param>
 /// <param name="History">Every <see cref="AgentDecision"/> the brain returned
 /// on this run, in step order — the audit trail for the run log.</param>
@@ -35,10 +43,13 @@ namespace WebReaper.Domain.Agent;
 /// chronological order.</param>
 /// <param name="StepsExecuted">Number of decisions the brain made before the
 /// run ended.</param>
+/// <param name="Report">Per-run telemetry summary (ADR-0066) — LLM token
+/// aggregates + per-adapter breakdown + wall-clock duration.</param>
 public sealed record AgentResult(
     string RunId,
     IReadOnlyList<JsonObject> Records,
     string TerminationReason,
     IReadOnlyList<AgentDecision> History,
     IReadOnlyList<string> VisitedUrls,
-    int StepsExecuted);
+    int StepsExecuted,
+    RunReport Report);

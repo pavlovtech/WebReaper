@@ -56,6 +56,23 @@ public class ScraperEngineBuilder
     private ConfigBuilder ConfigBuilder { get; } = new();
     private SpiderBuilder SpiderBuilder { get; } = new();
 
+    /// <summary>
+    /// Per-run telemetry hooks (ADR-0066). Set by satellites at
+    /// <c>WithLlm*</c> / <c>.UseAi(...)</c> time to register a
+    /// per-builder telemetry accumulator; consumed by
+    /// <see cref="BuildAsync"/> to pass to the constructed engine.
+    /// <c>null</c> when no satellite has registered telemetry — the
+    /// engine returns <see cref="WebReaper.Domain.Telemetry.RunReport"/>
+    /// with <c>Llm == null</c>.
+    /// <para>
+    /// This is a satellite hook (the ADR-0058 <c>OnTeardown</c>
+    /// pattern). Most consumers should not set it directly; the
+    /// satellite's <c>WithLlm*</c> / <c>.UseAi(...)</c> extensions do
+    /// it for them.
+    /// </para>
+    /// </summary>
+    public Domain.Telemetry.RunTelemetryHooks? TelemetryHooks { get; set; }
+
     /// <summary>Internal: a <see cref="ScraperEngineBuilder"/> is obtained only
     /// via <see cref="Crawl(string[])"/> / <see cref="CrawlWithBrowser(string[])"/>
     /// then <see cref="ICrawlSeed.Extract"/> — never <c>new</c>ed. This is the
@@ -826,7 +843,11 @@ public class ScraperEngineBuilder
             // hooks to the engine; await using on the engine fires them on
             // scope exit. List shared by reference so a same-builder build
             // is rare (and would still see the same hooks).
-            ownedDisposables: _teardownHooks);
+            ownedDisposables: _teardownHooks,
+            // ADR-0066: hand the satellite-registered telemetry hooks
+            // through; null when no LLM adapter ran. RunAsync returns
+            // RunReport(Llm: opaque snapshot, Duration: wall-clock).
+            telemetryHooks: TelemetryHooks);
     }
 
     // ADR-0050: the SemanticAct-without-a-resolver detector. Reads both

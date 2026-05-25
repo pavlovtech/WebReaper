@@ -73,7 +73,16 @@ public sealed class LlmAgentBrain : IAgentBrain
 
     /// <summary>Construct with an <see cref="IChatClient"/> and optional
     /// <see cref="LlmAgentBrainOptions"/>.</summary>
-    public LlmAgentBrain(IChatClient chatClient, LlmAgentBrainOptions? options = null)
+    /// <param name="chatClient">The Microsoft.Extensions.AI chat client.</param>
+    /// <param name="options">Optional <see cref="LlmAgentBrainOptions"/>.</param>
+    /// <param name="telemetry">Optional <see cref="ILlmCallTelemetry"/>
+    /// (ADR-0066). Threaded by <c>.UseAi(...)</c> / <c>WithLlmBrain</c>
+    /// from the builder; à la carte construction defaults to the null
+    /// implementation.</param>
+    public LlmAgentBrain(
+        IChatClient chatClient,
+        LlmAgentBrainOptions? options = null,
+        ILlmCallTelemetry? telemetry = null)
     {
         ArgumentNullException.ThrowIfNull(chatClient);
         var opts = options ?? new LlmAgentBrainOptions();
@@ -93,7 +102,8 @@ public sealed class LlmAgentBrain : IAgentBrain
             Model = opts.Model,
             Temperature = opts.Temperature,
             MaxResponseTokens = opts.MaxResponseTokens,
-        });
+            SystemPromptCache = opts.CachePolicy ?? CachePolicy.Default,
+        }, telemetry: telemetry);
     }
 
     /// <inheritdoc/>

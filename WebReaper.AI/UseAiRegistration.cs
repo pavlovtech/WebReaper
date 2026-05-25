@@ -1,4 +1,5 @@
 using Microsoft.Extensions.AI;
+using WebReaper.AI.Llm;
 using WebReaper.Builders;
 using WebReaper.Core.Actions.Abstract;
 using WebReaper.Core.Parser.Abstract;
@@ -138,25 +139,31 @@ public static class UseAiRegistration
         // and nothing else.
         builder.WithLlmBrain(chatClient, brainOpts);
 
+        // ADR-0066: telemetry handle for the agent builder — every adapter
+        // wired below threads it through their ctor. WithLlmBrain above
+        // already materialised the handle via its own
+        // GetOrCreateLlmTelemetry; this call reuses the same instance.
+        var telemetry = builder.GetOrCreateLlmTelemetry();
+
         switch (options.Policy)
         {
             case AiPolicyMode.Recommended:
                 // Deterministic primary + LLM fallback + LLM self-heal +
                 // LLM action resolver — the firecrawl-shaped triple,
                 // mirror of the scraper-side wiring.
-                builder.WithFallbackExtractor(new LlmContentExtractor(chatClient, extractorOpts));
-                builder.WithSelfHealing(new LlmSelectorRepairer(chatClient, repairerOpts));
-                builder.WithActionResolver(new LlmActionResolver(chatClient, resolverOpts));
+                builder.WithFallbackExtractor(new LlmContentExtractor(chatClient, extractorOpts, telemetry));
+                builder.WithSelfHealing(new LlmSelectorRepairer(chatClient, repairerOpts, telemetry));
+                builder.WithActionResolver(new LlmActionResolver(chatClient, resolverOpts, telemetry));
                 break;
             case AiPolicyMode.LlmPrimary:
                 // LLM-primary extraction + LLM self-heal + LLM action
                 // resolver — mirror of the scraper-side wiring.
-                builder.WithContentExtractor(new LlmContentExtractor(chatClient, extractorOpts));
-                builder.WithSelfHealing(new LlmSelectorRepairer(chatClient, repairerOpts));
-                builder.WithActionResolver(new LlmActionResolver(chatClient, resolverOpts));
+                builder.WithContentExtractor(new LlmContentExtractor(chatClient, extractorOpts, telemetry));
+                builder.WithSelfHealing(new LlmSelectorRepairer(chatClient, repairerOpts, telemetry));
+                builder.WithActionResolver(new LlmActionResolver(chatClient, resolverOpts, telemetry));
                 break;
             case AiPolicyMode.ExtractionOnly:
-                builder.WithFallbackExtractor(new LlmContentExtractor(chatClient, extractorOpts));
+                builder.WithFallbackExtractor(new LlmContentExtractor(chatClient, extractorOpts, telemetry));
                 break;
             case AiPolicyMode.None:
                 // Brain already wired above; nothing else.

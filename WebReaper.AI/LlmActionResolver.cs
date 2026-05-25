@@ -55,7 +55,16 @@ public sealed class LlmActionResolver : IActionResolver
 
     /// <summary>Construct with an <see cref="IChatClient"/> and optional
     /// <see cref="LlmActionResolverOptions"/>.</summary>
-    public LlmActionResolver(IChatClient chatClient, LlmActionResolverOptions? options = null)
+    /// <param name="chatClient">The Microsoft.Extensions.AI chat client.</param>
+    /// <param name="options">Optional <see cref="LlmActionResolverOptions"/>.</param>
+    /// <param name="telemetry">Optional <see cref="ILlmCallTelemetry"/>
+    /// (ADR-0066). Threaded by <c>.UseAi(...)</c> / <c>WithLlm*</c> from
+    /// the builder; à la carte construction defaults to the null
+    /// implementation.</param>
+    public LlmActionResolver(
+        IChatClient chatClient,
+        LlmActionResolverOptions? options = null,
+        ILlmCallTelemetry? telemetry = null)
     {
         ArgumentNullException.ThrowIfNull(chatClient);
         _options = options ?? new LlmActionResolverOptions();
@@ -73,7 +82,8 @@ public sealed class LlmActionResolver : IActionResolver
             Model = _options.Model,
             Temperature = _options.Temperature,
             MaxResponseTokens = _options.MaxResponseTokens,
-        });
+            SystemPromptCache = _options.CachePolicy ?? CachePolicy.Default,
+        }, telemetry: telemetry);
     }
 
     /// <inheritdoc/>
