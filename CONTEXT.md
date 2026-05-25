@@ -211,7 +211,7 @@ _Avoid_: initialization, connect, startup, IAsyncInitialization (the property-sh
 The dual of **Adapter warm-up** (ADR-0058). `ScraperEngine` is `IAsyncDisposable`; `DisposeAsync` walks adapters in *reverse* warm-up order — page processors → sinks → tracker → scheduler → spider — then runs builder-registered teardown hooks in LIFO order (`ScraperEngineBuilder.OnTeardown(IAsyncDisposable)`). The reverse order keeps dependent adapters valid while their dependencies flush; the LIFO hook list closes satellite-spawned subprocess resources (CloakBrowser's stealth Chromium, future Playwright `IBrowser`) whose lifecycle is the engine's, not the loader's. Per-adapter exceptions log at Warning and are swallowed — a scrape that succeeded is not retroactively failed by a teardown burp. The recommended consumer pattern is `await using var engine = await builder.BuildAsync();`. The ADR-0009 distributed-driver consumer disposes its own adapters by hand; the chain ships on the in-process `ScraperEngineBuilder` only.
 _Avoid_: shutdown, close, finalize.
 
-### AI-native (the ADR-0040..0066 wave)
+### AI-native (the ADR-0040..0067 wave)
 
 **Markdown extraction**:
 The no-schema **Content extractor** strategy (`MarkdownContentExtractor`,
@@ -310,6 +310,43 @@ Schema emitting a copy with selectors swapped. The plan §2.2's
 LLM-as-proposer / fold-as-validator wedge; after the first repair,
 subsequent pages run the deterministic fast path again.
 _Avoid_: AI healer, self-correcting, magic-fix.
+
+**Schema inferrer** (ADR-0067):
+The schema-generation seam — `ISchemaInferrer` in
+`WebReaper/Core/Parser/Abstract/`. Given a page's content and an
+optional natural-language goal (`"product details"` / `"job listings"`
+/ …), returns a `Schema` the deterministic fold can apply to this and
+every subsequent page of the crawl. The fifth proposer-validator dock
+(sibling to the **Extraction router**, **Self-healing extractor**,
+**Semantic action** dispatch, and **Agent driver**) — applied to
+*schema generation*, not on-page extraction. The default
+implementation `LlmSchemaInferrer` ships in `WebReaper.AI`, sharing
+the **LLM call** mechanism (ADR-0059) with the four existing `Llm*`
+adapters; consumer-authored deterministic inferrers (heuristic,
+cached, per-tenant) implement the interface directly without taking
+an AI dep. Default `NullSchemaInferrer` sentinel; the builder
+detects it at `BuildAsync` time when `.ExtractInferred(...)` was
+called and throws with an actionable message (same pattern as
+`AgentEngineBuilder`'s null-brain check). One inference per crawl —
+the dock's cost story.
+_Avoid_: schema generator, schema discoverer, schema autopilot.
+
+**Learned-schema content extractor** (ADR-0067):
+The first-page-infers wrapper — `LearnedSchemaContentExtractor` in
+`WebReaper/Core/Parser/Concrete/`. Composes an `ISchemaInferrer` with
+an inner `IContentExtractor` (typically `SchemaFold`); on the first
+`ExtractAsync` call invokes the inferrer once, caches the result, and
+delegates every subsequent call to the inner extractor with the
+cached schema. The `SemaphoreSlim`-guarded double-checked locking
+handles the `Parallel.ForEachAsync` race so parallel first-page
+workers don't all pay the LLM. Per-instance cache (fresh engine =
+fresh inference); `IAsyncDisposable` for the semaphore; the builder
+registers it as an ADR-0058 teardown hook. Reached via the third
+`ICrawlSeed` terminal `.ExtractInferred(goal?)` + the satellite
+one-liner `.WithLlmSchemaInferrer(chatClient)` — same shape as the
+`AsMarkdown()` + `WithLlmFallback(...)` pair.
+_Avoid_: inferring extractor, AI-schema extractor, runtime-schema
+extractor (the cache makes "runtime" misleading — it's first-page-only).
 
 **Change tracking**:
 The monitoring page processor (`ChangeTrackingProcessor`, ADR-0048) — a
@@ -645,7 +682,8 @@ _Avoid_: telemetry result, AI report, usage report.
 - The in-process **Crawl driver** holds one **Retry policy** and runs every per-Job **Spider** call through `IRetryPolicy.ExecuteAsync`; the policy bounds attempts and never retries cancellation. The distributed-worker reduced shell holds no **Retry policy** — its retry boundary is the queue's redelivery.
 - A **Semantic action** (`PageAction.SemanticAct(intent)`) dispatches through one **Action resolver**: cache miss ⇒ call the resolver with the rendered HTML, receive a concrete arm (Click / WaitForSelector / Wait / EvaluateExpression), dispatch it, cache by intent; cache hit ⇒ dispatch the cached arm; cached-arm dispatch failure ⇒ invalidate + re-resolve. The deterministic path is the hot path — first page pays the LLM, every subsequent same-intent page dispatches the cached arm with no LLM call. Same proposer-validator shape as the **Extraction router** and **Self-healing content extractor** on the extraction surface (ADR-0046, ADR-0047).
 - An **Agent driver** drives an **Agent run**: it loads the start URL, asks the **Agent brain** for an **Agent decision** from the **Agent state**, persists via the **Agent run store** (persist-before-execute), dispatches the decision's effect using the same seams the **Crawl driver** uses (`IPageLoader`, `IContentExtractor`, `IActionResolver`, `IScraperSink`, `IPageProcessor`, `IVisitedLinkTracker`), and loops until the brain returns `Stop` or a cap fires.
-- The four proposer-validator docks — **Extraction router** (ADR-0046), **Self-healing content extractor** (ADR-0047), **Semantic action** dispatch (ADR-0050), and **Agent driver** page-selection (ADR-0051) — share one shape: an LLM proposer is asked once, a deterministic validator decides, the cached deterministic answer is the hot path. The first three are page-local; the fourth is page-spanning. The pattern is now a project-level invariant, not three features that happen to look alike.
+- The five proposer-validator docks — **Extraction router** (ADR-0046), **Self-healing content extractor** (ADR-0047), **Semantic action** dispatch (ADR-0050), **Agent driver** page-selection (ADR-0051), and **Schema inferrer** + **Learned-schema content extractor** (ADR-0067) — share one shape: an LLM proposer is asked once, a deterministic validator decides, the cached deterministic answer is the hot path. The first three are page-local; the fourth is page-spanning; the fifth is *crawl-spanning* (one inference per crawl, then deterministic fold forever after). The pattern is now a project-level invariant, not features that happen to look alike.
+- The third `ICrawlSeed` terminal `.ExtractInferred(goal?)` (ADR-0067) is the schema-generation entry point — sibling to `.Extract(schema)` (deterministic fold over a hand-authored schema) and `.AsMarkdown()` (no-schema Markdown). Marks the builder; `BuildAsync` resolves the marker by wrapping the registered content extractor with the **Learned-schema content extractor** and consulting the registered **Schema inferrer** (or throwing actionably when the inferrer is still the null sentinel). The inferred schema is per-engine: a fresh build = a fresh inference; consecutive `RunAsync` calls on the same engine reuse. Single-host crawl is the v1 assumption (no per-host cache); validator-driven re-inference is a v2 deferral.
 - Every `Llm*` adapter in `WebReaper.AI` is a **Llm call descriptor** composed with one **LLM call** mechanism — `LlmContentExtractor` / `LlmSelectorRepairer` / `LlmActionResolver` / `LlmAgentBrain` are all "what's my descriptor" classes around a shared `LlmCall<TResponse>`. The mechanism owns code-fence stripping, JSON-parse-failure retry, `ChatResponse.Usage` capture, and the tool-call dispatch path; the descriptor owns prompt content + response shape + per-role failure policy. Consumer-authored AI adapters reuse the mechanism for consistent behaviour.
 - The **Brain tool registry** (ADR-0060) is one **Llm call descriptor**'s `Tools` field — when set, `LlmCall<T>` takes the tool-call path instead of JSON-mode parsing. The closed sum (`AgentDecision` arms on the brain; concrete `PageAction` arms on the resolver) becomes load-bearing at the LLM boundary the same way it is in C#; the resolver's "must not return SemanticAct" rule is enforced by the absence of an `ActSemanticAct` tool, not by runtime validation.
 - The brain's view of the previous step is one closed-sum field — `AgentState.LastOutcome`, an **Agent decision outcome**. The engine populates it from the prior step's execution result; first-step brains see `None`. The validator's verdict on Extract (a failed **Schema validator** check) surfaces as `Failed("validation: <reason>", null)`; load failures surface as `Failed(...)` and the loop continues; SemanticAct's resolution becomes `ActDispatched(ResolvedAction)`. The brain reads the previous outcome alongside its history and decides next.
