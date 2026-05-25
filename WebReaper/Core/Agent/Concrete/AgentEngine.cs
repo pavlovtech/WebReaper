@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text.Json.Nodes;
 using Microsoft.Extensions.Logging;
 using WebReaper.Core.Actions.Abstract;
@@ -10,6 +11,7 @@ using WebReaper.Core.Parser.Concrete;
 using WebReaper.Domain.Agent;
 using WebReaper.Domain.PageActions;
 using WebReaper.Domain.Selectors;
+using WebReaper.Domain.Telemetry;
 using WebReaper.Extensions;
 using WebReaper.Processing;
 using WebReaper.Processing.Abstract;
@@ -68,6 +70,7 @@ public sealed class AgentEngine
     private readonly int _visitedWindow;
     private readonly int _candidateUrlCap;
     private readonly int _maxPageMarkdownChars;
+    private readonly RunTelemetryHooks? _telemetryHooks;
 
     internal AgentEngine(
         string startUrl,
@@ -88,7 +91,8 @@ public sealed class AgentEngine
         int historyWindow = 10,
         int visitedWindow = 30,
         int candidateUrlCap = 50,
-        int maxPageMarkdownChars = 32_000)
+        int maxPageMarkdownChars = 32_000,
+        RunTelemetryHooks? telemetryHooks = null)
     {
         ArgumentException.ThrowIfNullOrEmpty(startUrl);
         ArgumentException.ThrowIfNullOrEmpty(goal);
@@ -123,6 +127,10 @@ public sealed class AgentEngine
         _visitedWindow = visitedWindow;
         _candidateUrlCap = candidateUrlCap;
         _maxPageMarkdownChars = maxPageMarkdownChars;
+        // ADR-0066: per-run telemetry hooks. Null when no satellite
+        // registered telemetry on the builder; MaxBudgetTokens
+        // enforcement becomes inert in that case.
+        _telemetryHooks = telemetryHooks;
     }
 
     /// <summary>
@@ -133,6 +141,12 @@ public sealed class AgentEngine
     /// </summary>
     public async Task<AgentResult> RunAsync(CancellationToken cancellationToken = default)
     {
+        // ADR-0066: reset telemetry at the start of each run so
+        // consecutive RunAsync calls on the same engine produce
+        // independent reports. Wall-clock measured entry-to-return.
+        _telemetryHooks?.Reset();
+        var sw = Stopwatch.StartNew();
+
         var runId = _explicitRunId ?? Guid.NewGuid().ToString("N");
 
         // ADR-0051 fork 8: resume from snapshot if one exists for this runId,
@@ -172,6 +186,23 @@ public sealed class AgentEngine
             if (step >= _options.MaxSteps)
             {
                 terminationReason = $"MaxSteps ({_options.MaxSteps}) reached";
+                _logger.LogInformation("Agent run {RunId} stopping: {Reason}", runId, terminationReason);
+                break;
+            }
+
+            // ADR-0066: MaxBudgetTokens cap — defence-in-depth termination,
+            // finally honouring the field documented since ADR-0051. Reads
+            // the cumulative LLM token total via the satellite-provided
+            // telemetry hook; silently inert when no LLM adapter ran or
+            // the chat client doesn't surface usage (which is documented
+            // behaviour on AgentEngineOptions.MaxBudgetTokens). Termination
+            // precedence per ADR-0051 fork 6: brain Stop > MaxSteps >
+            // MaxBudgetTokens > cancellation.
+            if (_options.MaxBudgetTokens is long cap
+                && _telemetryHooks?.TotalLlmTokens?.Invoke() is long spent
+                && spent >= cap)
+            {
+                terminationReason = $"MaxBudgetTokens ({cap}) reached (spent={spent})";
                 _logger.LogInformation("Agent run {RunId} stopping: {Reason}", runId, terminationReason);
                 break;
             }
@@ -478,6 +509,7 @@ public sealed class AgentEngine
             "Agent run {RunId} complete: {Steps} steps, {Records} records — {Reason}",
             runId, step, records.Count, terminationReason);
 
+        sw.Stop();
         return new AgentResult(
             RunId: runId,
             Records: records,
@@ -488,7 +520,10 @@ public sealed class AgentEngine
             // includes Stop, which is itself a decision but doesn't advance
             // the in-loop step counter. history.Count is the correct count
             // for the result; the inner `step` is the next-decision index.
-            StepsExecuted: history.Count);
+            StepsExecuted: history.Count,
+            // ADR-0066: per-run telemetry summary. Llm is null when no
+            // satellite registered telemetry (no LLM adapter ran).
+            Report: new RunReport(_telemetryHooks?.Snapshot(), sw.Elapsed));
     }
 
     private async Task<List<string>> ExtractCandidateUrlsAsync(string baseUrl, string html)

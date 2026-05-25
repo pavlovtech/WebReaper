@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Text.Json.Nodes;
 using Microsoft.Extensions.Logging;
 using WebReaper.ConfigStorage.Abstract;
@@ -10,6 +11,7 @@ using WebReaper.Core.Scheduler.Abstract;
 using WebReaper.Core.Spider.Abstract;
 using WebReaper.Domain;
 using WebReaper.Domain.Parsing;
+using WebReaper.Domain.Telemetry;
 using WebReaper.Extensions;
 using WebReaper.Infra.Abstract;
 using WebReaper.Infra.Concrete;
@@ -65,7 +67,8 @@ public class ScraperEngine : IAsyncDisposable
         IReadOnlyList<IPageProcessor>? pageProcessors = null,
         IOutstandingWorkLatch? latch = null,
         IRetryPolicy? retryPolicy = null,
-        IReadOnlyList<IAsyncDisposable>? ownedDisposables = null)
+        IReadOnlyList<IAsyncDisposable>? ownedDisposables = null,
+        RunTelemetryHooks? telemetryHooks = null)
     {
         ParallelismDegree = parallelismDegree;
         ArgumentNullException.ThrowIfNull(configStorage);
@@ -90,6 +93,10 @@ public class ScraperEngine : IAsyncDisposable
         _ownedDisposables = ownedDisposables is { Count: > 0 }
             ? new List<IAsyncDisposable>(ownedDisposables)
             : new List<IAsyncDisposable>(0);
+        // ADR-0066: per-run telemetry hooks (typically set by the
+        // satellite via the builder's TelemetryHooks property). Null
+        // when no LLM adapter ran; RunAsync returns RunReport(Llm: null).
+        _telemetryHooks = telemetryHooks;
     }
 
     private IScraperConfigStorage ConfigStorage { get; }
@@ -102,6 +109,7 @@ public class ScraperEngine : IAsyncDisposable
     private IOutstandingWorkLatch Latch { get; }
     private IRetryPolicy RetryPolicy { get; }
     private readonly List<IAsyncDisposable> _ownedDisposables;
+    private readonly RunTelemetryHooks? _telemetryHooks;
     private bool _disposed;
 
     private int ParallelismDegree { get; }
@@ -116,8 +124,13 @@ public class ScraperEngine : IAsyncDisposable
     /// <paramref name="cancellationToken"/> instead surfaces as a thrown
     /// <see cref="OperationCanceledException"/>.
     /// </summary>
-    public async Task RunAsync(CancellationToken cancellationToken = default)
+    public async Task<RunReport> RunAsync(CancellationToken cancellationToken = default)
     {
+        // ADR-0066: reset telemetry at the start of each run so consecutive
+        // RunAsync calls on the same engine produce independent reports.
+        _telemetryHooks?.Reset();
+        var sw = Stopwatch.StartNew();
+
         await WarmUpAdaptersAsync();
 
         Logger.LogInformation("Start {class}.{method}", nameof(ScraperEngine), nameof(RunAsync));
@@ -149,8 +162,15 @@ public class ScraperEngine : IAsyncDisposable
 
         // ADR-0037: the Crawl was over before the loop began (no start URLs to
         // drain, or a resumed visited count already at the limit) — nothing to
-        // consume, so return without driving the loop.
-        if (stopRule.IsCrawlOver) return;
+        // consume, so return without driving the loop. ADR-0066: still
+        // returns a RunReport (likely empty if no work happened).
+        if (stopRule.IsCrawlOver)
+        {
+            sw.Stop();
+            return new RunReport(
+                Llm: _telemetryHooks?.Snapshot(),
+                Duration: sw.Elapsed);
+        }
 
         // ADR-0037: the driver ends the Crawl by ceasing its OWN consumption,
         // not by asking the scheduler to stop producing (Scheduler.Complete()
@@ -265,6 +285,15 @@ public class ScraperEngine : IAsyncDisposable
             Logger.LogError(ex, "Shutting down due to unhandled exception");
             throw;
         }
+
+        // ADR-0066: opaque-typed Llm snapshot — consumer casts to
+        // WebReaper.AI.Llm.LlmTelemetrySnapshot when the AI satellite is
+        // in use. Null when no satellite registered telemetry on the
+        // builder (the no-LLM crawl path).
+        sw.Stop();
+        return new RunReport(
+            Llm: _telemetryHooks?.Snapshot(),
+            Duration: sw.Elapsed);
     }
 
     // ADR-0033: warm up every adapter the driver holds that declares the

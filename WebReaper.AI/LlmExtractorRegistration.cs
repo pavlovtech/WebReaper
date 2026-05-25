@@ -1,4 +1,5 @@
 using Microsoft.Extensions.AI;
+using WebReaper.AI.Llm;
 using WebReaper.Builders;
 
 namespace WebReaper.AI;
@@ -27,7 +28,8 @@ public static class LlmExtractorRegistration
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(chatClient);
-        return builder.WithContentExtractor(new LlmContentExtractor(chatClient, options));
+        var telemetry = builder.GetOrCreateLlmTelemetry();
+        return builder.WithContentExtractor(new LlmContentExtractor(chatClient, options, telemetry));
     }
 
     /// <summary>
@@ -45,7 +47,8 @@ public static class LlmExtractorRegistration
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(chatClient);
-        return builder.WithFallbackExtractor(new LlmContentExtractor(chatClient, options));
+        var telemetry = builder.GetOrCreateLlmTelemetry();
+        return builder.WithFallbackExtractor(new LlmContentExtractor(chatClient, options, telemetry));
     }
 
     /// <summary>
@@ -63,6 +66,7 @@ public static class LlmExtractorRegistration
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(chatClient);
-        return builder.WithSelfHealing(new LlmSelectorRepairer(chatClient, options));
+        var telemetry = builder.GetOrCreateLlmTelemetry();
+        return builder.WithSelfHealing(new LlmSelectorRepairer(chatClient, options, telemetry));
     }
 }

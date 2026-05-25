@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text.Json;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Logging;
@@ -38,6 +39,7 @@ public sealed class LlmCall<TResponse>
 
     private readonly IChatClient _chatClient;
     private readonly LlmCallDescriptor<TResponse> _descriptor;
+    private readonly ILlmCallTelemetry _telemetry;
     private readonly ILogger _logger;
 
     /// <summary>Construct an <see cref="LlmCall{TResponse}"/>.</summary>
@@ -45,6 +47,13 @@ public sealed class LlmCall<TResponse>
     /// (ADR-0009 quarantine — the consumer brings their own concrete
     /// implementation: OpenAI, Anthropic via wrapper, Ollama, …).</param>
     /// <param name="descriptor">The per-role policy record.</param>
+    /// <param name="telemetry">Optional telemetry accumulator (ADR-0066).
+    /// When omitted, <see cref="NullLlmCallTelemetry.Instance"/> is used —
+    /// successful and failed-after-retry calls are discarded. The four
+    /// built-in adapters thread an instance from the builder-side
+    /// <c>LlmTelemetry</c> handle when wired via the <c>WithLlm*</c>
+    /// extensions; consumer-authored adapters constructed à la carte
+    /// default to the null implementation.</param>
     /// <param name="logger">Optional logger; <see cref="NullLogger{T}.Instance"/>
     /// when omitted.</param>
     /// <exception cref="ArgumentNullException">When <paramref name="chatClient"/>
@@ -56,6 +65,7 @@ public sealed class LlmCall<TResponse>
     public LlmCall(
         IChatClient chatClient,
         LlmCallDescriptor<TResponse> descriptor,
+        ILlmCallTelemetry? telemetry = null,
         ILogger<LlmCall<TResponse>>? logger = null)
     {
         ArgumentNullException.ThrowIfNull(chatClient);
@@ -75,6 +85,7 @@ public sealed class LlmCall<TResponse>
 
         _chatClient = chatClient;
         _descriptor = descriptor;
+        _telemetry = telemetry ?? NullLlmCallTelemetry.Instance;
         _logger = (ILogger?)logger ?? NullLogger<LlmCall<TResponse>>.Instance;
     }
 
@@ -95,6 +106,11 @@ public sealed class LlmCall<TResponse>
 
         var isToolCall = _descriptor.Tools is { Count: > 0 };
         var userMessage = _descriptor.BuildUserMessage(input);
+        // ADR-0066: wall-clock duration for the telemetry record (one
+        // measurement covering both first-attempt and retry, so the
+        // accumulator's TotalDuration matches the InvokeAsync entry-to-exit
+        // time and not just the chat-client portion).
+        var sw = Stopwatch.StartNew();
 
         // First attempt.
         var (response, raw) = await CallAsync(userMessage, includeRetryReminder: false, cancellationToken).ConfigureAwait(false);
@@ -116,6 +132,15 @@ public sealed class LlmCall<TResponse>
 
         if (firstParseError is null)
         {
+            sw.Stop();
+            _telemetry.Record(new LlmCallUsage(
+                DescriptorName: _descriptor.Name,
+                InputTokens: usage.Input,
+                OutputTokens: usage.Output,
+                CachedInputTokens: usage.Cached,
+                TotalTokens: usage.Total,
+                ParseRetries: 0,
+                Duration: sw.Elapsed));
             return new LlmCallResult<TResponse>(
                 value!,
                 InputTokens: usage.Input,
@@ -155,9 +180,18 @@ public sealed class LlmCall<TResponse>
 
         if (secondParseError is null)
         {
+            sw.Stop();
             _logger.LogInformation(
                 "LlmCall[{Name}] retry parse succeeded. retries=1",
                 _descriptor.Name);
+            _telemetry.Record(new LlmCallUsage(
+                DescriptorName: _descriptor.Name,
+                InputTokens: usage.Input,
+                OutputTokens: usage.Output,
+                CachedInputTokens: usage.Cached,
+                TotalTokens: usage.Total,
+                ParseRetries: 1,
+                Duration: sw.Elapsed));
             return new LlmCallResult<TResponse>(
                 retryValue!,
                 InputTokens: usage.Input,
@@ -168,9 +202,21 @@ public sealed class LlmCall<TResponse>
                 ParseRetries: 1);
         }
 
+        sw.Stop();
         _logger.LogError(secondParseError,
             "LlmCall[{Name}] parse failed after 1 retry; surfacing LlmCallException. raw='{Raw}'",
             _descriptor.Name, Truncate(retryRaw));
+        // ADR-0066: report the failed-after-retry call too — telemetry
+        // counts both successful and exhausted calls for accurate
+        // run-cost accounting.
+        _telemetry.Record(new LlmCallUsage(
+            DescriptorName: _descriptor.Name,
+            InputTokens: usage.Input,
+            OutputTokens: usage.Output,
+            CachedInputTokens: usage.Cached,
+            TotalTokens: usage.Total,
+            ParseRetries: 1,
+            Duration: sw.Elapsed));
 
         throw new LlmCallException(
             $"LlmCall[{_descriptor.Name}] failed to parse model response after 1 retry: {secondParseError.Message}",

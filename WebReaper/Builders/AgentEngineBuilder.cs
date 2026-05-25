@@ -65,6 +65,27 @@ public sealed class AgentEngineBuilder
     private int _candidateUrlCap = 50;
     private int _maxPageMarkdownChars = 32_000;
 
+    /// <summary>
+    /// Per-run telemetry hooks (ADR-0066). Set by satellites at
+    /// <c>WithLlm*</c> / <c>.UseAi(...)</c> time to register a
+    /// per-builder telemetry accumulator; consumed by
+    /// <see cref="BuildAsync"/> to pass to the constructed engine.
+    /// <c>null</c> when no satellite has registered telemetry — the
+    /// engine returns
+    /// <see cref="WebReaper.Domain.Agent.AgentResult"/>'s <c>Report</c>
+    /// with <c>Llm == null</c>, and
+    /// <see cref="AgentEngineOptions.MaxBudgetTokens"/> becomes
+    /// silently inert (matching the documented behaviour on chat
+    /// clients that don't surface usage).
+    /// <para>
+    /// This is a satellite hook (the ADR-0058 <c>OnTeardown</c>
+    /// pattern). Most consumers should not set it directly; the
+    /// satellite's <c>WithLlm*</c> / <c>.UseAi(...)</c> extensions do
+    /// it for them.
+    /// </para>
+    /// </summary>
+    public Domain.Telemetry.RunTelemetryHooks? TelemetryHooks { get; set; }
+
     internal AgentEngineBuilder(string startUrl, string goal)
     {
         ArgumentException.ThrowIfNullOrEmpty(startUrl);
@@ -375,7 +396,11 @@ public sealed class AgentEngineBuilder
             historyWindow: _historyWindow,
             visitedWindow: _visitedWindow,
             candidateUrlCap: _candidateUrlCap,
-            maxPageMarkdownChars: _maxPageMarkdownChars);
+            maxPageMarkdownChars: _maxPageMarkdownChars,
+            // ADR-0066: hand the satellite-registered telemetry hooks to
+            // the engine; null when no LLM adapter ran. AgentResult.Report
+            // gets the run's accumulated snapshot.
+            telemetryHooks: TelemetryHooks);
         return Task.FromResult(engine);
     }
 

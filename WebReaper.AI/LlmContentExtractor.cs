@@ -47,7 +47,17 @@ public sealed class LlmContentExtractor : IContentExtractor
     /// <summary>Construct with an <see cref="IChatClient"/> and
     /// optional options (defaults: Markdown pre-clean, 4096-token
     /// response cap, temperature 0).</summary>
-    public LlmContentExtractor(IChatClient chatClient, LlmExtractorOptions? options = null)
+    /// <param name="chatClient">The Microsoft.Extensions.AI chat client.</param>
+    /// <param name="options">Optional <see cref="LlmExtractorOptions"/>;
+    /// defaults applied when null.</param>
+    /// <param name="telemetry">Optional <see cref="ILlmCallTelemetry"/>
+    /// (ADR-0066). Threaded by <c>.UseAi(...)</c> / <c>WithLlm*</c>
+    /// from the builder; à la carte construction defaults to the null
+    /// implementation.</param>
+    public LlmContentExtractor(
+        IChatClient chatClient,
+        LlmExtractorOptions? options = null,
+        ILlmCallTelemetry? telemetry = null)
     {
         ArgumentNullException.ThrowIfNull(chatClient);
         _options = options ?? new LlmExtractorOptions();
@@ -61,7 +71,7 @@ public sealed class LlmContentExtractor : IContentExtractor
             Temperature = _options.Temperature,
             MaxResponseTokens = _options.MaxTokens,
             SystemPromptCache = _options.CachePolicy ?? CachePolicy.Default,
-        });
+        }, telemetry: telemetry);
     }
 
     /// <inheritdoc/>
