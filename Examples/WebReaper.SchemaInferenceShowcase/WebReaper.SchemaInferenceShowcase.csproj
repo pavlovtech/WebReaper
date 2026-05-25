@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    Showcase example for the v10.0.0 schema-inference ADRs (0067 / 0068 /
+    0069). One project, one Program.cs that dispatches by sub-command:
+    `dotnet run` then `alacarte`, `useai`, or `reinfer`. Each sub-command
+    is the minimal viable demo of one public API on the new surface — the
+    funnel-side companion to WebReaper.AiNativeShowcase (PR #101), which
+    covered the original AI-native wave (ADR-0040..0049).
+
+    Why one project, not three: a consumer scanning Examples/ should see
+    "à la carte registration → one-line .UseAi(Inferred) policy →
+    runtime auto-recovery via re-inference" together, with the same shape
+    of stub IChatClient swap-in across each. Three tiny projects would
+    fragment that story.
+
+    All three sub-commands use a deterministic in-process StubChatClient
+    so the example runs offline; the production swap is an OpenAI /
+    Anthropic / Ollama / Azure-AI IChatClient adapter from the
+    Microsoft.Extensions.AI ecosystem.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>preview</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\WebReaper\WebReaper.csproj" />
+    <ProjectReference Include="..\..\WebReaper.AI\WebReaper.AI.csproj" />
+  </ItemGroup>
+</Project>

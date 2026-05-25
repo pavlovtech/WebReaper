@@ -80,7 +80,7 @@ public sealed class LearnedSchemaContentExtractor : IContentExtractor, IAsyncDis
     /// <param name="reInferAfterFailures">Number of consecutive validator
     /// failures before dropping the cached schema (ADR-0069). Default
     /// <c>0</c> = never re-infer (preserves ADR-0067 v1 trust-the-cache
-    /// behaviour). The satellite <see cref="LlmSchemaInferrer"/> ships
+    /// behaviour). The satellite <c>LlmSchemaInferrer</c> ships
     /// <c>3</c> as the per-role default via
     /// <c>LlmSchemaInferrerOptions.ReInferAfterFailures</c>.</param>
     /// <param name="maxReInferencesPerInstance">Cost cap — once the
