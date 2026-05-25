@@ -54,6 +54,15 @@ namespace WebReaper.AI;
 /// repairer (<see cref="LlmSelectorRepairer"/>). Reuses the
 /// <see cref="LlmExtractorOptions"/> shape — the repairer's knobs are
 /// the extractor's. When null, synthesised from the global defaults.</param>
+/// <param name="Inferrer">Optional per-role override for the LLM schema
+/// inferrer (<see cref="LlmSchemaInferrer"/>) — consumed by
+/// <see cref="AiPolicyMode.Inferred"/> on the scraper (ADR-0068). When
+/// null, synthesised from the global defaults; the inferrer's own
+/// 32 000-char content cap + 1024-token response cap defaults apply
+/// (the inferrer's response is a small JSON object; the global
+/// <see cref="MaxResponseTokens"/> does not flow into it). Ignored on
+/// the agent builder — the agent's brain proposes schemas per
+/// decision, so a separate inferrer is structurally redundant.</param>
 /// <param name="Policy">Which canned configuration to wire. Default
 /// <see cref="AiPolicyMode.Recommended"/> — the firecrawl-shaped
 /// deterministic-first + LLM-rescue posture.</param>
@@ -75,6 +84,7 @@ public sealed record AiOptions(
     LlmActionResolverOptions? Resolver = null,
     LlmAgentBrainOptions? Brain = null,
     LlmExtractorOptions? Repairer = null,
+    LlmSchemaInferrerOptions? Inferrer = null,
     AiPolicyMode Policy = AiPolicyMode.Recommended,
     CachePolicy CachePolicy = CachePolicy.Hinted)
 {
@@ -149,6 +159,32 @@ public sealed record AiOptions(
                 SystemPrompt: null,
                 CachePolicy: CachePolicy)
             : Brain with { CachePolicy = Brain.CachePolicy ?? CachePolicy };
+
+    /// <summary>
+    /// Synthesise the effective <see cref="LlmSchemaInferrerOptions"/> for
+    /// the schema-inferrer role (ADR-0068). When <see cref="Inferrer"/> is
+    /// null, the inferrer's own role-specific defaults apply for the
+    /// response-shape fields (<c>MaxContentChars = 32 000</c>,
+    /// <c>MaxResponseTokens = 1024</c>) — the global
+    /// <see cref="MaxResponseTokens"/> does NOT flow in (the inferrer's
+    /// response is a small JSON object; matches the resolver's
+    /// <c>Math.Min(MaxResponseTokens, 512)</c> pattern). Global
+    /// <see cref="Model"/> / <see cref="Temperature"/> /
+    /// <see cref="MarkdownPreClean"/> / <see cref="CachePolicy"/> do flow.
+    /// When non-null, the per-role record wins for every field — see the
+    /// override discipline note on the type-level XML doc.
+    /// </summary>
+    internal LlmSchemaInferrerOptions ResolveInferrerOptions()
+        => Inferrer is null
+            ? new LlmSchemaInferrerOptions(
+                Model: Model,
+                UseMarkdownPreClean: MarkdownPreClean,
+                MaxContentChars: 32_000,
+                MaxResponseTokens: 1024,
+                Temperature: Temperature,
+                SystemPrompt: null,
+                CachePolicy: CachePolicy)
+            : Inferrer with { CachePolicy = Inferrer.CachePolicy ?? CachePolicy };
 }
 
 /// <summary>
@@ -215,5 +251,45 @@ public enum AiPolicyMode
     /// (the chat client is registered for the brain on the agent) but the
     /// caller chooses every other adapter à la carte via <c>WithLlm*</c>.
     /// </summary>
-    None
+    None,
+
+    /// <summary>
+    /// Runtime schema inference — the "extract structured data without a
+    /// schema" path (ADR-0067 + ADR-0068). The fifth strategy on the
+    /// extraction surface; closes the firecrawl parity gap for
+    /// schema-less structured extraction.
+    /// <para>
+    /// <b>Scraper:</b> wires
+    /// <see cref="LlmSchemaInferrerRegistration.WithLlmSchemaInferrer"/>
+    /// (so the wrapper composed at <c>BuildAsync</c> for
+    /// <c>.ExtractInferred(...)</c> has a real inferrer) +
+    /// <see cref="LlmActionResolverRegistration.WithLlmActionResolver"/>
+    /// (the orthogonal action surface — useful regardless of extraction
+    /// strategy). Mutually exclusive with
+    /// <see cref="Recommended"/> / <see cref="LlmPrimary"/> /
+    /// <see cref="ExtractionOnly"/> — those register an
+    /// <see cref="WebReaper.Core.Parser.Abstract.IContentExtractor"/>
+    /// that would shadow the
+    /// <see cref="WebReaper.Core.Parser.Concrete.LearnedSchemaContentExtractor"/>
+    /// wrapper. The consumer-facing one-liner:
+    /// <code>
+    /// var engine = await ScraperEngineBuilder
+    ///     .Crawl("https://shop.com/products")
+    ///     .ExtractInferred(goal: "product details")
+    ///     .UseAi(chatClient, new AiOptions(Policy: AiPolicyMode.Inferred))
+    ///     .WriteToConsole()
+    ///     .BuildAsync();
+    /// </code>
+    /// </para>
+    /// <para>
+    /// <b>Agent:</b> not supported. The agent's brain proposes its own
+    /// schemas in <c>AgentDecision.Extract(schema)</c>; a separate
+    /// inferrer arm is structurally redundant on that builder.
+    /// <c>.UseAi(agentBuilder, new AiOptions(Policy: Inferred))</c>
+    /// throws <see cref="System.ArgumentOutOfRangeException"/> with an
+    /// actionable message pointing at <see cref="Recommended"/> /
+    /// <see cref="LlmPrimary"/>.
+    /// </para>
+    /// </summary>
+    Inferred
 }

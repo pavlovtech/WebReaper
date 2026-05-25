@@ -52,7 +52,18 @@ public static class LlmSchemaInferrerRegistration
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(chatClient);
+        var opts = options ?? new LlmSchemaInferrerOptions();
         var telemetry = builder.GetOrCreateLlmTelemetry();
-        return builder.WithSchemaInferrer(new LlmSchemaInferrer(chatClient, options, telemetry));
+        // ADR-0069: thread the satellite's per-role re-inference triggers
+        // through to the wrapper at BuildAsync time. The satellite's
+        // defaults flip the core wrapper's behaviour from
+        // "trust-the-cache" to "re-infer after 3 consecutive validation
+        // failures" — the headline ADR-0069 opt-out shape. Consumers
+        // can call WithSchemaInferenceTriggers directly afterwards to
+        // override.
+        builder.WithSchemaInferenceTriggers(
+            opts.ReInferAfterFailures,
+            opts.MaxReInferencesPerInstance);
+        return builder.WithSchemaInferrer(new LlmSchemaInferrer(chatClient, opts, telemetry));
     }
 }

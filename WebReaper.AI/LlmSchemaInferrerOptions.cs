@@ -39,6 +39,22 @@ namespace WebReaper.AI;
 /// provider-cache hints. (Single-page inference is one-shot per crawl —
 /// the cache-write premium typically does not amortise; <c>Default</c> is
 /// the right starting policy.)</param>
+/// <param name="ReInferAfterFailures">Number of consecutive
+/// <see cref="WebReaper.Core.Parser.Abstract.ISchemaValidator"/> failures
+/// before <see cref="WebReaper.Core.Parser.Concrete.LearnedSchemaContentExtractor"/>
+/// drops the cached inferred schema and re-infers from a fresh page
+/// (ADR-0069). Default <c>3</c> — opt-out behaviour: a wrong first-page
+/// inference auto-heals after three consecutive empty extractions. Set
+/// to <c>0</c> to preserve the ADR-0067 v1 strict trust-the-cache
+/// behaviour. Threaded into the builder via the
+/// <c>WithLlmSchemaInferrer</c> extension (calls
+/// <c>ScraperEngineBuilder.WithSchemaInferenceTriggers</c>).</param>
+/// <param name="MaxReInferencesPerInstance">Cost cap for ADR-0069
+/// re-inference triggers — once the wrapper has re-inferred this many
+/// times on the same instance, further failures keep the stale schema
+/// and log at Warning. Default <see cref="int.MaxValue"/> (unbounded;
+/// the cap is the consumer's cost guardrail). Set lower for unattended
+/// / CI / cron runs where bounded LLM cost matters.</param>
 public sealed record LlmSchemaInferrerOptions(
     string? Model = null,
     bool UseMarkdownPreClean = true,
@@ -46,4 +62,6 @@ public sealed record LlmSchemaInferrerOptions(
     int MaxResponseTokens = 1024,
     float Temperature = 0.0f,
     string? SystemPrompt = null,
-    CachePolicy? CachePolicy = null);
+    CachePolicy? CachePolicy = null,
+    int ReInferAfterFailures = 3,
+    int MaxReInferencesPerInstance = int.MaxValue);
