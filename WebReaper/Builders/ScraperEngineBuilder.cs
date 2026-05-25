@@ -175,7 +175,38 @@ public class ScraperEngineBuilder
             _builder.SpiderBuilder.WithContentExtractor(new MarkdownContentExtractor());
             return _builder;
         }
+
+        public ScraperEngineBuilder ExtractInferred(string? goal = null)
+        {
+            // ADR-0067: the runtime-schema-inference terminal. Like
+            // AsMarkdown the ConfigBuilder schema stays null (the inferred
+            // schema lives on the wrapper, not the config). The marker is
+            // resolved at BuildAsync time — if no real ISchemaInferrer was
+            // registered the build throws with an actionable message.
+            // Wrapping the inner extractor with LearnedSchemaContentExtractor
+            // is deferred until BuildAsync so consumers can call this
+            // terminal before .WithSchemaInferrer / .WithLlmSchemaInferrer.
+            _builder._inferenceMarker = new InferenceMarker(goal);
+            return _builder;
+        }
     }
+
+    // ADR-0067: marker placed by ICrawlSeed.ExtractInferred; resolved in
+    // BuildAsync. Goal threads through to LearnedSchemaContentExtractor.
+    private sealed record InferenceMarker(string? Goal);
+
+    private InferenceMarker? _inferenceMarker;
+    private ISchemaInferrer _schemaInferrer = NullSchemaInferrer.Instance;
+
+    // ADR-0067 test seam — exposes the marker state for the unit tests
+    // without leaking the InferenceMarker record. Returns
+    // <c>(false, null)</c> when ExtractInferred was not called.
+    internal (bool Marked, string? Goal) InferenceMarkerForTests
+        => (_inferenceMarker is not null, _inferenceMarker?.Goal);
+
+    // ADR-0067 test seam — the registered inferrer (NullSchemaInferrer.Instance
+    // by default).
+    internal ISchemaInferrer SchemaInferrerForTests => _schemaInferrer;
 
     private ILogger Logger { get; set; } = NullLogger.Instance;
 
@@ -288,6 +319,37 @@ public class ScraperEngineBuilder
     {
         ArgumentNullException.ThrowIfNull(validator);
         _schemaValidator = validator;
+        return this;
+    }
+
+    /// <summary>
+    /// Register a custom <see cref="ISchemaInferrer"/> (ADR-0067) — the
+    /// engine consults it on the first page of a crawl that chose the
+    /// <see cref="ICrawlSeed.ExtractInferred(string?)"/> seed terminal,
+    /// caches the proposed <see cref="Schema"/> on the
+    /// <see cref="WebReaper.Core.Parser.Concrete.LearnedSchemaContentExtractor"/>
+    /// wrapper, and runs the deterministic fold against it for every
+    /// subsequent page.
+    /// <para>
+    /// For the LLM-backed default, prefer the satellite's one-liner
+    /// <c>.WithLlmSchemaInferrer(chatClient)</c> — same wiring with the
+    /// telemetry handle and per-role caching policy hooked up.
+    /// </para>
+    /// <para>
+    /// Silently ignored when the consumer chose
+    /// <see cref="ICrawlSeed.Extract"/> or
+    /// <see cref="ICrawlSeed.AsMarkdown"/> instead — the
+    /// <c>LearnedSchemaContentExtractor</c> wrapper is only composed when
+    /// <c>ExtractInferred</c> was called.
+    /// </para>
+    /// </summary>
+    /// <param name="inferrer">The schema inferrer.</param>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="inferrer"/> is null.</exception>
+    public ScraperEngineBuilder WithSchemaInferrer(ISchemaInferrer inferrer)
+    {
+        ArgumentNullException.ThrowIfNull(inferrer);
+        _schemaInferrer = inferrer;
         return this;
     }
 
@@ -830,6 +892,33 @@ public class ScraperEngineBuilder
         // makes the cause visible at build time when the config + the resolver
         // are both in hand.
         WarnIfSemanticActWithoutResolver(config);
+
+        // ADR-0067: resolve the inference marker if set. Wrap the
+        // current (or default) content extractor with
+        // LearnedSchemaContentExtractor — first page pays the LLM,
+        // every subsequent page runs the deterministic fold against the
+        // cached schema. Throws here when the consumer chose
+        // .ExtractInferred(...) but no real ISchemaInferrer is
+        // registered — same pattern as AgentEngineBuilder's null-brain
+        // check (ADR-0051).
+        if (_inferenceMarker is { } marker)
+        {
+            if (ReferenceEquals(_schemaInferrer, NullSchemaInferrer.Instance))
+            {
+                throw new InvalidOperationException(
+                    ".ExtractInferred(...) was called but no ISchemaInferrer was registered. " +
+                    "Call .WithLlmSchemaInferrer(chatClient) on the builder before " +
+                    "BuildAsync(), or supply a custom ISchemaInferrer via " +
+                    ".WithSchemaInferrer(inferrer).");
+            }
+            var inner = SpiderBuilder.GetContentExtractorOrDefault(Logger);
+            var wrapped = new LearnedSchemaContentExtractor(
+                _schemaInferrer, inner, marker.Goal, Logger);
+            SpiderBuilder.WithContentExtractor(wrapped);
+            // ADR-0058: register the wrapper as a teardown hook so the
+            // SemaphoreSlim disposes on engine teardown.
+            OnTeardown(wrapped);
+        }
 
         var spider = SpiderBuilder.Build();
         await ConfigStorage.CreateConfigAsync(config);

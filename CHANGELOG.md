@@ -1,5 +1,141 @@
 # Changelog
 
+## 10.0.0 — Schema inference (ADR-0067)
+
+The third and final ADR of the v10.0.0 pre-tag AI-native slice. Closes the
+firecrawl *"extract structured data without a hand-authored schema"* parity
+gap and completes the project-level proposer-validator pattern on the
+extraction surface — five docks now: ADR-0046 routing, ADR-0047 selector
+repair, ADR-0050 action resolution, ADR-0051 page selection, **ADR-0067
+schema generation**. Rides v10.0.0 — the major break (Puppeteer deletion,
+ADR-0053) still owns the version; this lands additively.
+
+- **`ISchemaInferrer` seam** in `WebReaper/Core/Parser/Abstract/` —
+  given a page's content and an optional natural-language goal
+  (`"product details"` / `"job listings"` / …), returns a `Schema`
+  the deterministic fold can apply. Sibling to the four existing
+  AI-adjacent core seams (`IContentExtractor`, `ISelectorRepairer`,
+  `IActionResolver`, `ISchemaValidator`); consumer-authored
+  deterministic inferrers (heuristic / cached / per-tenant) implement
+  the interface without taking an AI dep.
+- **`NullSchemaInferrer` sentinel** + `BuildAsync` enforcement.
+  Default registration is the sentinel; `BuildAsync` detects it via
+  reference identity when `.ExtractInferred(...)` was called and throws
+  `InvalidOperationException` with an actionable message (same pattern
+  as `AgentEngineBuilder` on `NullAgentBrain`). Throwing in the
+  sentinel's `InferAsync` is the defence-in-depth path for code that
+  constructs the wrapper directly with the sentinel.
+- **`LearnedSchemaContentExtractor` core wrapper** — implements
+  `IContentExtractor` + `IAsyncDisposable`. First `ExtractAsync` call
+  invokes the inferrer (once), caches the result, and delegates every
+  subsequent call to the inner extractor (default `SchemaFold`) with the
+  cached schema. `SemaphoreSlim`-guarded double-checked locking handles
+  the `Parallel.ForEachAsync` race; per-instance cache (fresh engine =
+  fresh inference; resumable runs on the same engine reuse).
+  `InferredSchema` property exposes the cached schema for diagnostics
+  / source-gen-emit (v2 deferral).
+- **`ICrawlSeed.ExtractInferred(string? goal = null)`** — the third
+  strategy terminal, sibling to `.Extract(schema)` and `.AsMarkdown()`.
+  Marks the builder; `BuildAsync` resolves the marker by wrapping the
+  registered (or default) content extractor with
+  `LearnedSchemaContentExtractor` and registering the wrapper as an
+  ADR-0058 teardown hook so the `SemaphoreSlim` disposes cleanly.
+- **`ScraperEngineBuilder.WithSchemaInferrer(ISchemaInferrer)`** — the
+  registration method, sibling to `WithSchemaValidator` (ADR-0062).
+- **`LlmSchemaInferrer` satellite adapter** in `WebReaper.AI` — the
+  fifth `Llm*` adapter, sharing the ADR-0059 `LlmCall<TResponse>`
+  mechanism (one descriptor + one mechanism call; same shape as the
+  four existing adapters). Asks the LLM for a flat `field → CSS
+  selector` map (Fork 5: single-level only in v1, matches ADR-0045
+  source-gen constraint); accepts both the wrapped `{"fields": {...}}`
+  shape and the bare field-map shape without a parse retry. Markdown
+  pre-clean by default (ADR-0063 primitive — `HtmlToMarkdown.Convert`);
+  32 000-char content cap; 1024-token response cap (small JSON
+  object). Default `CachePolicy.Default` — single-page inference
+  doesn't amortise the ADR-0065 cache-write premium. Telemetry
+  attribution via `nameof(LlmSchemaInferrer)`.
+- **`LlmSchemaInferrerOptions`** — per-role options record (Model,
+  UseMarkdownPreClean, MaxContentChars, MaxResponseTokens,
+  Temperature, SystemPrompt, CachePolicy?).
+- **`WithLlmSchemaInferrer(IChatClient, options?)`** — the satellite
+  one-liner that wires the LLM-backed inferrer through the core seam
+  with the shared per-builder `LlmCallTelemetry` handle (ADR-0066).
+
+Consumer-facing one-liner:
+
+```csharp
+var engine = await ScraperEngineBuilder
+    .Crawl("https://shop.com/products")
+    .ExtractInferred(goal: "product details")
+    .WithLlmSchemaInferrer(chatClient)
+    .WriteToConsole()
+    .BuildAsync();
+```
+
+First page pays the LLM once; every subsequent page runs the deterministic
+fold against the cached schema. The cheapest dock of the proposer-validator
+pattern — one LLM call per crawl.
+
+V1 deferrals (named in the ADR): no `.UseAi(...)` auto-wiring of the
+inferrer (Fork 7 — conflicts with `WithLlmFallback` semantics; v2 may add
+an `AiPolicyMode.Inferred` arm); no schema persistence across runs
+(overlaps source-gen-emit story); no source-gen emit of the inferred
+schema (log + `InferredSchema` property is the v1 path — consumer pastes
+into `[ScrapeSchema]` when ready to lock); no nested schemas; no
+structured goal type; no validator-driven re-inference.
+
+Tests added:
+
+- **`LearnedSchemaContentExtractorTests`** (core, 13 tests) — first-call
+  invokes / subsequent reuses; `InferredSchema` property lifecycle;
+  inner extractor receives the inferred schema (not the passed-in
+  argument); 16-parallel-worker semaphore guard pins one inference;
+  goal threading; null-goal threading; `NullSchemaInferrer` sentinel
+  throw with the actionable message; null-returning-inferrer throw;
+  inferrer-throw leaves cache unset; `DisposeAsync` idempotent;
+  constructor null-rejection.
+- **`ExtractInferredSeedTerminalTests`** (core, 10 tests) — terminal
+  returns builder; marker capture (set, goal, null-goal); other
+  terminals don't set the marker; `BuildAsync` throws on missing
+  inferrer with all four actionable substrings; `BuildAsync` succeeds
+  with registered inferrer; `WithSchemaInferrer` records the registered
+  instance; default is `NullSchemaInferrer.Instance`;
+  `WithSchemaInferrer` rejects null; ignored when a different terminal
+  was chosen.
+- **`LlmSchemaInferrerTests`** (satellite, 18 tests) — wrapped + bare +
+  nested-selector shapes; code-fence stripping; throw on empty fields;
+  throw on non-object response; goal threading + null-goal omission;
+  Markdown pre-clean default + `UseMarkdownPreClean=false` opt-out;
+  `MaxContentChars` truncation; custom system prompt override; telemetry
+  attribution + null-telemetry tolerance; options flow into
+  `ChatOptions`; `CachePolicy.Default` default (no `cache_control`
+  hint); `CachePolicy.Hinted` adds the hint; constructor + document
+  null-rejection; user prompt scaffolding contains the requested shape.
+- **`WithLlmSchemaInferrerTests`** (satellite, 5 tests) — `BuildAsync`
+  succeeds after `ExtractInferred + WithLlmSchemaInferrer`; silently
+  ignored when not paired with `ExtractInferred`; null-builder + null-
+  chat-client rejection; telemetry hook materialised when sharing the
+  builder with another `WithLlm*` extension.
+
+Docs:
+
+- `CONTEXT.md` — section header `ADR-0040..0066` → `ADR-0040..0067`;
+  two new entries (**Schema inferrer**, **Learned-schema content
+  extractor**); relationship line updated from "four proposer-validator
+  docks" to "five docks"; new relationship line for the third
+  `ICrawlSeed` terminal.
+- `CLAUDE.md` — section header `ADR-0040..0066` → `ADR-0040..0067`;
+  build-path summary mentions the three terminals (was two); one new
+  gotcha bullet on `.ExtractInferred(...)`.
+
+Guardrails (post-slice):
+
+- `dotnet build WebReaper.sln`: **0 errors**.
+- `WebReaper.UnitTests`: **399 / 399** pass (23 new).
+- `WebReaper.AI.Tests`: **223 / 223** pass (25 new).
+- `dotnet publish WebReaper.AotSmokeTest -c Release`: native code
+  generated for `osx-arm64`, no IL-trim warnings.
+
 ## 10.0.0 — v10.x transports cleanup wave (ADR-0056..0058)
 
 The deliberate post-Transports-wave follow-ups named in ADRs 0052..0055 — the
