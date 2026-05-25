@@ -50,4 +50,48 @@ public interface ICrawlSeed
     /// "AI-native" feel is the output format, not an inference call.
     /// </summary>
     ScraperEngineBuilder AsMarkdown();
+
+    /// <summary>
+    /// Choose runtime schema inference (ADR-0067): no <see cref="Schema"/>
+    /// supplied at build time; the registered
+    /// <see cref="WebReaper.Core.Parser.Abstract.ISchemaInferrer"/> proposes
+    /// one from the first page's content, the deterministic fold consumes it
+    /// for every subsequent page. The LLM-as-proposer /
+    /// deterministic-as-validator wedge applied to schema generation —
+    /// the firecrawl-shaped "extract structured data without a schema"
+    /// path; the fifth dock of the project-level pattern (sibling to
+    /// ADR-0046 routing, ADR-0047 selector repair, ADR-0050 action
+    /// resolution, ADR-0051 page selection).
+    /// <para>
+    /// Requires an
+    /// <see cref="WebReaper.Core.Parser.Abstract.ISchemaInferrer"/>
+    /// registered via
+    /// <see cref="ScraperEngineBuilder.WithSchemaInferrer"/>
+    /// or the satellite's
+    /// <c>WithLlmSchemaInferrer(IChatClient, LlmSchemaInferrerOptions?)</c>
+    /// extension before <see cref="ScraperEngineBuilder.BuildAsync"/>; the
+    /// build throws <see cref="System.InvalidOperationException"/> otherwise.
+    /// </para>
+    /// <para>
+    /// First page pays the inferrer (one LLM call); every subsequent page
+    /// runs the deterministic fold against the cached schema. The cache
+    /// lives on the wrapper instance — fresh engine = fresh inference.
+    /// </para>
+    /// <para>
+    /// Example:
+    /// <code>
+    /// var engine = await ScraperEngineBuilder
+    ///     .Crawl("https://shop.com/products")
+    ///     .ExtractInferred(goal: "product details")
+    ///     .WithLlmSchemaInferrer(chatClient)
+    ///     .WriteToConsole()
+    ///     .BuildAsync();
+    /// </code>
+    /// </para>
+    /// </summary>
+    /// <param name="goal">Optional natural-language hint about what to
+    /// extract (<c>"product details"</c>, <c>"job listings"</c>, …).
+    /// Threaded through to the inferrer; when null the inferrer guesses
+    /// from the page content.</param>
+    ScraperEngineBuilder ExtractInferred(string? goal = null);
 }
