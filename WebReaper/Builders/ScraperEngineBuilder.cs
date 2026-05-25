@@ -198,6 +198,16 @@ public class ScraperEngineBuilder
     private InferenceMarker? _inferenceMarker;
     private ISchemaInferrer _schemaInferrer = NullSchemaInferrer.Instance;
 
+    // ADR-0069: validator-driven re-inference thresholds. Defaults preserve
+    // ADR-0067 v1 trust-the-cache behaviour (reInferAfterFailures = 0 =
+    // never re-infer). The satellite's WithLlmSchemaInferrer threads
+    // LlmSchemaInferrerOptions.ReInferAfterFailures /
+    // MaxReInferencesPerInstance into these via
+    // WithSchemaInferenceTriggers; consumers wiring a custom inferrer
+    // call WithSchemaInferenceTriggers directly to opt in.
+    private int _reInferAfterFailures;
+    private int _maxReInferencesPerInstance = int.MaxValue;
+
     // ADR-0067 test seam — exposes the marker state for the unit tests
     // without leaking the InferenceMarker record. Returns
     // <c>(false, null)</c> when ExtractInferred was not called.
@@ -207,6 +217,11 @@ public class ScraperEngineBuilder
     // ADR-0067 test seam — the registered inferrer (NullSchemaInferrer.Instance
     // by default).
     internal ISchemaInferrer SchemaInferrerForTests => _schemaInferrer;
+
+    // ADR-0069 test seam — the configured re-inference trigger thresholds.
+    internal (int ReInferAfterFailures, int MaxReInferencesPerInstance)
+        SchemaInferenceTriggersForTests
+        => (_reInferAfterFailures, _maxReInferencesPerInstance);
 
     private ILogger Logger { get; set; } = NullLogger.Instance;
 
@@ -350,6 +365,57 @@ public class ScraperEngineBuilder
     {
         ArgumentNullException.ThrowIfNull(inferrer);
         _schemaInferrer = inferrer;
+        return this;
+    }
+
+    /// <summary>
+    /// Configure validator-driven re-inference triggers for the
+    /// <see cref="WebReaper.Core.Parser.Concrete.LearnedSchemaContentExtractor"/>
+    /// wrapper (ADR-0069). The wrapper consults the builder-registered
+    /// <see cref="WebReaper.Core.Parser.Abstract.ISchemaValidator"/>
+    /// (ADR-0062 — default <see cref="WebReaper.Core.Parser.Concrete.SchemaSatisfiedValidator"/>)
+    /// on every extraction; <paramref name="reInferAfterFailures"/>
+    /// consecutive invalid verdicts drop the cached inferred schema and
+    /// trigger re-inference on the next call.
+    /// <para>
+    /// Silently ignored when the consumer chose
+    /// <see cref="ICrawlSeed.Extract"/> or
+    /// <see cref="ICrawlSeed.AsMarkdown"/> instead of
+    /// <see cref="ICrawlSeed.ExtractInferred"/>.
+    /// </para>
+    /// <para>
+    /// The satellite extension
+    /// <c>WithLlmSchemaInferrer(IChatClient, LlmSchemaInferrerOptions?)</c>
+    /// calls this method internally with the values from
+    /// <c>LlmSchemaInferrerOptions.ReInferAfterFailures</c> +
+    /// <c>MaxReInferencesPerInstance</c> — most consumers do not call
+    /// this method directly. Call it when wiring a custom
+    /// <see cref="WebReaper.Core.Parser.Abstract.ISchemaInferrer"/> or
+    /// to override the satellite's defaults.
+    /// </para>
+    /// </summary>
+    /// <param name="reInferAfterFailures">Number of consecutive validator
+    /// failures before the cached schema is dropped. <c>0</c> = never
+    /// re-infer (preserves the ADR-0067 v1 trust-the-cache behaviour
+    /// for consumers wiring a custom inferrer; the satellite's
+    /// <c>LlmSchemaInferrerOptions.ReInferAfterFailures</c> defaults
+    /// to <c>3</c>).</param>
+    /// <param name="maxReInferencesPerInstance">Cost cap — once the
+    /// wrapper has re-inferred this many times on the same instance,
+    /// further failures keep the stale schema and log at Warning.
+    /// Default <see cref="int.MaxValue"/> (unbounded; the cap is the
+    /// consumer's guardrail).</param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// <paramref name="reInferAfterFailures"/> or
+    /// <paramref name="maxReInferencesPerInstance"/> is negative.</exception>
+    public ScraperEngineBuilder WithSchemaInferenceTriggers(
+        int reInferAfterFailures,
+        int maxReInferencesPerInstance = int.MaxValue)
+    {
+        ArgumentOutOfRangeException.ThrowIfNegative(reInferAfterFailures);
+        ArgumentOutOfRangeException.ThrowIfNegative(maxReInferencesPerInstance);
+        _reInferAfterFailures = reInferAfterFailures;
+        _maxReInferencesPerInstance = maxReInferencesPerInstance;
         return this;
     }
 
@@ -901,6 +967,8 @@ public class ScraperEngineBuilder
         // .ExtractInferred(...) but no real ISchemaInferrer is
         // registered — same pattern as AgentEngineBuilder's null-brain
         // check (ADR-0051).
+        // ADR-0069: also thread the builder-registered ISchemaValidator
+        // (ADR-0062) and the re-inference triggers into the wrapper.
         if (_inferenceMarker is { } marker)
         {
             if (ReferenceEquals(_schemaInferrer, NullSchemaInferrer.Instance))
@@ -912,8 +980,12 @@ public class ScraperEngineBuilder
                     ".WithSchemaInferrer(inferrer).");
             }
             var inner = SpiderBuilder.GetContentExtractorOrDefault(Logger);
+            var validator = _schemaValidator ?? SchemaSatisfiedValidator.Instance;
             var wrapped = new LearnedSchemaContentExtractor(
-                _schemaInferrer, inner, marker.Goal, Logger);
+                _schemaInferrer, inner, marker.Goal, Logger,
+                validator,
+                _reInferAfterFailures,
+                _maxReInferencesPerInstance);
             SpiderBuilder.WithContentExtractor(wrapped);
             // ADR-0058: register the wrapper as a teardown hook so the
             // SemaphoreSlim disposes on engine teardown.

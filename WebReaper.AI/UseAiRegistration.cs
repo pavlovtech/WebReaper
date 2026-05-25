@@ -62,6 +62,7 @@ public static class UseAiRegistration
         var extractorOpts = options.ResolveExtractorOptions();
         var resolverOpts  = options.ResolveResolverOptions();
         var repairerOpts  = options.ResolveRepairerOptions();
+        var inferrerOpts  = options.ResolveInferrerOptions();
 
         return options.Policy switch
         {
@@ -75,6 +76,17 @@ public static class UseAiRegistration
                 .WithLlmActionResolver(chatClient, resolverOpts),
             AiPolicyMode.ExtractionOnly => builder
                 .WithLlmFallback(chatClient, extractorOpts),
+            // ADR-0068: wires the inferrer (so the wrapper composed at
+            // BuildAsync for .ExtractInferred(...) has a real
+            // ISchemaInferrer) + the orthogonal action resolver. Mutually
+            // exclusive with the LLM-fallback / LLM-primary modes — both
+            // register an IContentExtractor that would shadow the
+            // LearnedSchemaContentExtractor wrapper. v1 does NOT wire
+            // self-heal (Fork 3 — layering correctness with ADR-0069's
+            // re-inference trigger; v2 question).
+            AiPolicyMode.Inferred       => builder
+                .WithLlmSchemaInferrer(chatClient, inferrerOpts)
+                .WithLlmActionResolver(chatClient, resolverOpts),
             AiPolicyMode.None           => builder,
             _ => throw new ArgumentOutOfRangeException(
                 nameof(options),
@@ -168,6 +180,20 @@ public static class UseAiRegistration
             case AiPolicyMode.None:
                 // Brain already wired above; nothing else.
                 break;
+            case AiPolicyMode.Inferred:
+                // ADR-0068 Fork 5: the agent's brain proposes its own
+                // schemas in AgentDecision.Extract(schema); an external
+                // inferrer arm would create two competing sources of
+                // truth. Loud failure with a pointer at the right modes.
+                throw new ArgumentOutOfRangeException(
+                    nameof(options),
+                    options.Policy,
+                    "AiPolicyMode.Inferred is not supported on AgentEngineBuilder. " +
+                    "The agent's brain proposes schemas per AgentDecision.Extract(schema); " +
+                    "an external inferrer arm is structurally redundant. Use " +
+                    "AiPolicyMode.Recommended (deterministic + LLM fallback + " +
+                    "self-heal + action resolver) or AiPolicyMode.LlmPrimary " +
+                    "(LLM extractor + self-heal + action resolver) instead.");
             default:
                 throw new ArgumentOutOfRangeException(
                     nameof(options),
