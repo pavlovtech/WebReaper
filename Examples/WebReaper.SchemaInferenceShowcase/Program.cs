@@ -110,7 +110,7 @@ static async Task ReInfer()
 
     // Inner extractor: empty-content for the first cached schema,
     // valid content for the second. Drives the validator's verdict.
-    var inner = new ScriptedExtractor(usesSecondSchemaAfter: 1);
+    var inner = new ScriptedExtractor();
 
     // Default behaviour — ReInferAfterFailures = 3.
     var wrapper = new LearnedSchemaContentExtractor(
@@ -141,7 +141,7 @@ static async Task ReInfer()
     var inferrerOptOut = new ScriptedInferrer(
         new Schema { new SchemaElement("title", "#bad-selector") },
         new Schema { new SchemaElement("title", "h1") });
-    var innerOptOut = new ScriptedExtractor(usesSecondSchemaAfter: 1);
+    var innerOptOut = new ScriptedExtractor();
     var wrapperOptOut = new LearnedSchemaContentExtractor(
         inferrerOptOut, innerOptOut,
         goal: "page title",
@@ -163,7 +163,7 @@ static async Task ReInfer()
         new Schema { new SchemaElement("title", "#bad") },
         new Schema { new SchemaElement("title", "#also-bad") },
         new Schema { new SchemaElement("title", "h1") });
-    var innerCap = new ScriptedExtractor(usesSecondSchemaAfter: int.MaxValue);
+    var innerCap = new ScriptedExtractor();
     var wrapperCap = new LearnedSchemaContentExtractor(
         inferrerCap, innerCap,
         goal: "page title",
@@ -206,32 +206,19 @@ internal sealed class ScriptedInferrer : ISchemaInferrer
     }
 }
 
-// Stub extractor: returns empty content until N successful
-// re-inferences have happened (then returns valid content). Used to
-// drive the validator's verdict from invalid → valid.
+// Stub extractor whose output is purely a function of the cached
+// schema's first selector — selectors starting with `#` produce
+// empty content (drives the validator to "invalid"); anything else
+// produces "Example Domain" (validator "valid"). Stateless; the demo
+// flips behaviour by having the inferrer swap to a non-`#` selector
+// after the wrapper drops the cache.
 internal sealed class ScriptedExtractor : IContentExtractor
 {
-    private readonly int _flipAfter;
-    private int _calls;
-
-    public ScriptedExtractor(int usesSecondSchemaAfter) => _flipAfter = usesSecondSchemaAfter;
-
     public Task<JsonObject> ExtractAsync(string document, Schema? schema)
     {
-        Interlocked.Increment(ref _calls);
-        // The extractor returns content based on the field's selector.
-        // We simulate by reading the cached schema's first child selector;
-        // selectors starting with "#" we treat as "produces empty content"
-        // (the bad-selector path), anything else as "produces real content."
         var firstChild = schema?.Children.FirstOrDefault() as SchemaElement;
         var selector = firstChild?.Selector ?? string.Empty;
         var produces = selector.StartsWith('#') ? string.Empty : "Example Domain";
-
-        // The flipAfter trick: after _flipAfter empty-extractions, the
-        // demo wrapper switches to the "good" cached schema (the
-        // inferrer's second response), and this extractor produces
-        // content because that schema's selector doesn't start with '#'.
-        // No state across calls beyond the counter.
         return Task.FromResult(new JsonObject { ["title"] = produces });
     }
 }
