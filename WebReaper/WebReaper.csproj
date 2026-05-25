@@ -113,5 +113,13 @@
     <InternalsVisibleTo Include="WebReaper.AzureServiceBus.Tests" />
     <InternalsVisibleTo Include="WebReaper.Puppeteer.Tests" />
     <InternalsVisibleTo Include="WebReaper.Sqlite.Tests" />
+    <!-- ADR-0068 + ADR-0069 (v10.0.0): the AI satellite tests need the
+         schema-inferrer test seams on ScraperEngineBuilder
+         (SchemaInferrerForTests + SchemaInferenceTriggersForTests +
+         InferenceMarkerForTests) to verify .UseAi(Inferred) wiring +
+         re-inference-trigger threading. Same shape as the other test
+         assemblies; the seams are internal precisely so they ship
+         nowhere. -->
+    <InternalsVisibleTo Include="WebReaper.AI.Tests" />
   </ItemGroup>
 </Project>

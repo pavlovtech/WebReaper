@@ -1,5 +1,189 @@
 # Changelog
 
+## 10.0.0 — `WebReaper.SchemaInferenceShowcase` example project
+
+Funnel-side companion to [`WebReaper.AiNativeShowcase`](Examples/WebReaper.AiNativeShowcase/)
+(PR #101, which covered the original AI-native wave ADR-0040..0049).
+Closes the documentation gap for the v10.0.0 schema-inference dock —
+three sub-commands, each the minimal viable demo of one new public API:
+
+- **`alacarte`** (ADR-0067) — à la carte registration via
+  `.ExtractInferred(goal).WithLlmSchemaInferrer(client)`.
+- **`useai`** (ADR-0068) — one-line policy via `.UseAi(client,
+  new AiOptions(Policy: AiPolicyMode.Inferred))`.
+- **`reinfer`** (ADR-0069) — validator-driven re-inference,
+  demonstrated with scripted stubs across three configurations
+  (default opt-out auto-heal, strict opt-out, cost cap).
+
+All three sub-commands use a deterministic in-process `StubChatClient`
+so the example runs offline; the production swap is any
+`Microsoft.Extensions.AI.IChatClient` adapter (OpenAI / Anthropic /
+Ollama / Azure AI / …). `alacarte` and `useai` actually crawl
+`example.com` end-to-end and print the extracted record.
+
+Also fixes one cref warning on `LearnedSchemaContentExtractor.cs`
+introduced by the ADR-0069 implementation (the satellite-side
+`LlmSchemaInferrer` type was referenced via `<see cref=>` from core
+where it cannot resolve; replaced with `<c>`).
+
+## 10.0.0 — AI-native completion wave (ADR-0068 + ADR-0069)
+
+Two paired ADRs closing the named v1 deferrals on ADR-0067 (the schema
+inference ADR — the third v10.0.0 pre-tag AI-native slice). Together
+the pair makes the schema-inference dock genuinely *"first page pays
+the LLM, every subsequent page runs the fold — until the fold says
+otherwise."* Rides v10.0.0 — the major break (Puppeteer deletion,
+ADR-0053) still owns the version; this slice lands additively.
+
+- **ADR-0068 — `AiPolicyMode.Inferred` arm + `.UseAi(...)` auto-wiring
+  of the schema inferrer.** Closes ADR-0067 Fork 7 (the v1 explicit-
+  wiring deferral). New 5th arm on the closed-sum enum wires
+  `WithLlmSchemaInferrer + WithLlmActionResolver` — the inferrer-aware
+  version of the firecrawl-shaped triple. Mutually exclusive with
+  `Recommended` / `LlmPrimary` / `ExtractionOnly` (those register an
+  `IContentExtractor` that would shadow the
+  `LearnedSchemaContentExtractor` wrapper). `AiOptions` grows the
+  `Inferrer: LlmSchemaInferrerOptions?` per-role field + the
+  `ResolveInferrerOptions()` synthesis helper; synthesised inferrer
+  options inherit the global `CachePolicy` (typically `Hinted`),
+  overriding the satellite à-la-carte `Default`. On the **agent
+  builder** `.UseAi(Inferred)` throws `ArgumentOutOfRangeException`
+  with an actionable message — the brain proposes its own schemas per
+  `AgentDecision.Extract(schema)`; a separate inferrer is structurally
+  redundant. Consumer one-liner:
+
+  ```csharp
+  var engine = await ScraperEngineBuilder
+      .Crawl("https://shop.com/products")
+      .ExtractInferred(goal: "product details")
+      .UseAi(chatClient, new AiOptions(Policy: AiPolicyMode.Inferred))
+      .WriteToConsole()
+      .BuildAsync();
+  ```
+
+  v1 bounded scope (named in the ADR): no self-heal composition with
+  the inferrer (Fork 3 — layering correctness with ADR-0069), no
+  smart-`Recommended` auto-detection of the seed terminal (Fork 1 —
+  closed-sum discipline), no `WireInferrer: true` flag on `AiOptions`
+  (Fork 1 — splits the surface), no agent-side `Inferred` (Fork 5 —
+  throw, not no-op), no `Markdown` strategy bundled into the enum.
+
+- **ADR-0069 — Validator-driven re-inference for
+  `LearnedSchemaContentExtractor`.** Closes ADR-0067 Fork 9 (the v1
+  trust-the-cache deferral). The wrapper consults the builder-
+  registered `ISchemaValidator` (ADR-0062 — default
+  `SchemaSatisfiedValidator`) on every inner-extractor output; N
+  consecutive invalid verdicts drop the cached inferred schema and
+  trigger re-inference on the next call. The wrapper becomes the
+  fourth consumer site of the validator seam (alongside
+  `ExtractionRouter`, `SelfHealingContentExtractor`, and the
+  `AgentEngine`). New optional constructor args (`validator`,
+  `reInferAfterFailures`, `maxReInferencesPerInstance`); new
+  `ReInferencesUsed` public property exposes the count for
+  diagnostics; new
+  `ScraperEngineBuilder.WithSchemaInferenceTriggers(int, int)` method
+  for explicit override. The satellite's `WithLlmSchemaInferrer`
+  threads `LlmSchemaInferrerOptions.ReInferAfterFailures` /
+  `MaxReInferencesPerInstance` through automatically. **Behavioural
+  delta:** default `LlmSchemaInferrerOptions.ReInferAfterFailures` is
+  `3` — a wrong first-page inference now auto-heals after three
+  consecutive empty extractions instead of silently producing empty
+  records for the rest of the crawl. Consumers wanting strict
+  ADR-0067 trust-the-cache set
+  `LlmSchemaInferrerOptions(ReInferAfterFailures: 0)`. Cost cap
+  defaults to `int.MaxValue` (unbounded; consumer's cost guardrail).
+
+  Consumer-facing surfaces:
+
+  ```csharp
+  // Opt-out — preserve v10.0.0 ADR-0067 trust-the-cache behaviour:
+  .WithLlmSchemaInferrer(chatClient,
+      new LlmSchemaInferrerOptions(ReInferAfterFailures: 0))
+
+  // Cap re-inferences for unattended / cron runs:
+  .WithLlmSchemaInferrer(chatClient,
+      new LlmSchemaInferrerOptions(
+          ReInferAfterFailures: 3,
+          MaxReInferencesPerInstance: 2))
+
+  // Custom inferrer + custom validator + explicit triggers:
+  .ExtractInferred(goal)
+  .WithSchemaInferrer(new HeuristicInferrer())
+  .WithSchemaValidator(new MyValidator())
+  .WithSchemaInferenceTriggers(reInferAfterFailures: 5)
+  ```
+
+  v1 bounded scope (named in the ADR): no per-host re-inference
+  triggers (multi-host is an ADR-0067 v2 question entirely), no
+  per-field counters, no self-heal composition (Fork 7 — same
+  failure-mode entanglement argument as ADR-0068 Fork 3), no
+  reason-embedded re-inference goals (Fork 6 — speculative), no
+  persistent re-inference history across runs, no per-page-count
+  or per-time-window cap (absolute total cap only).
+
+`WebReaper.AI.Tests` joined the `InternalsVisibleTo` list on
+`WebReaper.csproj` — the satellite tests need the schema-inferrer
+test seams (`SchemaInferrerForTests`,
+`SchemaInferenceTriggersForTests`, `InferenceMarkerForTests`) on
+`ScraperEngineBuilder` to verify the ADR-0068 + 0069 wiring +
+threading. Same shape as every other satellite test assembly on the
+list.
+
+Tests added across the wave (27 new):
+
+- **`LearnedSchemaReInferenceTests`** (core, 10 tests) — opt-out
+  preserves v1; threshold-3 drops cache after 3rd consecutive
+  failure; one success between failures resets the counter; cost cap
+  honoured; default validator integration (empty string invalid,
+  integer 0 valid); 16-parallel-worker race under cap; goal threads
+  through to re-inferences; constructor negative-arg rejection;
+  `ReInferencesUsed` property tracks count with commit-to-spend
+  semantic.
+- **`UseAiInferredTests`** (satellite, 10 tests) — scraper builds
+  with `Inferred` after `ExtractInferred`; registered inferrer is
+  `LlmSchemaInferrer` (not `NullSchemaInferrer`); silently ignored
+  when not paired with `ExtractInferred`; the wrong-mode pairing
+  (`ExtractInferred + Recommended`) throws the ADR-0067 build-time
+  message; per-role `Inferrer` override threads `CachePolicy.Hinted`
+  to the descriptor; synthesised inferrer inherits global `Hinted`
+  by default; mutually-exclusive with `LlmFallback` (no shadowed
+  registration); agent throws actionably; existing `Recommended` on
+  agent unchanged; enum has 5 arms total.
+- **`LlmSchemaInferrerReInferenceOptionsTests`** (satellite, 7
+  tests) — defaults (`ReInferAfterFailures = 3`,
+  `MaxReInferencesPerInstance = int.MaxValue`);
+  `WithLlmSchemaInferrer` threads defaults through; custom options
+  threaded; opt-out via 0; direct builder call overrides satellite
+  defaults; negative rejection.
+
+Docs:
+
+- **CONTEXT.md** — section header `ADR-0040..0067` →
+  `ADR-0040..0069`; **AI policy mode** entry grew the 5th arm
+  `Inferred` description; **Schema validator** Relationships line
+  grew the fourth consumer-site mention (the Learned-schema content
+  extractor).
+- **CLAUDE.md** — section header `ADR-0040..0067` →
+  `ADR-0040..0069`; two new gotcha bullets on ADR-0068 (the
+  `Inferred` arm + mutually-exclusive constraint + agent throw +
+  per-role `Inferrer` override + `CachePolicy` inheritance flip) and
+  ADR-0069 (the default behavioural delta + cost cap + the four
+  consumer sites of the validator seam).
+
+Guardrails (post-wave):
+
+- `dotnet build WebReaper.sln`: **0 errors**.
+- `WebReaper.UnitTests`: **409 / 409** pass (10 new).
+- `WebReaper.AI.Tests`: **240 / 240** pass (17 new).
+- `WebReaper.Cdp.Tests` (16/16), `WebReaper.Cli.Tests` (57/57),
+  `WebReaper.Extraction.Generators.Tests` (7/7) — all green, no
+  regressions.
+- `dotnet publish WebReaper.AotSmokeTest -c Release`: native code
+  generated for `osx-arm64`, no IL-trim warnings (the AI-side
+  changes are satellite-only and quarantined per ADR-0009; the
+  core-side changes — wrapper constructor extension, builder method,
+  validator threading — are reflection-free additive).
+
 ## 10.0.0 — Schema inference (ADR-0067)
 
 The third and final ADR of the v10.0.0 pre-tag AI-native slice. Closes the
