@@ -88,8 +88,13 @@ curl -fsSL https://raw.githubusercontent.com/pavlovtech/WebReaper/master/install
 The script is the maximum-care version — ~120 lines, every failure-mode
 handled, no surprises. Specifically:
 
-- `set -euo pipefail` plus an `ERR` trap that prints which step failed and
-  how to retry
+- `set -eu` plus explicit `err`/`warn`/`info`/`ok` helper functions for
+  diagnostic output. The script targets POSIX `/bin/sh` for distribution
+  portability — bash extensions (`pipefail`, `ERR` trap, `$LINENO`,
+  `[[`) are intentionally avoided so the one-liner runs cleanly under
+  `dash`, `ash`, and `bash` alike. `set -e` covers the "fail loudly on
+  any unhandled error" goal; tmpdir cleanup runs from a single `EXIT`
+  trap.
 - OS + arch detection via `uname -sm` → RID, with an explicit, copy-pasteable
   error for unsupported combinations (e.g. FreeBSD, illumos)
 - Latest-release resolution via `https://api.github.com/repos/pavlovtech/WebReaper/releases/latest`;
