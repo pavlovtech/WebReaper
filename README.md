@@ -3,28 +3,298 @@
 # WebReaper
 
 [![NuGet](https://img.shields.io/nuget/v/WebReaper)](https://www.nuget.org/packages/WebReaper)
-[![build status](https://github.com/pavlovtech/WebReaper/actions/workflows/CI.yml/badge.svg)](https://github.com/pavlovtech/WebReaper/actions/workflows/CI.yml)
+[![CI](https://github.com/pavlovtech/WebReaper/actions/workflows/CI.yml/badge.svg)](https://github.com/pavlovtech/WebReaper/actions/workflows/CI.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.txt)
 
-## Overview
+AI-native web scraper. Single binary with a bundled Claude Code skill.
 
-WebReaper is a declarative, high-performance web scraper, crawler and parser in C#. Crawl any web site,
-parse the data, and save the structured result to a file, a database, or pretty much anywhere you want — with
-a simple, extensible fluent API.
+## Install
 
-As of **10.0.0** the core `WebReaper` package is **dependency-light, Native-AOT-ready and Newtonsoft-free**:
-a plain HTTP → file crawl pulls only AngleSharp and `Microsoft.Extensions.*` (Polly left core in ADR-0026
-in favour of the `IRetryPolicy` seam — the default `FixedAttemptsRetryPolicy` is hand-rolled). Heavier
-capabilities (headless browser, MongoDB, Redis, Azure Cosmos DB, Azure Service Bus, SQLite-backed local
-durable scheduler/tracker, LLM extraction, MCP server, `[ScrapeSchema]` source generator) ship as
-**optional satellite packages** you add only when you need them — see [Packages](#packages).
+**macOS / Linux (Homebrew):**
 
-## Quick start
-
+```bash
+brew install pavlovtech/webreaper/webreaper
 ```
+
+**Any POSIX shell (install.sh):**
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/pavlovtech/WebReaper/master/install.sh | sh
+```
+
+**.NET library:**
+
+```bash
 dotnet add package WebReaper
 ```
 
-```C#
+Windows binaries are on the [GitHub Releases page](https://github.com/pavlovtech/WebReaper/releases/latest); `winget` and `Scoop` are on the v10.1 roadmap.
+
+## 30-second demo
+
+```bash
+$ webreaper scrape https://news.ycombinator.com
+# Hacker News
+
+- [Show HN: ...](https://news.ycombinator.com/item?id=...)
+- [Ask HN: ...](https://news.ycombinator.com/item?id=...)
+...
+
+$ webreaper init
+Wrote WebReaper Agent Skill to .claude/skills/webreaper/SKILL.md
+
+Try it out:
+  webreaper scrape https://example.com
+  webreaper map https://example.com
+```
+
+After `webreaper init`, the next Claude Code session picks up the skill and routes scraping intents (*"give me the markdown of X"*, *"what blog posts are on Y"*, *"scrape the top 5 articles"*) to `webreaper` automatically.
+
+## Table of contents
+
+- [Why WebReaper](#why-webreaper)
+- [Quick start](#quick-start)
+- [Power your agent](#power-your-agent)
+- [AI features](#ai-features)
+- [Use cases](#use-cases)
+- [Packages](#packages)
+- [Compared to Firecrawl, Crawl4AI, and Crawlee](#compared-to-firecrawl-crawl4ai-and-crawlee)
+- [API overview](#api-overview)
+- [Architecture and interfaces](docs/architecture.md)
+- [Repository structure](#repository-structure)
+- [License](#license)
+
+## Why WebReaper
+
+<table>
+<tr>
+<td width="33%" valign="top"><strong>🪶 Drop on PATH, run.</strong><br><br>No Docker, no Postgres, no signup. ~12 MB binary.</td>
+<td width="33%" valign="top"><strong>🤖 AI-native by composition.</strong><br><br>Markdown by default. Schema extraction, LLM fallback, self-healing selectors, autonomous agent. Stack with <code>.With…()</code>.</td>
+<td width="33%" valign="top"><strong>🔌 Bring any LLM.</strong><br><br>OpenAI, Anthropic, Ollama, Azure OpenAI, llamafile, via <code>Microsoft.Extensions.AI</code>.</td>
+</tr>
+<tr>
+<td width="33%" valign="top"><strong>🛡 Bot-checks handled.</strong><br><br>Auto-detects Cloudflare, DataDome, PerimeterX. One flag escalates to a stealth Chromium backend.</td>
+<td width="33%" valign="top"><strong>📡 Distributed when needed.</strong><br><br>Swap scheduler, tracker, sink to Redis, MongoDB, SQLite, Azure Service Bus, Cosmos. Same code.</td>
+<td width="33%" valign="top"><strong>📜 MIT, not AGPL.</strong><br><br>Embed in commercial software, fork, modify, redistribute. Firecrawl's AGPL requires open-sourcing your service or paying for a commercial license.</td>
+</tr>
+</table>
+
+## Quick start
+
+### CLI
+
+```bash
+# One page as Markdown
+webreaper scrape https://example.com
+
+# Save Markdown to a file
+webreaper scrape https://example.com --output page.md
+
+# Discover URLs on a site
+webreaper map https://example.com --search /blog/ --max-urls 50
+
+# Structured fields with a JSON schema (output: JSON; multi-page: JSON Lines)
+webreaper scrape https://example.com --schema schema.json
+
+# JS-rendered single-page app
+webreaper scrape https://example.com --browser
+
+# Bot-protected site: auto-detect, install a stealth backend, retry
+webreaper scrape https://example.com --browser --auto-stealth
+
+# Install the Claude Code skill
+webreaper init
+```
+
+The CLI is built Native-AOT (ADR-0043), ships as a single binary on every tagged GitHub release across six RIDs (`linux-x64`, `linux-arm64`, `osx-x64`, `osx-arm64`, `win-x64`, `win-arm64`), and is bot-check-aware (ADR-0056). The macOS binaries are Apple codesigned and notarized (ADR-0071); Homebrew installs run without Gatekeeper warnings on a clean machine.
+
+### Library
+
+```csharp
+using WebReaper.Builders;
+
+var engine = await ScraperEngineBuilder
+    .Crawl("https://news.ycombinator.com")
+    .AsMarkdown()
+    .WriteToConsole()
+    .BuildAsync();
+
+await engine.RunAsync();
+```
+
+That is HTTP-only, no extra packages, no schema. For structured fields, swap `AsMarkdown()` for `Extract(schema)`; for JS-rendered pages, `Crawl` for `CrawlWithBrowser` plus a transport satellite ([`WebReaper.Playwright`](#packages) or [`WebReaper.Cdp`](#packages)). The full surface is in the [API overview](#api-overview).
+
+## Power your agent
+
+### Claude Code skill
+
+```bash
+webreaper init
+```
+
+Writes a polished `SKILL.md` to `.claude/skills/webreaper/`. Claude Code loads it on the next session and routes scraping intents to the CLI: *"scrape the top 5 stories on HN and summarize each"*, *"give me the markdown of this article"*, *"this Cloudflare-protected site is blocking me"*. The skill describes when to prefer `webreaper` over the built-in `WebFetch` (artifacts and structured data go through `webreaper`; conversational answers stay on `WebFetch`).
+
+### MCP server
+
+The [`WebReaper.Mcp`](https://www.nuget.org/packages/WebReaper.Mcp) satellite (ADR-0049) exposes `scrape`, `map`, `extract` as MCP tools over stdio, for clients that can't reach the CLI directly (Cursor, Claude Desktop, Copilot Studio). It's a thin facade over the library API; primary agent surface remains the CLI.
+
+### CLI inside any agent harness
+
+The single binary works inside any shell-spawning agent: LangChain `ShellTool`, OpenAI Assistants code-interpreter, GitHub Actions, internal scripts. Zero runtime to install; one syscall to invoke.
+
+## AI features
+
+### 1. LLM-ready Markdown, no schema
+
+```csharp
+await ScraperEngineBuilder
+    .Crawl("https://example.com")
+    .AsMarkdown()                   // ADR-0040 + ADR-0063
+    .WriteToConsole()
+    .BuildAsync()
+    .Result.RunAsync();
+```
+
+The Markdown extractor (`HtmlToMarkdown` primitive, ADR-0063; `MarkdownContentExtractor` adapter, ADR-0040) emits `{title, markdown}` per page. Pass the output straight into a follow-up LLM prompt.
+
+### 2. Source-gen schemas with compile-time guards
+
+```csharp
+using WebReaper.Extraction.Attributes;
+
+[ScrapeSchema]
+public partial class Article
+{
+    [ScrapeField("h1")]                                              public string? Title { get; set; }
+    [ScrapeField(".views", Type = SchemaFieldType.Integer)]          public int Views { get; set; }
+    [ScrapeField(".tag", IsList = true)]                             public List<string> Tags { get; set; } = new();
+}
+
+// Emitted at compile time, reflection-free, AOT-clean:
+//   public static Schema Schema { get; }
+//   public static Article Materialize(JsonObject json)
+
+var engine = await ScraperEngineBuilder
+    .Crawl("https://example.com/post")
+    .Extract(Article.Schema)
+    .Subscribe(p => HandleArticle(Article.Materialize(p.Data)))
+    .BuildAsync();
+```
+
+The [`WebReaper.Extraction.Generators`](https://www.nuget.org/packages/WebReaper.Extraction.Generators) Roslyn analyzer (ADR-0045) emits the schema and a `Materialize` function. Schema typos are compile errors; the generated path uses no reflection so it's AOT-clean.
+
+### 3. LLM safety net for deterministic extraction
+
+Three composable patterns where the LLM only fires when the deterministic path can't deliver. Same proposer-validator shape across all three.
+
+```csharp
+using WebReaper.AI;
+
+// (a) Fire LLM only when a field returns empty (ADR-0046)
+.WithLlmFallback(chatClient)
+
+// (b) Repair a broken selector once per (Schema, field), cache forever (ADR-0047)
+.WithLlmSelfHealing(chatClient)
+
+// (c) No schema at all: infer it from the URL, re-infer on validator failure (ADR-0067 + ADR-0069)
+.UseAi(chatClient, AiPolicyMode.Inferred)
+```
+
+Stable pages cost zero LLM calls; broken pages cost one call per (page, field) and cache. Schema inference is one call per site (cached for the run). The `WebReaper.AI` satellite is built on `Microsoft.Extensions.AI` so any `IChatClient` works.
+
+### 4. Autonomous agent: page selection by goal
+
+```csharp
+using WebReaper.AI;
+
+var result = await LlmAgent.RunAsync(
+    "https://example.com",
+    goal: "Find the contact email and phone number for the support team.",
+    chatClient);
+```
+
+`AgentEngine` (ADR-0051) runs a sequential `decide → persist → execute` loop over a closed-sum `AgentDecision` (`Extract | Follow | Act | Stop`). The brain picks each step from the bounded `AgentState` view; the engine validates (visited-link enforcement, MaxSteps cap), persists (`IAgentRunStore`), and dispatches. Durable resume across process restarts.
+
+### 5. Semantic page actions
+
+```csharp
+ScraperEngineBuilder
+    .CrawlWithBrowser(url, actions => actions
+        .Do(PageAction.SemanticAct("click 'sign in'"))   // ADR-0050
+        .Do(PageAction.WaitForNetworkIdle())
+        .Build())
+    .WithLlmActionResolver(chatClient)
+    // ...
+```
+
+A natural-language `PageAction.SemanticAct(intent)` is the seventh closed-sum arm. The transport resolves it once via the registered `IActionResolver` (LLM-backed by default), dispatches the concrete arm, and caches the resolution per crawl by intent string. First page pays the LLM, subsequent same-intent pages dispatch the cached arm with no LLM call.
+
+### Runnable end-to-end demo
+
+[`Examples/WebReaper.AiNativeShowcase`](Examples/WebReaper.AiNativeShowcase/Program.cs) wires every feature in this section:
+
+```bash
+dotnet run --project Examples/WebReaper.AiNativeShowcase -- markdown
+dotnet run --project Examples/WebReaper.AiNativeShowcase -- sourcegen
+dotnet run --project Examples/WebReaper.AiNativeShowcase -- llm
+dotnet run --project Examples/WebReaper.AiNativeShowcase -- router
+dotnet run --project Examples/WebReaper.AiNativeShowcase -- changetrack
+```
+
+## Use cases
+
+- **Build LLM context from blog or docs sites.** `webreaper map` plus `webreaper scrape` per URL, piped into a prompt or a vector DB.
+- **Monitor competitor pricing or status pages for changes.** Schedule the CLI with cron or a worker, store records in MongoDB or SQLite, plug in `.WithChangeTracking()` (ADR-0048) so the sink fires only on diff. Hash-based dedup; cron-friendly.
+- **Run an autonomous research agent.** `LlmAgent.RunAsync(url, goal, chatClient)` decides which links to follow until the goal is met. Durable resume across restarts.
+- **Scrape Cloudflare-protected catalogs.** `--browser --auto-stealth` from the CLI; stealth backend auto-installs on first detected challenge.
+- **Generate clean datasets from semi-structured pages.** `[ScrapeSchema]` POCO plus the source generator; reflection-free, AOT-compiles into a native binary.
+- **Embed a scraping primitive in your own app.** `dotnet add package WebReaper`; the public registration seam lets you plug Redis, Cosmos DB, your own sink.
+
+## Packages
+
+The release ships eleven packages (one core, ten satellites), all versioned in lockstep at `10.0.0`. The core stays dependency-light and Native-AOT-publishable with zero warnings; satellites bring their own SDK dependencies and quarantine them off the core graph (ADR-0009).
+
+| Package | Add it for | Key builder calls |
+|---|---|---|
+| **WebReaper** | Core. HTTP crawl and parse, in-memory and file scheduler / visited-link tracker / cookie and config storage, Console / CSV / JSON-Lines sinks, Markdown extractor, schema fold. Dependency-light, Native-AOT-ready, Newtonsoft-free. | `Crawl` `Extract` `AsMarkdown` `Follow` `Paginate` `WriteToJsonFile` `WriteToCsvFile` `WriteToConsole` |
+| **WebReaper.Cdp** | Raw CDP `IPageLoadTransport` (ADR-0052). AOT-clean (no PuppeteerSharp / Playwright dependency); System.Net.WebSockets plus System.Text.Json source-gen. Bedrock for the stealth pattern. | `.WithCdpPageLoader(cdpUrl)` (BYO) or `.WithCdpPageLoader(CdpLaunchOptions)` (launch managed Chromium) |
+| **WebReaper.Playwright** | Microsoft.Playwright-backed transport (ADR-0053). Multi-browser (Chromium default; Firefox / WebKit opt-in). All seven `PageAction` arms supported. Use for modern multi-browser needs; pair with `WebReaper.Cdp` for AOT or stealth. | `.WithPlaywrightPageLoader()` |
+| **WebReaper.Stealth.CloakBrowser** | First stealth-backend satellite (ADR-0054). Auto-downloads CloakBrowser on first use; composes on `WebReaper.Cdp`. Disposable via the ADR-0058 engine teardown chain. | `.WithCloakBrowser()` |
+| **WebReaper.AI** | LLM extraction, LLM action resolver, LLM brain, LLM self-healing, LLM schema inferrer (ADR-0044 / 0050 / 0051 / 0067). Built on `Microsoft.Extensions.AI`; bring your own `IChatClient`. | `.WithLlmFallback` `.WithLlmSelfHealing` `.WithLlmExtractor` `.WithLlmAgentBrain` `.WithLlmActionResolver` `.WithLlmSchemaInferrer` `.UseAi(client)` |
+| **WebReaper.Extraction.Attributes** | The `[ScrapeSchema]` / `[ScrapeField]` marker types. Standalone, no runtime cost. | `[ScrapeSchema]` `[ScrapeField("selector")]` |
+| **WebReaper.Extraction.Generators** | Roslyn source generator that emits `static Schema` plus reflection-free `static Materialize(JsonObject)` (ADR-0045). `DevelopmentDependency=true`; does not propagate at runtime. | compile-time only |
+| **WebReaper.Mcp** | MCP server `Exe` exposing scrape / map / extract as MCP tools over stdio (ADR-0049). Interop adapter for MCP-only clients. | the package _is_ the executable |
+| **WebReaper.Mongo** | MongoDB result sink and MongoDB-backed config / cookie storage. | `.WriteToMongoDb(...)` `.WithMongoDbConfigStorage(...)` `.WithMongoDbCookieStorage(...)` |
+| **WebReaper.Redis** | Redis scheduler, visited-link tracker, result sink, config / cookie storage. | `.WithRedisScheduler(...)` `.TrackVisitedLinksInRedis(...)` `.WriteToRedis(...)` `.WithRedisConfigStorage(...)` `.WithRedisCookieStorage(...)` |
+| **WebReaper.AzureServiceBus** | Distributed scheduler over an Azure Service Bus queue. | `.WithAzureServiceBusScheduler(...)` |
+| **WebReaper.Cosmos** | Azure Cosmos DB result sink. | `.WriteToCosmosDb(...)` |
+| **WebReaper.Sqlite** | Local **durable** scheduler and visited-link tracker on an embedded SQLite store; resume is a query, no position file. Opt-in robust-local tier (no server, unlike Redis). | `.WithSqliteScheduler(...)` `.TrackVisitedLinksInSqlite(...)` |
+
+`WebReaper.Cli` (the AOT single-binary; ADR-0043) is not a NuGet package; it ships as platform binaries on every GitHub release (Native-AOT plus `dotnet tool install` are mutually incompatible on one target). Install via Homebrew or `install.sh`, or build from source.
+
+## Compared to Firecrawl, Crawl4AI, and Crawlee
+
+|  | WebReaper | Firecrawl | Crawl4AI | WebFetch (Claude) |
+|---|---|---|---|---|
+| **License** | MIT | AGPL-3.0 (plus commercial) | Apache 2.0 | bundled with Claude |
+| **Install** | one binary, ~12 MB | Docker + Postgres + Redis (self-host) or hosted | Docker + Python + Playwright | nothing to install |
+| **Cost** | free | metered API plus free tier | free | included with Claude |
+| **BYO LLM** | any `IChatClient` | no (their model) | yes (LiteLLM) | Claude only |
+| **Autonomous agent** | `Agent.RunAsync()` durable, in-process | `/agent` endpoint (cloud only) | code it yourself | not available |
+| **Bot-protected** | `--auto-stealth` | cloud yes; self-host degraded (no Fire-engine) | BYO | no |
+| **Claude Code skill** | `webreaper init` bundled | community `firecrawl-claude-code-skill` wraps the cloud API | none official | not applicable |
+
+[Crawlee](https://github.com/apify/crawlee) (Apify's Node/Python library) is also worth knowing; it covers similar ground to the WebReaper library API but doesn't ship a binary, a Claude Code skill, or a built-in LLM safety net. Use it if you're already in the Apify ecosystem.
+
+The closest reference is Firecrawl: same AI-native positioning, opposite distribution shape. Firecrawl optimises for the hosted-API flow; WebReaper optimises for the local-binary flow. If you want a managed cloud with someone else's proxies and infra, Firecrawl is the buy. If you want a binary that runs locally with your own LLM key and no metering, WebReaper is the build.
+
+## API overview
+
+The library is a fluent builder over a small set of seams. For the deep seam-by-seam reference (interfaces, main entities, custom sinks), see [`docs/architecture.md`](docs/architecture.md).
+
+### Schema extraction
+
+```csharp
 using WebReaper.Builders;
 
 var engine = await ScraperEngineBuilder
@@ -44,323 +314,75 @@ var engine = await ScraperEngineBuilder
 await engine.RunAsync();
 ```
 
-That example is pure HTTP — no browser, no extra packages. For JavaScript-rendered pages, add
-`WebReaper.Puppeteer` (see [Parsing dynamic pages](#parsing-dynamic-pages-spa)).
-
-### AI-native — the smallest possible call
-
-Since **10.0.0** (the AI-native wave + deepening, ADR-0040..0064), the funnel's no-schema wedge — one page,
-LLM-ready Markdown, no boilerplate:
-
-```C#
-var engine = await ScraperEngineBuilder
-    .Crawl("https://example.com")
-    .AsMarkdown()
-    .WriteToConsole()
-    .BuildAsync();
-
-await engine.RunAsync();
-```
-
-The CLI mirrors it — the Native-AOT single-binary `webreaper` (ADR-0043) ships as a
-prebuilt asset on every tagged GitHub release across six RIDs (`linux-x64`,
-`linux-arm64`, `osx-x64`, `osx-arm64`, `win-x64`, `win-arm64`). `PackAsTool=true` is
-incompatible with `PublishAot=true` on one target, so a non-AOT `dotnet tool install`
-target is deferred to a 10.0.x — file an issue if you need it.
-
-```bash
-# Latest release, RID = same name dotnet uses (osx-arm64, linux-x64, win-x64, …)
-RID=osx-arm64
-gh release download --repo pavlovtech/WebReaper --pattern "webreaper-*-$RID.*"
-# Linux is .tar.gz; macOS + Windows are .zip
-case "$RID" in linux-*) tar -xzf webreaper-*-"$RID".tar.gz ;;
-               *)       unzip   webreaper-*-"$RID".zip    ;; esac
-cd webreaper-*-"$RID"
-./webreaper scrape https://example.com
-./webreaper map https://example.com --search /blog/
-./webreaper init    # installs the Agent Skill to .claude/skills/webreaper/
-```
-
-The release pages serve direct URLs too — no `gh` required:
-`https://github.com/pavlovtech/WebReaper/releases/download/<TAG>/webreaper-<TAG>-<RID>.<ext>`.
-
-Or build from source — useful between tags or on an unlisted RID:
-
-```bash
-git clone https://github.com/pavlovtech/WebReaper.git && cd WebReaper
-dotnet publish WebReaper.Cli -c Release -r <rid> --self-contained true
-./WebReaper.Cli/bin/Release/net10.0/<rid>/publish/WebReaper.Cli scrape https://example.com
-```
-
-Drop in an LLM extractor when the deterministic path can't reach a field
-([WebReaper.AI](https://www.nuget.org/packages/WebReaper.AI) satellite — Microsoft.Extensions.AI binding):
-
-```C#
-using Microsoft.Extensions.AI;
-using WebReaper.AI;
-
-var chatClient = /* your IChatClient — OpenAI, Anthropic, Ollama, … */;
-
-var engine = await ScraperEngineBuilder
-    .Crawl("https://example.com")
-    .Extract(schema)
-    .WithLlmFallback(chatClient)        // ADR-0046: det-first → LLM-fallback router
-    // or .WithLlmSelfHealing(chatClient)  // ADR-0047: LLM proposes selectors, fold validates, cache demotes back to deterministic
-    .WriteToJsonFile("out.jsonl")
-    .BuildAsync();
-
-await engine.RunAsync();
-```
-
-Generate the `Schema` from a typed POCO — `[ScrapeSchema]`, Pydantic-parity that Python's
-reflection structurally cannot match
-([WebReaper.Extraction.Generators](https://www.nuget.org/packages/WebReaper.Extraction.Generators)):
-
-```C#
-using WebReaper.Extraction.Attributes;
-
-[ScrapeSchema]
-public partial class Article
-{
-    [ScrapeField("h1")]            public string? Title { get; set; }
-    [ScrapeField(".views", Type = SchemaFieldType.Integer)]  public int Views { get; set; }
-    [ScrapeField(".tag", IsList = true)]  public List<string> Tags { get; set; } = new();
-}
-
-// Generated at compile time, reflection-free, AOT-clean:
-//   public static Schema Schema { get; }
-//   public static Article Materialize(JsonObject json)
-
-var engine = await ScraperEngineBuilder
-    .Crawl("https://example.com/post")
-    .Extract(Article.Schema)
-    .Subscribe(p => HandleArticle(Article.Materialize(p.Data)))
-    .BuildAsync();
-```
-
-Runnable end-to-end demo of every AI-native API in this section —
-[`Examples/WebReaper.AiNativeShowcase`](Examples/WebReaper.AiNativeShowcase/Program.cs):
-
-```bash
-dotnet run --project Examples/WebReaper.AiNativeShowcase -- markdown
-dotnet run --project Examples/WebReaper.AiNativeShowcase -- map
-dotnet run --project Examples/WebReaper.AiNativeShowcase -- sourcegen
-dotnet run --project Examples/WebReaper.AiNativeShowcase -- llm
-dotnet run --project Examples/WebReaper.AiNativeShowcase -- router
-dotnet run --project Examples/WebReaper.AiNativeShowcase -- changetrack
-```
-
-## Table of contents
-
-- [Install](#install)
-- [Packages](#packages)
-- [Requirements](#requirements)
-- [Features](#features)
-- [Usage examples](#usage-examples)
-- [API overview](#api-overview)
-  * [Parsing dynamic pages (SPA)](#parsing-dynamic-pages-spa)
-  * [Running JavaScript / page actions](#running-javascript--page-actions)
-  * [Persist the progress locally](#persist-the-progress-locally)
-  * [Authorization](#authorization)
-  * [How to disable headless mode](#how-to-disable-headless-mode)
-  * [Cleaning data from a previous run](#cleaning-data-from-a-previous-run)
-  * [Distributed and serverless scraping](#distributed-and-serverless-scraping)
-  * [Storage and scheduler backends](#storage-and-scheduler-backends)
-  * [Extensibility: adding a sink](#extensibility-adding-a-sink)
-  * [Interfaces](#interfaces)
-  * [Main entities](#main-entities)
-- [Repository structure](#repository-structure)
-- [License](#license)
-
-## Install
-
-Core package — HTTP crawling/parsing, in-memory and file-backed state, Console/CSV/JSON-Lines sinks:
-
-```
-dotnet add package WebReaper
-```
-
-Add a satellite only for the capability you need (each brings its own SDK so the core stays light):
-
-```
-dotnet add package WebReaper.Puppeteer        # headless-browser (SPA / JS) pages
-dotnet add package WebReaper.Mongo            # MongoDB sink + config/cookie storage
-dotnet add package WebReaper.Redis            # Redis scheduler, tracker, sink, storage
-dotnet add package WebReaper.AzureServiceBus  # Azure Service Bus distributed scheduler
-dotnet add package WebReaper.Cosmos           # Azure Cosmos DB sink
-dotnet add package WebReaper.Sqlite           # SQLite local durable scheduler + visited-link tracker
-```
-
-## Packages
-
-All eleven NuGet packages are versioned in lockstep at **`10.0.0`** (1 core + 10 satellites).
-Core and the satellites move together in release waves (ADR-0022 → `8.0.0`, ADR-0023 → `9.0.0`,
-ADR-0025 + ADR-0040..0064 → `10.0.0`); `WebReaper.Sqlite`, added at `7.1.0`, joined the lockstep
-from `8.0.0`; `WebReaper.AI`, `WebReaper.Mcp`, `WebReaper.Extraction.Attributes`, and
-`WebReaper.Extraction.Generators` joined at `10.0.0` (the AI-native wave). All packages are
-**MIT-licensed** (ADR-0017; relicensed from GPL-3.0-or-later in the 10.0.0 wave), and every
-satellite wires itself in through the builder's public registration seam.
-`WebReaper.Cli` (ADR-0043, the AOT single-binary agent surface) is **not** a NuGet package in
-10.0.0 — build from source per [Quick start](#ai-native--the-smallest-possible-call).
-
-| Package | Add it for | Key builder calls |
-|---|---|---|
-| **WebReaper** | Core. HTTP crawl/parse, in-memory + file scheduler / visited-link tracker / cookie & config storage, Console / CSV / JSON-Lines sinks. Dependency-light, Native-AOT-ready, Newtonsoft-free. | `Crawl` `Extract` `Follow` `Paginate` `WriteToJsonFile` `WriteToCsvFile` `WriteToConsole` |
-| **WebReaper.Puppeteer** | Headless-browser loading of SPA / JavaScript pages | `.WithPuppeteerPageLoader()` + `CrawlWithBrowser` / `FollowWithBrowser` / `PaginateWithBrowser` |
-| **WebReaper.Mongo** | MongoDB result sink and MongoDB-backed config / cookie storage | `.WriteToMongoDb(...)` `.WithMongoDbConfigStorage(...)` `.WithMongoDbCookieStorage(...)` |
-| **WebReaper.Redis** | Redis scheduler, visited-link tracker, result sink, config / cookie storage | `.WithRedisScheduler(...)` `.TrackVisitedLinksInRedis(...)` `.WriteToRedis(...)` `.WithRedisConfigStorage(...)` `.WithRedisCookieStorage(...)` |
-| **WebReaper.AzureServiceBus** | Distributed scheduler over an Azure Service Bus queue | `.WithAzureServiceBusScheduler(...)` |
-| **WebReaper.Cosmos** | Azure Cosmos DB result sink | `.WriteToCosmosDb(...)` |
-| **WebReaper.Sqlite** | Local **durable** scheduler & visited-link tracker on an embedded SQLite store — resume is a query, no position file. Opt-in robust-local tier (no server, unlike Redis). | `.WithSqliteScheduler(...)` `.TrackVisitedLinksInSqlite(...)` |
-| **WebReaper.AI** | LLM content extraction over `Microsoft.Extensions.AI` (ADR-0044) — fallback after the deterministic fold (ADR-0046 router) or self-healing selectors (ADR-0047). Bring your own `IChatClient` (OpenAI, Anthropic, Ollama, …). | `.WithLlmFallback(chatClient)` `.WithLlmSelfHealing(chatClient)` `.WithLlmExtractor(chatClient)` |
-| **WebReaper.Extraction.Attributes** | The `[ScrapeSchema]` / `[ScrapeField]` marker types — depend on these from POCOs that the source generator should pick up. Standalone, no runtime cost. | `[ScrapeSchema]` `[ScrapeField("selector")]` |
-| **WebReaper.Extraction.Generators** | Roslyn source generator that emits `static Schema` + reflection-free `static Materialize(JsonObject)` for a `[ScrapeSchema] partial class` (ADR-0045). `DevelopmentDependency=true` — does not propagate at runtime. | — (compile-time only) |
-| **WebReaper.Mcp** | MCP server `Exe` that exposes scrape / map / extract as MCP tools over stdio (ADR-0049) — interop adapter for MCP-only clients (Cursor, Claude Desktop, Copilot Studio). | — (the package _is_ the executable) |
-
-> The core default page loader is **HTTP-only**. Crawling a dynamic page (`CrawlWithBrowser` /
-> `FollowWithBrowser` / `PaginateWithBrowser`) without `WebReaper.Puppeteer` registered throws an
-> `InvalidOperationException` telling you to add the package and call `.WithPuppeteerPageLoader()`.
-
-## Requirements
-
-.NET 10. The core package is `IsAotCompatible` — it Native-AOT-publishes with zero trim/AOT warnings
-(proven by the AOT smoke test in CI). Satellites carry their own SDK dependencies and are not AOT-clean by
-design; reference one only when you use it.
-
-## Features
-
-* :zap: High crawling speed through parallelism and asynchrony
-* 🗒 Declarative and easy to use
-* 🪶 Dependency-light, Native-AOT-ready, Newtonsoft-free core
-* 💾 Console, CSV and JSON-Lines sinks out of the box; MongoDB, Redis and Azure Cosmos DB via satellites
-* :earth_americas: Scalable: run on cloud VMs, serverless functions or on-prem; go distributed with Redis or Azure Service Bus
-* :octopus: Crawl and parse Single Page Applications with Puppeteer (`WebReaper.Puppeteer`)
-* 🖥 Proxy support
-* 🌀 Extensible: replace any out-of-the-box seam with your own implementation
-
-## Usage examples
-
-* Data mining
-* Gathering data for machine learning
-* Online price-change monitoring and price comparison
-* News aggregation
-* Product-review scraping (to watch the competition)
-* Tracking online presence and reputation
-
-## API overview
+Each `new("field", "css-selector")` is a leaf; nest schemas for objects, set `IsList = true` for arrays, set `Attr = "href"` to read an HTML attribute instead of inner text.
 
 ### Parsing dynamic pages (SPA)
 
-Parsing Single Page Applications is simple: use `CrawlWithBrowser` and/or `FollowWithBrowser`, add the
-`WebReaper.Puppeteer` package, and register it with `.WithPuppeteerPageLoader()`. Puppeteer then loads
-those pages in a headless browser.
+For JS-rendered pages, swap `Crawl` for `CrawlWithBrowser` and register a browser transport. Two satellites are available.
 
-```
-dotnet add package WebReaper.Puppeteer
-```
+**[`WebReaper.Playwright`](https://www.nuget.org/packages/WebReaper.Playwright)** is the modern default (ADR-0053): multi-browser, all seven `PageAction` arms.
 
-```C#
+```csharp
 using WebReaper.Builders;
-using WebReaper.Puppeteer;
+using WebReaper.Playwright;
 
-var engine = await ScraperEngineBuilder
-    .CrawlWithBrowser("https://www.alexpavlov.dev/blog")
-    .Extract(new()
-    {
-        new("title", ".text-3xl.font-bold"),
-        new("text", ".max-w-max.prose.prose-dark")
-    })
-    .WithPuppeteerPageLoader()
-    .FollowWithBrowser("a.text-gray-900.transition")
-    .WriteToJsonFile("output.json")
-    .PageCrawlLimit(10)
-    .WithParallelismDegree(30)
-    .LogToConsole()
+await ScraperEngineBuilder
+    .CrawlWithBrowser("https://example.com")
+    .Extract(new() { new("title", "h1") })
+    .WithPlaywrightPageLoader()
     .BuildAsync();
-
-await engine.RunAsync();
 ```
 
-`.WithPuppeteerPageLoader()` is parameterless and reproduces the pre-7.0 behaviour exactly (one shared
-cookie container, optional proxy applied the browser's own way). The first dynamic-page run downloads
-Chromium via Puppeteer.
+**[`WebReaper.Cdp`](https://www.nuget.org/packages/WebReaper.Cdp)** is the AOT-clean alternative (ADR-0052): raw CDP over System.Net.WebSockets, AOT-publishable. Use for AOT consumers or as the base for stealth backends.
 
-### Running JavaScript / page actions
+```csharp
+using WebReaper.Cdp;
 
-You can run JavaScript and drive the page as it loads in the headless browser. Pass an actions lambda
-(e.g. `.ScrollToEnd()`) — useful when the content you need appears only after clicks, scrolls, etc.
+.WithCdpPageLoader(new CdpLaunchOptions { Headless = true })
+// or .WithCdpPageLoader(cdpUrl: "http://localhost:9222") for BYO browser
+```
 
-```C#
+For bot-protected sites, layer **[`WebReaper.Stealth.CloakBrowser`](https://www.nuget.org/packages/WebReaper.Stealth.CloakBrowser)** (ADR-0054) on top of `WebReaper.Cdp`:
+
+```csharp
+using WebReaper.Stealth.CloakBrowser;
+
+.WithCloakBrowser()    // auto-downloads CloakBrowser on first use, ~220 MB
+```
+
+For visible-browser debugging, add `.HeadlessMode(false)`.
+
+### Running JavaScript and page actions
+
+Drive the page as it loads. Pass an actions lambda.
+
+```csharp
 using WebReaper.Builders;
-using WebReaper.Puppeteer;
+using WebReaper.Playwright;
+using WebReaper.Domain.PageActions;
 
-var engine = await ScraperEngineBuilder
+await ScraperEngineBuilder
     .CrawlWithBrowser("https://www.reddit.com/r/dotnet/", actions => actions
         .ScrollToEnd()
         .Build())
-    .Extract(new()
-    {
-        new("title", "._eYtD2XCVieq6emjKBH3m"),
-        new("text", "._3xX726aBn29LDbsDtzr_6E._1Ap4F5maDtT1E1YuCiaO0r.D3IL3FD0RFy_mkKLPwL4")
-    })
-    .Follow("a.SQnoC3ObvgnGjWt90zD9Z._2INHSNB8V5eaWp4P0rY_mE")
-    .WithPuppeteerPageLoader()
-    .WriteToJsonFile("output.json")
-    .LogToConsole()
-    .BuildAsync();
-
-await engine.RunAsync();
-
-Console.ReadLine();
-```
-
-`PageActionBuilder` exposes `Click`, `Wait`, `ScrollToEnd`, `WaitForSelector`, `WaitForNetworkIdle`,
-`EvaluateExpression`, `Repeat`/`RepeatWithDelay`, and `Build()`.
-
-### Persist the progress locally
-
-To persist the job queue and visited links locally — so you can resume where you left off — use
-`WithTextFileScheduler` and `TrackVisitedLinksInFile`:
-
-```C#
-using WebReaper.Builders;
-
-var engine = await ScraperEngineBuilder
-    .Crawl("https://rutracker.org/forum/index.php?c=33")
-    .Extract(new()
-    {
-        new("name", "#topic-title"),
-        new("category", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(3)"),
-        new("subcategory", "td.nav.t-breadcrumb-top.w100.pad_2>a:nth-child(5)"),
-        new("torrentSize", "div.attach_link.guest>ul>li:nth-child(2)"),
-        new("torrentLink", ".magnet-link", "href"),
-        new("coverImageUrl", ".postImg", "src")
-    })
-    .WithLogger(logger)
-    .Follow("#cf-33 .forumlink>a")
-    .Follow(".forumlink>a")
-    .Paginate("a.torTopic", ".pg")
-    .WriteToJsonFile("result.json")
-    .IgnoreUrls(blackList)
-    .WithTextFileScheduler("jobs.txt", "currentJob.txt")
-    .TrackVisitedLinksInFile("links.txt")
+    .Extract(new() { new("title", "h1") })
+    .WithPlaywrightPageLoader()
     .BuildAsync();
 ```
 
-The file scheduler is the zero-dependency default: an append-only job file, a 300 ms poll and a
-sidecar position file. For a long single-machine crawl that must survive `kill -9` and resume by
-query — without standing up a Redis server — add the `WebReaper.Sqlite` satellite and swap the two
-local backends. "Resume" becomes a `SELECT` over an indexed table; there is no position file to keep
-in sync (the visited-link table *is* the set — no in-memory mirror). The core file adapters are
-unchanged and stay the default; this is opt-in:
+`PageActionBuilder` exposes `Click`, `Wait`, `ScrollToEnd`, `WaitForSelector`, `WaitForNetworkIdle`, `EvaluateExpression`, `SemanticAct`, `Repeat` / `RepeatWithDelay`, and `Build()`. `SemanticAct` (ADR-0050) accepts a natural-language intent and resolves it via the registered `IActionResolver` (see [AI features §5](#5-semantic-page-actions)).
 
-```C#
+### Persist progress locally
+
+Survive `kill -9` and resume across restarts. Two adapters: file-backed (zero deps, in core) and SQLite-backed (durable, opt-in via `WebReaper.Sqlite`).
+
+```csharp
 using WebReaper.Builders;
-using WebReaper.Sqlite;   // dotnet add package WebReaper.Sqlite
+using WebReaper.Sqlite;
 
-var engine = await ScraperEngineBuilder
-    .Crawl("https://rutracker.org/forum/index.php?c=33")
-    .Extract(new() { new("name", "#topic-title") })
+await ScraperEngineBuilder
+    .Crawl("https://example.com")
+    .Extract(new() { new("name", "h1") })
     .Follow(".forumlink>a")
     .Paginate("a.torTopic", ".pg")
     .WriteToJsonFile("result.json")
@@ -369,216 +391,79 @@ var engine = await ScraperEngineBuilder
     .BuildAsync();
 ```
 
-Pass `dataCleanupOnStart: true` to either call to start a fresh crawl (clears that table at start).
+Pass `dataCleanupOnStart: true` to any sink, tracker, or scheduler method to wipe its store at start (note: `WriteToJsonFile` defaults this to `true`; the others default to `false`).
 
 ### Authorization
 
-If the site needs authorization, call `SetCookies` and fill the `CookieContainer` with the cookies
-required. You perform the login yourself; WebReaper only uses the cookies you provide.
+If the site needs cookies, call `SetCookies` and fill the container. You perform the login yourself.
 
-```C#
+```csharp
 using System.Net;
 using WebReaper.Builders;
 
-var engine = await ScraperEngineBuilder
-    .Crawl("https://rutracker.org/forum/index.php?c=33")
-    .Extract(new() { new("name", "#topic-title") })
-    .WithLogger(logger)
+await ScraperEngineBuilder
+    .Crawl("https://example.com/protected")
+    .Extract(new() { new("name", "h1") })
     .SetCookies(cookies =>
     {
         cookies.Add(new Cookie("AuthToken", "123"));
     })
-    // ...
     .BuildAsync();
 ```
 
-### How to disable headless mode
+### Distributed and serverless
 
-When scraping with a browser (`CrawlWithBrowser` / `FollowWithBrowser`, via `WebReaper.Puppeteer`) the
-default is headless — you don't see the browser. Seeing it can help with debugging; disable headless mode
-with `.HeadlessMode(false)`:
+Swap the scheduler, config storage, and link tracker to Redis or Azure Service Bus; multiple workers or serverless functions share one crawl. [`Examples/WebReaper.AzureFuncs`](Examples/WebReaper.AzureFuncs) shows the serverless shape (two functions: `StartScraping` seeds the work, `WebReaperSpider` is the distributed Crawl driver). [`Examples/WebReaper.DistributedScraperWorkerService`](Examples/WebReaper.DistributedScraperWorkerService) shows the worker-service shape.
 
-```C#
-using WebReaper.Builders;
-using WebReaper.Puppeteer;
-
-var engine = await ScraperEngineBuilder
-    .CrawlWithBrowser("https://www.reddit.com/r/dotnet/", actions => actions
-        .ScrollToEnd()
-        .Build())
-    .Extract(new() { new("title", "._eYtD2XCVieq6emjKBH3m") })
-    .HeadlessMode(false)
-    .WithPuppeteerPageLoader()
-    // ...
-    .BuildAsync();
-```
-
-### Cleaning data from a previous run
-
-To start fresh, pass `dataCleanupOnStart: true` to the relevant builder method.
-
-```C#
-// Result file — note: WriteToJsonFile already defaults dataCleanupOnStart to TRUE
-.WriteToJsonFile("output.json", dataCleanupOnStart: true)
-
-// Visited-link tracker
-.TrackVisitedLinksInFile("visited.txt", dataCleanupOnStart: true)
-
-// Job queue / scheduler
-.WithTextFileScheduler("jobs.txt", "currentJob.txt", dataCleanupOnStart: true)
-```
-
-The `dataCleanupOnStart` parameter exists on the satellite sinks too (e.g. `WriteToMongoDb`,
-`WriteToRedis`, `WriteToCosmosDb`). Note `WriteToJsonFile` defaults it to `true` (it wipes the file on
-start) — the opposite of the other sinks, which default to `false`. The "JSON" file sink writes
-**JSON Lines** (one compact JSON object per line), not a JSON array.
-
-### Distributed and serverless scraping
-
-Swap the scheduler, config storage and link tracker to Redis or Azure Service Bus and multiple
-workers / serverless functions can share one crawl. `Examples/WebReaper.AzureFuncs` shows the serverless
-shape with two functions:
-
-* **StartScraping** builds the scraper configuration, seeds the distributed Outstanding-work latch,
-  and enqueues the first job (the start URL) onto the queue (e.g. Azure Service Bus).
-* **WebReaperSpider** is the distributed **Crawl driver**, triggered by each queued job. It gets a
-  bare `ISpider` from `new DistributedSpiderBuilder()...BuildSpider()` (load → Crawl step →
-  `JobReport`), then interprets the report: an atomic visited-link test-and-set gates
-  duplicates/redeliveries, a parsed page is fanned out to the sink, discovered child jobs are
-  enqueued back onto the queue, and a distributed Outstanding-work latch detects when all work has
-  drained. It never throws to signal the crawl limit, so the queue is never poisoned (ADR-0022).
-
-`DistributedSpiderBuilder.BuildSpider()` (the ADR-0009 distributed-worker seam) returns an `ISpider`
-without building or persisting a `ScraperConfig`; it has no Crawl seed and no `BuildAsync` — the
-worker's config is persisted separately by the start endpoint
-(`ScraperEngineBuilder.Crawl(...).Extract(...).Build()`) and read from storage at crawl time. This is
-the "two seams, not one bug" split (ADR-0025). See also
-`Examples/WebReaper.DistributedScraperWorkerService`.
+`DistributedSpiderBuilder.BuildSpider()` returns a bare `ISpider` without a Crawl seed (ADR-0009 / ADR-0025: "two seams, not one bug" split). The worker's config is persisted separately by the start endpoint.
 
 ### Storage and scheduler backends
 
-Every backend is a swappable seam. In-memory is the default; file-backed lives in core; the rest come
-from satellites.
+Every backend is a swappable seam. In-memory is the default; file-backed lives in core; the rest come from satellites.
 
 | Seam | Core (in-memory default + file) | Satellite options |
 |---|---|---|
-| Scheduler | in-memory, `WithTextFileScheduler` | `WithSqliteScheduler` (SQLite, local durable), `WithRedisScheduler` (Redis), `WithAzureServiceBusScheduler` (Azure Service Bus) |
-| Visited-link tracker | in-memory, `TrackVisitedLinksInFile` | `TrackVisitedLinksInSqlite` (SQLite, local durable), `TrackVisitedLinksInRedis` (Redis) |
+| Scheduler | in-memory, `WithTextFileScheduler` | `WithSqliteScheduler`, `WithRedisScheduler`, `WithAzureServiceBusScheduler` |
+| Visited-link tracker | in-memory, `TrackVisitedLinksInFile` | `TrackVisitedLinksInSqlite`, `TrackVisitedLinksInRedis` |
 | Config storage | in-memory, `WithFileConfigStorage` | `WithMongoDbConfigStorage`, `WithRedisConfigStorage` |
 | Cookie storage | in-memory, `WithFileCookieStorage` | `WithMongoDbCookieStorage`, `WithRedisCookieStorage` |
+| Agent run store | in-memory, file (ADR-0051) | `WithSqliteAgentRunStore`, `WithRedisAgentRunStore`, `WithMongoAgentRunStore`, `WithCosmosAgentRunStore` |
 | Result sink | `WriteToConsole`, `WriteToCsvFile`, `WriteToJsonFile` | `WriteToMongoDb`, `WriteToRedis`, `WriteToCosmosDb` |
-| Page loader | HTTP (default) | `WithPuppeteerPageLoader()` (headless browser) |
+| Page loader transport | HTTP (default) | `WithPlaywrightPageLoader`, `WithCdpPageLoader`, `WithCloakBrowser` |
 
-### Extensibility: adding a sink
-
-Out of the box the core package sends parsed data to the Console, CSV and JSON-Lines sinks; MongoDB,
-Redis and Cosmos DB sinks come from satellites. Add your own by implementing `IScraperSink`:
-
-```C#
-using WebReaper.Sinks.Abstract;
-using WebReaper.Sinks.Models;
-
-public interface IScraperSink
-{
-    bool DataCleanupOnStart { get; set; }
-    Task EmitAsync(ParsedData entity, CancellationToken cancellationToken = default);
-}
-```
-
-`ParsedData` is `record ParsedData(string Url, JsonObject Data)` — `Data` is a
-`System.Text.Json.Nodes.JsonObject` (no Newtonsoft). A minimal console sink:
-
-```C#
-using System.Text.Json.Nodes;
-using WebReaper.Sinks.Abstract;
-using WebReaper.Sinks.Models;
-
-public class ConsoleSink : IScraperSink
-{
-    public bool DataCleanupOnStart { get; set; }
-
-    public Task EmitAsync(ParsedData entity, CancellationToken cancellationToken = default)
-    {
-        Console.WriteLine(entity.Data.ToJsonString());
-        return Task.CompletedTask;
-    }
-}
-```
-
-Register it with `AddSink`:
-
-```C#
-using WebReaper.Builders;
-
-var engine = await ScraperEngineBuilder
-    .Crawl("https://rutracker.org/forum/index.php?c=33")
-    .Extract(new()
-    {
-        new("name", "#topic-title"),
-    })
-    .AddSink(new ConsoleSink())
-    .Follow("#cf-33 .forumlink>a")
-    .Follow(".forumlink>a")
-    .Paginate("a.torTopic", ".pg")
-    .BuildAsync();
-```
-
-For result callbacks without a custom sink, use `.Subscribe(Action<ParsedData>)` or
-`.PostProcess(Func<Metadata, JsonObject, Task>)`.
-
-### Interfaces
-
-| Interface | Description |
-|---|---|
-| `IScheduler` | Reads and writes the job queue. Default is in-memory; file, Redis and Azure Service Bus implementations are available. |
-| `IVisitedLinkTracker` | Tracks visited links. Default is in-memory; file and Redis implementations are available. |
-| `IPageLoader` | Turns a `PageRequest` into a page's HTML, dispatching on `PageType` to one load transport. The Spider holds one and is loader-blind. |
-| `IPageLoadTransport` | The per-mechanism adapter behind `IPageLoader`: HTTP (core) or headless browser (`WebReaper.Puppeteer`). The only home for that mechanism's client/launch quirks and proxy application. |
-| `IContentExtractor` | The content-extraction seam: takes a loaded document + `Schema`, returns its `System.Text.Json.Nodes.JsonObject` representation. The core adapter is the deterministic `SchemaFold<TNode>` over an `ISchemaBackend` (`WithXPathContentParser()` / `WithJsonContentParser()` select the XPath / JSON backend). Implement it directly for an alternative extraction strategy, e.g. an LLM-backed extractor. |
-| `ISchemaBackend<TNode>` | The per-document-shape seam the shared fold calls: parse a root, select many / one by selector, extract a leaf's raw value. The shipped CSS, XPath and JSON backends implement this. |
-| `IScraperSink` | A destination for scraping results. Receives `ParsedData` (`Url` + `JsonObject`). |
-| `ICrawlStep` | The crawl-step decision: maps a `Job` + loaded page + `Schema` to a `CrawlOutcome` (parse the page, follow links, or paginate). Swap it to customize crawl-vs-parse behavior. |
-| `ISpider` | The per-Job I/O shell around `ICrawlStep`: loads one page, runs the Crawl step, and returns a `JobReport` — nothing else. The Crawl driver (in-process `ScraperEngine` or the distributed worker) owns the visited-link tracker, the crawl-limit stop, sink fan-out and the callbacks. Obtained from `DistributedSpiderBuilder.BuildSpider()` (the ADR-0009 reduced shell). |
-| `IOutstandingWorkLatch` | The Crawl driver's termination detector (ADR-0022): a unit-credit counter that trips exactly once when all work is drained. In-memory `Interlocked` adapter (in-process) and a distributed-atomic Redis adapter (`WebReaper.Redis`). |
-
-### Main entities
-
-* **Job** — a record representing one unit of work for the spider.
-* **LinkPathSelector** — a selector for links to be crawled.
-* **CrawlOutcome** — the closed result of a crawl step: a parsed target page, followed links, or paginated pages.
-* **Schema fold** — the single recursive `Schema` interpreter (`SchemaFold<TNode>`); every backend reuses it instead of re-implementing the walk.
+Custom sinks, the full interface index, and the main domain entities live in [`docs/architecture.md`](docs/architecture.md).
 
 ## Repository structure
 
 | Project | Description |
 |---|---|
 | `WebReaper` | The core library (the `WebReaper` NuGet package). |
-| `WebReaper.Puppeteer` | Satellite: headless-browser page loader. |
-| `WebReaper.Mongo` | Satellite: MongoDB sink + config/cookie storage. |
-| `WebReaper.Redis` | Satellite: Redis scheduler, tracker, sink, config/cookie storage. |
-| `WebReaper.AzureServiceBus` | Satellite: Azure Service Bus distributed scheduler. |
-| `WebReaper.Cosmos` | Satellite: Azure Cosmos DB sink. |
+| `WebReaper.Cdp` | Raw CDP transport satellite (ADR-0052). |
+| `WebReaper.Playwright` | Microsoft.Playwright transport satellite (ADR-0053). |
+| `WebReaper.Stealth.CloakBrowser` | First stealth-backend satellite (ADR-0054). |
+| `WebReaper.AI` | LLM extraction, action resolver, agent brain, self-healing, schema inferrer. |
+| `WebReaper.Extraction.Attributes` | `[ScrapeSchema]` / `[ScrapeField]` marker types (ADR-0045). |
+| `WebReaper.Extraction.Generators` | Roslyn source generator (ADR-0045). |
+| `WebReaper.Mcp` | MCP server satellite (ADR-0049). |
+| `WebReaper.Mongo` | MongoDB sink plus config / cookie storage. |
+| `WebReaper.Redis` | Redis scheduler, tracker, sink, config / cookie storage. |
+| `WebReaper.AzureServiceBus` | Azure Service Bus distributed scheduler. |
+| `WebReaper.Cosmos` | Azure Cosmos DB sink. |
+| `WebReaper.Sqlite` | Local durable scheduler and visited-link tracker over embedded SQLite. |
+| `WebReaper.Cli` | AOT single-binary CLI (ADR-0043). |
 | `Examples/WebReaper.ConsoleApplication` | Using WebReaper in a console application. |
+| `Examples/WebReaper.AiNativeShowcase` | Runnable demos for every AI feature in this README. |
+| `Examples/WebReaper.SchemaInferenceShowcase` | Demos for ADR-0067 / 0068 / 0069 schema inference. |
 | `Examples/WebReaper.ScraperWorkerService` | Using WebReaper in a .NET Worker Service. |
 | `Examples/WebReaper.DistributedScraperWorkerService` | Distributed crawl across workers sharing crawl state. |
-| `Examples/WebReaper.AzureFuncs` | Serverless crawl with Azure Functions + Azure Service Bus. |
+| `Examples/WebReaper.AzureFuncs` | Serverless crawl with Azure Functions plus Azure Service Bus. |
 | `Examples/BrownsfashionScraper` | A real-world e-commerce scraper example. |
 | `Misc/WebReaper.ProxyProviders` | Example proxy-provider implementations. |
 
 ## License
 
-WebReaper is licensed under the [MIT License](LICENSE.txt) (ADR-0017). All
-eleven NuGet packages (core + ten satellites) plus the `WebReaper.Cli`
-project ship under the same terms. Use it commercially, embed it in
-proprietary software, fork it, modify it, redistribute it; the only ask is
-that you keep the copyright notice.
+WebReaper is MIT-licensed (ADR-0017). All NuGet packages plus the `WebReaper.Cli` binary ship under the same terms. Use it commercially, embed it in proprietary software, fork it, modify it, redistribute it; the only ask is that you keep the copyright notice.
 
-Prior to the 10.0.0 wave, WebReaper was GPL-3.0-or-later. The relicense
-is strictly more permissive: every existing user is unaffected; new users
-who couldn't embed under GPL now can. Historical contributors are
-credited in [`CONTRIBUTORS.md`](CONTRIBUTORS.md). See
-[`docs/adr/0017-relicense-gpl-mit.md`](docs/adr/0017-relicense-gpl-mit.md)
-for the analysis and contributor consent path.
+Prior to the 10.0.0 wave, WebReaper was GPL-3.0-or-later. The relicense is strictly more permissive: every existing user is unaffected; new users who couldn't embed under GPL now can. Historical contributors are credited in [`CONTRIBUTORS.md`](CONTRIBUTORS.md). See [`docs/adr/0017-relicense-gpl-mit.md`](docs/adr/0017-relicense-gpl-mit.md) for the analysis and contributor consent path.
 
-Contributions are welcome under the same MIT terms; sign-off via DCO
-([`CONTRIBUTING.md`](CONTRIBUTING.md)).
+Contributions are welcome under the same MIT terms; sign-off via DCO ([`CONTRIBUTING.md`](CONTRIBUTING.md)).
