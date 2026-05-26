@@ -164,9 +164,7 @@ info "installing ${BOLD}webreaper ${VERSION}${RESET} for ${RID}"
 # ----- choose install location ---------------------------------------------
 
 if [ -z "$PREFIX_INPUT" ]; then
-  if [ -w "$DEFAULT_PREFIX" ] 2>/dev/null; then
-    PREFIX_DIR="$DEFAULT_PREFIX"
-  elif [ -d "$DEFAULT_PREFIX" ] && [ -w "$(dirname "$DEFAULT_PREFIX")" ] 2>/dev/null; then
+  if [ -w "$DEFAULT_PREFIX" ]; then
     PREFIX_DIR="$DEFAULT_PREFIX"
   else
     PREFIX_DIR="$FALLBACK_PREFIX"
@@ -195,10 +193,17 @@ if EXISTING=$(command -v webreaper 2>/dev/null); then
 fi
 
 if [ -x "$TARGET" ]; then
+  # WebReaper.Cli's `version` command prints the
+  # AssemblyInformationalVersion (see WebReaper.Cli/Commands/VersionCommand.cs);
+  # under ADR-0024 tag-derived versioning this formats as `<semver>+<sha>`
+  # (e.g. `10.0.0+abc123`). Strip the `+<metadata>` suffix so the
+  # idempotency/upgrade comparison works against the bare semver.
   EXISTING_VER=$("$TARGET" version 2>/dev/null | head -1 | awk '{print $NF}' || true)
   if [ -n "${EXISTING_VER:-}" ]; then
     WANT_VER="${VERSION#v}"
+    WANT_VER="${WANT_VER%%+*}"
     EXISTING_VER_NORM="${EXISTING_VER#v}"
+    EXISTING_VER_NORM="${EXISTING_VER_NORM%%+*}"
     if [ "$EXISTING_VER_NORM" = "$WANT_VER" ]; then
       if [ -n "$FORCE" ]; then
         info "${VERSION} already installed at ${TARGET}; --force → reinstalling"
@@ -264,8 +269,15 @@ EXTRACTED_DIR="${TMP}/webreaper-${VERSION}-${RID}"
 }
 
 info "installing to ${TARGET}..."
-cp -f "${EXTRACTED_DIR}/webreaper" "$TARGET"
-chmod 0755 "$TARGET"
+# Atomic install: stage next to the target then `mv` (atomic on the same
+# filesystem). cp+chmod in-place would let a concurrent reader observe the
+# binary mid-write or post-write-but-pre-chmod. Staging next to the target
+# (rather than from $TMP) also sidesteps cross-filesystem mv non-atomicity
+# when /usr/local/bin lives on a different volume than mktemp's default.
+TMP_TARGET="${TARGET}.new.$$"
+cp -f "${EXTRACTED_DIR}/webreaper" "$TMP_TARGET"
+chmod 0755 "$TMP_TARGET"
+mv -f "$TMP_TARGET" "$TARGET"
 
 # ----- post-install --------------------------------------------------------
 
