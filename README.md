@@ -66,10 +66,18 @@ After `webreaper init`, the next Claude Code session picks up the skill and rout
 
 ## Why WebReaper
 
-|  |  |  |
-|---|---|---|
-| **🪶 Drop on PATH, run.** No Docker, no Postgres, no signup. ~12 MB binary. | **🤖 AI-native by composition.** Markdown by default. Schema extraction, LLM fallback, self-healing selectors, autonomous agent. Stack with `.With…()`. | **🔌 Bring any LLM.** OpenAI, Anthropic, Ollama, Azure OpenAI, llamafile, via `Microsoft.Extensions.AI`. |
-| **🛡 Bot-checks handled.** Auto-detects Cloudflare, DataDome, PerimeterX. One flag escalates to a stealth Chromium backend. | **📡 Distributed when needed.** Swap scheduler, tracker, sink to Redis, MongoDB, SQLite, Azure Service Bus, Cosmos. Same code. | **📜 MIT, not AGPL.** Embed in commercial software, fork, modify, redistribute. Firecrawl's AGPL requires open-sourcing your service or paying for a commercial license. |
+<table>
+<tr>
+<td width="33%" valign="top"><strong>🪶 Drop on PATH, run.</strong><br><br>No Docker, no Postgres, no signup. ~12 MB binary.</td>
+<td width="33%" valign="top"><strong>🤖 AI-native by composition.</strong><br><br>Markdown by default. Schema extraction, LLM fallback, self-healing selectors, autonomous agent. Stack with <code>.With…()</code>.</td>
+<td width="33%" valign="top"><strong>🔌 Bring any LLM.</strong><br><br>OpenAI, Anthropic, Ollama, Azure OpenAI, llamafile, via <code>Microsoft.Extensions.AI</code>.</td>
+</tr>
+<tr>
+<td width="33%" valign="top"><strong>🛡 Bot-checks handled.</strong><br><br>Auto-detects Cloudflare, DataDome, PerimeterX. One flag escalates to a stealth Chromium backend.</td>
+<td width="33%" valign="top"><strong>📡 Distributed when needed.</strong><br><br>Swap scheduler, tracker, sink to Redis, MongoDB, SQLite, Azure Service Bus, Cosmos. Same code.</td>
+<td width="33%" valign="top"><strong>📜 MIT, not AGPL.</strong><br><br>Embed in commercial software, fork, modify, redistribute. Firecrawl's AGPL requires open-sourcing your service or paying for a commercial license.</td>
+</tr>
+</table>
 
 ## Quick start
 
