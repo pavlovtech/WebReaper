@@ -1,0 +1,58 @@
+# Homebrew formula template (ADR-0070).
+#
+# Rendered into the pavlovtech/homebrew-webreaper tap repo by the
+# `homebrew-publish` job in this repo's .github/workflows/release.yml,
+# after `cli-publish` succeeds. Placeholders are sed-substituted:
+#
+#   {{VERSION}}            — semver without the `v` (e.g. 10.0.0)
+#   {{TAG}}                — tag with `v` (e.g. v10.0.0)
+#   {{SHA256_OSX_ARM64}}   — SHA256 of webreaper-{{TAG}}-osx-arm64.zip
+#   {{SHA256_OSX_X64}}     — SHA256 of webreaper-{{TAG}}-osx-x64.zip
+#   {{SHA256_LINUX_X64}}   — SHA256 of webreaper-{{TAG}}-linux-x64.tar.gz
+#   {{SHA256_LINUX_ARM64}} — SHA256 of webreaper-{{TAG}}-linux-arm64.tar.gz
+#
+# The four supported bottles match the RIDs in release.yml's cli-publish
+# matrix. Windows is not a Homebrew platform; Windows users install via the
+# GitHub Releases page directly (v10.0.0) or winget (v10.1+, ADR-TBD).
+
+class Webreaper < Formula
+  desc "Declarative .NET web scraper / crawler — AI-native CLI"
+  homepage "https://github.com/pavlovtech/WebReaper"
+  version "{{VERSION}}"
+  license "MIT"
+
+  on_macos do
+    on_arm do
+      url "https://github.com/pavlovtech/WebReaper/releases/download/{{TAG}}/webreaper-{{TAG}}-osx-arm64.zip"
+      sha256 "{{SHA256_OSX_ARM64}}"
+    end
+    on_intel do
+      url "https://github.com/pavlovtech/WebReaper/releases/download/{{TAG}}/webreaper-{{TAG}}-osx-x64.zip"
+      sha256 "{{SHA256_OSX_X64}}"
+    end
+  end
+
+  on_linux do
+    on_intel do
+      url "https://github.com/pavlovtech/WebReaper/releases/download/{{TAG}}/webreaper-{{TAG}}-linux-x64.tar.gz"
+      sha256 "{{SHA256_LINUX_X64}}"
+    end
+    on_arm do
+      url "https://github.com/pavlovtech/WebReaper/releases/download/{{TAG}}/webreaper-{{TAG}}-linux-arm64.tar.gz"
+      sha256 "{{SHA256_LINUX_ARM64}}"
+    end
+  end
+
+  def install
+    bin.install "webreaper"
+    # The archive ships LICENSE.txt + README.md alongside the binary —
+    # `bin.install "webreaper"` ignores them, which is the desired shape.
+    # Homebrew's auto-generated caveats include `webreaper help`.
+  end
+
+  test do
+    # Smoke test — the binary must run and print a version string.
+    # ADR-0024: version is tag-derived; matches the formula's `version`.
+    assert_match version.to_s, shell_output("#{bin}/webreaper version")
+  end
+end

@@ -355,6 +355,62 @@ jobs:
             --nologo
         shell: bash
 
+      # ADR-0071: codesign + notarize + staple, macOS arms only. Operates
+      # on the publish-output binary (still named WebReaper.Cli at this
+      # point); the rename to `webreaper` happens in the next staging step
+      # and does not invalidate the signature (Mach-O signatures are
+      # content-based, identifier-bound, filename-independent).
+      - name: Import Developer ID Application certificate (macOS)
+        if: startsWith(matrix.rid, 'osx-')
+        uses: apple-actions/import-codesign-certs@v7
+        with:
+          p12-file-base64: ${{ secrets.APPLE_CERTIFICATE_P12_BASE64 }}
+          p12-password: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+
+      - name: Codesign + notarize + staple (macOS)
+        if: startsWith(matrix.rid, 'osx-')
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_NOTARIZATION_PASSWORD: ${{ secrets.APPLE_NOTARIZATION_PASSWORD }}
+          APPLE_TEAM_ID: ${{ vars.APPLE_TEAM_ID }}
+          APPLE_DEVELOPER_ID: ${{ vars.APPLE_DEVELOPER_ID }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          PUB="WebReaper.Cli/bin/Release/net10.0/${{ matrix.rid }}/publish"
+          BIN="$PUB/WebReaper.Cli"
+
+          echo "→ codesigning ${BIN}..."
+          codesign \
+            --sign "$APPLE_DEVELOPER_ID" \
+            --options runtime \
+            --timestamp \
+            --identifier "io.highcraft.webreaper" \
+            --force \
+            "$BIN"
+
+          echo "→ submitting to Apple notary (notarytool)..."
+          # notarytool requires a container (zip or pkg/dmg). The submitted
+          # zip is throwaway — the ticket is stapled to the binary itself.
+          NOTARIZE_ZIP="$RUNNER_TEMP/notarize-${{ matrix.rid }}.zip"
+          (cd "$PUB" && zip -j "$NOTARIZE_ZIP" "$(basename "$BIN")")
+
+          xcrun notarytool submit "$NOTARIZE_ZIP" \
+            --apple-id "$APPLE_ID" \
+            --password "$APPLE_NOTARIZATION_PASSWORD" \
+            --team-id "$APPLE_TEAM_ID" \
+            --wait
+
+          echo "→ stapling ticket onto binary..."
+          xcrun stapler staple "$BIN"
+
+          echo "→ Gatekeeper verification (spctl -a -t exec)..."
+          # CI quality gate: a regression that produces a Gatekeeper-rejected
+          # binary fails here before reaching a Release asset.
+          spctl -a -t exec -vvv "$BIN"
+
+          echo "✓ signed + notarized + stapled"
+
       - name: Stage + archive (Linux + macOS)
         if: runner.os != 'Windows'
         shell: bash
@@ -417,3 +473,150 @@ jobs:
           set -euo pipefail
           TAG="${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}"
           gh release upload "$TAG" "$ASSET_PATH" --clobber
+
+  checksums:
+    # ADR-0070 §3: SHA256SUMS Release asset — consumed by scripts/install.sh
+    # and by the homebrew-publish job below. Runs after cli-publish has
+    # uploaded every per-RID archive; downloads them via `gh release
+    # download` so it's robust against partial cli-publish re-runs (only
+    # the assets currently on the release are hashed).
+    #
+    # `fail-fast: false` in cli-publish means an arm can be missing. The
+    # manifest reflects "what's on the release right now," which is the
+    # correct denotation for the install.sh consumer (a manifest that
+    # promises a hash for a file that doesn't exist is worse than a
+    # manifest with fewer entries).
+    name: SHA256SUMS manifest
+    needs: [pack, cli-publish]
+    if: ${{ github.event_name != 'workflow_dispatch' || inputs.dry_run == false }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref }}
+
+      - name: Download release archives + compute SHA256SUMS
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          TAG="${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}"
+          rm -rf checksum-stage && mkdir checksum-stage
+          # Download every webreaper-* asset on the release. Skip SHA256SUMS
+          # itself so re-runs are idempotent (gh release download won't
+          # overwrite the manifest from a prior run before we recompute).
+          gh release download "$TAG" --dir checksum-stage --pattern 'webreaper-*'
+          cd checksum-stage
+          # Sort by filename so output is deterministic across re-runs.
+          sha256sum webreaper-* | sort -k2 > SHA256SUMS
+          echo "--- SHA256SUMS ---"
+          cat SHA256SUMS
+
+      - name: Upload SHA256SUMS as release asset
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          TAG="${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}"
+          gh release upload "$TAG" checksum-stage/SHA256SUMS --clobber
+
+  homebrew-publish:
+    # ADR-0070 §1: render Formula/webreaper.rb from the template in this
+    # repo, push to pavlovtech/homebrew-webreaper using a tap-scoped
+    # fine-grained PAT (GH_TOKEN_HOMEBREW_TAP). Runs after `checksums`
+    # because it reads SHA256 values from SHA256SUMS.
+    #
+    # Failure here does NOT roll back the GitHub Release or NuGet push
+    # (runbook one-way-on-tag). Recovery: re-dispatch the workflow against
+    # the same tag once the cause is addressed; the git commit + push is
+    # idempotent (skip if no diff in the rendered formula).
+    name: Publish to Homebrew tap
+    needs: [pack, cli-publish, checksums]
+    if: ${{ github.event_name != 'workflow_dispatch' || inputs.dry_run == false }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref }}
+
+      - name: Download SHA256SUMS
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          TAG="${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}"
+          gh release download "$TAG" --pattern SHA256SUMS --dir .
+
+      - name: Render formula from template
+        run: |
+          set -euo pipefail
+          TAG="${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}"
+          VERSION="${{ needs.pack.outputs.version }}"
+
+          # Extract per-RID SHA256 from the manifest.
+          sha_osx_arm64=$(awk -v f="webreaper-${TAG}-osx-arm64.zip"     '$2==f{print $1}' SHA256SUMS)
+          sha_osx_x64=$(awk   -v f="webreaper-${TAG}-osx-x64.zip"       '$2==f{print $1}' SHA256SUMS)
+          sha_linux_x64=$(awk -v f="webreaper-${TAG}-linux-x64.tar.gz"  '$2==f{print $1}' SHA256SUMS)
+          sha_linux_arm64=$(awk -v f="webreaper-${TAG}-linux-arm64.tar.gz" '$2==f{print $1}' SHA256SUMS)
+
+          # All four are required — Homebrew formula must have a bottle
+          # for every declared `on_macos`/`on_linux` arm. A missing SHA
+          # is a release defect, not a publish-time concern.
+          for pair in "osx-arm64:$sha_osx_arm64" "osx-x64:$sha_osx_x64" \
+                      "linux-x64:$sha_linux_x64" "linux-arm64:$sha_linux_arm64"; do
+            rid="${pair%%:*}"
+            sha="${pair##*:}"
+            if [ -z "$sha" ]; then
+              echo "::error::SHA256SUMS missing entry for ${rid} archive at ${TAG}"
+              exit 1
+            fi
+          done
+
+          # Render. `sed -i` is portable enough between GNU + BSD when we
+          # avoid the in-place form; here we just write to a new file.
+          sed \
+            -e "s|{{VERSION}}|${VERSION}|g" \
+            -e "s|{{TAG}}|${TAG}|g" \
+            -e "s|{{SHA256_OSX_ARM64}}|${sha_osx_arm64}|g" \
+            -e "s|{{SHA256_OSX_X64}}|${sha_osx_x64}|g" \
+            -e "s|{{SHA256_LINUX_X64}}|${sha_linux_x64}|g" \
+            -e "s|{{SHA256_LINUX_ARM64}}|${sha_linux_arm64}|g" \
+            homebrew/webreaper.rb.template > webreaper.rb.full
+
+          # Strip the leading template-header comment block (the
+          # developer-facing prose about placeholders + render shape).
+          # The tap repo's formula stays clean — formula begins at `class`.
+          awk '/^class / { found=1 } found { print }' webreaper.rb.full > webreaper.rb
+
+          echo "--- rendered Formula/webreaper.rb ---"
+          cat webreaper.rb
+
+      - name: Push to pavlovtech/homebrew-webreaper
+        env:
+          GH_TOKEN_HOMEBREW_TAP: ${{ secrets.GH_TOKEN_HOMEBREW_TAP }}
+        run: |
+          set -euo pipefail
+          [ -n "${GH_TOKEN_HOMEBREW_TAP:-}" ] \
+            || { echo "::error::GH_TOKEN_HOMEBREW_TAP secret is empty"; exit 1; }
+          VERSION="${{ needs.pack.outputs.version }}"
+
+          git clone --depth 1 \
+            "https://x-access-token:${GH_TOKEN_HOMEBREW_TAP}@github.com/pavlovtech/homebrew-webreaper.git" \
+            tap
+          mkdir -p tap/Formula
+          cp webreaper.rb tap/Formula/webreaper.rb
+
+          cd tap
+          git config user.name "webreaper-release-bot"
+          git config user.email "webreaper-release-bot@users.noreply.github.com"
+          git add Formula/webreaper.rb
+          # Idempotent re-run: nothing to do if the rendered formula is
+          # byte-identical to what's already in the tap.
+          if git diff --staged --quiet; then
+            echo "no changes — formula already up to date"
+            exit 0
+          fi
+          git commit -m "WebReaper ${VERSION}"
+          git push
