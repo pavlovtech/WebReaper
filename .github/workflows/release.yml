@@ -291,8 +291,19 @@ jobs:
           if [ "$(grep -c '^## ' /tmp/notes.md)" != "1" ]; then
             echo "::error::CHANGELOG has no single '## $VERSION' section"; exit 1
           fi
-          gh release create "$TAG" --verify-tag \
-            --title "WebReaper $VERSION" --notes-file /tmp/notes.md
+          # Idempotent: create on first run, update title + notes on re-runs.
+          # The runbook's "tag = release decision" stays one-way; this just
+          # makes the workflow safe to re-dispatch when downstream steps
+          # (cli-publish matrix arms, homebrew-publish) fail and need a retry
+          # without forcing a CHANGELOG-or-tag dance.
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "release $TAG already exists; updating title + notes"
+            gh release edit "$TAG" --title "WebReaper $VERSION" --notes-file /tmp/notes.md
+          else
+            echo "creating release $TAG"
+            gh release create "$TAG" --verify-tag \
+              --title "WebReaper $VERSION" --notes-file /tmp/notes.md
+          fi
 
   cli-publish:
     # ADR-0043: the WebReaper.Cli is intentionally NOT a NuGet package
