@@ -23,7 +23,7 @@ public static class WebReaperTools
         "into context.")]
     public static async Task<string> Scrape(
         [Description("The URL to scrape.")] string url,
-        [Description("Use the headless browser (for JS-rendered pages). Requires the WebReaper.Puppeteer satellite at run time. Default false.")] bool browser = false)
+        [Description("Use the headless browser (for JS-rendered pages). Default false.")] bool browser = false)
     {
         if (string.IsNullOrWhiteSpace(url))
             throw new ArgumentException("URL is required.", nameof(url));
@@ -80,7 +80,7 @@ public static class WebReaperTools
     public static async Task<string> Extract(
         [Description("The URL to extract from.")] string url,
         [Description("The extraction schema as JSON. See the WebReaper docs for the shape.")] string schemaJson,
-        [Description("Use the headless browser (requires WebReaper.Puppeteer). Default false.")] bool browser = false)
+        [Description("Use the headless browser. Default false.")] bool browser = false)
     {
         if (string.IsNullOrWhiteSpace(url))
             throw new ArgumentException("URL is required.", nameof(url));
