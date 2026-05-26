@@ -357,7 +357,7 @@ jobs:
         run: |
           dotnet publish WebReaper.Cli/WebReaper.Cli.csproj \
             -c Release -r ${{ matrix.rid }} \
-            --self-contained true /p:PublishAot=true \
+            --self-contained true -p:PublishAot=true \
             --nologo
         shell: bash
 
