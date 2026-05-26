@@ -53,18 +53,24 @@ env:
   # with PublishAot=true on one target, so the CLI ships as a Native-AOT
   # single-binary via GitHub Releases (ADR-0043), not via NuGet. Revisit in a
   # 10.x if there is real consumer demand for the framework-dependent tool.
+  # WebReaper.Puppeteer was deleted in v10 (ADR-0053) and replaced by the
+  # three transports satellites listed at the bottom of the block. Adding
+  # them deliberately, matching the runbook discipline (explicit set, core
+  # first, never a glob).
   CANDIDATES: >-
     WebReaper
     WebReaper.Cosmos
     WebReaper.Mongo
     WebReaper.Redis
     WebReaper.AzureServiceBus
-    WebReaper.Puppeteer
     WebReaper.Sqlite
     WebReaper.AI
     WebReaper.Extraction.Attributes
     WebReaper.Extraction.Generators
     WebReaper.Mcp
+    WebReaper.Cdp
+    WebReaper.Playwright
+    WebReaper.Stealth.CloakBrowser
 
 jobs:
   pack:
