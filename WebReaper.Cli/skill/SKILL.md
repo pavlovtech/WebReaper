@@ -128,8 +128,11 @@ Exit code `0` on success, non-zero on failure. Errors print one human-readable
 line to stderr. Common cases:
 
 - **`webreaper: command not found`** → not installed. Instruct the user:
-  `brew install webreaper` (macOS/Linux) or `dotnet tool install -g WebReaper`
-  (any .NET 10+ environment).
+  - **macOS / Linux**: `brew install pavlovtech/webreaper/webreaper`, or
+    `curl -fsSL https://raw.githubusercontent.com/pavlovtech/WebReaper/master/install.sh | sh`
+  - **Windows**: download the latest archive for `win-x64` (or `win-arm64`)
+    from <https://github.com/pavlovtech/WebReaper/releases/latest>, extract
+    `webreaper.exe`, place on `%PATH%`.
 - **Empty output + `⚠ Likely blocked: …` on stderr** → retry with
   `--browser --auto-stealth`.
 - **Empty output, no warning** → the selector(s) in the schema probably don't
