@@ -362,7 +362,7 @@ jobs:
       # content-based, identifier-bound, filename-independent).
       - name: Import Developer ID Application certificate (macOS)
         if: startsWith(matrix.rid, 'osx-')
-        uses: apple-actions/import-codesign-certs@v3
+        uses: apple-actions/import-codesign-certs@v7
         with:
           p12-file-base64: ${{ secrets.APPLE_CERTIFICATE_P12_BASE64 }}
           p12-password: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
