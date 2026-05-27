@@ -468,6 +468,44 @@ becomes ~70 lines (parse-failure becomes `null`).
 - `WebReaper.AotSmokeTest` — unchanged (mechanism lives in the
   non-AOT satellite).
 
+## Amendment (2026-05-28): `LlmToolArguments` companion helper
+
+The tool-call dispatch path (`ParseToolCall`) takes a `JsonElement` of
+argument values and is implemented by every tool-calling adapter
+(`LlmActionResolver`, `LlmAgentBrain`, and any consumer-authored adapter
+that ships a `Tools` list on its descriptor). The two shipping adapters
+each carried a private `TryGetString` / `TryGetInt` pair that read a
+string- or int-valued argument from the JSON, tolerating the two
+provider quirks worth tolerating (missing property reads as `null`;
+some providers serialise small integers as strings).
+
+The two pairs were byte-identical — a textbook case of the same
+mechanism reimplemented per adapter rather than shared once. A
+consumer-authored tool-calling adapter would have made it three.
+
+The helpers move to `WebReaper.AI/Llm/LlmToolArguments.cs` as public
+static methods, sibling to `LlmCall<TResponse>` itself on the same
+"one canonical mechanism, not five copies" axis the original ADR
+defines. The leniency contract is pinned by `LlmToolArgumentsTests`
+(missing property → null, JSON-null → null, non-string/non-integer
+kinds → null, empty string returned verbatim so callers can pattern-
+match on `{ Length: > 0 }`, string-encoded integers parse).
+
+The private copies in `LlmActionResolver` (lines 155–177 before the
+edit) and `LlmAgentBrain` (lines 323–346) are deleted. Net change:
+~46 lines deleted from the two adapters, ~55 lines added in the new
+shared module (helpers + XML doc), ~125 lines of direct unit tests.
+The two adapters' integration tests continue to cover the behaviour
+through the helpers transparently.
+
+The descriptor record (`LlmCallDescriptor<TResponse>`) does NOT grow
+— this amendment is the helper companion, not a descriptor change.
+Consumer-authored tool-calling adapters reuse the helpers the same
+way they reuse `LlmCall<TResponse>` itself: by referencing
+`WebReaper.AI`. The "one canonical fence-stripping, one canonical
+parse-retry, one canonical Usage capture" promise of ADR-0059
+extends to "one canonical tool-argument extractor."
+
 ## References
 
 - ADR-0009 — registration seam + satellite pattern; the mechanism

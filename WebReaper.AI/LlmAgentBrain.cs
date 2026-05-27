@@ -203,7 +203,7 @@ public sealed class LlmAgentBrain : IAgentBrain
     // unknown discriminator" is structurally impossible.
     private static AgentDecision ParseDecisionTool(string toolName, JsonElement args)
     {
-        var reason = TryGetString(args, "reason") ?? "";
+        var reason = LlmToolArguments.TryGetString(args, "reason") ?? "";
 
         switch (toolName)
         {
@@ -227,7 +227,7 @@ public sealed class LlmAgentBrain : IAgentBrain
                 return new AgentDecision.Extract(schema) { Reason = reason };
 
             case "Follow":
-                var url = TryGetString(args, "url");
+                var url = LlmToolArguments.TryGetString(args, "url");
                 if (string.IsNullOrWhiteSpace(url))
                 {
                     return new AgentDecision.Stop
@@ -241,7 +241,7 @@ public sealed class LlmAgentBrain : IAgentBrain
                 return new AgentDecision.Stop { Reason = reason };
 
             case "ActClick":
-                var clickSel = TryGetString(args, "selector");
+                var clickSel = LlmToolArguments.TryGetString(args, "selector");
                 if (string.IsNullOrWhiteSpace(clickSel))
                 {
                     return new AgentDecision.Stop
@@ -252,10 +252,10 @@ public sealed class LlmAgentBrain : IAgentBrain
                 return new AgentDecision.Act(new PageAction.Click(clickSel)) { Reason = reason };
 
             case "ActWait":
-                return new AgentDecision.Act(new PageAction.Wait(TryGetInt(args, "ms") ?? 0)) { Reason = reason };
+                return new AgentDecision.Act(new PageAction.Wait(LlmToolArguments.TryGetInt(args, "ms") ?? 0)) { Reason = reason };
 
             case "ActWaitForSelector":
-                var wfsSel = TryGetString(args, "selector");
+                var wfsSel = LlmToolArguments.TryGetString(args, "selector");
                 if (string.IsNullOrWhiteSpace(wfsSel))
                 {
                     return new AgentDecision.Stop
@@ -264,7 +264,7 @@ public sealed class LlmAgentBrain : IAgentBrain
                     };
                 }
                 return new AgentDecision.Act(
-                    new PageAction.WaitForSelector(wfsSel, TryGetInt(args, "timeoutMs") ?? 30_000))
+                    new PageAction.WaitForSelector(wfsSel, LlmToolArguments.TryGetInt(args, "timeoutMs") ?? 30_000))
                 { Reason = reason };
 
             case "ActWaitForNetworkIdle":
@@ -274,7 +274,7 @@ public sealed class LlmAgentBrain : IAgentBrain
                 return new AgentDecision.Act(new PageAction.ScrollToEnd()) { Reason = reason };
 
             case "ActEvaluate":
-                var expr = TryGetString(args, "expression");
+                var expr = LlmToolArguments.TryGetString(args, "expression");
                 if (string.IsNullOrWhiteSpace(expr))
                 {
                     return new AgentDecision.Stop
@@ -285,7 +285,7 @@ public sealed class LlmAgentBrain : IAgentBrain
                 return new AgentDecision.Act(new PageAction.EvaluateExpression(expr)) { Reason = reason };
 
             case "ActSemanticAct":
-                var intent = TryGetString(args, "intent");
+                var intent = LlmToolArguments.TryGetString(args, "intent");
                 if (string.IsNullOrWhiteSpace(intent))
                 {
                     return new AgentDecision.Stop
@@ -320,28 +320,4 @@ public sealed class LlmAgentBrain : IAgentBrain
         return s;
     }
 
-    private static string? TryGetString(JsonElement args, string name)
-    {
-        if (args.ValueKind != JsonValueKind.Object) return null;
-        if (!args.TryGetProperty(name, out var el)) return null;
-        return el.ValueKind switch
-        {
-            JsonValueKind.String => el.GetString(),
-            JsonValueKind.Null => null,
-            _ => null,
-        };
-    }
-
-    private static int? TryGetInt(JsonElement args, string name)
-    {
-        if (args.ValueKind != JsonValueKind.Object) return null;
-        if (!args.TryGetProperty(name, out var el)) return null;
-        return el.ValueKind switch
-        {
-            JsonValueKind.Number when el.TryGetInt32(out var i) => i,
-            // Some providers may serialise ints as strings; tolerate it.
-            JsonValueKind.String when int.TryParse(el.GetString(), out var i) => i,
-            _ => null,
-        };
-    }
 }

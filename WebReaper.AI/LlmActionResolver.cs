@@ -129,15 +129,15 @@ public sealed class LlmActionResolver : IActionResolver
         => toolName switch
         {
             "ActClick"
-                when TryGetString(args, "selector") is { Length: > 0 } sel
+                when LlmToolArguments.TryGetString(args, "selector") is { Length: > 0 } sel
                 => new PageAction.Click(sel),
 
             "ActWait"
-                => new PageAction.Wait(TryGetInt(args, "ms") ?? 0),
+                => new PageAction.Wait(LlmToolArguments.TryGetInt(args, "ms") ?? 0),
 
             "ActWaitForSelector"
-                when TryGetString(args, "selector") is { Length: > 0 } sel
-                => new PageAction.WaitForSelector(sel, TryGetInt(args, "timeoutMs") ?? 30_000),
+                when LlmToolArguments.TryGetString(args, "selector") is { Length: > 0 } sel
+                => new PageAction.WaitForSelector(sel, LlmToolArguments.TryGetInt(args, "timeoutMs") ?? 30_000),
 
             "ActWaitForNetworkIdle"
                 => new PageAction.WaitForNetworkIdle(),
@@ -146,35 +146,11 @@ public sealed class LlmActionResolver : IActionResolver
                 => new PageAction.ScrollToEnd(),
 
             "ActEvaluate"
-                when TryGetString(args, "expression") is { Length: > 0 } expr
+                when LlmToolArguments.TryGetString(args, "expression") is { Length: > 0 } expr
                 => new PageAction.EvaluateExpression(expr),
 
             _ => null,
         };
-
-    private static string? TryGetString(JsonElement args, string name)
-    {
-        if (args.ValueKind != JsonValueKind.Object) return null;
-        if (!args.TryGetProperty(name, out var el)) return null;
-        return el.ValueKind switch
-        {
-            JsonValueKind.String => el.GetString(),
-            JsonValueKind.Null => null,
-            _ => null,
-        };
-    }
-
-    private static int? TryGetInt(JsonElement args, string name)
-    {
-        if (args.ValueKind != JsonValueKind.Object) return null;
-        if (!args.TryGetProperty(name, out var el)) return null;
-        return el.ValueKind switch
-        {
-            JsonValueKind.Number when el.TryGetInt32(out var i) => i,
-            JsonValueKind.String when int.TryParse(el.GetString(), out var i) => i,
-            _ => null,
-        };
-    }
 
     private readonly record struct ResolveInput(string Intent, string Html);
 }
