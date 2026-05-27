@@ -31,6 +31,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WebReaper\WebReaper.csproj" />
+    <!-- ADR-0073: bake WebReaper.Cdp to wire the browser=true tool
+         parameter. Mirrors ADR-0055 (the CLI). Microsoft.Playwright
+         and WebReaper.Stealth.* are never baked here for the same
+         reasoning as the CLI satellite. -->
+    <ProjectReference Include="..\WebReaper.Cdp\WebReaper.Cdp.csproj" />
   </ItemGroup>
 
   <ItemGroup>

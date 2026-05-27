@@ -3,14 +3,15 @@ using System.Text;
 using System.Text.Json.Nodes;
 using ModelContextProtocol.Server;
 using WebReaper.Builders;
+using WebReaper.Cdp;
 using WebReaper.Core.Mapping;
 using WebReaper.Domain.Parsing;
 using WebReaper.Sinks.Models;
 
 namespace WebReaper.Mcp;
 
-// ADR-0049: the three MCP tools the satellite exposes — scrape, map,
-// extract. Each wraps an existing library API; the tool layer is thin
+// ADR-0049: the three MCP tools the satellite exposes (scrape, map,
+// extract). Each wraps an existing library API; the tool layer is thin
 // glue between the MCP-protocol JSON shape and the library's fluent
 // builders.
 
@@ -23,7 +24,7 @@ public static class WebReaperTools
         "into context.")]
     public static async Task<string> Scrape(
         [Description("The URL to scrape.")] string url,
-        [Description("Use the headless browser (for JS-rendered pages). Default false.")] bool browser = false)
+        [Description("Use the headless browser (for JS-rendered pages). Auto-spawns a system Chrome / Chromium / Edge via WebReaper.Cdp; install a Chromium-family browser on the MCP host first. Default false.")] bool browser = false)
     {
         if (string.IsNullOrWhiteSpace(url))
             throw new ArgumentException("URL is required.", nameof(url));
@@ -33,10 +34,19 @@ public static class WebReaperTools
             : ScraperEngineBuilder.Crawl(url);
 
         var records = new List<ParsedData>();
-        var engine = await seed.AsMarkdown()
+        var builder = seed.AsMarkdown()
             .Subscribe(records.Add)
-            .StopWhenAllLinksProcessed()
-            .BuildAsync();
+            .StopWhenAllLinksProcessed();
+
+        // ADR-0073: wire WebReaper.Cdp launch-and-connect on browser=true.
+        // The Cdp loader's PATH search finds google-chrome / chromium /
+        // chrome / microsoft-edge / msedge; fails actionable when none
+        // present. `await using` the engine so the spawned-Chromium
+        // process tears down with the call (ADR-0058 chain).
+        if (browser)
+            builder = builder.WithCdpPageLoader(new CdpLaunchOptions());
+
+        await using var engine = await builder.BuildAsync();
         await engine.RunAsync();
 
         var output = new StringBuilder();
@@ -80,7 +90,7 @@ public static class WebReaperTools
     public static async Task<string> Extract(
         [Description("The URL to extract from.")] string url,
         [Description("The extraction schema as JSON. See the WebReaper docs for the shape.")] string schemaJson,
-        [Description("Use the headless browser. Default false.")] bool browser = false)
+        [Description("Use the headless browser. Auto-spawns a system Chrome / Chromium / Edge via WebReaper.Cdp; install a Chromium-family browser on the MCP host first. Default false.")] bool browser = false)
     {
         if (string.IsNullOrWhiteSpace(url))
             throw new ArgumentException("URL is required.", nameof(url));
@@ -103,13 +113,18 @@ public static class WebReaperTools
             : ScraperEngineBuilder.Crawl(url);
 
         var records = new List<ParsedData>();
-        var engine = await seed.Extract(schema)
+        var builder = seed.Extract(schema)
             .Subscribe(records.Add)
-            .StopWhenAllLinksProcessed()
-            .BuildAsync();
+            .StopWhenAllLinksProcessed();
+
+        // ADR-0073: see Scrape() above for the wiring rationale.
+        if (browser)
+            builder = builder.WithCdpPageLoader(new CdpLaunchOptions());
+
+        await using var engine = await builder.BuildAsync();
         await engine.RunAsync();
 
-        // JSON Lines — one record per line.
+        // JSON Lines: one record per line.
         return string.Join("\n", records.Select(r => r.Data.ToJsonString()));
     }
 
