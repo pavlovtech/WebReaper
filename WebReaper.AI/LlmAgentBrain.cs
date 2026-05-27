@@ -194,130 +194,59 @@ public sealed class LlmAgentBrain : IAgentBrain
         _ => "Unknown"
     };
 
-    // ADR-0060: ParseToolCall delegate. Switches on the model's tool name,
-    // constructs the matching AgentDecision arm with the SDK-validated
-    // arguments. Unknown tool name -> Stop with structural reason; missing
-    // required property -> Stop with structural reason. The closed sum is
-    // load-bearing at the LLM boundary — the model picked from a list of
-    // ten arm-shaped tools; "the model emitted a JSON object with an
-    // unknown discriminator" is structurally impossible.
+    // ADR-0060 amendment (2026-05-28): ParseToolCall delegate. Each per-arm
+    // case dispatches to the arm-local FromArguments factory (in
+    // PageActionTools.cs / AgentDecisionToolFragments.cs); a successful arm
+    // becomes the decision verbatim (AgentDecision arms) or is wrapped in
+    // Act (PageAction arms); a failure becomes Stop with the factory's
+    // FailureReason composed into the audit-trail string. Unknown tool
+    // name -> Stop with structural reason. The closed sum is load-bearing
+    // at the LLM boundary — the model picked from a list of ten arm-shaped
+    // tools; "the model emitted a JSON object with an unknown
+    // discriminator" is structurally impossible.
     private static AgentDecision ParseDecisionTool(string toolName, JsonElement args)
     {
         var reason = LlmToolArguments.TryGetString(args, "reason") ?? "";
 
-        switch (toolName)
+        return toolName switch
         {
-            case "Extract":
-                if (!args.TryGetProperty("schema", out var schemaEl) ||
-                    schemaEl.ValueKind != JsonValueKind.Object)
-                {
-                    return new AgentDecision.Stop
-                    {
-                        Reason = $"brain Extract missing 'schema': {reason}"
-                    };
-                }
-                var schema = BuildFlatSchema(schemaEl);
-                if (schema.Children.Count == 0)
-                {
-                    return new AgentDecision.Stop
-                    {
-                        Reason = $"brain Extract schema was empty: {reason}"
-                    };
-                }
-                return new AgentDecision.Extract(schema) { Reason = reason };
+            AgentDecisionTools.Extract.Name => Unwrap(AgentDecisionTools.Extract.FromArguments(args, reason), toolName, reason),
+            AgentDecisionTools.Follow.Name => Unwrap(AgentDecisionTools.Follow.FromArguments(args, reason), toolName, reason),
+            AgentDecisionTools.Stop.Name => Unwrap(AgentDecisionTools.Stop.FromArguments(args, reason), toolName, reason),
 
-            case "Follow":
-                var url = LlmToolArguments.TryGetString(args, "url");
-                if (string.IsNullOrWhiteSpace(url))
-                {
-                    return new AgentDecision.Stop
-                    {
-                        Reason = $"brain Follow missing 'url': {reason}"
-                    };
-                }
-                return new AgentDecision.Follow(url) { Reason = reason };
+            PageActionTools.Click.Name => UnwrapAct(PageActionTools.Click.FromArguments(args), toolName, reason),
+            PageActionTools.Wait.Name => UnwrapAct(PageActionTools.Wait.FromArguments(args), toolName, reason),
+            PageActionTools.WaitForSelector.Name => UnwrapAct(PageActionTools.WaitForSelector.FromArguments(args), toolName, reason),
+            PageActionTools.WaitForNetworkIdle.Name => UnwrapAct(PageActionTools.WaitForNetworkIdle.FromArguments(args), toolName, reason),
+            PageActionTools.ScrollToEnd.Name => UnwrapAct(PageActionTools.ScrollToEnd.FromArguments(args), toolName, reason),
+            PageActionTools.EvaluateExpression.Name => UnwrapAct(PageActionTools.EvaluateExpression.FromArguments(args), toolName, reason),
+            PageActionTools.SemanticAct.Name => UnwrapAct(PageActionTools.SemanticAct.FromArguments(args), toolName, reason),
 
-            case "Stop":
-                return new AgentDecision.Stop { Reason = reason };
-
-            case "ActClick":
-                var clickSel = LlmToolArguments.TryGetString(args, "selector");
-                if (string.IsNullOrWhiteSpace(clickSel))
-                {
-                    return new AgentDecision.Stop
-                    {
-                        Reason = $"brain ActClick missing 'selector': {reason}"
-                    };
-                }
-                return new AgentDecision.Act(new PageAction.Click(clickSel)) { Reason = reason };
-
-            case "ActWait":
-                return new AgentDecision.Act(new PageAction.Wait(LlmToolArguments.TryGetInt(args, "ms") ?? 0)) { Reason = reason };
-
-            case "ActWaitForSelector":
-                var wfsSel = LlmToolArguments.TryGetString(args, "selector");
-                if (string.IsNullOrWhiteSpace(wfsSel))
-                {
-                    return new AgentDecision.Stop
-                    {
-                        Reason = $"brain ActWaitForSelector missing 'selector': {reason}"
-                    };
-                }
-                return new AgentDecision.Act(
-                    new PageAction.WaitForSelector(wfsSel, LlmToolArguments.TryGetInt(args, "timeoutMs") ?? 30_000))
-                { Reason = reason };
-
-            case "ActWaitForNetworkIdle":
-                return new AgentDecision.Act(new PageAction.WaitForNetworkIdle()) { Reason = reason };
-
-            case "ActScrollToEnd":
-                return new AgentDecision.Act(new PageAction.ScrollToEnd()) { Reason = reason };
-
-            case "ActEvaluate":
-                var expr = LlmToolArguments.TryGetString(args, "expression");
-                if (string.IsNullOrWhiteSpace(expr))
-                {
-                    return new AgentDecision.Stop
-                    {
-                        Reason = $"brain ActEvaluate missing 'expression': {reason}"
-                    };
-                }
-                return new AgentDecision.Act(new PageAction.EvaluateExpression(expr)) { Reason = reason };
-
-            case "ActSemanticAct":
-                var intent = LlmToolArguments.TryGetString(args, "intent");
-                if (string.IsNullOrWhiteSpace(intent))
-                {
-                    return new AgentDecision.Stop
-                    {
-                        Reason = $"brain ActSemanticAct missing 'intent': {reason}"
-                    };
-                }
-                return new AgentDecision.Act(new PageAction.SemanticAct(intent)) { Reason = reason };
-
-            default:
-                return new AgentDecision.Stop
-                {
-                    Reason = $"brain called unregistered tool '{toolName}'"
-                };
-        }
+            _ => new AgentDecision.Stop
+            {
+                Reason = $"brain called unregistered tool '{toolName}'"
+            },
+        };
     }
 
-    // v1: single-level flat schema { "field": "selector", ... }. Nested
-    // schemas (objects-within-objects, lists-of-objects) are a v2 deferral
-    // matching ADR-0045's source-gen v2 deferral.
-    private static Schema BuildFlatSchema(JsonElement schemaEl)
-    {
-        var s = new Schema();
-        foreach (var prop in schemaEl.EnumerateObject())
-        {
-            if (prop.Value.ValueKind != JsonValueKind.String) continue;
-            var fieldName = prop.Name;
-            var selector = prop.Value.GetString();
-            if (string.IsNullOrWhiteSpace(fieldName) || string.IsNullOrWhiteSpace(selector)) continue;
-            s.Add(new SchemaElement(fieldName, selector));
-        }
-        return s;
-    }
+    // Brain wrap for AgentDecision arms: the factory returns the arm with
+    // its Reason already populated (the brain passed reason in); on failure
+    // the freeform FailureReason composes into a Stop matching the
+    // pre-amendment audit-trail format byte-for-byte.
+    private static AgentDecision Unwrap<T>(ToolCallResult<T> result, string toolName, string reason)
+        where T : AgentDecision =>
+        result.Value is { } arm
+            ? arm
+            : new AgentDecision.Stop { Reason = $"brain {toolName} {result.FailureReason}: {reason}" };
+
+    // Brain wrap for Act* arms: the factory returns the PageAction value;
+    // the brain wraps in Act with the audit-trail Reason. Failure -> Stop
+    // with the factory's FailureReason in the same format as the
+    // pre-amendment parser.
+    private static AgentDecision UnwrapAct<T>(ToolCallResult<T> result, string toolName, string reason)
+        where T : PageAction =>
+        result.Value is { } action
+            ? new AgentDecision.Act(action) { Reason = reason }
+            : new AgentDecision.Stop { Reason = $"brain {toolName} {result.FailureReason}: {reason}" };
 
 }
