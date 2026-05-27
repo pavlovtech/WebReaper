@@ -29,10 +29,6 @@ The `LlmActionResolver` whitelist extends from four shapes to seven; the brain r
 | `WebReaper.AI/LlmActionResolver.cs` | Prompt whitelist extends to mention the three new shapes. `ParseActionTool` switch gains one line per arm (PR #134 uniform pattern). |
 | `WebReaper.AI/LlmAgentBrain.cs` | `ParseDecisionTool` gains one line per arm. |
 
-### Implementation note: depends on PR #134 landing first
-
-[ADR-0074 §References](docs/adr/0074-pageaction-form-interaction-primitives.md) records that the arm-local tool projection pattern (PR #134) is stranded on master at the time of this entry (the [[stacked-pr-merge-gotcha]] auto-merged it into a deleted base branch). The re-apply is in flight on `chore/re-apply-pr-134-arm-local-tool-projection`; the file-edit count above assumes it has landed. Against master's current flat-factory shape (without PR #134), the satellite-side cost is ~70 more lines per arm in the brain + resolver switch statements; same arms, more editing.
-
 ## 10.0.2 (in progress): post-launch refactors
 
 ### `WebReaper.Mcp` browser mode wired (ADR-0073)
