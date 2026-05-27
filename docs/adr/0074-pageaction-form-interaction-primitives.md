@@ -647,12 +647,10 @@ are both additive-public-types).
   [Considered options (m)](#m-mcp-scrape--extract-tool-surface-for-the-new-arms)).
 - PR #134 (`refactor(ai): arm-local tool projection`): the arm-local
   `PageActionTools.<Arm>` pattern this ADR's tool-registry additions
-  follow. Stranded by the [[stacked-pr-merge-gotcha]] on master at
-  the time of this draft; re-apply in flight on
-  `chore/re-apply-pr-134-arm-local-tool-projection`. ADR-0074
-  implementation depends on the re-apply landing first; the cost
-  numbers in [§ Implementation outline](#implementation-outline)
-  assume the post-#134 file layout.
+  follow. Re-applied via PR #139 (the original was stranded by the
+  [[stacked-pr-merge-gotcha]]); the post-#134 file layout is on
+  master, and the cost numbers in [§ Implementation outline](#implementation-outline)
+  assume that layout.
 - Firecrawl `/scrape` API reference
   (`https://docs.firecrawl.dev/api-reference/endpoint/scrape`): the
   9-action-types vocabulary this ADR achieves parity against (closing
