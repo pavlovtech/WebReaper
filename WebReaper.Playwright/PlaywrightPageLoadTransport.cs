@@ -137,6 +137,10 @@ public sealed class PlaywrightPageLoadTransport : IPageLoadTransport, IAsyncDisp
                     dispatch: (arm, token) => PerformAsync(page, arm, token),
                     ct);
                 break;
+            case PageAction.Press a:
+                // ADR-0074: Playwright accepts the same key-string format natively.
+                await page.Keyboard.PressAsync(a.Key);
+                break;
             default:
                 throw new ArgumentOutOfRangeException(
                     nameof(action), action.GetType().Name, "unhandled PageAction arm");

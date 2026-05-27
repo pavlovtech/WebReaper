@@ -51,6 +51,11 @@ internal static class PageActionCodec
                 w.WriteString("type", "semanticAct");
                 w.WriteString("intent", x.Intent);
                 break;
+            case PageAction.Press x:
+                // ADR-0074: key string is the only field; no selector.
+                w.WriteString("type", "press");
+                w.WriteString("key", x.Key);
+                break;
             default:
                 throw new JsonException($"unhandled PageAction arm '{a.GetType().Name}'");
         }
@@ -60,7 +65,7 @@ internal static class PageActionCodec
     public static PageAction Read(ref Utf8JsonReader r)
     {
         if (r.TokenType != JsonTokenType.StartObject) throw new JsonException("expected object");
-        string? type = null, selector = null, expression = null, intent = null;
+        string? type = null, selector = null, expression = null, intent = null, key = null;
         int ms = 0, timeoutMs = 0;
         while (r.Read() && r.TokenType != JsonTokenType.EndObject)
         {
@@ -72,6 +77,7 @@ internal static class PageActionCodec
                 case "selector": selector = r.GetString(); break;
                 case "expression": expression = r.GetString(); break;
                 case "intent": intent = r.GetString(); break;
+                case "key": key = r.GetString(); break;
                 case "ms": ms = r.GetInt32(); break;
                 case "timeoutMs": timeoutMs = r.GetInt32(); break;
                 default: r.Skip(); break;
@@ -86,6 +92,7 @@ internal static class PageActionCodec
             "waitForSelector" => new PageAction.WaitForSelector(Require(selector, "selector", type), timeoutMs),
             "waitForNetworkIdle" => new PageAction.WaitForNetworkIdle(),
             "semanticAct" => new PageAction.SemanticAct(Require(intent, "intent", type)),
+            "press" => new PageAction.Press(Require(key, "key", type)),
             _ => throw new JsonException($"unknown PageAction type '{type}'")
         };
     }

@@ -48,7 +48,11 @@ public sealed class LlmActionResolver : IActionResolver
         "provided action tools to indicate the concrete action. Pick the " +
         "simplest action that satisfies the intent. Prefer a CSS selector " +
         "specific enough not to collide with other elements (prefer id over " +
-        "class, class over tag; combine if needed).";
+        "class, class over tag; combine if needed). Available action shapes " +
+        "include: click (selector), wait (ms), waitForSelector (selector, " +
+        "timeoutMs), waitForNetworkIdle, scrollToEnd, evaluate (expression), " +
+        "and press (key), where key is a Playwright-style key string such as " +
+        "\"Enter\", \"Tab\", \"Escape\", \"Control+A\", or a single character.";
 
     private readonly LlmCall<PageAction?> _call;
     private readonly LlmActionResolverOptions _options;
@@ -139,6 +143,7 @@ public sealed class LlmActionResolver : IActionResolver
             PageActionTools.WaitForNetworkIdle.Name => PageActionTools.WaitForNetworkIdle.FromArguments(args).Value,
             PageActionTools.ScrollToEnd.Name => PageActionTools.ScrollToEnd.FromArguments(args).Value,
             PageActionTools.EvaluateExpression.Name => PageActionTools.EvaluateExpression.FromArguments(args).Value,
+            PageActionTools.Press.Name => PageActionTools.Press.FromArguments(args).Value,
             _ => null,
         };
 

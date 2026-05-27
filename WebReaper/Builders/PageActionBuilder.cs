@@ -151,6 +151,24 @@ public class PageActionBuilder
         return this;
     }
 
+    /// <summary>
+    /// Send the keyboard <paramref name="key"/> to the currently-focused element
+    /// (ADR-0074). Key strings follow Playwright's format: single printable
+    /// characters (<c>"a"</c>, <c>"Enter"</c>, <c>"Tab"</c>), named keys, and
+    /// modifier-prefixed combos (<c>"Control+A"</c>, <c>"Shift+Tab"</c>). The
+    /// dispatch goes to whichever element holds focus at the moment; pair with
+    /// <see cref="Click"/> or <see cref="WaitForSelector"/> first when focus
+    /// placement is uncertain.
+    /// </summary>
+    /// <exception cref="ArgumentException"><paramref name="key"/> is
+    /// null/empty/whitespace.</exception>
+    public PageActionBuilder Press(string key)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(key);
+        _pageActions.Add(new PageAction.Press(key));
+        return this;
+    }
+
     /// <summary>The accumulated actions, in the order they were added.</summary>
     public List<PageAction> Build()
     {

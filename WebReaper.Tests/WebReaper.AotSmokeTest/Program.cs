@@ -54,6 +54,21 @@ Check(gotConfig.LinkPathSelectors.Count() == 2
     "ImmutableQueue<LinkPathSelector> round-trip");
 Check(gotConfig.PageActions![0] is PageAction.Click { Selector: "#go" },
     "PageAction closed-sum arm round-trips");
+
+// 1b. ADR-0074: Press arm codec round-trip.
+var pressConfig = new ScraperConfig(
+    ParsingScheme: null,
+    LinkPathSelectors: ImmutableQueue<LinkPathSelector>.Empty,
+    StartUrls: new[] { "https://x.test/s" },
+    UrlBlackList: Array.Empty<string>(),
+    PageCrawlLimit: 1,
+    StartPageType: PageType.Static,
+    PageActions: new List<PageAction> { new PageAction.Press("Control+A") },
+    Headless: true,
+    StopWhenDrained: false);
+var gotPressConfig = WebReaperJson.DeserializeConfig(WebReaperJson.SerializeConfig(pressConfig));
+Check(gotPressConfig.PageActions![0] is PageAction.Press { Key: "Control+A" },
+    "PageAction.Press codec round-trip (ADR-0074)");
 Check(((Schema)gotConfig.ParsingScheme!.Children[0]).Children[0].Type == DataType.Integer,
     "polymorphic Schema/SchemaElement round-trip");
 
