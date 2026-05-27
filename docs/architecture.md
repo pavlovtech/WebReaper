@@ -4,12 +4,12 @@ Deep reference for the library's seam-by-seam shape. The [README](../README.md) 
 
 For the design decisions behind each seam, see the [ADRs in `docs/adr/`](adr/). The most-cited ones from this file:
 
-- [ADR-0004 — One Page Loader, two transports](adr/0004-one-page-loader-transport-seam.md)
-- [ADR-0009 — Registration seam + satellite adapters](adr/0009-registration-seam-and-satellite-adapters.md)
-- [ADR-0022 — Crawl driver and Outstanding-work latch](adr/0022-crawl-driver-and-outstanding-work-latch.md)
-- [ADR-0038 — Page processor seam](adr/0038-page-processor-seam.md)
-- [ADR-0039 — Content extractor seam](adr/0039-content-extractor-seam.md)
-- [ADR-0051 — Agent Crawl driver](adr/0051-agent-crawl-driver.md)
+- [ADR-0004: One Page Loader, two transports](adr/0004-one-page-loader-transport-seam.md)
+- [ADR-0009: Registration seam + satellite adapters](adr/0009-registration-seam-and-satellite-adapters.md)
+- [ADR-0022: Crawl driver and Outstanding-work latch](adr/0022-crawl-driver-and-outstanding-work-latch.md)
+- [ADR-0038: Page processor seam](adr/0038-page-processor-seam.md)
+- [ADR-0039: Content extractor seam](adr/0039-content-extractor-seam.md)
+- [ADR-0051: Agent Crawl driver](adr/0051-agent-crawl-driver.md)
 
 ## Adding a custom sink
 

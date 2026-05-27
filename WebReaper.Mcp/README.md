@@ -5,9 +5,9 @@ MCP (Model Context Protocol) server satellite for [WebReaper](https://github.com
 The agent client (Cursor / Claude Desktop / Copilot Studio) spawns
 this binary and communicates over stdio. Three tools:
 
-- **`scrape`** — fetch a URL and return its main content as LLM-ready Markdown.
-- **`map`** — discover URLs on a site via sitemap.xml + root-page links.
-- **`extract`** — extract structured fields from a URL using a JSON schema.
+- **`scrape`**: fetch a URL and return its main content as LLM-ready Markdown.
+- **`map`**: discover URLs on a site via sitemap.xml + root-page links.
+- **`extract`**: extract structured fields from a URL using a JSON schema.
 
 The CLI ([ADR-0043](../docs/adr/0043-cli-and-agent-skill.md)) is the
 *primary* agent surface; this MCP satellite is the **interop adapter**

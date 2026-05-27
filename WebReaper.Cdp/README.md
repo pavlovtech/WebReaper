@@ -1,6 +1,6 @@
 # WebReaper.Cdp
 
-Raw [Chrome DevTools Protocol](https://chromedevtools.github.io/devtools-protocol/) `IPageLoadTransport` for [WebReaper](https://github.com/pavlovtech/WebReaper) — the **AOT-clean** browser transport, the bedrock for stealth Chromium fork backends (see [WebReaper.Stealth.CloakBrowser](https://www.nuget.org/packages/WebReaper.Stealth.CloakBrowser)).
+Raw [Chrome DevTools Protocol](https://chromedevtools.github.io/devtools-protocol/) `IPageLoadTransport` for [WebReaper](https://github.com/pavlovtech/WebReaper); the **AOT-clean** browser transport, the bedrock for stealth Chromium fork backends (see [WebReaper.Stealth.CloakBrowser](https://www.nuget.org/packages/WebReaper.Stealth.CloakBrowser)).
 
 ## Why this satellite
 
@@ -8,7 +8,7 @@ Three things `WebReaper.Puppeteer` and `WebReaper.Playwright` cannot do that thi
 
 1. **AOT-publishable inside `WebReaper.Cli`.** PuppeteerSharp and Microsoft.Playwright both depend on reflection-heavy serialisation. The CLI bakes `WebReaper.Cdp` and stays single-binary across 6 RIDs.
 2. **Drive stealth Chromium forks** (CloakBrowser, Patchright, Camoufox, undetected-chromedriver). Those ship as bare Chromium binaries with `--remote-debugging-port`; CDP-direct is the only way to talk to them without re-introducing a heavy SDK dependency.
-3. **Connect to any CDP endpoint** — a sidecar, a browser farm, a `playwright launch-server`, a remote debug session.
+3. **Connect to any CDP endpoint**; a sidecar, a browser farm, a `playwright launch-server`, a remote debug session.
 
 ## Install
 
@@ -44,7 +44,7 @@ var engine = await ScraperEngineBuilder
 await engine.RunAsync();
 ```
 
-## `CdpLaunchHelpers` — the public utility every stealth satellite composes on
+## `CdpLaunchHelpers`; the public utility every stealth satellite composes on
 
 ```csharp
 using WebReaper.Cdp;
@@ -56,7 +56,7 @@ var endpoint = await CdpLaunchHelpers.LaunchAsync(
 // endpoint.CdpUrl, endpoint.DisposeAsync()
 ```
 
-`WebReaper.Stealth.X` satellites use these helpers + the `WithCdpPageLoader(cdpUrl)` overload — they spawn their fork's binary, then hand the resulting CDP URL to this transport.
+`WebReaper.Stealth.X` satellites use these helpers + the `WithCdpPageLoader(cdpUrl)` overload; they spawn their fork's binary, then hand the resulting CDP URL to this transport.
 
 ## SemVer
 

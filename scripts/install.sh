@@ -1,5 +1,5 @@
 #!/bin/sh
-# install.sh — WebReaper CLI installer (ADR-0070).
+# install.sh: WebReaper CLI installer (ADR-0070).
 #
 # Usage:
 #   curl -fsSL https://raw.githubusercontent.com/pavlovtech/WebReaper/master/install.sh | sh
@@ -7,27 +7,27 @@
 #   curl -fsSL https://raw.githubusercontent.com/pavlovtech/WebReaper/master/install.sh | sh -s -- --force
 #
 # Environment variables:
-#   WEBREAPER_VERSION         — pin to a specific tag (e.g. v10.0.0). Default: latest release.
-#   PREFIX                    — install directory. Default: /usr/local/bin → ~/.local/bin fallback.
-#   WEBREAPER_FORCE=1         — overwrite existing install (same as --force).
-#   WEBREAPER_INSTALL_VERBOSE=1 — verbose output (set -x + curl -v).
-#   NO_COLOR=1                — disable ANSI colour.
+#   WEBREAPER_VERSION        : pin to a specific tag (e.g. v10.0.0). Default: latest release.
+#   PREFIX                   : install directory. Default: /usr/local/bin → ~/.local/bin fallback.
+#   WEBREAPER_FORCE=1        : overwrite existing install (same as --force).
+#   WEBREAPER_INSTALL_VERBOSE=1: verbose output (set -x + curl -v).
+#   NO_COLOR=1               : disable ANSI colour.
 #
 # Flags:
-#   --force      — overwrite without confirmation, even if same version is installed
-#   --upgrade    — overwrite only if installing a strictly newer version
-#   --help, -h   — print this usage block
+#   --force     : overwrite without confirmation, even if same version is installed
+#   --upgrade   : overwrite only if installing a strictly newer version
+#   --help, -h  : print this usage block
 #
 # Exit codes:
-#   0 — success (installed, upgraded, or already-current)
-#   1 — generic / unexpected error
-#   2 — unsupported OS / architecture
-#   3 — missing required tool (curl/wget, sha256sum/shasum, tar, unzip)
-#   4 — network failure after retries
-#   5 — SHA256 verification failed
-#   6 — conflicting webreaper found elsewhere on PATH (rerun with --force)
-#   7 — same/older version already at target (rerun with --force or --upgrade)
-#   8 — install location not writable
+#   0: success (installed, upgraded, or already-current)
+#   1: generic / unexpected error
+#   2: unsupported OS / architecture
+#   3: missing required tool (curl/wget, sha256sum/shasum, tar, unzip)
+#   4: network failure after retries
+#   5: SHA256 verification failed
+#   6: conflicting webreaper found elsewhere on PATH (rerun with --force)
+#   7: same/older version already at target (rerun with --force or --upgrade)
+#   8: install location not writable
 
 set -eu
 
@@ -59,7 +59,7 @@ ok()   { printf "%s✓%s %s\n" "$GREEN"  "$RESET" "$*"; }
 
 usage() {
   sed -n '2,/^$/p' <<'USAGE_END' | sed 's/^# \{0,1\}//'
-# install.sh — WebReaper CLI installer
+# install.sh: WebReaper CLI installer
 #
 # Usage:
 #   curl -fsSL https://raw.githubusercontent.com/pavlovtech/WebReaper/master/install.sh | sh
@@ -185,7 +185,7 @@ if EXISTING=$(command -v webreaper 2>/dev/null); then
   if [ "$EXISTING" != "$TARGET" ]; then
     warn "another webreaper found at ${EXISTING} (installing to ${TARGET})"
     if [ -z "$FORCE" ]; then
-      err "refusing to install — multiple webreaper binaries would be on PATH"
+      err "refusing to install: multiple webreaper binaries would be on PATH"
       err "rerun with --force (or WEBREAPER_FORCE=1) to override"
       exit 6
     fi
@@ -223,7 +223,7 @@ if [ -x "$TARGET" ]; then
       info "upgrading ${EXISTING_VER} → ${VERSION}"
     elif [ -z "$FORCE" ]; then
       warn "webreaper ${EXISTING_VER} is at ${TARGET}; installing ${VERSION} would overwrite"
-      err "refusing to overwrite — pass --force or --upgrade"
+      err "refusing to overwrite: pass --force or --upgrade"
       exit 7
     fi
   fi

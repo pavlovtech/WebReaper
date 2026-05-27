@@ -12,14 +12,14 @@
 
     <PackageId>WebReaper.Cdp</PackageId>
     <Title>WebReaper.Cdp</Title>
-    <Description>Raw Chrome DevTools Protocol (CDP) IPageLoadTransport for WebReaper — the AOT-clean transport that connects to any --remote-debugging-port endpoint. The bedrock for Browser-backend swaps (stealth Chromium forks like CloakBrowser, BYO browser farms, sidecar testing). Two overloads: WithCdpPageLoader(cdpUrl) (connect-to-existing) and WithCdpPageLoader(CdpLaunchOptions) (launch-and-connect). Ships the public CdpLaunchHelpers utility every WebReaper.Stealth.* satellite composes on. No PuppeteerSharp / Microsoft.Playwright dependency — System.Net.WebSockets + System.Text.Json source-gen only.</Description>
+    <Description>Raw Chrome DevTools Protocol (CDP) IPageLoadTransport for WebReaper; the AOT-clean transport that connects to any --remote-debugging-port endpoint. The bedrock for Browser-backend swaps (stealth Chromium forks like CloakBrowser, BYO browser farms, sidecar testing). Two overloads: WithCdpPageLoader(cdpUrl) (connect-to-existing) and WithCdpPageLoader(CdpLaunchOptions) (launch-and-connect). Ships the public CdpLaunchHelpers utility every WebReaper.Stealth.* satellite composes on. No PuppeteerSharp / Microsoft.Playwright dependency; System.Net.WebSockets + System.Text.Json source-gen only.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>scraper, crawler, cdp, chrome-devtools-protocol, stealth, aot</PackageTags>
     <PackageIcon>logo.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>10.0.0: initial release. Raw CDP IPageLoadTransport satellite per ADR-0052. AOT-clean by construction (System.Net.WebSockets + System.Text.Json source-gen). Public CdpLaunchHelpers utility (PATH search, free-port spawn, CDP-connect-validate, teardown) that every WebReaper.Stealth.* satellite composes on. Two builder overloads: WithCdpPageLoader(cdpUrl) and WithCdpPageLoader(CdpLaunchOptions). Implements all 7 PageAction arms (ADR-0035) including SemanticAct (ADR-0050). Requires WebReaper 10.0.0.</PackageReleaseNotes>
 
-    <!-- ADR-0052: this satellite IS AOT-compatible by design — the CLI
+    <!-- ADR-0052: this satellite IS AOT-compatible by design; the CLI
          (ADR-0043) bakes it for AOT publishability across all 6 RIDs.
          WebReaper.AotSmokeTest covers it. -->
     <IsAotCompatible>true</IsAotCompatible>

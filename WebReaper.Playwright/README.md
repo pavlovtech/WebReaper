@@ -1,6 +1,6 @@
 # WebReaper.Playwright
 
-[Microsoft.Playwright](https://playwright.dev/dotnet/)-backed `IPageLoadTransport` for [WebReaper](https://github.com/pavlovtech/WebReaper) — the modern, multi-browser headless-scraping satellite. Replaces the deleted `WebReaper.Puppeteer` in v10.
+[Microsoft.Playwright](https://playwright.dev/dotnet/)-backed `IPageLoadTransport` for [WebReaper](https://github.com/pavlovtech/WebReaper); the modern, multi-browser headless-scraping satellite. Replaces the deleted `WebReaper.Puppeteer` in v10.
 
 ## Why Playwright (not Puppeteer)
 
@@ -8,9 +8,9 @@
 - **Auto-wait**: actions wait for the right state by default; less explicit `WaitForSelector` boilerplate
 - **Better network interception**: `page.RouteAsync` over Puppeteer's older interception API
 - **Official Microsoft .NET-native maintenance**
-- **All 7 `PageAction` arms** — closes the ADR-0004 §"Out of scope" four-arm gap the deleted Puppeteer transport had
+- **All 7 `PageAction` arms**; closes the ADR-0004 §"Out of scope" four-arm gap the deleted Puppeteer transport had
 
-For AOT-compiled consumers (and for stealth Chromium forks), use [`WebReaper.Cdp`](https://www.nuget.org/packages/WebReaper.Cdp) instead — Microsoft.Playwright's reflection-driven serialisation is not AOT-clean by design (ADR-0009 satellite quarantine).
+For AOT-compiled consumers (and for stealth Chromium forks), use [`WebReaper.Cdp`](https://www.nuget.org/packages/WebReaper.Cdp) instead; Microsoft.Playwright's reflection-driven serialisation is not AOT-clean by design (ADR-0009 satellite quarantine).
 
 ## Install
 
@@ -61,4 +61,4 @@ That is the full diff for the common case. See [ADR-0053](https://github.com/pav
 
 ## SemVer
 
-10.0.0 (initial release; carries the v10 major break — Puppeteer satellite deleted in the same release).
+10.0.0 (initial release; carries the v10 major break; Puppeteer satellite deleted in the same release).

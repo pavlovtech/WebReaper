@@ -403,3 +403,6 @@ ASALocalRun/
 
 # Local History for Visual Studio
 .localhistory/
+# Local-only Claude Code state and Playwright debug output (never commit)
+.claude/
+.playwright-cli/
