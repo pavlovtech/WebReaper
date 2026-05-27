@@ -227,7 +227,7 @@ ScraperEngineBuilder
     // ...
 ```
 
-A natural-language `PageAction.SemanticAct(intent)` is the seventh closed-sum arm. The transport resolves it once via the registered `IActionResolver` (LLM-backed by default), dispatches the concrete arm, and caches the resolution per crawl by intent string. First page pays the LLM, subsequent same-intent pages dispatch the cached arm with no LLM call.
+A natural-language `PageAction.SemanticAct(intent)` is one of the ten closed-sum arms (ADR-0050 added it; ADR-0074 added `Fill` / `Press` / `ScrollIntoView` for form interactions). The transport resolves it once via the registered `IActionResolver` (LLM-backed by default), dispatches the concrete arm, and caches the resolution per crawl by intent string. First page pays the LLM, subsequent same-intent pages dispatch the cached arm with no LLM call.
 
 ### Runnable end-to-end demo
 
@@ -258,7 +258,7 @@ The release ships eleven packages (one core, ten satellites), all versioned in l
 |---|---|---|
 | **WebReaper** | Core. HTTP crawl and parse, in-memory and file scheduler / visited-link tracker / cookie and config storage, Console / CSV / JSON-Lines sinks, Markdown extractor, schema fold. Dependency-light, Native-AOT-ready, Newtonsoft-free. | `Crawl` `Extract` `AsMarkdown` `Follow` `Paginate` `WriteToJsonFile` `WriteToCsvFile` `WriteToConsole` |
 | **WebReaper.Cdp** | Raw CDP `IPageLoadTransport` (ADR-0052). AOT-clean (no PuppeteerSharp / Playwright dependency); System.Net.WebSockets plus System.Text.Json source-gen. Bedrock for the stealth pattern. | `.WithCdpPageLoader(cdpUrl)` (BYO) or `.WithCdpPageLoader(CdpLaunchOptions)` (launch managed Chromium) |
-| **WebReaper.Playwright** | Microsoft.Playwright-backed transport (ADR-0053). Multi-browser (Chromium default; Firefox / WebKit opt-in). All seven `PageAction` arms supported. Use for modern multi-browser needs; pair with `WebReaper.Cdp` for AOT or stealth. | `.WithPlaywrightPageLoader()` |
+| **WebReaper.Playwright** | Microsoft.Playwright-backed transport (ADR-0053). Multi-browser (Chromium default; Firefox / WebKit opt-in). All ten `PageAction` arms supported. Use for modern multi-browser needs; pair with `WebReaper.Cdp` for AOT or stealth. | `.WithPlaywrightPageLoader()` |
 | **WebReaper.Stealth.CloakBrowser** | First stealth-backend satellite (ADR-0054). Auto-downloads CloakBrowser on first use; composes on `WebReaper.Cdp`. Disposable via the ADR-0058 engine teardown chain. | `.WithCloakBrowser()` |
 | **WebReaper.AI** | LLM extraction, LLM action resolver, LLM brain, LLM self-healing, LLM schema inferrer (ADR-0044 / 0050 / 0051 / 0067). Built on `Microsoft.Extensions.AI`; bring your own `IChatClient`. | `.WithLlmFallback` `.WithLlmSelfHealing` `.WithLlmExtractor` `.WithLlmAgentBrain` `.WithLlmActionResolver` `.WithLlmSchemaInferrer` `.UseAi(client)` |
 | **WebReaper.Extraction.Attributes** | The `[ScrapeSchema]` / `[ScrapeField]` marker types. Standalone, no runtime cost. | `[ScrapeSchema]` `[ScrapeField("selector")]` |
@@ -281,6 +281,7 @@ The release ships eleven packages (one core, ten satellites), all versioned in l
 | **Cost** | free | metered API plus free tier | free | included with Claude |
 | **BYO LLM** | any `IChatClient` | no (their model) | yes (LiteLLM) | Claude only |
 | **Autonomous agent** | `Agent.RunAsync()` durable, in-process | `/agent` endpoint (cloud only) | code it yourself | not available |
+| **Page actions** | 10 declarative arms: `Click`, `Wait`, `Fill`, `Press`, `ScrollToEnd`, `ScrollIntoView`, `WaitForSelector`, `WaitForNetworkIdle`, `EvaluateExpression`, `SemanticAct` (natural-language) | 9 actions: `wait`, `click`, `write`, `press`, `scroll`, `executeJavascript`, plus 3 observation (`screenshot`, `pdf`, `scrape`) | JS hooks; no closed-sum vocabulary | none (single-fetch only) |
 | **Bot-protected** | `--auto-stealth` | cloud yes; self-host degraded (no Fire-engine) | BYO | no |
 | **Claude Code skill** | `webreaper init` bundled | community `firecrawl-claude-code-skill` wraps the cloud API | none official | not applicable |
 
@@ -320,7 +321,7 @@ Each `new("field", "css-selector")` is a leaf; nest schemas for objects, set `Is
 
 For JS-rendered pages, swap `Crawl` for `CrawlWithBrowser` and register a browser transport. Two satellites are available.
 
-**[`WebReaper.Playwright`](https://www.nuget.org/packages/WebReaper.Playwright)** is the modern default (ADR-0053): multi-browser, all seven `PageAction` arms.
+**[`WebReaper.Playwright`](https://www.nuget.org/packages/WebReaper.Playwright)** is the modern default (ADR-0053): multi-browser, all ten `PageAction` arms.
 
 ```csharp
 using WebReaper.Builders;
@@ -370,7 +371,7 @@ await ScraperEngineBuilder
     .BuildAsync();
 ```
 
-`PageActionBuilder` exposes `Click`, `Wait`, `ScrollToEnd`, `WaitForSelector`, `WaitForNetworkIdle`, `EvaluateExpression`, `SemanticAct`, `Repeat` / `RepeatWithDelay`, and `Build()`. `SemanticAct` (ADR-0050) accepts a natural-language intent and resolves it via the registered `IActionResolver` (see [AI features §5](#5-semantic-page-actions)).
+`PageActionBuilder` exposes `Click`, `Wait`, `ScrollToEnd`, `ScrollIntoView`, `WaitForSelector`, `WaitForNetworkIdle`, `EvaluateExpression`, `Fill`, `Press`, `SemanticAct`, `Repeat` / `RepeatWithDelay`, and `Build()`. `Fill(selector, value)` / `Press(key)` / `ScrollIntoView(selector)` (ADR-0074) carry an implicit 30 s auto-wait and use the React-friendly native-setter trick on the CDP transport, so controlled components in React / Vue / Svelte observe the change. `SemanticAct` (ADR-0050) accepts a natural-language intent and resolves it via the registered `IActionResolver` (see [AI features §5](#5-semantic-page-actions)).
 
 ### Persist progress locally
 
