@@ -109,6 +109,21 @@ public class LlmToolArgumentsTests
     }
 
     [Fact]
+    public void TryGetInt_accepts_integer_token_rejects_decimal_token()
+    {
+        // System.Text.Json tokenises JSON numbers with vs. without a
+        // decimal point distinctly: TryGetInt32 accepts the integer
+        // shape (1, 30000) and REJECTS the decimal shape — even when
+        // the decimal value is whole (1.0). Pin the contract here
+        // because a provider that emits "1.0" for a logical integer
+        // will silently coerce to null and the caller will fall back
+        // to the arm's default. Document the boundary.
+        Assert.Equal(1, LlmToolArguments.TryGetInt(Parse("""{ "ms": 1 }"""), "ms"));
+        Assert.Equal(30_000, LlmToolArguments.TryGetInt(Parse("""{ "ms": 30000 }"""), "ms"));
+        Assert.Null(LlmToolArguments.TryGetInt(Parse("""{ "ms": 1.0 }"""), "ms"));
+    }
+
+    [Fact]
     public void TryGetInt_returns_null_for_json_null()
     {
         var args = Parse("""{ "ms": null }""");
