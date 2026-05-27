@@ -20,19 +20,19 @@ The `LlmActionResolver` whitelist extends from four shapes to seven; the brain r
 
 | File | Change |
 |---|---|
-| `WebReaper/Domain/PageActions/PageAction.cs` | Three new nested `sealed record` arms. Class doc updated: "seven arms" → "ten arms"; implicit-30s-auto-wait noted on `Fill` and `ScrollIntoView`. `ScrollIntoView` doc notes it is distinct from `ScrollToEnd`. |
-| `WebReaper/Builders/PageActionBuilder.cs` | Three new fluent methods (`Fill`, `Press`, `ScrollIntoView`) with `ArgumentException.ThrowIfNullOrWhiteSpace` validation. |
+| `WebReaper/Domain/PageActions/PageAction.cs` | Three new nested `sealed record` arms (`Fill`, `Press`, `ScrollIntoView`). Class doc updated: "seven arms" → "ten arms"; implicit-30s-auto-wait noted on `Fill` and `ScrollIntoView`. `ScrollIntoView` doc notes it is distinct from `ScrollToEnd`. |
+| `WebReaper/Builders/PageActionBuilder.cs` | Three new fluent methods (`Fill`, `Press`, `ScrollIntoView`) with `ArgumentException.ThrowIfNullOrWhiteSpace` validation on selector + key arguments. `Fill` accepts an empty `value` (clears the field). |
 | `WebReaper/Serialization/Converters/PageActionJsonConverter.cs` | Three new write/read arm cases. Wire tags `"fill"` / `"press"` / `"scrollIntoView"`. Pre-v10.1 readers throw `JsonException` with the unknown arm tag; closed-sum-default-arm posture preserved. |
 | `WebReaper.Cdp/CdpKeyMapper.cs` | NEW file. Pure static deep module mapping Playwright-style key strings to the four CDP `Input.dispatchKeyEvent` fields (`key`, `code`, `windowsVirtualKeyCode`, `modifiers` bitmask). ~80 entries: printable chars, named keys, function keys F1-F12, modifier-prefixed combos. Unknown key throws `ArgumentException`. |
-| `WebReaper.Cdp/CdpPageActionDispatcher.cs` | Three new dispatch arms. `Fill` calls `WaitForSelectorAsync` then evaluates a `Runtime.evaluate` payload running the React-friendly native-setter trick + `dispatchEvent(input/change)`. `Press` dispatches via `CdpKeyMapper.Map` + two `Input.dispatchKeyEvent` calls (`keyDown` then `keyUp`). `ScrollIntoView` reuses the same poll helper before `Runtime.evaluate` of `scrollIntoView()`. |
+| `WebReaper.Cdp/CdpPageActionDispatcher.cs` | Three new dispatch arms. `Fill` calls `WaitForSelectorAsync` then evaluates a `Runtime.evaluate` payload running the React-friendly native-setter trick + `dispatchEvent(input/change)` (`BuildFillScript` helper). `Press` dispatches via `CdpKeyMapper.Map` + two `Input.dispatchKeyEvent` calls (`keyDown` then `keyUp`). `ScrollIntoView` reuses the same poll helper before `Runtime.evaluate` of `scrollIntoView()`. |
 | `WebReaper.Playwright/PlaywrightPageLoadTransport.cs` | Three new dispatch arms, one line each (`page.FillAsync`, `page.Keyboard.PressAsync`, `page.Locator(sel).ScrollIntoViewIfNeededAsync`). |
 | `WebReaper.AI/Tools/PageActionTools.cs` | Three new nested static classes following PR #134's arm-local pattern: `PageActionTools.Fill`, `.Press`, `.ScrollIntoView` each with `Name` const + `Descriptor` JSON Schema + `FromArguments`. |
-| `WebReaper.AI/Tools/AgentDecisionTools.cs` | `ForBrain()` grows 11 → 12 tools (adds `ScrollIntoView.Descriptor`); `ForResolver()` grows 7 → 8 tools (same). |
-| `WebReaper.AI/LlmActionResolver.cs` | Prompt whitelist extends to mention all seven concrete shapes including `scrollIntoView`. `ParseActionTool` switch gains one case for `ActScrollIntoView`. |
-| `WebReaper.AI/LlmAgentBrain.cs` | `ParseDecisionTool` gains one case for `ActScrollIntoView`. |
-| `WebReaper.Tests/WebReaper.UnitTests/StjSerializationTests.cs` | `ScrollIntoView_arm_round_trips_with_typed_field_equality` test added. |
-| `WebReaper.Tests/WebReaper.UnitTests/PayloadShellTests.cs` | `Config_shell_round_trips_scroll_into_view_arm` test added. |
-| `WebReaper.Tests/WebReaper.AotSmokeTest/Program.cs` | `PageAction.ScrollIntoView round-trip (ADR-0074)` check added. |
+| `WebReaper.AI/Tools/AgentDecisionTools.cs` | `ForBrain()` grows 10 → 13 tools (adds `Press`, `ScrollIntoView`, `Fill`); `ForResolver()` grows 6 → 9 tools (same). |
+| `WebReaper.AI/LlmActionResolver.cs` | Prompt whitelist extends to mention all seven concrete shapes (`fill`, `press`, `scrollIntoView` added). `ParseActionTool` switch gains one case per new arm. |
+| `WebReaper.AI/LlmAgentBrain.cs` | `ParseDecisionTool` gains one case per new arm. |
+| `WebReaper.Tests/WebReaper.UnitTests/StjSerializationTests.cs` | Three new arm round-trip tests pinning typed-field equality through the codec. |
+| `WebReaper.Tests/WebReaper.UnitTests/PayloadShellTests.cs` | Three new `ScraperConfig` payload-shell round-trip tests; the ScrollIntoView test additionally covers chain-nested `LinkPathSelector.PageActions`. |
+| `WebReaper.Tests/WebReaper.AotSmokeTest/Program.cs` | Three new `PageAction` arm round-trip checks added to the closed-sum smoke exercise; smoke pass count grows from 11 → 14. |
 
 ## 10.0.2 (in progress): post-launch refactors
 

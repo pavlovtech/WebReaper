@@ -146,6 +146,11 @@ public sealed class PlaywrightPageLoadTransport : IPageLoadTransport, IAsyncDisp
                 // ADR-0074: Playwright accepts the same key-string format natively.
                 await page.Keyboard.PressAsync(a.Key);
                 break;
+            case PageAction.Fill a:
+                // ADR-0074: one line; native auto-wait + clear + framework events
+                // handled by Playwright's page.FillAsync.
+                await page.FillAsync(a.Selector, a.Value);
+                break;
             default:
                 throw new ArgumentOutOfRangeException(
                     nameof(action), action.GetType().Name, "unhandled PageAction arm");

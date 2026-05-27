@@ -185,6 +185,29 @@ public class PageActionBuilder
         return this;
     }
 
+    /// <summary>
+    /// Fill the element matching <paramref name="selector"/> with
+    /// <paramref name="value"/> (ADR-0074). Carries an implicit 30 s auto-wait
+    /// on selector resolution; compose with
+    /// <see cref="WaitForSelector(string, int)"/> for a custom timeout.
+    /// <para>
+    /// An empty string is a legitimate <paramref name="value"/> (it clears the
+    /// element's current text via the same code path), so only <c>null</c> is
+    /// rejected here. <paramref name="selector"/> still enforces the
+    /// non-whitespace rule the rest of the builder uses.
+    /// </para>
+    /// </summary>
+    /// <exception cref="ArgumentException"><paramref name="selector"/> is
+    /// null/empty/whitespace.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
+    public PageActionBuilder Fill(string selector, string value)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(selector);
+        ArgumentNullException.ThrowIfNull(value);
+        _pageActions.Add(new PageAction.Fill(selector, value));
+        return this;
+    }
+
     /// <summary>The accumulated actions, in the order they were added.</summary>
     public List<PageAction> Build()
     {

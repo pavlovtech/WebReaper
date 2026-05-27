@@ -60,6 +60,12 @@ internal static class PageActionCodec
                 w.WriteString("type", "press");
                 w.WriteString("key", x.Key);
                 break;
+            case PageAction.Fill x:
+                // ADR-0074: wire tag "fill" with selector + value fields.
+                w.WriteString("type", "fill");
+                w.WriteString("selector", x.Selector);
+                w.WriteString("value", x.Value);
+                break;
             default:
                 throw new JsonException($"unhandled PageAction arm '{a.GetType().Name}'");
         }
@@ -69,7 +75,7 @@ internal static class PageActionCodec
     public static PageAction Read(ref Utf8JsonReader r)
     {
         if (r.TokenType != JsonTokenType.StartObject) throw new JsonException("expected object");
-        string? type = null, selector = null, expression = null, intent = null, key = null;
+        string? type = null, selector = null, expression = null, intent = null, key = null, value = null;
         int ms = 0, timeoutMs = 0;
         while (r.Read() && r.TokenType != JsonTokenType.EndObject)
         {
@@ -82,6 +88,7 @@ internal static class PageActionCodec
                 case "expression": expression = r.GetString(); break;
                 case "intent": intent = r.GetString(); break;
                 case "key": key = r.GetString(); break;
+                case "value": value = r.GetString(); break;
                 case "ms": ms = r.GetInt32(); break;
                 case "timeoutMs": timeoutMs = r.GetInt32(); break;
                 default: r.Skip(); break;
@@ -98,6 +105,8 @@ internal static class PageActionCodec
             "scrollIntoView" => new PageAction.ScrollIntoView(Require(selector, "selector", type)),
             "semanticAct" => new PageAction.SemanticAct(Require(intent, "intent", type)),
             "press" => new PageAction.Press(Require(key, "key", type)),
+            // ADR-0074: fill arm; both fields required.
+            "fill" => new PageAction.Fill(Require(selector, "selector", type), Require(value, "value", type)),
             _ => throw new JsonException($"unknown PageAction type '{type}'")
         };
     }

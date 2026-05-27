@@ -223,6 +223,7 @@ public sealed class LlmAgentBrain : IAgentBrain
             PageActionTools.EvaluateExpression.Name => UnwrapAct(PageActionTools.EvaluateExpression.FromArguments(args), toolName, reason),
             PageActionTools.SemanticAct.Name => UnwrapAct(PageActionTools.SemanticAct.FromArguments(args), toolName, reason),
             PageActionTools.Press.Name => UnwrapAct(PageActionTools.Press.FromArguments(args), toolName, reason),
+            PageActionTools.Fill.Name => UnwrapAct(PageActionTools.Fill.FromArguments(args), toolName, reason),
 
             _ => new AgentDecision.Stop
             {

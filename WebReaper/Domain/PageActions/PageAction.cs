@@ -3,12 +3,22 @@ namespace WebReaper.Domain.PageActions;
 /// <summary>
 /// One browser interaction performed on a dynamic page before scraping — built
 /// via <see cref="WebReaper.Builders.PageActionBuilder"/> and interpreted by
-/// the WebReaper.Cdp or WebReaper.Playwright satellite.
+/// the browser-transport satellites (WebReaper.Playwright, WebReaper.Cdp).
 /// <para>
 /// A closed sum (ADR-0035, ADR-0074, the ADR-0001 closed-sum pattern as <c>CrawlOutcome</c>):
 /// exactly one of the ten nested arms, each carrying its own typed parameters;
 /// no untyped <c>object[]</c>, no separate discriminant enum. Construct only via
 /// the nested arms; the union is not extensible.
+/// </para>
+/// <para>
+/// Implicit-timeout note (ADR-0074): <see cref="Fill"/> carries a 30 s
+/// auto-wait on selector resolution (CDP polls every 50 ms; Playwright
+/// auto-waits natively). Every other arm with a timeout
+/// (<see cref="WaitForSelector"/>) takes it as an explicit
+/// <c>TimeoutMs</c> field. The discipline: implicit when the timeout
+/// is the safety net for the common case; explicit when it varies per call.
+/// Compose <c>WaitForSelector(sel, custom_timeout) + Fill(sel, value)</c>
+/// for a non-30s wait.
 /// </para>
 /// </summary>
 public abstract record PageAction
@@ -63,12 +73,11 @@ public abstract record PageAction
     /// arm at runtime (ADR-0050). The first dispatch on each crawl invokes the
     /// registered <see cref="WebReaper.Core.Actions.Abstract.IActionResolver"/>
     /// — typically an LLM in the <c>WebReaper.AI</c> satellite — to produce a
-    /// selector-based arm (<see cref="Click"/>, <see cref="WaitForSelector"/>,
-    /// <see cref="Wait"/>, or <see cref="EvaluateExpression"/>); the resolution
-    /// is cached per-crawl by intent string, so every subsequent dispatch of
-    /// the same intent runs the cached deterministic arm with no LLM call. The
-    /// LLM-as-proposer / deterministic-as-decider pattern (ADR-0046, ADR-0047)
-    /// applied to the action surface.
+    /// selector-based arm; the resolution is cached per-crawl by intent string,
+    /// so every subsequent dispatch of the same intent runs the cached
+    /// deterministic arm with no LLM call. The LLM-as-proposer /
+    /// deterministic-as-decider pattern (ADR-0046, ADR-0047) applied to the
+    /// action surface.
     /// </summary>
     /// <param name="Intent">The natural-language intent (e.g. "click sign in").</param>
     public sealed record SemanticAct(string Intent) : PageAction;
@@ -101,4 +110,29 @@ public abstract record PageAction
     /// <param name="Key">The Playwright-style key string (e.g. <c>"Enter"</c>,
     /// <c>"Control+A"</c>, <c>"a"</c>).</param>
     public sealed record Press(string Key) : PageAction;
+
+    /// <summary>
+    /// Fill the element matching <paramref name="Selector"/> with
+    /// <paramref name="Value"/> (ADR-0074). Implicit policies:
+    /// <list type="bullet">
+    ///   <item><b>Auto-wait, 30 s.</b> The selector is resolved before the fill
+    ///   (CDP polls every 50 ms; Playwright auto-waits natively). A selector
+    ///   that never appears throws <see cref="TimeoutException"/>.</item>
+    ///   <item><b>Element-shape check.</b> The matched element must be an
+    ///   <c>HTMLInputElement</c>, <c>HTMLTextAreaElement</c>, or
+    ///   <c>isContentEditable</c>. Anything else throws.</item>
+    ///   <item><b>Disabled check.</b> A disabled element throws.</item>
+    ///   <item><b>Clear-before-fill.</b> Matches <c>page.FillAsync</c>
+    ///   semantics; compose with <see cref="EvaluateExpression"/> to read the
+    ///   current value first if append is needed.</item>
+    ///   <item><b>Framework-observed events.</b> The CDP transport uses the
+    ///   React-friendly native-setter trick (the property descriptor's
+    ///   <c>value</c> setter, not <c>.value = x</c> directly), then dispatches
+    ///   <c>focus</c>, <c>input</c>, <c>change</c> synchronously. Controlled
+    ///   components in React / Vue / Svelte observe the change.</item>
+    /// </list>
+    /// </summary>
+    /// <param name="Selector">CSS selector for the target text-input element.</param>
+    /// <param name="Value">Text to fill into the element.</param>
+    public sealed record Fill(string Selector, string Value) : PageAction;
 }

@@ -101,6 +101,14 @@ internal static class CdpPageActionDispatcher
                         ["modifiers"] = cdpKey.Modifiers,
                     }, sessionId, ct);
                 break;
+            case PageAction.Fill a:
+                // ADR-0074: auto-wait 30 s, then set value via the React-friendly
+                // native-setter trick to ensure controlled components observe the
+                // change. Throws on selector-not-found, wrong-shape element, or
+                // disabled element (no silent-no-op).
+                await WaitForSelectorAsync(session, sessionId, a.Selector, 30_000, ct);
+                await EvaluateAsync(session, sessionId, BuildFillScript(a.Selector, a.Value), ct);
+                break;
             default:
                 throw new ArgumentOutOfRangeException(
                     nameof(action), action.GetType().Name, "unhandled PageAction arm");
@@ -163,5 +171,37 @@ internal static class CdpPageActionDispatcher
     {
         // JSON-escape via JsonValue; embeds correctly into a JS expression.
         return JsonValue.Create(s)!.ToJsonString();
+    }
+
+    // ADR-0074: React-friendly fill script. Uses the native property-descriptor
+    // setter instead of `.value = x` directly so React's _valueTracker sees the
+    // change and controlled components re-render. Throws inside JS on
+    // selector-not-found, wrong-shape element, or disabled element so the
+    // CdpException propagates up to the caller.
+    internal static string BuildFillScript(string selector, string value)
+    {
+        var sel = JsonStringLiteral(selector);
+        var val = JsonStringLiteral(value);
+        return
+            $"(() => {{" +
+            $"const el = document.querySelector({sel});" +
+            $"if (!el) throw new Error('Selector not found: ' + {sel});" +
+            $"const isInput = el instanceof HTMLInputElement;" +
+            $"const isTextarea = el instanceof HTMLTextAreaElement;" +
+            $"const isContentEditable = el.isContentEditable;" +
+            $"if (!isInput && !isTextarea && !isContentEditable) throw new Error('Element is not text-input-shaped: ' + {sel});" +
+            $"if (el.disabled) throw new Error('Element is disabled: ' + {sel});" +
+            $"el.focus();" +
+            $"const proto = isContentEditable ? null : Object.getPrototypeOf(el);" +
+            $"if (proto) {{" +
+            $"const setter = Object.getOwnPropertyDescriptor(proto, 'value').set;" +
+            $"setter.call(el, {val});" +
+            $"}} else {{" +
+            $"el.textContent = {val};" +
+            $"}}" +
+            $"el.dispatchEvent(new Event('focus', {{ bubbles: true }}));" +
+            $"el.dispatchEvent(new Event('input', {{ bubbles: true }}));" +
+            $"el.dispatchEvent(new Event('change', {{ bubbles: true }}));" +
+            $"}})()";
     }
 }
