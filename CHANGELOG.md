@@ -2,7 +2,21 @@
 
 ## 10.0.2 (in progress): post-launch refactors
 
-### `WebReaper.AI` — new public type `LlmToolArguments` (ADR-0059 amendment)
+### `WebReaper.Mcp` browser mode wired (ADR-0073)
+
+Patch fix to a behaviour gap noted but deferred in [PR #122](https://github.com/pavlovtech/WebReaper/pull/122). The MCP satellite's `scrape` and `extract` tools accept a `browser=true` parameter that flips the seed to `ScraperEngineBuilder.CrawlWithBrowser(url)`, but `WebReaper.Mcp.csproj` did not `ProjectReference` any browser-transport satellite, so the first dynamic page load hit the core's `BrowserNotConfiguredPageLoadTransport` error. The parameter was structurally unwired.
+
+[ADR-0073](docs/adr/0073-mcp-browser-transport-policy.md) records the wiring decision: `WebReaper.Mcp` bakes `WebReaper.Cdp` (ADR-0052), mirroring the CLI's ADR-0055 precedent. `Microsoft.Playwright` and `WebReaper.Stealth.*` stay out of the satellite's dependency graph; consistency across both agent-facing satellites carries the convention.
+
+| File | Change |
+|---|---|
+| `WebReaper.Mcp/WebReaper.Mcp.csproj` | Added `<ProjectReference Include="..\WebReaper.Cdp\WebReaper.Cdp.csproj" />`. |
+| `WebReaper.Mcp/WebReaperTools.cs` | `Scrape` and `Extract` now conditionally call `.WithCdpPageLoader(new CdpLaunchOptions())` when `browser=true`. Switched to `await using` for the engine so the spawned Chromium process tears down on each call (ADR-0058 chain). Tool descriptions updated to mention the auto-spawn behaviour. |
+| `WebReaper.Mcp/README.md` | New "Browser mode" section documenting the auto-spawn path and prerequisite (a system Chrome / Chromium / Edge on the MCP host). |
+
+The `map` tool needs no change (sitemap discovery is static, no browser load). The `WebReaper.Mcp` NuGet package gains `WebReaper.Cdp` as a transitive dependency at the v10.0.2 bump; both packages move in lockstep on the WebReaper release cadence.
+
+### `WebReaper.AI` new public type `LlmToolArguments` (ADR-0059 amendment)
 
 The byte-identical `TryGetString` / `TryGetInt` JSON-argument extractors that lived as private static methods in both `LlmActionResolver` and `LlmAgentBrain` move to a shared public static class `WebReaper.AI.Llm.LlmToolArguments`. Sibling to `LlmCall<TResponse>` on the same "one canonical mechanism, not five copies" axis the original ADR defines. Consumer-authored tool-calling `Llm*` adapters reuse the helpers for consistent leniency rules instead of re-implementing.
 
