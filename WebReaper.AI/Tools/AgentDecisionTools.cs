@@ -191,9 +191,10 @@ internal static class AgentDecisionTools
 
     // ---- Registration lists --------------------------------------------------
 
-    /// <summary>The brain's 11-tool registry: every <see cref="AgentDecision"/>
-    /// arm with the eight <see cref="PageAction"/> arms flat-packed (seven
-    /// original + <see cref="PageAction.Press"/> from ADR-0074).</summary>
+    /// <summary>The brain's 12-tool registry: every <see cref="AgentDecision"/>
+    /// arm with the nine <see cref="PageAction"/> arms flat-packed (seven
+    /// original + <see cref="PageAction.Press"/> and
+    /// <see cref="PageAction.ScrollIntoView"/> from ADR-0074).</summary>
     public static IReadOnlyList<AIFunction> ForBrain() =>
     [
         Extract.Descriptor,
@@ -204,15 +205,17 @@ internal static class AgentDecisionTools
         PageActionTools.WaitForSelector.Descriptor,
         PageActionTools.WaitForNetworkIdle.Descriptor,
         PageActionTools.ScrollToEnd.Descriptor,
+        PageActionTools.ScrollIntoView.Descriptor,
         PageActionTools.EvaluateExpression.Descriptor,
         PageActionTools.SemanticAct.Descriptor,
         PageActionTools.Press.Descriptor,
     ];
 
-    /// <summary>The resolver's 7-tool registry: the seven concrete
+    /// <summary>The resolver's 8-tool registry: the eight concrete
     /// <see cref="PageAction"/> arms (six original + <see cref="PageAction.Press"/>
-    /// from ADR-0074). No <see cref="PageAction.SemanticAct"/>; structurally
-    /// prevents the resolver from looping the transport (fork 8).</summary>
+    /// and <see cref="PageAction.ScrollIntoView"/> from ADR-0074). No
+    /// <see cref="PageAction.SemanticAct"/>; structurally prevents the
+    /// resolver from looping the transport (fork 8).</summary>
     public static IReadOnlyList<AIFunction> ForResolver() =>
     [
         PageActionTools.Click.Descriptor,
@@ -220,6 +223,7 @@ internal static class AgentDecisionTools
         PageActionTools.WaitForSelector.Descriptor,
         PageActionTools.WaitForNetworkIdle.Descriptor,
         PageActionTools.ScrollToEnd.Descriptor,
+        PageActionTools.ScrollIntoView.Descriptor,
         PageActionTools.EvaluateExpression.Descriptor,
         PageActionTools.Press.Descriptor,
     ];

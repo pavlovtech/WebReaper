@@ -3,10 +3,10 @@ namespace WebReaper.Domain.PageActions;
 /// <summary>
 /// One browser interaction performed on a dynamic page before scraping — built
 /// via <see cref="WebReaper.Builders.PageActionBuilder"/> and interpreted by
-/// the WebReaper.Puppeteer satellite (ADR-0009).
+/// the WebReaper.Cdp or WebReaper.Playwright satellite.
 /// <para>
-/// A closed sum (ADR-0035, the ADR-0001 closed-sum pattern, as <c>CrawlOutcome</c>):
-/// exactly one of the seven nested arms, each carrying its own typed parameters —
+/// A closed sum (ADR-0035, ADR-0074, the ADR-0001 closed-sum pattern as <c>CrawlOutcome</c>):
+/// exactly one of the ten nested arms, each carrying its own typed parameters;
 /// no untyped <c>object[]</c>, no separate discriminant enum. Construct only via
 /// the nested arms; the union is not extensible.
 /// </para>
@@ -39,6 +39,24 @@ public abstract record PageAction
 
     /// <summary>Wait until the page's network activity goes idle.</summary>
     public sealed record WaitForNetworkIdle : PageAction;
+
+    /// <summary>
+    /// Scroll the element matching a CSS selector into the viewport (ADR-0074).
+    /// <para>
+    /// Distinct from <see cref="ScrollToEnd"/>: <see cref="ScrollToEnd"/> scrolls
+    /// the entire page to the bottom to trigger infinite-scroll loading;
+    /// <see cref="ScrollIntoView"/> brings a specific element into view,
+    /// typically before a click or assertion targets it.
+    /// </para>
+    /// <para>
+    /// Implicit 30 s auto-wait: the selector is resolved against the page (via
+    /// <c>WaitForSelectorAsync</c> on CDP, or Playwright's native auto-wait)
+    /// before the scroll is issued. A selector that never appears in 30 s
+    /// throws <see cref="TimeoutException"/>.
+    /// </para>
+    /// </summary>
+    /// <param name="Selector">The CSS selector of the element to scroll into view.</param>
+    public sealed record ScrollIntoView(string Selector) : PageAction;
 
     /// <summary>
     /// Resolve a natural-language intent to a concrete <see cref="PageAction"/>

@@ -219,6 +219,7 @@ public sealed class LlmAgentBrain : IAgentBrain
             PageActionTools.WaitForSelector.Name => UnwrapAct(PageActionTools.WaitForSelector.FromArguments(args), toolName, reason),
             PageActionTools.WaitForNetworkIdle.Name => UnwrapAct(PageActionTools.WaitForNetworkIdle.FromArguments(args), toolName, reason),
             PageActionTools.ScrollToEnd.Name => UnwrapAct(PageActionTools.ScrollToEnd.FromArguments(args), toolName, reason),
+            PageActionTools.ScrollIntoView.Name => UnwrapAct(PageActionTools.ScrollIntoView.FromArguments(args), toolName, reason),
             PageActionTools.EvaluateExpression.Name => UnwrapAct(PageActionTools.EvaluateExpression.FromArguments(args), toolName, reason),
             PageActionTools.SemanticAct.Name => UnwrapAct(PageActionTools.SemanticAct.FromArguments(args), toolName, reason),
             PageActionTools.Press.Name => UnwrapAct(PageActionTools.Press.FromArguments(args), toolName, reason),

@@ -135,6 +135,22 @@ public class PageActionBuilder
     }
 
     /// <summary>
+    /// Scroll the element matching <paramref name="selector"/> into the viewport
+    /// (ADR-0074). Distinct from <see cref="ScrollToEnd"/>: <c>ScrollToEnd</c>
+    /// scrolls the page to the bottom to trigger infinite-scroll loading;
+    /// <c>ScrollIntoView</c> brings a specific element into view before
+    /// clicking or asserting against it. A 30 s auto-wait is applied implicitly.
+    /// </summary>
+    /// <exception cref="ArgumentException"><paramref name="selector"/> is
+    /// null/empty/whitespace.</exception>
+    public PageActionBuilder ScrollIntoView(string selector)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(selector);
+        _pageActions.Add(new PageAction.ScrollIntoView(selector));
+        return this;
+    }
+
+    /// <summary>
     /// Resolve a natural-language <paramref name="intent"/> (e.g. "click sign in")
     /// to a concrete <see cref="PageAction"/> at runtime via the registered
     /// <see cref="WebReaper.Core.Actions.Abstract.IActionResolver"/> (ADR-0050).

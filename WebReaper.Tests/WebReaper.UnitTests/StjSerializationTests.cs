@@ -74,6 +74,29 @@ public class StjSerializationTests
     }
 
     [Fact]
+    public void ScrollIntoView_arm_round_trips_with_typed_field_equality()
+    {
+        // ADR-0074: the new scrollIntoView arm must survive the codec
+        // (write then read) with selector fidelity; this pins the wire
+        // tag ("scrollIntoView") and the single required field ("selector").
+        var job = new Job(
+            "https://x.test/p",
+            ImmutableQueue.CreateRange(new[]
+            {
+                new LinkPathSelector("a.item", null, PageType.Static)
+            }),
+            ImmutableQueue<string>.Empty,
+            PageType.Static,
+            new List<PageAction> { new PageAction.ScrollIntoView("#lazy-section") });
+
+        var json = WebReaperJson.SerializeJob(job);
+        var got = WebReaperJson.DeserializeJob(json);
+
+        var arm = Assert.IsType<PageAction.ScrollIntoView>(got.PageActions![0]);
+        Assert.Equal("#lazy-section", arm.Selector);
+    }
+
+    [Fact]
     public void DeserializeJob_throws_on_a_chain_entry_with_a_blank_selector()
     {
         // ADR-0030: a corrupt persisted Job — a selector-chain entry whose
