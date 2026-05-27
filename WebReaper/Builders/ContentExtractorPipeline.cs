@@ -117,7 +117,19 @@ internal sealed class ContentExtractorPipeline
     /// <see cref="SchemaFold{TNode}"/> over the AngleSharp/CSS backend.
     /// Used by the wrapper methods AND by the outer builders at
     /// <c>BuildAsync</c> time to resolve the final extractor passed into
-    /// the engine. Idempotent: does NOT mutate the current extractor.</summary>
+    /// the engine.
+    /// <para>
+    /// Memoising: when <see cref="Extractor"/> is null, the first call
+    /// constructs a default <see cref="SchemaFold{TNode}"/> AND commits
+    /// it to the pipeline (<c>_extractor ??= ...</c>). Every subsequent
+    /// call returns the same instance. This matches the pre-ADR-0072
+    /// <c>SpiderBuilder.Build</c> behaviour, which assigned via
+    /// <c>??=</c> on first use; it also prevents <c>BuildAsync</c> from
+    /// allocating multiple SchemaFold instances when the pipeline is
+    /// read more than once (e.g. once for the
+    /// <see cref="WebReaper.Core.Parser.Concrete.LearnedSchemaContentExtractor"/>
+    /// inner extractor and again for the spider sync).
+    /// </para></summary>
     public IContentExtractor GetExtractorOrDefault() =>
-        _extractor ?? new SchemaFold<IParentNode>(new AngleSharpSchemaBackend(), _logger());
+        _extractor ??= new SchemaFold<IParentNode>(new AngleSharpSchemaBackend(), _logger());
 }

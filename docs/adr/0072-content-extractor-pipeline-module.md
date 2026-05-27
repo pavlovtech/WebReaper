@@ -292,10 +292,30 @@ into `SpiderBuilder` once at `BuildAsync` time.
 
 ### Tests
 
-- All 409 unit tests pass.
-- All 240 AI tests pass (this branch is off `master`; the +13 tests
-  from PR #133's `LlmToolArguments` ship with that branch).
-- Behavior-preserving refactor; no test changes required.
+The amendment adds `ContentExtractorPipelineTests` (12 tests in
+`WebReaper.Tests/WebReaper.UnitTests/`) that pin the inner contract
+directly, alongside the existing end-to-end builder tests:
+
+- `GetExtractorOrDefault` returns a `SchemaFold` when unset.
+- `GetExtractorOrDefault` memoises (`??=`) — repeated calls return
+  the same instance. Pre-ADR-0072 the `??=` memoisation lived in
+  `SpiderBuilder.Build`; the post-refactor lifted it INTO the
+  pipeline so any future `BuildAsync` that reads the pipeline more
+  than once (e.g. once for the `LearnedSchemaContentExtractor` inner
+  extractor and again for the spider sync) sees the SAME default
+  instance, not a fresh allocation each time.
+- The `Func<ILogger>` getter is invoked at wrapper-construction
+  time, NOT at pipeline-construction time. This is the regression
+  the design specifically guards against: capturing the logger by
+  value would silently break `WithLogger`-after-`WithFallbackExtractor`.
+  The test mutates the underlying logger between pipeline construction
+  and the `WithFallbackExtractor` call, then verifies the getter saw
+  the post-mutation logger (by `Assert.Same` against a sentinel).
+
+Plus the standard null-argument and state-replacement checks.
+
+Totals: 421 unit tests (was 409, +12), 240 AI tests, all pass.
+Behavior-preserving refactor; no other test changes required.
 
 ## References
 
