@@ -87,6 +87,24 @@ var sivConfig = new ScraperConfig(
 var sivGot = WebReaperJson.DeserializeConfig(WebReaperJson.SerializeConfig(sivConfig));
 Check(sivGot.PageActions![0] is PageAction.ScrollIntoView { Selector: "#target" },
     "PageAction.ScrollIntoView round-trip (ADR-0074)");
+
+// 1d. ADR-0074: Fill arm round-trip (codec + AOT-clean).
+var fillConfig = new ScraperConfig(
+    ParsingScheme: null,
+    LinkPathSelectors: ImmutableQueue.CreateRange(new[]
+    {
+        new LinkPathSelector("a.item", null, PageType.Static)
+    }),
+    StartUrls: new[] { "https://x.test/s" },
+    UrlBlackList: Array.Empty<string>(),
+    PageCrawlLimit: 1,
+    StartPageType: PageType.Static,
+    PageActions: new List<PageAction> { new PageAction.Fill("input#q", "cats") },
+    Headless: false,
+    StopWhenDrained: false);
+var gotFillConfig = WebReaperJson.DeserializeConfig(WebReaperJson.SerializeConfig(fillConfig));
+Check(gotFillConfig.PageActions![0] is PageAction.Fill { Selector: "input#q", Value: "cats" },
+    "PageAction.Fill arm round-trips (ADR-0074, AOT-clean)");
 Check(((Schema)gotConfig.ParsingScheme!.Children[0]).Children[0].Type == DataType.Integer,
     "polymorphic Schema/SchemaElement round-trip");
 

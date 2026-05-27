@@ -191,10 +191,11 @@ internal static class AgentDecisionTools
 
     // ---- Registration lists --------------------------------------------------
 
-    /// <summary>The brain's 12-tool registry: every <see cref="AgentDecision"/>
-    /// arm with the nine <see cref="PageAction"/> arms flat-packed (seven
-    /// original + <see cref="PageAction.Press"/> and
-    /// <see cref="PageAction.ScrollIntoView"/> from ADR-0074).</summary>
+    /// <summary>The brain's 13-tool registry: every <see cref="AgentDecision"/>
+    /// arm with the ten <see cref="PageAction"/> arms flat-packed (seven
+    /// original + <see cref="PageAction.Press"/>,
+    /// <see cref="PageAction.ScrollIntoView"/>, and <see cref="PageAction.Fill"/>
+    /// from ADR-0074).</summary>
     public static IReadOnlyList<AIFunction> ForBrain() =>
     [
         Extract.Descriptor,
@@ -209,13 +210,14 @@ internal static class AgentDecisionTools
         PageActionTools.EvaluateExpression.Descriptor,
         PageActionTools.SemanticAct.Descriptor,
         PageActionTools.Press.Descriptor,
+        PageActionTools.Fill.Descriptor,
     ];
 
-    /// <summary>The resolver's 8-tool registry: the eight concrete
-    /// <see cref="PageAction"/> arms (six original + <see cref="PageAction.Press"/>
-    /// and <see cref="PageAction.ScrollIntoView"/> from ADR-0074). No
-    /// <see cref="PageAction.SemanticAct"/>; structurally prevents the
-    /// resolver from looping the transport (fork 8).</summary>
+    /// <summary>The resolver's 9-tool registry: the nine concrete
+    /// <see cref="PageAction"/> arms (six original + <see cref="PageAction.Press"/>,
+    /// <see cref="PageAction.ScrollIntoView"/>, and <see cref="PageAction.Fill"/>
+    /// from ADR-0074). No <see cref="PageAction.SemanticAct"/>; structurally
+    /// prevents the resolver from looping the transport (fork 8).</summary>
     public static IReadOnlyList<AIFunction> ForResolver() =>
     [
         PageActionTools.Click.Descriptor,
@@ -226,5 +228,6 @@ internal static class AgentDecisionTools
         PageActionTools.ScrollIntoView.Descriptor,
         PageActionTools.EvaluateExpression.Descriptor,
         PageActionTools.Press.Descriptor,
+        PageActionTools.Fill.Descriptor,
     ];
 }

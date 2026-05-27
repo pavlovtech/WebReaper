@@ -58,7 +58,11 @@ public sealed class LlmActionResolver : IActionResolver
         "{ \"kind\": \"scrollToEnd\" }, " +
         "{ \"kind\": \"scrollIntoView\", \"selector\": \"<css>\" }, " +
         "{ \"kind\": \"evaluate\", \"expression\": \"<js>\" }, " +
-        "{ \"kind\": \"press\", \"key\": \"<Playwright-style key, e.g. Enter | Control+A | a>\" }.";
+        "{ \"kind\": \"press\", \"key\": \"<Playwright-style key, e.g. Enter | Control+A | a>\" }, " +
+        "{ \"kind\": \"fill\", \"selector\": \"<css>\", \"value\": \"<text>\" }. " +
+        "Use 'fill' when the intent is to type text into an input, textarea, or " +
+        "content-editable element. The fill action clears any existing value " +
+        "before inserting the new text.";
 
     private readonly LlmCall<PageAction?> _call;
     private readonly LlmActionResolverOptions _options;
@@ -151,6 +155,7 @@ public sealed class LlmActionResolver : IActionResolver
             PageActionTools.ScrollIntoView.Name => PageActionTools.ScrollIntoView.FromArguments(args).Value,
             PageActionTools.EvaluateExpression.Name => PageActionTools.EvaluateExpression.FromArguments(args).Value,
             PageActionTools.Press.Name => PageActionTools.Press.FromArguments(args).Value,
+            PageActionTools.Fill.Name => PageActionTools.Fill.FromArguments(args).Value,
             _ => null,
         };
 

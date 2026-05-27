@@ -128,6 +128,36 @@ public class PayloadShellTests
     }
 
     [Fact]
+    public async Task Config_shell_round_trips_Fill_arm()
+    {
+        // ADR-0074: ScraperConfig carrying a Fill arm round-trips through the
+        // config payload shell.
+        var config = new ScraperConfig(
+            ParsingScheme: null,
+            LinkPathSelectors: ImmutableQueue.CreateRange(new[]
+            {
+                new LinkPathSelector("a.item", null, PageType.Dynamic)
+            }),
+            StartUrls: new[] { "https://x.test/start" },
+            UrlBlackList: Array.Empty<string>(),
+            PageCrawlLimit: 1,
+            StartPageType: PageType.Dynamic,
+            PageActions: new List<PageAction> { new PageAction.Fill("input#search", "WebReaper") },
+            Headless: true,
+            StopWhenDrained: false);
+
+        var store = new ScraperConfigStore(new InMemoryBlobStore(), "fill-test");
+        await store.CreateConfigAsync(config);
+        var got = await store.GetConfigAsync();
+
+        Assert.NotNull(got.PageActions);
+        Assert.Single(got.PageActions!);
+        var fill = Assert.IsType<PageAction.Fill>(got.PageActions![0]);
+        Assert.Equal("input#search", fill.Selector);
+        Assert.Equal("WebReaper", fill.Value);
+    }
+
+    [Fact]
     public async Task Config_shell_throws_typed_not_found_when_absent()
     {
         var store = new ScraperConfigStore(new InMemoryBlobStore(), "missing");

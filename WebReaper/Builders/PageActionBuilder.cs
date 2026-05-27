@@ -185,6 +185,22 @@ public class PageActionBuilder
         return this;
     }
 
+    /// <summary>
+    /// Fill the element matching <paramref name="selector"/> with
+    /// <paramref name="value"/> (ADR-0074). Carries an implicit 30 s auto-wait
+    /// on selector resolution; compose with
+    /// <see cref="WaitForSelector(string, int)"/> for a custom timeout.
+    /// </summary>
+    /// <exception cref="ArgumentException"><paramref name="selector"/> or
+    /// <paramref name="value"/> is null/empty/whitespace.</exception>
+    public PageActionBuilder Fill(string selector, string value)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(selector);
+        ArgumentException.ThrowIfNullOrWhiteSpace(value);
+        _pageActions.Add(new PageAction.Fill(selector, value));
+        return this;
+    }
+
     /// <summary>The accumulated actions, in the order they were added.</summary>
     public List<PageAction> Build()
     {

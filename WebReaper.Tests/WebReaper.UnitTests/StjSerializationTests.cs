@@ -97,6 +97,25 @@ public class StjSerializationTests
     }
 
     [Fact]
+    public void Fill_arm_round_trips_with_typed_field_equality()
+    {
+        // ADR-0074: PageAction.Fill codec; wire tag "fill" with selector + value.
+        var job = new Job(
+            "https://x.test/p",
+            ImmutableQueue.CreateRange(new[] { new LinkPathSelector("a.x") }),
+            ImmutableQueue<string>.Empty,
+            PageType.Static,
+            new List<PageAction> { new PageAction.Fill("input#q", "cats") });
+
+        var json = WebReaperJson.SerializeJob(job);
+        var got = WebReaperJson.DeserializeJob(json);
+
+        var fill = Assert.IsType<PageAction.Fill>(got.PageActions![0]);
+        Assert.Equal("input#q", fill.Selector);
+        Assert.Equal("cats", fill.Value);
+    }
+
+    [Fact]
     public void DeserializeJob_throws_on_a_chain_entry_with_a_blank_selector()
     {
         // ADR-0030: a corrupt persisted Job — a selector-chain entry whose

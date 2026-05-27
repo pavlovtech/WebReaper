@@ -366,6 +366,57 @@ internal static class PageActionTools
         }
     }
 
+    // ---- Fill ---------------------------------------------------------------
+
+    /// <summary>Tool projection of <see cref="PageAction.Fill"/> (ADR-0074).
+    /// Registered on both the brain's and resolver's tool lists.</summary>
+    public static class Fill
+    {
+        public const string Name = "ActFill";
+
+        public static AIFunction Descriptor { get; } = new HandRolledAIFunction(
+            name: Name,
+            description:
+                "Fill a text-input element matching a CSS selector with a value. Use for " +
+                "search boxes, form fields, textareas. Carries a 30 s auto-wait on selector " +
+                "resolution; clears before filling; dispatches focus/input/change events so " +
+                "React / Vue / Svelte controlled components observe the change.",
+            parametersSchema: new JsonObject
+            {
+                ["type"] = "object",
+                ["properties"] = new JsonObject
+                {
+                    ["selector"] = new JsonObject
+                    {
+                        ["type"] = "string",
+                        ["description"] = "CSS selector for the target text-input element.",
+                    },
+                    ["value"] = new JsonObject
+                    {
+                        ["type"] = "string",
+                        ["description"] = "Text to fill into the element.",
+                    },
+                    ["reason"] = new JsonObject
+                    {
+                        ["type"] = "string",
+                        ["description"] = "Why this fill is the right next step. (Brain only; resolver ignores.)",
+                    },
+                },
+                ["required"] = new JsonArray { "selector", "value" },
+            });
+
+        public static ToolCallResult<PageAction.Fill> FromArguments(JsonElement args)
+        {
+            var selector = LlmToolArguments.TryGetString(args, "selector");
+            if (string.IsNullOrWhiteSpace(selector))
+                return ToolCallResult<PageAction.Fill>.Failed("missing 'selector'");
+            var value = LlmToolArguments.TryGetString(args, "value");
+            if (value is null)
+                return ToolCallResult<PageAction.Fill>.Failed("missing 'value'");
+            return ToolCallResult<PageAction.Fill>.Ok(new PageAction.Fill(selector, value));
+        }
+    }
+
     // ---- SemanticAct (brain-only — never registered on resolver) ------------
 
     /// <summary>Tool projection of <see cref="PageAction.SemanticAct"/>.
