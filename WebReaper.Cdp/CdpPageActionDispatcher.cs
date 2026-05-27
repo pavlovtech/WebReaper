@@ -60,6 +60,16 @@ internal static class CdpPageActionDispatcher
                 // Task.Delay(500) placeholder.
                 await session.WaitForNetworkIdleAsync(sessionId, ct: ct);
                 break;
+            case PageAction.ScrollIntoView a:
+                // ADR-0074: auto-wait 30 s for selector, then scroll into view.
+                // Distinct from ScrollToEnd (which scrolls the page to trigger
+                // infinite-scroll loading); this brings a specific element into
+                // the viewport for click-targeting.
+                await WaitForSelectorAsync(session, sessionId, a.Selector, 30_000, ct);
+                await EvaluateAsync(session, sessionId,
+                    $"document.querySelector({JsonStringLiteral(a.Selector)}).scrollIntoView()",
+                    ct);
+                break;
             case PageAction.SemanticAct a:
                 await semanticActCoordinator.DispatchAsync(
                     a.Intent,

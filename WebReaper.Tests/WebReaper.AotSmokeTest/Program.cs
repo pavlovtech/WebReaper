@@ -69,6 +69,24 @@ var pressConfig = new ScraperConfig(
 var gotPressConfig = WebReaperJson.DeserializeConfig(WebReaperJson.SerializeConfig(pressConfig));
 Check(gotPressConfig.PageActions![0] is PageAction.Press { Key: "Control+A" },
     "PageAction.Press codec round-trip (ADR-0074)");
+
+// 1c. ADR-0074: ScrollIntoView arm codec round-trip.
+var sivConfig = new ScraperConfig(
+    ParsingScheme: null,
+    LinkPathSelectors: ImmutableQueue.CreateRange(new[]
+    {
+        new LinkPathSelector("a.item", null, PageType.Static)
+    }),
+    StartUrls: new[] { "https://x.test/s" },
+    UrlBlackList: Array.Empty<string>(),
+    PageCrawlLimit: int.MaxValue,
+    StartPageType: PageType.Static,
+    PageActions: new List<PageAction> { new PageAction.ScrollIntoView("#target") },
+    Headless: true,
+    StopWhenDrained: false);
+var sivGot = WebReaperJson.DeserializeConfig(WebReaperJson.SerializeConfig(sivConfig));
+Check(sivGot.PageActions![0] is PageAction.ScrollIntoView { Selector: "#target" },
+    "PageAction.ScrollIntoView round-trip (ADR-0074)");
 Check(((Schema)gotConfig.ParsingScheme!.Children[0]).Children[0].Type == DataType.Integer,
     "polymorphic Schema/SchemaElement round-trip");
 

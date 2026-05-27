@@ -130,6 +130,11 @@ public sealed class PlaywrightPageLoadTransport : IPageLoadTransport, IAsyncDisp
             case PageAction.WaitForNetworkIdle:
                 await page.WaitForLoadStateAsync(LoadState.NetworkIdle);
                 break;
+            case PageAction.ScrollIntoView a:
+                // ADR-0074: Playwright's ScrollIntoViewIfNeededAsync natively
+                // auto-waits for the element and scrolls it into the viewport.
+                await page.Locator(a.Selector).ScrollIntoViewIfNeededAsync();
+                break;
             case PageAction.SemanticAct a:
                 await _semanticActCoordinator.DispatchAsync(
                     a.Intent,

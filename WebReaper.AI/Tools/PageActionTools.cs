@@ -226,7 +226,7 @@ internal static class PageActionTools
                     ["reason"] = new JsonObject
                     {
                         ["type"] = "string",
-                        ["description"] = "Why this scroll is the right next step. (Brain only — resolver ignores.)",
+                        ["description"] = "Why this scroll is the right next step. (Brain only; resolver ignores.)",
                     },
                 },
                 ["required"] = new JsonArray(),
@@ -321,6 +321,48 @@ internal static class PageActionTools
             return string.IsNullOrWhiteSpace(key)
                 ? ToolCallResult<PageAction.Press>.Failed("missing 'key'")
                 : ToolCallResult<PageAction.Press>.Ok(new PageAction.Press(key));
+        }
+    }
+
+    // ---- ScrollIntoView -----------------------------------------------------
+
+    /// <summary>Tool projection of <see cref="PageAction.ScrollIntoView"/>.</summary>
+    public static class ScrollIntoView
+    {
+        public const string Name = "ActScrollIntoView";
+
+        public static AIFunction Descriptor { get; } = new HandRolledAIFunction(
+            name: Name,
+            description:
+                "Scroll the element matching a CSS selector into the viewport; use before " +
+                "clicking or asserting against an element that may be off-screen. Distinct " +
+                "from ActScrollToEnd (which scrolls the whole page to trigger infinite-scroll " +
+                "loading). A 30 s auto-wait is applied before scrolling.",
+            parametersSchema: new JsonObject
+            {
+                ["type"] = "object",
+                ["properties"] = new JsonObject
+                {
+                    ["selector"] = new JsonObject
+                    {
+                        ["type"] = "string",
+                        ["description"] = "CSS selector of the element to scroll into view.",
+                    },
+                    ["reason"] = new JsonObject
+                    {
+                        ["type"] = "string",
+                        ["description"] = "Why this scroll is the right next step. (Brain only; resolver ignores.)",
+                    },
+                },
+                ["required"] = new JsonArray { "selector" },
+            });
+
+        public static ToolCallResult<PageAction.ScrollIntoView> FromArguments(JsonElement args)
+        {
+            var selector = LlmToolArguments.TryGetString(args, "selector");
+            return string.IsNullOrWhiteSpace(selector)
+                ? ToolCallResult<PageAction.ScrollIntoView>.Failed("missing 'selector'")
+                : ToolCallResult<PageAction.ScrollIntoView>.Ok(new PageAction.ScrollIntoView(selector));
         }
     }
 

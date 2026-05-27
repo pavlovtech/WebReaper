@@ -92,6 +92,42 @@ public class PayloadShellTests
     }
 
     [Fact]
+    public async Task Config_shell_round_trips_scroll_into_view_arm()
+    {
+        // ADR-0074: a ScraperConfig carrying a ScrollIntoView arm must
+        // survive the payload-shell round-trip (serialize, store, retrieve,
+        // deserialize) with selector fidelity. Covers BOTH top-level
+        // PageActions AND chain-nested LinkPathSelector.PageActions.
+        var chain = ImmutableQueue.CreateRange(new[]
+        {
+            new LinkPathSelector("a.item", null, PageType.Dynamic,
+                new List<PageAction> { new PageAction.ScrollIntoView(".lazy-card") })
+        });
+
+        var config = new ScraperConfig(
+            ParsingScheme: null,
+            LinkPathSelectors: chain,
+            StartUrls: new[] { "https://x.test/start" },
+            UrlBlackList: Array.Empty<string>(),
+            PageCrawlLimit: int.MaxValue,
+            StartPageType: PageType.Dynamic,
+            PageActions: new List<PageAction> { new PageAction.ScrollIntoView("#hero") },
+            Headless: true,
+            StopWhenDrained: false);
+
+        var store = new ScraperConfigStore(new InMemoryBlobStore(), "k2");
+        await store.CreateConfigAsync(config);
+        var got = await store.GetConfigAsync();
+
+        var topArm = Assert.IsType<PageAction.ScrollIntoView>(got.PageActions![0]);
+        Assert.Equal("#hero", topArm.Selector);
+
+        var chainArm = Assert.IsType<PageAction.ScrollIntoView>(
+            got.LinkPathSelectors.Single().PageActions![0]);
+        Assert.Equal(".lazy-card", chainArm.Selector);
+    }
+
+    [Fact]
     public async Task Config_shell_throws_typed_not_found_when_absent()
     {
         var store = new ScraperConfigStore(new InMemoryBlobStore(), "missing");

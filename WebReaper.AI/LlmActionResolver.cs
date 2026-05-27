@@ -27,10 +27,11 @@ namespace WebReaper.AI;
 /// pattern, ADR-0046 / ADR-0047 generalised to actions).
 /// </para>
 /// <para>
-/// The resolver's tool registry has six arms — never <c>ActSemanticAct</c>
-/// (fork 8 verdict — the closed sum is closed at the resolver's tool list,
+/// The resolver's tool registry has seven arms (ADR-0074 adds
+/// <c>ActScrollIntoView</c>); never <c>ActSemanticAct</c>
+/// (fork 8 verdict: the closed sum is closed at the resolver's tool list,
 /// structurally preventing the resolver from looping the transport's
-/// resolution path). Unknown tool name -> <c>null</c>; the transport
+/// resolution path). Unknown tool name returns <c>null</c>; the transport
 /// translates that to
 /// <see cref="WebReaper.Core.Actions.Concrete.SemanticActResolutionException"/>.
 /// </para>
@@ -48,11 +49,16 @@ public sealed class LlmActionResolver : IActionResolver
         "provided action tools to indicate the concrete action. Pick the " +
         "simplest action that satisfies the intent. Prefer a CSS selector " +
         "specific enough not to collide with other elements (prefer id over " +
-        "class, class over tag; combine if needed). Available action shapes " +
-        "include: click (selector), wait (ms), waitForSelector (selector, " +
-        "timeoutMs), waitForNetworkIdle, scrollToEnd, evaluate (expression), " +
-        "and press (key), where key is a Playwright-style key string such as " +
-        "\"Enter\", \"Tab\", \"Escape\", \"Control+A\", or a single character.";
+        "class, class over tag; combine if needed). " +
+        "Available concrete shapes: " +
+        "{ \"kind\": \"click\", \"selector\": \"<css>\" }, " +
+        "{ \"kind\": \"wait\", \"ms\": <int> }, " +
+        "{ \"kind\": \"waitForSelector\", \"selector\": \"<css>\" }, " +
+        "{ \"kind\": \"waitForNetworkIdle\" }, " +
+        "{ \"kind\": \"scrollToEnd\" }, " +
+        "{ \"kind\": \"scrollIntoView\", \"selector\": \"<css>\" }, " +
+        "{ \"kind\": \"evaluate\", \"expression\": \"<js>\" }, " +
+        "{ \"kind\": \"press\", \"key\": \"<Playwright-style key, e.g. Enter | Control+A | a>\" }.";
 
     private readonly LlmCall<PageAction?> _call;
     private readonly LlmActionResolverOptions _options;
@@ -124,16 +130,16 @@ public sealed class LlmActionResolver : IActionResolver
         "Intent: " + input.Intent + "\n\n" +
         "Page (HTML, may be truncated):\n" + input.Html;
 
-    // ADR-0060 fork 8 + 2026-05-28 amendment: the resolver's tool list has
-    // six arms; the closed sum is closed structurally (no ActSemanticAct
-    // ever, so the model cannot loop). Each per-arm case dispatches to the
-    // arm-local FromArguments factory (in PageActionTools.cs). Unknown
-    // tool name (the model invented one or called the brain-only
+    // ADR-0060 fork 8 + ADR-0074: the resolver's tool list has seven arms
+    // (ScrollIntoView added); the closed sum is closed structurally (no
+    // ActSemanticAct ever, so the model cannot loop). Each per-arm case
+    // dispatches to the arm-local FromArguments factory (in PageActionTools.cs).
+    // Unknown tool name (the model invented one or called the brain-only
     // ActSemanticAct arm) -> null; the transport surfaces a typed
     // SemanticActResolutionException. A factory failure (FromArguments
-    // returned a FailureReason) also reads as null — the resolver's
-    // contract is "concrete arm, or nothing", no per-failure diagnostics
-    // beyond what the transport's exception carries.
+    // returned a FailureReason) also reads as null; the resolver's contract
+    // is "concrete arm, or nothing", no per-failure diagnostics beyond what
+    // the transport's exception carries.
     private static PageAction? ParseActionTool(string toolName, JsonElement args)
         => toolName switch
         {
@@ -142,6 +148,7 @@ public sealed class LlmActionResolver : IActionResolver
             PageActionTools.WaitForSelector.Name => PageActionTools.WaitForSelector.FromArguments(args).Value,
             PageActionTools.WaitForNetworkIdle.Name => PageActionTools.WaitForNetworkIdle.FromArguments(args).Value,
             PageActionTools.ScrollToEnd.Name => PageActionTools.ScrollToEnd.FromArguments(args).Value,
+            PageActionTools.ScrollIntoView.Name => PageActionTools.ScrollIntoView.FromArguments(args).Value,
             PageActionTools.EvaluateExpression.Name => PageActionTools.EvaluateExpression.FromArguments(args).Value,
             PageActionTools.Press.Name => PageActionTools.Press.FromArguments(args).Value,
             _ => null,

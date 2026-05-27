@@ -42,6 +42,10 @@ internal static class PageActionCodec
             case PageAction.WaitForNetworkIdle:
                 w.WriteString("type", "waitForNetworkIdle");
                 break;
+            case PageAction.ScrollIntoView x:
+                w.WriteString("type", "scrollIntoView");
+                w.WriteString("selector", x.Selector);
+                break;
             case PageAction.SemanticAct x:
                 // ADR-0050: persisted as the intent string only — the
                 // resolved arm is a per-crawl runtime concern and is
@@ -91,6 +95,7 @@ internal static class PageActionCodec
             "evaluateExpression" => new PageAction.EvaluateExpression(Require(expression, "expression", type)),
             "waitForSelector" => new PageAction.WaitForSelector(Require(selector, "selector", type), timeoutMs),
             "waitForNetworkIdle" => new PageAction.WaitForNetworkIdle(),
+            "scrollIntoView" => new PageAction.ScrollIntoView(Require(selector, "selector", type)),
             "semanticAct" => new PageAction.SemanticAct(Require(intent, "intent", type)),
             "press" => new PageAction.Press(Require(key, "key", type)),
             _ => throw new JsonException($"unknown PageAction type '{type}'")
