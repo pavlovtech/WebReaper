@@ -468,6 +468,139 @@ mechanism):**
 - `WebReaper.AotSmokeTest` — unchanged (mechanism + tools live in the
   non-AOT satellite).
 
+## Amendment (2026-05-28): arm-local tool projection
+
+The original v1 shape parked every arm's JSON Schema in
+`AgentDecisionTools.cs` (10 hand-rolled `AIFunction` factories, ~280
+lines of schema literals) and the per-arm argument parsing in two
+separate switches: `LlmAgentBrain.ParseDecisionTool` (101 lines, all
+10 arms) and `LlmActionResolver.ParseActionTool` (26 lines, 6 arms).
+The closed sum (`AgentDecision`, `PageAction`) was the source of
+truth; its tool projection was the three-file shadow.
+
+Adding a new `PageAction` arm in that shape meant editing three
+satellite files in addition to the closed sum, with no compiler help
+linking them. Each arm's JSON Schema, its argument extractor, and
+its arm-construction logic lived in three different places.
+
+### Decision
+
+Each arm's tool concerns collapse into one nested static class in the
+satellite, owning three things:
+
+- A `const string Name` — the LLM tool name the model emits.
+- A `static AIFunction Descriptor` — the hand-rolled JSON Schema
+  (unchanged from v1; fork 4 holds).
+- A `static ToolCallResult<TArm> FromArguments(JsonElement[, string reason])`
+  — the per-arm argument extractor and arm constructor.
+
+`PageActionTools.cs` holds the seven `PageAction` arms;
+`AgentDecisionTools.cs` holds the three `AgentDecision`-specific arms
+(Extract, Follow, Stop) plus the two registration lists
+(`ForBrain`, `ForResolver`) that reference per-arm `Descriptor`
+properties verbatim. The brain's `ParseDecisionTool` and the
+resolver's `ParseActionTool` become uniform switches: one case per
+arm dispatching by `<Arm>.Name` to `<Arm>.FromArguments(args)`,
+wrapping the `ToolCallResult` differently (the brain composes a Stop
+reason from `FailureReason`; the resolver returns `null`).
+
+The new `ToolCallResult<T>` record struct (in `WebReaper.AI/Tools/`)
+carries `(T? Value, string? FailureReason)` — the two-shape return
+that lets brain and resolver apply their distinct failure policies
+without each one knowing what fields the other arm expects.
+
+### Why not cross-assembly partial records
+
+The natural-feeling shape — `partial record` on the closed-sum arm in
+core extended by a partial fragment in the satellite — does not
+compile. C# partial declarations must live in the same assembly;
+declaring `public abstract partial record PageAction` in core and
+again in the satellite raises CS0436 and treats the two declarations
+as distinct conflicting types. Nested static classes in the
+satellite achieve the same locality at the call site
+(`PageActionTools.Click.Name` reads similarly to
+`PageAction.Click.ToolName`) without violating the rule.
+
+### What stays from fork 4
+
+Hand-rolled `JsonObject` schema literals, no reflection, no runtime
+code-gen. The amendment moves them, it does not change how they are
+written.
+
+### Cost
+
+Net line count rose modestly (+150 across the satellite) because the
+per-arm parsing logic moved INTO arm-local classes. Each individual
+adapter shrank:
+
+- `LlmAgentBrain.cs`: 347 → 252 (-95). `ParseDecisionTool` shrank
+  from a 101-line nested switch to a 25-line uniform switch plus
+  two helper methods (`Unwrap`, `UnwrapAct`).
+- `LlmActionResolver.cs`: 180 → 146 (-34). `ParseActionTool` shrank
+  from 26 lines of arm-specific cases to a 9-line uniform switch.
+- `AgentDecisionTools.cs`: 301 → 223 (PageAction schemas moved out;
+  Extract/Follow/Stop projections moved in; the registration lists
+  are now 12-line declarative lists referencing per-arm
+  `Descriptor` properties).
+
+The win is locality, not line count: adding a new `PageAction` arm
+is now one new nested static class in `PageActionTools.cs` plus a
+one-line addition to each of `AgentDecisionTools.ForBrain`,
+`AgentDecisionTools.ForResolver`, the brain's switch, and the
+resolver's switch. Each of those four updates is a single line
+referencing the same `<Arm>.Name` constant.
+
+### Visibility
+
+Both `PageActionTools` and `AgentDecisionTools` are `internal` —
+symmetric. Consumer-authored brain or resolver adapters build their
+own tool descriptors via the public `LlmCall<TResponse>` +
+`HandRolledAIFunction` surface; the standard tool descriptors here
+are an implementation detail of the satellite's `LlmAgentBrain` and
+`LlmActionResolver`. If a future consumer use case for reusing these
+standard tool descriptors surfaces (e.g. a deterministic brain that
+wants the exact schema the LLM brain registers), the classes can be
+widened to `public` in a minor release without breaking anyone
+(visibility widening is non-breaking). Starting internal is the
+conservative posture.
+
+### Per-arm contracts pinned by `PageActionToolsTests`
+
+The amendment adds a focused test file (`PageActionToolsTests`, 16
+tests) that pins each arm's `FromArguments` contract directly. The
+existing `LlmActionResolverTests` and `LlmAgentBrainTests` exercise
+the OUTER tool-call dispatch end-to-end; the new tests pin the INNER
+contract (what each arm accepts, what it rejects, the exact
+`FailureReason` string the brain composes into its Stop reason).
+This closes the test-coverage gap a future contributor refactoring
+a single arm's `FromArguments` would otherwise fall through.
+
+### Intentional `BuildFlatSchema` divergence (carried over)
+
+The `BuildFlatSchema` helper in `AgentDecisionTools.Extract` (13
+lines, strict — string-valued properties only) is intentionally not
+shared with `LlmSchemaInferrer.BuildFlatSchema` (43 lines, lenient —
+handles both the flat `"field": "selector"` shape AND the structured
+`"field": { "selector": "..." }` shape some verbose models emit; and
+throws when no usable pairs remain). The two adapters solve
+different problems: the brain trusts its own tool prompt's schema
+shape (one-shot per Extract decision, the tool prompt fixes the
+flat shape), while the inferrer parses LLM-emitted schemas that may
+arrive in either of two acceptable shapes (single inference pays
+for the whole crawl, so lenient parsing earns its keep). The
+duplication is by design; consolidating would lose information.
+
+### Validation
+
+- All 269 AI tests pass (was 253 + 16 from the new
+  `PageActionToolsTests`; the `AgentDecisionToolsTests` end-to-end
+  pinning of every tool's schema continues to apply unchanged — the
+  projection is byte-identical, just relocated).
+- All 409 unit tests pass.
+- No changes to core (`WebReaper`) — the ADR-0009 satellite
+  quarantine is preserved.
+- AOT discipline preserved — no reflection added, no runtime code-gen.
+
 ## References
 
 - ADR-0001 — closed-sum pattern; the discipline this ADR pushes to
