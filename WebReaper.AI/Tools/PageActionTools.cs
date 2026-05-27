@@ -33,8 +33,17 @@ namespace WebReaper.AI.Tools;
 /// Lives in the satellite, not core, so <see cref="PageAction"/> stays
 /// AI-dependency-free (ADR-0009 quarantine).
 /// </para>
+/// <para>
+/// Visibility: <c>internal</c> in v10.0.2 (symmetric with
+/// <see cref="AgentDecisionTools"/>). Consumer-authored brain or
+/// resolver adapters call into the LLM-tool surface via
+/// <see cref="LlmCall{TResponse}"/> + their own descriptor; if a future
+/// consumer use case for reusing these standard tool descriptors
+/// surfaces, the class can be made public in a minor release without
+/// breaking anyone (visibility widening is non-breaking).
+/// </para>
 /// </summary>
-public static class PageActionTools
+internal static class PageActionTools
 {
     // ---- Click --------------------------------------------------------------
 
