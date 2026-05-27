@@ -54,4 +54,33 @@ public abstract record PageAction
     /// </summary>
     /// <param name="Intent">The natural-language intent (e.g. "click sign in").</param>
     public sealed record SemanticAct(string Intent) : PageAction;
+
+    /// <summary>
+    /// Send a keyboard key press to the currently-focused element (ADR-0074).
+    /// Dispatches a <c>keyDown</c> followed by a <c>keyUp</c> event with no
+    /// selector resolution: whichever element holds focus at the moment of
+    /// dispatch receives the event. Pair with <see cref="Click"/> or
+    /// <see cref="WaitForSelector"/> first when focus is not already in the
+    /// right element.
+    /// <para>
+    /// Key strings follow Playwright's format: single printable characters
+    /// (<c>"a"</c>, <c>"A"</c>, <c>"1"</c>), named keys (<c>"Enter"</c>,
+    /// <c>"Tab"</c>, <c>"Escape"</c>, <c>"Backspace"</c>, <c>"Delete"</c>,
+    /// <c>"ArrowUp"</c>, <c>"ArrowDown"</c>, <c>"ArrowLeft"</c>,
+    /// <c>"ArrowRight"</c>, <c>"Home"</c>, <c>"End"</c>, <c>"PageUp"</c>,
+    /// <c>"PageDown"</c>, <c>"Space"</c>, <c>"F1"</c>-<c>"F12"</c>), and
+    /// modifier-prefixed combos (<c>"Control+A"</c>, <c>"Shift+Tab"</c>,
+    /// <c>"Meta+C"</c>, <c>"Alt+F4"</c>, <c>"Control+Shift+K"</c>).
+    /// </para>
+    /// <para>
+    /// The CDP transport maps the key string to the four CDP
+    /// <c>Input.dispatchKeyEvent</c> fields via the static
+    /// <c>CdpKeyMapper</c> deep module. An unknown key string throws
+    /// <see cref="ArgumentException"/> at dispatch time. Playwright accepts
+    /// the same key-string format natively.
+    /// </para>
+    /// </summary>
+    /// <param name="Key">The Playwright-style key string (e.g. <c>"Enter"</c>,
+    /// <c>"Control+A"</c>, <c>"a"</c>).</param>
+    public sealed record Press(string Key) : PageAction;
 }

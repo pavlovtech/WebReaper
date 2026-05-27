@@ -52,6 +52,28 @@ public class StjSerializationTests
     }
 
     [Fact]
+    public void Press_arm_round_trips_through_job_serialization()
+    {
+        // ADR-0074: codec round-trip for the Press arm (wire tag "press", single
+        // "key" field). Typed-field equality confirms both write + read paths.
+        var job = new Job(
+            "https://x.test/p",
+            ImmutableQueue.CreateRange(new[]
+            {
+                new LinkPathSelector("a.item", null, PageType.Static)
+            }),
+            ImmutableQueue<string>.Empty,
+            PageType.Static,
+            new List<PageAction> { new PageAction.Press("Control+A") });
+
+        var json = WebReaperJson.SerializeJob(job);
+        var got = WebReaperJson.DeserializeJob(json);
+
+        var pa = Assert.IsType<PageAction.Press>(got.PageActions![0]);
+        Assert.Equal("Control+A", pa.Key);
+    }
+
+    [Fact]
     public void DeserializeJob_throws_on_a_chain_entry_with_a_blank_selector()
     {
         // ADR-0030: a corrupt persisted Job — a selector-chain entry whose

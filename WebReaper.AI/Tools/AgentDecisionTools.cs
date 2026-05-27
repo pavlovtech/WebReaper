@@ -191,8 +191,9 @@ internal static class AgentDecisionTools
 
     // ---- Registration lists --------------------------------------------------
 
-    /// <summary>The brain's 10-tool registry — every <see cref="AgentDecision"/>
-    /// arm with the seven <see cref="PageAction"/> arms flat-packed.</summary>
+    /// <summary>The brain's 11-tool registry: every <see cref="AgentDecision"/>
+    /// arm with the eight <see cref="PageAction"/> arms flat-packed (seven
+    /// original + <see cref="PageAction.Press"/> from ADR-0074).</summary>
     public static IReadOnlyList<AIFunction> ForBrain() =>
     [
         Extract.Descriptor,
@@ -205,12 +206,13 @@ internal static class AgentDecisionTools
         PageActionTools.ScrollToEnd.Descriptor,
         PageActionTools.EvaluateExpression.Descriptor,
         PageActionTools.SemanticAct.Descriptor,
+        PageActionTools.Press.Descriptor,
     ];
 
-    /// <summary>The resolver's 6-tool registry — the six concrete
-    /// <see cref="PageAction"/> arms. No <see cref="PageAction.SemanticAct"/>
-    /// — structurally prevents the resolver from looping the transport
-    /// (fork 8).</summary>
+    /// <summary>The resolver's 7-tool registry: the seven concrete
+    /// <see cref="PageAction"/> arms (six original + <see cref="PageAction.Press"/>
+    /// from ADR-0074). No <see cref="PageAction.SemanticAct"/>; structurally
+    /// prevents the resolver from looping the transport (fork 8).</summary>
     public static IReadOnlyList<AIFunction> ForResolver() =>
     [
         PageActionTools.Click.Descriptor,
@@ -219,5 +221,6 @@ internal static class AgentDecisionTools
         PageActionTools.WaitForNetworkIdle.Descriptor,
         PageActionTools.ScrollToEnd.Descriptor,
         PageActionTools.EvaluateExpression.Descriptor,
+        PageActionTools.Press.Descriptor,
     ];
 }

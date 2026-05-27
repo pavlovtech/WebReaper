@@ -67,6 +67,30 @@ internal static class CdpPageActionDispatcher
                     dispatch: (arm, token) => PerformAsync(session, sessionId, arm, semanticActCoordinator, token),
                     ct);
                 break;
+            case PageAction.Press a:
+                // ADR-0074: map the Playwright-style key string to the four CDP
+                // Input.dispatchKeyEvent fields via the CdpKeyMapper deep module,
+                // then fire keyDown + keyUp against whichever element holds focus.
+                var cdpKey = CdpKeyMapper.Map(a.Key);
+                await session.SendAsync("Input.dispatchKeyEvent",
+                    new JsonObject
+                    {
+                        ["type"] = "keyDown",
+                        ["key"] = cdpKey.Key,
+                        ["code"] = cdpKey.Code,
+                        ["windowsVirtualKeyCode"] = cdpKey.WindowsVirtualKeyCode,
+                        ["modifiers"] = cdpKey.Modifiers,
+                    }, sessionId, ct);
+                await session.SendAsync("Input.dispatchKeyEvent",
+                    new JsonObject
+                    {
+                        ["type"] = "keyUp",
+                        ["key"] = cdpKey.Key,
+                        ["code"] = cdpKey.Code,
+                        ["windowsVirtualKeyCode"] = cdpKey.WindowsVirtualKeyCode,
+                        ["modifiers"] = cdpKey.Modifiers,
+                    }, sessionId, ct);
+                break;
             default:
                 throw new ArgumentOutOfRangeException(
                     nameof(action), action.GetType().Name, "unhandled PageAction arm");

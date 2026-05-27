@@ -66,6 +66,32 @@ public class PayloadShellTests
     }
 
     [Fact]
+    public async Task Config_shell_round_trips_Press_arm()
+    {
+        // ADR-0074: the Press arm must survive the ScraperConfig payload shell
+        // (InMemoryBlobStore round-trip). Single "key" field, no selector.
+        var config = new ScraperConfig(
+            ParsingScheme: null,
+            LinkPathSelectors: ImmutableQueue<LinkPathSelector>.Empty,
+            StartUrls: new[] { "https://x.test/start" },
+            UrlBlackList: Array.Empty<string>(),
+            PageCrawlLimit: 1,
+            StartPageType: PageType.Static,
+            PageActions: new List<PageAction> { new PageAction.Press("Enter") },
+            Headless: true,
+            StopWhenDrained: false);
+
+        var store = new ScraperConfigStore(new InMemoryBlobStore(), "press-key");
+        await store.CreateConfigAsync(config);
+        var got = await store.GetConfigAsync();
+
+        Assert.NotNull(got.PageActions);
+        Assert.Single(got.PageActions!);
+        var pa = Assert.IsType<PageAction.Press>(got.PageActions![0]);
+        Assert.Equal("Enter", pa.Key);
+    }
+
+    [Fact]
     public async Task Config_shell_throws_typed_not_found_when_absent()
     {
         var store = new ScraperConfigStore(new InMemoryBlobStore(), "missing");

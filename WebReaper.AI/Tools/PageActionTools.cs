@@ -278,6 +278,52 @@ internal static class PageActionTools
         }
     }
 
+    // ---- Press --------------------------------------------------------------
+
+    /// <summary>Tool projection of <see cref="PageAction.Press"/>.</summary>
+    public static class Press
+    {
+        /// <summary>The LLM tool name the model emits for this arm.</summary>
+        public const string Name = "ActPress";
+
+        /// <summary>The hand-rolled JSON Schema for this arm's tool call.</summary>
+        public static AIFunction Descriptor { get; } = new HandRolledAIFunction(
+            name: Name,
+            description:
+                "Send a keyboard key press to the currently-focused element. Uses Playwright-style " +
+                "key strings: single characters (\"a\", \"Enter\", \"Tab\"), named keys, and " +
+                "modifier-prefixed combos (\"Control+A\", \"Shift+Tab\", \"Meta+C\"). Pair with " +
+                "ActClick or ActWaitForSelector first when the target element is not already focused.",
+            parametersSchema: new JsonObject
+            {
+                ["type"] = "object",
+                ["properties"] = new JsonObject
+                {
+                    ["key"] = new JsonObject
+                    {
+                        ["type"] = "string",
+                        ["description"] = "Playwright-style key string, e.g. \"Enter\", \"Tab\", \"Control+A\".",
+                    },
+                    ["reason"] = new JsonObject
+                    {
+                        ["type"] = "string",
+                        ["description"] = "Why this key press is the right next step. (Brain only; resolver ignores.)",
+                    },
+                },
+                ["required"] = new JsonArray { "key" },
+            });
+
+        /// <summary>Construct the arm from a tool call's argument JSON, or
+        /// report why construction failed.</summary>
+        public static ToolCallResult<PageAction.Press> FromArguments(JsonElement args)
+        {
+            var key = LlmToolArguments.TryGetString(args, "key");
+            return string.IsNullOrWhiteSpace(key)
+                ? ToolCallResult<PageAction.Press>.Failed("missing 'key'")
+                : ToolCallResult<PageAction.Press>.Ok(new PageAction.Press(key));
+        }
+    }
+
     // ---- SemanticAct (brain-only — never registered on resolver) ------------
 
     /// <summary>Tool projection of <see cref="PageAction.SemanticAct"/>.
