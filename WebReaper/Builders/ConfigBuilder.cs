@@ -35,7 +35,12 @@ internal class ConfigBuilder
 
     private PageType _startPageType;
 
-    private IEnumerable<string> _startUrls;
+    // Initialized to an empty seed so the type-system contract holds
+    // from construction. The ADR-0025 staged builder guarantees one of
+    // Get / GetWithBrowser is called before Build (the seed terminals
+    // route through them); the empty default is a structural belt-and-
+    // suspenders, never observed at runtime.
+    private IEnumerable<string> _startUrls = Array.Empty<string>();
 
     /// <summary>
     /// The crawl's start URLs, loaded as static HTTP pages. Defines the seed

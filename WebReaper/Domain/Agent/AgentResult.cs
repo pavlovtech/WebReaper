@@ -33,8 +33,8 @@ namespace WebReaper.Domain.Agent;
 /// have already received each record (per-Extract fan-out, fork 9); this list
 /// is the in-process convenience copy.</param>
 /// <param name="TerminationReason">Human-readable explanation of why the run
-/// ended — the brain's <see cref="AgentDecision.Stop.Reason"/> when the brain
-/// stopped, otherwise the engine's cap label
+/// ended — the brain's <see cref="AgentDecision.Reason"/> on the <c>Stop</c>
+/// arm when the brain stopped, otherwise the engine's cap label
 /// (<c>"MaxSteps reached"</c>, <c>"MaxBudgetTokens (X) reached (spent=Y)"</c>,
 /// <c>"Scheduler drained"</c>).</param>
 /// <param name="History">Every <see cref="AgentDecision"/> the brain returned

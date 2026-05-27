@@ -10,10 +10,10 @@ namespace WebReaper.Domain.Agent;
 /// <para>
 /// All collection-shaped fields are <em>capped</em> (fork 3 verdict — bounded
 /// history, bounded visited list, bounded candidate URLs, bounded current-page
-/// markdown). The caps live on the
-/// <see cref="WebReaper.AI.LlmAgentBrainOptions"/> so callers can widen them
-/// for richer brains. Token cost is the constraint; unbounded prompts are the
-/// first cause of cost runaway on long runs.
+/// markdown). The caps live on the satellite's <c>LlmAgentBrainOptions</c>
+/// (in <c>WebReaper.AI</c>) so callers can widen them for richer brains.
+/// Token cost is the constraint; unbounded prompts are the first cause of
+/// cost runaway on long runs.
 /// </para>
 /// </summary>
 /// <param name="Goal">The natural-language goal supplied at run start —

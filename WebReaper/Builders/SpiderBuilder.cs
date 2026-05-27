@@ -44,7 +44,11 @@ internal class SpiderBuilder
 
     private ILogger Logger { get; set; } = NullLogger.Instance;
 
-    private ScraperConfig Config { get; set; }
+    // Nullable until ScraperEngineBuilder.BuildAsync calls WithConfig
+    // (ADR-0034: required parameter on the Build call). The two read
+    // sites in Build() are post-WithConfig and use the null-forgiving
+    // operator to surface the structural invariant.
+    private ScraperConfig? Config { get; set; }
 
     private IVisitedLinkTracker SiteLinkTracker { get; set; } = new InMemoryVisitedLinkTracker();
 
@@ -195,8 +199,8 @@ internal class SpiderBuilder
     }
 
     /// <summary>Register the <see cref="IActionResolver"/> the Puppeteer
-    /// transport invokes for <see cref="PageAction.SemanticAct"/> arms
-    /// (ADR-0050). The default is <see cref="NullActionResolver"/>; the
+    /// transport invokes for <see cref="WebReaper.Domain.PageActions.PageAction.SemanticAct"/>
+    /// arms (ADR-0050). The default is <see cref="NullActionResolver"/>; the
     /// LLM-backed implementation ships in the <c>WebReaper.AI</c> satellite.</summary>
     public SpiderBuilder WithActionResolver(IActionResolver actionResolver)
     {
@@ -309,10 +313,14 @@ internal class SpiderBuilder
 
         var crawlStep = new CrawlStep(ContentExtractor);
 
+        // Config is null until WithConfig is called; ADR-0034 makes it
+        // required by the time Build runs (the outer ScraperEngineBuilder
+        // .BuildAsync calls WithConfig before Build). Null-forgive on
+        // the read sites — the runtime invariant holds.
         var spider = new Spider(
             crawlStep,
             PageLoader,
-            Config.Headless,
+            Config!.Headless,
             Config.ParsingScheme);
 
         return spider;

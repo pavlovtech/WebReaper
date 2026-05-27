@@ -4,7 +4,7 @@ namespace WebReaper.Core.Actions.Abstract;
 
 /// <summary>
 /// The resolution seam for <see cref="PageAction.SemanticAct"/> (ADR-0050):
-/// given a natural-language <paramref name="intent"/> string and the current
+/// given a natural-language <c>intent</c> string and the current
 /// page's rendered HTML, return a concrete <see cref="PageAction"/> arm
 /// (typically <see cref="PageAction.Click"/>,
 /// <see cref="PageAction.WaitForSelector"/>, <see cref="PageAction.Wait"/>, or

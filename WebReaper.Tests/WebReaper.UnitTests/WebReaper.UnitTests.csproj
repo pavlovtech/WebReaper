@@ -11,7 +11,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.0" />
+    <!-- Used by ParserTests for windows-1251 page decoding. NU1510
+         (.NET 10 pruning heuristic) misclassifies this as unneeded;
+         the legacy encoding provider isn't in the framework default. -->
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.0" NoWarn="NU1510" />
     <PackageReference Include="xunit" Version="2.9.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

@@ -13,7 +13,13 @@ internal class FileVisitedLinkedTracker : IVisitedLinkTracker, IAsyncInitializab
     private readonly string _fileName;
 
     private readonly SemaphoreSlim _semaphore = new(1, 1);
-    private ConcurrentBag<string> _visitedLinks;
+    // Initialized to empty so the type-system contract holds from
+    // construction. InitializeCoreAsync (driven once by InitializeAsync
+    // before the crawl, ADR-0033) reassigns this from the file content;
+    // the empty default is observable only if AddVisitedLinkAsync /
+    // GetVisitedLinksAsync are called before InitializeAsync — a
+    // sequencing error rather than a null deref.
+    private ConcurrentBag<string> _visitedLinks = new();
     
     public FileVisitedLinkedTracker(string fileName, bool dataCleanupOnStart = false)
     {

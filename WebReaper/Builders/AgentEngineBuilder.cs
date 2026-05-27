@@ -101,7 +101,7 @@ public sealed class AgentEngineBuilder
     /// <summary>
     /// Begin building an agent run targeting <paramref name="startUrl"/> with
     /// the natural-language <paramref name="goal"/>. Static, sibling to
-    /// <see cref="ScraperEngineBuilder.Crawl(System.Collections.Generic.IEnumerable{string})"/>.
+    /// <see cref="ScraperEngineBuilder.Crawl(string[])"/>.
     /// </summary>
     public static AgentEngineBuilder Start(string startUrl, string goal)
         => new(startUrl, goal);

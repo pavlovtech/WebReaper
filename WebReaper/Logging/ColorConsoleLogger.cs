@@ -15,9 +15,13 @@ internal sealed class ColorConsoleLogger : ILogger
         [LogLevel.None] = ConsoleColor.Gray
     };
 
-    public IDisposable BeginScope<TState>(TState state)
+    // ILogger.BeginScope's interface signature is
+    // `IDisposable? BeginScope<TState>(TState state) where TState : notnull`
+    // — match it exactly to clear CS8633 (nullability + constraint
+    // mismatch). The body keeps returning null (no real scoping).
+    public IDisposable? BeginScope<TState>(TState state) where TState : notnull
     {
-        return default!;
+        return null;
     }
 
     public bool IsEnabled(LogLevel logLevel)

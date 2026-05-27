@@ -401,7 +401,12 @@ public sealed class AgentEngine
                         }
                         else
                         {
-                            var processed = await RunProcessorsAsync(currentUrl, pageHtml, extracted, extract.Schema, cancellationToken);
+                            // The null branch above (extracted is null →
+                            // Invalid verdict → !IsValid → outer if) ensures
+                            // extracted is non-null here; the compiler's
+                            // narrowing doesn't span the verdict variable so
+                            // a forgiving operator surfaces the invariant.
+                            var processed = await RunProcessorsAsync(currentUrl, pageHtml, extracted!, extract.Schema, cancellationToken);
                             if (processed is not null)
                             {
                                 records.Add(processed.Data);

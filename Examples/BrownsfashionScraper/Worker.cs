@@ -9,7 +9,9 @@ namespace BrownsfashionScraper
     public class ScrapingWorker : BackgroundService
     {
         private readonly ILogger<ScrapingWorker> _logger;
-        private ScraperEngine _scraper;
+        // Assigned in StartAsync before any caller can observe it; null
+        // until then.
+        private ScraperEngine? _scraper;
 
         public ScrapingWorker(ILogger<ScrapingWorker> logger)
         {
@@ -77,7 +79,9 @@ namespace BrownsfashionScraper
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await _scraper.RunAsync(stoppingToken);
+            // _scraper is assigned in StartAsync before ExecuteAsync runs
+            // (BackgroundService lifecycle); the runtime invariant holds.
+            await _scraper!.RunAsync(stoppingToken);
         }
     }
 }
