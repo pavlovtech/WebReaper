@@ -227,3 +227,116 @@ churns the other's content.
 Step 1 is single-threaded for the project owner; steps 2–5 follow in ~30
 minutes. Step 6 is the CI work, parallel to ADR-0070's implementation. Step
 7 is the joint integration gate before tagging v10.0.0 proper.
+
+## Amendment (2026-05-28): Stapler does not support raw Mach-O
+
+The v10.0.0 launch on 2026-05-27 discovered that the §3 *Staple + verify*
+step does not work on the artifact this ADR ships. Section §3 should be
+read together with this amendment; the pipeline that actually shipped to
+users is **codesign + notarize, no staple**.
+
+### Original claim (wrong)
+
+§3 instructed `release.yml` to run `xcrun stapler staple webreaper`
+followed by `spctl -a -t exec -vvv webreaper`, with the justification that
+stapling "writes the notarization ticket onto the binary itself so
+Gatekeeper verifies offline on first run, without contacting Apple."
+
+### Discovery
+
+During the v10.0.0 launch run of `release.yml`, both macOS matrix arms
+(`osx-arm64` and `osx-x64`) failed at the stapler step with exit code 66
+(`EX_NOINPUT`, "unparsable input"). The preceding notarization step was
+**successful**; Apple returned `status: Accepted` (submission UUID
+`5df240ae-1aae-428f-ba6d-410ae2c2a530` for `osx-arm64`). Stapler ran on
+the same binary moments later and refused it:
+
+```
+→ stapling ticket onto binary...
+Processing: …/publish/WebReaper.Cli
+##[error]Process completed with exit code 66.
+```
+
+### Apple-side reason
+
+`xcrun stapler` only supports notarization tickets on **container
+artifacts**: `.app` bundles, `.pkg` installers, and `.dmg` images. The
+ticket is attached to those containers (it travels with the container's
+filesystem metadata), not to a Mach-O executable on its own. The
+WebReaper CLI ships as a raw Mach-O (a single AOT-published binary, not
+an `.app` bundle), so stapler has no container to anchor the ticket to.
+Exit 66 is Apple's "stapler does not recognise this input" verdict.
+
+The original §3 conflated two distinct cases. For `.app`/`.pkg`/`.dmg`
+distributions, stapling is real and useful (Gatekeeper verifies offline).
+For raw Mach-O CLI binaries, stapling is unsupported by design.
+
+### Fix (PR #131)
+
+[PR #131](https://github.com/pavlovtech/WebReaper/pull/131) (merged
+2026-05-26, folded into the v10.0.0 launch on 2026-05-27) dropped the
+`xcrun stapler staple` step **and** the `spctl -a -t exec -vvv` verify
+step from both `osx-arm64` and `osx-x64` matrix arms of `release.yml`.
+The codesign and notarize steps (the meaningful ones) remain unchanged.
+
+The `spctl` verify step was removed alongside stapler for a related
+reason: `spctl` on an unstapled binary requires the same online lookup
+that Gatekeeper will perform at first launch, and at fresh-notarization
+time Apple's CDN has a small propagation window where the lookup can
+spuriously fail. The contract that survives is `notarytool submit
+--wait` returning `status: Accepted`; the CI step trusts that and
+proceeds.
+
+### Post-fix behavior
+
+The shipping pipeline is **codesign + notarize only**. macOS Gatekeeper
+performs an online lookup the first time the binary runs:
+
+1. User installs via Homebrew / install.sh / direct download.
+2. Binary lands on disk with the `com.apple.quarantine` extended
+   attribute.
+3. First invocation triggers Gatekeeper, which queries Apple's notary
+   service for the binary's hash.
+4. Apple confirms the binary is notarized under Team ID `U8UJCM9X76`.
+5. Gatekeeper allows the binary silently; the quarantine xattr is
+   cleared; subsequent invocations are unimpeded.
+
+This is the documented Apple pattern for standalone CLI distribution.
+Every CLI on Homebrew that does not ship as a `.pkg` uses the same
+model (yt-dlp, fly, wrangler, gh, fnm, rclone). The single requirement
+is that the user has internet at first launch; every realistic install
+path (Homebrew, `curl | sh`, direct download from a GitHub Release) is
+already an internet-connected path, so the practical user impact is
+zero.
+
+The only scenario this amendment loses, relative to the original §3
+plan, is **first launch on an air-gapped machine** that has the binary
+on disk but no route to Apple's notary service. That scenario is not
+served by the WebReaper CLI's distribution channels (which all assume
+internet for the download itself); a hypothetical future air-gapped
+distribution would have to revisit container-based packaging.
+
+### What stays from the original ADR
+
+- Developer ID Application certificate (§3.1)
+- `codesign --options runtime --timestamp` with hardened runtime (§3.1)
+- `xcrun notarytool submit --wait` (§3.2)
+- Apple Developer Program enrollment and all four secrets plus two
+  variables (§Required setup)
+- The bundle identifier `io.highcraft.webreaper`
+- The Considered & rejected list (still accurate; (e) "notarize without
+  stapling" was the right call for the wrong reason, the practical
+  outcome matches)
+
+### What is removed
+
+- `xcrun stapler staple` (§3.3): unsupported on Mach-O, no replacement
+- `spctl -a -t exec -vvv` verify (§3.3): would fail spuriously against
+  fresh notarization
+
+### Reading §3 today
+
+Section §3.3 *Staple + verify* should be treated as historical context
+for the design pass, not as instructions to follow. The current
+shipping pipeline lives in `.github/workflows/release.yml`; this
+amendment reflects what the file does and why.
