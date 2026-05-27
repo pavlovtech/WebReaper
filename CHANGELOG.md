@@ -1,5 +1,17 @@
 # Changelog
 
+## 10.0.2 (in progress): post-launch refactors
+
+### `WebReaper.AI` — new public type `LlmToolArguments` (ADR-0059 amendment)
+
+The byte-identical `TryGetString` / `TryGetInt` JSON-argument extractors that lived as private static methods in both `LlmActionResolver` and `LlmAgentBrain` move to a shared public static class `WebReaper.AI.Llm.LlmToolArguments`. Sibling to `LlmCall<TResponse>` on the same "one canonical mechanism, not five copies" axis the original ADR defines. Consumer-authored tool-calling `Llm*` adapters reuse the helpers for consistent leniency rules instead of re-implementing.
+
+| Public type added | Notes |
+|---|---|
+| `WebReaper.AI.Llm.LlmToolArguments` | Static. Two methods: `TryGetString(JsonElement, string) → string?` and `TryGetInt(JsonElement, string) → int?`. Both return `null` for missing properties, JSON-null, or non-matching kinds. `TryGetInt` tolerates string-encoded integers (`"30000"` → `30_000`) but the JSON integer-token-vs-decimal-token boundary is strict (`1` → `1`, `1.0` → `null`); the leniency contract is pinned by `LlmToolArgumentsTests`. |
+
+No behaviour changes — the helpers are byte-identical to the now-deleted private copies; the existing brain and resolver tests continue to pass unchanged.
+
 ## 10.0.1: NuGet metadata polish (no code changes)
 
 Patch release: every NuGet package now displays a logo and README on its package page; em-dashes removed from `<Description>` / `<PackageReleaseNotes>` across all 13 csprojs. No code changes; no public-surface changes.
