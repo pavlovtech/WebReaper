@@ -225,6 +225,24 @@ needs no change.
   alive across calls" optimisation would graduate the satellite
   from stateless to stateful (out of scope for v1; observed-demand
   driven).
+- **The `await using` on the engine fixes a latent leak on the
+  non-browser path too.** Before this PR the MCP tools held the
+  engine in a `var` and never disposed it; ADR-0058's reverse
+  disposal chain (page processors → sinks → tracker → scheduler →
+  spider) was never invoked. Per-invocation, the InMemory adapters
+  in the no-browser path leak only memory (GC reclaims on process
+  exit), but the discipline is now uniform across both branches:
+  `await using var engine = await builder.BuildAsync();`.
+- **Verified: launch is lazy, not eager.** `WithCdpPageLoader(CdpLaunchOptions)`
+  in `WebReaper.Cdp/CdpPageLoaderBuilderExtensions.cs` captures a
+  closure over `LaunchedCdpEndpoint? endpoint = null` and spawns
+  Chromium inside `ProvideAsync` on the first `LoadAsync` call, not
+  at the `WithCdpPageLoader` call site. So if `BuildAsync` throws
+  before any page load runs, no subprocess was spawned and the
+  `await using` has nothing to dispose: no leak path. The disposal
+  contract for the spawn-and-run-then-throw case is already covered
+  by `CloakBrowserSmokeTests` in `WebReaper.IntegrationTests` (the
+  CloakBrowser stealth path composes on this exact extension).
 
 ## SemVer
 

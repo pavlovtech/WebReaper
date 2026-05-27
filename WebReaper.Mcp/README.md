@@ -83,9 +83,13 @@ etc.) for `google-chrome`, `chromium`, `chrome`, `microsoft-edge`,
 actionable error message.
 
 Each MCP tool invocation spawns and tears down its own browser process
-(per-call lifecycle). Long-running stealth scenarios should use the
-[WebReaper CLI](../WebReaper.Cli/) directly; the MCP satellite stays
-thin and stateless.
+(per-call lifecycle). A Chromium instance is ~200 MB resident; if the
+MCP server accepts calls from untrusted clients, run it under
+appropriate process / memory limits (`ulimit`, systemd
+`MemoryMax=`, container memory caps) so a flurry of `browser=true`
+calls cannot exhaust host memory. Long-running stealth scenarios
+should use the [WebReaper CLI](../WebReaper.Cli/) directly; the MCP
+satellite stays thin and stateless.
 
 ## Why prefer the CLI / Skill over MCP?
 
