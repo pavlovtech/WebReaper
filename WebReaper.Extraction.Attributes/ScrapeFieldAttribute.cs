@@ -5,11 +5,12 @@ namespace WebReaper.Extraction.Attributes;
 /// <c>WebReaper.Extraction.Generators</c> Roslyn source generator
 /// (ADR-0045).
 /// </summary>
-/// <param name="selector">The CSS / XPath / JSONPath selector — passes
-/// to the fold's backend unchanged. Required.</param>
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
 public sealed class ScrapeFieldAttribute : Attribute
 {
+    /// <summary>Construct the attribute with a required selector.</summary>
+    /// <param name="selector">The CSS / XPath / JSONPath selector — passes
+    /// to the fold's backend unchanged.</param>
     public ScrapeFieldAttribute(string selector)
     {
         Selector = selector;

@@ -226,7 +226,10 @@ public class ScraperEngineBuilder
     private ILogger Logger { get; set; } = NullLogger.Instance;
 
     private IScheduler Scheduler { get; set; } = new InMemoryScheduler();
-    private IScraperConfigStorage? ConfigStorage { get; set; } = new InMemoryScraperConfigStorage();
+    // Non-nullable — default is the in-memory adapter; WithConfigStorage
+    // takes a non-nullable IScraperConfigStorage so the property can
+    // never be null in normal use.
+    private IScraperConfigStorage ConfigStorage { get; set; } = new InMemoryScraperConfigStorage();
     /// <summary>The proxy provider, once configured via
     /// <see cref="WithProxies"/> / <see cref="WithValidatedProxies(IProxySource, IEnumerable{IProxyValidator}, ValidatedProxyProviderOptions)"/>.</summary>
     protected IProxyProvider? ProxyProvider { get; set; }

@@ -11,7 +11,7 @@ internal sealed class CapturingLogger : ILogger
     public List<(LogLevel Level, string Message, Exception? Exception)> Entries { get; }
         = new();
 
-    public IDisposable BeginScope<TState>(TState state) => default!;
+    public IDisposable? BeginScope<TState>(TState state) where TState : notnull => null;
     public bool IsEnabled(LogLevel logLevel) => true;
 
     public void Log<TState>(

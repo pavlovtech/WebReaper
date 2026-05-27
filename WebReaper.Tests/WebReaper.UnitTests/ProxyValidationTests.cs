@@ -120,11 +120,11 @@ namespace WebReaper.UnitTests
         }
 
         [Fact]
-        public void StaticProxySourceParsesAddresses()
+        public async Task StaticProxySourceParsesAddresses()
         {
             var source = StaticProxySource.FromAddresses(new[] { "1.2.3.4:8080", "http://5.6.7.8:3128" });
 
-            var proxies = source.GetCandidatesAsync().GetAwaiter().GetResult();
+            var proxies = await source.GetCandidatesAsync();
 
             Assert.Equal(2, proxies.Count);
             Assert.Equal("http://1.2.3.4:8080/", proxies[0].Address!.ToString());

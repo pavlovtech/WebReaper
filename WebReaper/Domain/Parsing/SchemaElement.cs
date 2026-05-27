@@ -9,8 +9,11 @@ namespace WebReaper.Domain.Parsing;
 public record SchemaElement()
 {
     /// <summary>An element that extracts text content for
-    /// <paramref name="field"/> via <c>Selector</c> set later.</summary>
-    public SchemaElement(string field) : this()
+    /// <paramref name="field"/> via <c>Selector</c> set later.
+    /// <paramref name="field"/> is nullable to support the root
+    /// <see cref="Schema"/> case (Field=null); the property
+    /// <see cref="Field"/> matches that nullability.</summary>
+    public SchemaElement(string? field) : this()
     {
         Field = field;
     }

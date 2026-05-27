@@ -10,7 +10,7 @@ namespace WebReaper.Core.Parser.Concrete;
 /// is set), inner-HTML (when <see cref="SchemaElement.GetHtml"/> is
 /// true), or text content (otherwise). The default is the AngleSharp
 /// <c>IElement</c>'s own <see cref="IElement.GetAttribute(string)"/> /
-/// <see cref="IElement.InnerHtml"/> / <see cref="IElement.Text"/>; a
+/// <see cref="IElement.InnerHtml"/> / <c>IElement.Text()</c>; a
 /// missing attribute returns <see cref="string.Empty"/>, never null.
 /// </summary>
 /// <remarks>
