@@ -1,5 +1,38 @@
 # Changelog
 
+## 10.1.0 (in progress): form-interaction `PageAction` primitives
+
+### Three new `PageAction` arms: `Fill`, `Press`, `ScrollIntoView` (ADR-0074)
+
+Closes the form-interaction gap [ADR-0035](docs/adr/0035-pageaction-closed-sum.md) left on the seven-arm closed sum: no text input, no keyboard events, no element-into-view scroll. Today consumers needing those reach for `EvaluateExpression` with a hand-rolled JS payload (silently breaks React / Vue / Svelte controlled components because the framework's `_valueTracker` bypasses changes that don't go through the native property setter) or `SemanticAct` (the LLM resolver has no concrete `Fill`-shape to return). Both are wrong by construction.
+
+[ADR-0074](docs/adr/0074-pageaction-form-interaction-primitives.md) widens the closed sum from seven arms to ten:
+
+| Arm | Shape | Maps to |
+|---|---|---|
+| `PageAction.Fill(string Selector, string Value)` | Auto-wait 30 s + clear + focus + native-setter trick + `input` / `change` events | `page.FillAsync(sel, val)` (Playwright) / `Input.insertText` + event dispatch via JS (CDP) |
+| `PageAction.Press(string Key)` | Playwright-style key strings (`"Enter"`, `"Control+A"`, single chars) on the currently-focused element | `page.Keyboard.PressAsync(key)` (Playwright) / `Input.dispatchKeyEvent` with a static `key-string → CDP-fields` map (CDP) |
+| `PageAction.ScrollIntoView(string Selector)` | Auto-wait 30 s + `element.scrollIntoView()` | `page.Locator(sel).ScrollIntoViewIfNeededAsync()` (Playwright) / `Runtime.evaluate` (CDP, reusing ADR-0057's `WaitForSelectorAsync` helper) |
+
+Achieves vocabulary parity with Firecrawl's `write` / `press` / `scroll` actions while keeping the structural differentiators (`WaitForNetworkIdle`, `SemanticAct`) WebReaper carries that Firecrawl does not. The `Sequence(arm1, arm2, …)` composite arm needed for multi-step `SemanticAct` resolution stays deferred to v2 (three open questions, no real caller; see ADR §Considered options (h)); v1 keeps `SemanticAct → single arm`.
+
+The `LlmActionResolver` whitelist extends from four shapes to seven; the brain registry grows 10 → 13 tools and the resolver registry 6 → 9. Fork 8 of ADR-0060 (`ActSemanticAct` absent from the resolver's tool list) is preserved; no SemanticAct loop is representable, structurally.
+
+| File | Change |
+|---|---|
+| `WebReaper/Domain/PageActions/PageAction.cs` | Three new nested `sealed record` arms. Class doc updated: "seven arms" → "ten arms"; implicit-30s-auto-wait noted on `Fill` and `ScrollIntoView`. |
+| `WebReaper/Builders/PageActionBuilder.cs` | Three new fluent methods (`Fill`, `Press`, `ScrollIntoView`) with `ArgumentException.ThrowIfNullOrWhiteSpace` validation. |
+| `WebReaper/Serialization/Converters/PageActionJsonConverter.cs` | Three new write/read arm cases. Wire tags `"fill"` / `"press"` / `"scrollIntoView"`. Pre-v10.1 readers throw `JsonException` with the unknown arm tag; closed-sum-default-arm posture preserved. |
+| `WebReaper.Cdp/CdpPageActionDispatcher.cs` | Three new dispatch arms. `Fill` calls `WaitForSelectorAsync` then evaluates a `Runtime.evaluate` payload running the React-friendly native-setter trick + `dispatchEvent(input/change)`. `Press` dispatches via `Input.dispatchKeyEvent`. `ScrollIntoView` reuses the same poll helper before `Runtime.evaluate` of `scrollIntoView()`. |
+| `WebReaper.Playwright/PlaywrightPageLoadTransport.cs` | Three new dispatch arms, one line each (`page.FillAsync`, `page.Keyboard.PressAsync`, `page.Locator(sel).ScrollIntoViewIfNeededAsync`). |
+| `WebReaper.AI/Tools/PageActionTools.cs` | Three new nested static classes following PR #134's arm-local pattern: `PageActionTools.Fill`, `.Press`, `.ScrollIntoView` each with `Name` const + `Descriptor` JSON Schema + `FromArguments`. |
+| `WebReaper.AI/LlmActionResolver.cs` | Prompt whitelist extends to mention the three new shapes. `ParseActionTool` switch gains one line per arm (PR #134 uniform pattern). |
+| `WebReaper.AI/LlmAgentBrain.cs` | `ParseDecisionTool` gains one line per arm. |
+
+### Implementation note: depends on PR #134 landing first
+
+[ADR-0074 §References](docs/adr/0074-pageaction-form-interaction-primitives.md) records that the arm-local tool projection pattern (PR #134) is stranded on master at the time of this entry (the [[stacked-pr-merge-gotcha]] auto-merged it into a deleted base branch). The re-apply is in flight on `chore/re-apply-pr-134-arm-local-tool-projection`; the file-edit count above assumes it has landed. Against master's current flat-factory shape (without PR #134), the satellite-side cost is ~70 more lines per arm in the brain + resolver switch statements; same arms, more editing.
+
 ## 10.0.2 (in progress): post-launch refactors
 
 ### `WebReaper.Mcp` browser mode wired (ADR-0073)
