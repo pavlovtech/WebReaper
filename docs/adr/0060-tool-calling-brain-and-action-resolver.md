@@ -550,11 +550,52 @@ one-line addition to each of `AgentDecisionTools.ForBrain`,
 resolver's switch. Each of those four updates is a single line
 referencing the same `<Arm>.Name` constant.
 
+### Visibility
+
+Both `PageActionTools` and `AgentDecisionTools` are `internal` —
+symmetric. Consumer-authored brain or resolver adapters build their
+own tool descriptors via the public `LlmCall<TResponse>` +
+`HandRolledAIFunction` surface; the standard tool descriptors here
+are an implementation detail of the satellite's `LlmAgentBrain` and
+`LlmActionResolver`. If a future consumer use case for reusing these
+standard tool descriptors surfaces (e.g. a deterministic brain that
+wants the exact schema the LLM brain registers), the classes can be
+widened to `public` in a minor release without breaking anyone
+(visibility widening is non-breaking). Starting internal is the
+conservative posture.
+
+### Per-arm contracts pinned by `PageActionToolsTests`
+
+The amendment adds a focused test file (`PageActionToolsTests`, 16
+tests) that pins each arm's `FromArguments` contract directly. The
+existing `LlmActionResolverTests` and `LlmAgentBrainTests` exercise
+the OUTER tool-call dispatch end-to-end; the new tests pin the INNER
+contract (what each arm accepts, what it rejects, the exact
+`FailureReason` string the brain composes into its Stop reason).
+This closes the test-coverage gap a future contributor refactoring
+a single arm's `FromArguments` would otherwise fall through.
+
+### Intentional `BuildFlatSchema` divergence (carried over)
+
+The `BuildFlatSchema` helper in `AgentDecisionTools.Extract` (13
+lines, strict — string-valued properties only) is intentionally not
+shared with `LlmSchemaInferrer.BuildFlatSchema` (43 lines, lenient —
+handles both the flat `"field": "selector"` shape AND the structured
+`"field": { "selector": "..." }` shape some verbose models emit; and
+throws when no usable pairs remain). The two adapters solve
+different problems: the brain trusts its own tool prompt's schema
+shape (one-shot per Extract decision, the tool prompt fixes the
+flat shape), while the inferrer parses LLM-emitted schemas that may
+arrive in either of two acceptable shapes (single inference pays
+for the whole crawl, so lenient parsing earns its keep). The
+duplication is by design; consolidating would lose information.
+
 ### Validation
 
-- All 253 AI tests pass (the `AgentDecisionToolsTests`
-  end-to-end pinning of every tool's schema continues to apply
-  unchanged — the projection is byte-identical, just relocated).
+- All 269 AI tests pass (was 253 + 16 from the new
+  `PageActionToolsTests`; the `AgentDecisionToolsTests` end-to-end
+  pinning of every tool's schema continues to apply unchanged — the
+  projection is byte-identical, just relocated).
 - All 409 unit tests pass.
 - No changes to core (`WebReaper`) — the ADR-0009 satellite
   quarantine is preserved.
