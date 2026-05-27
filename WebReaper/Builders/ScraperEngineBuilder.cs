@@ -56,6 +56,13 @@ public class ScraperEngineBuilder
     private ConfigBuilder ConfigBuilder { get; } = new();
     private SpiderBuilder SpiderBuilder { get; } = new();
 
+    // ADR-0072: the shared extractor + validator + wrapping-logic module
+    // both this builder and AgentEngineBuilder embed. Logger is read via
+    // a getter lambda so WithLogger updates after the field-initializer
+    // run still flow through to wrappers constructed by
+    // WithFallbackExtractor / WithSelfHealing.
+    private readonly ContentExtractorPipeline _pipeline;
+
     /// <summary>
     /// Per-run telemetry hooks (ADR-0066). Set by satellites at
     /// <c>WithLlm*</c> / <c>.UseAi(...)</c> time to register a
@@ -78,7 +85,16 @@ public class ScraperEngineBuilder
     /// then <see cref="ICrawlSeed.Extract"/> — never <c>new</c>ed. This is the
     /// structural guarantee (ADR-0025): the build terminals cannot be reached
     /// without a Crawl seed and a schema.</summary>
-    internal ScraperEngineBuilder() { }
+    internal ScraperEngineBuilder()
+    {
+        _pipeline = new ContentExtractorPipeline(() => Logger);
+    }
+
+    /// <summary>Internal accessor for the shared extractor pipeline — used
+    /// by <see cref="ICrawlSeed"/> implementations (the <c>AsMarkdown()</c>
+    /// and other terminals) to register their seed extractor via the
+    /// pipeline instead of bypassing it.</summary>
+    internal ContentExtractorPipeline Pipeline => _pipeline;
 
     /// <summary>
     /// Discover the URLs of a site without running a Crawl (ADR-0042 —
@@ -171,8 +187,11 @@ public class ScraperEngineBuilder
             // ConfigBuilder._schema null (Spider/CrawlStep/Config are
             // already null-tolerant — ADR-0008 / ADR-0025 read-side
             // wiring) and registers the Markdown extractor on the
-            // ADR-0039 IContentExtractor seam.
-            _builder.SpiderBuilder.WithContentExtractor(new MarkdownContentExtractor());
+            // ADR-0039 IContentExtractor seam. ADR-0072: registration
+            // goes through the shared pipeline, not directly to
+            // SpiderBuilder — keeps a single source of truth for the
+            // current extractor.
+            _builder.Pipeline.WithContentExtractor(new MarkdownContentExtractor());
             return _builder;
         }
 
@@ -237,7 +256,7 @@ public class ScraperEngineBuilder
     /// (ADR-0002 / ADR-0039) — instead of the default AngleSharp/CSS fold.</summary>
     public ScraperEngineBuilder WithContentExtractor(IContentExtractor extractor)
     {
-        SpiderBuilder.WithContentExtractor(extractor);
+        _pipeline.WithContentExtractor(extractor);
         return this;
     }
 
@@ -261,15 +280,7 @@ public class ScraperEngineBuilder
     /// <paramref name="fallback"/> is null.</exception>
     public ScraperEngineBuilder WithFallbackExtractor(IContentExtractor fallback)
     {
-        ArgumentNullException.ThrowIfNull(fallback);
-        // The "currently registered or default" rule: read the spider
-        // builder's current extractor; if null, use a SchemaFold over
-        // the default AngleSharp/CSS backend (the same default
-        // SpiderBuilder.Build wires).
-        var primary = SpiderBuilder.GetContentExtractorOrDefault(Logger);
-        SpiderBuilder.WithContentExtractor(
-            new WebReaper.Core.Parser.Concrete.ExtractionRouter(
-                primary, fallback, _schemaValidator, Logger));
+        _pipeline.WithFallbackExtractor(fallback);
         return this;
     }
 
@@ -291,20 +302,9 @@ public class ScraperEngineBuilder
     /// <paramref name="repairer"/> is null.</exception>
     public ScraperEngineBuilder WithSelfHealing(WebReaper.Core.Parser.Abstract.ISelectorRepairer repairer)
     {
-        ArgumentNullException.ThrowIfNull(repairer);
-        var primary = SpiderBuilder.GetContentExtractorOrDefault(Logger);
-        SpiderBuilder.WithContentExtractor(
-            new WebReaper.Core.Parser.Concrete.SelfHealingContentExtractor(
-                primary, repairer, _schemaValidator, Logger));
+        _pipeline.WithSelfHealing(repairer);
         return this;
     }
-
-    // ADR-0062: the builder-registered schema validator, read by
-    // WithFallbackExtractor / WithSelfHealing at the time they compose
-    // their wrapper. Null defaults to SchemaSatisfiedValidator.Instance
-    // at construction time (each wrapper picks the default itself when
-    // we pass null in — keeps the "one obvious default" invariant).
-    private WebReaper.Core.Parser.Abstract.ISchemaValidator? _schemaValidator;
 
     /// <summary>
     /// Register a custom <see cref="WebReaper.Core.Parser.Abstract.ISchemaValidator"/>
@@ -332,8 +332,7 @@ public class ScraperEngineBuilder
     public ScraperEngineBuilder WithSchemaValidator(
         WebReaper.Core.Parser.Abstract.ISchemaValidator validator)
     {
-        ArgumentNullException.ThrowIfNull(validator);
-        _schemaValidator = validator;
+        _pipeline.WithSchemaValidator(validator);
         return this;
     }
 
@@ -979,19 +978,27 @@ public class ScraperEngineBuilder
                     "BuildAsync(), or supply a custom ISchemaInferrer via " +
                     ".WithSchemaInferrer(inferrer).");
             }
-            var inner = SpiderBuilder.GetContentExtractorOrDefault(Logger);
-            var validator = _schemaValidator ?? SchemaSatisfiedValidator.Instance;
+            // ADR-0072: read inner extractor and validator from the
+            // shared pipeline instead of the previously-duplicated
+            // ScraperEngineBuilder._schemaValidator field.
+            var inner = _pipeline.GetExtractorOrDefault();
+            var validator = _pipeline.Validator ?? SchemaSatisfiedValidator.Instance;
             var wrapped = new LearnedSchemaContentExtractor(
                 _schemaInferrer, inner, marker.Goal, Logger,
                 validator,
                 _reInferAfterFailures,
                 _maxReInferencesPerInstance);
-            SpiderBuilder.WithContentExtractor(wrapped);
+            _pipeline.WithContentExtractor(wrapped);
             // ADR-0058: register the wrapper as a teardown hook so the
             // SemaphoreSlim disposes on engine teardown.
             OnTeardown(wrapped);
         }
 
+        // ADR-0072: sync the pipeline's resolved extractor into the
+        // SpiderBuilder once, immediately before SpiderBuilder.Build —
+        // the spider doesn't read from the pipeline directly; it gets
+        // the finalized extractor via WithContentExtractor.
+        SpiderBuilder.WithContentExtractor(_pipeline.GetExtractorOrDefault());
         var spider = SpiderBuilder.Build();
         await ConfigStorage.CreateConfigAsync(config);
 

@@ -50,8 +50,11 @@ public sealed class AgentEngineBuilder
     private IAgentBrain _brain = NullAgentBrain.Instance;
     private IAgentRunStore _runStore = new InMemoryAgentRunStore();
     private IPageLoader? _pageLoader;
-    private IContentExtractor? _contentExtractor;
-    private ISchemaValidator? _schemaValidator;
+    // ADR-0072: the shared extractor + validator + wrapping-logic
+    // module both this builder and ScraperEngineBuilder embed. Lazily
+    // assigned in the constructor so the logger lambda captures the
+    // current _logger value at each pipeline call.
+    private readonly ContentExtractorPipeline _pipeline;
     private IActionResolver _actionResolver = NullActionResolver.Instance;
     private IVisitedLinkTracker _visitedTracker = new InMemoryVisitedLinkTracker();
     private readonly List<IScraperSink> _sinks = new();
@@ -92,6 +95,7 @@ public sealed class AgentEngineBuilder
         ArgumentException.ThrowIfNullOrEmpty(goal);
         _startUrl = startUrl;
         _goal = goal;
+        _pipeline = new ContentExtractorPipeline(() => _logger);
     }
 
     /// <summary>
@@ -172,8 +176,7 @@ public sealed class AgentEngineBuilder
     /// <see cref="SchemaFold{TNode}"/>.</summary>
     public AgentEngineBuilder WithContentExtractor(IContentExtractor extractor)
     {
-        ArgumentNullException.ThrowIfNull(extractor);
-        _contentExtractor = extractor;
+        _pipeline.WithContentExtractor(extractor);
         return this;
     }
 
@@ -191,9 +194,7 @@ public sealed class AgentEngineBuilder
     /// <paramref name="fallback"/> is null.</exception>
     public AgentEngineBuilder WithFallbackExtractor(IContentExtractor fallback)
     {
-        ArgumentNullException.ThrowIfNull(fallback);
-        var primary = _contentExtractor ?? new SchemaFold<IParentNode>(new AngleSharpSchemaBackend(), _logger);
-        _contentExtractor = new ExtractionRouter(primary, fallback, _schemaValidator, _logger);
+        _pipeline.WithFallbackExtractor(fallback);
         return this;
     }
 
@@ -208,9 +209,7 @@ public sealed class AgentEngineBuilder
     /// <paramref name="repairer"/> is null.</exception>
     public AgentEngineBuilder WithSelfHealing(ISelectorRepairer repairer)
     {
-        ArgumentNullException.ThrowIfNull(repairer);
-        var primary = _contentExtractor ?? new SchemaFold<IParentNode>(new AngleSharpSchemaBackend(), _logger);
-        _contentExtractor = new SelfHealingContentExtractor(primary, repairer, _schemaValidator, _logger);
+        _pipeline.WithSelfHealing(repairer);
         return this;
     }
 
@@ -233,8 +232,7 @@ public sealed class AgentEngineBuilder
     /// <paramref name="validator"/> is null.</exception>
     public AgentEngineBuilder WithSchemaValidator(ISchemaValidator validator)
     {
-        ArgumentNullException.ThrowIfNull(validator);
-        _schemaValidator = validator;
+        _pipeline.WithSchemaValidator(validator);
         return this;
     }
 
@@ -374,8 +372,11 @@ public sealed class AgentEngineBuilder
                 ".WithLlmBrain(chatClient) extension — before BuildAsync().");
 
         var loader = _pageLoader ?? BuildDefaultPageLoader();
-        var contentExtractor = _contentExtractor ?? new SchemaFold<IParentNode>(new AngleSharpSchemaBackend(), _logger);
-        var validator = _schemaValidator ?? SchemaSatisfiedValidator.Instance;
+        // ADR-0072: resolve both the extractor and validator from the
+        // shared pipeline. _contentExtractor / _schemaValidator fields
+        // are gone; the pipeline holds the post-With*-method state.
+        var contentExtractor = _pipeline.GetExtractorOrDefault();
+        var validator = _pipeline.Validator ?? SchemaSatisfiedValidator.Instance;
 
         var engine = new AgentEngine(
             startUrl: _startUrl,
