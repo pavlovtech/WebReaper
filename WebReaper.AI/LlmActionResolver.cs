@@ -120,35 +120,25 @@ public sealed class LlmActionResolver : IActionResolver
         "Intent: " + input.Intent + "\n\n" +
         "Page (HTML, may be truncated):\n" + input.Html;
 
-    // ADR-0060 fork 8: the resolver's tool list has six arms; the closed
-    // sum is closed structurally (no ActSemanticAct ever, so the model
-    // cannot loop). Unknown tool name (the model invented one or called
-    // a brain-only arm) -> null; the transport surfaces a typed
-    // SemanticActResolutionException.
+    // ADR-0060 fork 8 + 2026-05-28 amendment: the resolver's tool list has
+    // six arms; the closed sum is closed structurally (no ActSemanticAct
+    // ever, so the model cannot loop). Each per-arm case dispatches to the
+    // arm-local FromArguments factory (in PageActionTools.cs). Unknown
+    // tool name (the model invented one or called the brain-only
+    // ActSemanticAct arm) -> null; the transport surfaces a typed
+    // SemanticActResolutionException. A factory failure (FromArguments
+    // returned a FailureReason) also reads as null — the resolver's
+    // contract is "concrete arm, or nothing", no per-failure diagnostics
+    // beyond what the transport's exception carries.
     private static PageAction? ParseActionTool(string toolName, JsonElement args)
         => toolName switch
         {
-            "ActClick"
-                when LlmToolArguments.TryGetString(args, "selector") is { Length: > 0 } sel
-                => new PageAction.Click(sel),
-
-            "ActWait"
-                => new PageAction.Wait(LlmToolArguments.TryGetInt(args, "ms") ?? 0),
-
-            "ActWaitForSelector"
-                when LlmToolArguments.TryGetString(args, "selector") is { Length: > 0 } sel
-                => new PageAction.WaitForSelector(sel, LlmToolArguments.TryGetInt(args, "timeoutMs") ?? 30_000),
-
-            "ActWaitForNetworkIdle"
-                => new PageAction.WaitForNetworkIdle(),
-
-            "ActScrollToEnd"
-                => new PageAction.ScrollToEnd(),
-
-            "ActEvaluate"
-                when LlmToolArguments.TryGetString(args, "expression") is { Length: > 0 } expr
-                => new PageAction.EvaluateExpression(expr),
-
+            PageActionTools.Click.Name => PageActionTools.Click.FromArguments(args).Value,
+            PageActionTools.Wait.Name => PageActionTools.Wait.FromArguments(args).Value,
+            PageActionTools.WaitForSelector.Name => PageActionTools.WaitForSelector.FromArguments(args).Value,
+            PageActionTools.WaitForNetworkIdle.Name => PageActionTools.WaitForNetworkIdle.FromArguments(args).Value,
+            PageActionTools.ScrollToEnd.Name => PageActionTools.ScrollToEnd.FromArguments(args).Value,
+            PageActionTools.EvaluateExpression.Name => PageActionTools.EvaluateExpression.FromArguments(args).Value,
             _ => null,
         };
 
