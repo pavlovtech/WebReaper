@@ -10,9 +10,9 @@ C++ source-level fingerprint patches make the browser indistinguishable from a r
 
 | Challenge | Outcome |
 |---|---|
-| Cloudflare Turnstile, reCAPTCHA v3, FingerprintJS, BrowserScan | **Silent pass** — challenge never appears |
-| reCAPTCHA v2 image grid, hCaptcha (interactive puzzles) | Not handled by stealth — needs a separate captcha-solving service |
-| DataDome on aggressive sites | Partial — vendor recommends headed mode + residential proxies (use [`WithProxy(...)`](https://github.com/pavlovtech/WebReaper)) |
+| Cloudflare Turnstile, reCAPTCHA v3, FingerprintJS, BrowserScan | **Silent pass**; challenge never appears |
+| reCAPTCHA v2 image grid, hCaptcha (interactive puzzles) | Not handled by stealth; needs a separate captcha-solving service |
+| DataDome on aggressive sites | Partial; vendor recommends headed mode + residential proxies (use [`WithProxy(...)`](https://github.com/pavlovtech/WebReaper)) |
 
 ## Install
 
@@ -58,7 +58,7 @@ See [BINARY-LICENSE.md](https://github.com/CloakHQ/CloakBrowser/blob/main/BINARY
     └── builder.WithCdpPageLoader(endpoint.CdpUrl)    → connects WebReaper.Cdp to the running browser
 ```
 
-Composes naturally with [`WithProxy(...)`](https://github.com/pavlovtech/WebReaper) (residential proxies for the hardest sites) and the LLM action resolver from `WebReaper.AI` (`.WithLlmActionResolver(...)` — semantic clicks like "dismiss popup" work through stealth).
+Composes naturally with [`WithProxy(...)`](https://github.com/pavlovtech/WebReaper) (residential proxies for the hardest sites) and the LLM action resolver from `WebReaper.AI` (`.WithLlmActionResolver(...)`; semantic clicks like "dismiss popup" work through stealth).
 
 ## SemVer
 

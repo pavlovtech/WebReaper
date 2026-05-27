@@ -1,5 +1,28 @@
 # Changelog
 
+## 10.0.1: NuGet metadata polish (no code changes)
+
+Patch release: every NuGet package now displays a logo and README on its package page; em-dashes removed from `<Description>` / `<PackageReleaseNotes>` across all 13 csprojs. No code changes; no public-surface changes.
+
+### Per-package metadata fixes
+
+| Package | Change |
+|---|---|
+| `WebReaper.AI` | Added `<PackageReadmeFile>README.md</PackageReadmeFile>` + new README explaining the LLM-extractor / fallback / self-heal / inferrer / agent-brain / action-resolver / `.UseAi(...)` surface. |
+| `WebReaper.Extraction.Attributes` | Added `<PackageIcon>` + `<PackageReadmeFile>` + new README explaining the `[ScrapeSchema]` / `[ScrapeField]` marker attributes. |
+| `WebReaper.Extraction.Generators` | Added `<PackageIcon>` + `<PackageReadmeFile>` + new README explaining the Roslyn source generator's emitted `Schema` / `Materialize` surface and v1 scope. |
+| `WebReaper.Mcp` | Added `<PackageIcon>` + `<PackageReadmeFile>` (the README was already in the repo, just not packaged). |
+| All other satellites | Em-dashes replaced with appropriate punctuation in `<Description>` / `<PackageReleaseNotes>` so the rendered NuGet text reads cleanly. |
+
+### Repo-wide hygiene
+
+- Em-dashes removed from `scripts/install.sh` header (21 instances), `homebrew/webreaper.rb.template` (9 instances), `docs/architecture.md` (6 instances), and the satellite `README.md` files (14 instances total). Per the project's "no em-dashes" discipline; pattern reads as AI-generated and was flagged during the v10.0.0 launch.
+- Historical CHANGELOG entries (`## 10.0.0` and earlier) intentionally untouched.
+
+### Distribution effect
+
+All 13 NuGet packages get a fresh upload at `10.0.1` with the new metadata; `--skip-duplicate` means the `10.0.0` versions on NuGet remain in place. The Homebrew tap formula and GitHub Release binaries get re-rendered against `v10.0.1`; existing `v10.0.0` Homebrew installs continue to work. End-user binary behaviour is identical (same Native-AOT-compiled binaries, same notarization).
+
 ## 10.0.0 — AI-native funnel + semantic actions + transports wave, on a deepened architecture; MIT relicense (breaking)
 
 The headline release of the year — 30 ADRs (0025–0055, with ADR-0017 the

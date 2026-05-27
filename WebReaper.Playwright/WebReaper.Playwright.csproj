@@ -9,12 +9,12 @@
 
     <PackageId>WebReaper.Playwright</PackageId>
     <Title>WebReaper.Playwright</Title>
-    <Description>Microsoft.Playwright-backed IPageLoadTransport for WebReaper. Modern .NET-native browser SDK with multi-browser support (Chromium, Firefox, WebKit), auto-wait semantics, and full Network interception via page.RouteAsync. Replaces the deleted WebReaper.Puppeteer satellite (ADR-0009 named direction, actioned by ADR-0053). Adds ScraperEngineBuilder.WithPlaywrightPageLoader over the core WithLoadTransport registration seam. Satellite package (ADR-0009) — Microsoft.Playwright stays out of WebReaper core; core stays dependency-light and AOT-clean. For AOT scenarios, use WebReaper.Cdp instead.</Description>
+    <Description>Microsoft.Playwright-backed IPageLoadTransport for WebReaper. Modern .NET-native browser SDK with multi-browser support (Chromium, Firefox, WebKit), auto-wait semantics, and full Network interception via page.RouteAsync. Replaces the deleted WebReaper.Puppeteer satellite (ADR-0009 named direction, actioned by ADR-0053). Adds ScraperEngineBuilder.WithPlaywrightPageLoader over the core WithLoadTransport registration seam. Satellite package (ADR-0009); Microsoft.Playwright stays out of WebReaper core; core stays dependency-light and AOT-clean. For AOT scenarios, use WebReaper.Cdp instead.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>scraper, crawler, playwright, headless, browser, chromium, firefox, webkit</PackageTags>
     <PackageIcon>logo.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes>10.0.0: initial release. Microsoft.Playwright-backed IPageLoadTransport per ADR-0053; replaces the deleted WebReaper.Puppeteer satellite in the same release (the v10.0.0 major break). Multi-browser default Chromium; Firefox/WebKit opt-in via PlaywrightBrowser enum. All 7 PageAction arms (ADR-0035) including SemanticAct (ADR-0050) — closes the ADR-0004 §"Out of scope" four-arm gap the Puppeteer transport had. Requires WebReaper 10.0.0.</PackageReleaseNotes>
+    <PackageReleaseNotes>10.0.0: initial release. Microsoft.Playwright-backed IPageLoadTransport per ADR-0053; replaces the deleted WebReaper.Puppeteer satellite in the same release (the v10.0.0 major break). Multi-browser default Chromium; Firefox/WebKit opt-in via PlaywrightBrowser enum. All 7 PageAction arms (ADR-0035) including SemanticAct (ADR-0050); closes the ADR-0004 §"Out of scope" four-arm gap the Puppeteer transport had. Requires WebReaper 10.0.0.</PackageReleaseNotes>
 
     <!-- ADR-0009 quarantine: Microsoft.Playwright has reflection-driven
          serialisation; the satellite is not AOT-compatible by design.
