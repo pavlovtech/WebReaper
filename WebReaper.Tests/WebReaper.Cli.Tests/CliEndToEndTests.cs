@@ -1,0 +1,175 @@
+using System.Diagnostics;
+using WebReaper.TestServer;
+using Xunit;
+using Xunit.Abstractions;
+
+namespace WebReaper.Cli.Tests;
+
+/// <summary>One <see cref="LocalTestSite"/> per CLI E2E class — the subprocess
+/// CLI hits it over loopback.</summary>
+public sealed class CliSiteFixture : IAsyncLifetime
+{
+    public LocalTestSite Site { get; private set; } = null!;
+    public async Task InitializeAsync() => Site = await LocalTestSite.StartAsync();
+    public async Task DisposeAsync() => await Site.DisposeAsync();
+}
+
+/// <summary>
+/// End-to-end coverage of the published CLI surface — the real binary, run as a
+/// subprocess against the deterministic local site. The CLI dll is copied into
+/// this test's output via the WebReaper.Cli ProjectReference, so it is invoked
+/// as <c>dotnet WebReaper.Cli.dll …</c> (a normal managed run — PublishAot only
+/// affects `dotnet publish`). Asserts stdout content and exit codes
+/// (0 success, 2 usage error per Program.cs).
+/// </summary>
+[Trait("Category", "Cli")]
+public sealed class CliEndToEndTests : IClassFixture<CliSiteFixture>
+{
+    private readonly LocalTestSite _site;
+    private readonly ITestOutputHelper _output;
+
+    public CliEndToEndTests(CliSiteFixture fixture, ITestOutputHelper output)
+    {
+        _site = fixture.Site;
+        _output = output;
+    }
+
+    private sealed record CliResult(int ExitCode, string Stdout, string Stderr);
+
+    // Resolve the CLI from its OWN build output (self-consistent
+    // runtimeconfig.json + deps.json). The copy that lands in this test's output
+    // dir has no WebReaper.Cli.deps.json, so `dotnet` there can't resolve the
+    // CLI's exact dependency set (e.g. Microsoft.Extensions.Logging.Abstractions
+    // 10.0.0) on a clean runner — it only worked locally where that assembly was
+    // already in a NuGet fallback. Same fix as the MCP server test.
+    private static string ResolveCliDll()
+    {
+        var baseDir = AppContext.BaseDirectory;
+        var dir = new DirectoryInfo(baseDir);
+        while (dir is not null && !File.Exists(Path.Combine(dir.FullName, "WebReaper.sln")))
+            dir = dir.Parent;
+        Assert.NotNull(dir);
+
+        var sep = Path.DirectorySeparatorChar;
+        var config = baseDir.Contains($"{sep}Release{sep}") ? "Release" : "Debug";
+        var cliDll = Path.Combine(dir!.FullName, "WebReaper.Cli", "bin", config, "net10.0", "WebReaper.Cli.dll");
+
+        Assert.True(File.Exists(cliDll), $"CLI dll not found at {cliDll}");
+        return cliDll;
+    }
+
+    private async Task<CliResult> RunCli(IEnumerable<string> args, (string, string)? env = null)
+    {
+        var cliDll = ResolveCliDll();
+
+        var psi = new ProcessStartInfo("dotnet")
+        {
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            UseShellExecute = false,
+        };
+        psi.ArgumentList.Add(cliDll);
+        foreach (var a in args) psi.ArgumentList.Add(a);
+        if (env is { } e) psi.Environment[e.Item1] = e.Item2;
+
+        using var p = Process.Start(psi)!;
+        var stdout = await p.StandardOutput.ReadToEndAsync();
+        var stderr = await p.StandardError.ReadToEndAsync();
+        await p.WaitForExitAsync();
+
+        _output.WriteLine($"$ dotnet WebReaper.Cli.dll {string.Join(' ', args)}");
+        _output.WriteLine($"exit={p.ExitCode}\n--stdout--\n{stdout}\n--stderr--\n{stderr}");
+        return new CliResult(p.ExitCode, stdout, stderr);
+    }
+
+    [Fact]
+    public async Task Scrape_outputs_markdown_to_stdout_by_default()
+    {
+        var r = await RunCli(["scrape", _site.Url("/static")]);
+
+        Assert.Equal(0, r.ExitCode);
+        Assert.Contains("Widget Pro 3000", r.Stdout);
+    }
+
+    [Fact]
+    public async Task Scrape_with_schema_emits_the_extracted_fields()
+    {
+        var schemaPath = Path.Combine(Path.GetTempPath(), $"wr-schema-{Guid.NewGuid():N}.json");
+        // ADR-0043 schema shape: { children: [ { field, selector } ] }.
+        await File.WriteAllTextAsync(schemaPath, """
+        {
+          "children": [
+            { "field": "title", "selector": ".title" },
+            { "field": "price", "selector": ".price" }
+          ]
+        }
+        """);
+
+        try
+        {
+            var r = await RunCli(["scrape", _site.Url("/static"), "--schema", schemaPath]);
+
+            Assert.Equal(0, r.ExitCode);
+            Assert.Contains("Widget Pro 3000", r.Stdout);
+            Assert.Contains("$49.99", r.Stdout);
+        }
+        finally
+        {
+            File.Delete(schemaPath);
+        }
+    }
+
+    [Fact]
+    public async Task Scrape_with_output_writes_a_file()
+    {
+        var outPath = Path.Combine(Path.GetTempPath(), $"wr-out-{Guid.NewGuid():N}.txt");
+
+        try
+        {
+            var r = await RunCli(["scrape", _site.Url("/static"), "--output", outPath]);
+
+            Assert.Equal(0, r.ExitCode);
+            Assert.True(File.Exists(outPath));
+            Assert.Contains("Widget Pro 3000", await File.ReadAllTextAsync(outPath));
+        }
+        finally
+        {
+            if (File.Exists(outPath)) File.Delete(outPath);
+        }
+    }
+
+    [Fact]
+    public async Task Map_discovers_urls_from_sitemap_and_root_page()
+    {
+        var r = await RunCli(["map", _site.BaseUrl]);
+
+        Assert.Equal(0, r.ExitCode);
+        Assert.Contains("/static", r.Stdout);   // present in both sitemap and root links
+    }
+
+    [Fact]
+    public async Task Version_prints_and_exits_zero()
+    {
+        var r = await RunCli(["version"]);
+
+        Assert.Equal(0, r.ExitCode);
+        Assert.False(string.IsNullOrWhiteSpace(r.Stdout));
+    }
+
+    [Fact]
+    public async Task Unknown_command_exits_two()
+    {
+        var r = await RunCli(["frobnicate"]);
+
+        Assert.Equal(2, r.ExitCode);
+    }
+
+    [Fact]
+    public async Task Scrape_without_url_is_a_usage_error()
+    {
+        var r = await RunCli(["scrape"]);
+
+        Assert.Equal(2, r.ExitCode);
+        Assert.Contains("Missing <url>", r.Stderr);
+    }
+}

@@ -154,7 +154,7 @@ public class LlmActionResolverTests
     // ResponseFormat is NOT — providers reject combining the two.
 
     [Fact]
-    public async Task ChatOptions_carries_the_six_resolver_tools_and_no_ResponseFormat()
+    public async Task ChatOptions_carries_the_nine_resolver_tools_and_no_ResponseFormat()
     {
         ChatOptions? captured = null;
         var chat = new StubChatClient((_, opts) =>
@@ -167,7 +167,7 @@ public class LlmActionResolverTests
 
         Assert.NotNull(captured);
         Assert.NotNull(captured!.Tools);
-        Assert.Equal(6, captured.Tools!.Count);
+        Assert.Equal(9, captured.Tools!.Count);
         var names = captured.Tools.OfType<AIFunction>().Select(f => f.Name).ToHashSet();
         Assert.Contains("ActClick", names);
         Assert.Contains("ActWait", names);
@@ -175,6 +175,10 @@ public class LlmActionResolverTests
         Assert.Contains("ActWaitForNetworkIdle", names);
         Assert.Contains("ActScrollToEnd", names);
         Assert.Contains("ActEvaluate", names);
+        // ADR-0074 arms
+        Assert.Contains("ActScrollIntoView", names);
+        Assert.Contains("ActPress", names);
+        Assert.Contains("ActFill", names);
         // Structural — fork 8.
         Assert.DoesNotContain("ActSemanticAct", names);
         // Tool-call mode does NOT set ResponseFormat (providers reject the combo).

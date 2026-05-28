@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <!-- Test-only helper: never packed, never AOT-published, so referencing
+         the ASP.NET shared framework here does not touch ADR-0009's
+         dependency-light / AOT-clean shipped graph. -->
+    <IsPackable>false</IsPackable>
+
+    <LangVersion>12</LangVersion>
+  </PropertyGroup>
+
+  <!-- WebApplication / minimal-API host from the shared framework. The
+       standard way to host Kestrel from a Microsoft.NET.Sdk library. -->
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+</Project>
