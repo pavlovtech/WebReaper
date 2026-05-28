@@ -236,7 +236,7 @@ public class LlmAgentBrainTests
     // ---- On-the-wire request shape -----------------------------------------
 
     [Fact]
-    public async Task ChatOptions_carries_the_ten_brain_tools_and_no_ResponseFormat()
+    public async Task ChatOptions_carries_the_thirteen_brain_tools_and_no_ResponseFormat()
     {
         ChatOptions? captured = null;
         var chat = new StubChatClient((_, opts) =>
@@ -249,7 +249,7 @@ public class LlmAgentBrainTests
 
         Assert.NotNull(captured);
         Assert.NotNull(captured!.Tools);
-        Assert.Equal(10, captured.Tools!.Count);
+        Assert.Equal(13, captured.Tools!.Count);
         var names = captured.Tools.OfType<AIFunction>().Select(f => f.Name).ToHashSet();
         Assert.Contains("Extract", names);
         Assert.Contains("Follow", names);
@@ -260,6 +260,10 @@ public class LlmAgentBrainTests
         Assert.Contains("ActWaitForNetworkIdle", names);
         Assert.Contains("ActScrollToEnd", names);
         Assert.Contains("ActEvaluate", names);
+        // ADR-0074 arms
+        Assert.Contains("ActScrollIntoView", names);
+        Assert.Contains("ActPress", names);
+        Assert.Contains("ActFill", names);
         // Brain CAN emit ActSemanticAct (the resolver cannot — fork 8).
         Assert.Contains("ActSemanticAct", names);
         // Tool-call mode: no ResponseFormat.

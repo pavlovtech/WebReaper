@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\WebReaper.Cli\WebReaper.Cli.csproj" />
+    <ProjectReference Include="..\WebReaper.TestServer\WebReaper.TestServer.csproj" />
   </ItemGroup>
 
 </Project>

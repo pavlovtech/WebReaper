@@ -4,8 +4,8 @@ using WebReaper.AI.Tools;
 
 namespace WebReaper.AI.Tests;
 
-// ADR-0060: schema-snapshot tests pinning the tool registry shape. The
-// brain's 10 tools and the resolver's 6 tools — names, parameter
+// ADR-0060 + ADR-0074: schema-snapshot tests pinning the tool registry shape.
+// The brain's 13 tools and the resolver's 9 tools — names, parameter
 // schemas, structural property (no ActSemanticAct on the resolver).
 //
 // These are the "would-bite-you-on-rename" tests: an arm rename
@@ -17,17 +17,17 @@ public class AgentDecisionToolsTests
     // ---- Registry composition ----------------------------------------------
 
     [Fact]
-    public void Brain_registry_has_exactly_ten_tools()
+    public void Brain_registry_has_exactly_thirteen_tools()
     {
         var tools = AgentDecisionTools.ForBrain();
-        Assert.Equal(10, tools.Count);
+        Assert.Equal(13, tools.Count);   // +3 ADR-0074 arms: Press, ScrollIntoView, Fill
     }
 
     [Fact]
-    public void Resolver_registry_has_exactly_six_tools()
+    public void Resolver_registry_has_exactly_nine_tools()
     {
         var tools = AgentDecisionTools.ForResolver();
-        Assert.Equal(6, tools.Count);
+        Assert.Equal(9, tools.Count);   // +3 ADR-0074 arms: Press, ScrollIntoView, Fill
     }
 
     [Fact]
@@ -40,7 +40,9 @@ public class AgentDecisionToolsTests
                 "Extract", "Follow", "Stop",
                 "ActClick", "ActWait", "ActWaitForSelector",
                 "ActWaitForNetworkIdle", "ActScrollToEnd", "ActEvaluate",
-                "ActSemanticAct"
+                "ActSemanticAct",
+                // ADR-0074 arms
+                "ActScrollIntoView", "ActPress", "ActFill"
             },
             names);
     }
@@ -53,7 +55,9 @@ public class AgentDecisionToolsTests
             new HashSet<string>
             {
                 "ActClick", "ActWait", "ActWaitForSelector",
-                "ActWaitForNetworkIdle", "ActScrollToEnd", "ActEvaluate"
+                "ActWaitForNetworkIdle", "ActScrollToEnd", "ActEvaluate",
+                // ADR-0074 arms (still no ActSemanticAct — fork 8)
+                "ActScrollIntoView", "ActPress", "ActFill"
             },
             names);
 

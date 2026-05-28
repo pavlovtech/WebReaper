@@ -8,6 +8,10 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
+  workflow_dispatch:
+  schedule:
+    # Nightly 06:00 UTC: the heavy tiers (Docker / browser / LLM / MCP / perf).
+    - cron: '0 6 * * *'
 
 jobs:
   build:
@@ -33,6 +37,16 @@ jobs:
     # the gate.
     - name: Integration tests (Redis adapters via Testcontainers)
       run: dotnet test WebReaper.Tests/WebReaper.IntegrationTests/WebReaper.IntegrationTests.csproj --no-build --verbosity normal --filter "FullyQualifiedName~RedisDistributedAdapterTests"
+    # Deterministic integration tier: the in-process Kestrel site (extraction,
+    # crawl/follow, retry, SQLite adapter) — no Docker, browser, keys, or
+    # network. Fast and stable enough for the gate. Excludes Container/Browser/
+    # Llm/Mcp/Perf/LiveSite by trait.
+    - name: Integration tests (LocalServer tier)
+      run: dotnet test WebReaper.Tests/WebReaper.IntegrationTests/WebReaper.IntegrationTests.csproj --no-build --verbosity normal --filter "Category=LocalServer"
+    # CLI end-to-end: the real CLI binary as a subprocess against the local
+    # site (scrape md/json, map, version, exit codes).
+    - name: CLI end-to-end tests
+      run: dotnet test WebReaper.Tests/WebReaper.Cli.Tests/WebReaper.Cli.Tests.csproj --no-build --verbosity normal --filter "Category=Cli"
     # ADR 0008 step 4: the AOT smoke test. Publishes the Newtonsoft-free
     # production path with PublishAot; the project scopes the IL2026/IL3050
     # family to build errors, so any trim/AOT regression fails CI here. Native
@@ -64,3 +78,37 @@ jobs:
         $WEBREAPER help
         $WEBREAPER browser list
         $WEBREAPER stealth list
+
+  # Heavy tiers kept out of the per-PR gate: Docker (Testcontainers), real
+  # browsers, the MCP subprocess, the 500-page scale test, and the real-LLM
+  # tests. Nightly + manual (workflow_dispatch) only.
+  extended:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v6
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: 10.0.x
+    - run: dotnet restore
+    - run: dotnet build --no-restore
+    # Testcontainers spins ephemeral Redis + MongoDB (Docker ships on the runner).
+    - name: Container tier (Redis + Mongo sinks/schedulers)
+      run: dotnet test WebReaper.Tests/WebReaper.IntegrationTests/WebReaper.IntegrationTests.csproj --no-build --filter "Category=Container"
+    # Playwright needs its matching browser revision; the runner has pwsh.
+    - name: Install Playwright browsers
+      run: pwsh WebReaper.Tests/WebReaper.IntegrationTests/bin/Debug/net10.0/playwright.ps1 install chromium
+    - name: Browser tier (Playwright + CDP render JS)
+      run: dotnet test WebReaper.Tests/WebReaper.IntegrationTests/WebReaper.IntegrationTests.csproj --no-build --filter "Category=Browser"
+    - name: MCP tier (scrape/map/extract over stdio)
+      run: dotnet test WebReaper.Tests/WebReaper.IntegrationTests/WebReaper.IntegrationTests.csproj --no-build --filter "Category=Mcp"
+    - name: Perf scale tier (500-page exact-count)
+      run: dotnet test WebReaper.Tests/WebReaper.IntegrationTests/WebReaper.IntegrationTests.csproj --no-build --filter "Category=Perf"
+    # LLM tier: passes vacuously when the secret is absent (the test's own
+    # no-key guard), so this is safe even on forks without the secret.
+    - name: LLM tier (real key if present, else vacuous)
+      env:
+        ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      run: dotnet test WebReaper.Tests/WebReaper.IntegrationTests/WebReaper.IntegrationTests.csproj --no-build --filter "Category=Llm"

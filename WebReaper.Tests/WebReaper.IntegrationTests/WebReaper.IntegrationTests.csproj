@@ -10,7 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Anthropic.SDK" Version="5.10.0" />
+    <PackageReference Include="Microsoft.Extensions.AI.OpenAI" Version="10.3.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
+    <PackageReference Include="ModelContextProtocol" Version="0.6.0-preview.1" />
+    <PackageReference Include="Testcontainers.MongoDb" Version="4.6.0" />
     <PackageReference Include="xunit" Version="2.9.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -35,5 +39,10 @@
          CloakBrowser satellite's installer + launcher. Test class
          vacuously-passes when WEBREAPER_STEALTH_SMOKE is unset. -->
     <ProjectReference Include="..\..\WebReaper.Stealth.CloakBrowser\WebReaper.Stealth.CloakBrowser.csproj" />
+    <ProjectReference Include="..\WebReaper.TestServer\WebReaper.TestServer.csproj" />
+    <ProjectReference Include="..\..\WebReaper.Sqlite\WebReaper.Sqlite.csproj" />
+    <ProjectReference Include="..\..\WebReaper.Mongo\WebReaper.Mongo.csproj" />
+    <ProjectReference Include="..\..\WebReaper.AI\WebReaper.AI.csproj" />
+    <ProjectReference Include="..\..\WebReaper.Mcp\WebReaper.Mcp.csproj" />
   </ItemGroup>
 </Project>
