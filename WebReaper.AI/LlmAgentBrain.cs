@@ -1,12 +1,9 @@
 using System.Text;
-using System.Text.Json;
 using Microsoft.Extensions.AI;
 using WebReaper.AI.Llm;
 using WebReaper.AI.Tools;
 using WebReaper.Core.Agent.Abstract;
 using WebReaper.Domain.Agent;
-using WebReaper.Domain.PageActions;
-using WebReaper.Domain.Parsing;
 
 namespace WebReaper.AI;
 
@@ -25,10 +22,10 @@ namespace WebReaper.AI;
 /// translates the model's tool call into one of the four
 /// <see cref="AgentDecision"/> arms — Extract / Follow / Act / Stop —
 /// per ADR-0060. The closed-sum is load-bearing at the LLM boundary:
-/// the registered 10-tool registry IS the schema; the SDK validates the
+/// the registered 13-tool registry IS the schema; the SDK validates the
 /// per-arm args against the per-arm schema before they reach
-/// <see cref="ParseDecisionTool"/>. JSON-mode parsing is gone for this
-/// adapter (ADR-0060 §Decision §5).
+/// <see cref="AgentDecisionTools.ParseBrainTool"/>. JSON-mode parsing is
+/// gone for this adapter (ADR-0060 §Decision §5).
 /// </para>
 /// <para>
 /// Internally delegates to <see cref="LlmCall{TResponse}"/> (ADR-0059) with
@@ -98,7 +95,7 @@ public sealed class LlmAgentBrain : IAgentBrain
             ParseResponse = _ => throw new InvalidOperationException(
                 "LlmAgentBrain is tool-call mode; ParseResponse must not be called."),
             Tools = AgentDecisionTools.ForBrain(),
-            ParseToolCall = ParseDecisionTool,
+            ParseToolCall = AgentDecisionTools.ParseBrainTool,
             Model = opts.Model,
             Temperature = opts.Temperature,
             MaxResponseTokens = opts.MaxResponseTokens,
@@ -193,63 +190,5 @@ public sealed class LlmAgentBrain : IAgentBrain
         AgentDecisionOutcome.Stopped x => $"Stopped (reason={x.Reason})",
         _ => "Unknown"
     };
-
-    // ADR-0060 amendment (2026-05-28): ParseToolCall delegate. Each per-arm
-    // case dispatches to the arm-local FromArguments factory (in
-    // PageActionTools.cs / AgentDecisionToolFragments.cs); a successful arm
-    // becomes the decision verbatim (AgentDecision arms) or is wrapped in
-    // Act (PageAction arms); a failure becomes Stop with the factory's
-    // FailureReason composed into the audit-trail string. Unknown tool
-    // name -> Stop with structural reason. The closed sum is load-bearing
-    // at the LLM boundary — the model picked from a list of ten arm-shaped
-    // tools; "the model emitted a JSON object with an unknown
-    // discriminator" is structurally impossible.
-    private static AgentDecision ParseDecisionTool(string toolName, JsonElement args)
-    {
-        var reason = LlmToolArguments.TryGetString(args, "reason") ?? "";
-
-        return toolName switch
-        {
-            AgentDecisionTools.Extract.Name => Unwrap(AgentDecisionTools.Extract.FromArguments(args, reason), toolName, reason),
-            AgentDecisionTools.Follow.Name => Unwrap(AgentDecisionTools.Follow.FromArguments(args, reason), toolName, reason),
-            AgentDecisionTools.Stop.Name => Unwrap(AgentDecisionTools.Stop.FromArguments(args, reason), toolName, reason),
-
-            PageActionTools.Click.Name => UnwrapAct(PageActionTools.Click.FromArguments(args), toolName, reason),
-            PageActionTools.Wait.Name => UnwrapAct(PageActionTools.Wait.FromArguments(args), toolName, reason),
-            PageActionTools.WaitForSelector.Name => UnwrapAct(PageActionTools.WaitForSelector.FromArguments(args), toolName, reason),
-            PageActionTools.WaitForNetworkIdle.Name => UnwrapAct(PageActionTools.WaitForNetworkIdle.FromArguments(args), toolName, reason),
-            PageActionTools.ScrollToEnd.Name => UnwrapAct(PageActionTools.ScrollToEnd.FromArguments(args), toolName, reason),
-            PageActionTools.ScrollIntoView.Name => UnwrapAct(PageActionTools.ScrollIntoView.FromArguments(args), toolName, reason),
-            PageActionTools.EvaluateExpression.Name => UnwrapAct(PageActionTools.EvaluateExpression.FromArguments(args), toolName, reason),
-            PageActionTools.SemanticAct.Name => UnwrapAct(PageActionTools.SemanticAct.FromArguments(args), toolName, reason),
-            PageActionTools.Press.Name => UnwrapAct(PageActionTools.Press.FromArguments(args), toolName, reason),
-            PageActionTools.Fill.Name => UnwrapAct(PageActionTools.Fill.FromArguments(args), toolName, reason),
-
-            _ => new AgentDecision.Stop
-            {
-                Reason = $"brain called unregistered tool '{toolName}'"
-            },
-        };
-    }
-
-    // Brain wrap for AgentDecision arms: the factory returns the arm with
-    // its Reason already populated (the brain passed reason in); on failure
-    // the freeform FailureReason composes into a Stop matching the
-    // pre-amendment audit-trail format byte-for-byte.
-    private static AgentDecision Unwrap<T>(ToolCallResult<T> result, string toolName, string reason)
-        where T : AgentDecision =>
-        result.Value is { } arm
-            ? arm
-            : new AgentDecision.Stop { Reason = $"brain {toolName} {result.FailureReason}: {reason}" };
-
-    // Brain wrap for Act* arms: the factory returns the PageAction value;
-    // the brain wraps in Act with the audit-trail Reason. Failure -> Stop
-    // with the factory's FailureReason in the same format as the
-    // pre-amendment parser.
-    private static AgentDecision UnwrapAct<T>(ToolCallResult<T> result, string toolName, string reason)
-        where T : PageAction =>
-        result.Value is { } action
-            ? new AgentDecision.Act(action) { Reason = reason }
-            : new AgentDecision.Stop { Reason = $"brain {toolName} {result.FailureReason}: {reason}" };
 
 }

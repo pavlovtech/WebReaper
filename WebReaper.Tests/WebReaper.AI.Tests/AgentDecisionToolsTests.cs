@@ -1,6 +1,8 @@
 using System.Text.Json;
 using Microsoft.Extensions.AI;
 using WebReaper.AI.Tools;
+using WebReaper.Domain.Agent;
+using WebReaper.Domain.PageActions;
 
 namespace WebReaper.AI.Tests;
 
@@ -218,6 +220,85 @@ public class AgentDecisionToolsTests
                 $"resolver tool {tool.Name} must have a description");
         }
     }
+
+    // ---- Derived-registry parse coverage (ADR-0078 Axis B) -----------------
+    //
+    // The anti-drift invariant: both registries and both parse paths derive
+    // from one PageActionTools.Arms list, so every offered tool is parseable.
+    // Pre-derivation this could silently break — an arm in ForBrain() but not
+    // in the brain's switch fell through to Stop; in ForResolver() but not the
+    // resolver's switch fell through to null — with no error.
+
+    [Fact]
+    public void Every_brain_tool_name_resolves_through_ParseBrainTool()
+    {
+        // Empty args: arms with required fields return Stop("brain X missing
+        // ..."), which is fine. The point is that none fall through to the
+        // "unregistered tool" branch — every offered tool is recognized.
+        foreach (var tool in AgentDecisionTools.ForBrain())
+        {
+            var decision = AgentDecisionTools.ParseBrainTool(tool.Name, Args("{}"));
+            if (decision is AgentDecision.Stop stop)
+            {
+                Assert.DoesNotContain("unregistered tool", stop.Reason);
+            }
+        }
+    }
+
+    [Fact]
+    public void Unregistered_brain_tool_name_is_the_only_unregistered_path()
+    {
+        var decision = AgentDecisionTools.ParseBrainTool("NotARealTool", Args("{}"));
+        var stop = Assert.IsType<AgentDecision.Stop>(decision);
+        Assert.Contains("unregistered tool 'NotARealTool'", stop.Reason);
+    }
+
+    [Fact]
+    public void Every_resolver_tool_name_resolves_through_ParseResolverTool()
+    {
+        // The resolver returns null for BOTH an unknown tool and a per-arm
+        // failure, so the only way to prove "recognized" is valid args ->
+        // non-null. ValidArgs must carry an entry per resolver tool; a new
+        // resolver arm without one trips the indexer (and this assertion).
+        foreach (var tool in AgentDecisionTools.ForResolver())
+        {
+            var action = AgentDecisionTools.ParseResolverTool(tool.Name, ValidArgs[tool.Name]);
+            Assert.NotNull(action);
+        }
+    }
+
+    [Fact]
+    public void Resolver_does_not_parse_ActSemanticAct_even_with_valid_args()
+    {
+        // Fork 8 at the parse level (registry-absence is pinned above): the
+        // brain parses ActSemanticAct into Act(SemanticAct); the resolver does
+        // not recognize it at all, even with otherwise-valid arguments.
+        var intent = Args("""{ "intent": "open the menu" }""");
+
+        var brain = AgentDecisionTools.ParseBrainTool("ActSemanticAct", intent);
+        var act = Assert.IsType<AgentDecision.Act>(brain);
+        Assert.IsType<PageAction.SemanticAct>(act.Action);
+
+        Assert.Null(AgentDecisionTools.ParseResolverTool("ActSemanticAct", intent));
+    }
+
+    // Minimal valid arguments per resolver tool — enough for FromArguments to
+    // succeed so a recognized tool returns a non-null arm.
+    private static readonly IReadOnlyDictionary<string, JsonElement> ValidArgs =
+        new Dictionary<string, JsonElement>
+        {
+            ["ActClick"] = Args("""{ "selector": ".x" }"""),
+            ["ActWait"] = Args("""{ "ms": 0 }"""),
+            ["ActWaitForSelector"] = Args("""{ "selector": ".x" }"""),
+            ["ActWaitForNetworkIdle"] = Args("{}"),
+            ["ActScrollToEnd"] = Args("{}"),
+            ["ActEvaluate"] = Args("""{ "expression": "1" }"""),
+            ["ActScrollIntoView"] = Args("""{ "selector": ".x" }"""),
+            ["ActPress"] = Args("""{ "key": "Enter" }"""),
+            ["ActFill"] = Args("""{ "selector": ".x", "value": "y" }"""),
+        };
+
+    private static JsonElement Args(string json) => JsonDocument.Parse(json).RootElement;
 
     // ---- Helpers -----------------------------------------------------------
 

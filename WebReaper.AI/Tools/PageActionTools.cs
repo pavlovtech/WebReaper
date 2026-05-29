@@ -462,4 +462,89 @@ internal static class PageActionTools
                 : ToolCallResult<PageAction.SemanticAct>.Ok(new PageAction.SemanticAct(intent));
         }
     }
+
+    // ---- Derived-registry arm list (ADR-0078 Axis B) ------------------------
+
+    /// <summary>
+    /// The single source list both AI tool registries derive from (ADR-0078
+    /// Axis B). Each entry pairs an arm's <see cref="PageActionArm.Descriptor"/>
+    /// (the tool offered to the model) with the parse that decodes the model's
+    /// call (<see cref="PageActionArm.ToAction"/> /
+    /// <see cref="PageActionArm.ResolverToAction"/>), so the tool offered and
+    /// the parse that decodes it are the same list seen two ways and cannot
+    /// drift. <see cref="AgentDecisionTools.ForBrain"/> maps every entry through
+    /// an <see cref="WebReaper.Domain.Agent.AgentDecision.Act"/> wrapper;
+    /// <see cref="AgentDecisionTools.ForResolver"/> is the subset whose entries
+    /// expose a resolver adapter.
+    /// <para>
+    /// Fork 8 (ADR-0060): <see cref="SemanticAct"/> is the one
+    /// <see cref="BrainOnly"/> entry — its <see cref="PageActionArm.ResolverToAction"/>
+    /// is <c>null</c>, so it cannot appear in a registry derived from this list.
+    /// The resolver's "never return SemanticAct" rule is a structural absence,
+    /// not a runtime name filter.
+    /// </para>
+    /// </summary>
+    public static IReadOnlyList<PageActionArm> Arms { get; } =
+    [
+        Concrete(Click.Descriptor, Click.FromArguments),
+        Concrete(Wait.Descriptor, Wait.FromArguments),
+        Concrete(WaitForSelector.Descriptor, WaitForSelector.FromArguments),
+        Concrete(WaitForNetworkIdle.Descriptor, WaitForNetworkIdle.FromArguments),
+        Concrete(ScrollToEnd.Descriptor, ScrollToEnd.FromArguments),
+        Concrete(ScrollIntoView.Descriptor, ScrollIntoView.FromArguments),
+        Concrete(EvaluateExpression.Descriptor, EvaluateExpression.FromArguments),
+        Concrete(Press.Descriptor, Press.FromArguments),
+        Concrete(Fill.Descriptor, Fill.FromArguments),
+        BrainOnly(SemanticAct.Descriptor, SemanticAct.FromArguments),
+    ];
+
+    // A concrete arm: one parse serves both the brain (which wraps the result
+    // in Act) and the resolver (raw). The same delegate is referenced twice, so
+    // the brain-offered and resolver-offered shapes cannot decode differently.
+    private static PageActionArm Concrete<T>(
+        AIFunction descriptor, Func<JsonElement, ToolCallResult<T>> fromArguments)
+        where T : PageAction
+    {
+        Func<JsonElement, ToolCallResult<PageAction>> parse = args => Widen(fromArguments(args));
+        return new PageActionArm(descriptor, parse, parse);
+    }
+
+    // A brain-only arm (SemanticAct, fork 8): a brain parse but NO resolver
+    // adapter, so it is structurally absent from the derived resolver registry.
+    private static PageActionArm BrainOnly<T>(
+        AIFunction descriptor, Func<JsonElement, ToolCallResult<T>> fromArguments)
+        where T : PageAction
+        => new(descriptor, args => Widen(fromArguments(args)), ResolverToAction: null);
+
+    // Widen a per-arm ToolCallResult<TArm> to the erased ToolCallResult<PageAction>
+    // so every arm shares one list-element type. Success and failure carry
+    // through unchanged.
+    private static ToolCallResult<PageAction> Widen<T>(ToolCallResult<T> result)
+        where T : PageAction
+        => result.Value is { } arm
+            ? ToolCallResult<PageAction>.Ok(arm)
+            : ToolCallResult<PageAction>.Failed(result.FailureReason!);
 }
+
+/// <summary>
+/// One entry in <see cref="PageActionTools.Arms"/> (ADR-0078 Axis B): a
+/// <see cref="PageAction"/> arm's tool <see cref="Descriptor"/> paired with the
+/// parse(s) that decode a tool call into the arm.
+/// <para>
+/// <see cref="ToAction"/> is the brain-side parse (the brain wraps the result
+/// in <see cref="WebReaper.Domain.Agent.AgentDecision.Act"/>); present for
+/// every arm. <see cref="ResolverToAction"/> is the resolver-side parse, and is
+/// <c>null</c> for a brain-only arm (<see cref="PageAction.SemanticAct"/>, fork
+/// 8) so the arm stays out of the derived resolver registry structurally rather
+/// than via a runtime name filter.
+/// </para>
+/// </summary>
+/// <param name="Descriptor">The hand-rolled tool schema offered to the model.</param>
+/// <param name="ToAction">Decodes a tool call's arguments into the
+/// <see cref="PageAction"/> arm (or a failure); the brain consumes this.</param>
+/// <param name="ResolverToAction">The resolver-side decode; <c>null</c> for
+/// brain-only arms, which the resolver registry derivation then omits.</param>
+internal sealed record PageActionArm(
+    AIFunction Descriptor,
+    Func<JsonElement, ToolCallResult<PageAction>> ToAction,
+    Func<JsonElement, ToolCallResult<PageAction>>? ResolverToAction);

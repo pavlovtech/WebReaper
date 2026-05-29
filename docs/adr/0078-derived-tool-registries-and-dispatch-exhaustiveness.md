@@ -1,6 +1,8 @@
 # 0078. Derived Tool Registries and Transport Dispatch Exhaustiveness
 
-- **Status:** Accepted — design pass; implementation pending (2026-05-29)
+- **Status:** Accepted — implemented 2026-05-29. Axis A's original
+  switch-expression mechanism proved infeasible in C# and was re-decided as a
+  CI coverage guard (see Decision + Alternatives).
 - **Date:** 2026-05-29
 - **Deciders:** Alex (HITL), Claude (architecture pass)
 
@@ -36,14 +38,42 @@ problems remain:
 
 Two axes.
 
-**Axis A — exhaustiveness idiom on the transports.** Convert both transport
-dispatch switch-statements (`CdpPageActionDispatcher.PerformAsync`,
-`PlaywrightPageLoadTransport.PerformAsync`) to switch-*expressions* with no
-discard arm. Adding a `PageAction` arm then fails to compile in each satellite
-until handled — the runtime `default: throw` becomes a compile-time guarantee.
-No new module, no core↔satellite seam; each transport keeps its native body
-(CDP's `Runtime.evaluate` JS, Playwright's locator/keyboard APIs). ADR-0009
-untouched.
+**Axis A — exhaustiveness guard on the transports.** The two transport dispatch
+switch-*statements* (`CdpPageActionDispatcher.PerformAsync`,
+`PlaywrightPageLoadTransport.PerformAsync`) keep their `default: throw
+ArgumentOutOfRangeException`, and a CI test asserts every `PageAction` arm
+dispatches without reaching that default. No new module, no core/satellite
+seam; each transport keeps its native body (CDP's `Runtime.evaluate` JS,
+Playwright's locator/keyboard APIs). ADR-0009 untouched.
+
+This re-decides the design pass's original plan (convert the switch-*statements*
+to discard-less switch-*expressions* so a new arm fails to compile). That plan
+rests on a compiler capability C# does not have. C# has no closed-hierarchy
+exhaustiveness (discriminated unions are unshipped as of C# 14 / .NET 10), so a
+discard-less switch expression over `PageAction` reports CS8509 ("not
+exhaustive") even when every arm is handled; the closed sum's private
+constructor does not change this. CS8509 is therefore present identically
+whether or not a new arm has been added, so as a warning it carries no
+incremental signal, and promoting it to an error breaks the already-complete
+switch today. A discard-less switch expression cannot be both clean now and a
+compile error on a new arm. (Verified empirically on the .NET 10 SDK across
+`LangVersion` 12 and `latest`.)
+
+The achievable guard is a test, run in CI:
+- **CDP** gets an execution-coverage test
+  (`WebReaper.Cdp.Tests.CdpPageActionDispatchTests`): it reflects every
+  `PageAction` arm, dispatches each through `PerformAsync` against the
+  `FakeCdpSession`, and asserts none throws `ArgumentOutOfRangeException`. A new
+  arm trips a reflection completeness check (forcing a sample), and the sample
+  then proves the CDP transport handles it.
+- **Playwright** has no unit-test seam (its `PerformAsync` is private over a
+  real Microsoft.Playwright `IPage`, which the repo's hand-fake convention
+  cannot stand up without a mocking dependency). It is guarded by a core-side
+  arm-census test (`WebReaper.UnitTests.PageActionArmCensusTests`) that pins the
+  `PageAction` arm set and fails with a checklist of every consumer to update
+  (both transports, the AI registries, the builder, the codec), plus the
+  runtime `default: throw` as the backstop. Giving Playwright its own
+  execution-coverage test (a faked or mocked `IPage`) is a deferred follow-up.
 
 **Axis B — derived registries in the satellite.** Both the brain and resolver
 registries become derived views of one `PageActionArms` arm list. Each entry is
@@ -57,11 +87,13 @@ filtered to entries that expose a resolver adapter.
 
 Fork 8 of ADR-0060 (the resolver must never return `SemanticAct`, which would
 loop the transport's resolution path) is preserved **structurally**:
-`SemanticAct` exposes no resolver adapter, so it cannot appear in a registry
-derived from the arm list — a compile-time absence, not a runtime `.Where(x !=
-SemanticAct)` filter or a hand-maintained second list. The `_ => null`
-(resolver) / `_ => Stop` (brain) fallback remains, but now catches only a
-genuinely hallucinated tool name, never a wiring omission.
+`SemanticAct`'s arm entry carries no resolver adapter (`ResolverToAction` is
+`null`), so the resolver registry and the resolver parse, both derived from
+`Arms.Where(a => a.ResolverToAction is not null)`, omit it together. The absence
+is structural (the entry has nothing for the derivation to include), not a
+runtime identity filter (`.Where(x != SemanticAct)`) or a hand-maintained second
+list. The `_ => null` (resolver) / `_ => Stop` (brain) fallback remains, but now
+catches only a genuinely hallucinated tool name, never a wiring omission.
 
 ## Consequences
 
@@ -70,13 +102,19 @@ Good:
   switches) to one (`PageActionArms`) plus at most one (a brain-native arm).
 - The silent-drop failure class is eliminated: the descriptor and the parse are
   the same list, so an arm offered to the model is always parseable.
-- A new arm that a transport forgets is now a compile error in that satellite.
+- A new arm a transport forgets is caught in CI: by the CDP execution-coverage
+  test for CDP, and by the core arm-census tripwire (which lists every consumer
+  to update) for Playwright and the rest.
 - Fork 8's loop-prevention stays structural — strengthened from
   double-omission-from-two-lists to single-absence-of-an-adapter.
 
 Bad / costs:
 - One derived-registry indirection in the satellite (an arm list + a mapping)
   in place of two literal lists.
+- Axis A's guard is CI-time, not compile-time (C# cannot give the latter for a
+  closed sum), and Playwright's coverage is a census tripwire plus the runtime
+  throw rather than execution-proven. A faked/mocked `IPage` execution test for
+  Playwright is a deferred follow-up.
 
 ## Alternatives considered
 
@@ -87,7 +125,25 @@ Bad / costs:
   evaluate-JS compositions — a capability regression — and it introduces a
   core↔satellite seam that re-litigates ADR-0009. The twin switches are
   correct-by-design (transport-specific bodies); only their *exhaustiveness
-  enforcement* was weak, which Axis A fixes without a new seam.
+  enforcement* was weak, which Axis A's CI coverage test addresses without a new
+  seam.
+- **Discard-less switch expressions on the transports (the design pass's
+  original Axis A).** Rejected: infeasible in C#. A switch expression over a
+  class hierarchy is never provably exhaustive to Roslyn, so CS8509 fires even
+  when every arm is handled (the `PageAction` private constructor does not help)
+  and it cannot be both clean today and a compile error when an arm is added.
+  Verified on the .NET 10 SDK. The CI coverage test is the achievable
+  substitute. Details in the Decision.
+- **An exhaustive `Match`/visitor on `PageAction` in core** (an abstract
+  `Match<T>(Func<Click,T>, …)` each arm overrides; both transports dispatch
+  through it with native-body lambdas). This *would* give a true compile-time
+  guarantee, symmetric across both transports, without generic primitives.
+  Rejected for this ADR: it adds a generic visitor to core public API and grows
+  per-arm boilerplate (a new arm means a new override plus a signature change
+  plus every call site), which cuts against the design pass's "no new core
+  machinery, transports keep native bodies" intent. The CI test gives most of
+  the protection at a fraction of the surface. Revisit if a third transport
+  lands or C# ships discriminated unions.
 - **Leave Axis B as-is** (the amendment already co-located per-arm concerns).
   Rejected: the residual four-list sync still allows the silent-drop failure,
   which is invisible (offered to the model, unparseable, no error).
