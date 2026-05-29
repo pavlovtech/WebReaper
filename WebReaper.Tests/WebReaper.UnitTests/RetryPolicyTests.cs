@@ -59,6 +59,28 @@ public class RetryPolicyTests
     }
 
     [Fact]
+    public async Task Default_policy_makes_four_attempts_on_exhaustion()
+    {
+        // ADR-0026: the core default is four attempts (one initial + three
+        // retries), the exact pre-0026 Polly behaviour. The sibling
+        // exhaustion test pins maxAttempts:3; this one pins the literal
+        // default constant, which is otherwise only exercised on the
+        // success path, so a regression to that default can't slip past.
+        var calls = 0;
+        var policy = new FixedAttemptsRetryPolicy(); // default maxAttempts = 4
+
+        var ex = await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            policy.ExecuteAsync<int>(_ =>
+            {
+                calls++;
+                throw new InvalidOperationException($"attempt {calls}");
+            }, CancellationToken.None));
+
+        Assert.Equal("attempt 4", ex.Message);
+        Assert.Equal(4, calls);
+    }
+
+    [Fact]
     public async Task OperationCanceledException_thrown_by_action_propagates_immediately()
     {
         var calls = 0;
