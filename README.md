@@ -30,6 +30,8 @@ dotnet add package WebReaper
 
 Windows binaries are on the [GitHub Releases page](https://github.com/pavlovtech/WebReaper/releases/latest); `winget` and `Scoop` are on the v10.1 roadmap.
 
+**Updating:** `brew upgrade webreaper` (Homebrew), or re-run the install.sh line with `--upgrade` appended (`| sh -s -- --upgrade`), or `dotnet add package WebReaper` (library). When a newer release exists, `scrape` / `crawl` / `map` print a one-line upgrade hint on stderr (interactive terminals only, never in a pipe or CI); disable that check with `WEBREAPER_NO_UPDATE_CHECK=1`.
+
 ## 30-second demo
 
 ```bash

@@ -87,6 +87,12 @@ Flags (per-command):
     --force             Overwrite an existing SKILL.md.
     --dir <path>        Target directory (default .claude/skills/webreaper).
 
+Environment:
+  WEBREAPER_NO_UPDATE_CHECK=1   Disable the once-a-day update check. By default
+                                scrape/crawl/map print an upgrade hint to stderr
+                                (interactive terminals only) when a newer
+                                release exists; never in CI or pipes.
+
 Examples:
   webreaper scrape https://example.com
   webreaper scrape https://example.com --schema schema.json
