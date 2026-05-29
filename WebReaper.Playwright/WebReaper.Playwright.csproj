@@ -14,7 +14,7 @@
     <PackageTags>scraper, crawler, playwright, headless, browser, chromium, firefox, webkit</PackageTags>
     <PackageIcon>logo.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes>10.0.0: initial release. Microsoft.Playwright-backed IPageLoadTransport per ADR-0053; replaces the deleted WebReaper.Puppeteer satellite in the same release (the v10.0.0 major break). Multi-browser default Chromium; Firefox/WebKit opt-in via PlaywrightBrowser enum. All 7 PageAction arms (ADR-0035) including SemanticAct (ADR-0050); closes the ADR-0004 §"Out of scope" four-arm gap the Puppeteer transport had. Requires WebReaper 10.0.0.</PackageReleaseNotes>
+    <PackageReleaseNotes>10.1.0 (minor): dispatches the three new PageAction arms (ADR-0074) via native Playwright calls (FillAsync, Keyboard.PressAsync, Locator.ScrollIntoViewIfNeededAsync); now all 10 arms. The dispatch is extracted into an internal PlaywrightPageActionDispatcher pinned by an execution-coverage test (ADR-0078). 10.0.0: initial release. Microsoft.Playwright-backed IPageLoadTransport per ADR-0053; replaces the deleted WebReaper.Puppeteer satellite in the same release (the v10.0.0 major break). Multi-browser default Chromium; Firefox/WebKit opt-in via PlaywrightBrowser enum. All 7 PageAction arms (ADR-0035) including SemanticAct (ADR-0050); closes the ADR-0004 §"Out of scope" four-arm gap the Puppeteer transport had. Requires WebReaper 10.0.0.</PackageReleaseNotes>
 
     <!-- ADR-0009 quarantine: Microsoft.Playwright has reflection-driven
          serialisation; the satellite is not AOT-compatible by design.

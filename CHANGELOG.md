@@ -1,6 +1,6 @@
 # Changelog
 
-## 10.1.0 (in progress): form-interaction `PageAction` primitives
+## 10.1.0: form-interaction page actions, MCP browser mode, and post-launch refactors
 
 ### Three new `PageAction` arms: `Fill`, `Press`, `ScrollIntoView` (ADR-0074)
 
@@ -28,13 +28,11 @@ The `LlmActionResolver` whitelist extends from four shapes to seven; the brain r
 | `WebReaper.Playwright/PlaywrightPageLoadTransport.cs` | Three new dispatch arms, one line each (`page.FillAsync`, `page.Keyboard.PressAsync`, `page.Locator(sel).ScrollIntoViewIfNeededAsync`). |
 | `WebReaper.AI/Tools/PageActionTools.cs` | Three new nested static classes following PR #134's arm-local pattern: `PageActionTools.Fill`, `.Press`, `.ScrollIntoView` each with `Name` const + `Descriptor` JSON Schema + `FromArguments`. |
 | `WebReaper.AI/Tools/AgentDecisionTools.cs` | `ForBrain()` grows 10 → 13 tools (adds `Press`, `ScrollIntoView`, `Fill`); `ForResolver()` grows 6 → 9 tools (same). |
-| `WebReaper.AI/LlmActionResolver.cs` | `ParseActionTool` switch gains one case per new arm. The system prompt does NOT enumerate JSON shapes — the tool list is the schema (ADR-0060), so the new arms surface via their tools, not prompt text (pinned by `System_prompt_no_longer_enumerates_JSON_shapes`). |
+| `WebReaper.AI/LlmActionResolver.cs` | `ParseActionTool` switch gains one case per new arm. The system prompt does NOT enumerate JSON shapes; the tool list is the schema (ADR-0060), so the new arms surface via their tools, not prompt text (pinned by `System_prompt_no_longer_enumerates_JSON_shapes`). |
 | `WebReaper.AI/LlmAgentBrain.cs` | `ParseDecisionTool` gains one case per new arm. |
 | `WebReaper.Tests/WebReaper.UnitTests/StjSerializationTests.cs` | Three new arm round-trip tests pinning typed-field equality through the codec. |
 | `WebReaper.Tests/WebReaper.UnitTests/PayloadShellTests.cs` | Three new `ScraperConfig` payload-shell round-trip tests; the ScrollIntoView test additionally covers chain-nested `LinkPathSelector.PageActions`. |
 | `WebReaper.Tests/WebReaper.AotSmokeTest/Program.cs` | Three new `PageAction` arm round-trip checks added to the closed-sum smoke exercise; smoke pass count grows from 11 → 14. |
-
-## 10.0.2 (in progress): post-launch refactors
 
 ### `WebReaper.Mcp` browser mode wired (ADR-0073)
 
@@ -48,7 +46,7 @@ Patch fix to a behaviour gap noted but deferred in [PR #122](https://github.com/
 | `WebReaper.Mcp/WebReaperTools.cs` | `Scrape` and `Extract` now conditionally call `.WithCdpPageLoader(new CdpLaunchOptions())` when `browser=true`. Switched to `await using` for the engine so the spawned Chromium process tears down on each call (ADR-0058 chain). Tool descriptions updated to mention the auto-spawn behaviour. |
 | `WebReaper.Mcp/README.md` | New "Browser mode" section documenting the auto-spawn path and prerequisite (a system Chrome / Chromium / Edge on the MCP host). |
 
-The `map` tool needs no change (sitemap discovery is static, no browser load). The `WebReaper.Mcp` NuGet package gains `WebReaper.Cdp` as a transitive dependency at the v10.0.2 bump; both packages move in lockstep on the WebReaper release cadence.
+The `map` tool needs no change (sitemap discovery is static, no browser load). The `WebReaper.Mcp` NuGet package gains `WebReaper.Cdp` as a transitive dependency at the v10.1.0 bump; both packages move in lockstep on the WebReaper release cadence.
 
 ### `WebReaper.AI` new public type `LlmToolArguments` (ADR-0059 amendment)
 
@@ -58,7 +56,7 @@ The byte-identical `TryGetString` / `TryGetInt` JSON-argument extractors that li
 |---|---|
 | `WebReaper.AI.Llm.LlmToolArguments` | Static. Two methods: `TryGetString(JsonElement, string) → string?` and `TryGetInt(JsonElement, string) → int?`. Both return `null` for missing properties, JSON-null, or non-matching kinds. `TryGetInt` tolerates string-encoded integers (`"30000"` → `30_000`) but the JSON integer-token-vs-decimal-token boundary is strict (`1` → `1`, `1.0` → `null`); the leniency contract is pinned by `LlmToolArgumentsTests`. |
 
-No behaviour changes — the helpers are byte-identical to the now-deleted private copies; the existing brain and resolver tests continue to pass unchanged.
+No behaviour changes: the helpers are byte-identical to the now-deleted private copies; the existing brain and resolver tests continue to pass unchanged.
 
 ### `WebReaper.AI` off the preview `Microsoft.Extensions.AI` abstractions
 
@@ -68,11 +66,22 @@ No behaviour changes — the helpers are byte-identical to the now-deleted priva
 |---|---|
 | `WebReaper.AI/WebReaper.AI.csproj` | `Microsoft.Extensions.AI.Abstractions` `9.4.0-preview.1.25207.5` → `10.3.0` (stable; this is a dependency floor, not a pin). |
 
-## 10.0.1: NuGet metadata polish (no code changes)
+### Architecture-deepening refactors (ADR-0076, ADR-0077, ADR-0078)
 
-Patch release: every NuGet package now displays a logo and README on its package page; em-dashes removed from `<Description>` / `<PackageReleaseNotes>` across all 13 csprojs. No code changes; no public-surface changes.
+Post-launch internal refactors from the 2026-05-29 architecture pass. The only public-surface change is `AgentEngine` gaining `IAsyncDisposable`; one consumer-visible bug fix ships with it.
 
-### Per-package metadata fixes
+| Change | Notes |
+|---|---|
+| **`PostExtractionPipeline` module (ADR-0076)** | The page-processor pipeline, sink fan-out, and their warm-up / disposal move into one `WebReaper/Processing/PostExtractionPipeline.cs` with a fused `ProcessAndEmitAsync`. Both the crawl driver and the agent engine delegate to it instead of duplicating the loop. |
+| **Bug fix: durable agent-run records were silently dropped** | `AgentEngine` was neither warmed nor disposed, so durable agent-run sinks and the `IAgentRunStore` were never flushed (records lost on agent runs). `AgentEngine` is now `IAsyncDisposable`, and `Agent.RunAsync` / `Agent.ResumeAsync` use `await using`. |
+| **`ClosedSumCodec<T>` JSON mechanism (ADR-0077)** | The three near-identical hand-written flat closed-sum converters (`PageAction`, `AgentDecision`, `AgentDecisionOutcome`) collapse onto one `WebReaper/Serialization/Codecs/ClosedSumCodec.cs` driven by per-arm `(tag, write, build)` descriptors. Wire format stays byte-identical (pinned by characterization tests); AOT-clean. |
+| **Derived AI tool registries (ADR-0078)** | The brain (13) and resolver (9) tool registries plus their parse dispatch become derived views of one `PageActionTools.Arms` list, so the offered tool and the parse that decodes it cannot drift. Fork 8 (no `SemanticAct` on the resolver) is preserved structurally. Both browser transports gain a dispatch execution-coverage test (CDP via a fake session, Playwright via an NSubstitute `IPage`). |
+
+### NuGet metadata polish (no code changes)
+
+Every NuGet package now displays a logo and README on its package page; em-dashes removed from `<Description>` / `<PackageReleaseNotes>` across all 13 csprojs. No code changes; no public-surface changes.
+
+#### Per-package metadata fixes
 
 | Package | Change |
 |---|---|
@@ -82,14 +91,10 @@ Patch release: every NuGet package now displays a logo and README on its package
 | `WebReaper.Mcp` | Added `<PackageIcon>` + `<PackageReadmeFile>` (the README was already in the repo, just not packaged). |
 | All other satellites | Em-dashes replaced with appropriate punctuation in `<Description>` / `<PackageReleaseNotes>` so the rendered NuGet text reads cleanly. |
 
-### Repo-wide hygiene
+#### Repo-wide hygiene
 
 - Em-dashes removed from `scripts/install.sh` header (21 instances), `homebrew/webreaper.rb.template` (9 instances), `docs/architecture.md` (6 instances), and the satellite `README.md` files (14 instances total). Per the project's "no em-dashes" discipline; pattern reads as AI-generated and was flagged during the v10.0.0 launch.
 - Historical CHANGELOG entries (`## 10.0.0` and earlier) intentionally untouched.
-
-### Distribution effect
-
-All 13 NuGet packages get a fresh upload at `10.0.1` with the new metadata; `--skip-duplicate` means the `10.0.0` versions on NuGet remain in place. The Homebrew tap formula and GitHub Release binaries get re-rendered against `v10.0.1`; existing `v10.0.0` Homebrew installs continue to work. End-user binary behaviour is identical (same Native-AOT-compiled binaries, same notarization).
 
 ## 10.0.0 — AI-native funnel + semantic actions + transports wave, on a deepened architecture; MIT relicense (breaking)
 

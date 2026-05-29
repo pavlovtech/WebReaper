@@ -19,7 +19,7 @@
     <PackageTags>scraper, crawler, llm, ai, extraction, openai, anthropic</PackageTags>
     <PackageIcon>logo.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes>10.0.1: NuGet metadata polish. Adds PackageReadmeFile so the README shows on the package page. Removes em-dashes from Description and release notes. No code changes. 10.0.0: initial release. LLM-backed IContentExtractor satellite (ADR-0044) bound to Microsoft.Extensions.AI.Abstractions (IChatClient). Bring your own model: OpenAI, Anthropic, Ollama, anything implementing IChatClient. Ships LlmContentExtractor (Markdown pre-clean by default, deterministic Temperature=0, MaxTokens=4096), a Schema-to-JSON-Schema bridge, and ScraperEngineBuilder.WithLlmExtractor. Also ships LlmSelectorRepairer + WithLlmSelfHealing for the SelfHealingContentExtractor (ADR-0047): LLM proposes selectors on a fold failure, deterministic re-run validates, per-crawl cache persists the patch. New satellite package per ADR-0009: the consumer's IChatClient makes the LLM call, so the satellite quarantines AI deps off the dependency-light, Native-AOT-clean core. Requires WebReaper 10.0.0.</PackageReleaseNotes>
+    <PackageReleaseNotes>10.1.0 (minor): new public LlmToolArguments helper (TryGetString / TryGetInt for tool-call argument extraction). The Microsoft.Extensions.AI.Abstractions floor moves off preview to stable 10.3.0. The brain (13) and resolver (9) tool registries plus their parse dispatch are now derived views of one PageActionTools.Arms list (ADR-0078); the resolver gains the three new form-action tools (Fill, Press, ScrollIntoView). 10.0.1: NuGet metadata polish. Adds PackageReadmeFile so the README shows on the package page. Removes em-dashes from Description and release notes. No code changes. 10.0.0: initial release. LLM-backed IContentExtractor satellite (ADR-0044) bound to Microsoft.Extensions.AI.Abstractions (IChatClient). Bring your own model: OpenAI, Anthropic, Ollama, anything implementing IChatClient. Ships LlmContentExtractor (Markdown pre-clean by default, deterministic Temperature=0, MaxTokens=4096), a Schema-to-JSON-Schema bridge, and ScraperEngineBuilder.WithLlmExtractor. Also ships LlmSelectorRepairer + WithLlmSelfHealing for the SelfHealingContentExtractor (ADR-0047): LLM proposes selectors on a fold failure, deterministic re-run validates, per-crawl cache persists the patch. New satellite package per ADR-0009: the consumer's IChatClient makes the LLM call, so the satellite quarantines AI deps off the dependency-light, Native-AOT-clean core. Requires WebReaper 10.0.0.</PackageReleaseNotes>
 
     <!-- ADR-0009 quarantine: the consumer's chat client makes the AOT
          call; the satellite isn't AOT-required so the core's clean
@@ -28,7 +28,7 @@
 
   <ItemGroup>
     <!-- 10.3.0 (stable, not preview): the highest abstractions that the latest
-         stable Anthropic.SDK (5.10.0) is binary-compatible with — 10.6.0 changed
+         stable Anthropic.SDK (5.10.0) is binary-compatible with; 10.6.0 changed
          HostedMcpServerTool and breaks Anthropic.SDK at runtime. Floor, not pin:
          consumers not using Anthropic.SDK can still resolve higher. -->
     <PackageReference Include="Microsoft.Extensions.AI.Abstractions" Version="10.3.0" />
