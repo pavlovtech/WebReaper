@@ -32,6 +32,7 @@ internal static class ScrapeCommand
         // No escalation path on pure-HTTP scrapes.
         if (!ctx.Browser)
         {
+            WriteEmptyHint(ctx, first.Records.Count);
             await RecordOutput.WriteAsync(first.Records, ctx.Output);
             return 0;
         }
@@ -46,6 +47,7 @@ internal static class ScrapeCommand
 
         if (!verdict.LikelyBlocked)
         {
+            WriteEmptyHint(ctx, first.Records.Count);
             await RecordOutput.WriteAsync(first.Records, ctx.Output);
             return 0;
         }
@@ -117,6 +119,19 @@ internal static class ScrapeCommand
 
         await RecordOutput.WriteAsync(retry.Records, ctx.Output);
         return 0;
+    }
+
+    // ----- empty-result hint -----
+
+    // Cheap-win companion to the (currently unreachable) bot-check escalation:
+    // when a scrape returns no records, point the user at the next transport to
+    // try instead of silently shipping empty stdout. The decision is the pure
+    // EmptyResultAdvisor; this only writes the line to stderr.
+    private static void WriteEmptyHint(ScrapeContext ctx, int recordCount)
+    {
+        var hint = EmptyResultAdvisor.Advise(ctx.Browser, ctx.Stealth, recordCount);
+        if (hint is not null)
+            Console.Error.WriteLine($"⚠  {hint}");
     }
 
     // ----- single scrape attempt -----
