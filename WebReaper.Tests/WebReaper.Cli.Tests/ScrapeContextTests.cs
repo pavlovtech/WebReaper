@@ -28,6 +28,20 @@ public class ScrapeContextTests
     }
 
     [Fact]
+    public void Bare_host_url_defaults_to_https()
+    {
+        var ctx = Parse("scrape", "alexpavlov.dev");
+        Assert.Equal("https://alexpavlov.dev", ctx.Url);
+    }
+
+    [Fact]
+    public void Explicit_scheme_url_is_preserved()
+    {
+        var ctx = Parse("scrape", "http://example.com");
+        Assert.Equal("http://example.com", ctx.Url);
+    }
+
+    [Fact]
     public void Cdp_url_flag_implies_browser()
     {
         var ctx = Parse("scrape", "https://example.com", "--browser-cdp-url", "ws://localhost:9222");

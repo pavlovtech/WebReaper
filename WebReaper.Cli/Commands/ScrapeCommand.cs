@@ -264,7 +264,7 @@ internal static class ScrapeCommand
 
     internal static ScrapeContext ParseContext(ParsedArgs args)
     {
-        var url = args.Positional[0];
+        var url = Urls.Normalize(args.Positional[0]);
         var cdpUrl = args.GetFlag("browser-cdp-url");
         var browser = args.HasFlag("browser") || cdpUrl is not null;
         var stealth = args.HasFlag("stealth");

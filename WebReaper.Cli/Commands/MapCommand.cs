@@ -12,7 +12,7 @@ internal static class MapCommand
         if (args.Positional.Count < 1)
             throw new CliException("Missing <url>. Usage: webreaper map <url> [flags]");
 
-        var url = args.Positional[0];
+        var url = Urls.Normalize(args.Positional[0]);
         var options = new MapOptions(
             MaxUrls: args.GetIntFlag("max-urls", 1000),
             IncludeSitemap: !args.HasFlag("no-sitemap"),
