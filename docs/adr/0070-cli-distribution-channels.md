@@ -82,7 +82,7 @@ history is auditable here, not split across two repositories.
 A `scripts/install.sh` checked into this repo. Install command:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/pavlovtech/WebReaper/master/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/pavlovtech/WebReaper/master/scripts/install.sh | sh
 ```
 
 The script is the maximum-care version — ~120 lines, every failure-mode

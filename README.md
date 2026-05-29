@@ -19,7 +19,7 @@ brew install pavlovtech/webreaper/webreaper
 **Any POSIX shell (install.sh):**
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/pavlovtech/WebReaper/master/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/pavlovtech/WebReaper/master/scripts/install.sh | sh
 ```
 
 **.NET library:**

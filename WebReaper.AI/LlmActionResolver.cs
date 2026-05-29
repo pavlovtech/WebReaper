@@ -43,25 +43,20 @@ namespace WebReaper.AI;
 /// </summary>
 public sealed class LlmActionResolver : IActionResolver
 {
+    // ADR-0060: post tool-calling pivot the tool list IS the schema, so the
+    // prompt no longer enumerates JSON shapes ({ "kind": ... }) — the provided
+    // action tools and their parameter schemas define the concrete shapes. The
+    // model just picks one tool. Behavioural pin: AgentDecisionToolsTests /
+    // LlmActionResolverTests.System_prompt_no_longer_enumerates_JSON_shapes.
     private const string DefaultSystemPrompt =
         "You are resolving a user's natural-language intent to a concrete " +
         "browser action on the supplied HTML page. Call EXACTLY ONE of the " +
-        "provided action tools to indicate the concrete action. Pick the " +
-        "simplest action that satisfies the intent. Prefer a CSS selector " +
-        "specific enough not to collide with other elements (prefer id over " +
-        "class, class over tag; combine if needed). " +
-        "Available concrete shapes: " +
-        "{ \"kind\": \"click\", \"selector\": \"<css>\" }, " +
-        "{ \"kind\": \"wait\", \"ms\": <int> }, " +
-        "{ \"kind\": \"waitForSelector\", \"selector\": \"<css>\" }, " +
-        "{ \"kind\": \"waitForNetworkIdle\" }, " +
-        "{ \"kind\": \"scrollToEnd\" }, " +
-        "{ \"kind\": \"scrollIntoView\", \"selector\": \"<css>\" }, " +
-        "{ \"kind\": \"evaluate\", \"expression\": \"<js>\" }, " +
-        "{ \"kind\": \"press\", \"key\": \"<Playwright-style key, e.g. Enter | Control+A | a>\" }, " +
-        "{ \"kind\": \"fill\", \"selector\": \"<css>\", \"value\": \"<text>\" }. " +
-        "Use 'fill' when the intent is to type text into an input, textarea, or " +
-        "content-editable element. The fill action clears any existing value " +
+        "provided action tools to indicate the concrete action; the tool list " +
+        "is the schema. Pick the simplest action that satisfies the intent. " +
+        "Prefer a CSS selector specific enough not to collide with other " +
+        "elements (prefer id over class, class over tag; combine if needed). " +
+        "Use the fill tool when the intent is to type text into an input, " +
+        "textarea, or content-editable element; it clears any existing value " +
         "before inserting the new text.";
 
     private readonly LlmCall<PageAction?> _call;
