@@ -6,7 +6,11 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <!-- NU5128: analyzer-only package (IncludeBuildOutput=false, ships in
+         analyzers/dotnet/cs), so there is intentionally no lib/ assembly for
+         the netstandard2.0 dependency group. The "add lib/ref" warning is
+         expected for source-generator packages and is suppressed. -->
+    <NoWarn>$(NoWarn);CS1591;NU5128</NoWarn>
 
     <IsRoslynComponent>true</IsRoslynComponent>
     <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>

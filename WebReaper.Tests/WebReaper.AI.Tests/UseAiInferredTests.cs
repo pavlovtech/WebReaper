@@ -79,7 +79,7 @@ public class UseAiInferredTests
     }
 
     [Fact]
-    public void Per_role_Inferrer_override_threads_to_satellite_descriptor()
+    public async Task Per_role_Inferrer_override_threads_to_satellite_descriptor()
     {
         // The per-role record's CachePolicy + MaxContentChars should
         // make it into the wired inferrer's options. Capturing happens
@@ -103,7 +103,7 @@ public class UseAiInferredTests
 
         var inferrer = (LlmSchemaInferrer)builder.SchemaInferrerForTests;
         // Force an inference call to exercise the descriptor.
-        _ = inferrer.InferAsync("<article><h1>x</h1></article>").GetAwaiter().GetResult();
+        _ = await inferrer.InferAsync("<article><h1>x</h1></article>");
 
         Assert.NotNull(capturedSystem);
         Assert.NotNull(capturedSystem!.AdditionalProperties);
@@ -111,7 +111,7 @@ public class UseAiInferredTests
     }
 
     [Fact]
-    public void UseAi_synthesised_inferrer_inherits_global_CachePolicy_Hinted_by_default()
+    public async Task UseAi_synthesised_inferrer_inherits_global_CachePolicy_Hinted_by_default()
     {
         // Default AiOptions has CachePolicy.Hinted. When the per-role
         // Inferrer is null, the synthesised one inherits Hinted (via
@@ -129,14 +129,14 @@ public class UseAiInferredTests
         builder.UseAi(chat, new AiOptions(Policy: AiPolicyMode.Inferred));
 
         var inferrer = (LlmSchemaInferrer)builder.SchemaInferrerForTests;
-        _ = inferrer.InferAsync("<article><h1>x</h1></article>").GetAwaiter().GetResult();
+        _ = await inferrer.InferAsync("<article><h1>x</h1></article>");
 
         Assert.NotNull(capturedSystem!.AdditionalProperties);
         Assert.True(capturedSystem.AdditionalProperties!.ContainsKey("cache_control"));
     }
 
     [Fact]
-    public void Scraper_UseAi_Inferred_does_NOT_wire_LlmFallback_or_LlmExtractor()
+    public async Task Scraper_UseAi_Inferred_does_NOT_wire_LlmFallback_or_LlmExtractor()
     {
         // Mutually-exclusive arms per the closed-sum discipline.
         // Verified by builder accessor exposure not being needed — if
@@ -150,10 +150,8 @@ public class UseAiInferredTests
         builder.UseAi(chat, new AiOptions(Policy: AiPolicyMode.Inferred));
 
         // No exception during build = the wiring is self-consistent.
-        var task = builder.BuildAsync();
-        task.Wait();
-        var engine = task.Result;
-        engine.DisposeAsync().AsTask().Wait();
+        var engine = await builder.BuildAsync();
+        await engine.DisposeAsync();
     }
 
     [Fact]
