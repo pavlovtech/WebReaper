@@ -14,11 +14,15 @@ namespace WebReaper.UnitTests;
 // HTML ⇒ assert the outcome arm and its selector-chain handling".
 public class CrawlStepTests
 {
-    private static CrawlStep Step() =>
-        new(new SchemaFold<AngleSharp.Dom.IParentNode>(new AngleSharpSchemaBackend(), NullLogger.Instance));
+    private static CrawlStep Step(SweepPolicy? sweepPolicy = null) =>
+        new(new SchemaFold<AngleSharp.Dom.IParentNode>(new AngleSharpSchemaBackend(), NullLogger.Instance),
+            sweepPolicy);
 
     private static Job Job(string url, params LinkPathSelector[] chain) =>
         new(url, ImmutableQueue.CreateRange(chain), ImmutableQueue.Create<string>());
+
+    private static Job JobWithBacklinks(string url, string[] backlinks, params LinkPathSelector[] chain) =>
+        new(url, ImmutableQueue.CreateRange(chain), ImmutableQueue.CreateRange(backlinks));
 
     [Fact]
     public async Task Empty_chain_yields_one_ParsedData_and_no_jobs()
@@ -103,5 +107,78 @@ public class CrawlStepTests
         // NextJobs projection = items then next-pages, in order.
         Assert.Equal(new[] { "https://x.test/i1", "https://x.test/list?p=2" },
             outcome.NextJobs.Select(j => j.Url));
+    }
+
+    // ---- Sweep page (ADR-0081): the one arm that extracts AND follows ----
+
+    [Fact]
+    public async Task Sweep_page_yields_ParsedData_and_on_domain_children_that_retain_the_sweep_selector()
+    {
+        var sweep = LinkPathSelector.Sweep();                      // recursive a[href]
+        var job = Job("https://x.test/", sweep);
+        var schema = new Schema { new("title", "h1.t") };
+        const string html = "<html><body><h1 class='t'>Home</h1>" +
+                            "<a href='/a'>a</a>" +
+                            "<a href='/b'>b</a>" +
+                            "<a href='https://other.test/x'>off</a></body></html>";
+
+        var outcome = await Step().StepAsync(job, html, schema);
+
+        var swept = Assert.IsType<CrawlOutcome.Swept>(outcome);
+        // Extracts like a target page...
+        Assert.Equal("https://x.test/", swept.Data.Url);
+        Assert.Equal("Home", swept.Data.Data["title"]?.ToString());
+        // ...AND follows its on-domain links (the off-domain one is dropped).
+        Assert.Equal(new[] { "https://x.test/a", "https://x.test/b" },
+            swept.Next.Select(j => j.Url));
+        Assert.All(swept.Next, j =>
+        {
+            // RETAIN: the child carries the same one-element recursive chain.
+            var retained = Assert.Single(j.LinkPathSelectors);
+            Assert.True(retained.Recursive);
+            Assert.Equal(sweep, retained);
+            Assert.Equal("https://x.test/", j.ParentBacklinks.Single()); // provenance
+        });
+    }
+
+    [Fact]
+    public async Task Sweep_excludes_subdomains_by_default_but_includes_them_when_opted_in()
+    {
+        var job = Job("https://example.com/", LinkPathSelector.Sweep());
+        const string html = "<html><body>" +
+                            "<a href='https://blog.example.com/x'>sub</a></body></html>";
+        var schema = new Schema { new("title", "h1") };
+
+        // Default (no policy ⇒ anchor derived from the page host, no subdomains).
+        var byDefault = Assert.IsType<CrawlOutcome.Swept>(
+            await Step().StepAsync(job, html, schema));
+        Assert.Empty(byDefault.Next);
+
+        // --include-subdomains widens to the apex suffix.
+        var opted = Assert.IsType<CrawlOutcome.Swept>(
+            await Step(new SweepPolicy("example.com", IncludeSubdomains: true, MaxDepth: int.MaxValue))
+                .StepAsync(job, html, schema));
+        Assert.Equal(new[] { "https://blog.example.com/x" }, opted.Next.Select(j => j.Url));
+    }
+
+    [Fact]
+    public async Task Sweep_stops_following_at_max_depth_but_still_extracts_the_page()
+    {
+        var sweep = LinkPathSelector.Sweep();
+        var schema = new Schema { new("title", "h1") };
+        const string html = "<html><body><h1>deep</h1><a href='/c'>c</a></body></html>";
+
+        var policy = new SweepPolicy("x.test", IncludeSubdomains: false, MaxDepth: 1);
+
+        // Depth 1 (one backlink) with MaxDepth 1: extract, do NOT follow.
+        var atCap = JobWithBacklinks("https://x.test/b", new[] { "https://x.test/" }, sweep);
+        var capped = Assert.IsType<CrawlOutcome.Swept>(await Step(policy).StepAsync(atCap, html, schema));
+        Assert.Equal("deep", capped.Data.Data["title"]?.ToString());
+        Assert.Empty(capped.Next);
+
+        // Depth 0 (the start page) with MaxDepth 1: still follows.
+        var atStart = Job("https://x.test/", sweep);
+        var followed = Assert.IsType<CrawlOutcome.Swept>(await Step(policy).StepAsync(atStart, html, schema));
+        Assert.Equal(new[] { "https://x.test/c" }, followed.Next.Select(j => j.Url));
     }
 }

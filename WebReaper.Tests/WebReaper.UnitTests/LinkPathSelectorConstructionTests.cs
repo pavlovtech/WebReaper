@@ -154,4 +154,57 @@ public class LinkPathSelectorConstructionTests
         Assert.Equal(PageType.Dynamic, s.PageType);
         Assert.Single(s.PageActions!);
     }
+
+    // ---- Sweep factory (ADR-0081, the recursive Site-sweep intent-shape) ----
+
+    [Fact]
+    public void Sweep_builds_a_recursive_step_with_the_default_link_selector()
+    {
+        var s = LinkPathSelector.Sweep();
+
+        Assert.True(s.Recursive);
+        Assert.Equal("a[href]", s.Selector);   // default: follow every anchor
+        Assert.Null(s.PaginationSelector);
+        Assert.False(s.HasPagination);
+        Assert.Equal(PageType.Static, s.PageType);
+    }
+
+    [Fact]
+    public void Sweep_accepts_a_restricting_link_selector()
+    {
+        var s = LinkPathSelector.Sweep("a[href^='/blog/']");
+
+        Assert.True(s.Recursive);
+        Assert.Equal("a[href^='/blog/']", s.Selector);
+    }
+
+    [Fact]
+    public void Sweep_rejects_an_empty_selector()
+    {
+        // The non-empty-Selector grammar rule (ADR-0030) still applies to the
+        // third intent-shape; an explicitly-blank link selector is malformed.
+        Assert.Throws<ArgumentException>(() => LinkPathSelector.Sweep(""));
+    }
+
+    [Fact]
+    public void Sweep_with_browser_actions_uses_a_dynamic_transport()
+    {
+        var actions = new List<PageAction> { new PageAction.Click(".accept") };
+
+        var s = LinkPathSelector.Sweep("a[href]", PageType.Dynamic, actions);
+
+        Assert.Equal(PageType.Dynamic, s.PageType);
+        Assert.Single(s.PageActions!);
+        Assert.True(s.Recursive);
+    }
+
+    [Fact]
+    public void Follow_and_Paginate_and_the_constructor_are_not_recursive()
+    {
+        // Recursive is the Sweep-only marker; every other construction path
+        // leaves it false so the Crawl step keeps its advance/retain behaviour.
+        Assert.False(new LinkPathSelector("a.item").Recursive);
+        Assert.False(LinkPathSelector.Follow("a.item").Recursive);
+        Assert.False(LinkPathSelector.Paginate("a.item", "a.next").Recursive);
+    }
 }

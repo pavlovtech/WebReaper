@@ -108,6 +108,22 @@ Check(gotFillConfig.PageActions![0] is PageAction.Fill { Selector: "input#q", Va
 Check(((Schema)gotConfig.ParsingScheme!.Children[0]).Children[0].Type == DataType.Integer,
     "polymorphic Schema/SchemaElement round-trip");
 
+// 1e. ADR-0081: the recursive Site-sweep marker survives the selector-chain
+//     codec, and the config's IncludeSubdomains + MaxDepth knobs round-trip
+//     through source-gen, all AOT-clean.
+var sweepConfig = new ScraperConfig(
+    ParsingScheme: null,
+    LinkPathSelectors: ImmutableQueue.CreateRange(new[] { LinkPathSelector.Sweep("a[href]") }),
+    StartUrls: new[] { "https://x.test/" },
+    UrlBlackList: Array.Empty<string>(),
+    IncludeSubdomains: true,
+    MaxDepth: 4);
+var sweepGot = WebReaperJson.DeserializeConfig(WebReaperJson.SerializeConfig(sweepConfig));
+Check(sweepGot.LinkPathSelectors.Single().Recursive
+      && sweepGot.IncludeSubdomains
+      && sweepGot.MaxDepth == 4,
+    "Site-sweep recursive marker + config knobs round-trip (ADR-0081, AOT-clean)");
+
 // 2. Production WebReaperJson — Job round-trip (ADR-0005 closure).
 var job = new Job("https://x.test/p",
     ImmutableQueue.CreateRange(new[] { new LinkPathSelector("a.x", null, PageType.Static) }),

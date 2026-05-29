@@ -17,6 +17,7 @@ static async Task<int> Run(string[] args)
         return parsed.Command switch
         {
             "scrape" => await ScrapeCommand.RunAsync(parsed),
+            "crawl" => await CrawlCommand.RunAsync(parsed),
             "map" => await MapCommand.RunAsync(parsed),
             "init" => InitCommand.Run(parsed),
             "version" => VersionCommand.Run(),

@@ -116,6 +116,40 @@ public class StjSerializationTests
     }
 
     [Fact]
+    public void Sweep_selector_round_trips_with_the_recursive_marker()
+    {
+        // ADR-0081: the recursive marker must survive the selector-chain codec
+        // so a durable / distributed scheduler resumes a Sweep page as a sweep,
+        // not a plain follow.
+        var job = new Job(
+            "https://x.test/",
+            ImmutableQueue.CreateRange(new[] { LinkPathSelector.Sweep("a[href]") }),
+            ImmutableQueue<string>.Empty);
+
+        var json = WebReaperJson.SerializeJob(job);
+        var got = WebReaperJson.DeserializeJob(json);
+
+        var selector = Assert.Single(got.LinkPathSelectors);
+        Assert.True(selector.Recursive);
+        Assert.Equal("a[href]", selector.Selector);
+    }
+
+    [Fact]
+    public void Non_recursive_selectors_round_trip_with_recursive_false()
+    {
+        // The marker is written only when set, so an ordinary follow step
+        // deserialises with Recursive = false (the default).
+        var job = new Job(
+            "https://x.test/",
+            ImmutableQueue.CreateRange(new[] { LinkPathSelector.Follow("a.item") }),
+            ImmutableQueue<string>.Empty);
+
+        var got = WebReaperJson.DeserializeJob(WebReaperJson.SerializeJob(job));
+
+        Assert.False(Assert.Single(got.LinkPathSelectors).Recursive);
+    }
+
+    [Fact]
     public void DeserializeJob_throws_on_a_chain_entry_with_a_blank_selector()
     {
         // ADR-0030: a corrupt persisted Job — a selector-chain entry whose

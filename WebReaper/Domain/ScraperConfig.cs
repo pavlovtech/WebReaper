@@ -26,6 +26,14 @@ namespace WebReaper.Domain;
 /// <param name="Headless">Run the browser headless for dynamic pages.</param>
 /// <param name="StopWhenDrained">Stop once every discovered link is crawled
 /// (issue #20 / ADR-0022 in-memory latch) instead of running forever.</param>
+/// <param name="IncludeSubdomains">Site sweep (ADR-0081): widen the on-domain
+/// boundary from same-host-plus-<c>www</c> to a suffix match on the apex host
+/// (a documented heuristic). Only consulted by a recursive Sweep selector;
+/// ignored otherwise.</param>
+/// <param name="MaxDepth">Site sweep (ADR-0081): the maximum hop distance from
+/// a start URL a Sweep page follows links from (the Job's parent-backlink-chain
+/// length). <see cref="int.MaxValue"/> is unbounded. Only consulted by a
+/// recursive Sweep selector.</param>
 public record ScraperConfig(
     Schema? ParsingScheme,
     ImmutableQueue<LinkPathSelector> LinkPathSelectors,
@@ -35,5 +43,7 @@ public record ScraperConfig(
     PageType StartPageType = PageType.Static,
     List<PageAction>? PageActions = null,
     bool Headless = true,
-    bool StopWhenDrained = false
+    bool StopWhenDrained = false,
+    bool IncludeSubdomains = false,
+    int MaxDepth = int.MaxValue
 );

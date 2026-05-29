@@ -1,5 +1,59 @@
 # Changelog
 
+## 10.2.0: whole-site crawl (Site sweep)
+
+One command now crawls an entire site:
+
+```bash
+webreaper crawl https://example.com > pages.jsonl
+```
+
+and the library equivalent:
+
+```csharp
+await ScraperEngineBuilder
+    .Crawl("https://example.com")
+    .AsMarkdown()            // or .Extract(schema)
+    .Sweep()
+    .StopWhenAllLinksProcessed()
+    .WriteToConsole()
+    .BuildAsync();
+```
+
+Before this, covering a whole site meant `map` piped into a shell loop of `scrape` calls, which silently missed deep pages on sitemap-less sites (the Site mapper is one HTTP pass, not a crawl). [ADR-0081](docs/adr/0081-site-sweep-whole-site-crawl.md) closes that gap with the **Site sweep**: a recursive, on-domain crawl that extracts every page as it follows every link, terminating when the frontier saturates. It is Firecrawl `crawl` parity, built as the small local extension [ADR-0001](docs/adr/0001-crawl-outcome-closed-sum.md) and [ADR-0030](docs/adr/0030-link-path-selector-construction-guards.md) anticipated, not a new engine.
+
+The model: a **Sweep page** is the first **Page category** that BOTH extracts and follows. A recursive `LinkPathSelector.Sweep(...)` selector marks it; the **Crawl step** returns a new fourth **Crawl outcome** arm, `Swept` (this page's `ParsedData` plus its on-domain child Jobs); children **retain** the sweep selector so the traversal perpetuates; the existing **Visited-link tracker** dedups and terminates it, and the **Stop rule** page-limit cutoff bounds it. The whole termination, latch, and Sink fan-out machinery is reused unchanged.
+
+- **On-domain by default, dependency-free.** The sweep follows only links whose host equals the start host, treating a leading `www.` as the apex. `--include-subdomains` widens to a suffix match on the apex host (a documented heuristic, not public-suffix-list-correct; the eTLD+1 dependency was rejected to keep core dependency-light).
+- **Sitemap seeding, default-on.** The frontier is seeded from the Site mapper's discovered URLs too, so a site with a sitemap but sparse internal linking is still covered; the two discovery modes union through the same Visited-link tracker. `--no-sitemap` opts out.
+- **Bounds.** `--max-pages` (default 1000) maps onto the existing Stop-rule cutoff; `--max-depth` (default unlimited) reads the Job's parent-backlink-chain length.
+- **Output is JSON Lines, streamed** to the Sinks as each page is extracted. Markdown `{ title, markdown }` per page by default; `--schema` applies the deterministic Schema fold instead.
+
+The recursive marker round-trips through the selector-chain JSON codec, so durable and distributed crawls resume a Sweep page as a sweep. The distributed-driver example (`Examples/WebReaper.AzureFuncs`) gains the `Swept` case (emit AND follow), and a `CrawlOutcome` arm census test guards every consumer against a future fifth arm.
+
+| File | Change |
+|---|---|
+| `WebReaper/Domain/Selectors/LinkPathSelector.cs` | New init-only `Recursive` marker and a `Sweep(selector = "a[href]", …)` named factory (the third intent-shape beside `Follow` / `Paginate`). |
+| `WebReaper/Core/Crawling/CrawlOutcome.cs` | New `Swept(ParsedData Data, ImmutableArray<Job> Next)` arm + `Sweep(...)` factory; `NextJobs` surfaces the swept children. |
+| `WebReaper/Core/Crawling/Concrete/CrawlStep.cs` | The Sweep branch: a recursive head selector extracts the page AND produces on-domain children retaining the selector, with a depth gate. |
+| `WebReaper/Core/Crawling/Concrete/SweepDomainFilter.cs` | NEW. The on-domain boundary (host + `www`, apex-suffix with `--include-subdomains`); the leading-dot guard rejects `notexample.com` / `example.com.evil.com`. |
+| `WebReaper/Core/Crawling/Concrete/SweepPolicy.cs` | NEW. The crawl-global anchor-host + subdomains + depth policy threaded into the step. |
+| `WebReaper/Core/ScraperEngine.cs` | The driver's `Swept` case: run the record through the Post-extraction pipeline (emit) AND enqueue the children (follow). The only arm that does both. |
+| `WebReaper/Serialization/Converters/ImmutableQueueJsonConverters.cs` | Round-trip the `recursive` marker (written only when set, so pre-10.2 JSON is unchanged). |
+| `WebReaper/Domain/ScraperConfig.cs` | New `IncludeSubdomains` + `MaxDepth` knobs. |
+| `WebReaper/Builders/SweepOptions.cs` | NEW. The `.Sweep(options?)` options record. |
+| `WebReaper/Builders/{ConfigBuilder,ScraperEngineBuilder,SpiderBuilder}.cs` | `.Sweep(options?)`; `SpiderBuilder` derives the `SweepPolicy` from the config (covers both Crawl drivers); `BuildAsync` seeds the frontier from the Site mapper when sitemap is on. |
+| `WebReaper.Cli/Commands/CrawlCommand.cs` | NEW `crawl` verb. Flags `--schema` / `--output` / `--max-pages` / `--max-depth` / `--include-subdomains` / `--no-sitemap`. HTTP-only, AOT-clean. |
+| `WebReaper.Cli/{SchemaFile,RecordOutput}.cs` | NEW. Schema-loading + JSON-lines emission extracted from `ScrapeCommand` and shared with `crawl`. |
+| `WebReaper.Cli/{Program,Help}.cs`, `WebReaper.Cli/skill/SKILL.md` | Dispatch, help text, and the bundled Agent Skill document the `crawl` verb. |
+
+Semver: additive (a new CLI verb, a new library method, a new selector factory, a new closed-sum arm). No existing arm or method changes shape.
+
+This release also folds in two fixes merged since 10.1.0:
+
+- **CLI accepts bare-host URLs** ([#162](https://github.com/pavlovtech/WebReaper/pull/162)): `webreaper scrape example.com` now defaults a missing scheme to `https://` at the argument boundary, instead of failing with "An invalid request URI was provided".
+- **Build-warnings cleanup** ([#161](https://github.com/pavlovtech/WebReaper/pull/161)): the xUnit1031, Node20-artifact, retention-days, and NU5128 warnings are cleared.
+
 ## 10.1.0: form-interaction page actions, MCP browser mode, and post-launch refactors
 
 ### Three new `PageAction` arms: `Fill`, `Press`, `ScrollIntoView` (ADR-0074)

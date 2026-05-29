@@ -56,6 +56,13 @@ public class ScraperEngineBuilder
     private ConfigBuilder ConfigBuilder { get; } = new();
     private SpiderBuilder SpiderBuilder { get; } = new();
 
+    // ADR-0081: Site-sweep sitemap seeding. _sweepSitemap is set true by
+    // .Sweep(options) when SweepOptions.Sitemap is on; BuildAsync then unions
+    // the Site mapper's discovered URLs into the start set. The mapper is
+    // injectable for offline tests (WithSiteMapper).
+    private bool _sweepSitemap;
+    private ISiteMapper _siteMapper = new SiteMapper();
+
     // ADR-0072: the shared extractor + validator + wrapping-logic module
     // both this builder and AgentEngineBuilder embed. Logger is read via
     // a getter lambda so WithLogger updates after the field-initializer
@@ -755,6 +762,51 @@ public class ScraperEngineBuilder
         return this;
     }
 
+    /// <summary>
+    /// Append a Site-sweep step (ADR-0081): a recursive on-domain crawl that
+    /// extracts every page AND follows its on-domain links until the frontier
+    /// saturates, the whole-site sibling of <see cref="Follow"/> /
+    /// <see cref="Paginate"/>, surfaced on the CLI as <c>webreaper crawl</c>.
+    /// Compose it with a seed terminal:
+    /// <code>
+    /// var engine = await ScraperEngineBuilder
+    ///     .Crawl("https://example.com")
+    ///     .AsMarkdown()          // or .Extract(schema)
+    ///     .Sweep()
+    ///     .StopWhenAllLinksProcessed()
+    ///     .WriteToConsole()
+    ///     .BuildAsync();
+    /// </code>
+    /// <paramref name="options"/> tune the link selector, the on-domain
+    /// boundary, the depth cap, and sitemap seeding (all default to the
+    /// "crawl this site" behaviour). The page cap is the existing
+    /// <see cref="PageCrawlLimit"/>. With <see cref="SweepOptions.Sitemap"/>
+    /// on (the default), <see cref="BuildAsync"/> seeds the frontier from the
+    /// Site mapper's discovered URLs too.
+    /// </summary>
+    /// <exception cref="ArgumentException">
+    /// <see cref="SweepOptions.LinkSelector"/> is empty/whitespace
+    /// (ADR-0030).</exception>
+    public ScraperEngineBuilder Sweep(SweepOptions? options = null)
+    {
+        options ??= new SweepOptions();
+        ConfigBuilder.Sweep(options);
+        _sweepSitemap = options.Sitemap;
+        return this;
+    }
+
+    /// <summary>
+    /// Replace the <see cref="ISiteMapper"/> used for ADR-0081 sweep sitemap
+    /// seeding (default <see cref="SiteMapper"/>). Internal; a test seam so
+    /// the seeding path can run offline; consumers tune discovery through
+    /// <see cref="SweepOptions.Sitemap"/>.
+    /// </summary>
+    internal ScraperEngineBuilder WithSiteMapper(ISiteMapper siteMapper)
+    {
+        _siteMapper = siteMapper;
+        return this;
+    }
+
     /// <summary>Use a custom <see cref="IScheduler"/> (e.g. a distributed
     /// queue) instead of the in-memory default.</summary>
     public ScraperEngineBuilder WithScheduler(IScheduler scheduler)
@@ -948,6 +1000,18 @@ public class ScraperEngineBuilder
     /// </summary>
     public async Task<ScraperEngine> BuildAsync()
     {
+        // ADR-0081: sweep sitemap seeding (default-on). Union the Site mapper's
+        // discovered URLs into the start set before the config is built, so a
+        // site with a sitemap but sparse internal linking is still covered. The
+        // union dedups against followed links at runtime through the shared
+        // Visited-link tracker. Best-effort: the mapper is itself best-effort
+        // (a 404 / malformed XML yields a partial or empty list, ADR-0042).
+        if (_sweepSitemap && ConfigBuilder.FirstStartUrl is { } seedUrl)
+        {
+            var discovered = await _siteMapper.MapAsync(seedUrl);
+            ConfigBuilder.AddStartUrls(discovered);
+        }
+
         // ADR-0034: build the immutable config, hand it to the SpiderBuilder
         // (the shell takes its Headless + ParsingScheme from it), then persist
         // it. The engine still reads ConfigStorage itself in RunAsync.

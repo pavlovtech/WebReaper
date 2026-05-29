@@ -48,6 +48,20 @@ public record LinkPathSelector(
     public List<PageAction>? PageActions { get; init; } =
         ActionsMatchTransport(PageActions, PageType);
 
+    /// <summary>
+    /// True when this is a recursive Site-sweep step (ADR-0081): the Crawl
+    /// step returns the <c>Swept</c> arm: extract this page <em>and</em>
+    /// follow its on-domain links, the child Jobs <b>retaining</b> this
+    /// selector so the traversal perpetuates until the Visited-link tracker
+    /// frontier saturates. Set only by <see cref="Sweep"/>; false for every
+    /// other construction path, so the advance/retain behaviour of
+    /// <see cref="Follow"/> / <see cref="Paginate"/> is unchanged. The
+    /// on-domain boundary and the page/depth caps are crawl-global
+    /// (<see cref="WebReaper.Domain.ScraperConfig"/>), not part of this
+    /// per-step intent.
+    /// </summary>
+    public bool Recursive { get; init; }
+
     /// <summary>True when a <see cref="PaginationSelector"/> is set — this
     /// step paginates rather than plain-follows.</summary>
     public bool HasPagination => PaginationSelector != null;
@@ -99,6 +113,32 @@ public record LinkPathSelector(
         ArgumentException.ThrowIfNullOrWhiteSpace(paginationSelector);
         return new(itemSelector, paginationSelector, pageType, actions);
     }
+
+    /// <summary>
+    /// Site-sweep step (ADR-0081): from the current page, extract it
+    /// <em>and</em> recursively follow its on-domain links matching
+    /// <paramref name="selector"/>, the child Jobs retaining this selector so
+    /// the whole site is swept. The named factory for the recursive
+    /// intent-shape, the third sibling beside <see cref="Follow"/> and
+    /// <see cref="Paginate"/>. The on-domain boundary (same host plus
+    /// <c>www</c>, widened by <c>--include-subdomains</c>) and the page/depth
+    /// caps are crawl-global (<see cref="WebReaper.Domain.ScraperConfig"/>),
+    /// not part of this per-step intent.
+    /// </summary>
+    /// <param name="selector">The links to sweep; defaults to <c>a[href]</c>
+    /// (every anchor). Restrict it (for example <c>a[href^='/blog/']</c>) to
+    /// sweep one section. Non-empty when supplied.</param>
+    /// <param name="pageType">How the reached pages load.</param>
+    /// <param name="actions">Browser actions for the reached pages; allowed
+    /// only with <see cref="PageType.Dynamic"/>.</param>
+    /// <exception cref="ArgumentException"><paramref name="selector"/> is
+    /// empty/whitespace, or <paramref name="actions"/> is non-empty with
+    /// <see cref="PageType.Static"/>.</exception>
+    public static LinkPathSelector Sweep(
+        string selector = "a[href]",
+        PageType pageType = PageType.Static,
+        List<PageAction>? actions = null) =>
+        new(selector, null, pageType, actions) { Recursive = true };
 
     // ADR-0030: the grammar is enforced at the construction site. A property
     // initializer over a primary-ctor parameter is the idiomatic positional-
