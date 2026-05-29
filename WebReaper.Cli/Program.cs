@@ -14,7 +14,7 @@ static async Task<int> Run(string[] args)
     {
         var parsed = Args.Parse(args);
 
-        return parsed.Command switch
+        var exitCode = parsed.Command switch
         {
             "scrape" => await ScrapeCommand.RunAsync(parsed),
             "crawl" => await CrawlCommand.RunAsync(parsed),
@@ -26,6 +26,15 @@ static async Task<int> Run(string[] args)
             "help" => HelpAndExit(0),
             _ => HelpAndExit(2, $"Unknown command: '{parsed.Command}'")
         };
+
+        // ADR-0082: after a successful data command, best-effort tell an
+        // interactive user if a newer release exists (one stderr line; opt-out,
+        // TTY/CI-gated, 24h-throttled). MaybeNotifyAsync swallows every failure,
+        // so it never affects the exit code or the stdout payload.
+        if (exitCode == 0 && parsed.Command is "scrape" or "crawl" or "map")
+            await UpdateNotifier.MaybeNotifyAsync();
+
+        return exitCode;
     }
     catch (CliException ex)
     {

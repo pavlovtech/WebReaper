@@ -148,6 +148,11 @@ A schema is a tree of fields. Leaves have a CSS `selector` and a `type`
 - `map` → one URL per line.
 - `--output <path>` redirects to a file instead of stdout.
 
+All data output is on **stdout**; diagnostics and an occasional update hint go to
+**stderr**, so piping or redirecting stdout always yields clean data. The update
+hint only appears on an interactive terminal (never in a pipe or CI); disable it
+with `WEBREAPER_NO_UPDATE_CHECK=1`.
+
 ## Errors
 
 Exit code `0` on success, non-zero on failure. Errors print one human-readable

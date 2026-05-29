@@ -1,5 +1,31 @@
 # Changelog
 
+## 10.3.0: self-update notifier
+
+`scrape` / `crawl` / `map` now tell you when a newer release exists:
+
+```
+webreaper 10.4.0 is available (you have 10.3.0).
+Upgrade: brew upgrade webreaper
+(disable this check: WEBREAPER_NO_UPDATE_CHECK=1)
+```
+
+[ADR-0082](docs/adr/0082-self-update.md) Part 1. The notifier is deliberately unobtrusive and respects however you installed the CLI:
+
+- **Opt-out, interactive only.** It prints a single line to **stderr** (never stdout, so piped JSON Lines / Markdown stays clean), and only on an interactive terminal: never in a pipe, never under CI, and never when `WEBREAPER_NO_UPDATE_CHECK=1` (or `NO_UPDATE_NOTIFIER`) is set. Agents and scripts see nothing.
+- **Read-only, no telemetry.** A single `GET` to GitHub's public `releases/latest`, once per 24h (cached in `~/.webreaper/update-check.json`); no machine ID, usage, or analytics payload, so there is no first-run consent gate (the `gh` / npm model). It never blocks the command, never changes its exit code, and swallows every failure (offline, rate-limited).
+- **Channel-aware hint.** Homebrew installs are told `brew upgrade webreaper`, winget / Scoop get their equivalents, and a `curl | sh` install is pointed at the install.sh `--upgrade` one-liner.
+
+A self-replacing `webreaper update` command is deferred (ADR-0082 Part 2): Homebrew and winget already own their upgrade path, so it only benefits `curl | sh` users, and it carries package-manager-desync, Windows, and permissions complexity that the notifier does not.
+
+| File | Change |
+|---|---|
+| `WebReaper.Cli/UpdateNotifier.cs` | NEW. The notifier: pure gating / version-compare / throttle / hint helpers plus a thin, best-effort orchestration (24h cache, `releases/latest` fetch with a User-Agent and a ~1.5s timeout). AOT-clean (HttpClient + JsonDocument, no reflection). |
+| `WebReaper.Cli/Program.cs` | Fire the notifier after a successful `scrape` / `crawl` / `map`. |
+| `WebReaper.Cli/Help.cs`, `WebReaper.Cli/skill/SKILL.md`, `README.md` | Document the check and the `WEBREAPER_NO_UPDATE_CHECK` opt-out. |
+
+Semver: additive. The new opt-out stderr line is the only visible behaviour change for interactive users.
+
 ## 10.2.0: whole-site crawl (Site sweep)
 
 One command now crawls an entire site:
