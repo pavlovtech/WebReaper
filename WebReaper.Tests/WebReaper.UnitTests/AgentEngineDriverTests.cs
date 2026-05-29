@@ -12,6 +12,7 @@ using WebReaper.Domain.Agent;
 using WebReaper.Domain.PageActions;
 using WebReaper.Domain.Parsing;
 using WebReaper.Domain.Selectors;
+using WebReaper.Infra.Abstract;
 using WebReaper.Sinks.Abstract;
 using WebReaper.Sinks.Models;
 
@@ -606,7 +607,60 @@ public class AgentEngineDriverTests
         Assert.Equal(200, followed.StatusCode);
     }
 
+    [Fact]
+    public async Task Durable_sink_on_an_agent_run_is_warmed_and_flushed_on_dispose()
+    {
+        // ADR-0076 bug fix: pre-0076 the Agent driver was neither
+        // IAsyncInitializable nor IAsyncDisposable, so a durable sink (Redis /
+        // Mongo / Cosmos, or a buffered file drain) never ran its
+        // InitializeAsync and never got its flush-on-dispose — silent record
+        // loss on agent runs. The engine now warms its sinks at RunAsync and
+        // flushes them on DisposeAsync (via the Post-extraction pipeline).
+        var schema = new Schema { new SchemaElement("title", "h1") };
+        var brain = new ScriptedBrain(
+            new AgentDecision.Extract(schema) { Reason = "extract" },
+            new AgentDecision.Stop { Reason = "done" });
+        var loader = new FakeLoader("<html><body><h1>Hello</h1></body></html>");
+        var sink = new DurableSink();
+
+        await using (var engine = await AgentEngineBuilder
+            .Start("https://example.com/", "get the title")
+            .WithBrain(brain)
+            .WithPageLoader(loader)
+            .AddSink(sink)
+            .BuildAsync())
+        {
+            await engine.RunAsync();
+
+            // Warmed exactly once at RunAsync; the record reached the sink.
+            Assert.Equal(1, sink.Inits);
+            Assert.Single(sink.Emitted);
+            // Not yet disposed — still inside the using scope.
+            Assert.Equal(0, sink.Disposes);
+        }
+
+        // Flushed on scope exit (engine.DisposeAsync → pipeline → sink).
+        Assert.Equal(1, sink.Disposes);
+    }
+
     // --------------- fakes ---------------
+
+    // ADR-0076: a durable sink declares the warm-up + dispose capabilities the
+    // pre-0076 agent path silently skipped.
+    private sealed class DurableSink : IScraperSink, IAsyncInitializable, IAsyncDisposable
+    {
+        public int Inits;
+        public int Disposes;
+        public List<ParsedData> Emitted { get; } = new();
+        public bool DataCleanupOnStart { get; set; }
+        public Task InitializeAsync() { Inits++; return Task.CompletedTask; }
+        public Task EmitAsync(ParsedData entity, CancellationToken ct = default)
+        {
+            Emitted.Add(entity);
+            return Task.CompletedTask;
+        }
+        public ValueTask DisposeAsync() { Disposes++; return ValueTask.CompletedTask; }
+    }
 
     private async Task<AgentEngine> BuildEngine(IAgentBrain brain, IPageLoader loader, IAgentRunStore store)
         => await AgentEngineBuilder

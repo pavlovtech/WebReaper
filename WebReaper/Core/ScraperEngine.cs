@@ -78,9 +78,12 @@ public class ScraperEngine : IAsyncDisposable
         ArgumentNullException.ThrowIfNull(sinks);
         ArgumentNullException.ThrowIfNull(logger);
 
-        (Scheduler, Spider, LinkTracker, Sinks, Logger, ConfigStorage) =
-            (jobScheduler, spider, linkTracker, sinks, logger, configStorage);
-        PageProcessors = pageProcessors ?? Array.Empty<IPageProcessor>();
+        (Scheduler, Spider, LinkTracker, Logger, ConfigStorage) =
+            (jobScheduler, spider, linkTracker, logger, configStorage);
+        // ADR-0076: the post-extraction surface — the page-processor pipeline,
+        // the Sink fan-out, and the warm-up + disposal of those sinks and
+        // processors — lives in one module the driver delegates to.
+        _pipeline = new PostExtractionPipeline(sinks, pageProcessors, logger);
         Latch = latch ?? new InMemoryOutstandingWorkLatch();
         // ADR-0026: the Crawl driver's retry around the per-Job Spider call
         // is now a named seam; default is the fixed-attempts core adapter
@@ -103,9 +106,9 @@ public class ScraperEngine : IAsyncDisposable
     private IScheduler Scheduler { get; }
     private ISpider Spider { get; }
     private IVisitedLinkTracker LinkTracker { get; }
-    private List<IScraperSink> Sinks { get; }
     private ILogger Logger { get; }
-    private IReadOnlyList<IPageProcessor> PageProcessors { get; }
+    // ADR-0076: owns the page-processor pipeline + Sink fan-out + their lifecycle.
+    private readonly PostExtractionPipeline _pipeline;
     private IOutstandingWorkLatch Latch { get; }
     private IRetryPolicy RetryPolicy { get; }
     private readonly List<IAsyncDisposable> _ownedDisposables;
@@ -231,8 +234,14 @@ public class ScraperEngine : IAsyncDisposable
                         // ADR-0037: per-Job work runs on the iteration token,
                         // so a Crawl concluding mid-flight cancels the in-flight
                         // page-processor pipeline and Sink fan-out too.
-                        await ProcessTargetPage(job, report.Document, parsed.Data,
-                            config.ParsingScheme, token);
+                        // ADR-0076: the page-processor pipeline + Sink fan-out
+                        // is the Post-extraction pipeline's job; the driver only
+                        // routes the Target page's record into it (and ignores
+                        // the surviving-record return — the crawl path fires and
+                        // forgets).
+                        Logger.LogInvocationCount();
+                        await _pipeline.ProcessAndEmitAsync(parsed.Data, report.Document,
+                            job.ParentBacklinks.ToList(), config.ParsingScheme, token);
                         newJobs = new List<Job>();
                     }
                     else
@@ -297,11 +306,11 @@ public class ScraperEngine : IAsyncDisposable
     }
 
     // ADR-0033: warm up every adapter the driver holds that declares the
-    // IAsyncInitializable capability — the scheduler, the visited-link tracker,
-    // every sink and every page processor — once, before the crawl loop.
-    // Adapters with no async warm-up (the in-memory defaults, the console and
-    // file sinks) implement nothing and are skipped. InitializeAsync is
-    // idempotent, so a sink shared with a distributed driver stays correct.
+    // IAsyncInitializable capability — once, before the crawl loop. The driver
+    // warms the scheduler and the visited-link tracker; the sinks and page
+    // processors are warmed through the Post-extraction pipeline (ADR-0076),
+    // which owns their lifecycle. InitializeAsync is idempotent, so a sink
+    // shared with a distributed driver stays correct.
     private async Task WarmUpAdaptersAsync()
     {
         if (Scheduler is IAsyncInitializable scheduler)
@@ -310,86 +319,20 @@ public class ScraperEngine : IAsyncDisposable
         if (LinkTracker is IAsyncInitializable linkTracker)
             await linkTracker.InitializeAsync();
 
-        foreach (var sink in Sinks)
-            if (sink is IAsyncInitializable initializableSink)
-                await initializableSink.InitializeAsync();
-
-        // ADR-0038: a page processor that holds an LLM client (or any durable
-        // resource) opts into the same warm-up capability — warm it here too.
-        foreach (var processor in PageProcessors)
-            if (processor is IAsyncInitializable initializableProcessor)
-                await initializableProcessor.InitializeAsync();
-    }
-
-    private async Task ProcessTargetPage(Job job, string doc, ParsedData result,
-        Schema? schema, CancellationToken cancellationToken = default)
-    {
-        Logger.LogInvocationCount();
-
-        // ADR-0038: the page-processor pipeline runs over the extracted record
-        // BEFORE the Sink fan-out — enrich / observe / filter / repair, in
-        // registration order, each processor handed the previous one's record.
-        // A Drop verdict, or a processor that throws (anything but
-        // OperationCanceledException), drops the page: no Sink emits it and the
-        // crawl continues — a noisy page never aborts the crawl (ADR-0029).
-        var record = result;
-        foreach (var processor in PageProcessors)
-        {
-            var context = new PageContext(record, doc, job.ParentBacklinks.ToList(), schema);
-
-            PageVerdict verdict;
-            try
-            {
-                verdict = await processor.ProcessAsync(context, cancellationToken);
-            }
-            catch (OperationCanceledException)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex, "Page processor {Processor} threw on {Url}; dropping the page",
-                    processor.GetType().Name, job.Url);
-                return;
-            }
-
-            switch (verdict)
-            {
-                case PageVerdict.Dropped dropped:
-                    Logger.LogInformation("Page {Url} dropped by {Processor}: {Reason}",
-                        job.Url, processor.GetType().Name, dropped.Reason);
-                    return;
-                case PageVerdict.Kept kept:
-                    record = kept.Data;
-                    break;
-            }
-        }
-
-        Logger.LogInformation("Sending scraped data to sinks...");
-        // ADR-0031: hand each sink its own deep-cloned Data. The fan-out runs
-        // sinks concurrently (Task.WhenAll) and JsonObject is not thread-safe,
-        // so a shared instance would race — e.g. CosmosSink writes "id", and
-        // BufferedFileSink queues the object to drain later. The `with` copy
-        // bypasses ParsedData's merge initializer (the clone is of the
-        // already-merged Data), so there is no double-merge.
-        var sinkTasks = Sinks.Select(sink => sink.EmitAsync(
-            record with { Data = (JsonObject)record.Data.DeepClone() }, cancellationToken));
-
-        Logger.LogInformation("Waiting for sinks ...");
-        await Task.WhenAll(sinkTasks);
-        Logger.LogInformation("Finished waiting for sinks");
+        // ADR-0076: warms every sink + processor that opts into ADR-0033.
+        await _pipeline.InitializeAsync();
     }
 
     /// <summary>
     /// ADR-0058: dispose every adapter the driver holds that implements
     /// <see cref="IAsyncDisposable"/> or <see cref="IDisposable"/>, in
     /// REVERSE warm-up order (so dependents see their dependencies still
-    /// valid mid-flush): page processors → sinks → link tracker →
-    /// scheduler → spider. Then dispose builder-registered teardown hooks
-    /// in LIFO order (satellite-spawned subprocesses like CloakBrowser).
-    /// Per-adapter disposal exceptions are swallowed with a Warning log —
-    /// a scrape that succeeded should not retroactively fail because a
-    /// Redis-connection close timed out.
+    /// valid mid-flush): the Post-extraction pipeline (page processors → sinks,
+    /// ADR-0076) → link tracker → scheduler → spider. Then dispose
+    /// builder-registered teardown hooks in LIFO order (satellite-spawned
+    /// subprocesses like CloakBrowser). Per-adapter disposal exceptions are
+    /// swallowed with a Warning log — a scrape that succeeded should not
+    /// retroactively fail because a Redis-connection close timed out.
     /// </summary>
     /// <remarks>
     /// Idempotent: a second call short-circuits on <c>_disposed</c>.
@@ -399,10 +342,10 @@ public class ScraperEngine : IAsyncDisposable
         if (_disposed) return;
         _disposed = true;
 
-        foreach (var p in PageProcessors.Reverse())
-            await SafeDisposeAsync(p);
-        foreach (var s in Enumerable.Reverse(Sinks))
-            await SafeDisposeAsync(s);
+        // ADR-0076: the pipeline disposes its processors then sinks, each in
+        // reverse registration order — the same order this driver did inline
+        // pre-0076, now owned in one place.
+        await _pipeline.DisposeAsync();
         await SafeDisposeAsync(LinkTracker);
         await SafeDisposeAsync(Scheduler);
         await SafeDisposeAsync(Spider);

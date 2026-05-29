@@ -13,6 +13,7 @@ using WebReaper.Domain.PageActions;
 using WebReaper.Domain.Selectors;
 using WebReaper.Domain.Telemetry;
 using WebReaper.Extensions;
+using WebReaper.Infra.Abstract;
 using WebReaper.Processing;
 using WebReaper.Processing.Abstract;
 using WebReaper.Sinks.Abstract;
@@ -49,7 +50,7 @@ namespace WebReaper.Core.Agent.Concrete;
 /// to free the snapshot.
 /// </para>
 /// </summary>
-public sealed class AgentEngine
+public sealed class AgentEngine : IAsyncDisposable
 {
     private readonly IAgentBrain _brain;
     private readonly IAgentRunStore _runStore;
@@ -58,8 +59,13 @@ public sealed class AgentEngine
     private readonly ISchemaValidator _validator;
     private readonly IActionResolver _actionResolver;
     private readonly IVisitedLinkTracker _visitedTracker;
-    private readonly List<IScraperSink> _sinks;
-    private readonly IReadOnlyList<IPageProcessor> _processors;
+    // ADR-0076: the post-extraction surface (page-processor pipeline + Sink
+    // fan-out) and the warm-up + disposal of its sinks and processors live in
+    // one module the driver delegates to — the same module the Crawl driver
+    // uses. Closes the pre-0076 gap where the agent never warmed or disposed
+    // its sinks (durable sinks silently lost their flush-on-dispose).
+    private readonly PostExtractionPipeline _pipeline;
+    private bool _disposed;
     private readonly AgentEngineOptions _options;
     private readonly ILogger _logger;
     private readonly string _startUrl;
@@ -117,8 +123,8 @@ public sealed class AgentEngine
         _validator = validator;
         _actionResolver = actionResolver;
         _visitedTracker = visitedTracker;
-        _sinks = sinks;
-        _processors = processors;
+        // ADR-0076: one module owns the processors + sinks and their lifecycle.
+        _pipeline = new PostExtractionPipeline(sinks, processors, logger);
         _options = options;
         _logger = logger;
         _explicitRunId = runId;
@@ -146,6 +152,13 @@ public sealed class AgentEngine
         // independent reports. Wall-clock measured entry-to-return.
         _telemetryHooks?.Reset();
         var sw = Stopwatch.StartNew();
+
+        // ADR-0033 / ADR-0076: warm up the durable adapters the agent holds —
+        // the Agent run store and the Post-extraction pipeline's sinks +
+        // processors — once, before the loop. Pre-0076 the agent warmed
+        // nothing, so a durable run store or sink (Redis / Mongo / Sqlite /
+        // Cosmos) never ran its InitializeAsync.
+        await WarmUpAdaptersAsync();
 
         var runId = _explicitRunId ?? Guid.NewGuid().ToString("N");
 
@@ -406,21 +419,30 @@ public sealed class AgentEngine
                             // extracted is non-null here; the compiler's
                             // narrowing doesn't span the verdict variable so
                             // a forgiving operator surfaces the invariant.
-                            var processed = await RunProcessorsAsync(currentUrl, pageHtml, extracted!, extract.Schema, cancellationToken);
+                            // ADR-0076: one fused call runs the page-processor
+                            // pipeline then fans the survivor out to the sinks,
+                            // returning the surviving record (or null if a
+                            // processor dropped it). The agent uses the return
+                            // for its run-scoped record bookkeeping; the crawl
+                            // driver ignores it.
+                            var processed = await _pipeline.ProcessAndEmitAsync(
+                                new ParsedData(currentUrl, extracted!),
+                                pageHtml,
+                                Array.Empty<string>(),
+                                extract.Schema,
+                                cancellationToken);
                             if (processed is not null)
                             {
                                 records.Add(processed.Data);
-                                await FanOutSinksAsync(processed, cancellationToken);
                                 lastOutcome = new AgentDecisionOutcome.Extracted(
                                     Record: processed.Data,
                                     RecordCount: records.Count);
                             }
                             else
                             {
-                                // Page processor dropped — the record was
-                                // emitted in principle but pipeline rejected
-                                // it. Brain sees Extracted(null, count) —
-                                // count unchanged.
+                                // Page processor dropped — no sink emitted it.
+                                // Brain sees Extracted(null, count) — count
+                                // unchanged.
                                 lastOutcome = new AgentDecisionOutcome.Extracted(
                                     Record: null,
                                     RecordCount: records.Count);
@@ -547,49 +569,49 @@ public sealed class AgentEngine
         }
     }
 
-    private async Task<ParsedData?> RunProcessorsAsync(
-        string url, string html, JsonObject extracted, WebReaper.Domain.Parsing.Schema schema,
-        CancellationToken cancellationToken)
+    // ADR-0033 / ADR-0076: warm up the durable adapters the agent owns — the
+    // Agent run store and the Post-extraction pipeline (its sinks + processors)
+    // — once, before the loop. Idempotent; adapters with no warm-up are skipped.
+    private async Task WarmUpAdaptersAsync()
     {
-        var record = new ParsedData(url, extracted);
-        if (_processors.Count == 0) return record;
+        if (_runStore is IAsyncInitializable runStore)
+            await runStore.InitializeAsync();
 
-        foreach (var processor in _processors)
-        {
-            var context = new PageContext(record, html, new List<string>(), schema);
-            PageVerdict verdict;
-            try
-            {
-                verdict = await processor.ProcessAsync(context, cancellationToken);
-            }
-            catch (OperationCanceledException) { throw; }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Page processor {Processor} threw on agent step for {Url}; dropping record",
-                    processor.GetType().Name, url);
-                return null;
-            }
-            switch (verdict)
-            {
-                case PageVerdict.Dropped dropped:
-                    _logger.LogInformation("Agent record from {Url} dropped by {Processor}: {Reason}",
-                        url, processor.GetType().Name, dropped.Reason);
-                    return null;
-                case PageVerdict.Kept kept:
-                    record = kept.Data;
-                    break;
-            }
-        }
-        return record;
+        // ADR-0076: warms every sink + processor that opts into ADR-0033.
+        await _pipeline.InitializeAsync();
     }
 
-    private async Task FanOutSinksAsync(ParsedData record, CancellationToken cancellationToken)
+    /// <summary>
+    /// ADR-0076 / ADR-0058: dispose the durable adapters the agent owns — the
+    /// Post-extraction pipeline (its processors then sinks, reverse order) and
+    /// the Agent run store. The recommended consumer pattern is
+    /// <c>await using var engine = await builder.BuildAsync();</c> so a durable
+    /// sink's flush-on-dispose runs on scope exit. Per-adapter disposal
+    /// exceptions log at Warning and are swallowed (ADR-0058). Idempotent.
+    /// </summary>
+    public async ValueTask DisposeAsync()
     {
-        if (_sinks.Count == 0) return;
-        // ADR-0031: hand each sink its own deep-cloned Data (sinks may mutate).
-        var sinkTasks = _sinks.Select(sink => sink.EmitAsync(
-            record with { Data = (JsonObject)record.Data.DeepClone() }, cancellationToken));
-        await Task.WhenAll(sinkTasks);
+        if (_disposed) return;
+        _disposed = true;
+
+        await _pipeline.DisposeAsync();
+        await SafeDisposeAsync(_runStore);
+    }
+
+    private async ValueTask SafeDisposeAsync(object? obj)
+    {
+        try
+        {
+            switch (obj)
+            {
+                case IAsyncDisposable a: await a.DisposeAsync(); break;
+                case IDisposable d: d.Dispose(); break;
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Disposal of {Type} threw", obj?.GetType().Name ?? "(null)");
+        }
     }
 
     private static IReadOnlyList<T> TailOf<T>(IReadOnlyList<T> source, int max)

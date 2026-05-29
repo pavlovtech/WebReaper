@@ -124,6 +124,10 @@ _Avoid_: result, decision, outcome (that is the **Crawl outcome**).
 A destination a ParsedData is emitted to (file, Redis, Cosmos, …). The terminal half of the post-extraction surface — Emit, a concurrent fan-out, sibling to the in-pipeline **Page processor** (ADR-0038). `Subscribe` is sugar that registers a delegate **Sink**, not a separate notification seam.
 _Avoid_: output, writer, exporter, subscription.
 
+**Post-extraction pipeline**:
+The one runtime module that owns the whole post-extraction surface for a single **ParsedData**: run it through the **Page processor** pipeline (Process), and if the **Page verdict** is `Kept`, fan it out to every **Sink** (Emit), returning the surviving record (or `null` when a processor dropped it). One fused `ProcessAndEmitAsync` so the drop-means-no-emit invariant lives in one place; the **Crawl driver** ignores the return, the **Agent driver** uses it for its run-scoped record bookkeeping (`AgentDecisionOutcome.Extracted`). Holds the processors and sinks and owns their lifecycle: it is itself an **Adapter warm-up** (`IAsyncInitializable`) and **Engine-teardown disposal chain** (`IAsyncDisposable`) participant, so each driver warms and disposes it as one adapter slotted between the **Visited-link tracker** and (on dispose) ahead of the tracker, never iterating the processor/sink collections itself. Public, so the consumer-authored distributed **Crawl driver** is a first-class third caller, not a re-implementer. Process and Emit stay distinct seams *inside* it (the **Page processor** and **Sink** interfaces are unchanged); the module composes them, it does not merge them. Distinct from the builder-side `ContentExtractorPipeline` (ADR-0072), which assembles the *extractor* stack at wiring time; this is the *runtime* path a record takes after extraction.
+_Avoid_: emission pipeline (undersells the Process half), record handler, sink dispatcher, output pipeline, page-processor pipeline (that is only the Process half).
+
 **File sink drain**:
 The one home for the buffered file-write mechanism (`BufferedFileSink`): a
 producer enqueues rows, one background consumer appends them to the file;
@@ -148,6 +152,10 @@ _Avoid_: repository, cache, document DB, config storage.
 **Payload shell**:
 The thin module above a **keyed blob store** that owns one payload's serialization grammar and quirks (the config shell owns its `System.Text.Json` source-gen grammar — ADR-0008, replacing `TypeNameHandling.Auto`; the cookie shell owns `CookieContainer ↔ CookieCollection`) and decides what *absent* means for that payload.
 _Avoid_: storage, provider, serializer.
+
+**Closed-sum codec**:
+The one hand-written-but-shared JSON mechanism the flat **closed sum**s (`PageAction`, `AgentDecision`, `AgentDecisionOutcome`) describe their arms to, getting streaming `Read(ref Utf8JsonReader)` + `Write(Utf8JsonWriter, T)` for free (`ClosedSumCodec<T>` + a per-arm descriptor). The serialization-layer sibling of the **LLM call** mechanism: the mechanism owns the object envelope, the `type` discriminator write/dispatch, the one-time `JsonNode.Parse(ref reader)` materialization (the `ref struct`-reader can't be handed to a delegate, so the read side materializes once then dispatches per arm on a plain `JsonObject`), the single missing-field `Require` contract, the unknown-tag throw, and the common-field pass; each arm's descriptor owns only its tag, its field writes, and its build-from-`JsonObject`. Adding an arm is one descriptor row, not three edits across a write switch + read loop + read switch. AOT-clean (System.Text.Json.Nodes, no reflection — ADR-0008 holds); the materialize-then-dispatch allocation is irrelevant at these call frequencies (config load, agent resume, per-**Agent step**). Nesting is composition: a parent arm builds a child via the child codec's `From(JsonNode)` entry. Three codecs stay bespoke because they are not flat tag-sums — **Schema** (a recursive container/leaf tree on `$kind`, which the mechanism *composes with* via `From` but is not built by), `AgentRunSnapshot` (a product type with arrays), and the selector-chain / backlink `ImmutableQueue` converters; each keeps calling the migrated codecs' streaming `Read(ref r)` unchanged through a shim.
+_Avoid_: closed-sum converter (the `JsonConverter<T>` wrapper is a thin shell over this), discriminated-union serializer, polymorphic codec, the codec (unqualified).
 
 **File persistence prep**:
 The one home for the three things every file-backed adapter must get right
@@ -503,11 +511,25 @@ dispatches to the descriptor's `ParseToolCall`. The closed sum
 becomes load-bearing **at the LLM boundary** the same way it is
 in C#: an unknown arm is structurally impossible at the seam,
 not a `default:` branch. Flat packaging on both registries
-(brain ships nine flat tools — three decision arms plus seven
-flat `Act*` arms; resolver ships six — only the concrete `Act*`
-arms; the `ActSemanticAct` absence is the structural loop
-prevention). Resolver's "must not return SemanticAct" rule is
-enforced by NOT registering the tool, not by runtime check.
+(post ADR-0074 the brain ships 13 flat tools — three decision
+arms plus the ten flat `Act*` arms; the resolver ships 9 — the
+nine concrete `Act*` arms; the `ActSemanticAct` absence is the
+structural loop prevention). Both registries are **derived
+views of one `PageActionArms` arm list**, each entry a
+`(Descriptor, Parse)` pair, so the tool offered to the model
+and the parse that decodes its call are the same list seen two
+ways — the registration list and the parse dispatch cannot
+drift (the pre-derivation hazard: register an arm in
+`ForBrain()` but forget `ParseDecisionTool`, and the model's
+call silently became `Stop`). Resolver's "must not return
+SemanticAct" rule is enforced structurally by SemanticAct
+exposing **no resolver adapter** — an arm with no resolver
+`Parse` cannot appear in a registry derived from the arm list,
+so the omission is a compile-time absence, not a runtime
+`.Where(x != SemanticAct)` filter or a hand-maintained second
+list. The `_ => null` (resolver) / `_ => Stop` (brain) fallback
+remains, but now catches only a genuinely hallucinated tool
+name, never a wiring omission.
 _Avoid_: tool list (unqualified — there are two distinct
 registries), function registry, brain commands.
 
