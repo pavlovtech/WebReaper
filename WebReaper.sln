@@ -86,6 +86,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebReaper.TestServer", "Web
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebReaper.Perf", "WebReaper.Tests\WebReaper.Perf\WebReaper.Perf.csproj", "{363D15C8-D7B3-4783-8F0B-C0ABD6456F84}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebReaper.Playwright.Tests", "WebReaper.Tests\WebReaper.Playwright.Tests\WebReaper.Playwright.Tests.csproj", "{3F16CBE7-DFA7-44B3-89C2-F7E3B75FEA46}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -516,6 +518,18 @@ Global
 		{363D15C8-D7B3-4783-8F0B-C0ABD6456F84}.Release|x64.Build.0 = Release|Any CPU
 		{363D15C8-D7B3-4783-8F0B-C0ABD6456F84}.Release|x86.ActiveCfg = Release|Any CPU
 		{363D15C8-D7B3-4783-8F0B-C0ABD6456F84}.Release|x86.Build.0 = Release|Any CPU
+		{3F16CBE7-DFA7-44B3-89C2-F7E3B75FEA46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F16CBE7-DFA7-44B3-89C2-F7E3B75FEA46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F16CBE7-DFA7-44B3-89C2-F7E3B75FEA46}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3F16CBE7-DFA7-44B3-89C2-F7E3B75FEA46}.Debug|x64.Build.0 = Debug|Any CPU
+		{3F16CBE7-DFA7-44B3-89C2-F7E3B75FEA46}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3F16CBE7-DFA7-44B3-89C2-F7E3B75FEA46}.Debug|x86.Build.0 = Debug|Any CPU
+		{3F16CBE7-DFA7-44B3-89C2-F7E3B75FEA46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F16CBE7-DFA7-44B3-89C2-F7E3B75FEA46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F16CBE7-DFA7-44B3-89C2-F7E3B75FEA46}.Release|x64.ActiveCfg = Release|Any CPU
+		{3F16CBE7-DFA7-44B3-89C2-F7E3B75FEA46}.Release|x64.Build.0 = Release|Any CPU
+		{3F16CBE7-DFA7-44B3-89C2-F7E3B75FEA46}.Release|x86.ActiveCfg = Release|Any CPU
+		{3F16CBE7-DFA7-44B3-89C2-F7E3B75FEA46}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -541,6 +555,7 @@ Global
 		{75F812A2-98D1-42CD-885E-2496F614667C} = {75C97094-26FC-484A-A354-E33BBD6355A8}
 		{DE72E7F2-D328-451C-B512-C9CCEF5B2E0C} = {13348F52-7CE2-02CA-9AD9-07ADD8A5D840}
 		{363D15C8-D7B3-4783-8F0B-C0ABD6456F84} = {13348F52-7CE2-02CA-9AD9-07ADD8A5D840}
+		{3F16CBE7-DFA7-44B3-89C2-F7E3B75FEA46} = {13348F52-7CE2-02CA-9AD9-07ADD8A5D840}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8413198B-8D26-4E30-A5E2-E0FBC4DCEA59}

@@ -16,9 +16,11 @@ namespace WebReaper.Playwright;
 /// <summary>
 /// Microsoft.Playwright-backed <see cref="IPageLoadTransport"/> (ADR-0053).
 /// Replaces the deleted Puppeteer transport (<c>BrowserPageLoadTransport</c>).
-/// Multi-browser via the <see cref="PlaywrightBrowser"/> enum; all seven
-/// <see cref="PageAction"/> arms (ADR-0035) including <c>SemanticAct</c>
-/// (ADR-0050).
+/// Multi-browser via the <see cref="PlaywrightBrowser"/> enum; all ten
+/// <see cref="PageAction"/> arms (ADR-0035, ADR-0074) including
+/// <c>SemanticAct</c> (ADR-0050). The per-arm dispatch lives in
+/// <see cref="PlaywrightPageActionDispatcher"/> (extracted for unit-test
+/// coverage, ADR-0078 Axis A); this transport composes by delegating to it.
 /// </summary>
 public sealed class PlaywrightPageLoadTransport : IPageLoadTransport, IAsyncDisposable
 {
@@ -95,66 +97,12 @@ public sealed class PlaywrightPageLoadTransport : IPageLoadTransport, IAsyncDisp
                 _logger.LogInformation(
                     "Performing page action {Current} of {Count}: {Action}",
                     i, request.PageActions.Count - 1, action.GetType().Name);
-                await PerformAsync(page, action, cancellationToken);
+                await PlaywrightPageActionDispatcher.PerformAsync(
+                    page, action, _semanticActCoordinator, cancellationToken);
             }
         }
 
         return await page.ContentAsync();
-    }
-
-    // ADR-0035 closed-sum dispatch. All seven arms implemented — Puppeteer's
-    // four-arm coverage that threw at runtime on WaitForSelector and
-    // EvaluateExpression is closed here.
-    private async Task PerformAsync(IPage page, PageAction action, CancellationToken ct)
-    {
-        switch (action)
-        {
-            case PageAction.Click a:
-                await page.ClickAsync(a.Selector);
-                break;
-            case PageAction.Wait a:
-                await Task.Delay(a.Milliseconds, ct);
-                break;
-            case PageAction.ScrollToEnd:
-                await page.EvaluateAsync("window.scrollTo(0, document.body.scrollHeight)");
-                break;
-            case PageAction.EvaluateExpression a:
-                await page.EvaluateAsync(a.Expression);
-                break;
-            case PageAction.WaitForSelector a:
-                await page.WaitForSelectorAsync(a.Selector, new PageWaitForSelectorOptions
-                {
-                    Timeout = a.TimeoutMs,
-                });
-                break;
-            case PageAction.WaitForNetworkIdle:
-                await page.WaitForLoadStateAsync(LoadState.NetworkIdle);
-                break;
-            case PageAction.ScrollIntoView a:
-                // ADR-0074: Playwright's ScrollIntoViewIfNeededAsync natively
-                // auto-waits for the element and scrolls it into the viewport.
-                await page.Locator(a.Selector).ScrollIntoViewIfNeededAsync();
-                break;
-            case PageAction.SemanticAct a:
-                await _semanticActCoordinator.DispatchAsync(
-                    a.Intent,
-                    getHtmlAsync: _ => page.ContentAsync(),
-                    dispatch: (arm, token) => PerformAsync(page, arm, token),
-                    ct);
-                break;
-            case PageAction.Press a:
-                // ADR-0074: Playwright accepts the same key-string format natively.
-                await page.Keyboard.PressAsync(a.Key);
-                break;
-            case PageAction.Fill a:
-                // ADR-0074: one line; native auto-wait + clear + framework events
-                // handled by Playwright's page.FillAsync.
-                await page.FillAsync(a.Selector, a.Value);
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(
-                    nameof(action), action.GetType().Name, "unhandled PageAction arm");
-        }
     }
 
     private async Task ApplyCookiesAsync(IBrowserContext context, string url)
