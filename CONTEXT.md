@@ -19,16 +19,21 @@ A single URL to visit, plus the remaining selector chain and its parent backlink
 _Avoid_: task, work item, request.
 
 **Selector chain**:
-The ordered queue of `LinkPathSelector`s a Job has left to apply before it reaches a target page; its length and its head's pagination flag *are* the crawl state. The grammar is enforced at the construction site (ADR-0030): the `LinkPathSelector` primary constructor rejects an empty `Selector`, an empty (non-null) `PaginationSelector`, and `PageActions` carrying actions when `PageType` is `Static` (the HTTP transport ignores them — a silent feature-drop). `LinkPathSelector.Follow(selector, …)` and `LinkPathSelector.Paginate(itemSelector, paginationSelector, …)` are the named factories for the two intent-shapes — the sibling pair to `Schema.ListOf`; `Paginate` additionally requires the pagination selector (a `null` one is the valid plain-follow shape the constructor must round-trip, so that intent-level rule lives on the factory).
+The ordered queue of `LinkPathSelector`s a Job has left to apply before it reaches a target page; its length and its head's pagination flag *are* the crawl state. The grammar is enforced at the construction site (ADR-0030): the `LinkPathSelector` primary constructor rejects an empty `Selector`, an empty (non-null) `PaginationSelector`, and `PageActions` carrying actions when `PageType` is `Static` (the HTTP transport ignores them — a silent feature-drop). `LinkPathSelector.Follow(selector, …)`, `LinkPathSelector.Paginate(itemSelector, paginationSelector, …)`, and `LinkPathSelector.Sweep(selector, …)` (the recursive on-domain **Site sweep** shape, ADR-0081) are the named factories for the three intent-shapes, siblings to `Schema.ListOf`; `Paginate` additionally requires the pagination selector (a `null` one is the valid plain-follow shape the constructor must round-trip, so that intent-level rule lives on the factory).
 _Avoid_: selector list, path, route.
 
 **Page category**:
-Which of three roles a Job's page plays — **derived** from the selector chain, never stored on the Job. It is realized as the arm of the **Crawl outcome** the **Crawl step** returns, not as a property of the input (the old `Job.PageCategory` was removed).
+Which of four roles a Job's page plays — **derived** from the selector chain, never stored on the Job. It is realized as the arm of the **Crawl outcome** the **Crawl step** returns, not as a property of the input (the old `Job.PageCategory` was removed).
 _Avoid_: page type (that is the Static/Dynamic load mode — see below), state, kind.
 
 - **Target page**: a Job whose selector chain is empty; its page is parsed with the Schema, yields one ParsedData, and produces no further Jobs.
 - **Transit page**: a Job with selectors remaining and no pagination on the head selector; its page yields child Jobs by following the head selector.
 - **Page with pagination**: a Job with exactly one selector left that carries a pagination selector; its page yields both item Jobs and next-page Jobs.
+- **Sweep page**: a Job under a recursive **Sweep** selector (ADR-0081); its page is parsed (yields one ParsedData) *and* its on-domain links are followed, the child Jobs **retaining** the sweep selector so the traversal perpetuates until the **Visited-link tracker** frontier saturates or the page-cap cutoff trips. The fourth role, the one page that both extracts and follows.
+
+**Site sweep**:
+A **Crawl** whose link-following is a recursive on-domain sweep rather than a fixed-length selector chain: from the start URL (optionally seeded by the **Site mapper**'s sitemap URLs), follow every on-domain `<a href>` breadth-first, parsing each page, until the **Visited-link tracker** frontier saturates or the page-cap cutoff trips (ADR-0081). It is realized as the fourth **Page category** (**Sweep page**) and its **Crawl outcome** arm (`Swept`); the CLI verb is `crawl`, the library method `.Sweep(...)`. On-domain is same-host-plus-`www` by default; `--include-subdomains` broadens it. Distinct from the **Site mapper**, which only discovers URLs in one pass and never extracts.
+_Avoid_: full crawl, deep crawl, spider (the **Spider** is the per-Job I/O shell), recursive scrape.
 
 ### The crawl step
 
@@ -37,7 +42,7 @@ The pure decision that maps a Job, its loaded document, and the config to exactl
 _Avoid_: spider, handler, processor.
 
 **Crawl outcome**:
-The result of a crawl step — a closed sum with exactly three arms: a target page's ParsedData, a transit page's followed Jobs, or a paginated page's item + next-page Jobs. Never more than one arm; not extensible (see `docs/adr/0001-crawl-outcome-closed-sum.md`).
+The result of a crawl step: a closed sum with four arms: a target page's ParsedData, a transit page's followed Jobs, a paginated page's item + next-page Jobs, or a **Sweep page**'s ParsedData together with its on-domain child Jobs (the `Swept` arm, ADR-0081). Never more than one arm; closed, with a new arm added only when a genuinely new **Page category** appears (ADR-0001 anticipated exactly this; `Swept` is its first exercise). See `docs/adr/0001-crawl-outcome-closed-sum.md`.
 _Avoid_: result, response.
 
 **Advance**:
