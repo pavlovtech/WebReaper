@@ -95,6 +95,9 @@ webreaper scrape https://example.com --output page.md
 # Discover URLs on a site
 webreaper map https://example.com --search /blog/ --max-urls 50
 
+# Crawl a whole site recursively (every on-domain page) to JSON Lines
+webreaper crawl https://example.com > pages.jsonl
+
 # Structured fields with a JSON schema (output: JSON; multi-page: JSON Lines)
 webreaper scrape https://example.com --schema schema.json
 
@@ -258,7 +261,7 @@ The release ships thirteen packages (one core, twelve satellites), all versioned
 
 | Package | Add it for | Key builder calls |
 |---|---|---|
-| **WebReaper** | Core. HTTP crawl and parse, in-memory and file scheduler / visited-link tracker / cookie and config storage, Console / CSV / JSON-Lines sinks, Markdown extractor, schema fold. Dependency-light, Native-AOT-ready, Newtonsoft-free. | `Crawl` `Extract` `AsMarkdown` `Follow` `Paginate` `WriteToJsonFile` `WriteToCsvFile` `WriteToConsole` |
+| **WebReaper** | Core. HTTP crawl and parse, in-memory and file scheduler / visited-link tracker / cookie and config storage, Console / CSV / JSON-Lines sinks, Markdown extractor, schema fold. Dependency-light, Native-AOT-ready, Newtonsoft-free. | `Crawl` `Extract` `AsMarkdown` `Follow` `Paginate` `Sweep` `WriteToJsonFile` `WriteToCsvFile` `WriteToConsole` |
 | **WebReaper.Cdp** | Raw CDP `IPageLoadTransport` (ADR-0052). AOT-clean (no PuppeteerSharp / Playwright dependency); System.Net.WebSockets plus System.Text.Json source-gen. Bedrock for the stealth pattern. | `.WithCdpPageLoader(cdpUrl)` (BYO) or `.WithCdpPageLoader(CdpLaunchOptions)` (launch managed Chromium) |
 | **WebReaper.Playwright** | Microsoft.Playwright-backed transport (ADR-0053). Multi-browser (Chromium default; Firefox / WebKit opt-in). All ten `PageAction` arms supported. Use for modern multi-browser needs; pair with `WebReaper.Cdp` for AOT or stealth. | `.WithPlaywrightPageLoader()` |
 | **WebReaper.Stealth.CloakBrowser** | First stealth-backend satellite (ADR-0054). Auto-downloads CloakBrowser on first use; composes on `WebReaper.Cdp`. Disposable via the ADR-0058 engine teardown chain. | `.WithCloakBrowser()` |
@@ -283,6 +286,7 @@ The release ships thirteen packages (one core, twelve satellites), all versioned
 | **Cost** | free | metered API plus free tier | free | included with Claude |
 | **BYO LLM** | any `IChatClient` | no (their model) | yes (LiteLLM) | Claude only |
 | **Autonomous agent** | `Agent.RunAsync()` durable, in-process | `/agent` endpoint (cloud only) | code it yourself | not available |
+| **Whole-site crawl** | `webreaper crawl` / `.Sweep()`: recursive, on-domain, sitemap-seeded, streams JSON Lines | `crawl` (cloud or self-host) | deep-crawl strategies (code it yourself) | no (single fetch) |
 | **Page actions** | 10 declarative arms: `Click`, `Wait`, `Fill`, `Press`, `ScrollToEnd`, `ScrollIntoView`, `WaitForSelector`, `WaitForNetworkIdle`, `EvaluateExpression`, `SemanticAct` (natural-language) | 9 actions: `wait`, `click`, `write`, `press`, `scroll`, `executeJavascript`, plus 3 observation (`screenshot`, `pdf`, `scrape`) | JS hooks; no closed-sum vocabulary | none (single-fetch only) |
 | **Bot-protected** | `--auto-stealth` | cloud yes; self-host degraded (no Fire-engine) | BYO | no |
 | **Claude Code skill** | `webreaper init` bundled | community `firecrawl-claude-code-skill` wraps the cloud API | none official | not applicable |
