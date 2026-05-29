@@ -10,33 +10,44 @@ namespace WebReaper.AI.Tools;
 
 /// <summary>
 /// The closed-sum-as-tools registries (ADR-0060, ADR-0060 amendment
-/// 2026-05-28). Holds the per-arm tool projections for the three
-/// <see cref="AgentDecision"/> arms whose tool shape is NOT shared with
+/// 2026-05-28, ADR-0078 Axis B). Holds the per-arm tool projections for the
+/// three <see cref="AgentDecision"/> arms whose tool shape is NOT shared with
 /// <see cref="PageAction"/> (<see cref="Extract"/>, <see cref="Follow"/>,
-/// <see cref="Stop"/>), plus the two registration lists
-/// (<see cref="ForBrain"/>, <see cref="ForResolver"/>) that compose the
-/// per-arm <see cref="AIFunction"/> descriptors into the lists the brain
-/// and resolver register with <see cref="ChatOptions.Tools"/>.
+/// <see cref="Stop"/>), and exposes the brain's and resolver's tool registries
+/// (<see cref="ForBrain"/>, <see cref="ForResolver"/>) plus the parse that
+/// decodes each registry's tool calls (<see cref="ParseBrainTool"/>,
+/// <see cref="ParseResolverTool"/>).
 /// <para>
-/// Hand-rolled JSON Schema per arm (fork 4 — AOT-friendly, no
-/// reflection-built schemas). After the amendment each arm's tool
-/// concerns (Name + Descriptor + FromArguments) live in one nested
-/// static class instead of being scattered across this file's factory
-/// list, the brain's parser switch, and the resolver's parser switch.
+/// Hand-rolled JSON Schema per arm (fork 4 — AOT-friendly, no reflection-built
+/// schemas). Each arm's tool concerns (Name + Descriptor + FromArguments) live
+/// in one nested static class: the three <see cref="AgentDecision"/>-native
+/// arms here, the ten <see cref="PageAction"/> arms in
+/// <see cref="PageActionTools"/>.
 /// </para>
 /// <para>
-/// Brain registry: 10 tools — <see cref="Extract"/>, <see cref="Follow"/>,
-/// <see cref="Stop"/>, plus 7 flat <c>Act*</c> arms (the seven
-/// <see cref="PageAction"/> arms including
-/// <see cref="PageAction.SemanticAct"/>). The flat packaging (fork 2)
-/// keeps every arm's schema simple; the model picks one; the SDK
-/// validates the args against the per-arm schema.
+/// Derived registries (ADR-0078 Axis B): both registries and both parse paths
+/// are views over one source list — the three native arms here plus
+/// <see cref="PageActionTools.Arms"/>. Because a registry's offered tool and
+/// the parse that decodes its call come from the same list, the registration
+/// and the parse dispatch cannot drift (the pre-derivation hazard: register an
+/// arm in <c>ForBrain</c> but forget its parse case, and the model's call
+/// silently became <c>Stop</c>).
 /// </para>
 /// <para>
-/// Resolver registry: 6 tools — the six concrete <see cref="PageAction"/>
-/// arms, ever. No <see cref="PageAction.SemanticAct"/> on the resolver
-/// (fork 8 — the closed sum is structural at the resolver tool list; the
-/// model literally cannot emit a <c>SemanticAct</c>-loop arm).
+/// Brain registry: 13 tools — <see cref="Extract"/>, <see cref="Follow"/>,
+/// <see cref="Stop"/>, plus the ten flat <c>Act*</c> arms (every
+/// <see cref="PageAction"/> arm, including
+/// <see cref="PageAction.SemanticAct"/>). The flat packaging (fork 2) keeps
+/// every arm's schema simple; the model picks one; the SDK validates the args
+/// against the per-arm schema.
+/// </para>
+/// <para>
+/// Resolver registry: 9 tools — the nine concrete <see cref="PageAction"/>
+/// arms, ever. No <see cref="PageAction.SemanticAct"/> on the resolver (fork
+/// 8): the arm exposes no resolver adapter
+/// (<see cref="PageActionArm.ResolverToAction"/> is <c>null</c>), so it is
+/// structurally absent from a registry derived from the arm list — the model
+/// literally cannot emit a <c>SemanticAct</c>-loop arm.
 /// </para>
 /// </summary>
 internal static class AgentDecisionTools
@@ -189,45 +200,110 @@ internal static class AgentDecisionTools
             ToolCallResult<AgentDecision.Stop>.Ok(new AgentDecision.Stop { Reason = reason });
     }
 
-    // ---- Registration lists --------------------------------------------------
+    // ---- Brain-native arms ---------------------------------------------------
 
-    /// <summary>The brain's 13-tool registry: every <see cref="AgentDecision"/>
-    /// arm with the ten <see cref="PageAction"/> arms flat-packed (seven
-    /// original + <see cref="PageAction.Press"/>,
-    /// <see cref="PageAction.ScrollIntoView"/>, and <see cref="PageAction.Fill"/>
-    /// from ADR-0074).</summary>
+    // The three AgentDecision arms whose tool shape is not a PageAction. Each
+    // entry pairs the arm's descriptor with the parse that decodes its call to
+    // an AgentDecision (Reason already populated from the audit-trail string).
+    private sealed record NativeArm(
+        AIFunction Descriptor,
+        Func<JsonElement, string, AgentDecision> Parse);
+
+    private static IReadOnlyList<NativeArm> NativeArms { get; } =
+    [
+        new(Extract.Descriptor, (args, reason) => Unwrap(Extract.FromArguments(args, reason), Extract.Name, reason)),
+        new(Follow.Descriptor,  (args, reason) => Unwrap(Follow.FromArguments(args, reason),  Follow.Name,  reason)),
+        new(Stop.Descriptor,    (args, reason) => Unwrap(Stop.FromArguments(args, reason),    Stop.Name,    reason)),
+    ];
+
+    // ---- Derived registries (ADR-0078 Axis B) --------------------------------
+
+    /// <summary>The brain's 13-tool registry: a derived view over the three
+    /// brain-native arms plus <see cref="PageActionTools.Arms"/> (the ten
+    /// <see cref="PageAction"/> arms, flat-packed). Built from the same list as
+    /// <see cref="ParseBrainTool"/>, so the offered tool and the parse that
+    /// decodes it cannot drift.</summary>
     public static IReadOnlyList<AIFunction> ForBrain() =>
-    [
-        Extract.Descriptor,
-        Follow.Descriptor,
-        Stop.Descriptor,
-        PageActionTools.Click.Descriptor,
-        PageActionTools.Wait.Descriptor,
-        PageActionTools.WaitForSelector.Descriptor,
-        PageActionTools.WaitForNetworkIdle.Descriptor,
-        PageActionTools.ScrollToEnd.Descriptor,
-        PageActionTools.ScrollIntoView.Descriptor,
-        PageActionTools.EvaluateExpression.Descriptor,
-        PageActionTools.SemanticAct.Descriptor,
-        PageActionTools.Press.Descriptor,
-        PageActionTools.Fill.Descriptor,
-    ];
+        [.. NativeArms.Select(a => a.Descriptor), .. PageActionTools.Arms.Select(a => a.Descriptor)];
 
-    /// <summary>The resolver's 9-tool registry: the nine concrete
-    /// <see cref="PageAction"/> arms (six original + <see cref="PageAction.Press"/>,
-    /// <see cref="PageAction.ScrollIntoView"/>, and <see cref="PageAction.Fill"/>
-    /// from ADR-0074). No <see cref="PageAction.SemanticAct"/>; structurally
-    /// prevents the resolver from looping the transport (fork 8).</summary>
+    /// <summary>The resolver's 9-tool registry: <see cref="PageActionTools.Arms"/>
+    /// restricted to the entries that expose a resolver adapter. No
+    /// <see cref="PageAction.SemanticAct"/> (fork 8) — it has no resolver
+    /// adapter, so it is structurally absent here and from
+    /// <see cref="ParseResolverTool"/>, which derive from the same predicate.</summary>
     public static IReadOnlyList<AIFunction> ForResolver() =>
-    [
-        PageActionTools.Click.Descriptor,
-        PageActionTools.Wait.Descriptor,
-        PageActionTools.WaitForSelector.Descriptor,
-        PageActionTools.WaitForNetworkIdle.Descriptor,
-        PageActionTools.ScrollToEnd.Descriptor,
-        PageActionTools.ScrollIntoView.Descriptor,
-        PageActionTools.EvaluateExpression.Descriptor,
-        PageActionTools.Press.Descriptor,
-        PageActionTools.Fill.Descriptor,
-    ];
+        [.. PageActionTools.Arms.Where(a => a.ResolverToAction is not null).Select(a => a.Descriptor)];
+
+    // ---- Derived parse dispatch (ADR-0078 Axis B) ----------------------------
+
+    // name -> brain parse, derived from the same list as ForBrain. Native arms
+    // decode to their AgentDecision directly; PageAction arms decode to a
+    // PageAction wrapped in Act. Keyed by the descriptor name the model emits.
+    private static readonly Dictionary<string, Func<JsonElement, string, AgentDecision>> BrainParsers =
+        BuildBrainParsers();
+
+    // name -> resolver parse, derived from the SAME predicate as ForResolver
+    // (entries with a resolver adapter), so offered <-> parseable. SemanticAct,
+    // having no resolver adapter, is in neither.
+    private static readonly Dictionary<string, Func<JsonElement, PageAction?>> ResolverParsers =
+        PageActionTools.Arms
+            .Where(a => a.ResolverToAction is not null)
+            .ToDictionary(
+                a => a.Descriptor.Name,
+                a => (Func<JsonElement, PageAction?>)(args => a.ResolverToAction!(args).Value),
+                StringComparer.Ordinal);
+
+    private static Dictionary<string, Func<JsonElement, string, AgentDecision>> BuildBrainParsers()
+    {
+        var map = new Dictionary<string, Func<JsonElement, string, AgentDecision>>(StringComparer.Ordinal);
+        foreach (var native in NativeArms)
+            map[native.Descriptor.Name] = native.Parse;
+        foreach (var arm in PageActionTools.Arms)
+            map[arm.Descriptor.Name] = (args, reason) => UnwrapAct(arm.ToAction(args), arm.Descriptor.Name, reason);
+        return map;
+    }
+
+    /// <summary>Decode a brain tool call into its <see cref="AgentDecision"/>
+    /// arm (ADR-0060 amendment, ADR-0078 Axis B). The audit-trail <c>reason</c>
+    /// is read once and threaded into every arm; a <see cref="PageAction"/> arm
+    /// is wrapped in <see cref="AgentDecision.Act"/>; a per-arm
+    /// <c>FromArguments</c> failure becomes <see cref="AgentDecision.Stop"/>
+    /// with the failure reason composed into the audit string. An unregistered
+    /// tool name (a genuine model hallucination — never a wiring omission now
+    /// that the registry and this dispatch derive from one list) becomes
+    /// <c>Stop</c>.</summary>
+    public static AgentDecision ParseBrainTool(string toolName, JsonElement args)
+    {
+        var reason = LlmToolArguments.TryGetString(args, "reason") ?? "";
+        return BrainParsers.TryGetValue(toolName, out var parse)
+            ? parse(args, reason)
+            : new AgentDecision.Stop { Reason = $"brain called unregistered tool '{toolName}'" };
+    }
+
+    /// <summary>Decode a resolver tool call into a concrete
+    /// <see cref="PageAction"/> arm (ADR-0060, ADR-0078 Axis B), or <c>null</c>
+    /// when the model invented a tool name or called the brain-only
+    /// <c>ActSemanticAct</c> (which the resolver never registers — fork 8). A
+    /// per-arm <c>FromArguments</c> failure also reads as <c>null</c>; the
+    /// resolver's contract is "concrete arm, or nothing".</summary>
+    public static PageAction? ParseResolverTool(string toolName, JsonElement args)
+        => ResolverParsers.TryGetValue(toolName, out var parse) ? parse(args) : null;
+
+    // Brain wrap for AgentDecision arms: the factory returns the arm with its
+    // Reason already populated (the brain passed reason in); on failure the
+    // freeform FailureReason composes into a Stop matching the pre-amendment
+    // audit-trail format byte-for-byte.
+    private static AgentDecision Unwrap<T>(ToolCallResult<T> result, string toolName, string reason)
+        where T : AgentDecision =>
+        result.Value is { } arm
+            ? arm
+            : new AgentDecision.Stop { Reason = $"brain {toolName} {result.FailureReason}: {reason}" };
+
+    // Brain wrap for Act* arms: the factory returns the PageAction value; the
+    // brain wraps it in Act with the audit-trail Reason. Failure -> Stop with
+    // the factory's FailureReason in the same format as the pre-amendment parser.
+    private static AgentDecision UnwrapAct(ToolCallResult<PageAction> result, string toolName, string reason) =>
+        result.Value is { } action
+            ? new AgentDecision.Act(action) { Reason = reason }
+            : new AgentDecision.Stop { Reason = $"brain {toolName} {result.FailureReason}: {reason}" };
 }

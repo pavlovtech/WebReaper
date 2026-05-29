@@ -172,6 +172,63 @@ public class CdpPageActionDispatchTests
         Assert.Contains("ReferenceError", ex.Message);
     }
 
+    // ADR-0078 Axis A: C# has no closed-hierarchy exhaustiveness — a
+    // discard-less switch expression over PageAction warns CS8509 even when
+    // every arm is handled, so it cannot be both clean today and a compile
+    // error when an arm is added (verified). This is the CI substitute for the
+    // CDP transport: dispatch every PageAction arm and assert none reaches the
+    // switch's `default: throw ArgumentOutOfRangeException`. The reflection
+    // check forces a sample to be added when a PageAction arm is added, and the
+    // dispatch then proves the transport actually handles it.
+    [Fact]
+    public async Task Every_PageAction_arm_dispatches_without_hitting_the_default()
+    {
+        PageAction[] samples =
+        [
+            new PageAction.Click(".x"),
+            new PageAction.Wait(1),
+            new PageAction.WaitForSelector(".x", 1000),
+            new PageAction.WaitForNetworkIdle(),
+            new PageAction.ScrollToEnd(),
+            new PageAction.ScrollIntoView(".x"),
+            new PageAction.EvaluateExpression("1"),
+            new PageAction.Press("Enter"),
+            new PageAction.Fill(".x", "y"),
+            new PageAction.SemanticAct("do it"),
+        ];
+
+        // Completeness: the samples cover every concrete PageAction arm, so a
+        // newly-added arm trips this until a sample is added here.
+        var armTypes = typeof(PageAction).GetNestedTypes()
+            .Where(t => t.IsSealed && t.IsSubclassOf(typeof(PageAction)))
+            .ToHashSet();
+        var sampled = samples.Select(s => s.GetType()).ToHashSet();
+        Assert.True(armTypes.SetEquals(sampled),
+            "Sample set must cover every PageAction arm. Add a sample for the new arm. " +
+            $"Uncovered: [{string.Join(", ", armTypes.Except(sampled).Select(t => t.Name))}]");
+
+        foreach (var arm in samples)
+        {
+            var session = new FakeCdpSession();
+            // Every querySelector poll finds its element; every evaluate succeeds.
+            session.OnSend("Runtime.evaluate", _ => new JsonObject
+            {
+                ["result"] = new JsonObject { ["value"] = true }
+            });
+            // SemanticAct resolves to a concrete arm via the resolver.
+            var coord = new SemanticActCoordinator(
+                new RecordingResolver(_ => new PageAction.Click(".resolved")),
+                NullLogger.Instance);
+
+            var ex = await Record.ExceptionAsync(() =>
+                CdpPageActionDispatcher.PerformAsync(session, SessionId, arm, coord, default));
+
+            Assert.False(ex is ArgumentOutOfRangeException,
+                $"{arm.GetType().Name} fell through to the dispatcher's default (unhandled arm)");
+            Assert.Null(ex);
+        }
+    }
+
     private sealed class RecordingResolver : IActionResolver
     {
         private readonly Func<string, PageAction?> _resolve;
