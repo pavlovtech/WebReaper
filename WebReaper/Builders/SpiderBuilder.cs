@@ -311,7 +311,12 @@ internal class SpiderBuilder
 
         CookieStorage.AddAsync(Cookies);
 
-        var crawlStep = new CrawlStep(ContentExtractor);
+        // ADR-0081: derive the Sweep on-domain + depth policy from the config
+        // (anchor host from the start URL) and thread it into the step. Covers
+        // both Crawl drivers: the engine path and the distributed worker both
+        // build through here. Null on a non-sweep crawl, so the recursive
+        // branch never fires.
+        var crawlStep = new CrawlStep(ContentExtractor, BuildSweepPolicy(Config!));
 
         // Config is null until WithConfig is called; ADR-0034 makes it
         // required by the time Build runs (the outer ScraperEngineBuilder
@@ -324,5 +329,24 @@ internal class SpiderBuilder
             Config.ParsingScheme);
 
         return spider;
+    }
+
+    // ADR-0081: the Sweep policy is built only when the chain carries a
+    // recursive selector. The anchor host is the start URL's host, fixed for
+    // the crawl, so the on-domain boundary stays correct as pages are reached
+    // through www / subdomains (a per-page host would break --include-subdomains).
+    // No parseable start host ⇒ null, and the step falls back to each page's
+    // own host.
+    private static SweepPolicy? BuildSweepPolicy(ScraperConfig config)
+    {
+        if (!config.LinkPathSelectors.Any(s => s.Recursive)) return null;
+
+        var anchorHost = config.StartUrls
+            .Select(u => Uri.TryCreate(u, UriKind.Absolute, out var uri) ? uri.Host : null)
+            .FirstOrDefault(h => !string.IsNullOrEmpty(h));
+
+        return anchorHost is null
+            ? null
+            : new SweepPolicy(anchorHost, config.IncludeSubdomains, config.MaxDepth);
     }
 }

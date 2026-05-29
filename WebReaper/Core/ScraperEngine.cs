@@ -244,6 +244,20 @@ public class ScraperEngine : IAsyncDisposable
                             job.ParentBacklinks.ToList(), config.ParsingScheme, token);
                         newJobs = new List<Job>();
                     }
+                    else if (report.Outcome is CrawlOutcome.Swept swept)
+                    {
+                        // ADR-0081: the Sweep page is the ONLY arm that does
+                        // both: run its record through the Post-extraction
+                        // pipeline (emit) AND enqueue its on-domain children
+                        // (follow). The children retain the recursive sweep
+                        // selector; the Visited-link tracker dedups them, which
+                        // is also what terminates the sweep when the on-domain
+                        // frontier saturates.
+                        Logger.LogInvocationCount();
+                        await _pipeline.ProcessAndEmitAsync(swept.Data, report.Document,
+                            job.ParentBacklinks.ToList(), config.ParsingScheme, token);
+                        newJobs = swept.Next.ToList();
+                    }
                     else
                     {
                         // Children are enqueued UNFILTERED; discovery dedup is

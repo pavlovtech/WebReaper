@@ -43,18 +43,43 @@ Three commands. Each is one shell call; output goes to stdout unless `--output`.
 | The readable text of one page | `webreaper scrape <url>` |
 | The readable text saved to a file | `webreaper scrape <url> --output page.md` |
 | Specific fields from one page | `webreaper scrape <url> --schema schema.json` |
+| Every page of a whole site (Markdown) | `webreaper crawl <url> > pages.jsonl` |
+| Every page of a whole site (fields) | `webreaper crawl <url> --schema schema.json` |
 | URLs on a site | `webreaper map <url>` |
 | URLs matching a substring | `webreaper map <url> --search /blog/ --max-urls 50` |
 | A JS-rendered page (SPA) | `webreaper scrape <url> --browser` |
 | A bot-protected site | `webreaper scrape <url> --browser --auto-stealth` |
 | Fields from every linked page | `webreaper scrape <index-url> --follow "<css selector>" --schema schema.json` |
 
-## Common workflow — multi-page extraction
+## Whole-site crawl in one command
 
-The CLI's `scrape` is single-URL. For multi-page work, chain `map` → filter → loop:
+To cover an entire site, use `crawl`: it recursively follows every on-domain
+link from the start URL, extracts each page, and streams JSON Lines (one object
+per page). Markdown by default; `--schema` switches to field extraction.
 
 ```bash
-# 1. Discover URLs.
+# Every page, as Markdown, to a file.
+webreaper crawl https://example.com > pages.jsonl
+
+# Every page, specific fields, bounded.
+webreaper crawl https://example.com --schema schema.json --max-pages 200
+```
+
+Flags: `--max-pages <n>` (default 1000), `--max-depth <n>` (hops from the start
+URL; default unlimited), `--include-subdomains` (default: same host + `www`
+only), `--no-sitemap` (skip sitemap seeding; recursive links only),
+`--schema` / `--output` (as for `scrape`). On-domain only; off-domain links
+are never followed. `crawl` is HTTP-only; for a JS-rendered or bot-protected
+site, scrape the pages with `scrape --browser` instead.
+
+## Common workflow: selective multi-page extraction
+
+`crawl` covers the *whole* site. When the user wants only a *subset* (e.g. just
+blog posts), chain `map` → filter → `scrape` loop instead, so you fetch only the
+matching URLs:
+
+```bash
+# 1. Discover + filter URLs.
 webreaper map https://example.com/blog --search /post/ --max-urls 20 > urls.txt
 
 # 2. Scrape each. Cache so reruns are free.
@@ -63,9 +88,8 @@ while read -r url; do
 done < urls.txt
 ```
 
-When the user asks "scrape the top N articles from <site> and …", this is the
-shape — `map` first, `scrape --schema` per URL, then process the JSON Lines
-output.
+Rule of thumb: "everything on the site" → `crawl`; "the pages matching X" →
+`map --search X` then `scrape` per URL.
 
 ## Browser & stealth — when sites resist
 
@@ -119,6 +143,8 @@ A schema is a tree of fields. Leaves have a CSS `selector` and a `type`
 - `scrape` without `--schema` → Markdown (one document per page).
 - `scrape` with `--schema` → JSON (one record per page; multiple pages = JSON
   Lines, one object per line).
+- `crawl` → JSON Lines, one object per swept page (Markdown record by default,
+  schema fields with `--schema`).
 - `map` → one URL per line.
 - `--output <path>` redirects to a file instead of stdout.
 

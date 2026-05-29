@@ -44,6 +44,10 @@ internal sealed class SelectorChainJsonConverter : JsonConverter<ImmutableQueue<
         w.WriteString("selector", s.Selector);
         if (s.PaginationSelector is not null) w.WriteString("paginationSelector", s.PaginationSelector);
         w.WriteString("pageType", s.PageType.ToString());
+        // ADR-0081: the recursive Site-sweep marker. Written only when set, so
+        // an ordinary follow/paginate step's JSON is unchanged and a pre-0081
+        // persisted Job still round-trips (the field reads back false).
+        if (s.Recursive) w.WriteBoolean("recursive", true);
         if (s.PageActions is { } acts)
         {
             w.WritePropertyName("pageActions");
@@ -61,6 +65,7 @@ internal sealed class SelectorChainJsonConverter : JsonConverter<ImmutableQueue<
         string? pag = null;
         PageType pt = PageType.Static;
         List<PageAction>? acts = null;
+        bool recursive = false;
         while (r.Read() && r.TokenType != JsonTokenType.EndObject)
         {
             var prop = r.GetString();
@@ -72,6 +77,7 @@ internal sealed class SelectorChainJsonConverter : JsonConverter<ImmutableQueue<
                 case "pageType":
                     pt = r.GetString() == "Dynamic" ? PageType.Dynamic : PageType.Static;
                     break;
+                case "recursive": recursive = r.GetBoolean(); break;
                 case "pageActions":
                     acts = new List<PageAction>();
                     while (r.Read() && r.TokenType != JsonTokenType.EndArray)
@@ -88,7 +94,7 @@ internal sealed class SelectorChainJsonConverter : JsonConverter<ImmutableQueue<
         if (string.IsNullOrWhiteSpace(sel))
             throw new JsonException("missing or empty 'selector' on a LinkPathSelector entry");
 
-        return new LinkPathSelector(sel, pag, pt, acts);
+        return new LinkPathSelector(sel, pag, pt, acts) { Recursive = recursive };
     }
 }
 

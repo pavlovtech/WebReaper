@@ -142,6 +142,51 @@ public class ScraperEngineDriverTests
     private static JobReport Parsed(string url) =>
         new(CrawlOutcome.Target(new ParsedData(url, new JsonObject())), "<html/>");
 
+    private static JobReport Swept(string url, params string[] children) =>
+        new(CrawlOutcome.Sweep(
+                new ParsedData(url, new JsonObject()),
+                children
+                    .Select(u => new Job(u,
+                        ImmutableQueue.CreateRange(new[] { LinkPathSelector.Sweep() }),
+                        ImmutableQueue<string>.Empty))
+                    .ToImmutableArray()),
+            "<html/>");
+
+    [Fact]
+    public async Task Swept_page_both_emits_its_record_and_follows_its_children_until_the_frontier_saturates()
+    {
+        // ADR-0081: the Sweep page is the one arm that BOTH emits AND follows.
+        // A cyclic 3-page graph; the Visited-link tracker dedups so each page is
+        // crawled and emitted exactly once, and the recursive frontier
+        // saturates so the crawl terminates (a hang would fail WaitAsync).
+        var sink = new RecordingSink();
+
+        var spider = new ScriptedSpider(job => job.Url switch
+        {
+            "root" => Swept("root", "a", "b"),
+            "a" => Swept("a", "b", "root"),   // cycles back to seen pages
+            "b" => Swept("b", "a"),           // cycles
+            _ => Swept(job.Url),
+        });
+
+        var engine = new ScraperEngine(
+            parallelismDegree: 1,
+            new FakeConfigStorage(Config()),
+            new InMemoryScheduler(),
+            spider,
+            new InMemoryVisitedLinkTracker(),
+            new List<IScraperSink> { sink },
+            NullLogger.Instance);
+
+        await engine.RunAsync().WaitAsync(TimeSpan.FromSeconds(10));
+
+        // Each page crawled once (dedup) AND emitted once (Swept emits like a
+        // target page), proof the driver runs the Post-extraction pipeline for
+        // the Swept arm, not only for Parsed.
+        Assert.Equal(new[] { "a", "b", "root" }, sink.Emitted.Select(p => p.Url).OrderBy(u => u));
+        Assert.Equal(3, spider.Crawled.Count);
+    }
+
     [Fact]
     public async Task Crawl_limit_stops_the_run_as_a_value_never_an_exception()
     {

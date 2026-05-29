@@ -96,6 +96,14 @@ namespace WebReaper.AzureFuncs
 
                 if (report.Outcome is CrawlOutcome.Parsed parsed)
                     await CosmosSink.EmitAsync(parsed.Data);   // the driver fans out
+                else if (report.Outcome is CrawlOutcome.Swept swept)
+                {
+                    // ADR-0081: the Sweep page is the one arm that BOTH emits
+                    // AND follows. Emit its record and enqueue its on-domain
+                    // children; the per-message TryAdd gate above dedups them.
+                    await CosmosSink.EmitAsync(swept.Data);
+                    children = swept.Next;
+                }
                 else
                     children = report.Outcome.NextJobs;        // unfiltered; dedup is the per-message gate above
             }

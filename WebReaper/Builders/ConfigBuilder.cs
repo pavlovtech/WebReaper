@@ -31,6 +31,10 @@ internal class ConfigBuilder
 
     private bool _stopWhenDrained;
 
+    // ADR-0081: Site-sweep on-domain + depth policy, set by Sweep(options).
+    private bool _includeSubdomains;
+    private int _maxDepth = int.MaxValue;
+
     private Schema? _schema;
 
     private PageType _startPageType;
@@ -192,6 +196,51 @@ internal class ConfigBuilder
     }
 
     /// <summary>
+    /// Append a Site-sweep step (ADR-0081): a recursive on-domain
+    /// <see cref="LinkPathSelector"/> that makes the Crawl step return the
+    /// <c>Swept</c> arm: extract each page AND follow its on-domain links,
+    /// child Jobs retaining this selector so the whole site is swept. The
+    /// chain-level sibling to <see cref="Follow"/> / <see cref="Paginate"/>.
+    /// The on-domain boundary (<see cref="SweepOptions.IncludeSubdomains"/>)
+    /// and depth cap (<see cref="SweepOptions.MaxDepth"/>) land on the
+    /// <see cref="ScraperConfig"/>; sitemap seeding
+    /// (<see cref="SweepOptions.Sitemap"/>) is handled by
+    /// <see cref="ScraperEngineBuilder.BuildAsync"/>.
+    /// </summary>
+    /// <exception cref="ArgumentException">
+    /// <see cref="SweepOptions.LinkSelector"/> is empty/whitespace, enforced
+    /// at <see cref="LinkPathSelector"/> construction (ADR-0030).</exception>
+    public ConfigBuilder Sweep(SweepOptions options)
+    {
+        _linkPathSelectors.Add(LinkPathSelector.Sweep(options.LinkSelector));
+        _includeSubdomains = options.IncludeSubdomains;
+        _maxDepth = options.MaxDepth ?? int.MaxValue;
+        return this;
+    }
+
+    /// <summary>
+    /// The first start URL, or null if none was set; the seed
+    /// <see cref="ScraperEngineBuilder.BuildAsync"/> hands the Site mapper for
+    /// ADR-0081 sitemap seeding.
+    /// </summary>
+    internal string? FirstStartUrl => _startUrls.FirstOrDefault();
+
+    /// <summary>
+    /// Union additional seed URLs into the start set (ADR-0081 sitemap
+    /// seeding), preserving the existing seeds first and dropping duplicates.
+    /// The start <see cref="PageType"/> is unchanged.
+    /// </summary>
+    internal ConfigBuilder AddStartUrls(IEnumerable<string> urls)
+    {
+        var seen = new HashSet<string>(_startUrls, StringComparer.Ordinal);
+        var unioned = new List<string>(_startUrls);
+        foreach (var u in urls)
+            if (seen.Add(u)) unioned.Add(u);
+        _startUrls = unioned;
+        return this;
+    }
+
+    /// <summary>
     /// The extraction <see cref="Schema"/> applied to target pages (the
     /// shared fold grammar, ADR-0002). Supplied through the staged entry,
     /// <see cref="ICrawlSeed.Extract"/>.
@@ -224,6 +273,8 @@ internal class ConfigBuilder
             _startPageType,
             _pageActions,
             _headless,
-            _stopWhenDrained);
+            _stopWhenDrained,
+            _includeSubdomains,
+            _maxDepth);
     }
 }

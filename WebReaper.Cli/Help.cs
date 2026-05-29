@@ -14,6 +14,9 @@ Usage:
 Commands:
   scrape <url>          Fetch a URL; output Markdown by default,
                         or JSON if --schema is given.
+  crawl <url>           Crawl a whole site recursively (every on-domain
+                        page); stream JSON Lines. Markdown by default,
+                        or JSON if --schema is given.
   map <url>             Discover URLs (sitemap.xml + root-page links).
   browser <sub>         Manage the managed Chromium for --browser scrapes
                         (install/path/list).
@@ -47,6 +50,17 @@ Flags (per-command):
     --no-auto-stealth   Warn-only on bot-check detection; never install or
                         retry (ADR-0056 escape hatch).
 
+  crawl:
+    --schema <path>     JSON schema file (switches output to JSON).
+    --output <path>     Write to a file instead of stdout.
+    --max-pages <n>     Cap the pages crawled (default 1000).
+    --max-depth <n>     Cap the hop distance from the start URL
+                        (default: unlimited).
+    --include-subdomains  Follow subdomains of the start host too
+                          (default: same host + www only).
+    --no-sitemap        Don't seed the crawl from the site's sitemap;
+                        recursive link-following only.
+
   browser:
     install [--revision N]   Download managed Chromium to ~/.webreaper/.
     path    [--revision N]   Print cached binary path.
@@ -76,6 +90,8 @@ Flags (per-command):
 Examples:
   webreaper scrape https://example.com
   webreaper scrape https://example.com --schema schema.json
+  webreaper crawl https://example.com > pages.jsonl
+  webreaper crawl https://example.com --schema schema.json --max-pages 200
   webreaper map https://example.com --search /blog/
   webreaper init
 ".TrimStart();

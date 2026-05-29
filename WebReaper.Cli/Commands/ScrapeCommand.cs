@@ -1,10 +1,7 @@
 using System.Diagnostics;
-using System.Text.Json;
-using System.Text.Json.Nodes;
 using WebReaper.Builders;
 using WebReaper.Cdp;
 using WebReaper.Cli.Stealth;
-using WebReaper.Domain.Parsing;
 using WebReaper.Sinks.Models;
 
 namespace WebReaper.Cli.Commands;
@@ -35,7 +32,7 @@ internal static class ScrapeCommand
         // No escalation path on pure-HTTP scrapes.
         if (!ctx.Browser)
         {
-            await Emit(first.Records, ctx.Output);
+            await RecordOutput.WriteAsync(first.Records, ctx.Output);
             return 0;
         }
 
@@ -49,7 +46,7 @@ internal static class ScrapeCommand
 
         if (!verdict.LikelyBlocked)
         {
-            await Emit(first.Records, ctx.Output);
+            await RecordOutput.WriteAsync(first.Records, ctx.Output);
             return 0;
         }
 
@@ -62,7 +59,7 @@ internal static class ScrapeCommand
             // result is what we ship.
             Console.Error.WriteLine(
                 "⚠  Auto-stealth disabled (--no-auto-stealth); retry manually with --stealth.");
-            await Emit(first.Records, ctx.Output);
+            await RecordOutput.WriteAsync(first.Records, ctx.Output);
             return 0;
         }
 
@@ -75,7 +72,7 @@ internal static class ScrapeCommand
             if (!string.IsNullOrEmpty(reply) && !reply.Equals("y", StringComparison.OrdinalIgnoreCase))
             {
                 Console.Error.WriteLine("Aborted; shipping first-attempt result.");
-                await Emit(first.Records, ctx.Output);
+                await RecordOutput.WriteAsync(first.Records, ctx.Output);
                 return 0;
             }
         }
@@ -88,7 +85,7 @@ internal static class ScrapeCommand
         if (installCode != 0)
         {
             Console.Error.WriteLine($"✗  Stealth install failed (exit {installCode}); shipping first-attempt result.");
-            await Emit(first.Records, ctx.Output);
+            await RecordOutput.WriteAsync(first.Records, ctx.Output);
             return installCode;
         }
 
@@ -97,7 +94,7 @@ internal static class ScrapeCommand
         if (stealthPath is null)
         {
             Console.Error.WriteLine("✗  Stealth install reported success but path resolution failed.");
-            await Emit(first.Records, ctx.Output);
+            await RecordOutput.WriteAsync(first.Records, ctx.Output);
             return 1;
         }
 
@@ -114,11 +111,11 @@ internal static class ScrapeCommand
                 $"✗  Stealth retry still likely blocked: {retryVerdict.Reason}");
             Console.Error.WriteLine(
                 "   The site may need a captcha-solver (deferred — see ADR-0055 §F5).");
-            await Emit(retry.Records, ctx.Output);
+            await RecordOutput.WriteAsync(retry.Records, ctx.Output);
             return 1;
         }
 
-        await Emit(retry.Records, ctx.Output);
+        await RecordOutput.WriteAsync(retry.Records, ctx.Output);
         return 0;
     }
 
@@ -137,7 +134,7 @@ internal static class ScrapeCommand
             : ScraperEngineBuilder.Crawl(ctx.Url);
 
         var builder = ctx.SchemaPath is not null
-            ? seed.Extract(LoadSchema(ctx.SchemaPath))
+            ? seed.Extract(SchemaFile.Load(ctx.SchemaPath))
             : seed.AsMarkdown();
 
         // ADR-0055 layered auto-spawn (paired with the ADR-0056 retry override):
@@ -290,135 +287,4 @@ internal static class ScrapeCommand
             NoAutoStealth: noAutoStealth);
     }
 
-    // ----- emission + schema parsing -----
-
-    private static async Task Emit(List<ParsedData> records, string? output)
-    {
-        // Default: write to stdout. With --output, write to file.
-        // Single record → output its Data JSON; multiple → JSON Lines.
-        var sb = new System.Text.StringBuilder();
-        foreach (var r in records)
-        {
-            sb.Append(r.Data.ToJsonString());
-            sb.Append('\n');
-        }
-
-        var text = sb.ToString().TrimEnd('\n');
-
-        if (output is not null)
-            await File.WriteAllTextAsync(output, text);
-        else
-            Console.WriteLine(text);
-    }
-
-    private static Schema LoadSchema(string path)
-    {
-        if (!File.Exists(path))
-            throw new CliException($"Schema file not found: {path}");
-
-        string content;
-        try { content = File.ReadAllText(path); }
-        catch (Exception ex)
-        {
-            throw new CliException($"Failed to read schema file '{path}': {ex.Message}");
-        }
-
-        JsonNode? root;
-        try { root = JsonNode.Parse(content); }
-        catch (JsonException ex)
-        {
-            throw new CliException($"Schema file '{path}' is not valid JSON: {ex.Message}");
-        }
-
-        if (root is not JsonObject obj)
-            throw new CliException(
-                $"Schema file '{path}' must contain a JSON object at the root.");
-
-        var schema = BuildSchema(obj);
-        return schema;
-    }
-
-    private static Schema BuildSchema(JsonObject obj)
-    {
-        // Recursive parse of the schema JSON shape into the library's
-        // Schema/SchemaElement records. The shape pinned in ADR-0043:
-        //   { field, selector?, type?, attr?, is_list?, children? }
-        //
-        // An object with children is a Schema (a nested container);
-        // a leaf with no children is a SchemaElement.
-
-        var children = obj["children"] as JsonArray;
-
-        if (children is null || children.Count == 0)
-        {
-            // Leaf.
-            return WrapAsSchema(BuildElement(obj));
-        }
-
-        // Container.
-        var field = obj["field"]?.GetValue<string>();
-        var selector = obj["selector"]?.GetValue<string>();
-        var isList = obj["is_list"]?.GetValue<bool>() ?? false;
-
-        var container = field is not null
-            ? new Schema(field) { Selector = selector ?? string.Empty, IsList = isList }
-            : new Schema();
-
-        foreach (var child in children)
-        {
-            if (child is not JsonObject childObj)
-                throw new CliException("Schema children must be objects.");
-            container.Add(BuildElement(childObj));
-        }
-
-        return container;
-    }
-
-    private static SchemaElement BuildElement(JsonObject obj)
-    {
-        var field = obj["field"]?.GetValue<string>()
-            ?? throw new CliException("Schema element is missing 'field'.");
-
-        var children = obj["children"] as JsonArray;
-        if (children is not null && children.Count > 0)
-        {
-            return BuildSchema(obj);
-        }
-
-        var selector = obj["selector"]?.GetValue<string>() ?? string.Empty;
-        var attr = obj["attr"]?.GetValue<string>();
-        var isList = obj["is_list"]?.GetValue<bool>() ?? false;
-        var type = ParseDataType(obj["type"]?.GetValue<string>());
-
-        var element = new SchemaElement(field, selector)
-        {
-            Type = type,
-            IsList = isList
-        };
-
-        if (attr is not null) element.Attr = attr;
-
-        return element;
-    }
-
-    private static Schema WrapAsSchema(SchemaElement element)
-    {
-        if (element is Schema schema) return schema;
-        return new Schema { element };
-    }
-
-    private static DataType? ParseDataType(string? raw)
-    {
-        if (string.IsNullOrEmpty(raw)) return null;
-        return raw.ToLowerInvariant() switch
-        {
-            "string" => DataType.String,
-            "integer" or "int" => DataType.Integer,
-            "float" or "double" or "decimal" => DataType.Float,
-            "boolean" or "bool" => DataType.Boolean,
-            "datetime" or "date" => DataType.DataTime,
-            _ => throw new CliException(
-                $"Unknown schema type '{raw}'. Valid: string, integer, float, boolean, datetime.")
-        };
-    }
 }

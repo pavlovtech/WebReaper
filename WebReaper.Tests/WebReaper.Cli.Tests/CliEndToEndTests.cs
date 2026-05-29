@@ -139,6 +139,46 @@ public sealed class CliEndToEndTests : IClassFixture<CliSiteFixture>
     }
 
     [Fact]
+    public async Task Crawl_sweeps_the_whole_site_and_streams_multiple_pages()
+    {
+        // ADR-0081: a whole-site sweep from the root. It follows on-domain links
+        // (root → /static, /list, /item/1; pagination → page 2 → /item/4..6) and
+        // is seeded by the sitemap (/item/1..3, /static); the off-domain
+        // example.com links are dropped, so it does NOT hang on the network. The
+        // Visited-link tracker dedups and the frontier saturates, so the
+        // subprocess returns (a non-terminating sweep would hang the test).
+        var r = await RunCli(["crawl", _site.BaseUrl, "--max-pages", "50"]);
+
+        Assert.Equal(0, r.ExitCode);
+        var lines = r.Stdout.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+        Assert.True(lines.Length >= 5, $"expected several swept pages, got {lines.Length}");
+        Assert.Contains("Widget Pro 3000", r.Stdout);   // /static, extracted as Markdown
+        Assert.Contains("Item 1", r.Stdout);            // a leaf item page, swept + extracted
+    }
+
+    [Fact]
+    public async Task Crawl_with_schema_emits_json_lines_for_swept_pages()
+    {
+        var schemaPath = Path.Combine(Path.GetTempPath(), $"wr-crawl-schema-{Guid.NewGuid():N}.json");
+        await File.WriteAllTextAsync(schemaPath, """
+        { "children": [ { "field": "title", "selector": ".title" } ] }
+        """);
+
+        try
+        {
+            var r = await RunCli(["crawl", _site.BaseUrl, "--schema", schemaPath, "--max-pages", "50"]);
+
+            Assert.Equal(0, r.ExitCode);
+            Assert.Contains("Widget Pro 3000", r.Stdout);   // /static .title
+            Assert.Contains("\"url\"", r.Stdout);           // JSON records, url folded in
+        }
+        finally
+        {
+            File.Delete(schemaPath);
+        }
+    }
+
+    [Fact]
     public async Task Map_discovers_urls_from_sitemap_and_root_page()
     {
         var r = await RunCli(["map", _site.BaseUrl]);
