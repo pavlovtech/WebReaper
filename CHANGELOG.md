@@ -26,6 +26,8 @@ A self-replacing `webreaper update` command is deferred (ADR-0082 Part 2): Homeb
 
 Semver: additive. The new opt-out stderr line is the only visible behaviour change for interactive users.
 
+Also in this release: `scrape` now hints at `--browser` / `--stealth` when a run returns zero records (the page may be JS-rendered or bot-protected) ([#166](https://github.com/pavlovtech/WebReaper/pull/166)).
+
 ## 10.2.0: whole-site crawl (Site sweep)
 
 One command now crawls an entire site:
