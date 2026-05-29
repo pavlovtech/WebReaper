@@ -43,8 +43,12 @@ dotnet test WebReaper.Tests/WebReaper.IntegrationTests --filter "Category=Llm"
 dotnet test WebReaper.Tests/WebReaper.IntegrationTests --filter "Category=Mcp"
 dotnet test WebReaper.Tests/WebReaper.IntegrationTests --filter "Category=Perf"
 
-# Throughput numbers (not asserted)
+# Throughput numbers (not asserted) — local synthetic ceiling
 dotnet run -c Release --project WebReaper.Tests/WebReaper.Perf 500
+# Network-bound, any real site: <url> <follow-css> [field=css ...]
+dotnet run -c Release --project WebReaper.Tests/WebReaper.Perf \
+  "https://books.toscrape.com/catalogue/page-1.html" \
+  "article.product_pod h3 a" "title=.product_main h1" "price=.price_color"
 
 # Dockerized install.sh smoke (network + Docker)
 scripts/test-install.sh
