@@ -1,5 +1,6 @@
 using System.Net;
 using System.Text;
+using Microsoft.Extensions.Logging;
 using WebReaper.Core.Mapping;
 
 namespace WebReaper.UnitTests;
@@ -286,6 +287,127 @@ public class SiteMapperTests
 
         Assert.Contains("https://x.test/from-sitemap", urls);
         Assert.DoesNotContain("https://x.test/from-anchor", urls);
+    }
+
+    [Fact]
+    public async Task Falls_back_to_sitemap_xml_when_robots_has_no_sitemap_directive()
+    {
+        var handler = new StubHttpHandler
+        {
+            // robots.txt is present but carries no Sitemap: line, which is a
+            // distinct path from robots.txt being absent (a 404).
+            ["https://x.test/robots.txt"] = (HttpStatusCode.OK,
+                "User-agent: *\nDisallow: /private\n"),
+            ["https://x.test/sitemap.xml"] = (HttpStatusCode.OK, @"
+<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
+  <url><loc>https://x.test/from-default</loc></url>
+</urlset>"),
+        };
+
+        var urls = await Make(handler).MapAsync("https://x.test/",
+            new MapOptions(IncludeRootPageLinks: false));
+
+        Assert.Contains("https://x.test/from-default", urls);
+        // The convention location was consulted despite robots.txt existing.
+        Assert.Contains("https://x.test/sitemap.xml", handler.Requests);
+    }
+
+    [Fact]
+    public async Task Does_not_recurse_a_second_level_of_sitemap_index()
+    {
+        var handler = new StubHttpHandler
+        {
+            ["https://x.test/robots.txt"] = (HttpStatusCode.NotFound, ""),
+            // Top index: one leaf child (a urlset) and one nested-index child.
+            ["https://x.test/sitemap.xml"] = (HttpStatusCode.OK, @"
+<sitemapindex xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
+  <sitemap><loc>https://x.test/leaf.xml</loc></sitemap>
+  <sitemap><loc>https://x.test/nested-index.xml</loc></sitemap>
+</sitemapindex>"),
+            ["https://x.test/leaf.xml"] = (HttpStatusCode.OK, @"
+<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
+  <url><loc>https://x.test/leaf-url</loc></url>
+</urlset>"),
+            // A second sitemapindex nested under a child. The one-level bound
+            // means it is read once, found to be an index (not a urlset), and
+            // ignored; deep.xml is therefore never fetched.
+            ["https://x.test/nested-index.xml"] = (HttpStatusCode.OK, @"
+<sitemapindex xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
+  <sitemap><loc>https://x.test/deep.xml</loc></sitemap>
+</sitemapindex>"),
+            ["https://x.test/deep.xml"] = (HttpStatusCode.OK, @"
+<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
+  <url><loc>https://x.test/deep-url</loc></url>
+</urlset>"),
+        };
+
+        var urls = await Make(handler).MapAsync("https://x.test/",
+            new MapOptions(IncludeRootPageLinks: false));
+
+        // First level recurses: the leaf urlset's URL is present.
+        Assert.Contains("https://x.test/leaf-url", urls);
+        // Second level does not: the deep urlset's URL is absent...
+        Assert.DoesNotContain("https://x.test/deep-url", urls);
+        // ...and deep.xml was never requested, though the nested index was.
+        Assert.Contains("https://x.test/nested-index.xml", handler.Requests);
+        Assert.DoesNotContain("https://x.test/deep.xml", handler.Requests);
+    }
+
+    [Fact]
+    public async Task Root_page_fetch_failure_is_skipped_leaving_a_partial_result()
+    {
+        var handler = new StubHttpHandler
+        {
+            ["https://x.test/robots.txt"] = (HttpStatusCode.NotFound, ""),
+            ["https://x.test/sitemap.xml"] = (HttpStatusCode.OK, @"
+<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
+  <url><loc>https://x.test/from-sitemap</loc></url>
+</urlset>"),
+            // The root page GET fails; anchor extraction contributes nothing,
+            // but the sitemap URL still comes through (partial, not thrown).
+            ["https://x.test/"] = (HttpStatusCode.InternalServerError, ""),
+        };
+
+        var urls = await Make(handler).MapAsync("https://x.test/");
+
+        Assert.Single(urls);
+        Assert.Equal("https://x.test/from-sitemap", urls[0]);
+    }
+
+    [Fact]
+    public async Task Returns_empty_when_every_source_fails_without_throwing()
+    {
+        var handler = new StubHttpHandler
+        {
+            ["https://x.test/robots.txt"] = (HttpStatusCode.NotFound, ""),
+            ["https://x.test/sitemap.xml"] = (HttpStatusCode.NotFound, ""),
+            ["https://x.test/"] = (HttpStatusCode.NotFound, ""),
+        };
+
+        var urls = await Make(handler).MapAsync("https://x.test/");
+
+        Assert.Empty(urls);
+    }
+
+    [Fact]
+    public async Task Skipped_failures_are_logged_at_information_level()
+    {
+        var handler = new StubHttpHandler
+        {
+            ["https://x.test/robots.txt"] = (HttpStatusCode.NotFound, ""),
+            ["https://x.test/sitemap.xml"] = (HttpStatusCode.OK, "<not valid xml"),
+        };
+        var logger = new CapturingLogger();
+
+        var urls = await new SiteMapper(() => handler, logger).MapAsync(
+            "https://x.test/", new MapOptions(IncludeRootPageLinks: false));
+
+        Assert.Empty(urls);
+        // Best-effort means the skip is observable, not silent: an Information
+        // log that names the sitemap which failed to parse.
+        Assert.Contains(logger.Entries, e =>
+            e.Level == LogLevel.Information &&
+            e.Message.Contains("https://x.test/sitemap.xml"));
     }
 
     // A deterministic, network-free HttpMessageHandler. Maps absolute
