@@ -1,6 +1,6 @@
 # 0077. Closed-Sum Codec Mechanism
 
-- **Status:** Accepted — design pass; implementation pending (2026-05-29)
+- **Status:** Accepted — implemented 2026-05-29.
 - **Date:** 2026-05-29
 - **Deciders:** Alex (HITL), Claude (architecture pass)
 
@@ -42,13 +42,28 @@ unknown-tag throw, and the common-field pass. Each arm's descriptor owns only
 its tag, its field writes, and its build-from-`JsonObject`.
 
 Interface shape (chosen after designing it three ways — see Alternatives): the
-**minimal spine** — `Arm<TArm>(tag, write: (writer, x) => …, build: (obj, ctx)
-=> …)` with an `ArmReaderContext` ref struct owning `Require` / `RequireChild` /
-`Optional*` / `Common` — plus a **field-less one-liner overload**
-(`Arm<TArm>(tag, Func<TArm> create)`) for `ScrollToEnd` / `WaitForNetworkIdle`
-/ `None` / `Stop`. The common `reason` field on `AgentDecision` is consumed
-inside each arm's `build` via `ctx.Common("reason")`, so arms stay immutable and
-construct once.
+**minimal spine** — `Arm<TArm>(tag, write: (writer, x) => …, build: ctx => …)`
+with an `ArmReaderContext` owning `Require` / `RequireChild` / `Optional*` /
+`Common` (plus `Object` for raw access) — plus a **field-less one-liner
+overload** (`Arm<TArm>(tag, Func<TArm> create)`) for the truly empty arms
+(`ScrollToEnd` / `WaitForNetworkIdle` / `None`). The common `reason` field on
+`AgentDecision` is consumed inside each arm's `build` via `ctx.Common("reason")`,
+so arms stay immutable and construct once.
+
+As-built clarifications (the sketch above is the design intent; these are how it
+landed):
+- `ArmReaderContext` is a **`readonly struct`, not a `ref struct`**. The
+  ref-struct constraint is on the `Utf8JsonReader`, which the mechanism consumes
+  once via `JsonNode.Parse(ref r)`; the context then wraps the materialized
+  `JsonObject` (a heap object), so it needs no ref-struct lifetime and a plain
+  readonly struct lets the build delegate be a standard `Func<ArmReaderContext,
+  TArm>` (a `ref struct` cannot be a `Func<>` type argument).
+- `build` takes one parameter (`ctx`), not `(obj, ctx)`: the object is reached
+  through `ctx.Object` when an arm needs it raw (the Extracted record clone),
+  keeping the common case a single `ctx`.
+- `Stop` is **not** field-less — it reads the common `reason` via
+  `ctx.Common("reason")`, so it uses the spine `Arm` form, not the one-liner
+  overload. Only `ScrollToEnd` / `WaitForNetworkIdle` / `None` are truly empty.
 
 Scope (full-flat): migrate the three flat tag-sums — `PageAction`,
 `AgentDecisionOutcome`, `AgentDecision`. `Schema` gains a `From(node)` entry so

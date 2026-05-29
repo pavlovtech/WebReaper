@@ -1,6 +1,8 @@
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using WebReaper.Domain.PageActions;
+using WebReaper.Serialization.Codecs;
 
 namespace WebReaper.Serialization.Converters;
 
@@ -11,108 +13,81 @@ namespace WebReaper.Serialization.Converters;
 /// discriminator plus the arm's typed fields, and the pre-0035 per-value
 /// kind-tagging (the workaround for a genuinely-polymorphic <c>object[]</c>)
 /// is gone.
+/// <para>
+/// Migrated to the shared <see cref="ClosedSumCodec{T}"/> mechanism (ADR-0077):
+/// each arm is one <c>(tag, write, build)</c> row instead of a hand-written
+/// write switch + read loop + read switch. The static <see cref="Write"/> /
+/// <see cref="Read"/> facade stays byte-identical so callers (the converter
+/// wrapper, the selector-chain streaming reader) are unchanged; <see cref="From"/>
+/// is the composition seam a parent sum uses for a nested action.
+/// </para>
 /// </summary>
 internal static class PageActionCodec
 {
-    public static void Write(Utf8JsonWriter w, PageAction a)
-    {
-        w.WriteStartObject();
-        switch (a)
-        {
-            case PageAction.Click x:
-                w.WriteString("type", "click");
-                w.WriteString("selector", x.Selector);
-                break;
-            case PageAction.Wait x:
-                w.WriteString("type", "wait");
-                w.WriteNumber("ms", x.Milliseconds);
-                break;
-            case PageAction.ScrollToEnd:
-                w.WriteString("type", "scrollToEnd");
-                break;
-            case PageAction.EvaluateExpression x:
-                w.WriteString("type", "evaluateExpression");
-                w.WriteString("expression", x.Expression);
-                break;
-            case PageAction.WaitForSelector x:
-                w.WriteString("type", "waitForSelector");
-                w.WriteString("selector", x.Selector);
-                w.WriteNumber("timeoutMs", x.TimeoutMs);
-                break;
-            case PageAction.WaitForNetworkIdle:
-                w.WriteString("type", "waitForNetworkIdle");
-                break;
-            case PageAction.ScrollIntoView x:
-                w.WriteString("type", "scrollIntoView");
-                w.WriteString("selector", x.Selector);
-                break;
-            case PageAction.SemanticAct x:
-                // ADR-0050: persisted as the intent string only — the
-                // resolved arm is a per-crawl runtime concern and is
-                // intentionally never persisted (it'd freeze the LLM's
-                // selector across crawls, defeating the resolve-on-cache-miss
-                // recovery path).
-                w.WriteString("type", "semanticAct");
-                w.WriteString("intent", x.Intent);
-                break;
-            case PageAction.Press x:
-                // ADR-0074: key string is the only field; no selector.
-                w.WriteString("type", "press");
-                w.WriteString("key", x.Key);
-                break;
-            case PageAction.Fill x:
-                // ADR-0074: wire tag "fill" with selector + value fields.
-                w.WriteString("type", "fill");
-                w.WriteString("selector", x.Selector);
-                w.WriteString("value", x.Value);
-                break;
-            default:
-                throw new JsonException($"unhandled PageAction arm '{a.GetType().Name}'");
-        }
-        w.WriteEndObject();
-    }
+    private static readonly ClosedSumCodec<PageAction> Codec = new(
+        "PageAction",
+        [
+            ClosedSumCodec<PageAction>.Arm<PageAction.Click>(
+                "click",
+                (w, x) => w.WriteString("selector", x.Selector),
+                ctx => new PageAction.Click(ctx.Require("selector"))),
+            ClosedSumCodec<PageAction>.Arm<PageAction.Wait>(
+                "wait",
+                (w, x) => w.WriteNumber("ms", x.Milliseconds),
+                ctx => new PageAction.Wait(ctx.OptionalInt("ms"))),
+            ClosedSumCodec<PageAction>.Arm<PageAction.ScrollToEnd>(
+                "scrollToEnd", () => new PageAction.ScrollToEnd()),
+            ClosedSumCodec<PageAction>.Arm<PageAction.EvaluateExpression>(
+                "evaluateExpression",
+                (w, x) => w.WriteString("expression", x.Expression),
+                ctx => new PageAction.EvaluateExpression(ctx.Require("expression"))),
+            ClosedSumCodec<PageAction>.Arm<PageAction.WaitForSelector>(
+                "waitForSelector",
+                (w, x) =>
+                {
+                    w.WriteString("selector", x.Selector);
+                    w.WriteNumber("timeoutMs", x.TimeoutMs);
+                },
+                ctx => new PageAction.WaitForSelector(ctx.Require("selector"), ctx.OptionalInt("timeoutMs"))),
+            ClosedSumCodec<PageAction>.Arm<PageAction.WaitForNetworkIdle>(
+                "waitForNetworkIdle", () => new PageAction.WaitForNetworkIdle()),
+            ClosedSumCodec<PageAction>.Arm<PageAction.ScrollIntoView>(
+                "scrollIntoView",
+                (w, x) => w.WriteString("selector", x.Selector),
+                ctx => new PageAction.ScrollIntoView(ctx.Require("selector"))),
+            // ADR-0050: persisted as the intent string only — the resolved arm
+            // is a per-crawl runtime concern and is intentionally never
+            // persisted (it would freeze the LLM's selector across crawls,
+            // defeating the resolve-on-cache-miss recovery path).
+            ClosedSumCodec<PageAction>.Arm<PageAction.SemanticAct>(
+                "semanticAct",
+                (w, x) => w.WriteString("intent", x.Intent),
+                ctx => new PageAction.SemanticAct(ctx.Require("intent"))),
+            // ADR-0074: key string is the only field; no selector.
+            ClosedSumCodec<PageAction>.Arm<PageAction.Press>(
+                "press",
+                (w, x) => w.WriteString("key", x.Key),
+                ctx => new PageAction.Press(ctx.Require("key"))),
+            // ADR-0074: wire tag "fill" with selector + value fields.
+            ClosedSumCodec<PageAction>.Arm<PageAction.Fill>(
+                "fill",
+                (w, x) =>
+                {
+                    w.WriteString("selector", x.Selector);
+                    w.WriteString("value", x.Value);
+                },
+                ctx => new PageAction.Fill(ctx.Require("selector"), ctx.Require("value"))),
+        ]);
 
-    public static PageAction Read(ref Utf8JsonReader r)
-    {
-        if (r.TokenType != JsonTokenType.StartObject) throw new JsonException("expected object");
-        string? type = null, selector = null, expression = null, intent = null, key = null, value = null;
-        int ms = 0, timeoutMs = 0;
-        while (r.Read() && r.TokenType != JsonTokenType.EndObject)
-        {
-            var prop = r.GetString();
-            r.Read();
-            switch (prop)
-            {
-                case "type": type = r.GetString(); break;
-                case "selector": selector = r.GetString(); break;
-                case "expression": expression = r.GetString(); break;
-                case "intent": intent = r.GetString(); break;
-                case "key": key = r.GetString(); break;
-                case "value": value = r.GetString(); break;
-                case "ms": ms = r.GetInt32(); break;
-                case "timeoutMs": timeoutMs = r.GetInt32(); break;
-                default: r.Skip(); break;
-            }
-        }
-        return type switch
-        {
-            "click" => new PageAction.Click(Require(selector, "selector", type)),
-            "wait" => new PageAction.Wait(ms),
-            "scrollToEnd" => new PageAction.ScrollToEnd(),
-            "evaluateExpression" => new PageAction.EvaluateExpression(Require(expression, "expression", type)),
-            "waitForSelector" => new PageAction.WaitForSelector(Require(selector, "selector", type), timeoutMs),
-            "waitForNetworkIdle" => new PageAction.WaitForNetworkIdle(),
-            "scrollIntoView" => new PageAction.ScrollIntoView(Require(selector, "selector", type)),
-            "semanticAct" => new PageAction.SemanticAct(Require(intent, "intent", type)),
-            "press" => new PageAction.Press(Require(key, "key", type)),
-            // ADR-0074: fill arm; both fields required.
-            "fill" => new PageAction.Fill(Require(selector, "selector", type), Require(value, "value", type)),
-            _ => throw new JsonException($"unknown PageAction type '{type}'")
-        };
-    }
+    public static void Write(Utf8JsonWriter w, PageAction a) => Codec.Write(w, a);
 
-    private static string Require(string? value, string field, string? type) =>
-        value ?? throw new JsonException($"PageAction '{type}' is missing required '{field}'");
+    public static PageAction Read(ref Utf8JsonReader r) => Codec.Read(ref r);
+
+    /// <summary>Build a <see cref="PageAction"/> from an already-materialized
+    /// node — the composition seam <c>AgentDecision.Act</c> and
+    /// <c>AgentDecisionOutcome.ActDispatched</c> use for their nested action
+    /// (ADR-0077).</summary>
+    public static PageAction From(JsonNode node) => Codec.From(node);
 }
 
 internal sealed class PageActionJsonConverter : JsonConverter<PageAction>

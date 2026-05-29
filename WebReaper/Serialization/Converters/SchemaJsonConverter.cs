@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using WebReaper.Domain.Parsing;
 
@@ -41,44 +42,38 @@ internal static class SchemaCodec
     public static SchemaElement Read(ref Utf8JsonReader r)
     {
         if (r.TokenType != JsonTokenType.StartObject) throw new JsonException("expected object");
-        string? kind = null, field = null, selector = null, attr = null, typeName = null;
-        bool getHtml = false, isList = false;
+        // Stays bespoke (a recursive container/leaf tree on $kind, not a flat
+        // tag-sum), but routes through From so the materialized and streaming
+        // paths share one reader and cannot drift (ADR-0077).
+        return From(JsonNode.Parse(ref r) ?? throw new JsonException("expected object"));
+    }
+
+    /// <summary>
+    /// Build a <see cref="Schema"/>/<see cref="SchemaElement"/> from an
+    /// already-materialized node — the composition seam a migrated flat sum
+    /// (<c>AgentDecision.Extract</c>) uses to read its nested schema after the
+    /// <see cref="WebReaper.Serialization.Codecs.ClosedSumCodec{T}"/> mechanism
+    /// materialized the parent (ADR-0077). Recurses on the children array.
+    /// </summary>
+    public static SchemaElement From(JsonNode node)
+    {
+        if (node is not JsonObject obj) throw new JsonException("expected object");
+
+        var kind = obj["$kind"]?.GetValue<string>();
+        var field = obj["field"]?.GetValue<string>();
+        var selector = obj["selector"]?.GetValue<string>();
+        var attr = obj["attr"]?.GetValue<string>();
+        var type = ParseDataType(obj["type"]?.GetValue<string>());
+        var getHtml = obj["getHtml"]?.GetValue<bool>() ?? false;
+        var isList = obj["isList"]?.GetValue<bool>() ?? false;
+
         List<SchemaElement>? children = null;
-
-        while (r.Read() && r.TokenType != JsonTokenType.EndObject)
+        if (obj["children"] is JsonArray arr)
         {
-            var prop = r.GetString();
-            r.Read();
-            switch (prop)
-            {
-                case "$kind": kind = r.GetString(); break;
-                case "field": field = r.GetString(); break;
-                case "selector": selector = r.GetString(); break;
-                case "attr": attr = r.GetString(); break;
-                case "type": typeName = r.GetString(); break;
-                case "getHtml": getHtml = r.GetBoolean(); break;
-                case "isList": isList = r.GetBoolean(); break;
-                case "children":
-                    children = new List<SchemaElement>();
-                    while (r.Read() && r.TokenType != JsonTokenType.EndArray)
-                        children.Add(Read(ref r));
-                    break;
-                default: r.Skip(); break;
-            }
+            children = new List<SchemaElement>(arr.Count);
+            foreach (var child in arr)
+                children.Add(From(child ?? throw new JsonException("null schema child")));
         }
-
-        DataType? type = typeName switch
-        {
-            null => null,
-            "None" => DataType.None,
-            "Integer" => DataType.Integer,
-            "Float" => DataType.Float,
-            "Boolean" => DataType.Boolean,
-            "String" => DataType.String,
-            "DataTime" => DataType.DataTime,
-            "Object" => DataType.Object,
-            _ => throw new JsonException($"unknown DataType '{typeName}'")
-        };
 
         if (kind == "container")
         {
@@ -95,6 +90,19 @@ internal static class SchemaCodec
             Type = type, GetHtml = getHtml, IsList = isList
         };
     }
+
+    private static DataType? ParseDataType(string? typeName) => typeName switch
+    {
+        null => null,
+        "None" => DataType.None,
+        "Integer" => DataType.Integer,
+        "Float" => DataType.Float,
+        "Boolean" => DataType.Boolean,
+        "String" => DataType.String,
+        "DataTime" => DataType.DataTime,
+        "Object" => DataType.Object,
+        _ => throw new JsonException($"unknown DataType '{typeName}'")
+    };
 }
 
 internal sealed class SchemaJsonConverter : JsonConverter<Schema>

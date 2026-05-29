@@ -1,88 +1,78 @@
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using WebReaper.Domain.Agent;
-using WebReaper.Domain.PageActions;
+using WebReaper.Domain.Parsing;
+using WebReaper.Serialization.Codecs;
 
 namespace WebReaper.Serialization.Converters;
 
 /// <summary>
-/// <see cref="AgentDecision"/> codec (ADR-0051). Same shape as
-/// <see cref="PageActionCodec"/>: a <c>type</c> discriminator plus the arm's
-/// typed fields, with <c>reason</c> on every arm. Recursively uses
-/// <see cref="SchemaCodec"/> for the Extract arm's Schema and
-/// <see cref="PageActionCodec"/> for the Act arm's nested action — fully
-/// manual recursion, no nested serializer calls (AOT-trivially-safe).
+/// <see cref="AgentDecision"/> codec (ADR-0051). A <c>type</c> discriminator
+/// plus the arm's typed fields, with <c>reason</c> as the common field on every
+/// arm — written BEFORE the discriminator, a byte-order the persisted snapshots
+/// depend on.
+/// <para>
+/// Migrated to the shared <see cref="ClosedSumCodec{T}"/> mechanism (ADR-0077).
+/// The Extract arm composes <see cref="SchemaCodec.From"/> for its nested Schema
+/// and the Act arm composes <see cref="PageActionCodec.From"/> for its nested
+/// action — manual recursion via the mechanism's materialized child seam, no
+/// reflection (AOT-trivially-safe). The static <see cref="Write"/> /
+/// <see cref="Read"/> facade stays byte-identical so streaming callers (the
+/// agent snapshot codec) are unchanged.
+/// </para>
 /// </summary>
 internal static class AgentDecisionCodec
 {
-    public static void Write(Utf8JsonWriter w, AgentDecision d)
-    {
-        w.WriteStartObject();
-        w.WriteString("reason", d.Reason);
-        switch (d)
-        {
-            case AgentDecision.Extract x:
-                w.WriteString("type", "extract");
-                w.WritePropertyName("schema");
-                SchemaCodec.Write(w, x.Schema);
-                break;
-            case AgentDecision.Follow x:
-                w.WriteString("type", "follow");
-                w.WriteString("url", x.Url);
-                break;
-            case AgentDecision.Act x:
-                w.WriteString("type", "act");
-                w.WritePropertyName("action");
-                PageActionCodec.Write(w, x.Action);
-                break;
-            case AgentDecision.Stop:
-                w.WriteString("type", "stop");
-                break;
-            default:
-                throw new JsonException($"unhandled AgentDecision arm '{d.GetType().Name}'");
-        }
-        w.WriteEndObject();
-    }
+    private static readonly ClosedSumCodec<AgentDecision> Codec = new(
+        "AgentDecision",
+        [
+            ClosedSumCodec<AgentDecision>.Arm<AgentDecision.Extract>(
+                "extract",
+                (w, x) =>
+                {
+                    w.WritePropertyName("schema");
+                    SchemaCodec.Write(w, x.Schema);
+                },
+                ctx => new AgentDecision.Extract(ReadSchema(ctx)) { Reason = ctx.Common("reason") }),
+            ClosedSumCodec<AgentDecision>.Arm<AgentDecision.Follow>(
+                "follow",
+                (w, x) => w.WriteString("url", x.Url),
+                ctx => new AgentDecision.Follow(ctx.Require("url")) { Reason = ctx.Common("reason") }),
+            ClosedSumCodec<AgentDecision>.Arm<AgentDecision.Act>(
+                "act",
+                (w, x) =>
+                {
+                    w.WritePropertyName("action");
+                    PageActionCodec.Write(w, x.Action);
+                },
+                ctx => new AgentDecision.Act(ctx.RequireChild("action", PageActionCodec.From))
+                {
+                    Reason = ctx.Common("reason")
+                }),
+            ClosedSumCodec<AgentDecision>.Arm<AgentDecision.Stop>(
+                "stop",
+                (_, _) => { },
+                ctx => new AgentDecision.Stop { Reason = ctx.Common("reason") }),
+        ],
+        // The common field every arm shares, written before the discriminator.
+        writeCommon: (w, d) => w.WriteString("reason", d.Reason));
 
-    public static AgentDecision Read(ref Utf8JsonReader r)
-    {
-        if (r.TokenType != JsonTokenType.StartObject) throw new JsonException("expected object");
-        string? type = null;
-        string? reason = null;
-        string? url = null;
-        WebReaper.Domain.Parsing.Schema? schema = null;
-        PageAction? action = null;
-        while (r.Read() && r.TokenType != JsonTokenType.EndObject)
-        {
-            var prop = r.GetString();
-            r.Read();
-            switch (prop)
-            {
-                case "type": type = r.GetString(); break;
-                case "reason": reason = r.GetString(); break;
-                case "url": url = r.GetString(); break;
-                case "schema":
-                    var schemaElement = SchemaCodec.Read(ref r);
-                    schema = schemaElement as WebReaper.Domain.Parsing.Schema
-                        ?? throw new JsonException("AgentDecision.Extract schema must be a Schema container, not a leaf SchemaElement");
-                    break;
-                case "action": action = PageActionCodec.Read(ref r); break;
-                default: r.Skip(); break;
-            }
-        }
-        reason ??= "";
-        return type switch
-        {
-            "extract" => new AgentDecision.Extract(Require(schema, "schema", type)) { Reason = reason },
-            "follow" => new AgentDecision.Follow(Require(url, "url", type)) { Reason = reason },
-            "act" => new AgentDecision.Act(Require(action, "action", type)) { Reason = reason },
-            "stop" => new AgentDecision.Stop { Reason = reason },
-            _ => throw new JsonException($"unknown AgentDecision type '{type}'")
-        };
-    }
+    public static void Write(Utf8JsonWriter w, AgentDecision d) => Codec.Write(w, d);
 
-    private static T Require<T>(T? value, string field, string? type) where T : class =>
-        value ?? throw new JsonException($"AgentDecision '{type}' is missing required '{field}'");
+    public static AgentDecision Read(ref Utf8JsonReader r) => Codec.Read(ref r);
+
+    /// <summary>Build an <see cref="AgentDecision"/> from an already-materialized
+    /// node — the composition seam the agent snapshot codec could use for a
+    /// history entry (ADR-0077).</summary>
+    public static AgentDecision From(JsonNode node) => Codec.From(node);
+
+    // Extract's schema is a Schema container, never a leaf SchemaElement; the
+    // cast preserves the pre-migration error message verbatim.
+    private static Schema ReadSchema(ArmReaderContext ctx)
+        => ctx.RequireChild("schema", SchemaCodec.From) as Schema
+           ?? throw new JsonException(
+               "AgentDecision.Extract schema must be a Schema container, not a leaf SchemaElement");
 }
 
 internal sealed class AgentDecisionJsonConverter : JsonConverter<AgentDecision>
