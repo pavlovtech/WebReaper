@@ -252,7 +252,7 @@ dotnet run --project Examples/WebReaper.AiNativeShowcase -- changetrack
 
 ## Packages
 
-The release ships eleven packages (one core, ten satellites), all versioned in lockstep at `10.0.0`. The core stays dependency-light and Native-AOT-publishable with zero warnings; satellites bring their own SDK dependencies and quarantine them off the core graph (ADR-0009).
+The release ships thirteen packages (one core, twelve satellites), all versioned in lockstep at `10.1.0`. The core stays dependency-light and Native-AOT-publishable with zero warnings; satellites bring their own SDK dependencies and quarantine them off the core graph (ADR-0009).
 
 | Package | Add it for | Key builder calls |
 |---|---|---|
