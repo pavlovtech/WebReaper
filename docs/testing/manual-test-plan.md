@@ -62,13 +62,6 @@ scripts/test-install.sh
 
 ## 1. Installation matrix (manual)
 
-> **Known doc bug:** `install.sh --help` and the README advertise
-> `curl -fsSL https://raw.githubusercontent.com/pavlovtech/WebReaper/master/install.sh | sh`,
-> but the script lives at `scripts/install.sh` — that root URL 404s. Verify and
-> fix the published URL (or add a root-level `install.sh`) before relying on the
-> documented one-liner. `scripts/test-install.sh` sidesteps this by running the
-> repo's actual script.
-
 - [ ] **Homebrew (macOS arm64):** `brew install pavlovtech/webreaper/webreaper` → `webreaper version`
 - [ ] **Homebrew (macOS x64):** same, on Intel
 - [ ] **install.sh (Linux x64):** clean box, `curl … | sh` → installs, `webreaper version`

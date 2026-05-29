@@ -28,7 +28,7 @@ The `LlmActionResolver` whitelist extends from four shapes to seven; the brain r
 | `WebReaper.Playwright/PlaywrightPageLoadTransport.cs` | Three new dispatch arms, one line each (`page.FillAsync`, `page.Keyboard.PressAsync`, `page.Locator(sel).ScrollIntoViewIfNeededAsync`). |
 | `WebReaper.AI/Tools/PageActionTools.cs` | Three new nested static classes following PR #134's arm-local pattern: `PageActionTools.Fill`, `.Press`, `.ScrollIntoView` each with `Name` const + `Descriptor` JSON Schema + `FromArguments`. |
 | `WebReaper.AI/Tools/AgentDecisionTools.cs` | `ForBrain()` grows 10 → 13 tools (adds `Press`, `ScrollIntoView`, `Fill`); `ForResolver()` grows 6 → 9 tools (same). |
-| `WebReaper.AI/LlmActionResolver.cs` | Prompt whitelist extends to mention all seven concrete shapes (`fill`, `press`, `scrollIntoView` added). `ParseActionTool` switch gains one case per new arm. |
+| `WebReaper.AI/LlmActionResolver.cs` | `ParseActionTool` switch gains one case per new arm. The system prompt does NOT enumerate JSON shapes — the tool list is the schema (ADR-0060), so the new arms surface via their tools, not prompt text (pinned by `System_prompt_no_longer_enumerates_JSON_shapes`). |
 | `WebReaper.AI/LlmAgentBrain.cs` | `ParseDecisionTool` gains one case per new arm. |
 | `WebReaper.Tests/WebReaper.UnitTests/StjSerializationTests.cs` | Three new arm round-trip tests pinning typed-field equality through the codec. |
 | `WebReaper.Tests/WebReaper.UnitTests/PayloadShellTests.cs` | Three new `ScraperConfig` payload-shell round-trip tests; the ScrollIntoView test additionally covers chain-nested `LinkPathSelector.PageActions`. |
@@ -59,6 +59,14 @@ The byte-identical `TryGetString` / `TryGetInt` JSON-argument extractors that li
 | `WebReaper.AI.Llm.LlmToolArguments` | Static. Two methods: `TryGetString(JsonElement, string) → string?` and `TryGetInt(JsonElement, string) → int?`. Both return `null` for missing properties, JSON-null, or non-matching kinds. `TryGetInt` tolerates string-encoded integers (`"30000"` → `30_000`) but the JSON integer-token-vs-decimal-token boundary is strict (`1` → `1`, `1.0` → `null`); the leniency contract is pinned by `LlmToolArgumentsTests`. |
 
 No behaviour changes — the helpers are byte-identical to the now-deleted private copies; the existing brain and resolver tests continue to pass unchanged.
+
+### `WebReaper.AI` off the preview `Microsoft.Extensions.AI` abstractions
+
+`WebReaper.AI` moves its `Microsoft.Extensions.AI.Abstractions` floor from the preview `9.4.0-preview.1.25207.5` to stable `10.3.0`. No code changes; the satellite compiles and its tests pass against the GA abstractions. `10.3.0` is the highest version where the latest stable `Anthropic.SDK` (5.10.0) stays binary-compatible (`HostedMcpServerTool.AuthorizationToken` changed at `10.4.0`), and `Microsoft.Extensions.AI.OpenAI 10.3.0` targets the same abstractions, so both stock providers coexist on one version. Consumers' minimum `Microsoft.Extensions.AI.Abstractions` rises off preview accordingly.
+
+| File | Change |
+|---|---|
+| `WebReaper.AI/WebReaper.AI.csproj` | `Microsoft.Extensions.AI.Abstractions` `9.4.0-preview.1.25207.5` → `10.3.0` (stable; this is a dependency floor, not a pin). |
 
 ## 10.0.1: NuGet metadata polish (no code changes)
 

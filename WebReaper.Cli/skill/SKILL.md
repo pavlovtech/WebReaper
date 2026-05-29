@@ -129,7 +129,7 @@ line to stderr. Common cases:
 
 - **`webreaper: command not found`** → not installed. Instruct the user:
   - **macOS / Linux**: `brew install pavlovtech/webreaper/webreaper`, or
-    `curl -fsSL https://raw.githubusercontent.com/pavlovtech/WebReaper/master/install.sh | sh`
+    `curl -fsSL https://raw.githubusercontent.com/pavlovtech/WebReaper/master/scripts/install.sh | sh`
   - **Windows**: download the latest archive for `win-x64` (or `win-arm64`)
     from <https://github.com/pavlovtech/WebReaper/releases/latest>, extract
     `webreaper.exe`, place on `%PATH%`.
