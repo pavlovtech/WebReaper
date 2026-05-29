@@ -66,14 +66,17 @@ The achievable guard is a test, run in CI:
   `FakeCdpSession`, and asserts none throws `ArgumentOutOfRangeException`. A new
   arm trips a reflection completeness check (forcing a sample), and the sample
   then proves the CDP transport handles it.
-- **Playwright** has no unit-test seam (its `PerformAsync` is private over a
-  real Microsoft.Playwright `IPage`, which the repo's hand-fake convention
-  cannot stand up without a mocking dependency). It is guarded by a core-side
-  arm-census test (`WebReaper.UnitTests.PageActionArmCensusTests`) that pins the
-  `PageAction` arm set and fails with a checklist of every consumer to update
-  (both transports, the AI registries, the builder, the codec), plus the
-  runtime `default: throw` as the backstop. Giving Playwright its own
-  execution-coverage test (a faked or mocked `IPage`) is a deferred follow-up.
+- **Playwright** gets the same execution-coverage test
+  (`WebReaper.Playwright.Tests.PlaywrightPageActionDispatchTests`): the dispatch
+  was extracted into an internal `PlaywrightPageActionDispatcher` (mirroring the
+  CDP extraction) so it is reachable, and `Microsoft.Playwright`'s `IPage` is
+  mocked with NSubstitute (a ~100-member interface, too large to hand-stub like
+  the small `ICdpSession`; the dep is test-only and isolated to that one
+  project). Originally deferred; closed in a follow-up.
+- A core-side arm-census test (`WebReaper.UnitTests.PageActionArmCensusTests`)
+  remains as the transport-agnostic tripwire: it pins the `PageAction` arm set
+  and fails with a checklist of every consumer to update (both transports, the
+  AI registries, the builder, the codec) when an arm is added.
 
 **Axis B — derived registries in the satellite.** Both the brain and resolver
 registries become derived views of one `PageActionArms` arm list. Each entry is
@@ -102,9 +105,10 @@ Good:
   switches) to one (`PageActionArms`) plus at most one (a brain-native arm).
 - The silent-drop failure class is eliminated: the descriptor and the parse are
   the same list, so an arm offered to the model is always parseable.
-- A new arm a transport forgets is caught in CI: by the CDP execution-coverage
-  test for CDP, and by the core arm-census tripwire (which lists every consumer
-  to update) for Playwright and the rest.
+- A new arm a transport forgets is caught in CI: both transports have an
+  execution-coverage test (CDP via `FakeCdpSession`, Playwright via an
+  NSubstitute `IPage`), and the core arm-census tripwire lists every other
+  consumer to update.
 - Fork 8's loop-prevention stays structural — strengthened from
   double-omission-from-two-lists to single-absence-of-an-adapter.
 
@@ -112,9 +116,9 @@ Bad / costs:
 - One derived-registry indirection in the satellite (an arm list + a mapping)
   in place of two literal lists.
 - Axis A's guard is CI-time, not compile-time (C# cannot give the latter for a
-  closed sum), and Playwright's coverage is a census tripwire plus the runtime
-  throw rather than execution-proven. A faked/mocked `IPage` execution test for
-  Playwright is a deferred follow-up.
+  closed sum). The Playwright execution-coverage test costs one test-only
+  dependency (NSubstitute, isolated to `WebReaper.Playwright.Tests`), accepted
+  because `IPage` is too large to hand-stub.
 
 ## Alternatives considered
 

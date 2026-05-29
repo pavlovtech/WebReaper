@@ -8,10 +8,10 @@ namespace WebReaper.UnitTests;
 // C# has no closed-hierarchy exhaustiveness to make a forgotten arm a compile
 // error (a discard-less switch expression warns CS8509 even when every arm is
 // handled). This census is the cheap, transport-agnostic tripwire: when the
-// arm set changes it fails with a checklist of every consumer to update. It is
-// the primary guard for the Playwright transport, which (unlike CDP) has no
-// unit-test seam for its private IPage dispatch; CDP additionally proves it
-// handles every arm in WebReaper.Cdp.Tests.CdpPageActionDispatchTests.
+// arm set changes it fails with a checklist of every consumer to update (the AI
+// registries, the builder, the codec). Both transports additionally prove they
+// handle every arm by execution — WebReaper.Cdp.Tests.CdpPageActionDispatchTests
+// and WebReaper.Playwright.Tests.PlaywrightPageActionDispatchTests.
 public class PageActionArmCensusTests
 {
     [Fact]
