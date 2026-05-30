@@ -1,3 +1,4 @@
+using WebReaper.Core.Blocking.Abstract;
 using WebReaper.Core.Crawling;
 using WebReaper.Core.Crawling.Abstract;
 using WebReaper.Core.Loaders.Abstract;
@@ -25,6 +26,10 @@ internal class Spider : ISpider
 {
     /// <param name="crawlStep">The pure crawl-step decision (ADR-0022).</param>
     /// <param name="pageLoader">The one page loader (ADR-0004).</param>
+    /// <param name="blockDetector">The block detector (ADR-0083): classifies the
+    /// loaded page as a bot-check challenge (reporting, not acting). The shell
+    /// runs it on every load and carries the verdict on the
+    /// <see cref="JobReport"/>.</param>
     /// <param name="headless">The crawl's headless setting, folded into every
     /// <see cref="PageRequest"/> the shell builds.</param>
     /// <param name="parsingScheme">The extraction <see cref="Schema"/> for
@@ -32,17 +37,20 @@ internal class Spider : ISpider
     public Spider(
         ICrawlStep crawlStep,
         IPageLoader pageLoader,
+        IBlockDetector blockDetector,
         bool headless,
         Schema? parsingScheme)
     {
         CrawlStep = crawlStep;
         PageLoader = pageLoader;
+        BlockDetector = blockDetector;
         Headless = headless;
         ParsingScheme = parsingScheme;
     }
 
     private IPageLoader PageLoader { get; }
     private ICrawlStep CrawlStep { get; }
+    private IBlockDetector BlockDetector { get; }
     private bool Headless { get; }
     private Schema? ParsingScheme { get; }
 
@@ -52,8 +60,12 @@ internal class Spider : ISpider
             new PageRequest(job.Url, job.PageType, job.PageActions, Headless),
             cancellationToken);
 
+        // ADR-0083: classify the load before the crawl step runs (the verdict is
+        // independent of the outcome). Pure and non-throwing; the driver reads it.
+        var block = BlockDetector.Detect(page);
+
         var outcome = await CrawlStep.StepAsync(job, page.Html, ParsingScheme);
 
-        return new JobReport(outcome, page);
+        return new JobReport(outcome, page, block);
     }
 }

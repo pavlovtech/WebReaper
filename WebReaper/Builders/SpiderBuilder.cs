@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using System.Text.Json.Nodes;
 using WebReaper.Core.Actions.Abstract;
 using WebReaper.Core.Actions.Concrete;
+using WebReaper.Core.Blocking.Abstract;
 using WebReaper.Core.CookieStorage.Abstract;
 using WebReaper.Core.CookieStorage.Concrete;
 using WebReaper.Core.LinkTracker.Abstract;
@@ -81,6 +82,14 @@ internal class SpiderBuilder
     // + three retries, the pre-0026 behaviour). Replaced via
     // ScraperEngineBuilder.WithRetryPolicy.
     private IRetryPolicy RetryPolicy { get; set; } = new FixedAttemptsRetryPolicy();
+
+    // ADR-0083: the block detector the Spider runs on every loaded page. The
+    // default core BlockDetector ("am I being blocked?" is a core scraping
+    // concern); replaced via ScraperEngineBuilder.WithBlockDetector. Type
+    // fully-qualified so the field initializer is unambiguous against the
+    // same-named property.
+    private IBlockDetector BlockDetector { get; set; } =
+        new Core.Blocking.Concrete.BlockDetector();
 
     public SpiderBuilder WithContentExtractor(IContentExtractor extractor)
     {
@@ -256,6 +265,15 @@ internal class SpiderBuilder
         return this;
     }
 
+    /// <summary>Register a custom <see cref="IBlockDetector"/> (ADR-0083); the
+    /// default is the core <see cref="Core.Blocking.Concrete.BlockDetector"/>.</summary>
+    public SpiderBuilder WithBlockDetector(IBlockDetector blockDetector)
+    {
+        ArgumentNullException.ThrowIfNull(blockDetector);
+        BlockDetector = blockDetector;
+        return this;
+    }
+
     /// <summary>Register a custom <see cref="IPageCache"/> (ADR-0041);
     /// the default is <see cref="NullPageCache"/> (no cache).</summary>
     public SpiderBuilder WithPageCache(IPageCache cache)
@@ -325,6 +343,7 @@ internal class SpiderBuilder
         var spider = new Spider(
             crawlStep,
             PageLoader,
+            BlockDetector,
             Config!.Headless,
             Config.ParsingScheme);
 
