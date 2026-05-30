@@ -17,6 +17,7 @@ using WebReaper.Core.Crawling.Concrete;
 using WebReaper.Core.Spider.Abstract;
 using WebReaper.Core.Spider.Concrete;
 using WebReaper.Domain;
+using WebReaper.Domain.Selectors;
 using WebReaper.Infra.Abstract;
 using WebReaper.Infra.Concrete;
 using WebReaper.Processing.Abstract;
@@ -310,22 +311,40 @@ internal class SpiderBuilder
         ContentExtractor ??= new SchemaFold<AngleSharp.Dom.IParentNode>(
             new AngleSharpSchemaBackend(), Logger);
 
-        // One loader (ADR 0004). The HTTP transport is the core default; the
-        // Dynamic slot is the registered transport factory (e.g.
-        // WebReaper.Puppeteer's .WithPuppeteerPageLoader()) or, with none, an
-        // actionable throw — core is HTTP-only by default (ADR-0009). The
-        // proxy/no-proxy choice is still a (possibly null) provider handed in
-        // to whichever transports exist, not a branch.
-        // ADR-0041: PageCache is woven in as a cache-aside collaborator —
-        // NullPageCache by default (no behaviour change), real cache when
-        // WithPageCache / WithMaxAge wired one.
-        PageLoader ??= new PageLoader(
-            new HttpPageLoadTransport(CookieStorage, ProxyProvider, Logger),
-            DynamicPageLoadTransportFactory is null
+        // One loader (ADR 0004), now the block-aware climbing loader (ADR-0083).
+        // The HTTP transport is the core default Static rung; the Dynamic rung is
+        // the registered transport factory (e.g. WebReaper.Cdp's
+        // .WithCdpPageLoader()) or, with none, the actionable
+        // BrowserNotConfigured sentinel — core is HTTP-only by default (ADR-0009).
+        // The proxy/no-proxy choice is still a (possibly null) provider handed in
+        // to whichever transports exist, not a branch. Tiers run lowest→highest:
+        // HTTP (Static) then browser (Dynamic); a Static page climbs to the
+        // browser rung on a block, a Dynamic page starts at it. The stealth rung
+        // is added by the CLI flag wiring (ADR-0083 slice 5).
+        // ADR-0041: PageCache is the cache-aside collaborator (NullPageCache by
+        // default); the loader never caches a blocked result, and a climb
+        // bypasses the cache for the higher rung.
+        // The transports are built only when no custom loader was supplied (a
+        // WithPageLoader wiring must not invoke the dynamic transport factory —
+        // it may launch a browser), preserving the old `??=` laziness.
+        if (PageLoader is null)
+        {
+            var httpTransport = new HttpPageLoadTransport(CookieStorage, ProxyProvider, Logger);
+            IPageLoadTransport dynamicTransport = DynamicPageLoadTransportFactory is null
                 ? new BrowserNotConfiguredPageLoadTransport()
-                : DynamicPageLoadTransportFactory(CookieStorage, ProxyProvider, Logger, ActionResolver),
-            Logger,
-            PageCache);
+                : DynamicPageLoadTransportFactory(CookieStorage, ProxyProvider, Logger, ActionResolver);
+
+            PageLoader = new EscalatingPageLoader(
+                new[]
+                {
+                    new PageLoadTier(PageType.Static, httpTransport),
+                    new PageLoadTier(PageType.Dynamic, dynamicTransport),
+                },
+                BlockDetector,
+                new HostTierFloor(),
+                Logger,
+                PageCache);
+        }
 
         CookieStorage.AddAsync(Cookies);
 
