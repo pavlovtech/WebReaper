@@ -221,7 +221,7 @@ The `BlockVerdict` a **block detector** returns: a `BlockConfidence` tier (None,
 _Avoid_: block result, detection result, score.
 
 **Blocked page**:
-A **page load result** the **block detector** classifies as a challenge (`IsBlocked`, i.e. confidence above None). Load-stage and reliable: it is read straight off the response, before extraction. The **Crawl driver** suppresses it per the **block drop policy** and tallies the drop into the **run report**'s `BlockedPageCount`; climbing a blocked page to a stronger transport is a later slice. Distinct from an **Empty result**, which is a weaker extraction-stage hint.
+A **page load result** the **block detector** classifies as a challenge (`IsBlocked`, i.e. confidence above None). Load-stage and reliable: it is read straight off the response, before extraction. It is the signal that drives the **escalating page loader** to climb to a stronger transport tier; if the page is still blocked at the top tier the **Crawl driver** suppresses it per the **block drop policy** and tallies the drop into the **run report**'s `BlockedPageCount`. Distinct from an **Empty result**, which is a weaker extraction-stage hint.
 _Avoid_: blocked response, challenge page, captcha page.
 
 **Block drop policy**:
@@ -231,6 +231,20 @@ _Avoid_: suppression filter, block filter, drop rule (unqualified).
 **Empty result**:
 A page that loaded fine but whose extraction yielded zero records: possibly genuinely empty, possibly a block the **block detector** missed. A weak, extraction-stage hint, not a verdict; it stays a CLI stderr suggestion ("retry with `--browser` / `--stealth`", the `EmptyResultAdvisor` from PR #166) and is never on its own a **block drop policy** drop. Distinct from a **blocked page**, which is a reliable load-stage classification the driver does suppress. ADR-0056 fused the two; the fusion was the bug.
 _Avoid_: empty page, no-results, blocked (an empty result is not necessarily blocked).
+
+### Escalation
+
+**Escalating page loader**:
+The one `IPageLoader` (ADR-0004), now block-aware and climbing (ADR-0083). It composes an ordered ladder of **load tier**s, the **block detector**, a **host tier floor**, and the **page cache**. For one page it starts at the host floor, loads at the current tier, and if the result is a **blocked page** with a higher real tier above it, climbs and reloads; it returns the best **page load result** it reached. The whole climb lives inside one `LoadAsync`, so the **Crawl driver**, scheduler, and **visited-link tracker** are untouched (ADR-0022 holds) and both `scrape` and `crawl` get climbing for free. It does not return the verdict — the Spider re-runs the same pure **block detector** on the returned result. Quarantine-clean: the browser / stealth tiers are injected **load transport**s from the Cdp / Playwright satellites; the only tier type core names is the BrowserNotConfigured sentinel, treated as "no real tier" so auto-escalation never launches a browser the consumer did not configure. The cache only ever holds clean loads (a blocked result is never written) and a climb bypasses it for the higher tier. `map` is not covered (the **Site mapper** uses its own HttpClient). The simpler non-climbing `PageLoader` remains for the **Agent driver** and custom `WithPageLoader` wirings.
+_Avoid_: retrying loader, fallback loader, escalator.
+
+**Load tier**:
+One rung of the **escalating page loader**'s ladder (`PageLoadTier`): a **load transport** paired with the **PageType** it serves. Ordered lowest to highest — HTTP (Static), then headless browser (Dynamic), then stealth (Dynamic, added by the CLI flag wiring in a later slice). The PageType tag is how the loader picks a page's starting rung — a Static page may start on any tier, a Dynamic page must skip the HTTP tier because an HTTP fetch returns un-rendered HTML — but it does not change what a transport does (a transport is its own mechanism and ignores the request's PageType).
+_Avoid_: rung (informal), transport (that is the mechanism, one per tier), level, step.
+
+**Host tier floor**:
+The **escalating page loader**'s per-run, per-host memory of the lowest **load tier** a host's pages should start at (`HostTierFloor`). It lifts only on a high-confidence **block verdict** (a challenge-class status or header), never on a weak body-marker block, so one false-positive page cannot promote a whole legitimate host; it never lowers. Because bot protection is near-always site-wide, a status-signalling host settles at its working tier after the first confirmed block, so later same-host pages skip the doomed lower tiers (a bounded one-time climb cost per host). Resets with a fresh engine (precedent: the ADR-0050 semantic-act cache).
+_Avoid_: host cache, tier map, escalation state, per-host policy.
 
 ### Wiring
 
