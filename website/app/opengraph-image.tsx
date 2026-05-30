@@ -1,8 +1,15 @@
 import { ImageResponse } from "next/og";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 
 export const alt = "WebReaper, AI-native web scraping for .NET";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+
+// Embed the real WebReaper mark as a data URI (Satori can't load a runtime URL).
+const logoDataUri = `data:image/png;base64,${readFileSync(
+  join(process.cwd(), "public/webreaper-logo.png"),
+).toString("base64")}`;
 
 export default function OpenGraphImage() {
   return new ImageResponse(
@@ -21,15 +28,8 @@ export default function OpenGraphImage() {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
-          <div
-            style={{
-              width: 56,
-              height: 56,
-              borderRadius: 14,
-              display: "flex",
-              background: "linear-gradient(135deg, #34d399, #059669)",
-            }}
-          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={logoDataUri} width={56} height={56} alt="" />
           <div style={{ display: "flex", fontSize: 34, fontWeight: 600, color: "#ededed" }}>
             WebReaper
           </div>
