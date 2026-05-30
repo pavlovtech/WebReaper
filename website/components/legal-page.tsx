@@ -21,7 +21,7 @@ export function LegalPage({ slug }: { slug: string }) {
           })}
         </p>
       ) : null}
-      <div className="prose prose-invert mt-8 max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:font-medium prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-strong:text-foreground">
+      <div className="prose dark:prose-invert mt-8 max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:font-medium prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-strong:text-foreground">
         <MDXContent code={page.code} />
       </div>
     </div>

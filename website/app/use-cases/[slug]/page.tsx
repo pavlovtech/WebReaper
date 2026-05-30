@@ -62,7 +62,7 @@ export default async function UseCasePage({ params }: { params: Params }) {
           <p className="mt-3 text-lg text-muted">{uc.description}</p>
         </header>
 
-        <div className="prose prose-invert mt-10 max-w-none prose-headings:scroll-mt-24 prose-headings:font-semibold prose-headings:tracking-tight prose-a:font-medium prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-strong:text-foreground">
+        <div className="prose dark:prose-invert mt-10 max-w-none prose-headings:scroll-mt-24 prose-headings:font-semibold prose-headings:tracking-tight prose-a:font-medium prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-strong:text-foreground">
           <MDXContent code={uc.code} />
         </div>
 

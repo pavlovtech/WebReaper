@@ -31,7 +31,6 @@ export async function generateMetadata({
       url,
       type: "article",
       publishedTime: post.date,
-      authors: [post.author],
     },
   };
 }
@@ -58,8 +57,6 @@ export default async function BlogPostPage({ params }: { params: Params }) {
           <div className="flex flex-wrap items-center gap-3 text-sm text-muted-2">
             <span>{formatDate(post.date)}</span>
             <span>·</span>
-            <span>{post.author}</span>
-            <span>·</span>
             <span>{post.metadata.readingTime} min read</span>
           </div>
           <h1 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
@@ -80,7 +77,7 @@ export default async function BlogPostPage({ params }: { params: Params }) {
           ) : null}
         </header>
 
-        <div className="prose prose-invert mt-8 max-w-none prose-headings:scroll-mt-24 prose-headings:font-semibold prose-headings:tracking-tight prose-h2:mt-10 prose-a:font-medium prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-strong:text-foreground prose-li:marker:text-muted-2">
+        <div className="prose dark:prose-invert mt-8 max-w-none prose-headings:scroll-mt-24 prose-headings:font-semibold prose-headings:tracking-tight prose-h2:mt-10 prose-a:font-medium prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-strong:text-foreground prose-li:marker:text-muted-2">
           <MDXContent code={post.code} />
         </div>
       </article>
