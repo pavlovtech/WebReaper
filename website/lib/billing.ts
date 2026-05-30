@@ -50,7 +50,18 @@ export async function createCheckout(
  */
 async function notifyWaitlistSignup(plan: string, email?: string): Promise<void> {
   const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) return;
+  if (!apiKey) {
+    // Loud, not silent: without a key the signup is accepted but captured
+    // nowhere. Log it (visible in the project's runtime logs) so the lead is at
+    // least recoverable, and so a missing key is obvious instead of a silent
+    // funnel leak. Set RESEND_API_KEY in the project environment to fix.
+    console.warn(
+      `[waitlist] Signup received but RESEND_API_KEY is not set, so the lead was ` +
+        `NOT captured. Recover from this log: plan=${plan} email=${email ?? "(none)"}. ` +
+        `Set RESEND_API_KEY in the Vercel project env to start receiving leads.`,
+    );
+    return;
+  }
 
   const to = process.env.WAITLIST_NOTIFY_TO ?? siteConfig.contactEmail;
   const from =
