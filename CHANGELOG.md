@@ -1,5 +1,28 @@
 # Changelog
 
+## 11.1.0: AI extraction in the CLI
+
+`webreaper scrape` and `webreaper crawl` can now extract structured data with an LLM, on the AOT single binary, with your own key. This is the [ADR-0084](docs/adr/0084-ai-extraction-in-the-aot-cli.md) wave. It is additive: no breaking changes, one new package.
+
+What you get:
+
+- **`--prompt "<instruction>"`** runs schema-free, per-page LLM extraction: the model reads each page and returns JSON for whatever you describe ("all C-level execs with name and title"). Robust on heterogeneous pages; one LLM call per page.
+- **`--infer ["<goal>"]`** infers a schema once from the first page, then extracts the rest deterministically: about one LLM call for a whole crawl, the cheap path when pages share a shape.
+- **Bring your own model, explicitly.** `--model <id>` plus `--llm-url <url>` point at any OpenAI-compatible endpoint (OpenAI, Ollama, OpenRouter, vLLM, and so on). The API key is read from `WEBREAPER_LLM_API_KEY` or `OPENAI_API_KEY` only, never a command-line flag.
+- **`--output-dir [dir]`** writes one file per page (`.md` in Markdown mode, `.json` for schema / prompt / infer; default `./webreaper-out`), `--open` reveals the folder, and a hint reports where output landed. The default stays JSON Lines on stdout.
+- **`crawl --prompt` warns before a large per-page run** (one LLM call per page); `--yes` or a non-interactive shell skips the prompt.
+
+New package:
+
+- **`WebReaper.AI.Http`**: an AOT-clean, OpenAI-compatible `IChatClient` (`OpenAiCompatibleChatClient`) built on raw `HttpClient` and System.Text.Json source generation, no provider SDK. The bring-your-own chat client the .NET ecosystem otherwise lacks for Native-AOT. JSON-mode chat completions (all the extraction paths need); tool calling throws rather than silently dropping tools.
+
+Under the hood:
+
+- **`WebReaper.AI` is now Native-AOT clean** and baked into the CLI, so the single-binary AOT publish is preserved. Three reflection-JSON sites moved to source generation, gated by two new bake-the-satellite AOT smoke tests in CI. This reverses the ADR-0009 quarantine for the satellite's own code; the quarantine of concrete provider SDKs still holds (your `IChatClient` makes the call).
+- **`PromptContentExtractor`** is the new schema-free `IContentExtractor` strategy behind `--prompt`, reachable in code as the fourth `ICrawlSeed` terminal `.ExtractWithPrompt(chatClient, instruction)`.
+
+All 14 packages ship at 11.1.0 (lockstep), now including `WebReaper.AI.Http`.
+
 ## 11.0.0: block-aware escalating page loader
 
 WebReaper now detects bot-check challenges and climbs through stronger transports automatically, per page, instead of silently harvesting challenge pages. This is the [ADR-0083](docs/adr/0083-escalating-page-loader.md) wave (5 slices), and it is a breaking major because it changes the core page-loader contract.
