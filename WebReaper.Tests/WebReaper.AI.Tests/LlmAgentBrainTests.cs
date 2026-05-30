@@ -377,9 +377,9 @@ public class LlmAgentBrainTests
     {
         private readonly string _html;
         public FakePageLoader(string html) => _html = html;
-        public Task<string> LoadAsync(
+        public Task<WebReaper.Core.Loaders.Abstract.PageLoadResult> LoadAsync(
             WebReaper.Core.Loaders.Abstract.PageRequest request,
             CancellationToken ct = default)
-            => Task.FromResult(_html);
+            => Task.FromResult(new WebReaper.Core.Loaders.Abstract.PageLoadResult { Html = _html });
     }
 }

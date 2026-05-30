@@ -17,7 +17,7 @@ namespace WebReaper.Core.Loaders.Concrete;
 /// </summary>
 internal sealed class BrowserNotConfiguredPageLoadTransport : IPageLoadTransport
 {
-    public Task<string> LoadAsync(PageRequest request, CancellationToken cancellationToken = default) =>
+    public Task<PageLoadResult> LoadAsync(PageRequest request, CancellationToken cancellationToken = default) =>
         throw new InvalidOperationException(
             "Dynamic (headless-browser) page loading requires a browser transport satellite. " +
             "Wire one of:\n" +

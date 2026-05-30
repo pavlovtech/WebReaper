@@ -34,7 +34,7 @@ internal class PageLoader : IPageLoader
         _cache = cache ?? new NullPageCache();
     }
 
-    public async Task<string> LoadAsync(PageRequest request, CancellationToken cancellationToken = default)
+    public async Task<PageLoadResult> LoadAsync(PageRequest request, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Loading {PageType} page {Url}", request.PageType, request.Url);
 

@@ -10,11 +10,12 @@ namespace WebReaper.Core.Loaders.Abstract;
 public interface IPageLoader
 {
     /// <summary>
-    /// Fetch the page for <paramref name="request"/> and return its body,
+    /// Fetch the page for <paramref name="request"/> and return its
+    /// <see cref="PageLoadResult"/> (body plus response status and headers),
     /// dispatching on <see cref="PageRequest.PageType"/> to the matching
-    /// <see cref="IPageLoadTransport"/>. A page that cannot be retrieved is
-    /// surfaced as an exception (the transport decides the type), not an empty
-    /// string.
+    /// <see cref="IPageLoadTransport"/>. A completed response with any status
+    /// code is returned as data (ADR-0083); only a genuine no-response failure
+    /// is surfaced as a <see cref="PageLoadException"/>.
     /// </summary>
-    Task<string> LoadAsync(PageRequest request, CancellationToken cancellationToken = default);
+    Task<PageLoadResult> LoadAsync(PageRequest request, CancellationToken cancellationToken = default);
 }

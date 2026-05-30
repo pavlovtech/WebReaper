@@ -240,7 +240,7 @@ public class ScraperEngine : IAsyncDisposable
                         // the surviving-record return — the crawl path fires and
                         // forgets).
                         Logger.LogInvocationCount();
-                        await _pipeline.ProcessAndEmitAsync(parsed.Data, report.Document,
+                        await _pipeline.ProcessAndEmitAsync(parsed.Data, report.Page.Html,
                             job.ParentBacklinks.ToList(), config.ParsingScheme, token);
                         newJobs = new List<Job>();
                     }
@@ -254,7 +254,7 @@ public class ScraperEngine : IAsyncDisposable
                         // is also what terminates the sweep when the on-domain
                         // frontier saturates.
                         Logger.LogInvocationCount();
-                        await _pipeline.ProcessAndEmitAsync(swept.Data, report.Document,
+                        await _pipeline.ProcessAndEmitAsync(swept.Data, report.Page.Html,
                             job.ParentBacklinks.ToList(), config.ParsingScheme, token);
                         newJobs = swept.Next.ToList();
                     }

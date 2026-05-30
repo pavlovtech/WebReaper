@@ -16,10 +16,10 @@ public class PageLoaderTests
     {
         public PageRequest? Received { get; private set; }
 
-        public Task<string> LoadAsync(PageRequest request, CancellationToken cancellationToken = default)
+        public Task<PageLoadResult> LoadAsync(PageRequest request, CancellationToken cancellationToken = default)
         {
             Received = request;
-            return Task.FromResult(html);
+            return Task.FromResult(new PageLoadResult { Html = html });
         }
     }
 
@@ -30,9 +30,9 @@ public class PageLoaderTests
         var browser = new FakeTransport("BROWSER");
         var loader = new PageLoader(http, browser, NullLogger.Instance);
 
-        var html = await loader.LoadAsync(new PageRequest("https://x.test", PageType.Static));
+        var result = await loader.LoadAsync(new PageRequest("https://x.test", PageType.Static));
 
-        Assert.Equal("HTTP", html);
+        Assert.Equal("HTTP", result.Html);
         Assert.Equal("https://x.test", http.Received!.Url);
         Assert.Null(browser.Received);
     }
@@ -44,9 +44,9 @@ public class PageLoaderTests
         var browser = new FakeTransport("BROWSER");
         var loader = new PageLoader(http, browser, NullLogger.Instance);
 
-        var html = await loader.LoadAsync(new PageRequest("https://x.test", PageType.Dynamic));
+        var result = await loader.LoadAsync(new PageRequest("https://x.test", PageType.Dynamic));
 
-        Assert.Equal("BROWSER", html);
+        Assert.Equal("BROWSER", result.Html);
         Assert.Equal("https://x.test", browser.Received!.Url);
         Assert.Null(http.Received);
     }

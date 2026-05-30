@@ -8,6 +8,7 @@
 using System.Collections.Immutable;
 using System.Text.Json.Nodes;
 using Microsoft.Extensions.Logging.Abstractions;
+using WebReaper.Core.Loaders.Abstract;
 using WebReaper.Core.Loaders.Concrete;
 using WebReaper.Core.Parser.Abstract;
 using WebReaper.Core.Parser.Concrete;
@@ -200,10 +201,10 @@ Check(md["title"]!.GetValue<string>() == "Hello"
 //    PageLoader. AOT-clean: ConcurrentDictionary<string, struct> with no
 //    reflection paths.
 var pageCache = new InMemoryPageCache(TimeSpan.FromMinutes(1));
-await pageCache.WriteAsync("https://x.test/p", WebReaper.Domain.Selectors.PageType.Static, "<cached/>", default);
+await pageCache.WriteAsync("https://x.test/p", WebReaper.Domain.Selectors.PageType.Static, new PageLoadResult { Html = "<cached/>" }, default);
 var staticHit = await pageCache.TryReadAsync("https://x.test/p", WebReaper.Domain.Selectors.PageType.Static, default);
 var dynamicMiss = await pageCache.TryReadAsync("https://x.test/p", WebReaper.Domain.Selectors.PageType.Dynamic, default);
-Check(staticHit == "<cached/>" && dynamicMiss is null,
+Check(staticHit?.Html == "<cached/>" && dynamicMiss is null,
     "InMemoryPageCache hit/miss with (url, pageType) keying (ADR-0041)");
 
 Console.WriteLine();

@@ -20,8 +20,8 @@ public class SweepPolicyThreadingTests
 {
     private sealed class FakeLoader(string html) : IPageLoader
     {
-        public Task<string> LoadAsync(PageRequest request, CancellationToken cancellationToken = default)
-            => Task.FromResult(html);
+        public Task<PageLoadResult> LoadAsync(PageRequest request, CancellationToken cancellationToken = default)
+            => Task.FromResult(new PageLoadResult { Html = html });
     }
 
     private static ScraperConfig SweepConfig(bool includeSubdomains, int maxDepth = int.MaxValue) => new(

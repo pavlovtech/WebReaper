@@ -1,3 +1,5 @@
+using WebReaper.Core.Loaders.Abstract;
+
 namespace WebReaper.Core.Crawling;
 
 /// <summary>
@@ -13,6 +15,7 @@ namespace WebReaper.Core.Crawling;
 /// still lives inside the shell). Termination is never a thrown exception.
 /// </summary>
 /// <param name="Outcome">The Crawl step's closed result for this Job.</param>
-/// <param name="Document">The loaded page body, so the driver can build the
-/// page-processor <c>PageContext</c> (ADR-0038, the <c>Html</c>).</param>
-public sealed record JobReport(CrawlOutcome Outcome, string Document);
+/// <param name="Page">The loaded page (ADR-0083 <see cref="PageLoadResult"/>):
+/// its <c>Html</c> builds the page-processor <c>PageContext</c> (ADR-0038), and
+/// its status and headers carry the response metadata later slices read.</param>
+public sealed record JobReport(CrawlOutcome Outcome, PageLoadResult Page);

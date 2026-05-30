@@ -7,6 +7,7 @@ using WebReaper.ConfigStorage.Abstract;
 using WebReaper.Core;
 using WebReaper.Core.Crawling;
 using WebReaper.Core.LinkTracker.Concrete;
+using WebReaper.Core.Loaders.Abstract;
 using WebReaper.Core.Scheduler.Abstract;
 using WebReaper.Core.Scheduler.Concrete;
 using WebReaper.Core.Spider.Abstract;
@@ -137,10 +138,10 @@ public class ScraperEngineDriverTests
         new(CrawlOutcome.Transit(urls
                 .Select(u => new Job(u, ImmutableQueue<LinkPathSelector>.Empty, ImmutableQueue<string>.Empty))
                 .ToImmutableArray()),
-            string.Empty);
+            new PageLoadResult { Html = string.Empty });
 
     private static JobReport Parsed(string url) =>
-        new(CrawlOutcome.Target(new ParsedData(url, new JsonObject())), "<html/>");
+        new(CrawlOutcome.Target(new ParsedData(url, new JsonObject())), new PageLoadResult { Html = "<html/>" });
 
     private static JobReport Swept(string url, params string[] children) =>
         new(CrawlOutcome.Sweep(
@@ -150,7 +151,7 @@ public class ScraperEngineDriverTests
                         ImmutableQueue.CreateRange(new[] { LinkPathSelector.Sweep() }),
                         ImmutableQueue<string>.Empty))
                     .ToImmutableArray()),
-            "<html/>");
+            new PageLoadResult { Html = "<html/>" });
 
     [Fact]
     public async Task Swept_page_both_emits_its_record_and_follows_its_children_until_the_frontier_saturates()

@@ -22,11 +22,11 @@ namespace WebReaper.Core.Loaders.Abstract;
 public interface IPageCache
 {
     /// <summary>
-    /// Return the cached document for <paramref name="url"/> at
-    /// <paramref name="pageType"/>, or <c>null</c> if there is no entry or
+    /// Return the cached <see cref="PageLoadResult"/> for <paramref name="url"/>
+    /// at <paramref name="pageType"/>, or <c>null</c> if there is no entry or
     /// the entry is stale by the implementation's policy.
     /// </summary>
-    Task<string?> TryReadAsync(string url, PageType pageType, CancellationToken cancellationToken);
+    Task<PageLoadResult?> TryReadAsync(string url, PageType pageType, CancellationToken cancellationToken);
 
     /// <summary>
     /// Store <paramref name="document"/> for <paramref name="url"/> at
@@ -35,5 +35,5 @@ public interface IPageCache
     /// <see cref="WebReaper.Core.Loaders.Concrete.PageLoader"/> logs and
     /// swallows so a cache write failure never fails the Crawl.
     /// </summary>
-    Task WriteAsync(string url, PageType pageType, string document, CancellationToken cancellationToken);
+    Task WriteAsync(string url, PageType pageType, PageLoadResult document, CancellationToken cancellationToken);
 }
