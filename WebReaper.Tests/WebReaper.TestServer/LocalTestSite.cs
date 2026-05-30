@@ -136,11 +136,22 @@ public sealed class LocalTestSite : IAsyncDisposable
 
         // ---- /fail?key=K&status=S&times=N : fail the first N hits, then 200 ----
         // Hit count is recorded per key so a test can read back the retry count.
-        app.MapGet("/fail", (string key = "default", int status = 500, int times = 1) =>
+        app.MapGet("/fail", (HttpContext context, string key = "default", int status = 500, int times = 1, bool abort = false) =>
         {
             var hit = _failHits.AddOrUpdate(key, 1, (_, n) => n + 1);
             if (hit <= times)
+            {
+                // ADR-0083 makes an HTTP status data, not a fault, so the retry
+                // policy no longer retries a 5xx. A retry test must fault the
+                // connection instead: abort=true resets the socket, which the
+                // HTTP transport surfaces as a retryable PageLoadException.
+                if (abort)
+                {
+                    context.Abort();
+                    return Results.Empty;
+                }
                 return Results.StatusCode(status);
+            }
             return Results.Content(
                 @"<!doctype html><html><body><h1 class=""title"">Recovered</h1></body></html>",
                 "text/html");

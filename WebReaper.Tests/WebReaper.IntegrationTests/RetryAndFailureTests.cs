@@ -11,13 +11,15 @@ using Xunit.Abstractions;
 namespace WebReaper.IntegrationTests;
 
 /// <summary>
-/// Retry + failure coverage against <c>/fail</c> (fail the first N hits, then
-/// 200) and <c>/slow</c>. The server records a per-key hit count, so the number
-/// of times the retry policy re-requested is directly observable — no need to
-/// instrument the library. ADR-0026: the default policy is 4 attempts (one +
-/// three retries); cancellation propagates without a retry; on exhaustion the
-/// last exception propagates out of <c>RunAsync</c> (ScraperEngine has no
-/// per-job swallow).
+/// Retry + failure coverage against <c>/fail</c> and <c>/slow</c>. The server
+/// records a per-key hit count, so the number of times the retry policy
+/// re-requested is directly observable. ADR-0026: the default policy is 4
+/// attempts (one + three retries); cancellation propagates without a retry; on
+/// exhaustion the last exception propagates out of <c>RunAsync</c>.
+/// ADR-0083: an HTTP status is now data, not a fault, so the retry policy only
+/// retries a transport fault. These tests drive that with <c>/fail?abort=true</c>
+/// (a connection reset), and separately pin that a 5xx status is returned, not
+/// retried.
 /// </summary>
 [Collection("LocalSite")]
 [Trait("Category", "LocalServer")]
@@ -58,7 +60,7 @@ public sealed class RetryAndFailureTests
         var ex = await Record.ExceptionAsync(async () =>
         {
             await using var engine = await ScraperEngineBuilder
-                .Crawl(_site.Url($"/fail?key={key}&status=500&times=99"))
+                .Crawl(_site.Url($"/fail?key={key}&abort=true&times=99"))
                 .AsMarkdown()
                 .WithLogger(new TestOutputLogger(_output))
                 .StopWhenAllLinksProcessed()
@@ -78,7 +80,7 @@ public sealed class RetryAndFailureTests
         var ex = await Record.ExceptionAsync(async () =>
         {
             await using var engine = await ScraperEngineBuilder
-                .Crawl(_site.Url($"/fail?key={key}&status=500&times=99"))
+                .Crawl(_site.Url($"/fail?key={key}&abort=true&times=99"))
                 .AsMarkdown()
                 .WithRetryPolicy(new FixedAttempts(2))
                 .WithLogger(new TestOutputLogger(_output))
@@ -98,7 +100,7 @@ public sealed class RetryAndFailureTests
         var records = new ConcurrentQueue<ParsedData>();
 
         await using (var engine = await ScraperEngineBuilder
-            .Crawl(_site.Url($"/fail?key={key}&status=503&times=2"))
+            .Crawl(_site.Url($"/fail?key={key}&abort=true&times=2"))
             .Extract(new Schema { new("title", ".title") })
             .WithLogger(new TestOutputLogger(_output))
             .Subscribe(records.Enqueue)
@@ -111,6 +113,28 @@ public sealed class RetryAndFailureTests
         var rec = Assert.Single(records);
         Assert.Equal("Recovered", rec.Data["title"]!.GetValue<string>().Trim());
         Assert.Equal(3, _site.FailHits(key));      // 2 failures + 1 success
+    }
+
+    [Fact]
+    public async Task A_non_2xx_status_is_data_and_is_not_retried()
+    {
+        // ADR-0083: a completed non-2xx response is data, not a fault, so the
+        // retry policy leaves it alone; the page is requested exactly once.
+        const string key = "status-data";
+
+        var ex = await Record.ExceptionAsync(async () =>
+        {
+            await using var engine = await ScraperEngineBuilder
+                .Crawl(_site.Url($"/fail?key={key}&status=503&times=99"))
+                .AsMarkdown()
+                .WithLogger(new TestOutputLogger(_output))
+                .StopWhenAllLinksProcessed()
+                .BuildAsync();
+            await engine.RunAsync();
+        });
+
+        Assert.Null(ex);                       // a 503 no longer throws
+        Assert.Equal(1, _site.FailHits(key));  // requested once, not retried
     }
 
     [Fact]
