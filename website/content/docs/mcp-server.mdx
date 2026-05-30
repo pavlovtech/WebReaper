@@ -1,0 +1,44 @@
+---
+title: MCP server
+description: Expose WebReaper as MCP tools for Cursor, Claude Desktop, and Copilot Studio.
+category: Integrations
+order: 1
+---
+
+For agent clients that speak the Model Context Protocol, WebReaper ships an MCP
+server. It surfaces the same scraping capabilities as tools, so an MCP-only
+client can scrape, map, and extract without shelling out to the CLI itself.
+
+## What it provides
+
+The `WebReaper.Mcp` satellite exposes WebReaper's core operations as MCP tools:
+
+- scrape a page to clean Markdown
+- map a site to discover its URLs
+- extract structured data
+
+Any MCP-capable client can call these, including:
+
+- Cursor
+- Claude Desktop
+- Copilot Studio
+
+## When to reach for it
+
+If you are using Claude Code, the bundled [Claude Code skill](/docs/claude-code-skill)
+is the simpler path: it routes plain-language requests to the CLI directly. The
+MCP server is the right adapter for clients that do not run shell commands and
+talk to tools over MCP instead.
+
+## Version pinning
+
+The MCP satellite is built on the preview `ModelContextProtocol` SDK. Because it
+is a preview dependency, pin the package version explicitly when you ship, so a
+later preview release does not change behavior under you:
+
+```bash
+dotnet add package WebReaper.Mcp --version <pinned-version>
+```
+
+Pinning here is a deliberate recommendation, not a formality: preview SDKs move
+quickly, and an explicit version keeps your integration reproducible.

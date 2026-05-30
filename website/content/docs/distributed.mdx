@@ -1,0 +1,76 @@
+---
+title: Distributed crawls
+description: Share crawl state across many workers by swapping a few backend seams.
+category: Scaling
+order: 1
+---
+
+A WebReaper crawl runs in-process by default, with everything held in memory.
+The same engine scales out without a rewrite: move the crawl-state seams onto a
+shared backend, and many workers cooperate on one crawl. You change a few builder
+calls, not your scraper logic.
+
+## The seams that make it distributed
+
+Four seams hold the shared crawl state. Point them at a shared store and any
+number of workers can pull from the same queue and skip each other's pages:
+
+- `IScheduler` the queue of URLs still to crawl.
+- `IVisitedLinkTracker` the set of URLs already done.
+- `IScraperConfigStorage` the crawl configuration.
+- `ICookiesStorage` shared cookies across workers.
+
+## Available backends
+
+Each backend is its own satellite package, added alongside the core:
+
+- `WebReaper.Redis`
+- `WebReaper.AzureServiceBus`
+- `WebReaper.Mongo`
+- `WebReaper.Sqlite`
+- `WebReaper.Cosmos`
+
+## Wiring a Redis-backed crawl
+
+Swap the state seams onto Redis so multiple workers share the queue and the
+visited set:
+
+```csharp
+using WebReaper.Builders;
+
+var engine = await ScraperEngineBuilder
+    .Crawl("https://example.com")
+    .AsMarkdown()
+    .WithRedisScheduler(redisConnectionString)
+    .WriteToMongoDb(mongoConnectionString, "scrape", "pages")
+    .BuildAsync();
+
+await engine.RunAsync();
+```
+
+Run that same program on several machines or several function instances, all
+pointed at the same Redis and Mongo, and they share one crawl: each pulls
+distinct URLs from the scheduler, and results land in one collection.
+
+## Sinks scale too
+
+The output sinks are also pluggable across these backends, so results from every
+worker converge in one place. Console and file sinks live in core; the
+distributed packages add database sinks such as `.WriteToMongoDb(...)`, and the
+agent run store has matching adapters like `.WithSqliteAgentRunStore(...)`.
+
+## Caching and change tracking
+
+Two more options pair well with large or repeated crawls:
+
+```csharp
+// Serve recently fetched pages from a cache instead of refetching
+.WithMaxAge(TimeSpan.FromHours(6))
+
+// Only act on pages that changed since the last run
+.WithChangeTracking()
+```
+
+`.WithMaxAge(...)` is a cache-aside layer on the page loader, useful when a crawl
+revisits the same URLs. `.WithChangeTracking()` deduplicates on content, which
+also composes cleanly with resumable agent runs.

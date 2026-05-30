@@ -1,0 +1,175 @@
+---
+title: "AI-native scraping in .NET: deterministic where you can, AI where you must"
+description: How WebReaper pairs deterministic CSS and Markdown extraction with an LLM fallback that only fires on empty fields, then caches the fix.
+date: 2026-05-28
+author: Oleksandr Pavlov
+tags:
+  - engineering
+  - ai
+---
+
+Most "AI scraper" demos send the whole page to a model on every request. That
+works in a screenshot and falls apart on the invoice. A page you scrape a
+thousand times a day does not need a thousand model calls; it needs one
+deterministic rule that keeps working until the markup changes, and a model
+standing by for the moment it does.
+
+WebReaper is built around that split. The deterministic path runs first and
+handles the common case for free. The model is a fallback, a repair tool, and a
+last resort, wired in by composition rather than baked into the core.
+
+## The proposer and validator pattern
+
+Every AI feature in WebReaper follows one shape: a non-deterministic component
+proposes, a deterministic component decides. The model never has the final word
+on its own output.
+
+- An LLM **proposes** field values; the validator **decides** whether the
+  deterministic result was actually empty and worth replacing.
+- An LLM **proposes** a repaired CSS selector; the deterministic extractor
+  **decides** by re-running it against the real DOM.
+- An LLM **proposes** a schema for a page; the validator **decides** whether the
+  extracted record satisfies it.
+
+The payoff is cost and stability. On a page where the deterministic rule still
+works, the proposer is never invoked, so a stable site costs zero tokens. When
+the page does drift, the model proposes a fix, the deterministic layer confirms
+it, and the result is cached so the next page pays nothing either.
+
+## Deterministic first: Markdown and CSS
+
+The default extraction strategy has no model in it at all. Point WebReaper at a
+URL and ask for Markdown, and you get clean, LLM-ready text from a deterministic
+HTML-to-Markdown pass.
+
+```csharp
+using WebReaper.Builders;
+
+var engine = await ScraperEngineBuilder
+    .Crawl("https://example.com")
+    .AsMarkdown()
+    .WriteToConsole()
+    .BuildAsync();
+
+await engine.RunAsync();
+```
+
+When you need structured records instead of prose, declare a schema. The source
+generator turns a partial class into a reflection-free extractor at compile
+time, so there is still no model and no runtime reflection on the hot path.
+
+```csharp
+using WebReaper.Extraction.Attributes;
+
+[ScrapeSchema]
+public partial class Product
+{
+    [ScrapeField(".product-title")]
+    public string Title { get; set; }
+
+    [ScrapeField(".price", Type = SchemaFieldType.Integer)]
+    public int Price { get; set; }
+
+    [ScrapeField(".tags li", IsList = true)]
+    public List<string> Tags { get; set; }
+}
+```
+
+This is the layer you want carrying the load. It is predictable, it is cheap,
+and it is easy to reason about when something breaks.
+
+## AI where you must: the LLM fallback
+
+Deterministic rules fail in exactly one annoying way: a selector that used to
+match now returns nothing. That is the moment to spend a token, and not a moment
+before. Bring your own chat client through Microsoft.Extensions.AI (OpenAI,
+Anthropic, Ollama, or Azure OpenAI all work), then add a fallback extractor.
+
+```csharp
+using Microsoft.Extensions.AI;
+using WebReaper.Builders;
+
+IChatClient chatClient = /* your provider here */;
+
+var engine = await ScraperEngineBuilder
+    .Crawl("https://example.com/products")
+    .Extract(Product.Schema)
+    .WithLlmFallback(chatClient)
+    .WriteToConsole()
+    .BuildAsync();
+```
+
+The fallback only runs when the deterministic extractor produces an empty
+record. On every page where the selectors still match, the model is never
+touched. You are paying for repair, not for routine work.
+
+## Self-healing selectors
+
+A fallback fills a hole for one page. Self-healing fixes the rule for the rest
+of the crawl. When the primary extractor comes up empty, an LLM proposes a new
+selector, the deterministic extractor re-runs it to confirm it actually matches,
+and the working selector is cached for the remainder of the run.
+
+```csharp
+var engine = await ScraperEngineBuilder
+    .Crawl("https://example.com/products")
+    .Extract(Product.Schema)
+    .WithLlmSelfHealing(chatClient)
+    .WriteToConsole()
+    .BuildAsync();
+```
+
+The first page that hits the broken selector pays for one repair. Every page
+after it dispatches the cached, validated selector with no model call. A
+mid-crawl redesign stops being an outage and becomes a single billable blip.
+
+## Schema inference: extract without writing a schema
+
+Sometimes you do not know the shape of the data in advance, or you do not want
+to hand-write selectors at all. Describe the goal in plain language and let the
+model infer a schema from the first page. The inferred schema is cached and
+reused, so inference is a one-time cost per engine, not a per-page one.
+
+```csharp
+var engine = await ScraperEngineBuilder
+    .Crawl("https://news.example.com")
+    .ExtractInferred("article title, author, and publish date")
+    .WithLlmSchemaInferrer(chatClient)
+    .WriteToConsole()
+    .BuildAsync();
+```
+
+If a later page fails validation enough times in a row, WebReaper drops the
+cached schema and re-infers, so a wrong first-page guess does not silently
+poison the rest of the crawl.
+
+## One line to wire the lot
+
+The fallback, the self-healing repairer, and the action resolver are a sensible
+default bundle. Rather than wire each by hand, hand WebReaper a chat client and
+a policy.
+
+```csharp
+using WebReaper.AI;
+
+var engine = await ScraperEngineBuilder
+    .Crawl("https://example.com/products")
+    .Extract(Product.Schema)
+    .UseAi(chatClient, new AiOptions(Policy: AiPolicyMode.Recommended))
+    .WriteToConsole()
+    .BuildAsync();
+```
+
+The AI pieces live in the separate WebReaper.AI package, so the core library and
+the AOT-compiled CLI stay free of any model dependency until you opt in. There
+is no bundled key and no hosted endpoint: the chat client is yours, which means
+the provider, the model, and the bill are yours too.
+
+## Why this shape
+
+The expensive, non-deterministic component is quarantined to the edge of the
+system, behind a validator that can always fall back to a cheap, deterministic
+answer. Stable pages cost nothing. Drifting pages cost one repair, then nothing.
+And because the model is always a proposer, never the decider, a bad generation
+gets caught by the same deterministic check that would have caught a bad
+selector. Deterministic where you can, AI where you must.

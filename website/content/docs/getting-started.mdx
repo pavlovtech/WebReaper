@@ -1,0 +1,55 @@
+---
+title: Getting started
+description: Install WebReaper and run your first scrape in under a minute.
+category: Introduction
+order: 1
+---
+
+WebReaper is an AI-native web scraper for .NET. It ships as a single ~12 MB
+native binary (no Docker, no database, no signup) and as a NuGet library you can
+embed in any .NET app. This guide gets you from zero to your first result.
+
+## Install the CLI
+
+```bash
+# macOS / Linux (Homebrew)
+brew install pavlovtech/webreaper/webreaper
+
+# Any POSIX shell
+curl -fsSL https://raw.githubusercontent.com/pavlovtech/WebReaper/master/scripts/install.sh | sh
+```
+
+## Your first scrape
+
+Turn any page into clean, LLM-ready Markdown:
+
+```bash
+webreaper scrape https://news.ycombinator.com
+```
+
+Crawl an entire site to JSON Lines, one record per page:
+
+```bash
+webreaper crawl https://example.com > pages.jsonl
+```
+
+## Use the library
+
+```bash
+dotnet add package WebReaper
+```
+
+```csharp
+using WebReaper.Builders;
+
+var engine = await ScraperEngineBuilder
+    .Crawl("https://news.ycombinator.com")
+    .AsMarkdown()
+    .WriteToConsole()
+    .BuildAsync();
+
+await engine.RunAsync();
+```
+
+That's it. Head to the guides to add schema extraction, an LLM, browser
+rendering, or a distributed backend.

@@ -1,0 +1,99 @@
+---
+title: Library quickstart
+description: Build and run a scraper in .NET with the fluent ScraperEngineBuilder.
+category: Library
+order: 1
+---
+
+The WebReaper library is built around a fluent builder. You start from a crawl
+seed, choose how to extract each page, pick where the results go, then build and
+run the engine. Everything has sensible in-memory defaults, so a working scraper
+is a handful of chained calls.
+
+## Add the package
+
+```bash
+dotnet add package WebReaper
+```
+
+## Your first engine
+
+Crawl a site, convert each page to Markdown, and print it to the console:
+
+```csharp
+using WebReaper.Builders;
+
+var engine = await ScraperEngineBuilder
+    .Crawl("https://news.ycombinator.com")
+    .AsMarkdown()
+    .WriteToConsole()
+    .BuildAsync();
+
+await engine.RunAsync();
+```
+
+`Crawl(url)` is the seed. `AsMarkdown()` is the extraction strategy.
+`WriteToConsole()` is the sink. `BuildAsync()` constructs a runnable engine and
+`RunAsync()` drives the crawl.
+
+## Pick a seed
+
+Two seeds start a scrape, depending on whether the pages need a browser:
+
+```csharp
+// Plain HTTP loading (the default, fastest path)
+ScraperEngineBuilder.Crawl("https://example.com")
+
+// Render pages with a real browser for JS-heavy sites
+ScraperEngineBuilder.CrawlWithBrowser("https://example.com")
+```
+
+## Choose an extraction strategy
+
+The seed offers three terminals, each returning the builder:
+
+```csharp
+// 1. Clean, LLM-ready Markdown, no schema required
+.AsMarkdown()
+
+// 2. Deterministic structured extraction against a schema
+.Extract(Article.Schema)
+
+// 3. Infer the schema at runtime from a plain-language goal (AI)
+.ExtractInferred("product name, price, and rating")
+```
+
+`Extract` pairs with a schema; the [schema extraction](/docs/schema-extraction)
+page shows how to define one with the source generator. `ExtractInferred`
+needs an LLM, covered in [LLM extraction and fallback](/docs/llm-extraction).
+
+## Send results to a sink
+
+Print to the console, or write to a file:
+
+```csharp
+// Console
+.WriteToConsole()
+
+// JSON Lines file (one object per line)
+.WriteToJsonFile("results.json")
+```
+
+Note that `WriteToJsonFile` writes JSON Lines (one object per line, not a JSON
+array) and wipes the file on start by default.
+
+## Build and run
+
+```csharp
+var engine = await ScraperEngineBuilder
+    .CrawlWithBrowser("https://example.com")
+    .Extract(Article.Schema)
+    .WriteToJsonFile("articles.json")
+    .BuildAsync();
+
+await engine.RunAsync();
+```
+
+From here, add an [LLM](/docs/ai), a
+[browser or stealth backend](/docs/browser-and-stealth), or a
+[distributed backend](/docs/distributed) with a few more chained calls.

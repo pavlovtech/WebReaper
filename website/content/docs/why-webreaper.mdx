@@ -1,0 +1,54 @@
+---
+title: Why WebReaper
+description: Six reasons WebReaper is built differently from other scrapers.
+category: Introduction
+order: 3
+---
+
+There is no shortage of scraping tools. WebReaper is shaped by a few opinionated
+bets: that the right primitive is a single binary you can drop anywhere, that AI
+should compose into a normal pipeline rather than replace it, and that you should
+never be locked into one vendor. Here is what that buys you.
+
+## Drop-on-PATH single binary
+
+The CLI is compiled with Native AOT into one self-contained executable. There is
+no runtime to install, no Docker image to pull, no database to stand up, and no
+account to create. Put it on your PATH and `webreaper scrape <url>` works. That
+makes it trivial to use from a shell, a CI job, a cron entry, or an agent.
+
+## AI-native by composition
+
+AI is wired into the existing extraction pipeline as ordinary seams, not bolted
+on as a separate product. A deterministic CSS or XPath schema runs first; an LLM
+is the fallback, the selector repairer, or the schema inferrer when you opt in.
+Because the AI pieces are composable, stable pages keep costing zero LLM calls
+and you reach for the model only where it earns its keep.
+
+## Bring any LLM
+
+WebReaper talks to models through `Microsoft.Extensions.AI`, so you supply your
+own `IChatClient`. OpenAI, Anthropic, Azure OpenAI, and local Ollama models all
+work the same way. There is no proprietary model endpoint, no marked-up tokens,
+and no per-call middleman: you point at your provider and pay your provider.
+
+## Bot-checks handled
+
+Many sites sit behind Cloudflare, DataDome, PerimeterX, Incapsula, or Akamai.
+The CLI detects a bot-check on a scrape and can escalate to a stealth browser
+automatically, installing it on first need. JavaScript-heavy pages render
+through a real browser transport. You get the page instead of a challenge wall.
+
+## Distributed when you need it
+
+The same engine that runs in-process scales out by swapping a few seams. Move the
+scheduler, the visited-link tracker, the config store, and the cookie store onto
+Redis or Azure Service Bus, and many workers share one crawl. You start simple
+and grow into a distributed crawl without rewriting your scraper.
+
+## MIT, not AGPL
+
+WebReaper is MIT licensed. You can embed it in a closed-source product, ship it
+inside a commercial app, and run it in production without copyleft obligations.
+That is a deliberate contrast with AGPL-licensed scrapers that constrain how you
+can build on top of them.

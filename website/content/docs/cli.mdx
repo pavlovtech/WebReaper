@@ -1,0 +1,96 @@
+---
+title: CLI reference
+description: Every WebReaper subcommand, its flags, and the output it produces.
+category: Command line
+order: 1
+---
+
+The `webreaper` binary exposes four subcommands: `scrape` for a single page,
+`map` to discover URLs, `crawl` for a whole site, and `init` to wire up the
+Claude Code skill. Markdown goes to stdout by default; pass a schema to get JSON.
+Update hints and progress write to stderr, so piping to a file stays clean.
+
+## scrape
+
+Turn a single page into clean, LLM-ready Markdown printed to stdout:
+
+```bash
+webreaper scrape https://news.ycombinator.com
+```
+
+Write the Markdown to a file instead:
+
+```bash
+webreaper scrape https://news.ycombinator.com --output page.md
+```
+
+Extract structured data with a JSON schema. The result is JSON; a multi-page run
+emits JSON Lines, one object per page:
+
+```bash
+webreaper scrape https://news.ycombinator.com --schema schema.json
+```
+
+Render JavaScript-heavy pages through a real browser, and let the CLI escalate to
+a stealth browser when it detects a bot-check:
+
+```bash
+webreaper scrape https://example.com --browser --auto-stealth
+```
+
+Key flags:
+
+- `--output <file>` write Markdown to a file rather than stdout.
+- `--schema <file>` extract JSON using the given schema (JSON Lines for many pages).
+- `--browser` render the page with a real browser for JS-heavy sites.
+- `--auto-stealth` escalate to a stealth browser automatically on a bot-check.
+- `--no-auto-stealth` disable the escalation heuristic.
+
+## map
+
+Discover URLs on a site without scraping their contents. Filter by a path
+substring and cap how many you collect:
+
+```bash
+webreaper map https://example.com --search /blog/ --max-urls 50
+```
+
+This prints the matching URLs, which is handy for feeding a follow-up `scrape`
+or `crawl` run, or for understanding a site's structure first.
+
+## crawl
+
+Walk every on-domain page and emit JSON Lines, one record per page. Each record
+carries the URL, the page title, and the page as Markdown:
+
+```bash
+webreaper crawl https://example.com > pages.jsonl
+```
+
+Each line looks like:
+
+```json
+{"url": "https://example.com/about", "title": "About", "markdown": "# About\n..."}
+```
+
+Because the output is JSON Lines, you can stream it straight into `jq`, a
+database loader, or an embedding pipeline.
+
+## init
+
+Write the bundled Claude Code skill into the current project:
+
+```bash
+webreaper init
+```
+
+This drops a `SKILL.md` at `.claude/skills/webreaper/SKILL.md`. After that,
+Claude Code routes scraping requests to the CLI on its own. See the
+[Claude Code skill](/docs/claude-code-skill) page for details.
+
+## Output shapes at a glance
+
+- `scrape` with no schema: Markdown to stdout (or to `--output`).
+- `scrape --schema`: JSON for one page, JSON Lines for many.
+- `map`: a list of discovered URLs.
+- `crawl`: JSON Lines of `{url, title, markdown}`, one per page.

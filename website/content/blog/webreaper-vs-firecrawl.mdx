@@ -1,0 +1,139 @@
+---
+title: "WebReaper vs Firecrawl: a local-first, MIT-licensed alternative"
+description: An honest comparison of WebReaper and Firecrawl across distribution model, licensing, AI features, and when each one is the right call.
+date: 2026-05-29
+author: Oleksandr Pavlov
+tags:
+  - comparison
+---
+
+Firecrawl is a good product. If you want a hosted API that turns a URL into
+clean Markdown or structured JSON with almost no setup, it delivers, and the
+managed developer experience is genuinely pleasant. This post is not a takedown.
+It is an honest account of where WebReaper and Firecrawl differ, so you can pick
+the one that fits how you ship.
+
+The short version: Firecrawl is a hosted cloud service with an open-source repo
+under AGPL-3.0. WebReaper is a local single binary and a .NET library under MIT.
+Those two facts drive almost every other difference.
+
+## Distribution model
+
+Firecrawl's primary product is a cloud API. You send requests, their
+infrastructure does the crawling, you get results back. You can self-host the
+open-source version, but the path of least resistance, and the one most teams
+take, is the managed service.
+
+WebReaper runs on your machine. The CLI is a single native binary you drop on
+PATH; the library is a NuGet package you reference from a .NET project. There is
+no API to call and no account to create.
+
+```bash
+webreaper scrape https://example.com --output page.md
+webreaper map https://example.com --search /blog/ --max-urls 50
+webreaper crawl https://example.com > pages.jsonl
+```
+
+The same four verbs (scrape, map, crawl, and an init for project setup) exist in
+both worlds. The difference is where the work happens: a server you rent versus a
+process you own.
+
+## License implications
+
+This is the part that decides procurement for a lot of teams, so it is worth
+being precise.
+
+- **WebReaper is MIT.** You can embed it in closed-source commercial software,
+  ship it inside your product, and modify it, with no obligation to release your
+  own source. Attribution is the whole requirement.
+- **Firecrawl's open-source code is AGPL-3.0.** AGPL extends copyleft over the
+  network: if you run modified AGPL code as a service that users interact with,
+  you are obligated to offer those users the corresponding source. For an
+  internal tool that is often fine. For a commercial product that incorporates
+  the code into a service, it is a real constraint that legal teams take
+  seriously.
+- **The hosted Firecrawl API sidesteps that** for the consumer, because you are
+  calling their service rather than redistributing their code. The trade is that
+  you are now dependent on a third-party service and its pricing.
+
+If you need to embed scraping into proprietary software without a copyleft
+obligation, MIT is the reason to look at WebReaper. If you are happy calling a
+hosted API and never touching the source, the license question mostly
+disappears.
+
+## AI features
+
+Both tools lean into AI extraction, and the feature sets rhyme.
+
+- **Firecrawl** offers an extract endpoint that pulls structured data with LLMs,
+  and the heavy lifting runs on their side with their model wiring.
+- **WebReaper** has an LLM fallback, self-healing selectors, and schema
+  inference, all opt-in. The defining difference is that you bring your own chat
+  client through Microsoft.Extensions.AI: OpenAI, Anthropic, Ollama, or Azure.
+
+```csharp
+using Microsoft.Extensions.AI;
+using WebReaper.Builders;
+
+IChatClient chatClient = /* your provider here */;
+
+var engine = await ScraperEngineBuilder
+    .Crawl("https://example.com")
+    .ExtractInferred("product name and price")
+    .WithLlmSchemaInferrer(chatClient)
+    .WriteToConsole()
+    .BuildAsync();
+```
+
+Bring-your-own LLM means the model choice, the data path, and the bill are
+yours. Your page content goes to the provider you picked, and with a local model
+like Ollama it need not leave your machine at all. A hosted extract endpoint is
+less to wire up; a local one keeps you in control of cost and data residency.
+
+## JavaScript rendering and stealth
+
+Both handle JS-rendered pages and bot protection. Firecrawl does it inside the
+service. WebReaper does it through optional packages you add when you need them:
+Playwright or raw CDP for a real browser, and a stealth Chromium backend for
+protected sites.
+
+```csharp
+var engine = await ScraperEngineBuilder
+    .CrawlWithBrowser("https://app.example.com")
+    .AsMarkdown()
+    .WithPlaywrightPageLoader()
+    .WriteToConsole()
+    .BuildAsync();
+```
+
+From the CLI, the browser and stealth escalation is a flag rather than a code
+change. WebReaper auto-detects Cloudflare, DataDome, PerimeterX, Incapsula, and
+Akamai and can escalate to a stealth backend on its own. Neither tool, and no
+tool, defeats every captcha.
+
+## Distributed backends
+
+This is where the .NET library shows its age in a good way. WebReaper grew up as
+a parallel crawler, and its scheduler, visited-link tracker, and config storage
+are swappable seams. Point them at Redis or Azure Service Bus and multiple
+workers or serverless functions share one crawl. That is a self-hosted scaling
+story you wire yourself.
+
+Firecrawl's scaling story is the opposite, and for many teams simpler: it is
+their problem. You send more requests, their infrastructure absorbs them, you
+pay for the volume.
+
+## When to pick each
+
+Pick **Firecrawl** when you want a hosted API with minimal setup, you are happy
+to pay for managed infrastructure, AGPL or service dependency is not a blocker,
+and you would rather not run a crawler yourself.
+
+Pick **WebReaper** when you want to run locally with no account, you need MIT so
+you can embed it in commercial software, you want to bring your own LLM and keep
+data on infrastructure you control, you are in the .NET ecosystem, or you want a
+single binary your CI and your agents can call directly.
+
+They are aimed at different defaults: one optimizes for "do not make me run
+anything," the other for "do not make me depend on anything." Pick the default
+that matches your constraints.

@@ -1,0 +1,77 @@
+---
+title: Clean structured datasets
+description: Define a typed POCO, get reflection-free extraction, and ship a native binary that emits JSON or CSV.
+icon: FileJson
+order: 6
+tagline: Typed in, typed out, AOT all the way.
+---
+
+When the goal is a dataset, not a summary, you want typed records with stable
+fields: a row per product, a column per attribute, ready to load into a warehouse
+or a notebook. Hand-written selector glue and runtime reflection get in the way,
+especially if you want to ship the scraper as a small, fast binary.
+
+## Describe the shape as a POCO
+
+Mark a class for source generation and annotate each field with its selector. No
+parsing code, no mapping layer:
+
+```csharp
+[ScrapeSchema]
+public partial class Product
+{
+    [ScrapeField(".product-title")]
+    public string Title { get; set; }
+
+    [ScrapeField(".price", Type = SchemaFieldType.Integer)]
+    public int Price { get; set; }
+
+    [ScrapeField(".availability")]
+    public string Availability { get; set; }
+}
+```
+
+At build time the Roslyn source generator emits two members on the partial class:
+a `Product.Schema` describing the selectors and a `Product.Materialize(JsonObject)`
+that builds a typed instance with no reflection. The class must be `partial` and
+each scraped property needs a public setter.
+
+## Wire it into a scrape
+
+Pass the generated schema to `.Extract(...)` and choose a file sink:
+
+```csharp
+using WebReaper.Builders;
+
+var engine = await ScraperEngineBuilder
+    .Crawl("https://shop.example.com")
+    .Extract(Product.Schema)
+    .WriteToJsonFile("products.jsonl")   // one JSON object per line
+    .BuildAsync();
+
+await engine.RunAsync();
+```
+
+Prefer columns? Swap one call:
+
+```csharp
+    .WriteToCsvFile("products.csv")
+```
+
+The JSON file sink writes JSON Lines (one object per line), which streams and
+appends cleanly for large runs. Note one default to know: `WriteToJsonFile`
+wipes its target file on start, the opposite of the other sinks.
+
+## Reflection-free, AOT-clean
+
+Because materialization is generated rather than reflected, the extraction path
+contains no runtime reflection, so the whole scraper can be compiled
+ahead-of-time into a single native binary. That means fast cold starts and a
+self-contained artifact you can drop onto a server, a container, or a CI runner
+with no .NET runtime to install. The CLI ships exactly this way.
+
+## The payoff
+
+You write a plain C# class and get back a clean, typed dataset as JSON Lines or
+CSV, produced by a fast native binary with no reflection and no parsing
+boilerplate. The shape of your data lives in one place: the POCO.

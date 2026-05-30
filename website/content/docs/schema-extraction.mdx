@@ -1,0 +1,79 @@
+---
+title: Schema extraction
+description: Define a typed schema with the source generator for reflection-free extraction.
+category: Library
+order: 2
+---
+
+When you want structured records instead of Markdown, you describe the shape with
+a schema. WebReaper ships a source generator: annotate a class, and it emits both
+a `Schema` you pass to `.Extract(...)` and a reflection-free `Materialize` method
+that turns extracted JSON into your type. No runtime reflection, AOT-friendly.
+
+## Define a schema
+
+Mark the class `partial`, add `[ScrapeSchema]`, and put `[ScrapeField(...)]` on
+each property you want filled:
+
+```csharp
+using WebReaper.Extraction;
+
+[ScrapeSchema]
+public partial class Article
+{
+    [ScrapeField("h1")]
+    public string? Title { get; set; }
+
+    [ScrapeField(".score", Type = SchemaFieldType.Integer)]
+    public int Points { get; set; }
+
+    [ScrapeField(".tag", IsList = true)]
+    public List<string> Tags { get; set; } = new();
+}
+```
+
+The first argument to `[ScrapeField(...)]` is a CSS selector. `Type` coerces the
+extracted text (for example to an integer), and `IsList = true` collects every
+match into a list.
+
+## What the generator emits
+
+For the class above, the generator produces two static members:
+
+```csharp
+// A ready-to-use schema for the extractor
+Article.Schema
+
+// A reflection-free mapper from extracted JSON to your type
+Article Materialize(JsonObject json)
+```
+
+## Use it in a scraper
+
+Pass the generated schema to the `.Extract(...)` terminal:
+
+```csharp
+using WebReaper.Builders;
+
+var engine = await ScraperEngineBuilder
+    .Crawl("https://news.ycombinator.com")
+    .Extract(Article.Schema)
+    .WriteToJsonFile("articles.json")
+    .BuildAsync();
+
+await engine.RunAsync();
+```
+
+## Constraints in v1
+
+The source generator covers the common case and is deliberately scoped:
+
+- The class must be declared `partial`.
+- Annotated properties must have a public setter.
+- It supports a single level of fields plus lists of primitives. Nested
+  `[ScrapeSchema]` types are not supported yet.
+
+If your target page is irregular or its markup drifts often, pair schema
+extraction with an LLM fallback or self-healing selectors; see
+[LLM extraction and fallback](/docs/llm-extraction). For pages where you would
+rather not write a schema at all, `.ExtractInferred(goal)` infers one at runtime.

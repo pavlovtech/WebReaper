@@ -1,0 +1,107 @@
+---
+title: Browser and stealth
+description: Render JavaScript pages and get past bot-checks with auto-escalating stealth.
+category: Browser & stealth
+order: 1
+---
+
+Plenty of sites need a real browser: single-page apps render their content with
+JavaScript, and protected sites answer a plain request with a challenge wall.
+WebReaper handles both. You can render with a browser transport, and the CLI can
+detect a bot-check and escalate to a stealth browser on its own.
+
+## JavaScript rendering
+
+Two satellite packages provide browser transports. Playwright is the modern,
+multi-browser default; CDP is a lean raw-protocol transport.
+
+```csharp
+using WebReaper.Builders;
+
+// Playwright (Chromium by default; Firefox and WebKit available)
+var engine = await ScraperEngineBuilder
+    .CrawlWithBrowser("https://example.com")
+    .AsMarkdown()
+    .WithPlaywrightPageLoader(PlaywrightBrowser.Chromium)
+    .WriteToConsole()
+    .BuildAsync();
+```
+
+With the CDP transport you can connect to a browser you already run, or launch
+one:
+
+```csharp
+// Connect to an existing browser over CDP
+.WithCdpPageLoader(cdpUrl)
+
+// Launch and connect with options
+.WithCdpPageLoader(new CdpLaunchOptions(/* ... */))
+```
+
+Add the matching package: `WebReaper.Playwright` or `WebReaper.Cdp`.
+
+## Rendering from the CLI
+
+For one-off scrapes, the `--browser` flag renders the page through a real
+browser:
+
+```bash
+webreaper scrape https://example.com --browser
+```
+
+## Bot-check auto-detection
+
+The CLI recognizes the common protection vendors, including Cloudflare,
+DataDome, PerimeterX, Incapsula, and Akamai. When it sees a bot-check on a
+scrape, it can escalate to a stealth browser instead of returning the challenge.
+
+Enable the escalation with `--auto-stealth`, or set the environment variable for
+unattended runs:
+
+```bash
+webreaper scrape https://example.com --browser --auto-stealth
+```
+
+```bash
+export WEBREAPER_AUTO_STEALTH=1
+```
+
+Use `--no-auto-stealth` to turn the heuristic off.
+
+## Stealth browser
+
+The stealth backend ships in `WebReaper.Stealth.CloakBrowser`. In the library you
+opt in with one call, which finds or downloads the stealth binary on first use
+and launches it with the right flags:
+
+```csharp
+var engine = await ScraperEngineBuilder
+    .CrawlWithBrowser("https://example.com")
+    .AsMarkdown()
+    .WithCloakBrowser()
+    .WriteToConsole()
+    .BuildAsync();
+```
+
+On first use the binary is downloaded automatically; from the CLI you can fetch
+browsers ahead of time:
+
+```bash
+webreaper browser install
+webreaper stealth install
+```
+
+## Page actions
+
+Browser transports support a closed set of page actions, so you can drive
+interactive pages before extracting:
+
+- `Click`
+- `Fill`
+- `Press`
+- `ScrollToEnd`
+- `ScrollIntoView`
+- `WaitForSelector`
+- `WaitForNetworkIdle`
+- `SemanticAct("click sign in")` a plain-language intent resolved to a concrete
+  action (needs an action resolver; see the [AI features overview](/docs/ai)).

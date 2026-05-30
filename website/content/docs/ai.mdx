@@ -1,0 +1,73 @@
+---
+title: AI features overview
+description: Enable AI extraction with one line and bring your own LLM.
+category: AI features
+order: 1
+---
+
+AI in WebReaper is opt-in and composable. One call, `.UseAi(...)`, wires a set of
+AI behaviors into the normal extraction pipeline, and you bring your own model
+through `Microsoft.Extensions.AI`. Deterministic extraction still runs first
+wherever it can, so you pay for the model only when it adds value.
+
+## The one-liner
+
+Pass your chat client and a policy:
+
+```csharp
+using WebReaper.Builders;
+
+var engine = await ScraperEngineBuilder
+    .Crawl("https://example.com")
+    .Extract(Article.Schema)
+    .UseAi(chatClient, new AiOptions(Policy: AiPolicyMode.Recommended))
+    .WriteToJsonFile("articles.json")
+    .BuildAsync();
+
+await engine.RunAsync();
+```
+
+The AI capabilities live in the `WebReaper.AI` satellite package, so add it
+alongside the core package:
+
+```bash
+dotnet add package WebReaper.AI
+```
+
+## Policy modes
+
+`AiPolicyMode` selects which AI behaviors get wired in:
+
+- `Recommended` the balanced default: a deterministic-first extractor with an
+  LLM fallback, a self-healing selector repairer, and an action resolver.
+- `LlmPrimary` the LLM does the extraction every time, replacing the
+  deterministic extractor.
+- `ExtractionOnly` wires the extractor behavior only, with no action resolver.
+- `Inferred` infers the schema from your goal at runtime instead of requiring
+  one up front (pair it with `.ExtractInferred(goal)`).
+- `None` an escape hatch that wires nothing on the scraper, for tests and
+  bespoke compositions.
+
+## Bring your own LLM
+
+WebReaper never ships a model or a hosted endpoint. You construct an
+`IChatClient` from `Microsoft.Extensions.AI` and hand it over. That means any
+supported provider works the same way:
+
+- OpenAI
+- Anthropic
+- Azure OpenAI
+- Ollama for local models
+
+You point at your provider, you authenticate with your provider, and you pay your
+provider directly.
+
+## Going deeper
+
+`.UseAi(...)` is the convenient front door, but every behavior also has an
+à la carte method if you want fine control:
+`.WithLlmFallback(...)`, `.WithLlmSelfHealing(...)`,
+`.WithLlmSchemaInferrer(...)`, and `.WithLlmActionResolver(...)`. The
+[LLM extraction and fallback](/docs/llm-extraction) page walks through extraction
+specifically, and the [autonomous agent](/docs/autonomous-agent) page covers
+letting a model drive the crawl itself.
