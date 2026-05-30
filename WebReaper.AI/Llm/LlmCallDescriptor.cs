@@ -41,12 +41,13 @@ public sealed record LlmCallDescriptor<TResponse>
     /// failure, an <see cref="LlmCallException"/>.</summary>
     public required Func<JsonElement, TResponse> ParseResponse { get; init; }
 
-    /// <summary>The <see cref="JsonSerializerOptions"/> the descriptor's
-    /// <see cref="ParseResponse"/> / <see cref="ParseToolCall"/> delegates
-    /// may consult. Default is <see cref="JsonSerializerOptions.Default"/> —
-    /// the mechanism never consumes this field directly, it's passed
-    /// to the parse delegates as a convenience.</summary>
-    public JsonSerializerOptions JsonOptions { get; init; } = JsonSerializerOptions.Default;
+    /// <summary>An optional <see cref="JsonSerializerOptions"/> a custom
+    /// descriptor's parse delegates may capture and consult. Default is a
+    /// fresh <see cref="JsonSerializerOptions"/> instance. The mechanism does
+    /// not consume this field: tool-call argument materialisation is
+    /// reflection-free (ADR-0084), so the options chosen here never reach a
+    /// reflection-based serializer and AOT consumers are unaffected.</summary>
+    public JsonSerializerOptions JsonOptions { get; init; } = new();
 
     /// <summary>Optional model id override. Default <c>null</c> — the
     /// chat client's configured model wins.</summary>

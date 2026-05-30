@@ -20,7 +20,7 @@ internal static class SchemaJsonSchemaBridge
         foreach (var child in schema.Children)
         {
             properties[child.Field!] = ToProperty(child);
-            required.Add(child.Field!);
+            required.Add((JsonNode?)child.Field!);
         }
 
         return new JsonObject

@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -344,7 +345,15 @@ public sealed class LlmCall<TResponse>
         try
         {
             var argsDict = call.Arguments ?? new Dictionary<string, object?>();
-            argsJson = JsonSerializer.Serialize(argsDict, _descriptor.JsonOptions);
+            // ADR-0084: materialise the arguments dictionary to JSON without
+            // reflection. The JsonSerializer.Serialize<IDictionary<string,object>>
+            // overload is AOT-hostile; building a JsonObject via the implicit
+            // node conversions and ToJsonString is not. Argument values are
+            // JsonElement in practice (what a chat client surfaces).
+            var argsObj = new JsonObject();
+            foreach (var kvp in argsDict)
+                argsObj[kvp.Key] = ArgToNode(kvp.Value);
+            argsJson = argsObj.ToJsonString();
             using var doc = JsonDocument.Parse(argsJson);
             argsElement = doc.RootElement.Clone();
         }
@@ -363,6 +372,48 @@ public sealed class LlmCall<TResponse>
         {
             return (default, argsJson, ex);
         }
+    }
+
+    // ADR-0084: reflection-free object -> JsonNode for tool-call argument
+    // values, behaviour-equivalent to the prior JsonSerializer.Serialize for
+    // the shapes tool calls actually carry. The realistic value is JsonElement
+    // (what a chat client surfaces); hand-built argument dictionaries nest
+    // IDictionary / IEnumerable / primitives, which recurse here. Primitives
+    // use the implicit JsonNode conversions (AOT-safe, the same path the
+    // JsonObject indexer uses); anything exotic is stringified rather than
+    // reaching for reflection. Order matters: string before IEnumerable (a
+    // string is enumerable), IDictionary before IEnumerable (a dictionary is
+    // enumerable), JsonNode before both (JsonObject/JsonArray are enumerable).
+    private static JsonNode? ArgToNode(object? value) => value switch
+    {
+        null => null,
+        JsonElement je => JsonNode.Parse(je.GetRawText()),
+        JsonNode node => node.DeepClone(),
+        bool b => (JsonNode?)b,
+        int i => (JsonNode?)i,
+        long l => (JsonNode?)l,
+        double d => (JsonNode?)d,
+        decimal m => (JsonNode?)m,
+        string s => (JsonNode?)s,
+        IDictionary<string, object?> dict => DictToObject(dict),
+        System.Collections.IEnumerable seq => SeqToArray(seq),
+        _ => (JsonNode?)(value.ToString() ?? string.Empty)
+    };
+
+    private static JsonObject DictToObject(IDictionary<string, object?> dict)
+    {
+        var obj = new JsonObject();
+        foreach (var kvp in dict)
+            obj[kvp.Key] = ArgToNode(kvp.Value);
+        return obj;
+    }
+
+    private static JsonArray SeqToArray(System.Collections.IEnumerable seq)
+    {
+        var array = new JsonArray();
+        foreach (var item in seq)
+            array.Add(ArgToNode(item));
+        return array;
     }
 
     /// <summary>The canonical "strip ```json ... ``` or ``` ... ``` if

@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    ADR-0084: the bake-the-satellite AOT smoke test. The WebReaper.AI
+    satellite was AOT-quarantined (ADR-0009); ADR-0084 bakes it into the
+    AOT CLI, so it must publish clean under Native-AOT with the same
+    IL2026/IL3050 family promoted to errors as the core AotSmokeTest and
+    WebReaper.Cli. This roots both the JSON-mode extractor path (the
+    LlmCallDescriptor options default) and the tool-call path (the
+    arguments-dictionary to JsonElement conversion), the two reflection-JSON
+    sites ADR-0084 hardens.
+
+    NOT in WebReaper.sln: a dedicated `dotnet publish` CI step runs this and
+    fails on any trim/AOT warning. A stub IChatClient drives the paths; no
+    network.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>preview</LangVersion>
+
+    <PublishAot>true</PublishAot>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <WarningsAsErrors>$(WarningsAsErrors);IL2026;IL2027;IL2046;IL2055;IL2057;IL2058;IL2059;IL2060;IL2062;IL2067;IL2070;IL2072;IL2075;IL2080;IL2087;IL2090;IL2091;IL2104;IL3050;IL3051;IL3052;IL3053;IL3056</WarningsAsErrors>
+    <IsAotCompatible>true</IsAotCompatible>
+    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <EnableSingleFileAnalyzer>true</EnableSingleFileAnalyzer>
+    <EnableAotAnalyzer>true</EnableAotAnalyzer>
+    <NuGetAudit>false</NuGetAudit>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\WebReaper.AI\WebReaper.AI.csproj" />
+  </ItemGroup>
+
+</Project>
