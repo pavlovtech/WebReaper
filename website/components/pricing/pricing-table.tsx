@@ -41,8 +41,8 @@ export function PricingTable() {
         >
           <span
             className={cn(
-              "absolute top-[3px] h-[18px] w-[18px] rounded-full bg-accent transition-transform duration-200",
-              annual ? "translate-x-[20px]" : "translate-x-[2px]",
+              "absolute left-[2px] top-[2px] h-[18px] w-[18px] rounded-full bg-accent transition-transform duration-200",
+              annual ? "translate-x-[20px]" : "translate-x-0",
             )}
           />
         </button>
