@@ -1,5 +1,7 @@
 using System.Collections.Immutable;
 using Microsoft.Extensions.Logging.Abstractions;
+using WebReaper.Core.Blocking.Abstract;
+using WebReaper.Core.Blocking.Concrete;
 using WebReaper.Core.Crawling;
 using WebReaper.Core.Crawling.Concrete;
 using WebReaper.Core.Loaders.Abstract;
@@ -38,9 +40,13 @@ public class SpiderTests
     private static CrawlStep CrawlStep() =>
         new(new SchemaFold<AngleSharp.Dom.IParentNode>(new AngleSharpSchemaBackend(), NullLogger.Instance));
 
+    // ADR-0083: the shell now also takes an IBlockDetector. The real core
+    // BlockDetector keeps these tests faithful — a clean fake page yields a
+    // None verdict on the JobReport, asserted below.
     private static Core.Spider.Concrete.Spider Spider(
-        IPageLoader loader, Schema? schema, bool headless = true) =>
-        new(CrawlStep(), loader, headless, schema);
+        IPageLoader loader, Schema? schema, bool headless = true,
+        IBlockDetector? blockDetector = null) =>
+        new(CrawlStep(), loader, blockDetector ?? new BlockDetector(), headless, schema);
 
     private static Job Job(string url, params LinkPathSelector[] chain) =>
         new(url, ImmutableQueue.CreateRange(chain), ImmutableQueue.Create<string>());
@@ -60,6 +66,33 @@ public class SpiderTests
         Assert.Equal("Hello", parsed.Data.Data["title"]?.ToString());
         Assert.Equal(html, report.Page.Html);          // the doc the driver needs for PageContext
         Assert.Empty(report.Outcome.NextJobs);
+        // ADR-0083: the shell ran the block detector and carried its verdict —
+        // a clean 200 fake page is not a block.
+        Assert.Equal(BlockConfidence.None, report.Block.Confidence);
+        Assert.False(report.Block.IsBlocked);
+    }
+
+    [Fact]
+    public async Task A_blocked_load_is_reported_on_the_job_report()
+    {
+        // ADR-0083: the verdict is the detector's, threaded through unchanged.
+        // A stub detector returning High proves the shell calls Detect(page) and
+        // carries the result onto the JobReport (independent of the outcome).
+        var report = await Spider(
+                new FakeLoader("<html><body>ok</body></html>"),
+                schema: null,
+                blockDetector: new StubBlockDetector(
+                    new BlockVerdict(BlockConfidence.High, "stub")))
+            .CrawlAsync(Job("https://x.test/", new LinkPathSelector("a.item")));
+
+        Assert.True(report.Block.IsBlocked);
+        Assert.Equal(BlockConfidence.High, report.Block.Confidence);
+        Assert.Equal("stub", report.Block.Reason);
+    }
+
+    private sealed class StubBlockDetector(BlockVerdict verdict) : IBlockDetector
+    {
+        public BlockVerdict Detect(PageLoadResult result) => verdict;
     }
 
     [Fact]

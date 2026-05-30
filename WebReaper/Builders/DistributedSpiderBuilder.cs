@@ -1,6 +1,7 @@
 using System.Net;
 using Microsoft.Extensions.Logging;
 using WebReaper.Core.Actions.Abstract;
+using WebReaper.Core.Blocking.Abstract;
 using WebReaper.Core.CookieStorage.Abstract;
 using WebReaper.Core.Loaders.Abstract;
 using WebReaper.Core.Parser.Abstract;
@@ -136,6 +137,21 @@ public class DistributedSpiderBuilder
     public DistributedSpiderBuilder WithCookieStorage(ICookiesStorage cookiesStorage)
     {
         _spiderBuilder.WithCookieStorage(cookiesStorage);
+        return this;
+    }
+
+    /// <summary>Register a custom <see cref="IBlockDetector"/> (ADR-0083); the
+    /// default is the core
+    /// <see cref="WebReaper.Core.Blocking.Concrete.BlockDetector"/>. The
+    /// distributed worker's Spider runs it on every loaded page and carries the
+    /// verdict on the <see cref="WebReaper.Core.Crawling.JobReport"/> the worker
+    /// receives from <c>spider.CrawlAsync(job)</c> — reporting only (ADR-0083),
+    /// the worker decides what to do with it.</summary>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="blockDetector"/> is null.</exception>
+    public DistributedSpiderBuilder WithBlockDetector(IBlockDetector blockDetector)
+    {
+        _spiderBuilder.WithBlockDetector(blockDetector);
         return this;
     }
 

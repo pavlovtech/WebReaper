@@ -5,6 +5,7 @@ using System.Text.Json.Nodes;
 using Microsoft.Extensions.Logging.Abstractions;
 using WebReaper.ConfigStorage.Abstract;
 using WebReaper.Core;
+using WebReaper.Core.Blocking.Abstract;
 using WebReaper.Core.Crawling;
 using WebReaper.Core.LinkTracker.Concrete;
 using WebReaper.Core.Loaders.Abstract;
@@ -134,14 +135,19 @@ public class ScraperEngineDriverTests
         PageCrawlLimit: limit,
         StopWhenDrained: stopWhenDrained);
 
+    // ADR-0083: these driver tests exercise outcome handling, not block
+    // detection, so the JobReport carries the not-blocked verdict.
     private static JobReport Followed(params string[] urls) =>
         new(CrawlOutcome.Transit(urls
                 .Select(u => new Job(u, ImmutableQueue<LinkPathSelector>.Empty, ImmutableQueue<string>.Empty))
                 .ToImmutableArray()),
-            new PageLoadResult { Html = string.Empty });
+            new PageLoadResult { Html = string.Empty },
+            BlockVerdict.None);
 
     private static JobReport Parsed(string url) =>
-        new(CrawlOutcome.Target(new ParsedData(url, new JsonObject())), new PageLoadResult { Html = "<html/>" });
+        new(CrawlOutcome.Target(new ParsedData(url, new JsonObject())),
+            new PageLoadResult { Html = "<html/>" },
+            BlockVerdict.None);
 
     private static JobReport Swept(string url, params string[] children) =>
         new(CrawlOutcome.Sweep(
@@ -151,7 +157,8 @@ public class ScraperEngineDriverTests
                         ImmutableQueue.CreateRange(new[] { LinkPathSelector.Sweep() }),
                         ImmutableQueue<string>.Empty))
                     .ToImmutableArray()),
-            new PageLoadResult { Html = "<html/>" });
+            new PageLoadResult { Html = "<html/>" },
+            BlockVerdict.None);
 
     [Fact]
     public async Task Swept_page_both_emits_its_record_and_follows_its_children_until_the_frontier_saturates()

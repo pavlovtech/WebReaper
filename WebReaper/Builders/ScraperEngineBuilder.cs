@@ -7,6 +7,7 @@ using WebReaper.ConfigStorage.Concrete;
 using WebReaper.Core;
 using WebReaper.Core.Actions.Abstract;
 using WebReaper.Core.Actions.Concrete;
+using WebReaper.Core.Blocking.Abstract;
 using WebReaper.Core.CookieStorage.Abstract;
 using WebReaper.Core.LinkTracker.Abstract;
 using WebReaper.Core.LinkTracker.Concrete;
@@ -861,6 +862,26 @@ public class ScraperEngineBuilder
     public ScraperEngineBuilder WithRetryPolicy(IRetryPolicy retryPolicy)
     {
         SpiderBuilder.WithRetryPolicy(retryPolicy);
+        return this;
+    }
+
+    /// <summary>
+    /// Register a custom <see cref="IBlockDetector"/> (ADR-0083) — the
+    /// classifier the Spider runs on every loaded page to decide whether the
+    /// load looked like a bot-check challenge. The default is the core
+    /// <see cref="WebReaper.Core.Blocking.Concrete.BlockDetector"/> (HTTP status
+    /// / challenge-header / body-marker heuristic). Detection is reporting, not
+    /// acting: the verdict is tallied into
+    /// <see cref="WebReaper.Domain.Telemetry.RunReport.BlockedPageCount"/>; the
+    /// escalation / suppression decisions land in later slices. Supply your own
+    /// to tune or replace the heuristic.
+    /// </summary>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="detector"/> is null.</exception>
+    public ScraperEngineBuilder WithBlockDetector(IBlockDetector detector)
+    {
+        ArgumentNullException.ThrowIfNull(detector);
+        SpiderBuilder.WithBlockDetector(detector);
         return this;
     }
 

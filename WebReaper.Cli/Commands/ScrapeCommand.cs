@@ -33,8 +33,7 @@ internal static class ScrapeCommand
         if (!ctx.Browser)
         {
             WriteEmptyHint(ctx, first.Records.Count);
-            await RecordOutput.WriteAsync(first.Records, ctx.Output);
-            return 0;
+            return await ShipAsync(ctx, first);
         }
 
         // ADR-0056: conservative bot-check detector. Runs over the last
@@ -48,8 +47,7 @@ internal static class ScrapeCommand
         if (!verdict.LikelyBlocked)
         {
             WriteEmptyHint(ctx, first.Records.Count);
-            await RecordOutput.WriteAsync(first.Records, ctx.Output);
-            return 0;
+            return await ShipAsync(ctx, first);
         }
 
         // Block detected. Choose action per ctx.
@@ -61,8 +59,7 @@ internal static class ScrapeCommand
             // result is what we ship.
             Console.Error.WriteLine(
                 "⚠  Auto-stealth disabled (--no-auto-stealth); retry manually with --stealth.");
-            await RecordOutput.WriteAsync(first.Records, ctx.Output);
-            return 0;
+            return await ShipAsync(ctx, first);
         }
 
         if (!ctx.AutoStealth)
@@ -74,8 +71,7 @@ internal static class ScrapeCommand
             if (!string.IsNullOrEmpty(reply) && !reply.Equals("y", StringComparison.OrdinalIgnoreCase))
             {
                 Console.Error.WriteLine("Aborted; shipping first-attempt result.");
-                await RecordOutput.WriteAsync(first.Records, ctx.Output);
-                return 0;
+                return await ShipAsync(ctx, first);
             }
         }
 
@@ -117,7 +113,26 @@ internal static class ScrapeCommand
             return 1;
         }
 
-        await RecordOutput.WriteAsync(retry.Records, ctx.Output);
+        return await ShipAsync(ctx, retry);
+    }
+
+    // ----- ship the records, block-aware exit code (ADR-0083) -----
+
+    // Write the attempt's records to the configured output, then return the
+    // exit code: non-zero when the core block detector flagged any page this run
+    // (the load looked like a bot-check challenge), zero otherwise. Additive to
+    // the ADR-0056 BotCheckDetector escalation — that heuristic decides whether
+    // to *retry* with stealth; this tally decides the *exit code* of whatever
+    // result we ship, so an unattended caller can detect a blocked scrape.
+    private static async Task<int> ShipAsync(ScrapeContext ctx, AttemptResult attempt)
+    {
+        await RecordOutput.WriteAsync(attempt.Records, ctx.Output);
+        if (attempt.BlockedPageCount > 0)
+        {
+            Console.Error.WriteLine(
+                $"⚠  {attempt.BlockedPageCount} page(s) looked blocked; the site may use bot protection.");
+            return 1;
+        }
         return 0;
     }
 
@@ -136,7 +151,9 @@ internal static class ScrapeCommand
 
     // ----- single scrape attempt -----
 
-    internal sealed record AttemptResult(List<ParsedData> Records, string? LastHtml);
+    // ADR-0083: BlockedPageCount carries the block detector's run-level tally
+    // out of the engine so RunAsync can warn + exit non-zero on a blocked load.
+    internal sealed record AttemptResult(List<ParsedData> Records, string? LastHtml, int BlockedPageCount);
 
     private static async Task<AttemptResult> RunOnceAsync(
         ScrapeContext ctx, string? stealthExecutablePath)
@@ -187,10 +204,14 @@ internal static class ScrapeCommand
         // exit — including any builder-time-spawned subprocess (managed
         // Chromium, stealth binary on retry). Per-attempt cleanup makes
         // the retry path correct (no two-Chromiums-running window).
+        // ADR-0083: capture the RunReport so the block detector's tally
+        // surfaces to the caller (warning + non-zero exit on a blocked load).
         string? lastHtml = null;
+        var blockedPageCount = 0;
         await using (var engine = await builder.BuildAsync())
         {
-            await engine.RunAsync();
+            var report = await engine.RunAsync();
+            blockedPageCount = report.BlockedPageCount;
         }
 
         // ADR-0056 detector input: approximate the rendered HTML from the
@@ -204,7 +225,7 @@ internal static class ScrapeCommand
             lastHtml = records[^1].Data.ToJsonString();
         }
 
-        return new AttemptResult(records, lastHtml);
+        return new AttemptResult(records, lastHtml, blockedPageCount);
     }
 
     // ----- self-invocation helpers -----

@@ -210,6 +210,20 @@ _Avoid_: response, page, document (that was the old string return).
 What a **load transport** throws when there is no HTTP response at all (ADR-0083): DNS failure, connection refused, TLS error, or timeout. A completed response with any status code, including 4xx and 5xx, is returned as a **page load result**, not thrown; a non-2xx is data, not a fault. This narrows ADR-0004's "a page that cannot be retrieved is an exception" stance to the genuine no-response case, and means the **retry policy** retries only these transport faults, never an HTTP status.
 _Avoid_: load error, HTTP error, fetch failure.
 
+### Block detection
+
+**Block detector**:
+The core `IBlockDetector` seam plus its default `BlockDetector`; a pure classifier over a **page load result** (status, headers, body) that answers "am I being blocked?". It reports, it does not act (ADR-0083); the verdict is data the **Crawl driver** reads, never a thrown signal. Ships in core (blocking is a core scraping concern), runs on every loaded page inside the Spider; swap it via `WithBlockDetector`.
+_Avoid_: bot-check detector (that is the ADR-0056 CLI ancestor), challenge classifier, anti-bot guard.
+
+**Block verdict**:
+The `BlockVerdict` a **block detector** returns: a `BlockConfidence` tier (None, Weak, or High) plus a reason string. High = a challenge-class HTTP status (403 / 429 / 503) or a challenge-signalling response header; Weak = a challenge-structural body marker. Record count is not an input (it re-enters the decision at the driver in a later slice, which is what keeps a weak body-marker false positive from destroying a real page).
+_Avoid_: block result, detection result, score.
+
+**Blocked page**:
+A **page load result** the **block detector** classifies as a challenge (`IsBlocked`, i.e. confidence above None). Load-stage and reliable: it is read straight off the response, before extraction. It drives escalation and suppression in later slices; for now the **Crawl driver** only tallies it into the **run report**'s `BlockedPageCount`. Distinct from an Empty result (zero extracted records), which is a weaker extraction-stage hint.
+_Avoid_: blocked response, challenge page, captcha page.
+
 ### Wiring
 
 **Core adapter**:

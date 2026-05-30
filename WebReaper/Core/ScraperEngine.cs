@@ -134,6 +134,12 @@ public class ScraperEngine : IAsyncDisposable
         _telemetryHooks?.Reset();
         var sw = Stopwatch.StartNew();
 
+        // ADR-0083: tally of pages the block detector flagged as blocked this
+        // run. A single-element array so the parallel-loop closure mutates the
+        // same cell; Interlocked.Increment makes the per-Job bump thread-safe.
+        // Reporting only this slice — climbing / dropping is later slices.
+        var blockedPageCount = new int[1];
+
         await WarmUpAdaptersAsync();
 
         Logger.LogInformation("Start {class}.{method}", nameof(ScraperEngine), nameof(RunAsync));
@@ -172,7 +178,8 @@ public class ScraperEngine : IAsyncDisposable
             sw.Stop();
             return new RunReport(
                 Llm: _telemetryHooks?.Snapshot(),
-                Duration: sw.Elapsed);
+                Duration: sw.Elapsed,
+                BlockedPageCount: blockedPageCount[0]);
         }
 
         // ADR-0037: the driver ends the Crawl by ceasing its OWN consumption,
@@ -228,6 +235,12 @@ public class ScraperEngine : IAsyncDisposable
                     // so the abort is not retry-amplified).
                     var report = await RetryPolicy.ExecuteAsync(
                         ct => Spider.CrawlAsync(job, ct), token);
+
+                    // ADR-0083: tally a blocked page once per Job, right after
+                    // the Spider reports. Reporting only this slice — the driver
+                    // does not yet climb the host floor or drop the page.
+                    if (report.Block.IsBlocked)
+                        Interlocked.Increment(ref blockedPageCount[0]);
 
                     if (report.Outcome is CrawlOutcome.Parsed parsed)
                     {
@@ -316,7 +329,8 @@ public class ScraperEngine : IAsyncDisposable
         sw.Stop();
         return new RunReport(
             Llm: _telemetryHooks?.Snapshot(),
-            Duration: sw.Elapsed);
+            Duration: sw.Elapsed,
+            BlockedPageCount: blockedPageCount[0]);
     }
 
     // ADR-0033: warm up every adapter the driver holds that declares the

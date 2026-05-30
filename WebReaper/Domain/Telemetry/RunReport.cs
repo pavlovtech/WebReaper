@@ -19,6 +19,11 @@ namespace WebReaper.Domain.Telemetry;
 /// is in use.</param>
 /// <param name="Duration">Wall-clock time from <c>RunAsync</c> entry to
 /// completion.</param>
+/// <param name="BlockedPageCount">The number of pages the block detector
+/// (ADR-0083) flagged as blocked (<c>IsBlocked</c>) during the run. For a
+/// single-URL scrape this is 0 or 1; for a crawl it counts every page whose
+/// load looked like a bot-check challenge.</param>
 public sealed record RunReport(
     object? Llm,
-    TimeSpan Duration);
+    TimeSpan Duration,
+    int BlockedPageCount = 0);

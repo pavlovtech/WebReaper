@@ -1,3 +1,4 @@
+using WebReaper.Core.Blocking.Abstract;
 using WebReaper.Core.Loaders.Abstract;
 
 namespace WebReaper.Core.Crawling;
@@ -18,4 +19,9 @@ namespace WebReaper.Core.Crawling;
 /// <param name="Page">The loaded page (ADR-0083 <see cref="PageLoadResult"/>):
 /// its <c>Html</c> builds the page-processor <c>PageContext</c> (ADR-0038), and
 /// its status and headers carry the response metadata later slices read.</param>
-public sealed record JobReport(CrawlOutcome Outcome, PageLoadResult Page);
+/// <param name="Block">The block detector's verdict over <paramref name="Page"/>
+/// (ADR-0083): whether this load looked like a bot-check challenge, and how
+/// strongly. Computed by the Spider shell from the loaded page; the Crawl driver
+/// reads it (tallies blocked pages now; climbs / drops in later slices). Never a
+/// thrown signal.</param>
+public sealed record JobReport(CrawlOutcome Outcome, PageLoadResult Page, BlockVerdict Block);
