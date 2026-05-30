@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    ADR-0084 piece 2: an AOT-clean, OpenAI-compatible IChatClient. Raw
+    HttpClient + System.Text.Json source generation, no provider SDK, so it
+    composes into the Native-AOT CLI (the WebReaper.Cdp pattern applied to
+    chat completions). The CLI hands an instance to the satellite's
+    WithLlmExtractor / WithLlmSchemaInferrer for the prompt / infer flags.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>12</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IsAotCompatible>true</IsAotCompatible>
+
+    <PackageId>WebReaper.AI.Http</PackageId>
+    <Title>WebReaper.AI.Http</Title>
+    <Description>An AOT-clean, OpenAI-compatible IChatClient (Microsoft.Extensions.AI) for WebReaper, built on raw HttpClient and System.Text.Json source generation with no provider SDK. Point it at OpenAI, Ollama, OpenRouter, vLLM, or any OpenAI-compatible /chat/completions endpoint and pass it to WithLlmExtractor / WithLlmSchemaInferrer. JSON-mode chat completions for schema-free --prompt and inferred-schema --infer extraction (ADR-0084). The AOT-safe bring-your-own chat client the ecosystem lacks.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>scraper, crawler, llm, ai, openai, ollama, ichatclient, aot</PackageTags>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.AI.Abstractions" Version="10.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="..\WebReaper\logo.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="WebReaper.AI.Http.Tests" />
+  </ItemGroup>
+
+</Project>

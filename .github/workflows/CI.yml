@@ -65,6 +65,14 @@ jobs:
       run: |
         dotnet publish WebReaper.Tests/WebReaper.AI.AotSmokeTest/WebReaper.AI.AotSmokeTest.csproj -c Release -r linux-x64
         ./WebReaper.Tests/WebReaper.AI.AotSmokeTest/bin/Release/net10.0/linux-x64/publish/WebReaper.AI.AotSmokeTest
+    # ADR-0084 piece 2: the OpenAI-compatible IChatClient must also publish
+    # clean under Native-AOT (raw HttpClient + System.Text.Json source-gen).
+    # Exercises a request serialize + response deserialize against a stub
+    # handler; no network.
+    - name: AOT smoke test (WebReaper.AI.Http client, ADR-0084)
+      run: |
+        dotnet publish WebReaper.Tests/WebReaper.AI.Http.AotSmokeTest/WebReaper.AI.Http.AotSmokeTest.csproj -c Release -r linux-x64
+        ./WebReaper.Tests/WebReaper.AI.Http.AotSmokeTest/bin/Release/net10.0/linux-x64/publish/WebReaper.AI.Http.AotSmokeTest
     # ADR-0043: the CLI is the headline AOT artifact ("the single-binary
     # publish is the headline AOT artifact"). Its csproj promotes the same IL
     # warning set to errors as WebReaper.AotSmokeTest, so a Native-AOT publish
