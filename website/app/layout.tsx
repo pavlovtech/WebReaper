@@ -21,8 +21,8 @@ const themeScript = `try{var m=localStorage.getItem('flowbite-theme-mode');if(!m
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: `${siteConfig.name} — ${siteConfig.shortDescription}`,
-    template: `%s — ${siteConfig.name}`,
+    default: `${siteConfig.name}: ${siteConfig.shortDescription}`,
+    template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
   keywords: [
@@ -42,12 +42,12 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: siteConfig.url,
     siteName: siteConfig.name,
-    title: `${siteConfig.name} — ${siteConfig.shortDescription}`,
+    title: `${siteConfig.name}: ${siteConfig.shortDescription}`,
     description: siteConfig.description,
   },
   twitter: {
     card: "summary_large_image",
-    title: `${siteConfig.name} — ${siteConfig.shortDescription}`,
+    title: `${siteConfig.name}: ${siteConfig.shortDescription}`,
     description: siteConfig.description,
   },
   robots: { index: true, follow: true },

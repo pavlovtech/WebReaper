@@ -7,7 +7,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* ----------------------------------------------------------------------------
-   Design tokens — dark-first, supabase-inspired. Light values live in :root,
+   Design tokens, dark-first, supabase-inspired. Light values live in :root,
    dark overrides in .dark. Mapped to Tailwind color utilities via @theme below.
 ---------------------------------------------------------------------------- */
 :root {

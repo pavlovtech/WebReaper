@@ -37,7 +37,7 @@ const pillars = [
   {
     icon: Boxes,
     title: "Bring any LLM",
-    body: "OpenAI, Anthropic, Ollama, Azure OpenAI, llamafile — any IChatClient via Microsoft.Extensions.AI. Never locked in.",
+    body: "OpenAI, Anthropic, Ollama, Azure OpenAI, llamafile: any IChatClient via Microsoft.Extensions.AI. Never locked in.",
   },
   {
     icon: Shield,
@@ -76,7 +76,7 @@ await engine.RunAsync();`,
   {
     eyebrow: "Typed extraction",
     title: "Structured data with compile-time schemas",
-    body: "Declare fields once on a POCO. A Roslyn source generator emits a static schema and a reflection-free materializer — AOT-clean, no runtime guessing.",
+    body: "Declare fields once on a POCO. A Roslyn source generator emits a static schema and a reflection-free materializer that is AOT-clean, with no runtime guessing.",
     icon: FileJson,
     lang: "csharp",
     code: `[ScrapeSchema]
@@ -184,7 +184,7 @@ const faqs = [
   },
   {
     q: "Do I have to use an LLM?",
-    a: "No. WebReaper is deterministic by default — CSS/XPath selectors and clean Markdown need no model. The AI features are opt-in and bring-your-own LLM, so you only pay for tokens when you ask for them.",
+    a: "No. WebReaper is deterministic by default: CSS/XPath selectors and clean Markdown need no model. The AI features are opt-in and bring-your-own LLM, so you only pay for tokens when you ask for them.",
   },
   {
     q: "How is it different from Firecrawl?",
@@ -372,10 +372,10 @@ export default function Home() {
             </p>
             <ul className="mt-6 space-y-3 text-sm text-muted">
               {[
-                "scrape — one page to Markdown or JSON",
-                "map — discover the URLs on a site",
-                "crawl — every on-domain page to JSON Lines",
-                "init — wire the Claude Code skill",
+                "scrape: one page to Markdown or JSON",
+                "map: discover the URLs on a site",
+                "crawl: every on-domain page to JSON Lines",
+                "init: wire the Claude Code skill",
               ].map((item) => (
                 <li key={item} className="flex items-start gap-2.5">
                   <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
