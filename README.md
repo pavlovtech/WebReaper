@@ -56,6 +56,7 @@ After `webreaper init`, the next Claude Code session picks up the skill and rout
 
 - [Why WebReaper](#why-webreaper)
 - [Quick start](#quick-start)
+- [Bot protection that just works](#bot-protection-that-just-works)
 - [Power your agent](#power-your-agent)
 - [AI features](#ai-features)
 - [Use cases](#use-cases)
@@ -75,7 +76,7 @@ After `webreaper init`, the next Claude Code session picks up the skill and rout
 <td width="33%" valign="top"><strong>🔌 Bring any LLM.</strong><br><br>OpenAI, Anthropic, Ollama, Azure OpenAI, llamafile, via <code>Microsoft.Extensions.AI</code>.</td>
 </tr>
 <tr>
-<td width="33%" valign="top"><strong>🛡 Bot-checks handled.</strong><br><br>Auto-detects Cloudflare, DataDome, PerimeterX. One flag escalates to a stealth Chromium backend.</td>
+<td width="33%" valign="top"><strong>🛡 Bot-checks handled automatically.</strong><br><br>A blocked page climbs HTTP → browser → stealth on its own, per page and host-sticky. Challenge pages are dropped, never returned as data. No flag needed for the browser fallback.</td>
 <td width="33%" valign="top"><strong>📡 Distributed when needed.</strong><br><br>Swap scheduler, tracker, sink to Redis, MongoDB, SQLite, Azure Service Bus, Cosmos. Same code.</td>
 <td width="33%" valign="top"><strong>📜 MIT, not AGPL.</strong><br><br>Embed in commercial software, fork, modify, redistribute. Firecrawl's AGPL requires open-sourcing your service or paying for a commercial license.</td>
 </tr>
@@ -104,14 +105,15 @@ webreaper scrape https://example.com --schema schema.json
 # JS-rendered single-page app
 webreaper scrape https://example.com --browser
 
-# Bot-protected site: auto-detect, install a stealth backend, retry
-webreaper scrape https://example.com --browser --auto-stealth
+# Bot-protected site: a plain scrape already auto-climbs HTTP -> browser on a
+# block; --stealth starts at a stealth backend (--auto-stealth = no prompt, for CI)
+webreaper scrape https://example.com --stealth
 
 # Install the Claude Code skill
 webreaper init
 ```
 
-The CLI is built Native-AOT (ADR-0043), ships as a single binary on every tagged GitHub release across six RIDs (`linux-x64`, `linux-arm64`, `osx-x64`, `osx-arm64`, `win-x64`, `win-arm64`), and is bot-check-aware (ADR-0056). The macOS binaries are Apple codesigned and notarized (ADR-0071); Homebrew installs run without Gatekeeper warnings on a clean machine.
+The CLI is built Native-AOT (ADR-0043), ships as a single binary on every tagged GitHub release across six RIDs (`linux-x64`, `linux-arm64`, `osx-x64`, `osx-arm64`, `win-x64`, `win-arm64`), and is block-aware with automatic browser/stealth escalation (ADR-0083). The macOS binaries are Apple codesigned and notarized (ADR-0071); Homebrew installs run without Gatekeeper warnings on a clean machine.
 
 ### Library
 
@@ -128,6 +130,22 @@ await engine.RunAsync();
 ```
 
 That is HTTP-only, no extra packages, no schema. For structured fields, swap `AsMarkdown()` for `Extract(schema)`; for JS-rendered pages, `Crawl` for `CrawlWithBrowser` plus a transport satellite ([`WebReaper.Playwright`](#packages) or [`WebReaper.Cdp`](#packages)). The full surface is in the [API overview](#api-overview).
+
+## Bot protection that just works
+
+Most scrapers make you opt into a browser up front and guess when a site is blocking you. WebReaper detects the block and escalates on its own, one page at a time:
+
+```
+HTTP  ->  browser (Chromium)  ->  stealth (CloakBrowser)
+          (climbs only when a page actually looks blocked)
+```
+
+- **Automatic.** A plain `scrape` or `crawl` starts on a fast HTTP fetch and climbs to a real browser only when a page looks blocked (a challenge status, response header, or body marker). No flag needed for the browser fallback.
+- **Per page, host-sticky.** The first confirmed block on a host lifts that host's floor, so the rest of a whole-site crawl starts at the working tier instead of re-paying the failed one. You pay for the climb once, not per page.
+- **No garbage in your data.** A page still blocked at the top tier is dropped, never written to your output, and the run exits non-zero so an unattended job knows. Clean data or a clear signal, never a challenge page masquerading as content.
+- **You decide on stealth.** `--stealth` starts at the stealth backend; `--auto-stealth` (or `WEBREAPER_AUTO_STEALTH=1`) enables it unattended; `--no-auto-stealth` caps the climb at a vanilla browser. The ~220 MB stealth backend downloads only if you opt in.
+
+Self-hosted, single binary, no cloud round-trip ([ADR-0083](docs/adr/0083-escalating-page-loader.md)).
 
 ## Power your agent
 
@@ -251,13 +269,13 @@ dotnet run --project Examples/WebReaper.AiNativeShowcase -- changetrack
 - **Build LLM context from blog or docs sites.** `webreaper map` plus `webreaper scrape` per URL, piped into a prompt or a vector DB.
 - **Monitor competitor pricing or status pages for changes.** Schedule the CLI with cron or a worker, store records in MongoDB or SQLite, plug in `.WithChangeTracking()` (ADR-0048) so the sink fires only on diff. Hash-based dedup; cron-friendly.
 - **Run an autonomous research agent.** `LlmAgent.RunAsync(url, goal, chatClient)` decides which links to follow until the goal is met. Durable resume across restarts.
-- **Scrape Cloudflare-protected catalogs.** `--browser --auto-stealth` from the CLI; stealth backend auto-installs on first detected challenge.
+- **Scrape Cloudflare-protected catalogs.** A plain `scrape` auto-climbs HTTP to a browser on a block; add `--stealth` (or `--auto-stealth` for unattended runs) to escalate to a stealth backend. Blocked pages are dropped, never emitted as challenge-page garbage.
 - **Generate clean datasets from semi-structured pages.** `[ScrapeSchema]` POCO plus the source generator; reflection-free, AOT-compiles into a native binary.
 - **Embed a scraping primitive in your own app.** `dotnet add package WebReaper`; the public registration seam lets you plug Redis, Cosmos DB, your own sink.
 
 ## Packages
 
-The release ships thirteen packages (one core, twelve satellites), all versioned in lockstep at `10.1.0`. The core stays dependency-light and Native-AOT-publishable with zero warnings; satellites bring their own SDK dependencies and quarantine them off the core graph (ADR-0009).
+The release ships thirteen packages (one core, twelve satellites), all versioned in lockstep at `11.0.0`. The core stays dependency-light and Native-AOT-publishable with zero warnings; satellites bring their own SDK dependencies and quarantine them off the core graph (ADR-0009).
 
 | Package | Add it for | Key builder calls |
 |---|---|---|
@@ -288,7 +306,7 @@ The release ships thirteen packages (one core, twelve satellites), all versioned
 | **Autonomous agent** | `Agent.RunAsync()` durable, in-process | `/agent` endpoint (cloud only) | code it yourself | not available |
 | **Whole-site crawl** | `webreaper crawl` / `.Sweep()`: recursive, on-domain, sitemap-seeded, streams JSON Lines | `crawl` (cloud or self-host) | deep-crawl strategies (code it yourself) | no (single fetch) |
 | **Page actions** | 10 declarative arms: `Click`, `Wait`, `Fill`, `Press`, `ScrollToEnd`, `ScrollIntoView`, `WaitForSelector`, `WaitForNetworkIdle`, `EvaluateExpression`, `SemanticAct` (natural-language) | 9 actions: `wait`, `click`, `write`, `press`, `scroll`, `executeJavascript`, plus 3 observation (`screenshot`, `pdf`, `scrape`) | JS hooks; no closed-sum vocabulary | none (single-fetch only) |
-| **Bot-protected** | `--auto-stealth` | cloud yes; self-host degraded (no Fire-engine) | BYO | no |
+| **Bot-protected** | automatic HTTP → browser → stealth climb, per page, host-sticky, self-hosted | cloud yes; self-host degraded (no Fire-engine) | BYO | no |
 | **Claude Code skill** | `webreaper init` bundled | community `firecrawl-claude-code-skill` wraps the cloud API | none official | not applicable |
 
 [Crawlee](https://github.com/apify/crawlee) (Apify's Node/Python library) is also worth knowing; it covers similar ground to the WebReaper library API but doesn't ship a binary, a Claude Code skill, or a built-in LLM safety net. Use it if you're already in the Apify ecosystem.
