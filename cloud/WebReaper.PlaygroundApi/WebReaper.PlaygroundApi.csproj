@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>WebReaper.PlaygroundApi</RootNamespace>
+    <!-- The Cloud playground backend (Phase 1, Tier A). A consumer of the
+         WebReaper library, deployed separately (like website/); deliberately
+         NOT in WebReaper.sln so it stays out of the library's CI. -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\WebReaper\WebReaper.csproj" />
+  </ItemGroup>
+
+</Project>
