@@ -15,8 +15,9 @@ public static class SsrfPolicy
 {
     /// <summary>
     /// True if a connection to <paramref name="address"/> must be refused.
-    /// IPv4-mapped IPv6 addresses are unwrapped and judged as their IPv4 form,
-    /// so <c>::ffff:127.0.0.1</c> is blocked exactly like <c>127.0.0.1</c>.
+    /// IPv4 tunnelled inside IPv6 is unwrapped and judged as its IPv4 form, so
+    /// <c>::ffff:127.0.0.1</c> (mapped), <c>::169.254.169.254</c> (compatible),
+    /// and the 6to4 / NAT64 wrappings are blocked exactly like the bare IPv4.
     /// </summary>
     public static bool IsBlockedAddress(IPAddress address)
     {
@@ -67,8 +68,44 @@ public static class SsrfPolicy
         if (address.IsIPv6Multicast)                     // ff00::/8
             return true;
 
-        // Unique local addresses fc00::/7 (first 7 bits 1111 110x).
         var b = address.GetAddressBytes();
-        return (b[0] & 0xFE) == 0xFC;
+
+        // Unique local addresses fc00::/7 (first 7 bits 1111 110x).
+        if ((b[0] & 0xFE) == 0xFC)
+            return true;
+
+        // IPv4 tunnelled inside IPv6: judge by the embedded IPv4 so an internal
+        // target cannot slip past as a v6 literal (e.g. ::169.254.169.254 or the
+        // 6to4 / NAT64 wrappings of it). IPv4-mapped (::ffff:0:0/96) is already
+        // unwrapped in IsBlockedAddress; these are the remaining forms.
+        var embedded = EmbeddedV4(b);
+        return embedded is not null && IsBlockedV4(embedded);
+    }
+
+    /// <summary>
+    /// The IPv4 tunnelled in an IPv6 address for the IPv4-compatible
+    /// (<c>::a.b.c.d</c>), 6to4 (<c>2002::/16</c>), and NAT64 well-known prefix
+    /// (<c>64:ff9b::/96</c>) forms; <c>null</c> if none. IPv4-mapped
+    /// (<c>::ffff:0:0/96</c>) is handled earlier via <c>MapToIPv4</c>.
+    /// </summary>
+    private static byte[]? EmbeddedV4(byte[] b)
+    {
+        // 6to4: 2002:AABB:CCDD::/48 -> AABB.CCDD
+        if (b[0] == 0x20 && b[1] == 0x02)
+            return [b[2], b[3], b[4], b[5]];
+
+        // NAT64 well-known prefix 64:ff9b::/96 -> the trailing 4 bytes.
+        if (b[0] == 0x00 && b[1] == 0x64 && b[2] == 0xFF && b[3] == 0x9B
+            && b[4] == 0 && b[5] == 0 && b[6] == 0 && b[7] == 0
+            && b[8] == 0 && b[9] == 0 && b[10] == 0 && b[11] == 0)
+            return [b[12], b[13], b[14], b[15]];
+
+        // IPv4-compatible ::a.b.c.d : the high 96 bits are zero. (:: and ::1 are
+        // already handled by the IPv6Any and loopback checks upstream.)
+        for (var i = 0; i < 12; i++)
+            if (b[i] != 0)
+                return null;
+        var lowAllZero = b[12] == 0 && b[13] == 0 && b[14] == 0 && b[15] == 0;
+        return lowAllZero ? null : [b[12], b[13], b[14], b[15]];
     }
 }
