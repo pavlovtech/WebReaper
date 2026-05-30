@@ -28,7 +28,9 @@ type State = {
   tiers: Record<TierName, TierState>;
   climbingTo: TierName | null;
   result: { title: string; markdown: string } | null;
-  outcome: "running" | "won" | "lost";
+  outcome: "running" | "won" | "lost" | "error";
+  lostReason?: string;
+  error?: string;
 };
 
 const TIER_ICON: Record<TierName, typeof Globe> = {
@@ -90,11 +92,14 @@ function reduce(state: State, event: ClimbEvent): State {
       return {
         ...state,
         outcome: "lost",
+        lostReason: event.reason,
         tiers: {
           ...state.tiers,
           [event.tier]: { status: "exhausted", pill: "blocked", reason: event.reason },
         },
       };
+    case "error":
+      return { ...state, outcome: "error", error: event.message };
     default:
       return state;
   }
@@ -110,14 +115,60 @@ function urlOf(script: ClimbScript): string {
   return req && req.event.kind === "request" ? req.event.url : "";
 }
 
-export function ClimbDemo({ script, className }: { script: ClimbScript; className?: string }) {
+const DEFAULT_API_BASE = "http://localhost:5179";
+
+/**
+ * Drives the climb view from one of two sources, both folding into the same
+ * reducer: a recorded `script` (the canned hero / demos) or a live backend SSE
+ * stream (`liveUrl`). Exactly one is expected.
+ */
+export function ClimbDemo({
+  script,
+  liveUrl,
+  apiBase = DEFAULT_API_BASE,
+  className,
+}: {
+  script?: ClimbScript;
+  liveUrl?: string;
+  apiBase?: string;
+  className?: string;
+}) {
   const [state, dispatch] = useReducer(rootReduce, undefined, initialState);
-  // Bumping runId re-fires the playback effect, which resets then replays.
+  // Bumping runId re-fires the effect, which resets then replays / re-streams.
   const [runId, setRunId] = useState(0);
-  const url = urlOf(script);
+  const url = liveUrl ?? (script ? urlOf(script) : "");
 
   useEffect(() => {
     dispatch({ kind: "reset" });
+
+    // Live mode: drive the reducer from the backend SSE stream.
+    if (liveUrl) {
+      const source = new EventSource(
+        `${apiBase}/scrape/stream?url=${encodeURIComponent(liveUrl)}`,
+      );
+      source.onmessage = (e) => {
+        let event: ClimbEvent;
+        try {
+          event = JSON.parse(e.data) as ClimbEvent;
+        } catch {
+          return;
+        }
+        dispatch(event);
+        // Close on a terminal event; otherwise EventSource auto-reconnects when
+        // the server closes the stream, which would re-run the scrape.
+        if (event.kind === "result" || event.kind === "exhausted" || event.kind === "error") {
+          source.close();
+        }
+      };
+      source.onerror = () => {
+        source.close();
+        dispatch({ kind: "error", message: "Lost connection to the scrape service." });
+      };
+      return () => source.close();
+    }
+
+    // Canned mode: play the recorded script.
+    if (!script) return;
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduceMotion) {
       // Jump straight to the final state: dispatch every event with no delay.
@@ -125,7 +176,7 @@ export function ClimbDemo({ script, className }: { script: ClimbScript; classNam
       return () => clearTimeout(t);
     }
     return playScript(script.events, dispatch);
-  }, [script, runId]);
+  }, [script, liveUrl, apiBase, runId]);
 
   const replay = () => setRunId((n) => n + 1);
 
@@ -178,7 +229,12 @@ export function ClimbDemo({ script, className }: { script: ClimbScript; classNam
           ))}
         </ol>
 
-        <ResultPanel outcome={state.outcome} result={state.result} />
+        <ResultPanel
+          outcome={state.outcome}
+          result={state.result}
+          lostReason={state.lostReason}
+          error={state.error}
+        />
       </div>
     </div>
   );
@@ -281,17 +337,29 @@ function StatusPill({ status, pill }: { status: TierStatus; pill?: string }) {
 function ResultPanel({
   outcome,
   result,
+  lostReason,
+  error,
 }: {
   outcome: State["outcome"];
   result: State["result"];
+  lostReason?: string;
+  error?: string;
 }) {
   if (outcome === "running") return null;
+
+  if (outcome === "error") {
+    return (
+      <div className="mt-4 rounded-lg border border-red-500/20 bg-red-500/5 p-4">
+        <p className="text-[13px] text-zinc-300">{error ?? "Something went wrong."}</p>
+      </div>
+    );
+  }
 
   if (outcome === "lost") {
     return (
       <div className="mt-4 rounded-lg border border-red-500/20 bg-red-500/5 p-4">
         <p className="text-[13px] text-zinc-300">
-          Still blocked at the stealth tier.
+          {lostReason ?? "Still blocked at the top tier."}
         </p>
         <p className="mt-1 text-[12px] text-zinc-500">
           WebReaper reports the block instead of returning challenge-page garbage. A

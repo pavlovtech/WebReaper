@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Shield } from "lucide-react";
 import { PlaygroundShowcase } from "@/components/playground/playground-showcase";
+import { LiveClimb } from "@/components/playground/live-climb";
 
 export const metadata: Metadata = {
   title: "Playground",
@@ -12,6 +13,10 @@ export const metadata: Metadata = {
 };
 
 export default function PlaygroundPage() {
+  // Live Tier A demo is dev/preview-gated: it points at the playground backend
+  // (localhost in dev). Enable with NEXT_PUBLIC_PLAYGROUND_LIVE=1 until the
+  // backend is deployed and the edge gate is in place.
+  const liveEnabled = process.env.NEXT_PUBLIC_PLAYGROUND_LIVE === "1";
   return (
     <div className="relative">
       <div className="glow-accent pointer-events-none absolute inset-x-0 top-0 h-72" aria-hidden />
@@ -44,6 +49,22 @@ export default function PlaygroundPage() {
           </Link>
           .
         </p>
+
+        {liveEnabled && (
+          <div className="mt-16 border-t border-border pt-12">
+            <div className="text-center">
+              <h2 className="text-2xl font-semibold tracking-tight text-foreground">
+                Try it live
+              </h2>
+              <p className="mx-auto mt-3 max-w-xl text-sm text-muted">
+                Paste any URL. This runs the real Tier A backend, an HTTP fetch to
+                clean Markdown; the browser and stealth tiers are gated. Internal and
+                private addresses are refused.
+              </p>
+            </div>
+            <LiveClimb className="mt-8" />
+          </div>
+        )}
       </section>
     </div>
   );
