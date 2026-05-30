@@ -19,7 +19,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { CodeBlock } from "@/components/code/code-block";
 import { CopyButton } from "@/components/code/copy-button";
-import { HeroShowcase } from "@/components/marketing/hero-showcase";
+import { ClimbDemo } from "@/components/playground/climb-demo";
+import { CLIMB_SCRIPTS } from "@/lib/playground/climb-events";
 import { GitHubIcon } from "@/components/icons";
 import { siteConfig } from "@/lib/site";
 
@@ -248,8 +249,10 @@ export default function Home() {
 
             <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-muted">
               WebReaper is an AI-native web scraper for .NET. One ~12 MB binary
-              turns any site into clean Markdown or structured data, with an LLM
-              layer when you need it. No Docker, no signup, MIT licensed.
+              turns any site, even bot-protected ones, into clean Markdown or
+              structured data, climbing from HTTP to a browser to stealth to get
+              through. Bring your own LLM when you need it. No Docker, no signup,
+              MIT licensed.
             </p>
 
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -270,7 +273,7 @@ export default function Home() {
             </div>
           </div>
 
-          <HeroShowcase className="mx-auto mt-16 max-w-3xl" />
+          <ClimbDemo script={CLIMB_SCRIPTS[0]} className="mx-auto mt-16 max-w-3xl" />
         </div>
       </section>
 
