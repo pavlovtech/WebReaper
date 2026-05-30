@@ -115,22 +115,26 @@ function urlOf(script: ClimbScript): string {
   return req && req.event.kind === "request" ? req.event.url : "";
 }
 
-const DEFAULT_API_BASE = "http://localhost:5179";
+// The same-origin gate (website/app/api/playground/scrape): it verifies
+// Turnstile, rate-limits, then proxies the private backend's SSE through, so the
+// browser never talks to the backend directly.
+const PLAYGROUND_ENDPOINT = "/api/playground/scrape";
 
 /**
  * Drives the climb view from one of two sources, both folding into the same
- * reducer: a recorded `script` (the canned hero / demos) or a live backend SSE
- * stream (`liveUrl`). Exactly one is expected.
+ * reducer: a recorded `script` (the canned hero / demos) or a live SSE stream
+ * from the gate (`liveUrl`). Exactly one is expected. `turnstileToken` is
+ * forwarded to the gate as `cf` when Turnstile is configured.
  */
 export function ClimbDemo({
   script,
   liveUrl,
-  apiBase = DEFAULT_API_BASE,
+  turnstileToken,
   className,
 }: {
   script?: ClimbScript;
   liveUrl?: string;
-  apiBase?: string;
+  turnstileToken?: string;
   className?: string;
 }) {
   const [state, dispatch] = useReducer(rootReduce, undefined, initialState);
@@ -143,9 +147,9 @@ export function ClimbDemo({
 
     // Live mode: drive the reducer from the backend SSE stream.
     if (liveUrl) {
-      const source = new EventSource(
-        `${apiBase}/scrape/stream?url=${encodeURIComponent(liveUrl)}`,
-      );
+      const params = new URLSearchParams({ url: liveUrl });
+      if (turnstileToken) params.set("cf", turnstileToken);
+      const source = new EventSource(`${PLAYGROUND_ENDPOINT}?${params.toString()}`);
       source.onmessage = (e) => {
         let event: ClimbEvent;
         try {
@@ -176,7 +180,7 @@ export function ClimbDemo({
       return () => clearTimeout(t);
     }
     return playScript(script.events, dispatch);
-  }, [script, liveUrl, apiBase, runId]);
+  }, [script, liveUrl, turnstileToken, runId]);
 
   const replay = () => setRunId((n) => n + 1);
 
