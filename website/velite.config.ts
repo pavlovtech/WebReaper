@@ -11,7 +11,7 @@ import remarkGfm from "remark-gfm";
 const prettyCode: PrettyCodeOptions = {
   theme: "github-dark-default",
   keepBackground: false,
-  defaultLang: { block: "text", inline: "text" },
+  defaultLang: { block: "text" },
 };
 
 const autolink: [typeof rehypeAutolinkHeadings, Record<string, unknown>] = [

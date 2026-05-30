@@ -256,7 +256,7 @@
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
-[data-line] {
+[data-rehype-pretty-code-figure] [data-line] {
   display: inline-block;
   width: 100%;
 }
@@ -306,4 +306,27 @@
     opacity: 1 !important;
     transform: none !important;
   }
+}
+
+/* ----------------------------------------------------------------------------
+   Authoritative inline-code styling. @tailwindcss/typography injects
+   `code::before/::after { content: "`" }` and default code styling that were
+   winning over the earlier reset (the `:where(code)` wrapper zeroed our element
+   specificity). This block is later in source order AND higher specificity
+   (`.prose :not(pre) > code` beats `.prose :where(code)`), with !important on
+   the pseudo-content reset, so it wins deterministically. Shiki blocks live in
+   <pre>, so `:not(pre) >` leaves them untouched.
+---------------------------------------------------------------------------- */
+.prose :not(pre) > code::before,
+.prose :not(pre) > code::after {
+  content: "" !important;
+}
+.prose :not(pre) > code {
+  border-radius: 0.375rem;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  padding: 0.1rem 0.35rem;
+  font-size: 0.85em;
+  font-weight: 500;
+  color: var(--foreground);
 }
