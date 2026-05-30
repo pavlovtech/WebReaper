@@ -160,6 +160,28 @@ public class ScraperEngineDriverTests
             new PageLoadResult { Html = "<html/>" },
             BlockVerdict.None);
 
+    // ADR-0083 slice 3: a Target page carrying a block verdict and a given record
+    // shape (empty JsonObject => the driver counts zero records; a populated one
+    // => one record), so the driver's confidence-split suppression is exercised
+    // offline. The page URL is folded into Data at ParsedData construction and is
+    // not counted as a record (ADR-0031).
+    private static JobReport ParsedBlocked(string url, BlockConfidence confidence, JsonObject data) =>
+        new(CrawlOutcome.Target(new ParsedData(url, data)),
+            new PageLoadResult { Html = "<html/>" },
+            new BlockVerdict(confidence, "test marker"));
+
+    private static JobReport SweptBlocked(
+        string url, BlockConfidence confidence, JsonObject data, params string[] children) =>
+        new(CrawlOutcome.Sweep(
+                new ParsedData(url, data),
+                children
+                    .Select(u => new Job(u,
+                        ImmutableQueue.CreateRange(new[] { LinkPathSelector.Sweep() }),
+                        ImmutableQueue<string>.Empty))
+                    .ToImmutableArray()),
+            new PageLoadResult { Html = "<html/>" },
+            new BlockVerdict(confidence, "test marker"));
+
     [Fact]
     public async Task Swept_page_both_emits_its_record_and_follows_its_children_until_the_frontier_saturates()
     {
@@ -548,5 +570,147 @@ public class ScraperEngineDriverTests
         await engine.RunAsync().WaitAsync(TimeSpan.FromSeconds(10));
 
         Assert.True(spider.Crawled.Count >= 3); // soft limit: at least the cap
+    }
+
+    [Fact]
+    public async Task High_confidence_blocked_target_is_dropped_reaching_no_sink_and_is_tallied()
+    {
+        // ADR-0083 slice 3: a high-confidence block drops the page regardless of
+        // what it extracted — even though this challenge page "yielded" a field,
+        // it never reaches the sink and is counted as a residual block.
+        var sink = new RecordingSink();
+
+        var spider = new ScriptedSpider(job => job.Url == "root"
+            ? Followed("item")
+            : ParsedBlocked(job.Url, BlockConfidence.High, new JsonObject { ["title"] = "challenge" }));
+
+        var engine = new ScraperEngine(
+            parallelismDegree: 1,
+            new FakeConfigStorage(Config()),
+            new InMemoryScheduler(),
+            spider,
+            new InMemoryVisitedLinkTracker(),
+            new List<IScraperSink> { sink },
+            NullLogger.Instance);
+
+        var report = await engine.RunAsync().WaitAsync(TimeSpan.FromSeconds(10));
+
+        Assert.Empty(sink.Emitted);               // suppressed before the fan-out
+        Assert.Equal(1, report.BlockedPageCount);  // tallied as a residual block
+    }
+
+    [Fact]
+    public async Task Weak_blocked_target_with_no_records_is_dropped_and_tallied()
+    {
+        // ADR-0083 slice 3: a weak body-marker block with an empty extraction
+        // (zero records) is suppressed.
+        var sink = new RecordingSink();
+
+        var spider = new ScriptedSpider(job => job.Url == "root"
+            ? Followed("item")
+            : ParsedBlocked(job.Url, BlockConfidence.Weak, new JsonObject())); // url-only => 0 records
+
+        var engine = new ScraperEngine(
+            parallelismDegree: 1,
+            new FakeConfigStorage(Config()),
+            new InMemoryScheduler(),
+            spider,
+            new InMemoryVisitedLinkTracker(),
+            new List<IScraperSink> { sink },
+            NullLogger.Instance);
+
+        var report = await engine.RunAsync().WaitAsync(TimeSpan.FromSeconds(10));
+
+        Assert.Empty(sink.Emitted);
+        Assert.Equal(1, report.BlockedPageCount);
+    }
+
+    [Fact]
+    public async Task Weak_blocked_target_that_yielded_records_is_kept_and_emitted()
+    {
+        // ADR-0083 slice 3: a weak block that still extracted real records was a
+        // false positive (or a beatable challenge) — it is kept and emitted, and
+        // not counted as a residual block. This is what stops a vendor-name false
+        // positive from destroying a real page.
+        var sink = new RecordingSink();
+
+        var spider = new ScriptedSpider(job => job.Url == "root"
+            ? Followed("item")
+            : ParsedBlocked(job.Url, BlockConfidence.Weak, new JsonObject { ["title"] = "real" }));
+
+        var engine = new ScraperEngine(
+            parallelismDegree: 1,
+            new FakeConfigStorage(Config()),
+            new InMemoryScheduler(),
+            spider,
+            new InMemoryVisitedLinkTracker(),
+            new List<IScraperSink> { sink },
+            NullLogger.Instance);
+
+        var report = await engine.RunAsync().WaitAsync(TimeSpan.FromSeconds(10));
+
+        var emitted = Assert.Single(sink.Emitted);
+        Assert.Equal("item", emitted.Url);
+        Assert.Equal(0, report.BlockedPageCount); // kept => not a residual block
+    }
+
+    [Fact]
+    public async Task Unblocked_target_with_no_records_is_still_emitted_and_not_tallied()
+    {
+        // ADR-0083 slice 3: an Empty result (zero records) is NOT a blocked page.
+        // With no block verdict, the page is emitted as usual — only a verdict
+        // can trigger a drop. This pins the Empty-result-vs-blocked distinction.
+        var sink = new RecordingSink();
+
+        var spider = new ScriptedSpider(job => job.Url == "root"
+            ? Followed("item")
+            : Parsed(job.Url)); // BlockVerdict.None + empty data
+
+        var engine = new ScraperEngine(
+            parallelismDegree: 1,
+            new FakeConfigStorage(Config()),
+            new InMemoryScheduler(),
+            spider,
+            new InMemoryVisitedLinkTracker(),
+            new List<IScraperSink> { sink },
+            NullLogger.Instance);
+
+        var report = await engine.RunAsync().WaitAsync(TimeSpan.FromSeconds(10));
+
+        Assert.Equal(new[] { "item" }, sink.Emitted.Select(p => p.Url));
+        Assert.Equal(0, report.BlockedPageCount);
+    }
+
+    [Fact]
+    public async Task High_blocked_swept_page_drops_its_record_but_still_follows_its_children()
+    {
+        // ADR-0083 slice 3: the Sweep arm both emits and follows. A blocked Sweep
+        // page has its record suppressed, but its on-domain children are still
+        // enqueued — recovering real content from a blocked page is the loader's
+        // climb (a later slice), not this suppression slice.
+        var sink = new RecordingSink();
+
+        var spider = new ScriptedSpider(job => job.Url switch
+        {
+            "root" => SweptBlocked("root", BlockConfidence.High,
+                new JsonObject { ["t"] = "challenge" }, "a"),
+            _ => Swept(job.Url), // "a": clean, no further children => frontier saturates
+        });
+
+        var engine = new ScraperEngine(
+            parallelismDegree: 1,
+            new FakeConfigStorage(Config()),
+            new InMemoryScheduler(),
+            spider,
+            new InMemoryVisitedLinkTracker(),
+            new List<IScraperSink> { sink },
+            NullLogger.Instance);
+
+        var report = await engine.RunAsync().WaitAsync(TimeSpan.FromSeconds(10));
+
+        Assert.Equal(new[] { "a" }, sink.Emitted.Select(p => p.Url)); // root dropped, child kept
+        Assert.Equal(1, report.BlockedPageCount);
+        Assert.Contains("root", spider.Crawled);
+        Assert.Contains("a", spider.Crawled); // child still followed
     }
 }
