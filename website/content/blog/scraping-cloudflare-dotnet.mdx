@@ -23,7 +23,8 @@ shows the library equivalent.
 
 If a site fails a plain fetch but is not running aggressive fingerprinting, a
 real headless browser is often enough, because the page just needs JavaScript to
-execute. From the CLI, that is one flag.
+execute. A plain scrape already climbs to a browser on its own when a page looks
+blocked, so the flag below just starts there and skips the HTTP probe.
 
 ```bash
 webreaper scrape https://protected.example.com --browser --output page.md
@@ -34,37 +35,41 @@ delay. After that, the page renders in a real engine, scripts run, and the
 challenge that blocked your HTTP client resolves on its own. For a large share
 of "this site is blocking me" cases, the story ends here.
 
-## Step two: let it escalate to stealth
+## Step two: let it climb to stealth
 
 Some sites look harder at who is knocking. When a real browser still comes back
-with a 403, a 429, a 503, or an empty result on a page carrying a known
-challenge marker, WebReaper can escalate to a stealth Chromium backend that is
-tuned to pass those checks.
+with a 403, a 429, a 503, a challenge response header, or an empty result on a
+page carrying a known challenge marker, WebReaper climbs one more rung to a
+stealth Chromium backend tuned to pass those checks.
 
 ```bash
-webreaper scrape https://protected.example.com --browser --auto-stealth
+webreaper scrape https://protected.example.com --stealth
 ```
 
-With `--auto-stealth`, WebReaper detects the bot-check, escalates, and installs
-the stealth backend on first use if it is not already present. The detection
-covers Cloudflare, DataDome, PerimeterX, Incapsula, and Akamai. It is a single
-retry: if the stealth attempt is also judged blocked, WebReaper stops and points
-you at a captcha solver rather than burning requests in a loop.
+`--stealth` starts the climb at the stealth backend; a plain scrape blocked at a
+vanilla browser climbs there on its own. The climb happens inside a single load,
+per page: WebReaper detects the block (a challenge status, a response header, or
+a body marker, covering Cloudflare, DataDome, PerimeterX, Incapsula, and Akamai),
+escalates to the next rung, reloads, and returns the best result it reached. A
+page still blocked at the top rung is dropped rather than emitted as a challenge
+page, and the run exits non-zero so you know.
 
 ## Unattended runs
 
-The default escalation asks for confirmation before it downloads and launches a
-stealth backend, which is the right behavior at an interactive terminal. In CI,
-a cron job, or an agent loop, there is no one to answer the prompt. Set an
-environment variable and it proceeds on its own.
+Including the stealth rung downloads a few hundred megabytes on first use, so at
+an interactive terminal WebReaper asks once, at startup, before committing to it.
+In CI, a cron job, or an agent loop there is no one to answer, so set an
+environment variable (or pass `--auto-stealth`) and it includes the stealth rung
+without a prompt.
 
 ```bash
 WEBREAPER_AUTO_STEALTH=1 webreaper scrape https://protected.example.com --output page.md
 ```
 
-With that set, a detected bot-check escalates to stealth without a prompt. The
-same single-retry discipline applies, so an unattended run will not spin
-forever: it either gets the page or exits with a clear failure.
+With that set, the climb runs the full ladder unattended. It never spins
+forever: a page still blocked at the top rung is dropped and the run exits with a
+clear, non-zero status. Pass `--no-auto-stealth` to cap the climb at a vanilla
+browser.
 
 ## The library equivalent
 

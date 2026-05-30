@@ -41,8 +41,8 @@ const pillars = [
   },
   {
     icon: Shield,
-    title: "Bot-checks handled",
-    body: "Auto-detects Cloudflare, DataDome, and PerimeterX. One flag escalates to a stealth Chromium backend that installs itself.",
+    title: "Bot-checks handled automatically",
+    body: "Detects Cloudflare, DataDome, and PerimeterX and climbs from HTTP to a browser to stealth, per page and host-sticky. Blocked pages are dropped, never returned as data.",
   },
   {
     icon: Network,
@@ -400,8 +400,8 @@ webreaper map https://example.com --search /blog/ --max-urls 50
 # Crawl a whole site to JSON Lines
 webreaper crawl https://example.com > pages.jsonl
 
-# Bot-protected? Auto-detect, install stealth, retry
-webreaper scrape https://example.com --browser --auto-stealth`}
+# Bot-protected? A plain scrape auto-climbs to a browser; --stealth starts at the top tier
+webreaper scrape https://example.com --stealth`}
           />
         </div>
       </section>
