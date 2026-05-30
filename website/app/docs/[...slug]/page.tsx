@@ -63,7 +63,7 @@ export default async function DocPage({ params }: { params: Params }) {
           ) : null}
         </header>
 
-        <div className="prose prose-invert mt-8 max-w-none prose-headings:scroll-mt-24 prose-headings:font-semibold prose-headings:tracking-tight prose-h2:mt-10 prose-h2:border-b prose-h2:border-border prose-h2:pb-2 prose-a:font-medium prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-strong:text-foreground prose-li:marker:text-muted-2">
+        <div className="prose dark:prose-invert mt-8 max-w-none prose-headings:scroll-mt-24 prose-headings:font-semibold prose-headings:tracking-tight prose-h2:mt-10 prose-h2:border-b prose-h2:border-border prose-h2:pb-2 prose-a:font-medium prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-strong:text-foreground prose-li:marker:text-muted-2">
           <MDXContent code={doc.code} />
         </div>
 
