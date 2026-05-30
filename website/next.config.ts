@@ -9,8 +9,10 @@ if (process.argv.includes("dev") && !process.env.VELITE_STARTED) {
   void import("velite").then((m) => m.build({ watch: true, clean: false }));
 }
 
-const nextConfig: NextConfig = {
-  outputFileTracingRoot: __dirname,
-};
+// Do NOT set `outputFileTracingRoot` to the website dir. The Vercel project's
+// Root Directory is "website"; a subdir tracing root makes Vercel's build resolve
+// `.next` one level too high and fail with ENOENT on
+// routes-manifest-deterministic.json. Let Next/Vercel infer the root instead.
+const nextConfig: NextConfig = {};
 
 export default withFlowbiteReact(nextConfig);
