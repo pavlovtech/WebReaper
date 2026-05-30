@@ -19,7 +19,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { CodeBlock } from "@/components/code/code-block";
 import { CopyButton } from "@/components/code/copy-button";
-import { HeroShowcase } from "@/components/marketing/hero-showcase";
+import { ClimbDemo } from "@/components/playground/climb-demo";
+import { CLIMB_SCRIPTS } from "@/lib/playground/climb-events";
 import { GitHubIcon } from "@/components/icons";
 import { siteConfig } from "@/lib/site";
 
@@ -270,7 +271,7 @@ export default function Home() {
             </div>
           </div>
 
-          <HeroShowcase className="mx-auto mt-16 max-w-3xl" />
+          <ClimbDemo script={CLIMB_SCRIPTS[0]} className="mx-auto mt-16 max-w-3xl" />
         </div>
       </section>
 
