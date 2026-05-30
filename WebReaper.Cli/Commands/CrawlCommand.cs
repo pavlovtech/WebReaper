@@ -28,13 +28,21 @@ internal static class CrawlCommand
 
         var ctx = ParseContext(args);
 
+        // ADR-0084 Q5: warn before a large per-page LLM crawl (--prompt only;
+        // --infer is ~1 call). --yes or a non-TTY skips the prompt.
+        AiExtraction.ConfirmCrawlCostOrThrow(ctx.Ai, ctx.MaxPages, ctx.Yes);
+
         // ADR-0081: AsMarkdown is the default sweep extraction (every page
         // becomes clean content, sidestepping page heterogeneity); --schema
-        // applies the deterministic fold to every page instead.
+        // applies the deterministic fold; ADR-0084 --prompt / --infer apply an
+        // LLM strategy. The chat client disposes on method exit, after the engine.
         var seed = ScraperEngineBuilder.Crawl(ctx.Url);
-        var builder = ctx.SchemaPath is not null
-            ? seed.Extract(SchemaFile.Load(ctx.SchemaPath))
-            : seed.AsMarkdown();
+        using var llm = ctx.Ai.Any ? AiExtraction.CreateClient(ctx.Ai) : null;
+        var builder = ctx.Ai.Any
+            ? AiExtraction.Apply(seed, ctx.Ai, llm!)
+            : ctx.SchemaPath is not null
+                ? seed.Extract(SchemaFile.Load(ctx.SchemaPath))
+                : seed.AsMarkdown();
 
         builder = builder
             .Sweep(new SweepOptions
@@ -64,7 +72,10 @@ internal static class CrawlCommand
             await engine.RunAsync();
         }
 
-        await RecordOutput.WriteAsync(records, ctx.Output);
+        // ADR-0084 Q6: markdown mode writes .md per page under --output-dir;
+        // schema / prompt / infer write .json. Default stays JSON Lines to stdout.
+        var asMarkdown = ctx.SchemaPath is null && !ctx.Ai.Any;
+        await RecordOutput.EmitAsync(records, ctx.Output, ctx.OutputDir, ctx.Open, asMarkdown);
         return 0;
     }
 
@@ -75,7 +86,11 @@ internal static class CrawlCommand
         int MaxPages,
         int? MaxDepth,
         bool IncludeSubdomains,
-        bool Sitemap);
+        bool Sitemap,
+        AiExtractionContext Ai,
+        bool Yes,
+        string? OutputDir,
+        bool Open);
 
     internal static CrawlContext ParseContext(ParsedArgs args)
     {
@@ -85,13 +100,22 @@ internal static class CrawlCommand
             ? args.GetIntFlag("max-depth", int.MaxValue)
             : null;
 
+        var schemaPath = args.GetFlag("schema");
+        var ai = AiExtraction.Parse(args);
+        AiExtraction.ValidateExclusive(ai, schemaPath);
+        var (output, outputDir, open) = RecordOutput.ParseTarget(args);
+
         return new CrawlContext(
             Url: Urls.Normalize(args.Positional[0]),
-            SchemaPath: args.GetFlag("schema"),
-            Output: args.GetFlag("output"),
+            SchemaPath: schemaPath,
+            Output: output,
             MaxPages: args.GetIntFlag("max-pages", 1000),
             MaxDepth: maxDepth,
             IncludeSubdomains: args.HasFlag("include-subdomains"),
-            Sitemap: !args.HasFlag("no-sitemap"));
+            Sitemap: !args.HasFlag("no-sitemap"),
+            Ai: ai,
+            Yes: args.HasFlag("yes"),
+            OutputDir: outputDir,
+            Open: open);
     }
 }

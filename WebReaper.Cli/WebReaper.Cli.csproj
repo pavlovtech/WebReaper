@@ -40,6 +40,11 @@
   <ItemGroup>
     <ProjectReference Include="..\WebReaper\WebReaper.csproj" />
     <ProjectReference Include="..\WebReaper.Cdp\WebReaper.Cdp.csproj" />
+    <!-- ADR-0084: AI extraction (the prompt / infer flags). Both satellites
+         are AOT-clean (their bake-the-satellite smoke tests gate it), so the
+         CLI single-binary AOT publish is preserved. -->
+    <ProjectReference Include="..\WebReaper.AI\WebReaper.AI.csproj" />
+    <ProjectReference Include="..\WebReaper.AI.Http\WebReaper.AI.Http.csproj" />
   </ItemGroup>
 
   <ItemGroup>

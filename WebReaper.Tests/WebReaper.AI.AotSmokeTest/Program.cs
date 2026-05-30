@@ -32,6 +32,11 @@ var schema = new Schema { new SchemaElement("title", "h1") };
 var record = await extractor.ExtractAsync("<html><body><h1>hello</h1></body></html>", schema);
 Check(record is not null, "LlmContentExtractor JSON-mode path");
 
+// 1b. ADR-0084 piece 3: schema-free prompt extraction (null schema is valid).
+var promptExtractor = new PromptContentExtractor(stub, "extract the title");
+var promptRecord = await promptExtractor.ExtractAsync("<html><body><h1>hello</h1></body></html>", null);
+Check(promptRecord is not null, "PromptContentExtractor schema-free path");
+
 // 2. Tool-call path: an LlmCall<T> in tool mode. The stub returns a
 //    FunctionCallContent whose argument is a JsonElement (the real shape a
 //    chat client produces), so this roots and exercises the args-dictionary
