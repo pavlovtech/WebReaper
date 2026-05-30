@@ -11,7 +11,7 @@ One end-to-end run of the scraper over a site, seeded from the configured start 
 _Avoid_: scrape, scan, session.
 
 **Crawl seed**:
-The start URL(s) and page mode you hold *before* a builder exists — produced by the static `ScraperEngineBuilder.Crawl(...)` / `CrawlWithBrowser(...)`, awaiting a Schema. Its only operation is `Extract(schema)`, which yields the configurable builder; the build terminals live only there, so "build with no start URLs or no schema" is unrepresentable rather than a runtime throw (see `docs/adr/0025-staged-builder-entry.md`).
+The start URL(s) and page mode you hold *before* a builder exists, produced by the static `ScraperEngineBuilder.Crawl(...)` / `CrawlWithBrowser(...)`, awaiting an extraction strategy. Its operations are the strategy terminals: `Extract(schema)` (deterministic fold), `AsMarkdown()` (no-schema Markdown, ADR-0040), `ExtractInferred(goal?)` (inferred schema, ADR-0067), and `ExtractWithPrompt(instruction)` (schema-free **Prompt extraction**, ADR-0084). Each yields the configurable builder; the build terminals live only there, so "build with no start URLs or no extraction strategy" is unrepresentable rather than a runtime throw (see `docs/adr/0025-staged-builder-entry.md`).
 _Avoid_: builder, config, prerequisites, start set.
 
 **Job**:
@@ -94,7 +94,7 @@ The declarative field→selector tree describing what to extract from a target p
 _Avoid_: template, mapping, model.
 
 **Content extractor**:
-The seam that turns one loaded target page into the structured record the **Sink**s emit (`IContentExtractor`, ADR-0039) — the content half of crawling a page (link discovery is the other half, the concrete `LinkExtractor`, ADR-0036). Named for the task, not its one core adapter: the axis of variation is extraction *strategy* — the deterministic **Schema fold** is one strategy, an LLM-backed extractor the prospective other — and that axis is independent of the **Node backend** (the document-shape axis, one level down). Selected via `WithContentExtractor`.
+The seam that turns one loaded target page into the structured record the **Sink**s emit (`IContentExtractor`, ADR-0039) — the content half of crawling a page (link discovery is the other half, the concrete `LinkExtractor`, ADR-0036). Named for the task, not its one core adapter: the axis of variation is extraction *strategy* (the deterministic **Schema fold**, the no-schema **Markdown extraction**, the schema-driven **LLM extractor**, and the schema-free **Prompt extraction** are the strategies), and that axis is independent of the **Node backend** (the document-shape axis, one level down). Selected via `WithContentExtractor`.
 _Avoid_: content parser, JSON parser, the parser.
 
 **Schema fold**:
@@ -353,6 +353,10 @@ deterministic (Markdown pre-clean, temperature 0, 4096-token cap,
 no retries inside the extractor; the per-Job retry seam ADR-0026
 covers that).
 _Avoid_: AI extractor, GPT extractor.
+
+**Prompt extraction**:
+The schema-free **Content extractor** strategy (ADR-0084). The LLM reads each page and extracts per a natural-language instruction, returning whatever JSON shape fits. It is the schema-free sibling of the **LLM extractor**: same `WebReaper.AI` satellite, same `LlmCall` mechanism and Markdown pre-clean, but a free-text instruction replaces the **Schema** (the `SchemaJsonSchemaBridge` step is skipped). Surfaced as the CLI's `--prompt "<instruction>"` on `scrape` / `crawl`, it costs one LLM call per page; robust on structurally heterogeneous pages, with cost scaling by page count. That is the deliberate contrast to the **Learned-schema content extractor**'s infer-once-then-deterministic-fold path (the CLI's `--infer`).
+_Avoid_: freeform extraction, instruction extractor.
 
 **Self-healing extractor**:
 The cached-selector-demotion wrapper (`SelfHealingContentExtractor`,
