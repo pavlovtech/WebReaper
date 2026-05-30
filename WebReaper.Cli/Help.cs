@@ -31,6 +31,14 @@ Flags (per-command):
 
   scrape:
     --schema <path>     JSON schema file (switches output to JSON).
+    --prompt <text>     AI: extract per a natural-language instruction
+                        (schema-free, one LLM call). Needs --model + --llm-url.
+                        Mutually exclusive with --schema / --infer.
+    --infer [<goal>]    AI: infer a schema once from an optional goal, then
+                        extract deterministically (cheaper across many pages).
+    --model <id>        LLM model id for --prompt / --infer.
+    --llm-url <url>     OpenAI-compatible endpoint (e.g.
+                        https://api.openai.com/v1 or http://localhost:11434/v1).
     --output <path>     Write to a file instead of stdout.
     --max-age <dur>     Cache fetched pages for this long (30s/5m/2h/1d
                         or a TimeSpan).
@@ -53,6 +61,14 @@ Flags (per-command):
 
   crawl:
     --schema <path>     JSON schema file (switches output to JSON).
+    --prompt <text>     AI: extract per a natural-language instruction
+                        (schema-free, one LLM call per page). Confirms before
+                        a large crawl; --yes skips. Needs --model + --llm-url.
+    --infer [<goal>]    AI: infer a schema once, then extract deterministically
+                        across the sweep (cheap; about one LLM call total).
+    --model <id>        LLM model id for --prompt / --infer.
+    --llm-url <url>     OpenAI-compatible endpoint.
+    --yes               Skip the --prompt cost-confirmation prompt.
     --output <path>     Write to a file instead of stdout.
     --max-pages <n>     Cap the pages crawled (default 1000).
     --max-depth <n>     Cap the hop distance from the start URL
@@ -93,6 +109,10 @@ Environment:
                                 scrape/crawl/map print an upgrade hint to stderr
                                 (interactive terminals only) when a newer
                                 release exists; never in CI or pipes.
+  WEBREAPER_LLM_MODEL           Default for --model.
+  WEBREAPER_LLM_BASE_URL        Default for --llm-url.
+  WEBREAPER_LLM_API_KEY         Bearer token for the LLM endpoint (or
+  (or OPENAI_API_KEY)           OPENAI_API_KEY). Read from env only, never a flag.
 
 Examples:
   webreaper scrape https://example.com
@@ -100,6 +120,8 @@ Examples:
   webreaper crawl https://example.com > pages.jsonl
   webreaper crawl https://example.com --schema schema.json --max-pages 200
   webreaper map https://example.com --search /blog/
+  webreaper scrape https://example.com --prompt ""title and author"" --model gpt-4o-mini --llm-url https://api.openai.com/v1
+  webreaper crawl https://example.com --infer ""all C-level execs"" --model gpt-4o-mini --llm-url https://api.openai.com/v1
   webreaper init
 ".TrimStart();
 }

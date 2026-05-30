@@ -144,9 +144,15 @@ internal static class ScrapeCommand
             ? ScraperEngineBuilder.Crawl(ctx.Url)
             : ScraperEngineBuilder.CrawlWithBrowser(ctx.Url);
 
-        var builder = ctx.SchemaPath is not null
-            ? seed.Extract(SchemaFile.Load(ctx.SchemaPath))
-            : seed.AsMarkdown();
+        // ADR-0084: AI strategies (--prompt / --infer) take precedence over the
+        // deterministic terminals. The chat client is disposed on method exit,
+        // after the engine's RunAsync (declared later, so disposed first).
+        using var llm = ctx.Ai.Any ? AiExtraction.CreateClient(ctx.Ai) : null;
+        var builder = ctx.Ai.Any
+            ? AiExtraction.Apply(seed, ctx.Ai, llm!)
+            : ctx.SchemaPath is not null
+                ? seed.Extract(SchemaFile.Load(ctx.SchemaPath))
+                : seed.AsMarkdown();
 
         // The vanilla-browser rung — skipped for --stealth, where the stealth
         // rung is the browser-class tier the Dynamic start page enters at. BYO
@@ -252,7 +258,8 @@ internal static class ScrapeCommand
         bool Browser,
         bool Stealth,
         bool AutoStealth,
-        bool NoAutoStealth);
+        bool NoAutoStealth,
+        AiExtractionContext Ai);
 
     internal static ScrapeContext ParseContext(ParsedArgs args)
     {
@@ -269,9 +276,13 @@ internal static class ScrapeCommand
         // Chromium-based scrape; the only difference is which Chromium).
         if (stealth) browser = true;
 
+        var schemaPath = args.GetFlag("schema");
+        var ai = AiExtraction.Parse(args);
+        AiExtraction.ValidateExclusive(ai, schemaPath);
+
         return new ScrapeContext(
             Url: url,
-            SchemaPath: args.GetFlag("schema"),
+            SchemaPath: schemaPath,
             Output: args.GetFlag("output"),
             MaxAge: args.GetTimeSpanFlag("max-age"),
             Follow: args.GetFlag("follow"),
@@ -279,6 +290,7 @@ internal static class ScrapeCommand
             Browser: browser,
             Stealth: stealth,
             AutoStealth: autoStealthFlag,
-            NoAutoStealth: noAutoStealth);
+            NoAutoStealth: noAutoStealth,
+            Ai: ai);
     }
 }
