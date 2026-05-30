@@ -54,7 +54,7 @@ internal static class ScrapeCommand
 
         var result = await RunOnceAsync(ctx, startTier, includeStealth, stealthPath);
         WriteEmptyHint(ctx, result.Records.Count);
-        return await ShipAsync(result);
+        return await ShipAsync(ctx, result);
     }
 
     // ----- stealth-inclusion decision (startup) -----
@@ -102,9 +102,12 @@ internal static class ScrapeCommand
     // code: non-zero when the core block detector flagged (and the driver
     // suppressed) any page this run, zero otherwise — so an unattended caller can
     // detect a blocked scrape.
-    private static async Task<int> ShipAsync(AttemptResult attempt)
+    private static async Task<int> ShipAsync(ScrapeContext ctx, AttemptResult attempt)
     {
-        await RecordOutput.WriteAsync(attempt.Records, attempt.Output);
+        // Markdown mode (no schema, no AI) writes .md files under --output-dir;
+        // schema / prompt / infer write .json.
+        var asMarkdown = ctx.SchemaPath is null && !ctx.Ai.Any;
+        await RecordOutput.EmitAsync(attempt.Records, ctx.Output, ctx.OutputDir, ctx.Open, asMarkdown);
         if (attempt.BlockedPageCount > 0)
         {
             Console.Error.WriteLine(
@@ -259,7 +262,9 @@ internal static class ScrapeCommand
         bool Stealth,
         bool AutoStealth,
         bool NoAutoStealth,
-        AiExtractionContext Ai);
+        AiExtractionContext Ai,
+        string? OutputDir,
+        bool Open);
 
     internal static ScrapeContext ParseContext(ParsedArgs args)
     {
@@ -279,11 +284,12 @@ internal static class ScrapeCommand
         var schemaPath = args.GetFlag("schema");
         var ai = AiExtraction.Parse(args);
         AiExtraction.ValidateExclusive(ai, schemaPath);
+        var (output, outputDir, open) = RecordOutput.ParseTarget(args);
 
         return new ScrapeContext(
             Url: url,
             SchemaPath: schemaPath,
-            Output: args.GetFlag("output"),
+            Output: output,
             MaxAge: args.GetTimeSpanFlag("max-age"),
             Follow: args.GetFlag("follow"),
             CdpUrl: cdpUrl,
@@ -291,6 +297,8 @@ internal static class ScrapeCommand
             Stealth: stealth,
             AutoStealth: autoStealthFlag,
             NoAutoStealth: noAutoStealth,
-            Ai: ai);
+            Ai: ai,
+            OutputDir: outputDir,
+            Open: open);
     }
 }

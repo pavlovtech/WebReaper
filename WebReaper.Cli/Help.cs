@@ -40,6 +40,9 @@ Flags (per-command):
     --llm-url <url>     OpenAI-compatible endpoint (e.g.
                         https://api.openai.com/v1 or http://localhost:11434/v1).
     --output <path>     Write to a file instead of stdout.
+    --output-dir [dir]  Write one file per page to <dir> (default
+                        ./webreaper-out); .md in Markdown mode, else .json.
+    --open              Reveal the output folder when done (best-effort).
     --max-age <dur>     Cache fetched pages for this long (30s/5m/2h/1d
                         or a TimeSpan).
     --browser           Use the headless-browser transport. Layered
@@ -70,6 +73,9 @@ Flags (per-command):
     --llm-url <url>     OpenAI-compatible endpoint.
     --yes               Skip the --prompt cost-confirmation prompt.
     --output <path>     Write to a file instead of stdout.
+    --output-dir [dir]  Write one file per page to <dir> (default
+                        ./webreaper-out); .md in Markdown mode, else .json.
+    --open              Reveal the output folder when done (best-effort).
     --max-pages <n>     Cap the pages crawled (default 1000).
     --max-depth <n>     Cap the hop distance from the start URL
                         (default: unlimited).

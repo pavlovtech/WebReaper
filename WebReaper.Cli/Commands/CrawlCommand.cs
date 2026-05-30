@@ -72,7 +72,10 @@ internal static class CrawlCommand
             await engine.RunAsync();
         }
 
-        await RecordOutput.WriteAsync(records, ctx.Output);
+        // ADR-0084 Q6: markdown mode writes .md per page under --output-dir;
+        // schema / prompt / infer write .json. Default stays JSON Lines to stdout.
+        var asMarkdown = ctx.SchemaPath is null && !ctx.Ai.Any;
+        await RecordOutput.EmitAsync(records, ctx.Output, ctx.OutputDir, ctx.Open, asMarkdown);
         return 0;
     }
 
@@ -85,7 +88,9 @@ internal static class CrawlCommand
         bool IncludeSubdomains,
         bool Sitemap,
         AiExtractionContext Ai,
-        bool Yes);
+        bool Yes,
+        string? OutputDir,
+        bool Open);
 
     internal static CrawlContext ParseContext(ParsedArgs args)
     {
@@ -98,16 +103,19 @@ internal static class CrawlCommand
         var schemaPath = args.GetFlag("schema");
         var ai = AiExtraction.Parse(args);
         AiExtraction.ValidateExclusive(ai, schemaPath);
+        var (output, outputDir, open) = RecordOutput.ParseTarget(args);
 
         return new CrawlContext(
             Url: Urls.Normalize(args.Positional[0]),
             SchemaPath: schemaPath,
-            Output: args.GetFlag("output"),
+            Output: output,
             MaxPages: args.GetIntFlag("max-pages", 1000),
             MaxDepth: maxDepth,
             IncludeSubdomains: args.HasFlag("include-subdomains"),
             Sitemap: !args.HasFlag("no-sitemap"),
             Ai: ai,
-            Yes: args.HasFlag("yes"));
+            Yes: args.HasFlag("yes"),
+            OutputDir: outputDir,
+            Open: open);
     }
 }
