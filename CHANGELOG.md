@@ -1,5 +1,36 @@
 # Changelog
 
+## 11.0.0: block-aware escalating page loader
+
+WebReaper now detects bot-check challenges and climbs through stronger transports automatically, per page, instead of silently harvesting challenge pages. This is the [ADR-0083](docs/adr/0083-escalating-page-loader.md) wave (5 slices), and it is a breaking major because it changes the core page-loader contract.
+
+What you get:
+
+- **Automatic browser fallback for blocked sites.** A page that loads fine over HTTP is returned as-is; a page that looks blocked (a challenge-class status, a challenge response header, or a challenge body marker) is re-loaded over the next stronger transport. The ladder is HTTP, then a headless browser, then a stealth browser, and the climb happens inside a single load call, so the crawl driver, scheduler, and visited-link tracker are untouched. Both `scrape` and `crawl` get it.
+- **Host-sticky climbing.** Bot protection is near-always site-wide, so once one page on a host is confirmed blocked at a tier, later same-host pages start higher rather than re-pay the failed lower tier. The floor lifts only on a high-confidence block (status or header), never on a weak body marker, so one false-positive page cannot promote a whole legitimate host.
+- **Challenge pages are dropped, not emitted.** A page still blocked at the top tier is suppressed (no page-processor run, no sink fan-out) and tallied on the run report, so a blocked scrape yields zero records plus a clear signal, never challenge-page garbage in your store.
+- **The library can report an HTTP status and response headers for the first time** (`PageLoadResult`), and a `403` no longer stack-traces out of a run.
+- **CLI `--stealth` finally does something.** It starts the climb at the stealth rung (it was parsed but never consulted before). `--browser` starts at the browser rung; with no flag a scrape starts at HTTP and auto-climbs. Stealth-rung inclusion is decided once at startup (`--auto-stealth` / `WEBREAPER_AUTO_STEALTH` / interactive `Y/n`; `--no-auto-stealth` caps the climb at the browser rung).
+
+Breaking changes:
+
+- `IPageLoader.LoadAsync` and `IPageLoadTransport.LoadAsync` return `Task<PageLoadResult>` (body plus `HttpStatus` and `Headers`), not `Task<string>`. Every transport and transport satellite returns `PageLoadResult`.
+- A completed response of any status, including 4xx/5xx, is **data**, not an exception. Only a genuine no-response failure (DNS, connection refused, TLS, timeout) throws, now a typed `PageLoadException`. The retry policy therefore retries transport faults only, never an HTTP status (transient `5xx`/`429` are no longer auto-retried on the HTTP path; the correct response to a challenge code is to climb).
+- `RunReport.BlockedPageCount` counts residual-blocked pages the run suppressed (dropped), and the CLI exits non-zero when any page stayed blocked.
+- `ScraperEngineBuilder.WithLoadTransport` appends an ordered Dynamic rung instead of replacing a single slot (single-call wiring is unchanged).
+
+Supersedes [ADR-0056](docs/adr/0056-cli-bot-check-escalation.md) (the dead CLI bot-check escalation is removed); amends [ADR-0004](docs/adr/0004-one-page-loader-transport-seam.md).
+
+| Area | Change |
+|---|---|
+| `WebReaper.Core.Loaders` | NEW `PageLoadResult`, `PageLoadException`, `PageLoadTier`, `EscalatingPageLoader`, `HostTierFloor`; `IPageLoader` / `IPageLoadTransport` return `PageLoadResult`. |
+| `WebReaper.Core.Blocking` | NEW `IBlockDetector` + `BlockDetector`, `BlockVerdict` / `BlockConfidence`, and the pure `BlockDropPolicy` confidence-split drop rule. |
+| `WebReaper.Core` (driver) | The crawl driver runs the detector verdict through the drop policy before the post-extraction pipeline and tallies suppressed pages on `RunReport`. |
+| `WebReaper.Cli` | `--browser` / `--stealth` select the entry rung; `--stealth` fixed; the dead `BotCheckDetector` escalation removed; the `EmptyResultAdvisor` zero-record hint kept. |
+| satellites | `WebReaper.Cdp` / `WebReaper.Playwright` / proxy variants return `PageLoadResult`. |
+
+Semver: major. The loader / transport return-type change is a breaking change to a core seam and to the transport-satellite contract.
+
 ## 10.3.0: self-update notifier
 
 `scrape` / `crawl` / `map` now tell you when a newer release exists:
