@@ -715,11 +715,11 @@ public class AgentEngineDriverTests
     // change vs ADR-0051).
     private sealed class FailingFollowLoader(string badUrl) : IPageLoader
     {
-        public Task<string> LoadAsync(PageRequest request, CancellationToken ct = default)
+        public Task<PageLoadResult> LoadAsync(PageRequest request, CancellationToken ct = default)
         {
             if (request.Url == badUrl)
                 throw new HttpRequestException($"simulated load failure on {request.Url}");
-            return Task.FromResult("<html/>");
+            return Task.FromResult(new PageLoadResult { Html = "<html/>" });
         }
     }
 
@@ -789,8 +789,8 @@ public class AgentEngineDriverTests
 
     private sealed class FakeLoader(string html) : IPageLoader
     {
-        public Task<string> LoadAsync(PageRequest request, CancellationToken ct = default)
-            => Task.FromResult(html);
+        public Task<PageLoadResult> LoadAsync(PageRequest request, CancellationToken ct = default)
+            => Task.FromResult(new PageLoadResult { Html = html });
     }
 
     private sealed class RecordingSink : IScraperSink

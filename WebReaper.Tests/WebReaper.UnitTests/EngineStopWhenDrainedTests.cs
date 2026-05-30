@@ -4,6 +4,7 @@ using WebReaper.ConfigStorage.Abstract;
 using WebReaper.Core;
 using WebReaper.Core.Crawling;
 using WebReaper.Core.LinkTracker.Concrete;
+using WebReaper.Core.Loaders.Abstract;
 using WebReaper.Core.Scheduler.Concrete;
 using WebReaper.Core.Spider.Abstract;
 using WebReaper.Domain;
@@ -37,7 +38,7 @@ namespace WebReaper.UnitTests
                         new Job("child-2", ImmutableQueue<LinkPathSelector>.Empty, ImmutableQueue<string>.Empty))
                     : ImmutableArray<Job>.Empty;
 
-                return Task.FromResult(new JobReport(CrawlOutcome.Transit(children), string.Empty));
+                return Task.FromResult(new JobReport(CrawlOutcome.Transit(children), new PageLoadResult { Html = string.Empty }));
             }
         }
 

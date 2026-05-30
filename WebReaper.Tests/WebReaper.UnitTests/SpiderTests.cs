@@ -28,10 +28,10 @@ public class SpiderTests
     {
         public PageRequest? LastRequest { get; private set; }
 
-        public Task<string> LoadAsync(PageRequest request, CancellationToken cancellationToken = default)
+        public Task<PageLoadResult> LoadAsync(PageRequest request, CancellationToken cancellationToken = default)
         {
             LastRequest = request;
-            return Task.FromResult(html);
+            return Task.FromResult(new PageLoadResult { Html = html });
         }
     }
 
@@ -58,7 +58,7 @@ public class SpiderTests
         var parsed = Assert.IsType<CrawlOutcome.Parsed>(report.Outcome);
         Assert.Equal("https://x.test/p/1", parsed.Data.Url);
         Assert.Equal("Hello", parsed.Data.Data["title"]?.ToString());
-        Assert.Equal(html, report.Document);          // the doc the driver needs for PageContext
+        Assert.Equal(html, report.Page.Html);          // the doc the driver needs for PageContext
         Assert.Empty(report.Outcome.NextJobs);
     }
 
@@ -74,7 +74,7 @@ public class SpiderTests
 
         var followed = Assert.IsType<CrawlOutcome.Followed>(report.Outcome);
         Assert.Equal(new[] { "https://x.test/a", "https://x.test/b" }, followed.Next.Select(j => j.Url));
-        Assert.Equal(html, report.Document);
+        Assert.Equal(html, report.Page.Html);
     }
 
     [Fact]

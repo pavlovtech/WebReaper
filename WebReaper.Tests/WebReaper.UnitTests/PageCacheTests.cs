@@ -16,7 +16,7 @@ public class PageCacheTests
         // The default: preserves pre-0041 PageLoader behaviour exactly.
         IPageCache cache = new NullPageCache();
 
-        await cache.WriteAsync("https://x.test/", PageType.Static, "<html/>", default);
+        await cache.WriteAsync("https://x.test/", PageType.Static, new PageLoadResult { Html = "<html/>" }, default);
 
         var got = await cache.TryReadAsync("https://x.test/", PageType.Static, default);
 
@@ -28,11 +28,11 @@ public class PageCacheTests
     {
         var cache = new InMemoryPageCache(TimeSpan.FromMinutes(10));
 
-        await cache.WriteAsync("https://x.test/", PageType.Static, "<html>cached</html>", default);
+        await cache.WriteAsync("https://x.test/", PageType.Static, new PageLoadResult { Html = "<html>cached</html>" }, default);
 
         var got = await cache.TryReadAsync("https://x.test/", PageType.Static, default);
 
-        Assert.Equal("<html>cached</html>", got);
+        Assert.Equal("<html>cached</html>", got!.Html);
     }
 
     [Fact]
@@ -54,13 +54,13 @@ public class PageCacheTests
         // a Dynamic request.
         var cache = new InMemoryPageCache(TimeSpan.FromMinutes(10));
 
-        await cache.WriteAsync("https://x.test/", PageType.Static, "<static/>", default);
+        await cache.WriteAsync("https://x.test/", PageType.Static, new PageLoadResult { Html = "<static/>" }, default);
 
         var dynamicRead = await cache.TryReadAsync("https://x.test/", PageType.Dynamic, default);
         Assert.Null(dynamicRead);
 
         var staticRead = await cache.TryReadAsync("https://x.test/", PageType.Static, default);
-        Assert.Equal("<static/>", staticRead);
+        Assert.Equal("<static/>", staticRead!.Html);
     }
 
     [Fact]
@@ -72,7 +72,7 @@ public class PageCacheTests
         var now = DateTimeOffset.UtcNow;
         var cache = new InMemoryPageCache(TimeSpan.FromMinutes(10), () => now);
 
-        await cache.WriteAsync("https://x.test/", PageType.Static, "<v1/>", default);
+        await cache.WriteAsync("https://x.test/", PageType.Static, new PageLoadResult { Html = "<v1/>" }, default);
 
         now = now.AddMinutes(11);
 
@@ -89,13 +89,13 @@ public class PageCacheTests
         var now = DateTimeOffset.UtcNow;
         var cache = new InMemoryPageCache(TimeSpan.FromMinutes(10), () => now);
 
-        await cache.WriteAsync("https://x.test/", PageType.Static, "<v1/>", default);
+        await cache.WriteAsync("https://x.test/", PageType.Static, new PageLoadResult { Html = "<v1/>" }, default);
 
         now = now.AddMinutes(10);
 
         var got = await cache.TryReadAsync("https://x.test/", PageType.Static, default);
 
-        Assert.Equal("<v1/>", got);
+        Assert.Equal("<v1/>", got!.Html);
     }
 
     [Fact]
@@ -106,16 +106,16 @@ public class PageCacheTests
         var now = DateTimeOffset.UtcNow;
         var cache = new InMemoryPageCache(TimeSpan.FromMinutes(10), () => now);
 
-        await cache.WriteAsync("https://x.test/", PageType.Static, "<v1/>", default);
+        await cache.WriteAsync("https://x.test/", PageType.Static, new PageLoadResult { Html = "<v1/>" }, default);
 
         now = now.AddMinutes(5);
-        await cache.WriteAsync("https://x.test/", PageType.Static, "<v2/>", default);
+        await cache.WriteAsync("https://x.test/", PageType.Static, new PageLoadResult { Html = "<v2/>" }, default);
 
         // 6 minutes later — within the refreshed TTL.
         now = now.AddMinutes(6);
         var got = await cache.TryReadAsync("https://x.test/", PageType.Static, default);
 
-        Assert.Equal("<v2/>", got);
+        Assert.Equal("<v2/>", got!.Html);
     }
 
     [Fact]
@@ -125,7 +125,7 @@ public class PageCacheTests
         // mode. Writes succeed; reads always miss.
         var cache = new InMemoryPageCache(TimeSpan.Zero);
 
-        await cache.WriteAsync("https://x.test/", PageType.Static, "<html/>", default);
+        await cache.WriteAsync("https://x.test/", PageType.Static, new PageLoadResult { Html = "<html/>" }, default);
 
         var got = await cache.TryReadAsync("https://x.test/", PageType.Static, default);
 
@@ -144,8 +144,8 @@ public class PageCacheTests
     {
         var cache = new InMemoryPageCache(TimeSpan.FromMinutes(10));
 
-        await cache.WriteAsync("https://x.test/a", PageType.Static, "<a/>", default);
-        await cache.WriteAsync("https://x.test/b", PageType.Dynamic, "<b/>", default);
+        await cache.WriteAsync("https://x.test/a", PageType.Static, new PageLoadResult { Html = "<a/>" }, default);
+        await cache.WriteAsync("https://x.test/b", PageType.Dynamic, new PageLoadResult { Html = "<b/>" }, default);
 
         cache.Clear();
 
@@ -161,7 +161,7 @@ public class PageCacheTests
         // if called — the test passes only because the cache short-
         // circuits the dispatch.
         var cache = new InMemoryPageCache(TimeSpan.FromMinutes(10));
-        await cache.WriteAsync("https://x.test/", PageType.Static, "<cached/>", default);
+        await cache.WriteAsync("https://x.test/", PageType.Static, new PageLoadResult { Html = "<cached/>" }, default);
 
         var loader = new PageLoader(
             new ThrowingTransport(),
@@ -171,7 +171,7 @@ public class PageCacheTests
 
         var got = await loader.LoadAsync(new PageRequest("https://x.test/", PageType.Static, null, true), default);
 
-        Assert.Equal("<cached/>", got);
+        Assert.Equal("<cached/>", got.Html);
     }
 
     [Fact]
@@ -191,8 +191,8 @@ public class PageCacheTests
         var first = await loader.LoadAsync(new PageRequest("https://x.test/", PageType.Static, null, true), default);
         var second = await loader.LoadAsync(new PageRequest("https://x.test/", PageType.Static, null, true), default);
 
-        Assert.Equal("<fetched/>", first);
-        Assert.Equal("<fetched/>", second);
+        Assert.Equal("<fetched/>", first.Html);
+        Assert.Equal("<fetched/>", second.Html);
         Assert.Equal(1, http.CallCount);
     }
 
@@ -212,7 +212,7 @@ public class PageCacheTests
 
         var got = await loader.LoadAsync(new PageRequest("https://x.test/", PageType.Static, null, true), default);
 
-        Assert.Equal("<fetched/>", got);
+        Assert.Equal("<fetched/>", got.Html);
     }
 
     private sealed class StubTransport : IPageLoadTransport
@@ -220,24 +220,24 @@ public class PageCacheTests
         private readonly string _document;
         public int CallCount { get; private set; }
         public StubTransport(string document) => _document = document;
-        public Task<string> LoadAsync(PageRequest request, CancellationToken cancellationToken)
+        public Task<PageLoadResult> LoadAsync(PageRequest request, CancellationToken cancellationToken)
         {
             CallCount++;
-            return Task.FromResult(_document);
+            return Task.FromResult(new PageLoadResult { Html = _document });
         }
     }
 
     private sealed class ThrowingTransport : IPageLoadTransport
     {
-        public Task<string> LoadAsync(PageRequest request, CancellationToken cancellationToken)
+        public Task<PageLoadResult> LoadAsync(PageRequest request, CancellationToken cancellationToken)
             => throw new InvalidOperationException("The cache short-circuit must prevent this call.");
     }
 
     private sealed class ThrowingWriteCache : IPageCache
     {
-        public Task<string?> TryReadAsync(string url, PageType pageType, CancellationToken cancellationToken)
-            => Task.FromResult<string?>(null);
-        public Task WriteAsync(string url, PageType pageType, string document, CancellationToken cancellationToken)
+        public Task<PageLoadResult?> TryReadAsync(string url, PageType pageType, CancellationToken cancellationToken)
+            => Task.FromResult<PageLoadResult?>(null);
+        public Task WriteAsync(string url, PageType pageType, PageLoadResult document, CancellationToken cancellationToken)
             => throw new InvalidOperationException("Cache backend down.");
     }
 }

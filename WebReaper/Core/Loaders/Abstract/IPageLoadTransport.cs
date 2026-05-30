@@ -11,10 +11,12 @@ public interface IPageLoadTransport
 {
     /// <summary>
     /// Perform the actual fetch for <paramref name="request"/> via this
-    /// mechanism (HTTP or headless browser) and return the page body. Applies
-    /// the optional proxy and this mechanism's client / launch quirks. A page
-    /// that cannot be retrieved is surfaced as an exception, not an empty
-    /// string.
+    /// mechanism (HTTP or headless browser) and return its
+    /// <see cref="PageLoadResult"/> (body plus response status and headers).
+    /// Applies the optional proxy and this mechanism's client / launch quirks.
+    /// A completed response with any status code is returned as data (ADR-0083);
+    /// only a genuine no-response failure is surfaced as a
+    /// <see cref="PageLoadException"/>.
     /// </summary>
-    Task<string> LoadAsync(PageRequest request, CancellationToken cancellationToken = default);
+    Task<PageLoadResult> LoadAsync(PageRequest request, CancellationToken cancellationToken = default);
 }

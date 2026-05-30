@@ -56,7 +56,7 @@ public sealed class PlaywrightPageLoadTransport : IPageLoadTransport, IAsyncDisp
     }
 
     /// <inheritdoc />
-    public async Task<string> LoadAsync(PageRequest request, CancellationToken cancellationToken = default)
+    public async Task<PageLoadResult> LoadAsync(PageRequest request, CancellationToken cancellationToken = default)
     {
         ObjectDisposedException.ThrowIf(_disposed, this);
         var browser = await EnsureLaunchedAsync(request.Headless, cancellationToken);
@@ -84,7 +84,7 @@ public sealed class PlaywrightPageLoadTransport : IPageLoadTransport, IAsyncDisp
         await ApplyCookiesAsync(context, request.Url);
 
         var page = await context.NewPageAsync();
-        await page.GotoAsync(request.Url, new PageGotoOptions
+        var response = await page.GotoAsync(request.Url, new PageGotoOptions
         {
             WaitUntil = WaitUntilState.NetworkIdle,
         });
@@ -102,7 +102,18 @@ public sealed class PlaywrightPageLoadTransport : IPageLoadTransport, IAsyncDisp
             }
         }
 
-        return await page.ContentAsync();
+        var html = await page.ContentAsync();
+        // ADR-0083: Playwright surfaces the navigation response, so status and
+        // headers come back cheaply (null when the navigation produced no
+        // main response, e.g. about:blank).
+        return new PageLoadResult
+        {
+            Html = html,
+            HttpStatus = response?.Status,
+            Headers = response?.Headers is { } h
+                ? new Dictionary<string, string>(h, StringComparer.OrdinalIgnoreCase)
+                : PageLoadResult.EmptyHeaders,
+        };
     }
 
     private async Task ApplyCookiesAsync(IBrowserContext context, string url)

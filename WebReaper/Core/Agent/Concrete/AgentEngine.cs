@@ -232,14 +232,15 @@ public sealed class AgentEngine : IAsyncDisposable
             try
             {
                 var request = new PageRequest(currentUrl, _pageType, pendingActions, Headless: true);
-                pageHtml = await _pageLoader.LoadAsync(request, cancellationToken);
+                var result = await _pageLoader.LoadAsync(request, cancellationToken);
+                pageHtml = result.Html;
                 pendingActions = null; // one-shot
-                // The HTTP transport doesn't surface a per-page status code
-                // through IPageLoader; we treat a successful load as 200 for
-                // Static and 0 for Dynamic (the brain reads "0 means
-                // dynamic" from the system prompt — Followed StatusCode
-                // semantics, fork 3 verdict).
-                loadStatusCode = _pageType == PageType.Static ? 200 : 0;
+                // ADR-0083: the loader now surfaces the real HTTP status. Fall
+                // back to the pre-0083 synthesis (200 for Static, 0 for Dynamic,
+                // the "0 means dynamic" Followed-StatusCode semantics) when the
+                // transport could not determine it (the CDP transport returns
+                // null today).
+                loadStatusCode = result.HttpStatus ?? (_pageType == PageType.Static ? 200 : 0);
             }
             catch (OperationCanceledException) { throw; }
             catch (Exception ex)

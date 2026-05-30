@@ -71,7 +71,7 @@ public sealed class CdpPageLoadTransport : IPageLoadTransport, IAsyncDisposable
     }
 
     /// <inheritdoc />
-    public async Task<string> LoadAsync(PageRequest request, CancellationToken cancellationToken = default)
+    public async Task<PageLoadResult> LoadAsync(PageRequest request, CancellationToken cancellationToken = default)
     {
         ObjectDisposedException.ThrowIf(_disposed, this);
         var browser = await EnsureConnectedAsync(cancellationToken);
@@ -133,7 +133,11 @@ public sealed class CdpPageLoadTransport : IPageLoadTransport, IAsyncDisposable
 
             var html = await CdpPageActionDispatcher.EvaluateAsync(browser, sessionId,
                 "document.documentElement.outerHTML", cancellationToken);
-            return html ?? "";
+            // ADR-0083 slice 1: the CDP transport returns the rendered DOM with a
+            // null HttpStatus and no headers. Capturing the main-document status
+            // via Network.responseReceived is the ADR-named follow-up; browser-
+            // tier block detection works off body markers in this DOM meanwhile.
+            return new PageLoadResult { Html = html ?? "" };
         }
         finally
         {

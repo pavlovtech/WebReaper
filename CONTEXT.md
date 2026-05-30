@@ -187,11 +187,11 @@ _Avoid_: durable file / file substrate (the held-handle substrate was rejected �
 ### Page loading
 
 **Page loader**:
-The single seam (`IPageLoader`) that turns a **PageRequest** into a page's HTML, dispatching on the request's **PageType** to one **load transport**; the Spider holds one of these and is loader-blind (no Static/Dynamic loader pair).
+The single seam (`IPageLoader`) that turns a **PageRequest** into a **page load result** (body plus response status and headers, ADR-0083), dispatching on the request's **PageType** to one **load transport**; the Spider holds one of these and is loader-blind (no Static/Dynamic loader pair).
 _Avoid_: page fetcher, downloader, static/dynamic loader.
 
 **Load transport**:
-The per-mechanism adapter behind the **page loader** — HTTP (`HttpPageLoadTransport`, in core), Playwright (browser SDK, `WebReaper.Playwright` satellite), or CDP-direct (raw protocol, `WebReaper.Cdp` satellite — the bedrock for **Browser backend** swaps) — and the only place that mechanism's client/launch quirks and its proxy application live. Browser transports launch and drive a **Browser backend** (the Chromium binary, a separate axis). ADR-0050's `(cookies, proxy, logger, actionResolver)` factory contract applies uniformly across transports.
+The per-mechanism adapter behind the **page loader** — HTTP (`HttpPageLoadTransport`, in core), Playwright (browser SDK, `WebReaper.Playwright` satellite), or CDP-direct (raw protocol, `WebReaper.Cdp` satellite — the bedrock for **Browser backend** swaps) — and the only place that mechanism's client/launch quirks and its proxy application live. Browser transports launch and drive a **Browser backend** (the Chromium binary, a separate axis). ADR-0050's `(cookies, proxy, logger, actionResolver)` factory contract applies uniformly across transports. Returns a **page load result** for any completed response; only a no-response failure is a **page load exception** (ADR-0083).
 _Avoid_: requester, loader, driver, channel.
 
 **Browser backend**:
@@ -201,6 +201,14 @@ _Avoid_: transport (that is how we drive, not what we drive), driver, runtime.
 **PageRequest**:
 What the **page loader** needs to fetch one page — URL, **PageType**, optional page actions, headless flag — projected from a **Job** plus the crawl's headless setting (the loader never sees the selector chain or backlinks).
 _Avoid_: load args, request.
+
+**Page load result**:
+The value a **page loader** / **load transport** returns for one page (ADR-0083): the page `Html` plus the response `HttpStatus` (nullable; null when a transport cannot determine it) and `Headers` (case-insensitive). Replaces the bare HTML string the loader returned before, so a consumer, and in later slices the **block detector**, can read the response metadata; it is the first time the library can report an HTTP status. An init-only record (deliberately not positional, so future fields like `FinalUrl` land additively). A completed response of any status is returned as one of these.
+_Avoid_: response, page, document (that was the old string return).
+
+**Page load exception**:
+What a **load transport** throws when there is no HTTP response at all (ADR-0083): DNS failure, connection refused, TLS error, or timeout. A completed response with any status code, including 4xx and 5xx, is returned as a **page load result**, not thrown; a non-2xx is data, not a fault. This narrows ADR-0004's "a page that cannot be retrieved is an exception" stance to the genuine no-response case, and means the **retry policy** retries only these transport faults, never an HTTP status.
+_Avoid_: load error, HTTP error, fetch failure.
 
 ### Wiring
 

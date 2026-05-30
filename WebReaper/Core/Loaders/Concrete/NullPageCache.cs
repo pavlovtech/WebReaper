@@ -11,9 +11,9 @@ namespace WebReaper.Core.Loaders.Concrete;
 /// </summary>
 internal sealed class NullPageCache : IPageCache
 {
-    public Task<string?> TryReadAsync(string url, PageType pageType, CancellationToken cancellationToken)
-        => Task.FromResult<string?>(null);
+    public Task<PageLoadResult?> TryReadAsync(string url, PageType pageType, CancellationToken cancellationToken)
+        => Task.FromResult<PageLoadResult?>(null);
 
-    public Task WriteAsync(string url, PageType pageType, string document, CancellationToken cancellationToken)
+    public Task WriteAsync(string url, PageType pageType, PageLoadResult document, CancellationToken cancellationToken)
         => Task.CompletedTask;
 }

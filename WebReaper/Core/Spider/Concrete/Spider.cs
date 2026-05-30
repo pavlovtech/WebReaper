@@ -48,12 +48,12 @@ internal class Spider : ISpider
 
     public async Task<JobReport> CrawlAsync(Job job, CancellationToken cancellationToken = default)
     {
-        var doc = await PageLoader.LoadAsync(
+        var page = await PageLoader.LoadAsync(
             new PageRequest(job.Url, job.PageType, job.PageActions, Headless),
             cancellationToken);
 
-        var outcome = await CrawlStep.StepAsync(job, doc, ParsingScheme);
+        var outcome = await CrawlStep.StepAsync(job, page.Html, ParsingScheme);
 
-        return new JobReport(outcome, doc);
+        return new JobReport(outcome, page);
     }
 }

@@ -54,21 +54,21 @@ public sealed class InMemoryPageCache : IPageCache
     }
 
     /// <inheritdoc/>
-    public Task<string?> TryReadAsync(string url, PageType pageType, CancellationToken cancellationToken)
+    public Task<PageLoadResult?> TryReadAsync(string url, PageType pageType, CancellationToken cancellationToken)
     {
-        if (_maxAge == TimeSpan.Zero) return Task.FromResult<string?>(null);
+        if (_maxAge == TimeSpan.Zero) return Task.FromResult<PageLoadResult?>(null);
 
         if (!_entries.TryGetValue(Key(url, pageType), out var entry))
-            return Task.FromResult<string?>(null);
+            return Task.FromResult<PageLoadResult?>(null);
 
         if (_clock() - entry.StoredAt > _maxAge)
-            return Task.FromResult<string?>(null);
+            return Task.FromResult<PageLoadResult?>(null);
 
-        return Task.FromResult<string?>(entry.Document);
+        return Task.FromResult<PageLoadResult?>(entry.Document);
     }
 
     /// <inheritdoc/>
-    public Task WriteAsync(string url, PageType pageType, string document, CancellationToken cancellationToken)
+    public Task WriteAsync(string url, PageType pageType, PageLoadResult document, CancellationToken cancellationToken)
     {
         _entries[Key(url, pageType)] = new Entry(document, _clock());
         return Task.CompletedTask;
@@ -81,5 +81,5 @@ public sealed class InMemoryPageCache : IPageCache
     // Dynamic load of the same URL can return different HTML.
     private static string Key(string url, PageType pageType) => $"{pageType}:{url}";
 
-    private readonly record struct Entry(string Document, DateTimeOffset StoredAt);
+    private readonly record struct Entry(PageLoadResult Document, DateTimeOffset StoredAt);
 }
