@@ -6,19 +6,25 @@ using WebReaper.Sinks.Models;
 
 namespace WebReaper.Cli.Commands;
 
-// `webreaper scrape <url>` — the funnel's primitive call. Markdown to
-// stdout by default; JSON when --schema is supplied.
+// `webreaper scrape <url>` — the funnel's primitive call. Markdown to stdout by
+// default; JSON when --schema is supplied.
 //
-// ADR-0055 + ADR-0056 layered escalation:
-//   1. BYO via --browser-cdp-url
-//   2. --browser → managed Chromium spawn via WithCdpPageLoader(CdpLaunchOptions)
-//   3. --browser + bot-check detected → Y/n prompt → inline stealth install
-//      + single retry with the stealth binary as the executable
-//
-// The escalation is browser-mode only: a pure-HTTP fetch doesn't auto-promote
-// to a browser via this path.
+// ADR-0083: the escalating page loader does the climbing now. This command's job
+// is to assemble the rungs and pick where the start page enters:
+//   • no transport flag → start at HTTP, auto-climb to the browser rung on a block
+//   • --browser (or --browser-cdp-url) → start at the browser rung
+//   • --stealth → start at the stealth rung (the top)
+// Stealth-rung inclusion is decided once, at startup (ADR-0056 policy:
+// --stealth / --auto-stealth / WEBREAPER_AUTO_STEALTH / interactive Y/n;
+// --no-auto-stealth caps at the browser rung). The single run then climbs
+// autonomously — there is no post-hoc detect/retry loop (the dead ADR-0056
+// BotCheckDetector escalation is gone). The block detector's per-run tally on
+// the RunReport drives the exit code.
 internal static class ScrapeCommand
 {
+    private static readonly string[] ChromeNames =
+        ["google-chrome", "chromium", "chrome", "microsoft-edge", "msedge"];
+
     public static async Task<int> RunAsync(ParsedArgs args)
     {
         if (args.Positional.Count < 1)
@@ -26,111 +32,84 @@ internal static class ScrapeCommand
 
         var ctx = ParseContext(args);
 
-        // First attempt: per ctx (BYO / managed / --stealth pre-installed).
-        var first = await RunOnceAsync(ctx, stealthExecutablePath: null);
+        var startTier = EscalationPlan.ResolveStartTier(ctx.Browser, ctx.Stealth);
 
-        // No escalation path on pure-HTTP scrapes.
-        if (!ctx.Browser)
+        // Decide stealth-rung inclusion once, before building the engine.
+        var includeStealth = await ResolveStealthAsync(ctx);
+
+        // If the stealth rung is in, install CloakBrowser now so the rung's lazy
+        // launch finds the binary mid-climb. A failed install degrades to the
+        // browser rung rather than aborting.
+        string? stealthPath = null;
+        if (includeStealth)
         {
-            WriteEmptyHint(ctx, first.Records.Count);
-            return await ShipAsync(ctx, first);
-        }
-
-        // ADR-0056: conservative bot-check detector. Runs over the last
-        // page's HTML + record count. HTTP status is null on the browser
-        // path today (named ADR-0056 follow-up).
-        var verdict = BotCheckDetector.Detect(
-            httpStatus: null,
-            renderedHtml: first.LastHtml,
-            recordCount: first.Records.Count);
-
-        if (!verdict.LikelyBlocked)
-        {
-            WriteEmptyHint(ctx, first.Records.Count);
-            return await ShipAsync(ctx, first);
-        }
-
-        // Block detected. Choose action per ctx.
-        Console.Error.WriteLine($"⚠  {verdict.Reason}");
-
-        if (ctx.NoAutoStealth)
-        {
-            // Opt-out: warn-only, no escalation. Pre-existing first-attempt
-            // result is what we ship.
-            Console.Error.WriteLine(
-                "⚠  Auto-stealth disabled (--no-auto-stealth); retry manually with --stealth.");
-            return await ShipAsync(ctx, first);
-        }
-
-        if (!ctx.AutoStealth)
-        {
-            // Interactive prompt — Y/n with default Y.
-            Console.Error.Write(
-                "?  Download CloakBrowser stealth backend (~220 MB) and retry? [Y/n] ");
-            var reply = Console.ReadLine()?.Trim();
-            if (!string.IsNullOrEmpty(reply) && !reply.Equals("y", StringComparison.OrdinalIgnoreCase))
+            stealthPath = await EnsureStealthInstalledAsync();
+            if (stealthPath is null)
             {
-                Console.Error.WriteLine("Aborted; shipping first-attempt result.");
-                return await ShipAsync(ctx, first);
+                Console.Error.WriteLine("⚠  Stealth unavailable; falling back to the browser tier.");
+                includeStealth = false;
+                if (startTier == StartTier.Stealth) startTier = StartTier.Browser;
             }
         }
 
-        // Inline install — subprocess `webreaper stealth install cloakbrowser --yes`.
-        // Substitutability (ADR-0056): the same invocation the user could
-        // run by hand.
-        Console.Error.WriteLine("↓  Installing CloakBrowser via `webreaper stealth install cloakbrowser --yes`...");
-        var installCode = await RunSelfAsync("stealth", "install", "cloakbrowser", "--yes");
-        if (installCode != 0)
+        var result = await RunOnceAsync(ctx, startTier, includeStealth, stealthPath);
+        WriteEmptyHint(ctx, result.Records.Count);
+        return await ShipAsync(result);
+    }
+
+    // ----- stealth-inclusion decision (startup) -----
+
+    // Resolve the flag-driven decision; for the interactive AskUser case, prompt
+    // once. Non-interactive AskUser defaults to No (never download 220 MB
+    // speculatively when there is no one to ask).
+    private static async Task<bool> ResolveStealthAsync(ScrapeContext ctx)
+    {
+        switch (EscalationPlan.ResolveStealth(ctx.Browser, ctx.Stealth, ctx.AutoStealth, ctx.NoAutoStealth))
         {
-            Console.Error.WriteLine($"✗  Stealth install failed (exit {installCode}); shipping first-attempt result.");
-            await RecordOutput.WriteAsync(first.Records, ctx.Output);
-            return installCode;
+            case StealthInclusion.Included:
+                return true;
+            case StealthInclusion.Excluded:
+                return false;
+            default:
+                if (Console.IsInputRedirected) return false;
+                Console.Error.Write(
+                    "?  Enable the stealth fallback tier (downloads CloakBrowser ~220 MB now)? [y/N] ");
+                var reply = Console.ReadLine()?.Trim();
+                return await Task.FromResult(
+                    reply is not null && reply.Equals("y", StringComparison.OrdinalIgnoreCase));
         }
+    }
 
-        // Resolve the installed binary path.
-        var stealthPath = await CaptureSelfAsync("stealth", "path", "cloakbrowser");
-        if (stealthPath is null)
+    // Install CloakBrowser via `webreaper stealth install cloakbrowser --yes` and
+    // return its resolved binary path, or null if install / resolution failed.
+    // Substitutability (ADR-0056): the same commands the user could run by hand.
+    private static async Task<string?> EnsureStealthInstalledAsync()
+    {
+        Console.Error.WriteLine(
+            "↓  Ensuring CloakBrowser via `webreaper stealth install cloakbrowser --yes`...");
+        var code = await RunSelfAsync("stealth", "install", "cloakbrowser", "--yes");
+        if (code != 0)
         {
-            Console.Error.WriteLine("✗  Stealth install reported success but path resolution failed.");
-            await RecordOutput.WriteAsync(first.Records, ctx.Output);
-            return 1;
+            Console.Error.WriteLine($"✗  Stealth install failed (exit {code}).");
+            return null;
         }
-
-        // Single retry — exactly one. A second bot-check verdict surfaces as
-        // exit 1 + a captcha-solver pointer.
-        Console.Error.WriteLine("↓  Retrying scrape against the stealth backend...");
-        var retry = await RunOnceAsync(ctx, stealthExecutablePath: stealthPath);
-
-        var retryVerdict = BotCheckDetector.Detect(
-            null, retry.LastHtml, retry.Records.Count);
-        if (retryVerdict.LikelyBlocked)
-        {
-            Console.Error.WriteLine(
-                $"✗  Stealth retry still likely blocked: {retryVerdict.Reason}");
-            Console.Error.WriteLine(
-                "   The site may need a captcha-solver (deferred — see ADR-0055 §F5).");
-            await RecordOutput.WriteAsync(retry.Records, ctx.Output);
-            return 1;
-        }
-
-        return await ShipAsync(ctx, retry);
+        return await CaptureSelfAsync("stealth", "path", "cloakbrowser");
     }
 
     // ----- ship the records, block-aware exit code (ADR-0083) -----
 
-    // Write the attempt's records to the configured output, then return the
-    // exit code: non-zero when the core block detector flagged any page this run
-    // (the load looked like a bot-check challenge), zero otherwise. Additive to
-    // the ADR-0056 BotCheckDetector escalation — that heuristic decides whether
-    // to *retry* with stealth; this tally decides the *exit code* of whatever
-    // result we ship, so an unattended caller can detect a blocked scrape.
-    private static async Task<int> ShipAsync(ScrapeContext ctx, AttemptResult attempt)
+    // Write the run's records to the configured output, then return the exit
+    // code: non-zero when the core block detector flagged (and the driver
+    // suppressed) any page this run, zero otherwise — so an unattended caller can
+    // detect a blocked scrape.
+    private static async Task<int> ShipAsync(AttemptResult attempt)
     {
-        await RecordOutput.WriteAsync(attempt.Records, ctx.Output);
+        await RecordOutput.WriteAsync(attempt.Records, attempt.Output);
         if (attempt.BlockedPageCount > 0)
         {
             Console.Error.WriteLine(
-                $"⚠  {attempt.BlockedPageCount} page(s) looked blocked; the site may use bot protection.");
+                $"⚠  {attempt.BlockedPageCount} page(s) still blocked at the top tier; "
+                + "the site may need a stronger transport or a captcha solver.");
             return 1;
         }
         return 0;
@@ -138,8 +117,7 @@ internal static class ScrapeCommand
 
     // ----- empty-result hint -----
 
-    // Cheap-win companion to the (currently unreachable) bot-check escalation:
-    // when a scrape returns no records, point the user at the next transport to
+    // When a scrape returns no records, point the user at the next transport to
     // try instead of silently shipping empty stdout. The decision is the pure
     // EmptyResultAdvisor; this only writes the line to stderr.
     private static void WriteEmptyHint(ScrapeContext ctx, int recordCount)
@@ -149,90 +127,71 @@ internal static class ScrapeCommand
             Console.Error.WriteLine($"⚠  {hint}");
     }
 
-    // ----- single scrape attempt -----
+    // ----- single scrape run -----
 
-    // ADR-0083: BlockedPageCount carries the block detector's run-level tally
-    // out of the engine so RunAsync can warn + exit non-zero on a blocked load.
-    internal sealed record AttemptResult(List<ParsedData> Records, string? LastHtml, int BlockedPageCount);
+    // ADR-0083: BlockedPageCount carries the block detector's run-level tally out
+    // of the engine so the caller can warn + exit non-zero on a blocked load.
+    internal sealed record AttemptResult(List<ParsedData> Records, string? Output, int BlockedPageCount);
 
     private static async Task<AttemptResult> RunOnceAsync(
-        ScrapeContext ctx, string? stealthExecutablePath)
+        ScrapeContext ctx, StartTier startTier, bool includeStealth, string? stealthPath)
     {
-        // ADR-0040: AsMarkdown is the default; Extract(schema) is the
-        // upgrade. A future LLM extractor (ADR-0044) will land as a
-        // third terminal (e.g. --as llm).
-        var seed = ctx.Browser
-            ? ScraperEngineBuilder.CrawlWithBrowser(ctx.Url)
-            : ScraperEngineBuilder.Crawl(ctx.Url);
+        // ADR-0040: AsMarkdown is the default; Extract(schema) is the upgrade.
+        // The start page's PageType picks the entry rung — Static (Crawl) enters
+        // at HTTP, Dynamic (CrawlWithBrowser) enters at the first browser-class
+        // rung.
+        var seed = startTier == StartTier.Http
+            ? ScraperEngineBuilder.Crawl(ctx.Url)
+            : ScraperEngineBuilder.CrawlWithBrowser(ctx.Url);
 
         var builder = ctx.SchemaPath is not null
             ? seed.Extract(SchemaFile.Load(ctx.SchemaPath))
             : seed.AsMarkdown();
 
-        // ADR-0055 layered auto-spawn (paired with the ADR-0056 retry override):
-        //   • If stealthExecutablePath is set → spawn it via launch-and-connect.
-        //   • Else if --browser-cdp-url is set → connect-to-existing.
-        //   • Else if --browser is set → spawn vanilla Chromium.
-        if (stealthExecutablePath is not null)
+        // The vanilla-browser rung — skipped for --stealth, where the stealth
+        // rung is the browser-class tier the Dynamic start page enters at. BYO
+        // endpoint if given; else a managed Chromium spawn (lazy), registered for
+        // an explicit --browser always, and for a plain scrape only when a
+        // browser is actually present so a plain HTTP scrape degrades gracefully
+        // rather than into a launch error on a browser-less machine.
+        if (startTier != StartTier.Stealth)
         {
+            if (ctx.CdpUrl is not null)
+                builder = builder.WithCdpPageLoader(ctx.CdpUrl);
+            else if (startTier == StartTier.Browser || CdpLaunchHelpers.FindOnPath(ChromeNames) is not null)
+                builder = builder.WithCdpPageLoader(new CdpLaunchOptions { Headless = true });
+        }
+
+        // The stealth rung (top), when included. Appends above the browser rung
+        // (for --browser, the climb target) or is the sole browser-class rung
+        // (for --stealth, the entry).
+        if (includeStealth && stealthPath is not null)
             builder = builder.WithCdpPageLoader(new CdpLaunchOptions
             {
-                ExecutablePath = stealthExecutablePath,
+                ExecutablePath = stealthPath,
                 Headless = true,
             });
-        }
-        else if (ctx.CdpUrl is not null)
-        {
-            builder = builder.WithCdpPageLoader(ctx.CdpUrl);
-        }
-        else if (ctx.Browser)
-        {
-            builder = builder.WithCdpPageLoader(new CdpLaunchOptions
-            {
-                Headless = true,
-            });
-        }
 
         if (ctx.Follow is not null) builder = builder.Follow(ctx.Follow);
         if (ctx.MaxAge is { } age) builder = builder.WithMaxAge(age);
 
         var records = new List<ParsedData>();
-        builder = builder.Subscribe(records.Add);
-        builder = builder.StopWhenAllLinksProcessed();
+        builder = builder.Subscribe(records.Add).StopWhenAllLinksProcessed();
 
-        // ADR-0058: await using disposes the engine's resources on scope
-        // exit — including any builder-time-spawned subprocess (managed
-        // Chromium, stealth binary on retry). Per-attempt cleanup makes
-        // the retry path correct (no two-Chromiums-running window).
-        // ADR-0083: capture the RunReport so the block detector's tally
-        // surfaces to the caller (warning + non-zero exit on a blocked load).
-        string? lastHtml = null;
-        var blockedPageCount = 0;
-        await using (var engine = await builder.BuildAsync())
-        {
-            var report = await engine.RunAsync();
-            blockedPageCount = report.BlockedPageCount;
-        }
+        // ADR-0058: await using disposes the engine's resources on scope exit,
+        // including a lazily-spawned managed Chromium / stealth subprocess.
+        // ADR-0083: capture the RunReport so the block tally surfaces to ShipAsync.
+        await using var engine = await builder.BuildAsync();
+        var report = await engine.RunAsync();
 
-        // ADR-0056 detector input: approximate the rendered HTML from the
-        // last record. ParsedData has no raw-HTML field; the Markdown
-        // extractor (ADR-0040) emits {title, markdown} with the rendered
-        // text in the markdown field — substring matching for challenge
-        // markers works against either. v10.x ships this approximation;
-        // a follow-up may add a raw-HTML peek-sink for higher fidelity.
-        if (records.Count > 0)
-        {
-            lastHtml = records[^1].Data.ToJsonString();
-        }
-
-        return new AttemptResult(records, lastHtml, blockedPageCount);
+        return new AttemptResult(records, ctx.Output, report.BlockedPageCount);
     }
 
     // ----- self-invocation helpers -----
 
     /// <summary>Re-invoke this CLI binary as a subprocess and inherit
-    /// stdout/stderr (so the install command's ↓/✓ progress lines render
-    /// to the user). Returns the exit code.</summary>
+    /// stdout/stderr (so the install command's ↓/✓ progress lines render to the
+    /// user). Returns the exit code.</summary>
     private static async Task<int> RunSelfAsync(params string[] argv)
     {
         var path = Environment.ProcessPath
@@ -306,8 +265,8 @@ internal static class ScrapeCommand
             || string.Equals(Environment.GetEnvironmentVariable("WEBREAPER_AUTO_STEALTH"), "true", StringComparison.OrdinalIgnoreCase);
         var noAutoStealth = args.HasFlag("no-auto-stealth");
 
-        // --stealth without --browser implies --browser (the user opted into
-        // a Chromium-based scrape; the only difference is which Chromium).
+        // --stealth without --browser implies --browser (the user opted into a
+        // Chromium-based scrape; the only difference is which Chromium).
         if (stealth) browser = true;
 
         return new ScrapeContext(
@@ -322,5 +281,4 @@ internal static class ScrapeCommand
             AutoStealth: autoStealthFlag,
             NoAutoStealth: noAutoStealth);
     }
-
 }

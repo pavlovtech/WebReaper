@@ -1,4 +1,5 @@
 using WebReaper.Builders;
+using WebReaper.Cdp;
 using WebReaper.Sinks.Models;
 
 namespace WebReaper.Cli.Commands;
@@ -9,10 +10,17 @@ namespace WebReaper.Cli.Commands;
 // stdout (or --output). Markdown by default; JSON when --schema is given. The
 // Visited-link tracker dedups and terminates the sweep; --max-pages bounds it.
 //
-// HTTP-only and AOT-clean by design (no browser transport baked into the CLI):
-// for a JS-rendered or bot-protected site, `scrape --browser` is the path.
+// ADR-0083: the sweep starts at the HTTP rung and the escalating loader
+// auto-climbs a blocked page to the browser rung (lazy — a clean crawl never
+// spawns a browser; host-stickiness bounds the cost on a protected domain). The
+// browser rung is registered only when a Chromium is actually present, so a
+// browser-less host stays HTTP-only. Stealth is opt-in via `scrape --stealth`.
 internal static class CrawlCommand
 {
+    private static readonly string[] ChromeNames =
+        ["google-chrome", "chromium", "chrome", "microsoft-edge", "msedge"];
+
+
     public static async Task<int> RunAsync(ParsedArgs args)
     {
         if (args.Positional.Count < 1)
@@ -37,6 +45,13 @@ internal static class CrawlCommand
             })
             .PageCrawlLimit(ctx.MaxPages)        // ADR-0032 cutoff
             .StopWhenAllLinksProcessed();        // terminate when the frontier saturates
+
+        // ADR-0083: register the vanilla browser rung (managed Chromium spawn,
+        // lazy) so a blocked page climbs HTTP -> browser. Only when a browser is
+        // present, so a browser-less host degrades to HTTP-only instead of a
+        // launch error mid-sweep.
+        if (CdpLaunchHelpers.FindOnPath(ChromeNames) is not null)
+            builder = builder.WithCdpPageLoader(new CdpLaunchOptions { Headless = true });
 
         // The crawl loop is parallel (ADR-0022), so sink emits are concurrent;
         // guard the collection. The default --max-pages bounds the memory.

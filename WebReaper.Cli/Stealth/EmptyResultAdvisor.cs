@@ -7,12 +7,13 @@ namespace WebReaper.Cli.Stealth;
 /// </summary>
 /// <remarks>
 /// <para>
-/// This is the cheap-win companion to <see cref="BotCheckDetector"/>. The
-/// detector decides whether to auto-escalate to a stealth backend; this
-/// advisor only points the user at the next thing to try when a scrape comes
-/// back empty. It never escalates and never changes the exit code. It writes a
-/// single stderr line so an empty result is not silently indistinguishable
-/// from "the page genuinely had nothing".
+/// This is the <b>Empty result</b> hint (ADR-0083), distinct from a
+/// <b>Blocked page</b>: the core block detector and the escalating loader handle
+/// real blocks (climb, then suppress and exit non-zero), while this advisor only
+/// points the user at the next transport to try when a scrape comes back empty.
+/// It never escalates and never changes the exit code. It writes a single stderr
+/// line so an empty result is not silently indistinguishable from "the page
+/// genuinely had nothing".
 /// </para>
 /// <para>
 /// Empty-but-fine is a real state (a <c>--schema</c> scrape whose selectors
@@ -21,11 +22,11 @@ namespace WebReaper.Cli.Stealth;
 /// user ignores, versus an unexplained empty stdout.
 /// </para>
 /// <para>
-/// The <paramref name="stealth"/> branch deliberately does not claim a stealth
-/// backend ran. In v10.x the <c>--stealth</c> flag is not yet wired into the
-/// first scrape attempt (the escalation retry that consumes it is currently
-/// unreachable), so the advisor only avoids looping a <c>--stealth</c> user
-/// back to the same flag.
+/// The <paramref name="stealth"/> branch only avoids looping a <c>--stealth</c>
+/// user back to the same flag: when stealth already ran (ADR-0083 slice 5 wires
+/// <c>--stealth</c> to start the climb at the stealth rung) and still produced
+/// nothing, pointing them at <c>--stealth</c> again is unhelpful, so the hint
+/// names a captcha solver or a schema mismatch instead.
 /// </para>
 /// </remarks>
 internal static class EmptyResultAdvisor

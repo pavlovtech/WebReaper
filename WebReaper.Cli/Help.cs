@@ -37,18 +37,19 @@ Flags (per-command):
     --browser           Use the headless-browser transport. Layered
                         auto-spawn (ADR-0055): BYO via --browser-cdp-url,
                         else managed Chromium from `webreaper browser install`.
+                        Starts the climb at the browser rung; with no flag a
+                        scrape auto-climbs HTTP to browser on a block (ADR-0083).
     --browser-cdp-url   Connect to an existing CDP endpoint (e.g.
-                        http://localhost:9222) — used for stealth backends
+                        http://localhost:9222) for stealth backends
                         and BYO browser farms.
     --follow <selector> Follow links matching this CSS selector before
                         extraction (the Crawl chain's first step).
-    --stealth           Skip the vanilla-browser attempt; go straight to
-                        the stealth backend. Implies --browser.
-    --auto-stealth      Bypass the Y/n prompt when a bot-check is detected
-                        (CI / unattended). Equivalent to env
-                        WEBREAPER_AUTO_STEALTH=1.
-    --no-auto-stealth   Warn-only on bot-check detection; never install or
-                        retry (ADR-0056 escape hatch).
+    --stealth           Start the climb at the stealth rung, skipping the
+                        vanilla browser. Implies --browser.
+    --auto-stealth      Include the stealth rung without the Y/n prompt
+                        (CI / unattended). Env WEBREAPER_AUTO_STEALTH=1.
+    --no-auto-stealth   Cap the climb at the browser rung; never include
+                        the stealth rung (ADR-0056 escape hatch).
 
   crawl:
     --schema <path>     JSON schema file (switches output to JSON).

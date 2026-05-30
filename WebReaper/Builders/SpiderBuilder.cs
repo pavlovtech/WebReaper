@@ -63,7 +63,12 @@ internal class SpiderBuilder
     // WithMaxAge wires a real cache.
     private IPageCache PageCache { get; set; } = new NullPageCache();
 
-    private Func<ICookiesStorage, IProxyProvider?, ILogger, IActionResolver, IPageLoadTransport>? DynamicPageLoadTransportFactory { get; set; }
+    // ADR-0083 slice 5: the ordered Dynamic (browser-class) rungs of the
+    // EscalatingPageLoader ladder, lowest first. Each WithLoadTransport call
+    // appends one rung, so a consumer (e.g. the CLI) registers a vanilla browser
+    // rung and then a stealth rung to build HTTP -> browser -> stealth. Empty =>
+    // HTTP-only, and a Dynamic load hits the BrowserNotConfigured sentinel.
+    private readonly List<Func<ICookiesStorage, IProxyProvider?, ILogger, IActionResolver, IPageLoadTransport>> _dynamicTransportFactories = new();
 
     // ADR-0050: the per-Spider IActionResolver collaborator that resolves
     // SemanticAct(intent) arms to concrete PageActions. NullActionResolver is
@@ -191,20 +196,28 @@ internal class SpiderBuilder
     }
 
     /// <summary>
-    /// Register the transport used for Dynamic (headless-browser) pages
-    /// (ADR-0009). The factory is invoked at <see cref="Build"/> time with
-    /// the builder's resolved cookie storage, optional proxy provider and
-    /// logger — the same collaborators the HTTP transport gets — so a
-    /// satellite (e.g. WebReaper.Puppeteer's <c>.WithPuppeteerPageLoader()</c>)
-    /// needs no arguments and the pre-7.0 default behaviour (one shared
-    /// cookie container, issue #26) is preserved. With no registration the
-    /// core default is HTTP-only and a Dynamic load throws an actionable
-    /// message (<see cref="BrowserNotConfiguredPageLoadTransport"/>).
+    /// Register a transport for Dynamic (headless-browser) pages (ADR-0009).
+    /// The factory is invoked at <see cref="Build"/> time with the builder's
+    /// resolved cookie storage, optional proxy provider and logger — the same
+    /// collaborators the HTTP transport gets — so a satellite (e.g.
+    /// WebReaper.Cdp's <c>.WithCdpPageLoader()</c>) needs no arguments and the
+    /// pre-7.0 default behaviour (one shared cookie container, issue #26) is
+    /// preserved. With no registration the core default is HTTP-only and a
+    /// Dynamic load throws an actionable message
+    /// (<see cref="BrowserNotConfiguredPageLoadTransport"/>).
+    /// <para>
+    /// ADR-0083: each call <b>appends</b> a rung to the escalating loader's
+    /// ladder, in registration order above the HTTP rung. One call is the common
+    /// case (a single browser tier); calling it twice (a vanilla browser rung
+    /// then a stealth rung) builds the HTTP -> browser -> stealth climb the CLI
+    /// flag wiring uses.
+    /// </para>
     /// </summary>
     public SpiderBuilder WithLoadTransport(
         Func<ICookiesStorage, IProxyProvider?, ILogger, IActionResolver, IPageLoadTransport> dynamicTransportFactory)
     {
-        DynamicPageLoadTransportFactory = dynamicTransportFactory;
+        ArgumentNullException.ThrowIfNull(dynamicTransportFactory);
+        _dynamicTransportFactories.Add(dynamicTransportFactory);
         return this;
     }
 
@@ -311,35 +324,37 @@ internal class SpiderBuilder
         ContentExtractor ??= new SchemaFold<AngleSharp.Dom.IParentNode>(
             new AngleSharpSchemaBackend(), Logger);
 
-        // One loader (ADR 0004), now the block-aware climbing loader (ADR-0083).
-        // The HTTP transport is the core default Static rung; the Dynamic rung is
-        // the registered transport factory (e.g. WebReaper.Cdp's
-        // .WithCdpPageLoader()) or, with none, the actionable
+        // One loader (ADR 0004), the block-aware climbing loader (ADR-0083). The
+        // HTTP transport is the core default Static rung; the Dynamic rungs are
+        // the registered transport factories (e.g. WebReaper.Cdp's
+        // .WithCdpPageLoader(), appended in order), or, with none, the actionable
         // BrowserNotConfigured sentinel — core is HTTP-only by default (ADR-0009).
         // The proxy/no-proxy choice is still a (possibly null) provider handed in
-        // to whichever transports exist, not a branch. Tiers run lowest→highest:
-        // HTTP (Static) then browser (Dynamic); a Static page climbs to the
-        // browser rung on a block, a Dynamic page starts at it. The stealth rung
-        // is added by the CLI flag wiring (ADR-0083 slice 5).
+        // to whichever transports exist, not a branch. Rungs run lowest→highest:
+        // HTTP (Static) then each Dynamic rung (browser, then stealth when the CLI
+        // flag wiring registered it); a Static page climbs from HTTP, a Dynamic
+        // page starts at the first Dynamic rung.
         // ADR-0041: PageCache is the cache-aside collaborator (NullPageCache by
         // default); the loader never caches a blocked result, and a climb
         // bypasses the cache for the higher rung.
         // The transports are built only when no custom loader was supplied (a
-        // WithPageLoader wiring must not invoke the dynamic transport factory —
-        // it may launch a browser), preserving the old `??=` laziness.
+        // WithPageLoader wiring must not invoke the dynamic transport factories —
+        // they may launch a browser), preserving the old `??=` laziness.
         if (PageLoader is null)
         {
-            var httpTransport = new HttpPageLoadTransport(CookieStorage, ProxyProvider, Logger);
-            IPageLoadTransport dynamicTransport = DynamicPageLoadTransportFactory is null
-                ? new BrowserNotConfiguredPageLoadTransport()
-                : DynamicPageLoadTransportFactory(CookieStorage, ProxyProvider, Logger, ActionResolver);
+            var tiers = new List<PageLoadTier>
+            {
+                new(PageType.Static, new HttpPageLoadTransport(CookieStorage, ProxyProvider, Logger)),
+            };
+            if (_dynamicTransportFactories.Count > 0)
+                foreach (var factory in _dynamicTransportFactories)
+                    tiers.Add(new PageLoadTier(
+                        PageType.Dynamic, factory(CookieStorage, ProxyProvider, Logger, ActionResolver)));
+            else
+                tiers.Add(new PageLoadTier(PageType.Dynamic, new BrowserNotConfiguredPageLoadTransport()));
 
             PageLoader = new EscalatingPageLoader(
-                new[]
-                {
-                    new PageLoadTier(PageType.Static, httpTransport),
-                    new PageLoadTier(PageType.Dynamic, dynamicTransport),
-                },
+                tiers,
                 BlockDetector,
                 new HostTierFloor(),
                 Logger,
