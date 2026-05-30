@@ -36,6 +36,11 @@
          and WebReaper.Stealth.* are never baked here for the same
          reasoning as the CLI satellite. -->
     <ProjectReference Include="..\WebReaper.Cdp\WebReaper.Cdp.csproj" />
+    <!-- ADR-0084: the extract_with_prompt tool. The MCP server is not AOT,
+         so it references the AI satellite plus the OpenAI-compatible chat
+         client (WebReaper.AI.Http) directly. -->
+    <ProjectReference Include="..\WebReaper.AI\WebReaper.AI.csproj" />
+    <ProjectReference Include="..\WebReaper.AI.Http\WebReaper.AI.Http.csproj" />
   </ItemGroup>
 
   <ItemGroup>
