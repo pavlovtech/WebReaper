@@ -256,7 +256,7 @@
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
-[data-line] {
+[data-rehype-pretty-code-figure] [data-line] {
   display: inline-block;
   width: 100%;
 }
