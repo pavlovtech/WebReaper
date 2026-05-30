@@ -249,8 +249,10 @@ export default function Home() {
 
             <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-muted">
               WebReaper is an AI-native web scraper for .NET. One ~12 MB binary
-              turns any site into clean Markdown or structured data, with an LLM
-              layer when you need it. No Docker, no signup, MIT licensed.
+              turns any site, even bot-protected ones, into clean Markdown or
+              structured data, climbing from HTTP to a browser to stealth to get
+              through. Bring your own LLM when you need it. No Docker, no signup,
+              MIT licensed.
             </p>
 
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
