@@ -5,7 +5,7 @@ export const siteConfig = {
     "WebReaper is an AI-native web scraper for .NET. A single ~12 MB binary that turns any site into clean Markdown or structured data, with an LLM layer when you need it. No Docker, no signup, MIT licensed.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://webreaper.ai",
   ogImage: "/og/default.png",
-  version: "10.3.0",
+  version: "11.0.0",
   install: {
     brew: "brew install pavlovtech/webreaper/webreaper",
     curl: "curl -fsSL https://raw.githubusercontent.com/pavlovtech/WebReaper/master/scripts/install.sh | sh",
