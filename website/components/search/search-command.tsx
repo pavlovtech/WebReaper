@@ -12,6 +12,8 @@ export function SearchCommand({ index }: { index: SearchItem[] }) {
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -33,23 +35,27 @@ export function SearchCommand({ index }: { index: SearchItem[] }) {
       .map((x) => x.it);
   }, [query, index]);
 
-  useEffect(() => setActive(0), [query]);
-
   const close = useCallback(() => {
     setOpen(false);
     setQuery("");
+    // Return focus to whatever opened the palette.
+    triggerRef.current?.focus?.();
   }, []);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
-        setOpen((v) => !v);
+        setOpen((v) => {
+          if (!v) triggerRef.current = document.activeElement as HTMLElement;
+          return !v;
+        });
       } else if (e.key === "Escape") {
         close();
       }
     }
     function onOpen() {
+      triggerRef.current = document.activeElement as HTMLElement;
       setOpen(true);
     }
     window.addEventListener("keydown", onKey);
@@ -60,15 +66,21 @@ export function SearchCommand({ index }: { index: SearchItem[] }) {
     };
   }, [close]);
 
+  // Focus the input and lock body scroll while open.
   useEffect(() => {
-    if (open) {
-      const t = setTimeout(() => inputRef.current?.focus(), 10);
-      return () => clearTimeout(t);
-    }
+    if (!open) return;
+    const t = setTimeout(() => inputRef.current?.focus(), 10);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      clearTimeout(t);
+      document.body.style.overflow = prevOverflow;
+    };
   }, [open]);
 
   function go(url: string) {
-    close();
+    setOpen(false);
+    setQuery("");
     router.push(url);
   }
 
@@ -85,6 +97,24 @@ export function SearchCommand({ index }: { index: SearchItem[] }) {
     }
   }
 
+  // Trap Tab within the dialog.
+  function onPanelKeyDown(e: React.KeyboardEvent) {
+    if (e.key !== "Tab") return;
+    const focusables = panelRef.current?.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), input, [tabindex]:not([tabindex="-1"])',
+    );
+    if (!focusables || focusables.length === 0) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  }
+
   if (!open) return null;
 
   return (
@@ -93,18 +123,30 @@ export function SearchCommand({ index }: { index: SearchItem[] }) {
         className="absolute inset-0 bg-black/70 backdrop-blur-sm"
         onClick={close}
       />
-      <div className="relative w-full max-w-xl overflow-hidden rounded-2xl border border-border bg-surface shadow-2xl">
+      <div
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Search the site"
+        onKeyDown={onPanelKeyDown}
+        className="relative w-full max-w-xl overflow-hidden rounded-2xl border border-border bg-surface shadow-2xl"
+      >
         <div className="flex items-center gap-3 border-b border-border px-4">
-          <Search className="h-4 w-4 shrink-0 text-muted-2" />
+          <Search className="h-4 w-4 shrink-0 text-muted-2" aria-hidden />
           <input
             ref={inputRef}
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setActive(0);
+            }}
             onKeyDown={onInputKey}
+            aria-label="Search docs, use cases, and blog"
             placeholder="Search docs, use cases, blog…"
             className="h-12 w-full bg-transparent text-sm outline-none placeholder:text-muted-2"
           />
           <button
+            type="button"
             onClick={close}
             aria-label="Close search"
             className="shrink-0 text-muted-2 hover:text-foreground"
@@ -120,6 +162,7 @@ export function SearchCommand({ index }: { index: SearchItem[] }) {
           ) : (
             results.map((r, i) => (
               <button
+                type="button"
                 key={r.url}
                 onMouseEnter={() => setActive(i)}
                 onClick={() => go(r.url)}
@@ -142,6 +185,20 @@ export function SearchCommand({ index }: { index: SearchItem[] }) {
               </button>
             ))
           )}
+        </div>
+        <div className="flex items-center justify-between border-t border-border px-4 py-2 text-[11px] text-muted-2">
+          <span>
+            <kbd className="rounded border border-border bg-surface-2 px-1 font-mono">
+              ↑↓
+            </kbd>{" "}
+            navigate
+          </span>
+          <span>
+            <kbd className="rounded border border-border bg-surface-2 px-1 font-mono">
+              esc
+            </kbd>{" "}
+            close
+          </span>
         </div>
       </div>
     </div>

@@ -18,7 +18,7 @@ client. The agent loads the page, picks the next move (follow a link, extract,
 or stop), and repeats until it satisfies the goal:
 
 ```csharp
-using WebReaper.Builders;
+using WebReaper.AI;
 
 var result = await LlmAgent.RunAsync(
     "https://example.com",
@@ -55,6 +55,8 @@ Long runs should survive a restart. Every decision is persisted through the
 resume from the last recorded step:
 
 ```csharp
+using WebReaper;
+
 var result = await Agent.ResumeAsync(runId, brain, store);
 ```
 

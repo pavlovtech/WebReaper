@@ -15,7 +15,7 @@ sequential and durable, so a run can resume exactly where it left off.
 The `LlmAgent` static helper runs an agent against a goal with your chat client:
 
 ```csharp
-using WebReaper.Agents;
+using WebReaper.AI;
 
 var result = await LlmAgent.RunAsync(
     "https://example.com",
@@ -26,6 +26,8 @@ var result = await LlmAgent.RunAsync(
 If you have your own brain implementation, `Agent.RunAsync` takes it directly:
 
 ```csharp
+using WebReaper;
+
 var result = await Agent.RunAsync(
     "https://example.com",
     "find the pricing page and extract the plans",

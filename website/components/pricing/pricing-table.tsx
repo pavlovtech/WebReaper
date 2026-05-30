@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Check, X } from "lucide-react";
 import { plans, type Plan } from "@/lib/pricing";
 import { siteConfig } from "@/lib/site";
@@ -32,15 +32,18 @@ export function PricingTable() {
           type="button"
           role="switch"
           aria-checked={annual}
+          aria-label="Toggle annual billing"
           onClick={() => setAnnual((v) => !v)}
-          className="relative h-6 w-11 rounded-full border border-border bg-surface-2 transition"
+          className={cn(
+            "relative h-6 w-11 rounded-full border transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/70",
+            annual ? "border-accent/50 bg-accent/20" : "border-border bg-surface-2",
+          )}
         >
           <span
             className={cn(
-              "absolute top-0.5 h-4.5 w-4.5 rounded-full bg-accent transition-all",
-              annual ? "left-[22px]" : "left-0.5",
+              "absolute top-[3px] h-[18px] w-[18px] rounded-full bg-accent transition-transform duration-200",
+              annual ? "translate-x-[20px]" : "translate-x-[2px]",
             )}
-            style={{ height: 18, width: 18 }}
           />
         </button>
         <span
@@ -147,6 +150,48 @@ function SubscribeButton({
     "idle",
   );
   const [message, setMessage] = useState("");
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  const closeModal = useCallback(() => {
+    setOpen(false);
+    triggerRef.current?.focus();
+  }, []);
+
+  // Escape to close, focus the email field on open, lock body scroll.
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeModal();
+    };
+    window.addEventListener("keydown", onKey);
+    const t = setTimeout(() => inputRef.current?.focus(), 10);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      clearTimeout(t);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [open, closeModal]);
+
+  function onPanelKeyDown(e: React.KeyboardEvent) {
+    if (e.key !== "Tab") return;
+    const focusables = panelRef.current?.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), input, [tabindex]:not([tabindex="-1"])',
+    );
+    if (!focusables || focusables.length === 0) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  }
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -178,6 +223,7 @@ function SubscribeButton({
   return (
     <>
       <button
+        ref={triggerRef}
         type="button"
         onClick={() => setOpen(true)}
         className={className}
@@ -189,18 +235,27 @@ function SubscribeButton({
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div
             className="absolute inset-0 bg-black/70 backdrop-blur-sm"
-            onClick={() => setOpen(false)}
+            onClick={closeModal}
           />
-          <div className="relative w-full max-w-md rounded-2xl border border-border bg-surface p-6 shadow-2xl">
+          <div
+            ref={panelRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="waitlist-title"
+            onKeyDown={onPanelKeyDown}
+            className="relative w-full max-w-md rounded-2xl border border-border bg-surface p-6 shadow-2xl"
+          >
             <button
               type="button"
-              aria-label="Close"
-              onClick={() => setOpen(false)}
+              aria-label="Close dialog"
+              onClick={closeModal}
               className="absolute right-4 top-4 text-muted hover:text-foreground"
             >
               <X className="h-5 w-5" />
             </button>
-            <h3 className="text-lg font-semibold">Join the Cloud waitlist</h3>
+            <h3 id="waitlist-title" className="text-lg font-semibold">
+              Join the Cloud waitlist
+            </h3>
             <p className="mt-2 text-sm text-muted">
               Be first to know when WebReaper Cloud opens. No spam, no card.
             </p>
@@ -212,15 +267,20 @@ function SubscribeButton({
             ) : (
               <form onSubmit={submit} className="mt-5 space-y-3">
                 <input
+                  ref={inputRef}
                   type="email"
                   required
+                  autoComplete="email"
+                  aria-label="Email address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@company.com"
                   className="w-full rounded-lg border border-border bg-background px-3.5 py-2.5 text-sm outline-none focus:border-accent focus:ring-2 focus:ring-ring/40"
                 />
                 {status === "error" ? (
-                  <p className="text-sm text-red-400">{message}</p>
+                  <p className="text-sm text-red-600 dark:text-red-400">
+                    {message}
+                  </p>
                 ) : null}
                 <button
                   type="submit"

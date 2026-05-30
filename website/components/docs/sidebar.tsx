@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
@@ -53,6 +53,23 @@ function NavList({
 export function DocsSidebar({ nav }: { nav: DocsNavGroup[] }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const closeRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    const t = setTimeout(() => closeRef.current?.focus(), 10);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      clearTimeout(t);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [open]);
 
   return (
     <>
@@ -74,10 +91,16 @@ export function DocsSidebar({ nav }: { nav: DocsNavGroup[] }) {
             className="absolute inset-0 bg-black/60 backdrop-blur-sm"
             onClick={() => setOpen(false)}
           />
-          <div className="absolute left-0 top-0 h-full w-80 max-w-[85%] overflow-y-auto border-r border-border bg-background p-6">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Documentation navigation"
+            className="absolute left-0 top-0 h-full w-80 max-w-[85%] overflow-y-auto border-r border-border bg-background p-6"
+          >
             <div className="mb-6 flex items-center justify-between">
               <span className="text-sm font-semibold">Documentation</span>
               <button
+                ref={closeRef}
                 type="button"
                 onClick={() => setOpen(false)}
                 aria-label="Close menu"

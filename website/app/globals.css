@@ -18,13 +18,13 @@
   --border: #e6e8eb;
   --border-strong: #d3d8dd;
   --foreground: #0a0c0b;
-  --muted: #5b6470;
-  --muted-2: #8a929c;
-  --accent: #059669;
-  --accent-strong: #047857;
+  --muted: #545d69;
+  --muted-2: #6d747e;
+  --accent: #047857;
+  --accent-strong: #036046;
   --accent-foreground: #ffffff;
-  --accent-soft: rgba(5, 150, 105, 0.1);
-  --ring: #10b981;
+  --accent-soft: rgba(4, 120, 87, 0.09);
+  --ring: #047857;
 }
 
 .dark {
@@ -36,7 +36,7 @@
   --border-strong: #2a3033;
   --foreground: #ededed;
   --muted: #9aa3ad;
-  --muted-2: #6b747d;
+  --muted-2: #8b939c;
   --accent: #34d399;
   --accent-strong: #10b981;
   --accent-foreground: #04130c;
@@ -87,6 +87,12 @@
   ::selection {
     background: var(--accent);
     color: var(--accent-foreground);
+  }
+  /* Visible keyboard focus everywhere; mouse clicks stay clean via :focus-visible */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: 5px;
   }
   ::-webkit-scrollbar {
     width: 10px;
@@ -165,9 +171,44 @@
     background-color: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius-card);
+    transition:
+      transform 0.2s ease,
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  /* Interactive cards (links/buttons) gently lift on hover */
+  a.surface-card:hover,
+  button.surface-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 34px -18px rgba(0, 0, 0, 0.6);
   }
   .animate-marquee {
     animation: marquee 32s linear infinite;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Scroll-driven reveal (pure CSS, no JS, SSR-safe). Content is visible by
+   default; where the browser supports scroll timelines and motion is allowed,
+   `.reveal` blocks fade/slide in as they enter the viewport.
+---------------------------------------------------------------------------- */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 65%;
+    }
+  }
+}
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
 
@@ -260,5 +301,9 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

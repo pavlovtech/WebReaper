@@ -19,7 +19,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { CodeBlock } from "@/components/code/code-block";
 import { CopyButton } from "@/components/code/copy-button";
-import { Terminal } from "@/components/marketing/terminal";
+import { HeroShowcase } from "@/components/marketing/hero-showcase";
 import { GitHubIcon } from "@/components/icons";
 import { siteConfig } from "@/lib/site";
 
@@ -204,14 +204,20 @@ const container = "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8";
 
 function Mark({ value }: { value: string }) {
   if (value === "yes")
-    return <Check className="mx-auto h-5 w-5 text-accent" aria-label="yes" />;
+    return (
+      <>
+        <Check className="mx-auto h-5 w-5 text-accent" aria-hidden />
+        <span className="sr-only">Supported</span>
+      </>
+    );
   if (value === "no")
-    return <X className="mx-auto h-5 w-5 text-muted-2/60" aria-label="no" />;
-  return (
-    <span className="mx-auto block text-sm text-muted-2" aria-label="partial">
-      partial
-    </span>
-  );
+    return (
+      <>
+        <X className="mx-auto h-5 w-5 text-muted-2" aria-hidden />
+        <span className="sr-only">Not supported</span>
+      </>
+    );
+  return <span className="mx-auto block text-sm text-muted-2">Partial</span>;
 }
 
 export default function Home() {
@@ -264,9 +270,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mx-auto mt-16 max-w-3xl">
-            <Terminal />
-          </div>
+          <HeroShowcase className="mx-auto mt-16 max-w-3xl" />
         </div>
       </section>
 
@@ -290,7 +294,7 @@ export default function Home() {
 
       {/* Pillars */}
       <section className={`${container} py-20 sm:py-28`}>
-        <div className="mx-auto max-w-2xl text-center">
+        <div className="reveal mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
             Everything a modern scraper needs
           </h2>
@@ -299,7 +303,7 @@ export default function Home() {
             you want.
           </p>
         </div>
-        <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="reveal mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {pillars.map(({ icon: Icon, title, body }) => (
             <div
               key={title}
@@ -318,7 +322,7 @@ export default function Home() {
       {/* AI feature deep-dive */}
       <section className="relative border-y border-border bg-background-subtle/40">
         <div className={`${container} space-y-20 py-20 sm:py-28`}>
-          <div className="mx-auto max-w-2xl text-center">
+          <div className="reveal mx-auto max-w-2xl text-center">
             <span className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-xs font-medium text-accent">
               <Sparkles className="h-3.5 w-3.5" /> AI-native
             </span>
@@ -334,7 +338,7 @@ export default function Home() {
           {features.map(({ eyebrow, title, body, icon: Icon, code, lang }, i) => (
             <div
               key={title}
-              className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12"
+              className="reveal grid items-center gap-8 lg:grid-cols-2 lg:gap-12"
             >
               <div className={i % 2 === 1 ? "lg:order-2" : ""}>
                 <div className="flex items-center gap-2 text-sm font-medium text-accent">
@@ -358,7 +362,7 @@ export default function Home() {
 
       {/* How it works (CLI) */}
       <section className={`${container} py-20 sm:py-28`}>
-        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+        <div className="reveal grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <div>
             <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-xs font-medium text-muted">
               <TerminalIcon className="h-3.5 w-3.5" /> Command line
@@ -414,7 +418,7 @@ webreaper scrape https://example.com --browser --auto-stealth`}
               the cloud to get.
             </p>
           </div>
-          <div className="mt-12 overflow-x-auto">
+          <div className="reveal mt-12 overflow-x-auto">
             <table className="w-full min-w-[640px] border-separate border-spacing-0 text-sm">
               <thead>
                 <tr>
@@ -433,7 +437,7 @@ webreaper scrape https://example.com --browser --auto-stealth`}
               </thead>
               <tbody>
                 {comparison.rows.map((row) => (
-                  <tr key={row.label}>
+                  <tr key={row.label} className="transition-colors hover:bg-surface-2/40">
                     <td className="border-t border-border px-4 py-3.5 text-left font-medium text-foreground">
                       {row.label}
                     </td>
@@ -473,7 +477,7 @@ webreaper scrape https://example.com --browser --auto-stealth`}
             All use cases <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="reveal mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {useCases.map(({ icon: Icon, title, body, href }) => (
             <Link
               key={title}
@@ -485,7 +489,7 @@ webreaper scrape https://example.com --browser --auto-stealth`}
               <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">
                 {body}
               </p>
-              <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-accent opacity-0 transition group-hover:opacity-100">
+              <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-accent opacity-60 transition group-hover:opacity-100">
                 Learn more <ArrowRight className="h-3.5 w-3.5" />
               </span>
             </Link>
@@ -505,7 +509,7 @@ webreaper scrape https://example.com --browser --auto-stealth`}
               scheduling, managed infrastructure, and a team UI.
             </p>
           </div>
-          <div className="mt-12 grid gap-4 lg:grid-cols-3">
+          <div className="reveal mt-12 grid gap-4 lg:grid-cols-3">
             {pricing.map((tier) => (
               <div
                 key={tier.name}
@@ -515,7 +519,7 @@ webreaper scrape https://example.com --browser --auto-stealth`}
               >
                 {tier.featured ? (
                   <span className="mb-3 inline-flex w-fit rounded-full bg-accent/15 px-2.5 py-0.5 text-xs font-medium text-accent">
-                    Coming soon
+                    Early access
                   </span>
                 ) : null}
                 <h3 className="text-lg font-semibold">{tier.name}</h3>
@@ -540,7 +544,7 @@ webreaper scrape https://example.com --browser --auto-stealth`}
 
       {/* FAQ */}
       <section className={`${container} py-20 sm:py-28`}>
-        <div className="mx-auto max-w-3xl">
+        <div className="reveal mx-auto max-w-3xl">
           <h2 className="text-center text-3xl font-semibold tracking-tight sm:text-4xl">
             Frequently asked questions
           </h2>
