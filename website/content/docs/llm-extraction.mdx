@@ -10,6 +10,13 @@ model steps in only when needed. That keeps cost predictable: on a stable page
 the LLM is never called. There are three à la carte behaviors, each a single
 builder method, and each backed by your own `IChatClient`.
 
+You bring the `IChatClient` (OpenAI, Anthropic, Ollama, Azure OpenAI, anything
+implementing the `Microsoft.Extensions.AI` interface). If you want an AOT-safe
+client with no provider SDK, the `WebReaper.AI.Http` package ships
+`OpenAiCompatibleChatClient`, which talks to any OpenAI-compatible endpoint over
+a raw `HttpClient`. It is what the CLI's `--prompt` and `--infer` flags use under
+the hood, so the same extraction runs in a single Native-AOT binary.
+
 ## LLM fallback
 
 Run a deterministic CSS or XPath schema first; if extraction comes back empty or
