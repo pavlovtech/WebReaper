@@ -1,5 +1,14 @@
 # Changelog
 
+## 11.1.1: AI extraction in the MCP server + discoverability
+
+A small additive release on top of v11.1.0's AI extraction.
+
+- **MCP `extract_with_prompt` tool.** `WebReaper.Mcp` gains a schema-free LLM extraction tool: extract structured data from a URL by a natural-language instruction (no CSS schema), returning JSON Lines. Built on the `WebReaper.AI.Http` OpenAI-compatible client. Configure the endpoint via the `WEBREAPER_LLM_MODEL` and `WEBREAPER_LLM_BASE_URL` environment variables, with the key in `WEBREAPER_LLM_API_KEY` (or `OPENAI_API_KEY`).
+- **Discoverability.** The bundled Agent Skill (`webreaper init`) and the README now teach the CLI's `--prompt` / `--infer` / `--output-dir` flags, with a guide to choosing between schema, prompt, infer, and Markdown extraction.
+
+All 14 packages ship at 11.1.1 (lockstep).
+
 ## 11.1.0: AI extraction in the CLI
 
 `webreaper scrape` and `webreaper crawl` can now extract structured data with an LLM, on the AOT single binary, with your own key. This is the [ADR-0084](docs/adr/0084-ai-extraction-in-the-aot-cli.md) wave. It is additive: no breaking changes, one new package.
