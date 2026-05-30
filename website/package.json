@@ -10,6 +10,7 @@
     "velite": "velite"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "clsx": "^2.1.1",
     "flowbite-react": "^0.12.17",
     "lucide-react": "^1.17.0",
