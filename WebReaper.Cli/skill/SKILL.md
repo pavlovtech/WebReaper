@@ -2,15 +2,17 @@
 name: webreaper
 description: |
   Scrape, crawl, or extract structured data from one or more URLs via the
-  `webreaper` CLI. Outputs clean Markdown by default; JSON when a schema
-  is given. Maps a site's URLs in one call. Handles JS-rendered pages and
-  bot-protected sites (Cloudflare, DataDome, PerimeterX) via auto-escalating
-  stealth.
+  `webreaper` CLI. Outputs clean Markdown by default; JSON when a schema is
+  given, or schema-free JSON when an LLM endpoint is configured (extract by
+  natural-language prompt, no CSS selectors). Maps a site's URLs in one call.
+  Handles JS-rendered pages and bot-protected sites (Cloudflare, DataDome,
+  PerimeterX) via auto-escalating stealth.
 
   Use this skill whenever the user asks to:
   - scrape, crawl, or extract from a URL or site
   - get clean Markdown of a webpage (for further processing, not a summary)
-  - pull specific fields from one or many pages
+  - pull specific fields from one or many pages (via a CSS schema, or by a
+    natural-language prompt when an LLM endpoint is configured)
   - enumerate / discover URLs on a site
   - read a JS-rendered single-page app
   - scrape a site that's blocking direct requests
@@ -45,6 +47,9 @@ Three commands. Each is one shell call; output goes to stdout unless `--output`.
 | Specific fields from one page | `webreaper scrape <url> --schema schema.json` |
 | Every page of a whole site (Markdown) | `webreaper crawl <url> > pages.jsonl` |
 | Every page of a whole site (fields) | `webreaper crawl <url> --schema schema.json` |
+| Fields with no schema (LLM, per page) | `webreaper scrape <url> --prompt "<what to extract>" --model <id> --llm-url <endpoint>` |
+| Whole site, fields, cheaply (LLM) | `webreaper crawl <url> --infer "<goal>" --model <id> --llm-url <endpoint>` |
+| One file per page (instead of JSONL) | add `--output-dir <dir>` to `scrape` / `crawl` |
 | URLs on a site | `webreaper map <url>` |
 | URLs matching a substring | `webreaper map <url> --search /blog/ --max-urls 50` |
 | A JS-rendered page (SPA) | `webreaper scrape <url> --browser` |
@@ -74,6 +79,46 @@ are never followed. `crawl` starts at HTTP and auto-climbs to a browser on a
 does not render JS-only pages or use the stealth tier, so for a JS-rendered SPA
 or a site that needs stealth, scrape the pages with `scrape --browser` /
 `scrape --stealth` instead.
+
+## AI extraction (no schema): `--prompt` and `--infer`
+
+When you don't know the page structure, or pages vary, an LLM can extract
+instead of CSS selectors. Both modes need an OpenAI-compatible endpoint:
+`--model <id> --llm-url <url>` (e.g. `https://api.openai.com/v1`, or
+`http://localhost:11434/v1` for a local Ollama), with the API key in the
+`WEBREAPER_LLM_API_KEY` or `OPENAI_API_KEY` environment variable (never a flag).
+
+- **`--prompt "<instruction>"`**: the LLM reads each page and returns JSON for
+  whatever you describe. Robust on differently-shaped pages; one LLM call per
+  page, so cost scales with page count.
+
+  ```bash
+  webreaper scrape https://site.com/team --prompt "each person's name, title, email" \
+    --model gpt-4o-mini --llm-url https://api.openai.com/v1
+  ```
+
+- **`--infer ["<goal>"]`**: the LLM infers a schema once from the first page,
+  then extracts the rest deterministically (about one LLM call for a whole
+  crawl). Cheap when pages share a shape; can yield empty fields if that
+  first-page schema doesn't match a later, differently-shaped page.
+
+  ```bash
+  webreaper crawl https://site.com --infer "product name and price" \
+    --model gpt-4o-mini --llm-url https://api.openai.com/v1 --max-pages 200
+  ```
+
+`--prompt`, `--infer`, and `--schema` are mutually exclusive. `crawl --prompt`
+asks before a large per-page run; pass `--yes` (or run non-interactively) to skip.
+
+Choosing the extraction strategy:
+
+- **Selectors known / structure stable** → `--schema` (deterministic, free, fastest).
+- **Structure unknown or pages vary, endpoint configured** → `--prompt`.
+- **Whole site, same shape, want it cheap** → `--infer`.
+- **No endpoint configured, or only a handful of pages** → scrape as Markdown
+  (no flag) and extract the fields yourself; you are already an LLM. The CLI's
+  `--prompt` / `--infer` earn their keep on whole-site, in-process extraction
+  with a configured model, where piping every page back to you is impractical.
 
 ## Common workflow: selective multi-page extraction
 
@@ -151,9 +196,11 @@ A schema is a tree of fields. Leaves have a CSS `selector` and a `type`
 - `scrape` with `--schema` → JSON (one record per page; multiple pages = JSON
   Lines, one object per line).
 - `crawl` → JSON Lines, one object per swept page (Markdown record by default,
-  schema fields with `--schema`).
+  schema fields with `--schema`, LLM fields with `--prompt` / `--infer`).
 - `map` → one URL per line.
 - `--output <path>` redirects to a file instead of stdout.
+- `--output-dir <dir>` writes one file per page instead (`.md` in Markdown mode,
+  `.json` otherwise; default dir `./webreaper-out`); `--open` reveals the folder.
 
 All data output is on **stdout**; diagnostics and an occasional update hint go to
 **stderr**, so piping or redirecting stdout always yields clean data. The update

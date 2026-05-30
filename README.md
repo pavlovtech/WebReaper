@@ -102,6 +102,14 @@ webreaper crawl https://example.com > pages.jsonl
 # Structured fields with a JSON schema (output: JSON; multi-page: JSON Lines)
 webreaper scrape https://example.com --schema schema.json
 
+# Schema-free extraction with an LLM (bring your own OpenAI-compatible endpoint)
+webreaper scrape https://example.com --prompt "title and author" \
+  --model gpt-4o-mini --llm-url https://api.openai.com/v1
+
+# Whole site, fields, cheaply: infer a schema once, then extract the rest
+webreaper crawl https://example.com --infer "product name and price" \
+  --model gpt-4o-mini --llm-url https://api.openai.com/v1 --output-dir ./out
+
 # JS-rendered single-page app
 webreaper scrape https://example.com --browser
 
