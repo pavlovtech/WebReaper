@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Text.Json.Nodes;
 using Microsoft.Extensions.Logging;
 using WebReaper.ConfigStorage.Abstract;
+using WebReaper.Core.Blocking.Concrete;
 using WebReaper.Core.Crawling;
 using WebReaper.Core.Crawling.Abstract;
 using WebReaper.Core.Crawling.Concrete;
@@ -134,11 +135,12 @@ public class ScraperEngine : IAsyncDisposable
         _telemetryHooks?.Reset();
         var sw = Stopwatch.StartNew();
 
-        // ADR-0083: tally of pages the block detector flagged as blocked this
-        // run. A single-element array so the parallel-loop closure mutates the
-        // same cell; Interlocked.Increment makes the per-Job bump thread-safe.
-        // Reporting only this slice — climbing / dropping is later slices.
-        var blockedPageCount = new int[1];
+        // ADR-0083: tally of residual-blocked pages suppressed (dropped) this
+        // run — a Target/Sweep page the block drop policy (part 8) kept out of
+        // the sinks. A single-element array so the parallel-loop closure mutates
+        // the same cell; Interlocked.Increment makes the per-Job bump
+        // thread-safe.
+        var droppedBlockedPageCount = new int[1];
 
         await WarmUpAdaptersAsync();
 
@@ -179,7 +181,7 @@ public class ScraperEngine : IAsyncDisposable
             return new RunReport(
                 Llm: _telemetryHooks?.Snapshot(),
                 Duration: sw.Elapsed,
-                BlockedPageCount: blockedPageCount[0]);
+                BlockedPageCount: droppedBlockedPageCount[0]);
         }
 
         // ADR-0037: the driver ends the Crawl by ceasing its OWN consumption,
@@ -236,39 +238,54 @@ public class ScraperEngine : IAsyncDisposable
                     var report = await RetryPolicy.ExecuteAsync(
                         ct => Spider.CrawlAsync(job, ct), token);
 
-                    // ADR-0083: tally a blocked page once per Job, right after
-                    // the Spider reports. Reporting only this slice — the driver
-                    // does not yet climb the host floor or drop the page.
-                    if (report.Block.IsBlocked)
-                        Interlocked.Increment(ref blockedPageCount[0]);
+                    // ADR-0083 slice 3: suppress a residual-blocked Target/Sweep
+                    // page before the Post-extraction pipeline and Sink fan-out,
+                    // so challenge-page content never reaches a consumer's store.
+                    // The block drop policy (part 8) is the confidence split —
+                    // High drops always, Weak drops only when the page yielded no
+                    // records — and every drop is tallied as a residual block.
+                    // Detection reported (in the Spider); the driver acts, exactly
+                    // as it already does for the visited-link and stop-rule
+                    // verdicts (ADR-0022's line holds). A dropped Sweep page still
+                    // follows its children: recovering real links from a blocked
+                    // page is the loader's climb (a later slice), not this slice.
+                    async Task EmitOrDropAsync(ParsedData data)
+                    {
+                        if (BlockDropPolicy.ShouldDrop(report.Block, CountRecords(data)))
+                        {
+                            Interlocked.Increment(ref droppedBlockedPageCount[0]);
+                            Logger.LogInformation(
+                                "Dropping residual-blocked page {Url}: {Reason}",
+                                data.Url, report.Block.Reason);
+                            return;
+                        }
+
+                        // ADR-0076: the page-processor pipeline + Sink fan-out is
+                        // the Post-extraction pipeline's job; the driver only
+                        // routes the record into it (and ignores the
+                        // surviving-record return — the crawl path fires and
+                        // forgets). ADR-0037: it runs on the iteration token, so a
+                        // Crawl concluding mid-flight cancels the in-flight
+                        // pipeline and fan-out too.
+                        Logger.LogInvocationCount();
+                        await _pipeline.ProcessAndEmitAsync(data, report.Page.Html,
+                            job.ParentBacklinks.ToList(), config.ParsingScheme, token);
+                    }
 
                     if (report.Outcome is CrawlOutcome.Parsed parsed)
                     {
-                        // ADR-0037: per-Job work runs on the iteration token,
-                        // so a Crawl concluding mid-flight cancels the in-flight
-                        // page-processor pipeline and Sink fan-out too.
-                        // ADR-0076: the page-processor pipeline + Sink fan-out
-                        // is the Post-extraction pipeline's job; the driver only
-                        // routes the Target page's record into it (and ignores
-                        // the surviving-record return — the crawl path fires and
-                        // forgets).
-                        Logger.LogInvocationCount();
-                        await _pipeline.ProcessAndEmitAsync(parsed.Data, report.Page.Html,
-                            job.ParentBacklinks.ToList(), config.ParsingScheme, token);
+                        await EmitOrDropAsync(parsed.Data);
                         newJobs = new List<Job>();
                     }
                     else if (report.Outcome is CrawlOutcome.Swept swept)
                     {
-                        // ADR-0081: the Sweep page is the ONLY arm that does
-                        // both: run its record through the Post-extraction
-                        // pipeline (emit) AND enqueue its on-domain children
-                        // (follow). The children retain the recursive sweep
-                        // selector; the Visited-link tracker dedups them, which
-                        // is also what terminates the sweep when the on-domain
-                        // frontier saturates.
-                        Logger.LogInvocationCount();
-                        await _pipeline.ProcessAndEmitAsync(swept.Data, report.Page.Html,
-                            job.ParentBacklinks.ToList(), config.ParsingScheme, token);
+                        // ADR-0081: the Sweep page is the ONLY arm that both
+                        // emits its record AND enqueues its on-domain children.
+                        // The children retain the recursive sweep selector; the
+                        // Visited-link tracker dedups them, which is also what
+                        // terminates the sweep when the on-domain frontier
+                        // saturates.
+                        await EmitOrDropAsync(swept.Data);
                         newJobs = swept.Next.ToList();
                     }
                     else
@@ -330,8 +347,39 @@ public class ScraperEngine : IAsyncDisposable
         return new RunReport(
             Llm: _telemetryHooks?.Snapshot(),
             Duration: sw.Elapsed,
-            BlockedPageCount: blockedPageCount[0]);
+            BlockedPageCount: droppedBlockedPageCount[0]);
     }
+
+    // ADR-0083 slice 3: how many records a Target/Sweep page actually extracted,
+    // for the block drop policy's Weak "drop iff zero records" rule. A single
+    // page yields one record, so this is 0 or 1 — it counts only when the
+    // extraction produced real content. The Schema fold writes an empty string
+    // for a selector that matched nothing (ADR-0029) and the page URL is always
+    // folded in under "url" (ADR-0031), so neither an empty field nor the URL
+    // counts: a challenge page parsed with a schema reads as zero records, which
+    // is what lets the Weak rule suppress it.
+    private static int CountRecords(ParsedData record)
+    {
+        foreach (var (key, value) in record.Data)
+        {
+            if (string.Equals(key, "url", StringComparison.Ordinal)) continue;
+            if (IsNonEmpty(value)) return 1;
+        }
+
+        return 0;
+    }
+
+    private static bool IsNonEmpty(JsonNode? node) => node switch
+    {
+        null => false,
+        // The fold writes "" for a non-matching string selector (ADR-0029); a
+        // number / boolean (including 0 / false) is real data, as are non-empty
+        // arrays and objects.
+        JsonValue value => !(value.TryGetValue<string>(out var s) && string.IsNullOrEmpty(s)),
+        JsonArray array => array.Count > 0,
+        JsonObject obj => obj.Count > 0,
+        _ => true,
+    };
 
     // ADR-0033: warm up every adapter the driver holds that declares the
     // IAsyncInitializable capability — once, before the crawl loop. The driver

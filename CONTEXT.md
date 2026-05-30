@@ -221,8 +221,16 @@ The `BlockVerdict` a **block detector** returns: a `BlockConfidence` tier (None,
 _Avoid_: block result, detection result, score.
 
 **Blocked page**:
-A **page load result** the **block detector** classifies as a challenge (`IsBlocked`, i.e. confidence above None). Load-stage and reliable: it is read straight off the response, before extraction. It drives escalation and suppression in later slices; for now the **Crawl driver** only tallies it into the **run report**'s `BlockedPageCount`. Distinct from an Empty result (zero extracted records), which is a weaker extraction-stage hint.
+A **page load result** the **block detector** classifies as a challenge (`IsBlocked`, i.e. confidence above None). Load-stage and reliable: it is read straight off the response, before extraction. The **Crawl driver** suppresses it per the **block drop policy** and tallies the drop into the **run report**'s `BlockedPageCount`; climbing a blocked page to a stronger transport is a later slice. Distinct from an **Empty result**, which is a weaker extraction-stage hint.
 _Avoid_: blocked response, challenge page, captcha page.
+
+**Block drop policy**:
+The pure `BlockDropPolicy` rule (ADR-0083 part 8) the **Crawl driver** consults to decide whether to suppress a **blocked page** rather than emit it: a **block verdict** plus the page's extracted record count in, a keep-or-drop decision out. High confidence drops always; Weak drops only when the page also yielded zero records (a weak body-marker page that still extracted real records was a false positive and is kept); None never drops. A dropped page skips the **Page processor** pipeline and the **Sink** fan-out entirely, so challenge content never reaches a consumer's store. This is the one place record count re-enters the design: an extraction-stage fact the driver folds in one layer above the **block detector**, never back inside the pure load-stage seam.
+_Avoid_: suppression filter, block filter, drop rule (unqualified).
+
+**Empty result**:
+A page that loaded fine but whose extraction yielded zero records: possibly genuinely empty, possibly a block the **block detector** missed. A weak, extraction-stage hint, not a verdict; it stays a CLI stderr suggestion ("retry with `--browser` / `--stealth`", the `EmptyResultAdvisor` from PR #166) and is never on its own a **block drop policy** drop. Distinct from a **blocked page**, which is a reliable load-stage classification the driver does suppress. ADR-0056 fused the two; the fusion was the bug.
+_Avoid_: empty page, no-results, blocked (an empty result is not necessarily blocked).
 
 ### Wiring
 

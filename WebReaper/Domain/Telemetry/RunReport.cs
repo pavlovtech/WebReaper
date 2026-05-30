@@ -19,10 +19,14 @@ namespace WebReaper.Domain.Telemetry;
 /// is in use.</param>
 /// <param name="Duration">Wall-clock time from <c>RunAsync</c> entry to
 /// completion.</param>
-/// <param name="BlockedPageCount">The number of pages the block detector
-/// (ADR-0083) flagged as blocked (<c>IsBlocked</c>) during the run. For a
-/// single-URL scrape this is 0 or 1; for a crawl it counts every page whose
-/// load looked like a bot-check challenge.</param>
+/// <param name="BlockedPageCount">The number of residual-blocked pages the
+/// run suppressed (ADR-0083): a Target/Sweep page the block drop policy dropped
+/// rather than emit, so its challenge content never reached a sink. A
+/// high-confidence block is always counted; a weak body-marker block is counted
+/// only when the page also yielded no records (a weak block that still extracted
+/// real records is kept and not counted). For a single-URL scrape this is 0 or
+/// 1; for a crawl it is the aggregate the CLI surfaces ("N of M pages still
+/// blocked, consider a captcha solver").</param>
 public sealed record RunReport(
     object? Llm,
     TimeSpan Duration,
