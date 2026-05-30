@@ -32,8 +32,9 @@ internal static class InitCommand
         Console.WriteLine($"Wrote WebReaper Agent Skill to {path}");
         Console.WriteLine();
         Console.WriteLine("Try it out:");
-        Console.WriteLine("  webreaper scrape https://example.com");
-        Console.WriteLine("  webreaper map https://example.com");
+        Console.WriteLine("  webreaper scrape https://example.com   # one page as Markdown (or JSON with --schema)");
+        Console.WriteLine("  webreaper crawl  https://example.com   # the whole site as JSON Lines");
+        Console.WriteLine("  webreaper map    https://example.com   # list the site's URLs");
         return 0;
     }
 

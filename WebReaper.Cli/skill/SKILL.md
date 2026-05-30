@@ -69,8 +69,11 @@ Flags: `--max-pages <n>` (default 1000), `--max-depth <n>` (hops from the start
 URL; default unlimited), `--include-subdomains` (default: same host + `www`
 only), `--no-sitemap` (skip sitemap seeding; recursive links only),
 `--schema` / `--output` (as for `scrape`). On-domain only; off-domain links
-are never followed. `crawl` is HTTP-only; for a JS-rendered or bot-protected
-site, scrape the pages with `scrape --browser` instead.
+are never followed. `crawl` starts at HTTP and auto-climbs to a browser on a
+*blocked* page (when one is installed), so a bot-protected site is handled; it
+does not render JS-only pages or use the stealth tier, so for a JS-rendered SPA
+or a site that needs stealth, scrape the pages with `scrape --browser` /
+`scrape --stealth` instead.
 
 ## Common workflow: selective multi-page extraction
 
@@ -96,15 +99,19 @@ Rule of thumb: "everything on the site" → `crawl`; "the pages matching X" →
 - **JS-rendered** (React/Vue/Angular SPA, content empty in `view-source:`):
   add `--browser`. The CLI auto-spawns managed Chromium; first use may
   prompt the user to run `webreaper browser install`.
-- **Bot-protected** (Cloudflare/DataDome/PerimeterX challenge page, HTTP 403/429/503,
-  or zero records on a non-empty page): `--browser` auto-detects the block and
-  offers to install a stealth backend. In agent / unattended contexts, add
-  `--auto-stealth` to bypass the Y/n prompt. The install is ~220 MB on first use.
-- **Known protected up front**: `--stealth` (implies `--browser`) skips the
-  vanilla-browser attempt and goes straight to the stealth backend.
+- **Bot-protected** (Cloudflare/DataDome/PerimeterX challenge, HTTP 403/429/503,
+  a challenge response header, or a challenge body marker): a plain scrape
+  already auto-climbs HTTP to a browser on a detected block, so many sites need
+  no flag at all. For a site that defeats a vanilla browser, add the stealth
+  tier: `--stealth` starts the climb there, or `--auto-stealth` (or
+  `WEBREAPER_AUTO_STEALTH=1`) includes it without the startup Y/n prompt, which
+  is the right choice in agent / unattended contexts. The stealth install is
+  ~220 MB, fetched once at startup when the tier is included.
+- **Known protected up front**: `--stealth` (implies `--browser`) starts at the
+  stealth tier; `--no-auto-stealth` caps the climb at the browser tier.
 
-If a scrape still returns empty after a stealth retry, the site likely needs a
-captcha-solver — surface this to the user; don't keep retrying.
+If a scrape still comes back empty even with `--stealth`, the site likely needs
+a captcha-solver: surface this to the user; don't keep retrying.
 
 ## Caching
 
@@ -164,11 +171,14 @@ line to stderr. Common cases:
   - **Windows**: download the latest archive for `win-x64` (or `win-arm64`)
     from <https://github.com/pavlovtech/WebReaper/releases/latest>, extract
     `webreaper.exe`, place on `%PATH%`.
-- **Empty output + `⚠ Likely blocked: …` on stderr** → retry with
-  `--browser --auto-stealth`.
-- **Empty output, no warning** → the selector(s) in the schema probably don't
-  match. Drop `--schema`, fetch as Markdown first to inspect the page shape,
-  then revise the schema.
+- **`⚠ N page(s) still blocked at the top tier …` on stderr (non-zero exit)** →
+  the loader climbed to its top tier and the page was still a challenge. Add the
+  stealth tier with `--stealth` (or `--auto-stealth` for unattended runs); if it
+  persists, the site needs a captcha-solver.
+- **Empty output + a `⚠ 0 records extracted …` hint** → follow the hint: retry
+  with `--browser` (JS-rendered) or `--stealth` (bot-protected). If the page
+  rendered and was not blocked, the schema selector(s) probably don't match:
+  drop `--schema`, fetch as Markdown to inspect the page shape, then revise.
 
 ## Not a replacement for
 
