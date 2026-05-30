@@ -15,13 +15,20 @@ The `WebReaper.Mcp` satellite exposes WebReaper's core operations as MCP tools:
 
 - scrape a page to clean Markdown
 - map a site to discover its URLs
-- extract structured data
+- extract structured data with a JSON schema
+- extract structured data by a natural-language prompt, with an LLM (`extract_with_prompt`)
 
 Any MCP-capable client can call these, including:
 
 - Cursor
 - Claude Desktop
 - Copilot Studio
+
+The `extract_with_prompt` tool calls an LLM, so it needs an OpenAI-compatible
+endpoint configured on the MCP host: set `WEBREAPER_LLM_MODEL` and
+`WEBREAPER_LLM_BASE_URL` (for example `https://api.openai.com/v1`, or
+`http://localhost:11434/v1` for a local Ollama), with the API key in
+`WEBREAPER_LLM_API_KEY` (or `OPENAI_API_KEY`). The other tools need no setup.
 
 ## When to reach for it
 

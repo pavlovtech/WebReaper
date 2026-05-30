@@ -7,7 +7,8 @@ order: 1
 
 The `webreaper` binary exposes four subcommands: `scrape` for a single page,
 `map` to discover URLs, `crawl` for a whole site, and `init` to wire up the
-Claude Code skill. Markdown goes to stdout by default; pass a schema to get JSON.
+Claude Code skill. Markdown goes to stdout by default; pass a schema or an LLM
+prompt to get JSON.
 Update hints and progress write to stderr, so piping to a file stays clean.
 
 ## scrape
@@ -31,6 +32,15 @@ emits JSON Lines, one object per page:
 webreaper scrape https://news.ycombinator.com --schema schema.json
 ```
 
+Extract with an LLM instead of a schema, by natural-language prompt. Bring any
+OpenAI-compatible endpoint (OpenAI, Ollama, OpenRouter, and so on); the API key
+is read from `WEBREAPER_LLM_API_KEY` (or `OPENAI_API_KEY`), never a flag:
+
+```bash
+webreaper scrape https://example.com --prompt "title and author" \
+  --model gpt-4o-mini --llm-url https://api.openai.com/v1
+```
+
 Render JavaScript-heavy pages through a real browser, and let the CLI escalate to
 a stealth browser when it detects a bot-check:
 
@@ -42,6 +52,10 @@ Key flags:
 
 - `--output <file>` write Markdown to a file rather than stdout.
 - `--schema <file>` extract JSON using the given schema (JSON Lines for many pages).
+- `--prompt "<text>"` schema-free LLM extraction, one call per page; needs `--model` and `--llm-url`.
+- `--infer ["<goal>"]` infer a schema once with an LLM, then extract deterministically (cheap for many pages).
+- `--model <id>` / `--llm-url <url>` the model and OpenAI-compatible endpoint for `--prompt` / `--infer`.
+- `--output-dir <dir>` write one file per page (`.md` in Markdown mode, `.json` otherwise) instead of stdout; `--open` reveals the folder.
 - `--browser` render the page with a real browser for JS-heavy sites.
 - `--auto-stealth` escalate to a stealth browser automatically on a bot-check.
 - `--no-auto-stealth` disable the escalation heuristic.
@@ -76,6 +90,12 @@ Each line looks like:
 Because the output is JSON Lines, you can stream it straight into `jq`, a
 database loader, or an embedding pipeline.
 
+Extract fields across the whole site with an LLM too: `--prompt "<text>"` (one
+call per page) or `--infer "<goal>"` (infer a schema once, then extract the rest
+deterministically, about one call total). `crawl --prompt` asks before a large
+run; pass `--yes` to skip. Add `--output-dir <dir>` to write one file per page
+instead of a single JSON Lines stream.
+
 ## init
 
 Write the bundled Claude Code skill into the current project:
@@ -92,5 +112,7 @@ Claude Code routes scraping requests to the CLI on its own. See the
 
 - `scrape` with no schema: Markdown to stdout (or to `--output`).
 - `scrape --schema`: JSON for one page, JSON Lines for many.
+- `scrape --prompt` / `--infer`: LLM-extracted JSON (JSON Lines for many pages).
 - `map`: a list of discovered URLs.
 - `crawl`: JSON Lines of `{url, title, markdown}`, one per page.
+- `--output-dir <dir>`: one file per page (`.md` in Markdown mode, `.json` otherwise).
