@@ -1,0 +1,78 @@
+import {
+  SSE_HEADERS,
+  checkRateLimits,
+  clientIp,
+  sseError,
+  verifyTurnstile,
+} from "@/lib/playground/gate";
+
+// SSE must never be cached, and the handler runs as long as the scrape streams.
+// (Edge Runtime is deprecated in Next 16; this uses the default Node runtime,
+// whose Web Streams support is enough to proxy the backend SSE through.)
+export const dynamic = "force-dynamic";
+export const maxDuration = 60;
+
+// The Fly backend stays private behind this gate. NEXT_PUBLIC is deliberately
+// absent: the browser never learns the backend URL. Local dev default matches
+// the backend's launch port.
+const BACKEND_URL = process.env.PLAYGROUND_BACKEND_URL ?? "http://localhost:5179";
+
+/**
+ * Tier A playground gate. GET (so the client EventSource can consume it):
+ *   /api/playground/scrape?url=<encoded>&cf=<turnstile-token>
+ * Verifies Turnstile, applies rate limits, then streams the backend
+ * /scrape/stream SSE through, injecting the shared secret so the backend can
+ * refuse direct public traffic.
+ */
+export async function GET(req: Request): Promise<Response> {
+  const params = new URL(req.url).searchParams;
+  const target = safeHttpUrl(params.get("url"));
+  if (!target) return sseError("Enter a valid http(s) URL to scrape.");
+
+  const ip = clientIp(req);
+
+  const turnstile = await verifyTurnstile(params.get("cf"), ip);
+  if (!turnstile.ok) return sseError(turnstile.reason);
+
+  const limit = await checkRateLimits(ip);
+  if (!limit.ok) return sseError(limit.reason);
+
+  const upstreamUrl = `${BACKEND_URL}/scrape/stream?url=${encodeURIComponent(target.href)}`;
+  let upstream: Response;
+  try {
+    upstream = await fetch(upstreamUrl, {
+      headers: backendHeaders(),
+      // Propagate client disconnect so the backend stops scraping when the
+      // EventSource closes.
+      signal: req.signal,
+    });
+  } catch (err) {
+    console.error("[playground] backend unreachable:", err);
+    return sseError("The scrape service is unavailable right now. Please try again.");
+  }
+
+  if (!upstream.ok || !upstream.body) {
+    return sseError("The scrape service returned an error. Please try again.");
+  }
+
+  return new Response(upstream.body, { status: 200, headers: SSE_HEADERS });
+}
+
+function backendHeaders(): HeadersInit {
+  const secret = process.env.PLAYGROUND_BACKEND_SECRET;
+  return secret ? { "x-playground-secret": secret } : {};
+}
+
+// Light pre-check only; the backend's SSRF-guarded handler is the authoritative
+// address policy (DNS-pinned, redirect re-validated). This just rejects obvious
+// junk and non-http schemes before opening an upstream connection.
+function safeHttpUrl(raw: string | null): URL | null {
+  if (!raw) return null;
+  let url: URL;
+  try {
+    url = new URL(raw);
+  } catch {
+    return null;
+  }
+  return url.protocol === "http:" || url.protocol === "https:" ? url : null;
+}

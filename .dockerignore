@@ -1,0 +1,12 @@
+# Keep the Fly/Docker build context (the repo root, for the playground backend
+# image) free of noise. Source dirs stay in; only heavy/irrelevant artifacts are
+# excluded. See cloud/WebReaper.PlaygroundApi/Dockerfile.
+.git
+.github
+.claude
+**/bin
+**/obj
+**/node_modules
+**/.next
+**/.vs
+*.user
