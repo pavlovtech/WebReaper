@@ -28,7 +28,9 @@ export type ClimbEvent =
   | { kind: "escalate"; from: TierName; to: TierName }
   | { kind: "success"; tier: TierName; status: number }
   | { kind: "result"; title: string; markdown: string }
-  | { kind: "exhausted"; tier: TierName; reason: string };
+  | { kind: "exhausted"; tier: TierName; reason: string }
+  // Emitted by the live backend for invalid input or a refused (SSRF) fetch.
+  | { kind: "error"; message: string };
 
 /** A `ClimbEvent` plus its millisecond offset from the start of playback. */
 export type TimedEvent = { at: number; event: ClimbEvent };
