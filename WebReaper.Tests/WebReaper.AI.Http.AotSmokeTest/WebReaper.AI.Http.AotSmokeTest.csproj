@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    ADR-0084 piece 2: AOT smoke test for the OpenAI-compatible IChatClient.
+    Publishes WebReaper.AI.Http under Native-AOT with the IL2026/IL3050 family
+    promoted to errors, then exercises a request serialize + response
+    deserialize against a stub HttpMessageHandler (no network), proving the
+    System.Text.Json source-gen protocol path is reflection-free.
+
+    NOT in WebReaper.sln: a dedicated `dotnet publish` CI step runs it.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>preview</LangVersion>
+
+    <PublishAot>true</PublishAot>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <WarningsAsErrors>$(WarningsAsErrors);IL2026;IL2027;IL2046;IL2055;IL2057;IL2058;IL2059;IL2060;IL2062;IL2067;IL2070;IL2072;IL2075;IL2080;IL2087;IL2090;IL2091;IL2104;IL3050;IL3051;IL3052;IL3053;IL3056</WarningsAsErrors>
+    <IsAotCompatible>true</IsAotCompatible>
+    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <EnableSingleFileAnalyzer>true</EnableSingleFileAnalyzer>
+    <EnableAotAnalyzer>true</EnableAotAnalyzer>
+    <NuGetAudit>false</NuGetAudit>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\WebReaper.AI.Http\WebReaper.AI.Http.csproj" />
+  </ItemGroup>
+
+</Project>
