@@ -65,6 +65,7 @@ env:
     WebReaper.AzureServiceBus
     WebReaper.Sqlite
     WebReaper.AI
+    WebReaper.AI.Http
     WebReaper.Extraction.Attributes
     WebReaper.Extraction.Generators
     WebReaper.Mcp
