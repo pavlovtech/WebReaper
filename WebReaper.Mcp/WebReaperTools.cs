@@ -2,6 +2,8 @@ using System.ComponentModel;
 using System.Text;
 using System.Text.Json.Nodes;
 using ModelContextProtocol.Server;
+using WebReaper.AI;
+using WebReaper.AI.Http;
 using WebReaper.Builders;
 using WebReaper.Cdp;
 using WebReaper.Core.Mapping;
@@ -10,10 +12,10 @@ using WebReaper.Sinks.Models;
 
 namespace WebReaper.Mcp;
 
-// ADR-0049: the three MCP tools the satellite exposes (scrape, map,
-// extract). Each wraps an existing library API; the tool layer is thin
-// glue between the MCP-protocol JSON shape and the library's fluent
-// builders.
+// ADR-0049: the MCP tools the satellite exposes (scrape, map, extract, and
+// extract_with_prompt). Each wraps an existing library API; the tool layer is
+// thin glue between the MCP-protocol JSON shape and the library's fluent
+// builders. ADR-0084 added extract_with_prompt (schema-free LLM extraction).
 
 [McpServerToolType]
 public static class WebReaperTools
@@ -126,6 +128,66 @@ public static class WebReaperTools
 
         // JSON Lines: one record per line.
         return string.Join("\n", records.Select(r => r.Data.ToJsonString()));
+    }
+
+    [McpServerTool(Name = "extract_with_prompt"), Description(
+        "Extract structured data from a URL with an LLM, using a natural-language " +
+        "instruction instead of a CSS schema (e.g. \"each person's name, title, and email\"). " +
+        "Returns the extracted record(s) as JSON Lines. Requires an OpenAI-compatible LLM " +
+        "endpoint configured on the MCP host: set WEBREAPER_LLM_MODEL and WEBREAPER_LLM_BASE_URL " +
+        "(e.g. https://api.openai.com/v1 or http://localhost:11434/v1), with the API key in " +
+        "WEBREAPER_LLM_API_KEY (or OPENAI_API_KEY). Costs one LLM call.")]
+    public static async Task<string> ExtractWithPrompt(
+        [Description("The URL to extract from.")] string url,
+        [Description("Natural-language description of the data to extract.")] string prompt,
+        [Description("Use the headless browser (for JS-rendered pages). Auto-spawns a system Chrome / Chromium / Edge via WebReaper.Cdp. Default false.")] bool browser = false)
+    {
+        if (string.IsNullOrWhiteSpace(url))
+            throw new ArgumentException("URL is required.", nameof(url));
+        if (string.IsNullOrWhiteSpace(prompt))
+            throw new ArgumentException("Prompt is required.", nameof(prompt));
+
+        using var chatClient = CreateChatClient();
+
+        var seed = browser
+            ? ScraperEngineBuilder.CrawlWithBrowser(url)
+            : ScraperEngineBuilder.Crawl(url);
+
+        var records = new List<ParsedData>();
+        // ADR-0084: the schema-free LLM strategy. The chat client is disposed
+        // on method exit, after the engine (declared later, so disposed first).
+        var builder = seed.ExtractWithPrompt(chatClient, prompt)
+            .Subscribe(records.Add)
+            .StopWhenAllLinksProcessed();
+
+        if (browser)
+            builder = builder.WithCdpPageLoader(new CdpLaunchOptions());
+
+        await using var engine = await builder.BuildAsync();
+        await engine.RunAsync();
+
+        return string.Join("\n", records.Select(r => r.Data.ToJsonString()));
+    }
+
+    // ADR-0084: build the OpenAI-compatible chat client from environment config.
+    // The same explicit-config contract as the CLI: model + base URL are
+    // required; the API key is read from the environment only, never a param.
+    internal static OpenAiCompatibleChatClient CreateChatClient()
+    {
+        var model = Environment.GetEnvironmentVariable("WEBREAPER_LLM_MODEL");
+        var baseUrl = Environment.GetEnvironmentVariable("WEBREAPER_LLM_BASE_URL");
+        var apiKey = Environment.GetEnvironmentVariable("WEBREAPER_LLM_API_KEY")
+                  ?? Environment.GetEnvironmentVariable("OPENAI_API_KEY");
+
+        if (string.IsNullOrWhiteSpace(model))
+            throw new InvalidOperationException(
+                "extract_with_prompt needs an LLM model: set the WEBREAPER_LLM_MODEL environment variable.");
+        if (string.IsNullOrWhiteSpace(baseUrl))
+            throw new InvalidOperationException(
+                "extract_with_prompt needs an LLM endpoint: set WEBREAPER_LLM_BASE_URL "
+                + "(e.g. https://api.openai.com/v1).");
+
+        return new OpenAiCompatibleChatClient(baseUrl, model, apiKey);
     }
 
     // Tiny JSON → Schema parser (same shape the CLI accepts, ADR-0043).
