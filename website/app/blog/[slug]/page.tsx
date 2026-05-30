@@ -31,7 +31,6 @@ export async function generateMetadata({
       url,
       type: "article",
       publishedTime: post.date,
-      authors: [post.author],
     },
   };
 }
@@ -57,8 +56,6 @@ export default async function BlogPostPage({ params }: { params: Params }) {
         <header className="mt-6 border-b border-border pb-8">
           <div className="flex flex-wrap items-center gap-3 text-sm text-muted-2">
             <span>{formatDate(post.date)}</span>
-            <span>·</span>
-            <span>{post.author}</span>
             <span>·</span>
             <span>{post.metadata.readingTime} min read</span>
           </div>

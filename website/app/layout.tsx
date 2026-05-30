@@ -35,7 +35,6 @@ export const metadata: Metadata = {
     "Firecrawl alternative",
     "WebReaper",
   ],
-  authors: [{ name: "Oleksandr Pavlov" }],
   creator: "WebReaper",
   openGraph: {
     type: "website",
