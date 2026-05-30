@@ -1,0 +1,63 @@
+---
+title: Claude Code skill
+description: Install the bundled skill so Claude Code routes scraping to WebReaper.
+category: Command line
+order: 2
+---
+
+WebReaper ships an Agent Skill for Claude Code. Once it is installed in your
+project, you stop thinking about the CLI flags: you describe what you want in
+plain language and Claude Code picks the right `webreaper` invocation for you.
+
+## Install the skill
+
+From your project root, run:
+
+```bash
+webreaper init
+```
+
+This writes a skill manifest to `.claude/skills/webreaper/SKILL.md`. The file
+describes what WebReaper can do and which subcommand fits which kind of request,
+so Claude Code can discover and use it automatically.
+
+## How routing works
+
+When you ask Claude Code to do something that looks like scraping, crawling, or
+extraction, it reads the skill and shells out to the CLI:
+
+- "Read this page into Markdown" maps to `webreaper scrape <url>`.
+- "What pages does this site have" maps to `webreaper map <url>`.
+- "Crawl the whole site" maps to `webreaper crawl <url>`.
+- "Pull these fields from the page" maps to `webreaper scrape <url> --schema ...`.
+
+The skill also knows when WebReaper is the better choice than a plain page fetch:
+when you want clean Markdown to work with downstream, structured fields, multiple
+pages, or a JS-rendered or bot-protected site.
+
+## Example prompts
+
+These all route to WebReaper once the skill is installed:
+
+```text
+Scrape https://news.ycombinator.com and give me the front page as Markdown.
+
+What URLs are under /blog/ on https://example.com?
+
+Crawl https://example.com and save every page to pages.jsonl.
+
+Pull the title, price, and tags from this product page.
+
+This site is behind Cloudflare and blocking me. Get me the content anyway.
+```
+
+For the bot-protected case, Claude Code can add `--browser` and `--auto-stealth`
+so the CLI renders the page and escalates to a stealth browser if it hits a
+challenge.
+
+## When a plain fetch is enough
+
+The skill is for producing an artifact: a Markdown file, structured records, or a
+multi-URL result. If you only want a conversational answer about a single URL
+("read this and tell me about it"), a normal page fetch is the lighter tool.
+Anything that yields data you keep working with belongs in WebReaper.

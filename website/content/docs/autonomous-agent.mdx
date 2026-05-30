@@ -1,0 +1,91 @@
+---
+title: Autonomous agent
+description: Let an LLM drive page selection with a durable, resumable agent loop.
+category: AI features
+order: 3
+---
+
+The autonomous agent applies AI to page selection itself, not just to on-page
+extraction. You give it a starting URL and a goal; a model decides, step by step,
+whether to extract, follow a link, act on the page, or stop. The loop is
+sequential and durable, so a run can resume exactly where it left off.
+
+## The quickest start
+
+The `LlmAgent` static helper runs an agent against a goal with your chat client:
+
+```csharp
+using WebReaper.AI;
+
+var result = await LlmAgent.RunAsync(
+    "https://example.com",
+    "find the pricing page and extract the plans",
+    chatClient);
+```
+
+If you have your own brain implementation, `Agent.RunAsync` takes it directly:
+
+```csharp
+using WebReaper;
+
+var result = await Agent.RunAsync(
+    "https://example.com",
+    "find the pricing page and extract the plans",
+    brain);
+```
+
+## The builder
+
+For full control, build the agent engine explicitly:
+
+```csharp
+using WebReaper.Builders;
+
+var engine = await AgentEngineBuilder
+    .Start("https://example.com", "find and extract the pricing plans")
+    .WithLlmBrain(chatClient)
+    .BuildAsync();
+
+await engine.RunAsync();
+```
+
+The AI brain lives in the `WebReaper.AI` satellite package.
+
+## How the loop works
+
+The agent runs a strictly sequential decide, persist, execute loop. On each step
+the brain chooses one closed-set decision:
+
+- `Extract` pull structured data from the current page.
+- `Follow` navigate to a linked page.
+- `Act` perform a page action (click, fill, and so on).
+- `Stop` end the run.
+
+Decisions are causally ordered: the next choice depends on the last result, which
+is why the loop is sequential by design rather than parallel.
+
+## Durable, resumable runs
+
+Agent run state is persisted through the `IAgentRunStore` seam, so a run survives
+process restarts and can be resumed. The default store is in-memory, with a file
+adapter in core and satellite adapters for Redis, MongoDB, SQLite, and Cosmos:
+
+```csharp
+var engine = await AgentEngineBuilder
+    .Start("https://example.com", "extract the pricing plans")
+    .WithLlmBrain(chatClient)
+    .WithSqliteAgentRunStore("agent.db")
+    .BuildAsync();
+```
+
+Because each step is persisted before it executes, resuming may re-run the last
+step's effect, so pair durable runs with idempotent sinks.
+
+## Caps
+
+Two caps keep a run bounded. `MaxSteps` limits how many decisions the agent
+makes, and `MaxBudgetTokens` caps total token spend across the run. Set them when
+you want a hard ceiling on an unattended job.
+
+To wire the brain and supporting AI behaviors in one call instead, see the
+[AI features overview](/docs/ai).

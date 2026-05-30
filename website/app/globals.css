@@ -1,0 +1,309 @@
+@import "tailwindcss";
+@import "flowbite-react/plugin/tailwindcss";
+@source "../.flowbite-react/class-list.json";
+@plugin "@tailwindcss/typography";
+
+/* Class-based dark mode: flowbite's ThemeModeScript toggles `.dark` on <html>. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ----------------------------------------------------------------------------
+   Design tokens, dark-first, supabase-inspired. Light values live in :root,
+   dark overrides in .dark. Mapped to Tailwind color utilities via @theme below.
+---------------------------------------------------------------------------- */
+:root {
+  --background: #ffffff;
+  --background-subtle: #f7f8f8;
+  --surface: #ffffff;
+  --surface-2: #f1f3f3;
+  --border: #e6e8eb;
+  --border-strong: #d3d8dd;
+  --foreground: #0a0c0b;
+  --muted: #545d69;
+  --muted-2: #6d747e;
+  --accent: #047857;
+  --accent-strong: #036046;
+  --accent-foreground: #ffffff;
+  --accent-soft: rgba(4, 120, 87, 0.09);
+  --ring: #047857;
+}
+
+.dark {
+  --background: #08090a;
+  --background-subtle: #0c0e0f;
+  --surface: #111315;
+  --surface-2: #16191b;
+  --border: #1e2325;
+  --border-strong: #2a3033;
+  --foreground: #ededed;
+  --muted: #9aa3ad;
+  --muted-2: #8b939c;
+  --accent: #34d399;
+  --accent-strong: #10b981;
+  --accent-foreground: #04130c;
+  --accent-soft: rgba(52, 211, 153, 0.12);
+  --ring: #34d399;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-background-subtle: var(--background-subtle);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-2: var(--muted-2);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-ring: var(--ring);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", monospace;
+
+  --radius-card: 0.875rem;
+}
+
+/* ----------------------------------------------------------------------------
+   Base
+---------------------------------------------------------------------------- */
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-foreground);
+  }
+  /* Visible keyboard focus everywhere; mouse clicks stay clean via :focus-visible */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+    border-radius: 9999px;
+    border: 2px solid var(--background);
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Signature utilities (supabase-style glows, grids, gradient text)
+---------------------------------------------------------------------------- */
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(
+      180deg,
+      var(--foreground) 0%,
+      color-mix(in oklab, var(--foreground) 55%, var(--muted)) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .text-accent-gradient {
+    background: linear-gradient(92deg, var(--accent) 0%, #22d3ee 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .bg-grid {
+    background-image: linear-gradient(
+        to right,
+        color-mix(in oklab, var(--border) 55%, transparent) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        to bottom,
+        color-mix(in oklab, var(--border) 55%, transparent) 1px,
+        transparent 1px
+      );
+    background-size: 56px 56px;
+  }
+  .bg-dot {
+    background-image: radial-gradient(
+      color-mix(in oklab, var(--border-strong) 90%, transparent) 1px,
+      transparent 1px
+    );
+    background-size: 22px 22px;
+  }
+  .glow-accent {
+    background: radial-gradient(
+      60% 60% at 50% 0%,
+      var(--accent-soft) 0%,
+      transparent 70%
+    );
+  }
+  .mask-fade-b {
+    mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+  }
+  .mask-fade-x {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 12%,
+      black 88%,
+      transparent
+    );
+  }
+  .surface-card {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    transition:
+      transform 0.2s ease,
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  /* Interactive cards (links/buttons) gently lift on hover */
+  a.surface-card:hover,
+  button.surface-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 34px -18px rgba(0, 0, 0, 0.6);
+  }
+  .animate-marquee {
+    animation: marquee 32s linear infinite;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Scroll-driven reveal (pure CSS, no JS, SSR-safe). Content is visible by
+   default; where the browser supports scroll timelines and motion is allowed,
+   `.reveal` blocks fade/slide in as they enter the viewport.
+---------------------------------------------------------------------------- */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 65%;
+    }
+  }
+}
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   MDX / rehype-pretty-code (Shiki) code blocks + inline code
+---------------------------------------------------------------------------- */
+[data-rehype-pretty-code-figure] {
+  margin: 1.25rem 0;
+}
+[data-rehype-pretty-code-figure] pre {
+  overflow-x: auto;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+  background: #0a0e13;
+  padding: 1rem 1.1rem;
+  font-size: 13px;
+  line-height: 1.6;
+}
+[data-rehype-pretty-code-figure] code {
+  font-family: var(--font-mono);
+  font-size: inherit;
+  counter-reset: line;
+}
+[data-rehype-pretty-code-title] {
+  border: 1px solid var(--border);
+  border-bottom: 0;
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
+  background: var(--surface-2);
+  padding: 0.55rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+[data-rehype-pretty-code-title] + pre {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+[data-line] {
+  display: inline-block;
+  width: 100%;
+}
+[data-highlighted-line] {
+  background: color-mix(in oklab, var(--accent) 12%, transparent);
+  border-left: 2px solid var(--accent);
+  margin-left: -1.1rem;
+  padding-left: calc(1.1rem - 2px);
+}
+
+/* Inline code inside prose (not the shiki blocks) */
+.prose
+  :where(code):not(:where([data-rehype-pretty-code-figure] *, pre *)) {
+  border-radius: 0.375rem;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  padding: 0.1rem 0.35rem;
+  font-size: 0.85em;
+  font-weight: 500;
+  color: var(--foreground);
+}
+.prose
+  :where(code):not(:where([data-rehype-pretty-code-figure] *))::before,
+.prose
+  :where(code):not(:where([data-rehype-pretty-code-figure] *))::after {
+  content: none;
+}
+.prose :where(pre) {
+  background: transparent;
+  padding: 0;
+}
+.heading-anchor {
+  text-decoration: none;
+  color: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

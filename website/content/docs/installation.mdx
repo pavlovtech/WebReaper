@@ -1,0 +1,89 @@
+---
+title: Installation
+description: Install the WebReaper CLI binary or add the .NET library to your project.
+category: Introduction
+order: 2
+---
+
+WebReaper ships two ways: a single native binary for the command line, and a
+NuGet library for embedding in .NET apps. The CLI needs no runtime, no Docker,
+and no database. Pick whichever fits your workflow, or use both.
+
+## macOS and Linux (Homebrew)
+
+The fastest path on macOS and Linux is the Homebrew tap:
+
+```bash
+brew install pavlovtech/webreaper/webreaper
+```
+
+Upgrades come through `brew upgrade webreaper` like any other formula.
+
+## Any POSIX shell (install.sh)
+
+The install script detects your OS and architecture, downloads the matching
+binary from GitHub Releases, and drops it on your PATH:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/pavlovtech/WebReaper/master/scripts/install.sh | sh
+```
+
+To update an existing install in place, append the upgrade flag:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/pavlovtech/WebReaper/master/scripts/install.sh | sh -s -- --upgrade
+```
+
+## Windows
+
+Download the zip for your architecture from the
+[GitHub Releases](https://github.com/pavlovtech/WebReaper/releases) page, unzip
+it, and put `webreaper.exe` somewhere on your PATH. Both `win-x64` and
+`win-arm64` builds are published with every release.
+
+## .NET library
+
+To embed the scraper in a .NET app, add the package:
+
+```bash
+dotnet add package WebReaper
+```
+
+That gives you the fluent `ScraperEngineBuilder` and every in-process seam.
+Optional capabilities (browser rendering, AI, distributed backends) live in
+satellite packages such as `WebReaper.Playwright`, `WebReaper.AI`, and
+`WebReaper.Redis`; add only the ones you need.
+
+## Builds and platforms
+
+The CLI is compiled with Native AOT into a self-contained single binary, so
+startup is instant and there is no .NET runtime to install. Builds are published
+for six runtime identifiers:
+
+- `linux-x64`, `linux-arm64`
+- `osx-x64`, `osx-arm64`
+- `win-x64`, `win-arm64`
+
+The macOS binaries are codesigned and notarized, so Gatekeeper runs them without
+the "unidentified developer" prompt.
+
+## Staying current
+
+On each run the CLI checks for a newer release and prints a short hint to stderr
+when one is available. This never blocks the command, and it writes only to
+stderr, so it never pollutes piped Markdown or JSON on stdout. To silence the
+check entirely, set an environment variable:
+
+```bash
+export WEBREAPER_NO_UPDATE_CHECK=1
+```
+
+## Verify the install
+
+```bash
+webreaper scrape https://example.com
+```
+
+You should see clean Markdown printed to your terminal. From here, the
+[CLI reference](/docs/cli) covers every subcommand, and the
+[library quickstart](/docs/library-quickstart) shows the fluent builder.

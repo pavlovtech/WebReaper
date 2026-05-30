@@ -1,0 +1,80 @@
+# Pages CMS config — Git-backed visual editing at https://pagescms.org
+# Log in with GitHub, edit content through forms; it commits MDX back to this repo.
+# Fields mirror the Velite frontmatter in velite.config.ts so CMS edits validate at build.
+
+media:
+  input: website/public/uploads
+  output: /uploads
+
+content:
+  - name: docs
+    label: Documentation
+    type: collection
+    path: website/content/docs
+    filename: "{primary}.mdx"
+    view:
+      fields: [title, category, order, published]
+    fields:
+      - { name: title, label: Title, type: string, required: true }
+      - { name: description, label: Description, type: text }
+      - name: category
+        label: Category
+        type: select
+        default: Guides
+        options:
+          values:
+            - Introduction
+            - Command line
+            - Library
+            - AI features
+            - Browser & stealth
+            - Scaling
+            - Integrations
+      - { name: order, label: Order, type: number, default: 100 }
+      - { name: published, label: Published, type: boolean, default: true }
+      - { name: body, label: Body, type: rich-text }
+
+  - name: blog
+    label: Blog
+    type: collection
+    path: website/content/blog
+    filename: "{primary}.mdx"
+    view:
+      fields: [title, date, author, draft]
+    fields:
+      - { name: title, label: Title, type: string, required: true }
+      - { name: description, label: Description, type: text, required: true }
+      - { name: date, label: Date, type: date, required: true }
+      - { name: author, label: Author, type: string, default: WebReaper Team }
+      - { name: tags, label: Tags, type: string, list: true }
+      - { name: cover, label: Cover image, type: image }
+      - { name: draft, label: Draft, type: boolean, default: false }
+      - { name: body, label: Body, type: rich-text }
+
+  - name: use-cases
+    label: Use cases
+    type: collection
+    path: website/content/use-cases
+    filename: "{primary}.mdx"
+    view:
+      fields: [title, icon, order]
+    fields:
+      - { name: title, label: Title, type: string, required: true }
+      - { name: description, label: Description, type: text, required: true }
+      - { name: icon, label: Icon (lucide name), type: string, default: Sparkles }
+      - { name: tagline, label: Tagline, type: string }
+      - { name: order, label: Order, type: number, default: 100 }
+      - { name: body, label: Body, type: rich-text }
+
+  - name: pages
+    label: Pages (legal)
+    type: collection
+    path: website/content/pages
+    filename: "{primary}.mdx"
+    view:
+      fields: [title, updated]
+    fields:
+      - { name: title, label: Title, type: string, required: true }
+      - { name: description, label: Description, type: text }
+      - { name: updated, label: Last updated, type: date }
+      - { name: body, label: Body, type: rich-text }

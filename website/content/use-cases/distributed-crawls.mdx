@@ -1,0 +1,61 @@
+---
+title: Distributed crawls at scale
+description: Share crawl state across many workers or serverless functions by swapping a few seams to Redis or Azure Service Bus.
+icon: Network
+order: 5
+tagline: One crawl, many workers, shared state.
+---
+
+A single process can only fan out so far. To crawl millions of pages you want
+many machines, or a fleet of serverless functions, all pulling from one queue and
+agreeing on what has already been visited. The trick is shared state: the
+scheduler, the visited-link tracker, and the output sink have to live somewhere
+every worker can reach.
+
+## Swap the seams, keep the code
+
+In-process, WebReaper keeps the scheduler, tracker, and config in memory. To go
+distributed you swap those seams to a backing store. Everything else (the fluent
+builder, the parallel crawl loop, your schema) stays the same:
+
+```csharp
+using WebReaper.Builders;
+
+var engine = await ScraperEngineBuilder
+    .Crawl("https://example.com")
+    .Extract(Product.Schema)
+    .WithRedisScheduler(redisConnectionString)
+    .TrackVisitedLinksInRedis(redisConnectionString)
+    .WriteToRedis(redisConnectionString, "results")
+    .BuildAsync();
+
+await engine.RunAsync();
+```
+
+Point every worker at the same Redis instance and they cooperate: the scheduler
+hands out jobs, the visited-link tracker (an atomic test-and-set) guarantees no
+URL is processed twice, and results flow to a shared sink. Add or remove workers
+freely; the shared state is the coordination point.
+
+## Redis or Azure Service Bus
+
+The `WebReaper.Redis` satellite supplies the Redis scheduler, tracker, config
+storage, and sink. The `WebReaper.AzureServiceBus` satellite supplies a Service
+Bus scheduler for queue-backed, serverless fan-out: an Azure Function triggers on
+each queued job, crawls a page, and enqueues its children. Sinks span Console,
+CSV, JSON Lines, MongoDB, Redis, and Cosmos, so you can land results wherever your
+pipeline expects them.
+
+## Parallel by default
+
+Within each worker the crawl driver runs jobs through a parallel loop over an
+async job stream, so a single machine already saturates its cores. Distribution
+multiplies that across the fleet: many parallel workers, one shared scheduler and
+tracker, no double work.
+
+## The payoff
+
+You start in-process for development, then change three builder calls to scale the
+identical crawl across a cluster or a serverless fleet. The state lives in Redis
+or Service Bus, the workers stay stateless and disposable, and throughput grows
+with the number of machines you point at the queue.

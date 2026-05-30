@@ -1,0 +1,132 @@
+---
+title: "Scraping Cloudflare-protected sites from .NET"
+description: A practical walkthrough of WebReaper's browser and auto-stealth escalation for sites behind Cloudflare, DataDome, and other bot managers.
+date: 2026-05-30
+author: Oleksandr Pavlov
+tags:
+  - guide
+  - stealth
+---
+
+A plain HTTP request to a protected site does not return the page. It returns an
+interstitial: a challenge, a 403, or a polite block telling you to enable
+JavaScript. Cloudflare, DataDome, PerimeterX, Incapsula, and Akamai all play
+some version of this game, and getting past the easy ones is mostly about
+looking like a real browser.
+
+WebReaper handles this as a ladder you climb only as far as you need. Start with
+a plain request, escalate to a real browser, and escalate again to a stealth
+browser when the site demands it. This post walks the ladder from the CLI, then
+shows the library equivalent.
+
+## Step one: try a real browser
+
+If a site fails a plain fetch but is not running aggressive fingerprinting, a
+real headless browser is often enough, because the page just needs JavaScript to
+execute. From the CLI, that is one flag.
+
+```bash
+webreaper scrape https://protected.example.com --browser --output page.md
+```
+
+The first browser run downloads its browser binaries, so expect a one-time
+delay. After that, the page renders in a real engine, scripts run, and the
+challenge that blocked your HTTP client resolves on its own. For a large share
+of "this site is blocking me" cases, the story ends here.
+
+## Step two: let it escalate to stealth
+
+Some sites look harder at who is knocking. When a real browser still comes back
+with a 403, a 429, a 503, or an empty result on a page carrying a known
+challenge marker, WebReaper can escalate to a stealth Chromium backend that is
+tuned to pass those checks.
+
+```bash
+webreaper scrape https://protected.example.com --browser --auto-stealth
+```
+
+With `--auto-stealth`, WebReaper detects the bot-check, escalates, and installs
+the stealth backend on first use if it is not already present. The detection
+covers Cloudflare, DataDome, PerimeterX, Incapsula, and Akamai. It is a single
+retry: if the stealth attempt is also judged blocked, WebReaper stops and points
+you at a captcha solver rather than burning requests in a loop.
+
+## Unattended runs
+
+The default escalation asks for confirmation before it downloads and launches a
+stealth backend, which is the right behavior at an interactive terminal. In CI,
+a cron job, or an agent loop, there is no one to answer the prompt. Set an
+environment variable and it proceeds on its own.
+
+```bash
+WEBREAPER_AUTO_STEALTH=1 webreaper scrape https://protected.example.com --output page.md
+```
+
+With that set, a detected bot-check escalates to stealth without a prompt. The
+same single-retry discipline applies, so an unattended run will not spin
+forever: it either gets the page or exits with a clear failure.
+
+## The library equivalent
+
+The CLI ladder maps directly onto the library. The middle rung, a real browser,
+is a page loader from WebReaper.Playwright or the lower-level WebReaper.Cdp.
+
+```csharp
+using WebReaper.Builders;
+
+var engine = await ScraperEngineBuilder
+    .CrawlWithBrowser("https://protected.example.com")
+    .AsMarkdown()
+    .WithPlaywrightPageLoader()
+    .WriteToConsole()
+    .BuildAsync();
+
+await engine.RunAsync();
+```
+
+When you need the top rung, add the WebReaper.Stealth.CloakBrowser package and
+swap in the stealth loader. It finds or downloads the stealth binary on first
+use, launches it with the recommended flags, and routes pages through it.
+
+```csharp
+using WebReaper.Builders;
+
+var engine = await ScraperEngineBuilder
+    .CrawlWithBrowser("https://protected.example.com")
+    .AsMarkdown()
+    .WithCloakBrowser()
+    .WriteToConsole()
+    .BuildAsync();
+
+await engine.RunAsync();
+```
+
+Because the stealth backend launches a subprocess, dispose the engine so the
+process is torn down on scope exit. The idiomatic form handles it for you.
+
+```csharp
+await using var engine = await ScraperEngineBuilder
+    .CrawlWithBrowser("https://protected.example.com")
+    .AsMarkdown()
+    .WithCloakBrowser()
+    .WriteToConsole()
+    .BuildAsync();
+
+await engine.RunAsync();
+```
+
+The first-use download for the stealth backend is large, on the order of a few
+hundred megabytes, since it is a full Chromium fork. For air-gapped or CI
+environments, pre-install the binary so a run never tries to download at an
+inconvenient moment.
+
+## An honest limit
+
+Climbing this ladder defeats fingerprinting and JavaScript challenges, which is
+the bulk of what stops a scraper from a clean IP. It does not defeat an
+interactive captcha, and no tool truthfully claims to. When a site decides to
+put a human-in-the-loop puzzle in front of every request, the realistic answer
+is a captcha-solving service, residential proxies, or a conversation about
+whether that site wants to be scraped at all. WebReaper's job is to get you past
+the automated gates cheaply and to tell you plainly when you have hit a wall a
+better browser cannot climb.

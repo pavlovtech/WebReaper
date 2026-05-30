@@ -1,0 +1,81 @@
+---
+title: LLM extraction and fallback
+description: Use an LLM as a rescue, a selector repairer, or a schema inferrer.
+category: AI features
+order: 2
+---
+
+WebReaper's AI extraction is built so the deterministic path runs first and the
+model steps in only when needed. That keeps cost predictable: on a stable page
+the LLM is never called. There are three à la carte behaviors, each a single
+builder method, and each backed by your own `IChatClient`.
+
+## LLM fallback
+
+Run a deterministic CSS or XPath schema first; if extraction comes back empty or
+incomplete, the LLM rescues that page. The successful fix is cached, so repeated
+pages of the same shape do not pay again:
+
+```csharp
+using WebReaper.Builders;
+
+var engine = await ScraperEngineBuilder
+    .Crawl("https://example.com")
+    .Extract(Article.Schema)
+    .WithLlmFallback(chatClient)
+    .WriteToJsonFile("articles.json")
+    .BuildAsync();
+
+await engine.RunAsync();
+```
+
+This is the most common AI setup: deterministic speed on the pages that behave,
+an LLM safety net on the pages that do not.
+
+## Self-healing selectors
+
+When a site changes its markup and your selectors stop matching, self-healing
+asks the LLM to repair the broken selectors against the live page, then continues
+deterministically with the repaired schema:
+
+```csharp
+var engine = await ScraperEngineBuilder
+    .Crawl("https://example.com")
+    .Extract(Article.Schema)
+    .WithLlmSelfHealing(chatClient)
+    .WriteToJsonFile("articles.json")
+    .BuildAsync();
+
+await engine.RunAsync();
+```
+
+The repair is cached against the schema, so one fix covers the rest of the crawl.
+
+## Inferred schema
+
+Sometimes you do not want to write a schema at all. `.ExtractInferred(goal)`
+describes what you want in plain language; `.WithLlmSchemaInferrer(...)` lets the
+model infer a schema from the URL and that goal, which is then reused for the
+crawl:
+
+```csharp
+var engine = await ScraperEngineBuilder
+    .Crawl("https://example.com/products")
+    .ExtractInferred("product name, price, and rating")
+    .WithLlmSchemaInferrer(chatClient)
+    .WriteToJsonFile("products.json")
+    .BuildAsync();
+
+await engine.RunAsync();
+```
+
+## Stable pages cost zero LLM calls
+
+This is the design principle behind all three. The deterministic extractor and
+the cached fixes do the work on every page that behaves. The model is reserved
+for the empty result, the broken selector, or the first inference. A crawl over a
+consistent site can finish without a single live LLM call after the first page.
+
+For the one-line way to wire these together, see the
+[AI features overview](/docs/ai); for letting a model decide which pages to visit,
+see the [autonomous agent](/docs/autonomous-agent).

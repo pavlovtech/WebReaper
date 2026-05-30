@@ -1,0 +1,72 @@
+---
+title: Autonomous research agents
+description: Give an LLM a starting URL and a goal, and let it decide which links to follow until the goal is met.
+icon: Bot
+order: 3
+tagline: Point it at a site, state the goal, walk away.
+---
+
+Some tasks are not "scrape these 200 known URLs." They are open-ended: "find the
+pricing page and list the tiers," "locate the API rate limits in these docs."
+You do not know the URLs up front, and a fixed crawl cannot reason about where to
+go next. You need an agent that reads a page, decides, and moves.
+
+## One call, one goal
+
+`LlmAgent.RunAsync` takes a starting URL, a plain-language goal, and your chat
+client. The agent loads the page, picks the next move (follow a link, extract,
+or stop), and repeats until it satisfies the goal:
+
+```csharp
+using WebReaper.AI;
+
+var result = await LlmAgent.RunAsync(
+    "https://example.com",
+    "Find the pricing page and list the tiers",
+    chatClient);
+```
+
+The brain runs a sequential decide then execute loop. Each decision is a closed
+choice (Extract, Follow, Act, or Stop), and the engine validates every step:
+visited links are enforced so the agent cannot loop, and hard caps bound the run.
+
+## Bring your own model
+
+`chatClient` is any `IChatClient` from Microsoft.Extensions.AI, so you choose the
+provider: OpenAI, Anthropic, Azure OpenAI, or a local Ollama model. WebReaper
+does not lock you into one vendor or ship its own keys.
+
+## Bound the run with hard caps
+
+Open-ended agents need guardrails. Two caps keep a run from wandering or
+overspending:
+
+- MaxSteps stops the loop after a fixed number of decisions.
+- MaxBudgetTokens stops once the model's reported token usage crosses a ceiling,
+  read from the chat response usage when the provider surfaces it.
+
+Termination precedence is explicit: a goal-driven Stop wins, then MaxSteps, then
+the token budget, then cancellation.
+
+## Resume where it left off
+
+Long runs should survive a restart. Every decision is persisted through the
+`IAgentRunStore` seam before its effect executes, so a crashed or paused run can
+resume from the last recorded step:
+
+```csharp
+using WebReaper;
+
+var result = await Agent.ResumeAsync(runId, brain, store);
+```
+
+The store defaults to in-memory, with a File adapter in core and Redis, MongoDB,
+SQLite, and Cosmos adapters available as satellites for durable, distributed
+runs. Because resume re-runs the last step's effect, pair it with an idempotent
+sink (the change-tracking processor deduplicates on hash and composes cleanly).
+
+## The payoff
+
+You describe the outcome, not the path. The agent navigates the site itself,
+stops when the goal is met or a cap is hit, and leaves a durable trail you can
+resume, audit, and cost-account.

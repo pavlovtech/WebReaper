@@ -1,0 +1,74 @@
+---
+title: Price and change monitoring
+description: Watch pages on a schedule and persist a record only when the page actually changes.
+icon: Clock
+order: 2
+tagline: Fire on the diff, not on every run.
+---
+
+Polling a catalog every hour is easy. The hard part is not drowning your store
+in duplicates: 23 of every 24 runs see the exact same prices. You want a row
+written only when something moved.
+
+## Run it on a schedule
+
+The CLI is a single command, so any cron entry or scheduled worker drives it:
+
+```bash
+# every hour, append a fresh snapshot of every page
+0 * * * * webreaper crawl https://shop.example.com > /data/snapshot-$(date +\%s).jsonl
+```
+
+For typed records and a real datastore, run the library from a hosted worker or
+a serverless timer trigger instead. The interesting part is `.WithChangeTracking()`.
+
+## Persist only when the page changes
+
+`.WithChangeTracking()` hashes each extracted record and compares it against the
+last seen hash for that URL. Identical pages are dropped before they reach the
+sink, so MongoDB (or SQLite, or any sink) only ever receives a genuine change.
+
+```csharp
+using WebReaper.Builders;
+
+var engine = await ScraperEngineBuilder
+    .Crawl("https://shop.example.com")
+    .Extract(Product.Schema)
+    .WithMaxAge(TimeSpan.FromHours(6))   // serve a cached page if it is fresh
+    .WithChangeTracking()                // hash dedup: sink fires only on a diff
+    .WriteToMongoDb(connectionString, "catalog", "price_history")
+    .BuildAsync();
+
+await engine.RunAsync();
+```
+
+The schema is an ordinary POCO marked for source generation:
+
+```csharp
+[ScrapeSchema]
+public partial class Product
+{
+    [ScrapeField(".product-title")]
+    public string Title { get; set; }
+
+    [ScrapeField(".price", Type = SchemaFieldType.Integer)]
+    public int Price { get; set; }
+}
+```
+
+`Product.Schema` and a reflection-free `Product.Materialize(JsonObject)` are
+generated at build time, so extraction stays fast even under a tight schedule.
+
+## Cut redundant fetches with the cache
+
+`.WithMaxAge(TimeSpan.FromHours(6))` adds a cache-aside layer on the page loader.
+A page fetched inside the window is served from cache instead of hitting the
+network, which keeps overlapping or backfill runs from re-downloading pages that
+cannot have changed yet. Pass `TimeSpan.Zero` to store responses but never serve
+them, a force-fresh mode for runs that must always re-fetch.
+
+## The payoff
+
+Your `price_history` collection becomes an event log of real movements: one row
+per actual change, ready to chart, alert on, or diff. No dedup pass, no
+"did this change?" query, no storage bloat from a thousand identical snapshots.

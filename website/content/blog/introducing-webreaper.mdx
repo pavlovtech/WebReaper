@@ -1,0 +1,26 @@
+---
+title: Introducing WebReaper
+description: An AI-native web scraper for .NET that ships as a single binary with a bundled Claude Code skill.
+date: 2026-05-30
+author: Oleksandr Pavlov
+tags:
+  - announcement
+---
+
+Web scraping in .NET has always meant gluing together an HTTP client, an HTML
+parser, a queue, and a storage layer, then babysitting selectors that break the
+moment a site ships a redesign. WebReaper collapses that into one declarative,
+parallel pipeline, and adds an AI layer on top.
+
+## What makes it different
+
+- **Drop on PATH, run.** A ~12 MB native binary. No Docker, no Postgres, no
+  signup.
+- **AI-native by composition.** Markdown by default; add schema extraction, an
+  LLM fallback, self-healing selectors, or an autonomous agent with one `.With…`
+  call.
+- **Bring any LLM.** OpenAI, Anthropic, Ollama, Azure OpenAI, llamafile, via
+  `Microsoft.Extensions.AI`.
+- **MIT, not AGPL.** Embed it in commercial software without license friction.
+
+Read the [getting started guide](/docs/getting-started) to try it.

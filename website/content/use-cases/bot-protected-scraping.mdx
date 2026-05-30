@@ -1,0 +1,76 @@
+---
+title: Scraping bot-protected sites
+description: Detect a bot wall, escalate to a stealth browser automatically, and keep going.
+icon: Shield
+order: 4
+tagline: Hit a wall, climb it, continue.
+---
+
+Plenty of sites sit behind Cloudflare, DataDome, PerimeterX, and friends. A plain
+HTTP request gets a 403, a challenge page, or zero records. Detecting that,
+spinning up a stealth browser, and pointing it at the right URL is fiddly plumbing
+you would rather not write for every target.
+
+## One flag on the CLI
+
+Run a scrape with browser mode and let WebReaper handle the escalation:
+
+```bash
+webreaper scrape https://protected.example.com --browser --auto-stealth
+```
+
+With `--browser`, the page renders in a real headless browser. With
+`--auto-stealth`, WebReaper watches for a bot wall (an HTTP 403, 429, or 503, or
+zero records on a page carrying a known challenge marker for Cloudflare,
+DataDome, PerimeterX, Incapsula, or Akamai) and, on a hit, escalates to a stealth
+Chromium backend and retries once.
+
+For unattended jobs, skip the prompt with an environment variable:
+
+```bash
+WEBREAPER_AUTO_STEALTH=1 webreaper scrape https://protected.example.com --browser
+```
+
+## Stealth that installs itself
+
+The escalation target is `WebReaper.Stealth.CloakBrowser`. It finds or downloads
+its browser binary on first use (acquired from upstream, in the spirit of
+`playwright install`), launches with the fork's recommended flags, and feeds the
+rendered page back into the pipeline. There is no manual binary wrangling.
+
+## Same escalation from the library
+
+If you drive WebReaper as a library, opt into the stealth backend directly:
+
+```csharp
+using WebReaper.Builders;
+
+await using var engine = await ScraperEngineBuilder
+    .CrawlWithBrowser("https://protected.example.com")
+    .Extract(Product.Schema)
+    .WithCloakBrowser()
+    .WriteToJsonFile("out.jsonl")
+    .BuildAsync();
+
+await engine.RunAsync();
+```
+
+`.WithCloakBrowser()` installs and launches at build time and registers the
+subprocess for teardown, so `await using` guarantees the browser dies on scope
+exit. For CI or airgapped boxes, set the options to require a pre-installed binary
+instead of downloading one.
+
+## An honest limit
+
+Auto-stealth defeats many fingerprint and challenge walls, not every wall. A hard
+CAPTCHA is not always solvable, and WebReaper does not pretend otherwise: after a
+single retry, a second blocked verdict exits with a pointer toward a CAPTCHA
+solver rather than spinning forever. The goal is to clear the common cases
+automatically and fail loudly, with a next step, on the ones that need a human or
+a paid solver.
+
+## The payoff
+
+The pages that used to return a wall now return data, with one flag or one
+builder call. You stop hand-rolling detection and browser launch logic, and you
+get a clear, actionable stop on the genuinely unscrapable.

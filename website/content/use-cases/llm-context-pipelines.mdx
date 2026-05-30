@@ -1,0 +1,23 @@
+---
+title: Build LLM context from any site
+description: Turn blogs, docs, and knowledge bases into clean Markdown ready to feed an LLM or a vector store.
+icon: Brain
+order: 1
+tagline: Markdown in, prompt-ready out.
+---
+
+LLMs are only as good as the context you give them. WebReaper discovers a site's
+URLs, fetches each page, and emits clean Markdown, with no schema to define.
+
+## Discover, then scrape
+
+```bash
+# Find the URLs you care about
+webreaper map https://example.com --search /blog/ --max-urls 50
+
+# Turn the whole site into Markdown, one JSON record per page
+webreaper crawl https://example.com > corpus.jsonl
+```
+
+Each record is `{ "url": "...", "title": "...", "markdown": "..." }`, ready to
+chunk, embed, and store. No selectors, no parsing code, no cleanup pass.
