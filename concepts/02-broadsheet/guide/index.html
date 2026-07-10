@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Prospectus: how The Daily Harvest was made</title>
+<meta name="description" content="Creative direction and build notes for The Daily Harvest, a broadsheet concept site for WebReaper.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23ece3cf'/%3E%3Cpath d='M6 22c6-11 13-11 20-8-8-1-13 3-15 11z' fill='%23211a12'/%3E%3Ccircle cx='24' cy='23' r='3' fill='%237d1d1a'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Courier+Prime&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper-tone:#ece3cf;--ink:#221a11;--ink-soft:#3d3223;
+  --rule:rgba(34,26,17,.38);--rule-strong:rgba(34,26,17,.85);--oxblood:#7d1d1a;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:
+    radial-gradient(120% 90% at 8% 0%,rgba(66,46,20,.10),transparent 55%),
+    radial-gradient(120% 90% at 92% 100%,rgba(66,46,20,.12),transparent 55%),
+    var(--paper-tone);
+  color:var(--ink);
+  font-family:"Libre Caslon Text",Georgia,serif;
+  font-size:15.5px;line-height:1.58;
+}
+main{max-width:72ch;margin:0 auto;padding:1.6rem clamp(16px,4vw,32px) 3.5rem}
+a{color:inherit}
+a:hover{color:var(--oxblood)}
+:focus-visible{outline:2px solid var(--oxblood);outline-offset:2px}
+header.p{text-align:center;border-bottom:3px double var(--rule-strong);padding-bottom:1rem;margin-bottom:1.5rem}
+header.p .above{font-size:.7rem;letter-spacing:.3em;text-align:center}
+header.p h1{font-family:"Bodoni Moda",serif;font-weight:800;font-size:clamp(1.9rem,5vw,2.8rem);line-height:1.05;margin:.25rem 0}
+header.p .motto{font-family:"Bodoni Moda",serif;font-style:italic;font-size:.95rem}
+header.p nav{margin-top:.6rem;font-size:.8rem}
+h2{
+  text-align:center;font-family:"Libre Caslon Text",serif;font-size:.8rem;font-weight:700;
+  letter-spacing:.3em;border-top:1.5px solid var(--rule-strong);border-bottom:1.5px solid var(--rule-strong);
+  padding:.3rem 0;margin:2rem 0 .8rem;
+}
+p{margin-bottom:.7rem;text-align:justify;hyphens:auto}
+ul{padding-left:1.15rem;margin-bottom:.7rem}
+li{margin:.3rem 0}
+code{font-family:"Courier Prime",monospace;font-size:.86em;hyphens:none;overflow-wrap:anywhere}
+pre{font-family:"Courier Prime",monospace;font-size:.8rem;line-height:1.6;border:1.5px solid var(--rule-strong);padding:.8rem .95rem;overflow-x:auto;margin:.6rem 0 .9rem;background:rgba(255,252,240,.45)}
+.passes{list-style:none;padding:0}
+.passes li{border:1.5px solid var(--rule-strong);padding:.7rem .85rem;margin:.6rem 0}
+.passes b{display:block;font-size:.72rem;letter-spacing:.2em;margin-bottom:.25rem}
+footer.p{border-top:3px double var(--rule-strong);margin-top:2.4rem;padding-top:.8rem;text-align:center;font-size:.74rem;line-height:1.7;color:var(--ink-soft)}
+em{font-style:italic}
+</style>
+</head>
+<body>
+<main>
+<header class="p">
+  <p class="above">THE DAILY HARVEST</p>
+  <h1>THE PROSPECTUS.</h1>
+  <p class="motto">Being an honest account of how this Edition was designed, set, and verified.</p>
+  <nav><a href="../">← Return to the front page</a></nav>
+</header>
+
+<h2>CREATIVE DIRECTION</h2>
+<p>WebReaper's own metaphor (a reaper, a harvest, sheaves of pages) is a
+nineteenth-century image, so this concept takes it at its word: the product
+announcement as an 1890s broadsheet. Where the sibling concepts are a live
+terminal and an interactive workbench, this one is deliberately <em>print</em>:
+justified columns, hairline rules, stacked deck headlines, engravings, a
+classifieds column, and almost no motion. Features become editorial forms.
+The escalation ladder is a correspondent's dispatch; the architecture is a
+patent filing; the autonomous agent gives an interview; the fifteen NuGet
+packages take out classified advertisements; the Firecrawl comparison is a
+commodities table. The register is literal, which is why the paper is
+paper-coloured: the page is the object it depicts.</p>
+
+<h2>WHAT IS REAL</h2>
+<ul>
+<li>Every command, flag, and API call was checked against the shipped v11.3.x
+binary's help text and the repository README before typesetting. The
+"By Electric Telegraph" dispatches quote a real <code>webreaper map</code> run and
+a real self-scrape of webreaper.ai captured on 2026-07-10.</li>
+<li>The wire-key escalation sequence is labelled <em>a dramatisation</em> in
+print, and the box says nothing is scraped from the page. The ladder it
+dramatises (HTTP to browser to stealth, host-sticky floors, blocked pages
+dropped with a non-zero exit) is the documented ADR-0083 behaviour.</li>
+<li>The four engravings were generated with gpt-image-2 for this edition
+(prompts specified: period wood-engraving and stipple styles, cross-hatching,
+no text), then compressed to WebP. They are credited as such in the imprint;
+no claim of period provenance is made.</li>
+</ul>
+
+<h2>IMPLEMENTATION</h2>
+<ul>
+<li>One static HTML file on a 12-column grid with explicit spans; vertical
+column rules are borders on the grid items, exactly as a compositor would
+rule a chase. Body copy is justified with <code>hyphens:auto</code>; code
+tokens are exempted (<code>hyphens:none</code>) so an identifier never breaks
+with a false hyphen a reader might copy.</li>
+<li>Typography: UnifrakturMaguntia for the masthead only; Bodoni Moda for
+headlines and decks (the high-contrast Didone of the period press); Libre
+Caslon Text for body; Courier Prime for anything commandable. Four families,
+each with one job.</li>
+<li>The engravings sit on the paper via <code>mix-blend-mode:multiply</code>,
+so their own backgrounds vanish into the page tone and the ink reads as
+printed, not pasted.</li>
+<li>The one interaction, "tap the key", reveals telegraph dispatches paced by
+wall-clock due-times (a lesson from the terminal concept: background-tab
+timer clamping must never serialize an animation). Reduced-motion prints
+instantly; with scripts off, a noscript rule simply reveals all lines.</li>
+<li>Aged paper is layered CSS radial gradients; no noise filters, no texture
+images. The corners darken the way a folded paper actually tones.</li>
+</ul>
+
+<h2>ACCESSIBILITY &amp; PERFORMANCE</h2>
+<ul>
+<li>Semantic articles and figures with period-voice alt text; the dispatch
+list is <code>aria-live</code>; clip buttons are real buttons; ink on paper
+measures about 12:1, and the oxblood accent about 7:1.</li>
+<li>Images carry width/height (no layout shift), lazy-load below the fold,
+and total ~1.7 MB WebP for four full engravings. No JS libraries; the whole
+script is the clip buttons and the wire key.</li>
+</ul>
+
+<h2>ITERATION LOG</h2>
+<ul class="passes">
+<li><b>PASS 1 · STRUCTURE &amp; COPY</b>
+First full-page review: swept every em-dash out of the prose to house style
+(period conventions notwithstanding); replaced justified setting with
+rag-right in the narrow interview column where rivers formed; exempted code
+tokens from hyphenation after spotting a broken-in-half builder call;
+filled the right rail's dead space with the "To Agents Entering Service"
+notice; gave the telegraph box an "awaiting transmission" resting state so
+it never reads as empty.</li>
+<li><b>PASS 2 · TYPESETTING DETAIL</b>
+Rewrote the lead paragraph so the long Homebrew tap never breaks mid-token
+in the first column a reader sees (the full command lives in Stop Press,
+where it can scroll); re-verified the market table, parts schedule, and
+classifieds against FACTS.md; confirmed the wire key replays cleanly and
+relabels itself.</li>
+<li><b>PASS 3 · SMALL FORMATS</b>
+375&nbsp;px pass: the twelve columns collapse to one with rules turned
+horizontal, the ears retire, the dateline centres, install commands scroll
+inside their rows with no page overflow; re-checked telegraph, clip
+buttons, and image lazy-loading on the tall single column.</li>
+</ul>
+
+<h2>REPRODUCE THIS WORKFLOW</h2>
+<pre>1. verify before typesetting: run the real binary, save transcripts,
+   keep a FACTS.md every sentence must trace to
+2. write the copy as journalism first (headlines, decks, dispatches,
+   classifieds); the layout follows the copy
+3. generate engravings in one consistent period style (gpt-image-2:
+   wood engraving, cross-hatch, stipple, "no text"); webp; multiply-blend
+4. set the sheet: 12-col grid, hairline rules, justified Caslon,
+   Bodoni heads, blackletter masthead only
+5. iterate x3 with full-page screenshots (1440 and 375); fix, repeat
+6. deploy the directory: vercel deploy --prod</pre>
+
+<p>Built with Claude (Fable&nbsp;5). Engravings by gpt-image-2; no other image
+tooling. Sibling concepts: <a href="https://webreaper-tty.vercel.app">the
+terminal</a> and <a href="https://webreaper-pipeline.vercel.app">the reaping
+line</a>.</p>
+
+<footer class="p">
+  <p>THE DAILY HARVEST · CONCEPT "BROADSHEET" ·
+  <a href="https://github.com/alex-on-ai/WebReaper">GITHUB.COM/ALEX-ON-AI/WEBREAPER</a> ·
+  <a href="https://www.nuget.org/packages/WebReaper">NUGET: WEBREAPER</a></p>
+</footer>
+</main>
+</body>
+</html>

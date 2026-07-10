@@ -4,12 +4,13 @@
 
 Standalone single-page marketing sites for **WebReaper**: an AI-native web scraper shipped as a ~12 MB single-binary CLI, a .NET library (NuGet `WebReaper`), and MCP servers. MIT-licensed, local-first, no accounts. Each site is a self-contained static build in `concepts/<nn-name>/` with a `/guide` route documenting its creative direction, and deploys as its own Vercel project.
 
-**Scope note (2026-07-10):** the original brief explored ten aesthetic lanes; the owner cut scope to the two strongest in-flight concepts. Shipped:
+**Scope note (2026-07-10):** the original brief explored ten aesthetic lanes; the owner cut scope mid-run, then asked for one more. Shipped:
 
 1. `01-tty`, "PHOSPHOR": a literal DEC-terminal CRT. The site is an interactive shell; every product fact is a command. Drenched P1 green (P3 amber togglable), VT323, recorded-real transcripts.
 2. `06-pipeline`, "The Reaping Line": a bright workshop configurator. Four stations (scope, transport, extraction, destination) assemble a real CLI command and the equivalent C# builder chain live. Technical-toy aesthetic: dot grid, 2 px ink borders, offset block shadows, one OKLCH role color per station.
+3. `02-broadsheet`, "The Daily Harvest": an 1890s broadsheet. Features become editorial forms (the escalation ladder as a correspondent's dispatch, architecture as a patent filing, packages as classified ads); four gpt-image-2 engravings multiply-blended into the newsprint; one interaction, a telegraph key that replays a labeled dramatisation of the climb.
 
-Unbuilt lanes (broadsheet, blueprint, field guide, WebGL harvest, manga, Swiss grid, Win-98, mission control) were direction-only; generated art for three of them is preserved in git history (commit f2ed825) if ever revived.
+Unbuilt lanes (blueprint, field guide, WebGL harvest, manga, Swiss grid, Win-98, mission control) were direction-only; generated art for two of them (field guide, manga) is preserved in git history (commit f2ed825) if ever revived.
 
 ## Audience
 
