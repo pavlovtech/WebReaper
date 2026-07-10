@@ -9,6 +9,7 @@ Standalone single-page marketing sites for **WebReaper**: an AI-native web scrap
 1. `01-tty`, "PHOSPHOR": a literal DEC-terminal CRT. The site is an interactive shell; every product fact is a command. Drenched P1 green (P3 amber togglable), VT323, recorded-real transcripts.
 2. `06-pipeline`, "The Reaping Line": a bright workshop configurator. Four stations (scope, transport, extraction, destination) assemble a real CLI command and the equivalent C# builder chain live. Technical-toy aesthetic: dot grid, 2 px ink borders, offset block shadows, one OKLCH role color per station.
 3. `02-broadsheet`, "The Daily Harvest": an 1890s broadsheet. Features become editorial forms (the escalation ladder as a correspondent's dispatch, architecture as a patent filing, packages as classified ads); four gpt-image-2 engravings multiply-blended into the newsprint; one interaction, a telegraph key that replays a labeled dramatisation of the climb.
+4. `10-ops`, "HARVEST CONTROL": the domain itself as the aesthetic. A fleet-supervisor console running a deterministic simulated crawl: radial crawl graph on canvas, escalation-ladder telemetry, host floors, event log, RunReport on the outstanding-work latch; scenarios (clean sweep / bot wall / agent run / inject block). Numbers synthetic, semantics documented; labeled SIMULATION persistently.
 
 Unbuilt lanes (blueprint, field guide, WebGL harvest, manga, Swiss grid, Win-98, mission control) were direction-only; generated art for two of them (field guide, manga) is preserved in git history (commit f2ed825) if ever revived.
 
