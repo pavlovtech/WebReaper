@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>WEBREAPER // TTY — an AI-native web scraper in one binary</title>
+<title>WEBREAPER // TTY: an AI-native web scraper in one binary</title>
 <meta name="description" content="WebReaper is an AI-native web scraper: a ~12 MB single-binary CLI, a .NET library, and MCP servers. This site is a terminal. Type help.">
 <meta property="og:title" content="WEBREAPER // TTY">
 <meta property="og:description" content="The website is a terminal. The product is a scraper. Type help.">
@@ -168,8 +168,8 @@ noscript .line{padding:0 1em}
   <main id="term" aria-label="interactive terminal">
     <div id="log" role="log" aria-live="polite"></div>
     <noscript>
-      <div class="line bright">JavaScript is off — the interactive shell won't run, but the facts stand:</div>
-      <div class="line">WebReaper — AI-native web scraper. One ~12 MB binary, a .NET library, and MCP servers. MIT.</div>
+      <div class="line bright">JavaScript is off: the interactive shell won't run, but the facts stand:</div>
+      <div class="line">WebReaper: AI-native web scraper. One ~12 MB binary, a .NET library, and MCP servers. MIT.</div>
       <div class="line">install:  brew install alex-on-ai/webreaper/webreaper</div>
       <div class="line">          curl -fsSL https://raw.githubusercontent.com/alex-on-ai/WebReaper/master/scripts/install.sh | sh</div>
       <div class="line">          dotnet add package WebReaper</div>
@@ -188,14 +188,14 @@ noscript .line{padding:0 1em}
 
   <footer>
     <span>TAB completes · ↑ history · click a suggestion</span>
-    <span class="hint">phosphor: <a href="#" id="themelink">amber/green</a> · this demo replays recorded runs — nothing is scraped live</span>
+    <span class="hint">phosphor: <a href="#" id="themelink">amber/green</a> · this demo replays recorded runs: nothing is scraped live</span>
   </footer>
 </div>
 <div id="off" aria-hidden="true"><span>● SIGNAL LOST</span></div>
 <input id="kbd" autocomplete="off" autocapitalize="off" spellcheck="false">
 
 <script>
-/* WEBREAPER // TTY — all output below marked "recorded" was captured from real
+/* WEBREAPER // TTY: all output below marked "recorded" was captured from real
    runs of the v11.3.2 release binary on 2026-07-10. Simulated transcripts say so. */
 (function(){
 "use strict";
@@ -219,11 +219,17 @@ function addHTML(html,cls){const d=el(cls);d.innerHTML=html;log.appendChild(d);r
 function scrollBottom(){term.scrollTop=term.scrollHeight}
 const sleep=ms=>new Promise(r=>setTimeout(r,reduced?0:ms));
 
+/* paced by absolute due-times so throttled background timers burst-catch-up
+   instead of serializing at the clamp interval */
 async function print(lines,perLine=14){
-  for(const L of lines){
+  const t0=performance.now();
+  for(let i=0;i<lines.length;i++){
+    const L=lines[i];
+    const due=t0+(reduced?0:i*perLine);
+    const now=performance.now();
+    if(now<due)await sleep(due-now);
     const [text,cls]=Array.isArray(L)?L:[L,""];
     addLine(text,cls);scrollBottom();
-    if(perLine)await sleep(perLine);
   }
 }
 /* ---------- content ---------- */
@@ -252,7 +258,7 @@ const HELP=[
 ["  agent        Claude Code skill + MCP servers",""],
 ["  packages     the 15 NuGet packages",""],
 ["  why          vs Firecrawl / Crawl4AI / WebFetch",""],
-["  man webreaper· the full manual",""],
+["  man webreaper  the full manual",""],
 ["  theme        amber | green phosphor",""],
 ["  guide        how this site was made (→ /guide)",""],
 ["  clear · history · whoami · exit","" ],
@@ -271,7 +277,7 @@ const LIBRARY=[
 ["","" ],
 ["await engine.RunAsync();","bright"],
 ["","" ],
-["same engine, distributed: swap three lines —","dim"],
+["same engine, distributed: swap three lines:","dim"],
 ["    .WithRedisScheduler(...)      // workers share one crawl","" ],
 ["    .TrackVisitedLinksInRedis(...)","" ],
 ["    .WithRedisConfigStorage(...)","" ],
@@ -280,9 +286,9 @@ const LIBRARY=[
 ];
 const CLIMB=[
 ["$ webreaper scrape https://shop.example/catalog","bright"],
-["# simulated transcript — the ladder is the real ADR-0083 behavior","dim"],
+["# simulated transcript: the ladder is the real ADR-0083 behavior","dim"],
 ["[http]     GET /catalog ............................. 403","" ],
-["[detect]   challenge marker: cloudflare — page looks blocked","amber"],
+["[detect]   challenge marker: cloudflare: page looks blocked","amber"],
 ["[climb]    escalating to headless browser (no flag needed)","amber"],
 ["[browser]  chromium render ......................... 403","" ],
 ["[climb]    stealth tier? [Y/n]  (--auto-stealth skips the prompt)","amber"],
@@ -292,7 +298,7 @@ const CLIMB=[
 ["","" ],
 ["the rules:","dim"],
 ["  · climbs per page, only when a page actually looks blocked","" ],
-["  · first block on a host lifts that host's floor — you pay the climb once","" ],
+["  · first block on a host lifts that host's floor: you pay the climb once","" ],
 ["  · still blocked at the top tier → the page is DROPPED, exit code non-zero","" ],
 ["  · challenge pages never masquerade as data","" ],
 ];
@@ -304,7 +310,7 @@ const AGENT=[
 ["    Wrote WebReaper Agent Skill to .claude/skills/webreaper/SKILL.md","" ],
 ["    next session, “scrape the top 5 stories and summarize” routes here.","dim"],
 ["","" ],
-["2 · MCP SERVERS — six tools: scrape, map, extract,","amber"],
+["2 · MCP SERVERS: six tools: scrape, map, extract,","amber"],
 ["    extract_with_prompt, extract_inferred, crawl","" ],
 ["    stdio  WebReaper.Mcp            (Cursor, Claude Desktop)","" ],
 ["    http   WebReaper.Mcp.AspNetCore (n8n and URL-only clients):","" ],
@@ -312,7 +318,7 @@ const AGENT=[
 ["        ghcr.io/alex-on-ai/webreaper-mcp-http:latest","bright"],
 ["","" ],
 ["3 · ANY SHELL HARNESS","amber"],
-["    one binary, one syscall — LangChain ShellTool, CI, cron, scripts.","" ],
+["    one binary, one syscall: LangChain ShellTool, CI, cron, scripts.","" ],
 ["","" ],
 ["autonomous mode (library): LlmAgent.RunAsync(url, goal, chatClient)","dim"],
 ["decide → persist → execute; durable resume across restarts.","dim"],
@@ -331,27 +337,27 @@ const PACKAGES=[
 ["  WebReaper.Mcp.AspNetCore     MCP server (Streamable HTTP)","" ],
 ["  WebReaper.Redis · .Mongo · .Sqlite · .AzureServiceBus · .Cosmos","" ],
 ["                               distributed state + sinks","" ],
-["the CLI itself isn't a package — it ships as release binaries.","dim"],
+["the CLI itself isn't a package: it ships as release binaries.","dim"],
 ];
 const WHY=[
 ["WHY WEBREAPER","bright"],
-["  · one ~12 MB binary — Firecrawl self-host wants Docker+Postgres+Redis,","" ],
+["  · one ~12 MB binary: Firecrawl self-host wants Docker+Postgres+Redis,","" ],
 ["    Crawl4AI wants Docker+Python+Playwright","" ],
-["  · MIT — embed it in commercial software; Firecrawl is AGPL-3.0","" ],
-["  · bring ANY LLM (OpenAI, Anthropic, Ollama, Azure) via IChatClient —","" ],
+["  · MIT: embed it in commercial software; Firecrawl is AGPL-3.0","" ],
+["  · bring ANY LLM (OpenAI, Anthropic, Ollama, Azure) via IChatClient,","" ],
 ["    or none: Markdown and CSS-schema extraction are deterministic, $0","" ],
 ["  · bot-checks handled automatically: HTTP → browser → stealth, per page","" ],
 ["  · distributed when needed: Redis / Service Bus / Mongo / Cosmos seams","" ],
 ["  · autonomous agent, durable resume: LlmAgent.RunAsync(url, goal, llm)","" ],
 ["","" ],
 ["if you want a managed cloud, buy Firecrawl.","dim"],
-["if you want a binary that runs anywhere with your own key — this.","dim"],
+["if you want a binary that runs anywhere with your own key: this.","dim"],
 ];
 const MAN=[
 ["WEBREAPER(1)                 User Commands                 WEBREAPER(1)","dim"],
 ["","" ],
 ["NAME","amber"],
-["    webreaper — declarative .NET web scraper / crawler, AI-native","" ],
+["    webreaper - declarative .NET web scraper / crawler, AI-native","" ],
 ["","" ],
 ["SYNOPSIS","amber"],
 ["    webreaper <command> [args] [flags]","" ],
@@ -362,18 +368,19 @@ const MAN=[
 ["    crawl <url>    Recursive on-domain crawl → JSON Lines on stdout.","" ],
 ["    map <url>      Discover URLs (sitemap.xml + root-page links).","" ],
 ["    init           Write the Agent Skill to .claude/skills/webreaper/.","" ],
-["    browser <sub>  install | path | list — managed Chromium.","" ],
-["    stealth <sub>  install | path | list — stealth forks (CloakBrowser).","" ],
+["    browser <sub>  install | path | list: managed Chromium.","" ],
+["    stealth <sub>  install | path | list: stealth forks (CloakBrowser).","" ],
 ["    version, help","" ],
 ["","" ],
 ["FLAGS","amber"],
 ["    --schema <path>      CSS-selector JSON schema → structured output","" ],
 ["    --prompt \"<text>\"    schema-free LLM extraction (per page)","" ],
 ["    --infer [\"goal\"]     infer schema once w/ LLM, extract the rest","" ],
-["                         deterministically — ~one LLM call per site","" ],
+["                         deterministically: ~one LLM call per site","" ],
 ["    --model, --llm-url   OpenAI-compatible endpoint for the two above;","" ],
-["    ","" ],
 ["                         key via WEBREAPER_LLM_API_KEY / OPENAI_API_KEY","" ],
+["    --max-pages <n>      cap a crawl (default 1000); --max-depth <n>;","" ],
+["    --include-subdomains follow subdomains too (default: host + www)","" ],
 ["    --browser            headless-browser transport","" ],
 ["    --stealth            start at the stealth tier","" ],
 ["    --auto-stealth       no Y/n prompt (CI); --no-auto-stealth caps climb","" ],
@@ -407,7 +414,7 @@ const SCRAPE_SELF=[
 ["# recorded from a real run · v11.3.2 · 2026-07-10","dim"],
 ["{\"title\":\"Scrape any site.Feed your AI.\",\"markdown\":\"# Scrape any site.\\n\\nFeed your AI.\\n\\nWebReaper is an AI-native web scraper for .NET. One ~12 MB binary turns any site, even bot-protected ones, into clean Markdown or structured data, climbing from HTTP to a browser to stealth to get through. Bring your own LLM when you need it. No Docker, no signup, MIT licensed.…\",\"url\":\"https://webreaper.ai\"}","" ],
 ["","" ],
-["yes — it just reaped its own homepage. one JSON envelope per page:","dim"],
+["yes: it just reaped its own homepage. one JSON envelope per page:","dim"],
 ["title · markdown · url. pipe it somewhere useful:","dim"],
 ["  $ webreaper scrape https://webreaper.ai | jq -r .markdown","bright"],
 ];
@@ -427,7 +434,7 @@ const SCRAPE_JQ=[
 ["A single ~12 MB native binary. No Docker, no Postgres, no signup.","" ],
 ["…","dim"],
 ["","" ],
-["LLM-ready Markdown from any URL — that's the default, no flags.","dim"],
+["LLM-ready Markdown from any URL: that's the default, no flags.","dim"],
 ];
 const MAP_SELF=[
 ["# recorded from a real run · v11.3.2 · 2026-07-10","dim"],
@@ -459,7 +466,7 @@ const INIT_OUT=[
 ["your agent now knows when to reach for the reaper instead of WebFetch.","dim"],
 ];
 const CRAWL_OUT=[
-["# recorded shape — one JSON object per page, streaming","dim"],
+["# recorded shape: one JSON object per page, streaming","dim"],
 ["{\"title\":\"Docs\",\"markdown\":\"# Docs\\n…\",\"url\":\"https://webreaper.ai/docs\"}","" ],
 ["{\"title\":\"CLI\",\"markdown\":\"# CLI\\n…\",\"url\":\"https://webreaper.ai/docs/cli\"}","" ],
 ["{\"title\":\"Use cases\",\"markdown\":\"…\",\"url\":\"https://webreaper.ai/use-cases\"}","" ],
@@ -502,16 +509,16 @@ const CMDS={
   "webreaper map https://webreaper.ai --max-urls 12":()=>print(MAP_SELF,26),
   "webreaper crawl https://webreaper.ai":()=>print(CRAWL_OUT,40),
   "webreaper init":()=>print(INIT_OUT,26),
-  "webreaper version":()=>print([["11.3.1+063d76383b31dff08def780fa9e51ffc5734073a","bright"],["(recorded — 11.3.2 was a single-satellite MCP release; the CLI shipped unchanged)","dim"]],20),
+  "webreaper version":()=>print([["11.3.1+063d76383b31dff08def780fa9e51ffc5734073a","bright"],["(recorded: 11.3.2 was a single-satellite MCP release; the CLI shipped unchanged)","dim"]],20),
   "webreaper help":()=>print(MAN,7),
-  "webreaper":()=>print([["usage: webreaper <scrape|crawl|map|init|browser|stealth|version|help>",""],["try 'man webreaper' — or just 'help' for this site's commands","dim"]],14),
+  "webreaper":()=>print([["usage: webreaper <scrape|crawl|map|init|browser|stealth|version|help>",""],["try 'man webreaper': or just 'help' for this site's commands","dim"]],14),
   "whoami":()=>print([["reaper","bright"]],0),
   "uname -a":()=>print([["WebReaperOS 11.3.2 aot-native #1 SMP PREEMPT arm64 GNU/Web",""]],0),
   "ls":()=>print([["LICENSE.txt   README.md   webreaper",""]],0),
   "cowsay":()=>print([[COW,"bright"]],0),
   "sudo":()=>print([["the reaper bows to no one.","amber"]],0),
   "history":()=>print(history.map((h,i)=>[`  ${i+1}  ${h}`,""]),6),
-  "theme amber":()=>{document.documentElement.dataset.theme="amber";return print([["phosphor set to P3 AMBER — 'theme green' to switch back","amber"]],0)},
+  "theme amber":()=>{document.documentElement.dataset.theme="amber";return print([["phosphor set to P3 AMBER: 'theme green' to switch back","amber"]],0)},
   "theme green":()=>{delete document.documentElement.dataset.theme;return print([["phosphor set to P1 GREEN","bright"]],0)},
   "theme":()=>print([["usage: theme amber | theme green","dim"]],0),
   "clear":()=>{log.innerHTML="";return Promise.resolve()},
@@ -527,7 +534,7 @@ async function doExit(){
 }
 function unknown(c){
   if(/rm\s+-rf/.test(c))return print([["I'm a scraper, not a destroyer. Try 'webreaper scrape' instead.","amber"]],0);
-  if(/^webreaper\s+scrape\s+\S+/.test(c))return print([["this demo replays recorded runs only — it doesn't scrape live.","amber"],["install the real thing:  brew install alex-on-ai/webreaper/webreaper","bright"],["…then that exact command will work on your machine.","dim"]],16);
+  if(/^webreaper\s+scrape\s+\S+/.test(c))return print([["this demo replays recorded runs only: it doesn't scrape live.","amber"],["install the real thing:  brew install alex-on-ai/webreaper/webreaper","bright"],["…then that exact command will work on your machine.","dim"]],16);
   return print([[`command not found: ${c}`,"err"],["type 'help' for the menu.","dim"]],10);
 }
 async function run(raw){
@@ -562,7 +569,15 @@ for(const [label,cmd] of CHIP_CMDS){
 }
 async function typeAndRun(cmd){
   kbd.value="";cmdline.textContent="";
-  if(!reduced){for(let i=0;i<cmd.length;i++){cmdline.textContent=cmd.slice(0,i+1);await sleep(cmd.length>40?6:14)}await sleep(120)}
+  if(!reduced){
+    const per=cmd.length>40?6:14, t0=performance.now();
+    for(let i=0;i<cmd.length;i++){
+      const due=t0+i*per, now=performance.now();
+      if(now<due)await sleep(due-now);
+      cmdline.textContent=cmd.slice(0,i+1);
+    }
+    await sleep(120);
+  }
   cmdline.textContent="";await run(cmd);
 }
 /* ---------- input ---------- */
@@ -583,7 +598,7 @@ $("#themelink").addEventListener("click",e=>{e.preventDefault();
   run(amber?"theme green":"theme amber")});
 /* ---------- boot ---------- */
 const BOOT=[
-["WEBREAPER BIOS 11.3.2 — NATIVE AOT",""],
+["WEBREAPER BIOS 11.3.2 · NATIVE AOT",""],
 ["MEM CHECK ................. 12288 KB OK   (yes, the whole binary fits)","dim"],
 ["PHOSPHOR .................. P1 GREEN","dim"],
 ["TRANSPORTS ................ HTTP ✓   CHROMIUM ✓   CLOAK ✓","dim"],
@@ -596,7 +611,7 @@ async function banner(withIntro=true){
   const sm=el("banner-sm","WEB\nREAPER");log.appendChild(sm);
   await print([
     ["","" ],
-    ["AI-NATIVE WEB SCRAPER — ONE BINARY · ~12 MB · MIT","bright"],
+    ["AI-NATIVE WEB SCRAPER: ONE BINARY · ~12 MB · MIT","bright"],
     ["any site → clean Markdown or structured JSON.","" ],
     ["bot-checks climb HTTP → browser → stealth on their own.","" ],
     ["three surfaces: CLI · .NET LIBRARY · MCP SERVERS","" ],
@@ -616,9 +631,12 @@ async function boot(){
   let skipped=false;
   const skip=()=>{skipped=true};
   addEventListener("keydown",skip,{once:true});addEventListener("pointerdown",skip,{once:true});
-  for(const [t,c] of BOOT){
+  const t0=performance.now();
+  for(let i=0;i<BOOT.length;i++){
     if(skipped)break;
-    addLine(t,c);scrollBottom();await sleep(150);
+    const due=t0+i*150, now=performance.now();
+    if(now<due)await sleep(due-now);
+    addLine(BOOT[i][0],BOOT[i][1]);scrollBottom();
   }
   await sleep(skipped?0:420);
   log.innerHTML="";

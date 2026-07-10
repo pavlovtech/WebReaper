@@ -1,8 +1,15 @@
-# PRODUCT.md — WebReaper Concept Sites
+# PRODUCT.md: WebReaper Concept Sites
 
 ## What this is
 
-Ten fundamentally different single-page marketing sites for **WebReaper** — an AI-native web scraper shipped as a ~12 MB single-binary CLI, a .NET library (NuGet `WebReaper`), and MCP servers. MIT-licensed, local-first, no accounts. Each site is a self-contained static build in `concepts/<nn-name>/` with a `/guide` route documenting its creative direction. They will be deployed as ten separate Vercel projects and shown to a large public audience as a demonstration of design range.
+Standalone single-page marketing sites for **WebReaper**: an AI-native web scraper shipped as a ~12 MB single-binary CLI, a .NET library (NuGet `WebReaper`), and MCP servers. MIT-licensed, local-first, no accounts. Each site is a self-contained static build in `concepts/<nn-name>/` with a `/guide` route documenting its creative direction, and deploys as its own Vercel project.
+
+**Scope note (2026-07-10):** the original brief explored ten aesthetic lanes; the owner cut scope to the two strongest in-flight concepts. Shipped:
+
+1. `01-tty`, "PHOSPHOR": a literal DEC-terminal CRT. The site is an interactive shell; every product fact is a command. Drenched P1 green (P3 amber togglable), VT323, recorded-real transcripts.
+2. `06-pipeline`, "The Reaping Line": a bright workshop configurator. Four stations (scope, transport, extraction, destination) assemble a real CLI command and the equivalent C# builder chain live. Technical-toy aesthetic: dot grid, 2 px ink borders, offset block shadows, one OKLCH role color per station.
+
+Unbuilt lanes (broadsheet, blueprint, field guide, WebGL harvest, manga, Swiss grid, Win-98, mission control) were direction-only; generated art for three of them is preserved in git history (commit f2ed825) if ever revived.
 
 ## Audience
 
@@ -10,27 +17,14 @@ Developers (primarily .NET, secondarily anyone building AI agents/pipelines), AI
 
 ## Register
 
-**Brand** — design IS the product here. Each concept commits to one named aesthetic lane and executes it to the hilt. The ten lanes are deliberately non-overlapping:
-
-1. `01-tty` — literal DEC-terminal phosphor CRT (interactive shell). Drenched green.
-2. `02-broadsheet` — literal 1890s newspaper (engravings, columns). Newsprint + iron-gall ink + oxblood.
-3. `03-blueprint` — literal diazo/cyanotype engineering drawing. Prussian-blue drench, white linework.
-4. `04-field-guide` — literal natural-history specimen monograph. Aged plate paper, botanical-green ink, wax red.
-5. `05-harvest` — cinematic WebGL void: wheat-gold particle harvest in black space.
-6. `06-pipeline` — light precision tool-canvas (interactive builder). Full palette by pipeline role.
-7. `07-manga` — literal B/W manga chapter (halftone, SFX, generated panels). Ink + shock red.
-8. `08-grid` — literal Swiss International Typographic Style. White/black/Swiss-red planes, Helvetica.
-9. `09-98` — literal Windows-98 desktop OS parody. Teal desktop, silver chrome, navy title bars.
-10. `10-ops` — mission-control telemetry HUD. Near-black blue, amber primary, multi-signal accents.
-
-"Literal register" exceptions are intentional: paper is cream because it IS paper; mono is used because it IS a terminal.
+**Brand**: design IS the product. Each concept commits to one named aesthetic lane and executes it to the hilt; lanes must not overlap each other or the main webreaper.ai site (dark Supabase-style). "Literal register" exceptions are intentional: mono is used because it IS a terminal.
 
 ## Voice
 
-Grounded, technically precise, playful in framing but never in facts. Every command, flag, and API call shown must exist in `concepts/_shared/FACTS.md` (verified against the repo). Demos replay recorded output and say so. The reaper/harvest metaphor is the shared thread; each concept interprets it in its own world.
+Grounded, technically precise, playful in framing but never in facts. Every command, flag, and API call shown must exist in `concepts/_shared/FACTS.md` (verified against the repo and the real release binary). Demos replay recorded output and say so. The reaper/harvest metaphor is the shared thread.
 
 ## Constraints
 
-- Static HTML/CSS/JS, self-contained per directory; no build step; Google Fonts allowed; three.js vendored where used.
-- Each site: responsive (375px → 1600px), reduced-motion safe, semantic HTML, keyboard-usable interactions, `/guide` route.
-- Never touch WebReaper library/product code. No invented features, benchmarks, or pricing.
+- Static HTML/CSS/JS, self-contained per directory; no build step; Google Fonts allowed.
+- Each site: responsive (375px to 1600px), reduced-motion safe, semantic HTML, keyboard-usable interactions, `/guide` route, noscript fallback where content is JS-driven.
+- Never touch WebReaper library/product code. No invented features, benchmarks, or pricing. No em-dashes in copy (house style).

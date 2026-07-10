@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GUIDE(7) — WEBREAPER // TTY</title>
+<title>GUIDE(7): WEBREAPER // TTY</title>
 <meta name="description" content="Creative direction and build notes for the WEBREAPER // TTY concept site.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23030503'/%3E%3Crect x='6' y='8' width='12' height='18' fill='%2341ff7d'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -46,15 +46,15 @@ footer{border-top:1px solid var(--phos-faint);margin-top:2.4em;padding-top:.8em;
 <body>
 <main>
 <header>
-  <h1>GUIDE(7) <small>— WEBREAPER // TTY</small></h1>
+  <h1>GUIDE(7) <small>· WEBREAPER // TTY</small></h1>
   <nav><a href="../">← back to the terminal</a></nav>
 </header>
 
 <h2>CONCEPT</h2>
 <p>WebReaper's headline claim is that the whole scraper fits in one ~12&nbsp;MB
 binary you run from a shell. So the site refuses to be a website: it is the
-shell. A single full-viewport CRT — P1 green phosphor, scanlines, a slow
-refresh sweep — boots a fake BIOS, prints an MOTD, and hands you a live
+shell. A single full-viewport CRT: P1 green phosphor, scanlines, a slow
+refresh sweep: boots a fake BIOS, prints an MOTD, and hands you a live
 prompt. Every product fact is a command you run, not a section you scroll.
 The register is literal: monospace because it is a terminal, green because
 it is a tube.</p>
@@ -62,11 +62,11 @@ it is a tube.</p>
 <h2>WHAT'S REAL</h2>
 <ul>
 <li>Transcripts marked <span class="dim">"recorded from a real run"</span> were captured
-from the actual v11.3.2 release binary on 2026-07-10 — including
+from the actual v11.3.2 release binary on 2026-07-10: including
 <code>webreaper scrape https://webreaper.ai</code> reaping its own homepage,
 <code>map</code>, <code>init</code>, and <code>version</code> (which honestly prints
 11.3.1+…, because 11.3.2 was an MCP-satellite-only release).</li>
-<li>The bot-protection ladder transcript is labeled <em>simulated</em> — the
+<li>The bot-protection ladder transcript is labeled <em>simulated</em>: the
 ladder itself (HTTP → browser → stealth, host-sticky floor, blocked pages
 dropped, non-zero exit) is the real documented ADR-0083 behavior.</li>
 <li>Nothing scrapes live from the page; typing a novel URL tells you so and
@@ -80,18 +80,18 @@ the prompt; output is a <code>role="log"</code> aria-live region.</li>
 <li>Command router with history (↑/↓), TAB completion, ctrl-L, aliases,
 easter eggs (<code>cowsay</code>, <code>sudo</code>, <code>exit</code> = CRT power-off collapse).</li>
 <li><code>theme amber</code> swaps the whole phosphor palette via CSS custom
-properties on <code>data-theme</code> — P1 green and P3 amber, like real tubes.</li>
+properties on <code>data-theme</code>: P1 green and P3 amber, like real tubes.</li>
 <li>CRT optics are layered pseudo-elements: corner vignette, 3px scanline
 raster, a 9s refresh sweep, and a rare flicker keyframe. New lines land
-bright and settle — phosphor persistence as a CSS animation.</li>
-<li>Typography: VT323 (a digitization of the DEC VT320 glyphs) — the one
-case where "terminal font" is the register, not a costume.</li>
+bright and settle: phosphor persistence as a CSS animation.</li>
+<li>Typography: VT323, a digitization of the DEC VT320 glyphs. This is the
+one case where "terminal font" is the register itself, not a costume.</li>
 </ul>
 
 <h2>ACCESSIBILITY & PERFORMANCE</h2>
 <ul>
 <li><code>prefers-reduced-motion</code> kills the boot animation, sweep, flicker,
-cursor blink, and typing effects — everything prints instantly.</li>
+cursor blink, and typing effects: everything prints instantly.</li>
 <li>Suggested-command chips are real buttons (mobile users never need the
 keyboard); focus-visible outlines; noscript fallback carries the full
 pitch and install commands.</li>
@@ -100,19 +100,28 @@ pitch and install commands.</li>
 
 <h2>ITERATION LOG</h2>
 <ul>
-<li><strong>Pass 1 — structure.</strong> Boot felt slow (2.8s) and the banner
-overflowed at 375px: cut boot to ~1.2s + skip-on-input, added a compact
-two-line banner under 640px, moved chips into the log flow so they
-scroll with history.</li>
-<li><strong>Pass 2 — optics & type.</strong> Scanlines were muddying small
-glyphs: raster dropped to 14% opacity and body size raised; dim-green
-contrast lifted from 3.9:1 to ≥4.6:1; glow reduced on body text and
-reserved (strong) for the banner and cursor.</li>
-<li><strong>Pass 3 — honesty & detail.</strong> Every transcript re-checked
-against captures; added the recorded-run date stamps, the
-<code>version</code> footnote, the "replays recorded runs" footer note; exit
-animation rebuilt as clip-path collapse; TAB completion pool widened to
-aliases.</li>
+<li><strong>Pass 1: structure.</strong> First screenshot review caught a real
+bug: the prompt and suggestion chips stayed visible while output printed,
+because the UA's <code>[hidden]</code> rule loses to a
+<code>display:flex</code> selector. Fixed with explicit
+<code>[hidden]{display:none}</code> overrides. Added the compact two-line
+banner under 640px and moved chips into the log flow so they scroll with
+history.</li>
+<li><strong>Pass 2: behavior under stress.</strong> Driving the shell
+programmatically exposed that per-line <code>setTimeout</code> pacing crawls
+in throttled background tabs (timers clamp to ~1s). Rewrote boot, typing,
+and printing to pace against wall-clock due-times, so a clamped timer
+burst-catches-up instead of serializing: a 55-line man page now lands in
+about a second even when throttled. Also fixed a help-list typo and
+verified the busy-lock drops keystrokes during output instead of
+interleaving them.</li>
+<li><strong>Pass 3: honesty & detail.</strong> Every transcript re-checked
+against the captured runs; the man page gained the crawl flags the real
+binary documents (<code>--max-pages</code>, <code>--max-depth</code>,
+<code>--include-subdomains</code>); added recorded-run date stamps, the
+<code>version</code> footnote, and the "replays recorded runs" footer note;
+re-verified both phosphor themes and the 375px layout; swept typography
+to house style.</li>
 </ul>
 
 <h2>REPRODUCE THIS</h2>
@@ -122,11 +131,11 @@ aliases.</li>
 3. one CSS variable set per phosphor; test both at 375/768/1440px
 4. verify: axe pass, reduced-motion pass, keyboard-only session
 5. deploy: static directory → `vercel deploy --prod`</pre>
-<p class="dim">Built with Claude (Fable 5). Design system: none — a tube, a
+<p class="dim">Built with Claude (Fable 5). Design system: none: a tube, a
 font, two phosphors. Assets: none. LLM image tools: none needed here.</p>
 
 <footer>
-  <span>WEBREAPER // TTY · concept 01/10</span>
+  <span>WEBREAPER // TTY · concept "PHOSPHOR"</span>
   <span><a href="https://github.com/alex-on-ai/WebReaper">github.com/alex-on-ai/WebReaper</a></span>
 </footer>
 </main>

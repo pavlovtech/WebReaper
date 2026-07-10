@@ -1,11 +1,11 @@
-# WebReaper — verified facts for all concept sites
+# WebReaper: verified facts for all concept sites
 
 Source of truth: repo README.md, docs/architecture.md, docs/AI-ONBOARDING.md, CHANGELOG.md, `webreaper --help`.
 Every claim below is verified against those files as of 2026-07-10 (v11.3.x). Do NOT add claims not listed here.
 
 ## Identity
 
-- **WebReaper** — AI-native web scraper. Free, MIT-licensed (was GPL before 10.0.0).
+- **WebReaper**: AI-native web scraper. Free, MIT-licensed (was GPL before 10.0.0).
 - Three surfaces: **AOT single-binary CLI** (~12 MB, no runtime), **.NET library** (`WebReaper` NuGet package, net10.0), **MCP servers** (stdio + Streamable HTTP).
 - Built by HighCraft.io. Site: webreaper.ai. Repo: github.com/alex-on-ai/WebReaper. Current version: 11.3.x.
 - 15 NuGet packages (1 core + 14 satellites), versioned in lockstep.
@@ -22,7 +22,7 @@ dotnet add package WebReaper                                                    
 
 - Windows: binaries on GitHub Releases (win-x64 / win-arm64), put webreaper.exe on %PATH%.
 - Six RIDs per release: linux-x64, linux-arm64, osx-x64, osx-arm64, win-x64, win-arm64.
-- macOS binaries Apple-codesigned and notarized — no Gatekeeper warnings.
+- macOS binaries Apple-codesigned and notarized: no Gatekeeper warnings.
 - Update: `brew upgrade webreaper`; CLI prints a one-line upgrade hint on stderr when newer release exists (TTY only; disable WEBREAPER_NO_UPDATE_CHECK=1).
 
 ## CLI surface (v11.3.x)
@@ -46,7 +46,7 @@ Flags: `--schema`, `--output`, `--output-dir`, `--max-age <30s|5m|2h|1d>`, `--br
 LLM key env: `WEBREAPER_LLM_API_KEY` / `OPENAI_API_KEY` (never a flag). `--prompt` / `--infer` / `--schema` are mutually exclusive.
 Data → stdout, diagnostics → stderr. Blocked-at-top-tier pages are dropped and the run exits non-zero.
 
-## Bot protection (ADR-0083) — headline feature
+## Bot protection (ADR-0083): headline feature
 
 - Automatic per-page climb: **HTTP → browser (Chromium) → stealth (CloakBrowser)**.
 - Climbs only when a page actually looks blocked (challenge status 403/429/503, header, or body marker: Cloudflare/DataDome/PerimeterX/Incapsula/Akamai).
@@ -169,7 +169,7 @@ Closed sums: CrawlOutcome (Parsed | Followed | Paginated), AgentDecision (Extrac
 WebReaper (core) · WebReaper.Cdp · WebReaper.Playwright · WebReaper.Stealth.CloakBrowser · WebReaper.AI · WebReaper.AI.Http · WebReaper.Extraction.Attributes · WebReaper.Extraction.Generators · WebReaper.Mcp · WebReaper.Mcp.AspNetCore · WebReaper.Mongo · WebReaper.Redis · WebReaper.AzureServiceBus · WebReaper.Cosmos · WebReaper.Sqlite.
 (WebReaper.Cli is not a NuGet package; ships as release binaries.)
 
-## Comparison (from README table — safe claims)
+## Comparison (from README table: safe claims)
 
 - vs **Firecrawl**: same AI-native positioning, opposite distribution. Firecrawl = hosted API, AGPL-3.0 + commercial license, Docker+Postgres+Redis to self-host, their model only. WebReaper = local binary, MIT, BYO any LLM, free.
 - vs **Crawl4AI**: Docker + Python + Playwright install; Apache 2.0; agent = code it yourself.
