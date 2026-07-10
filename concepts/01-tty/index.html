@@ -1,0 +1,631 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WEBREAPER // TTY — an AI-native web scraper in one binary</title>
+<meta name="description" content="WebReaper is an AI-native web scraper: a ~12 MB single-binary CLI, a .NET library, and MCP servers. This site is a terminal. Type help.">
+<meta property="og:title" content="WEBREAPER // TTY">
+<meta property="og:description" content="The website is a terminal. The product is a scraper. Type help.">
+<meta name="theme-color" content="#030503">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23030503'/%3E%3Crect x='6' y='8' width='12' height='18' fill='%2341ff7d'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#030503;
+  --screen:#06110a;
+  --phos:#41ff7d;
+  --phos-dim:#2fbf63;
+  --phos-faint:rgba(65,255,125,.30);
+  --phos-ghost:rgba(65,255,125,.12);
+  --bright:#d9ffe6;
+  --amber:#ffb347;
+  --err:#ff6157;
+  --glow:0 0 6px rgba(65,255,125,.40);
+  --glow-strong:0 0 4px rgba(65,255,125,.65),0 0 22px rgba(65,255,125,.28);
+}
+[data-theme="amber"]{
+  --screen:#120c02;
+  --phos:#ffb000;
+  --phos-dim:#c98a10;
+  --phos-faint:rgba(255,176,0,.30);
+  --phos-ghost:rgba(255,176,0,.12);
+  --bright:#ffe9c4;
+  --amber:#7dd8ff;
+  --glow:0 0 6px rgba(255,176,0,.40);
+  --glow-strong:0 0 4px rgba(255,176,0,.65),0 0 22px rgba(255,176,0,.28);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{height:100%}
+body{
+  height:100%;
+  background:var(--bg);
+  color:var(--phos);
+  font-family:"VT323","Courier New",ui-monospace,monospace;
+  font-size:clamp(17px,1.35vw,21px);
+  line-height:1.32;
+  overflow:hidden;
+}
+#crt{
+  position:fixed;inset:0;
+  background:radial-gradient(ellipse 120% 90% at 50% 45%,var(--screen) 0%,var(--bg) 100%);
+  display:flex;flex-direction:column;
+}
+/* CRT overlays: literal-register scanlines + vignette + slow refresh sweep */
+#crt::before{
+  content:"";position:absolute;inset:0;pointer-events:none;z-index:6;
+  background:radial-gradient(ellipse 105% 95% at 50% 50%,transparent 62%,rgba(0,0,0,.42) 100%);
+}
+#crt::after{
+  content:"";position:absolute;inset:0;pointer-events:none;z-index:5;opacity:.14;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0 2px,rgba(0,0,0,.85) 2px 3px);
+}
+#sweep{
+  position:absolute;left:0;right:0;height:110px;top:-130px;pointer-events:none;z-index:4;opacity:.5;
+  background:linear-gradient(180deg,transparent,var(--phos-ghost) 55%,transparent);
+  animation:sweep 9s linear infinite;
+}
+@keyframes sweep{0%{top:-130px}100%{top:110%}}
+#flicker{position:absolute;inset:0;pointer-events:none;z-index:3;background:var(--phos-ghost);opacity:0;animation:flick 7s steps(1) infinite}
+@keyframes flick{0%,93%,100%{opacity:0}94%{opacity:.35}95%{opacity:.06}96%{opacity:.22}97%{opacity:0}}
+@media (prefers-reduced-motion:reduce){
+  #sweep,#flicker{animation:none;display:none}
+}
+/* ---- chrome bars ---- */
+header,footer{
+  flex:0 0 auto;display:flex;align-items:center;gap:1.4em;
+  padding:.42em 1.1em;position:relative;z-index:7;
+  text-transform:uppercase;letter-spacing:.06em;
+  color:var(--phos-dim);
+}
+header{border-bottom:1px solid var(--phos-faint)}
+footer{border-top:1px solid var(--phos-faint);font-size:.92em}
+header .brand{color:var(--phos);text-shadow:var(--glow)}
+header .sep,footer .sep{opacity:.5}
+header nav{margin-left:auto;display:flex;gap:1.2em}
+a{color:var(--phos);text-decoration:none;border-bottom:1px dotted var(--phos-faint)}
+a:hover,a:focus-visible{color:var(--bright);border-bottom-color:var(--phos);text-shadow:var(--glow)}
+:focus-visible{outline:2px dashed var(--phos);outline-offset:3px}
+footer .hint{margin-left:auto;color:var(--phos-dim)}
+/* ---- terminal ---- */
+#term{
+  flex:1 1 auto;overflow-y:auto;position:relative;z-index:2;
+  padding:1.1em 1.3em 2.2em;
+  scrollbar-width:thin;scrollbar-color:var(--phos-dim) transparent;
+  text-shadow:var(--glow);
+  overscroll-behavior:contain;
+}
+#term::-webkit-scrollbar{width:8px}
+#term::-webkit-scrollbar-thumb{background:var(--phos-faint)}
+.line{white-space:pre-wrap;word-break:break-word;min-height:1.32em}
+.dim{color:var(--phos-dim);text-shadow:none}
+.bright{color:var(--bright)}
+.amber{color:var(--amber);text-shadow:0 0 6px rgba(255,179,71,.35)}
+.err{color:var(--err);text-shadow:0 0 6px rgba(255,97,87,.35)}
+.banner{color:var(--phos);text-shadow:var(--glow-strong);line-height:1.05;font-size:clamp(6px,1.55vw,15px);font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:700}
+.banner-sm{display:none;font-size:clamp(34px,9vw,54px);line-height:.95;text-shadow:var(--glow-strong)}
+@media(max-width:640px){.banner{display:none}.banner-sm{display:block}}
+.rule{color:var(--phos-faint);text-shadow:none}
+/* fresh phosphor: new lines land bright then settle */
+.fresh{animation:settle .9s ease-out both}
+@keyframes settle{from{color:var(--bright);text-shadow:var(--glow-strong)}to{}}
+@media (prefers-reduced-motion:reduce){.fresh{animation:none}}
+/* ---- prompt ---- */
+#promptline{display:flex;align-items:baseline;gap:.55em;padding:0}
+#promptline[hidden],#chips[hidden]{display:none}
+#ps1{color:var(--phos-dim);white-space:nowrap}
+#cmdline{color:var(--bright)}
+#cursor{
+  display:inline-block;width:.62em;height:1.05em;vertical-align:text-bottom;
+  background:var(--phos);box-shadow:var(--glow-strong);
+  animation:blink 1.06s steps(1) infinite;
+}
+@keyframes blink{50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){#cursor{animation:none}}
+#kbd{position:absolute;opacity:0;left:-9999px;width:1px;height:1px}
+/* ---- suggestion chips ---- */
+#chips{display:flex;flex-wrap:wrap;gap:.5em .8em;margin:.9em 0 .3em;position:relative;z-index:2}
+#chips button{
+  font:inherit;background:none;border:1px solid var(--phos-faint);
+  color:var(--phos);padding:.06em .6em .1em;cursor:pointer;
+  text-shadow:var(--glow);letter-spacing:.02em;
+}
+#chips button:hover{background:var(--phos-ghost);color:var(--bright);border-color:var(--phos)}
+#chips button::before{content:"▸ ";color:var(--phos-dim)}
+/* power-off */
+#off{position:fixed;inset:0;background:#000;z-index:60;display:none;align-items:center;justify-content:center}
+#off.on{display:flex;animation:crtoff .5s ease-in both}
+@keyframes crtoff{0%{clip-path:inset(0 0 0 0)}60%{clip-path:inset(49.6% 0 49.6% 0)}100%{clip-path:inset(50% 48% 50% 48%)}}
+#off span{color:var(--bright);font-size:1.4em;animation:dotfade 2.4s ease-out both}
+@keyframes dotfade{0%,40%{opacity:1}100%{opacity:.25}}
+@media(max-width:640px){
+  header{gap:.8em;font-size:.9em}
+  header .mid{display:none}
+  footer .hint{display:none}
+  #term{padding:.9em .8em 2em}
+}
+.sr{position:absolute;left:-9999px}
+noscript .line{padding:0 1em}
+</style>
+</head>
+<body>
+<div id="crt" data-boot="pending">
+  <div id="sweep" aria-hidden="true"></div>
+  <div id="flicker" aria-hidden="true"></div>
+  <header>
+    <span class="brand">WEBREAPER&nbsp;// TTY1</span>
+    <span class="sep" aria-hidden="true">·</span>
+    <span class="mid">v11.3.2 · MIT · AI-NATIVE SCRAPER</span>
+    <nav aria-label="external">
+      <a href="https://github.com/alex-on-ai/WebReaper">github</a>
+      <a href="https://www.nuget.org/packages/WebReaper">nuget</a>
+      <a href="./guide/">guide</a>
+    </nav>
+  </header>
+
+  <main id="term" aria-label="interactive terminal">
+    <div id="log" role="log" aria-live="polite"></div>
+    <noscript>
+      <div class="line bright">JavaScript is off — the interactive shell won't run, but the facts stand:</div>
+      <div class="line">WebReaper — AI-native web scraper. One ~12 MB binary, a .NET library, and MCP servers. MIT.</div>
+      <div class="line">install:  brew install alex-on-ai/webreaper/webreaper</div>
+      <div class="line">          curl -fsSL https://raw.githubusercontent.com/alex-on-ai/WebReaper/master/scripts/install.sh | sh</div>
+      <div class="line">          dotnet add package WebReaper</div>
+      <div class="line">usage:    webreaper scrape https://example.com   → Markdown</div>
+      <div class="line">          webreaper crawl  https://example.com   → whole site, JSON Lines</div>
+      <div class="line">          webreaper map    https://example.com   → URL discovery</div>
+      <div class="line">Bot-protected pages climb HTTP → browser → stealth automatically (ADR-0083).</div>
+      <div class="line"><a href="https://github.com/alex-on-ai/WebReaper">github.com/alex-on-ai/WebReaper</a> · <a href="./guide/">design guide</a></div>
+    </noscript>
+    <div id="promptline" hidden>
+      <label class="sr" for="kbd">terminal input</label>
+      <span id="ps1">reaper@web:~$</span><span id="cmdline"></span><span id="cursor" aria-hidden="true"></span>
+    </div>
+    <div id="chips" hidden aria-label="suggested commands"></div>
+  </main>
+
+  <footer>
+    <span>TAB completes · ↑ history · click a suggestion</span>
+    <span class="hint">phosphor: <a href="#" id="themelink">amber/green</a> · this demo replays recorded runs — nothing is scraped live</span>
+  </footer>
+</div>
+<div id="off" aria-hidden="true"><span>● SIGNAL LOST</span></div>
+<input id="kbd" autocomplete="off" autocapitalize="off" spellcheck="false">
+
+<script>
+/* WEBREAPER // TTY — all output below marked "recorded" was captured from real
+   runs of the v11.3.2 release binary on 2026-07-10. Simulated transcripts say so. */
+(function(){
+"use strict";
+const $=s=>document.querySelector(s);
+const log=$("#log"), term=$("#term"), promptline=$("#promptline"),
+      cmdline=$("#cmdline"), kbd=$("#kbd"), chipsBox=$("#chips");
+const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
+let history=[],hIdx=-1,busy=false,booted=false;
+
+const BANNER_BIG=String.raw`
+██╗    ██╗███████╗██████╗ ██████╗ ███████╗ █████╗ ██████╗ ███████╗██████╗
+██║    ██║██╔════╝██╔══██╗██╔══██╗██╔════╝██╔══██╗██╔══██╗██╔════╝██╔══██╗
+██║ █╗ ██║█████╗  ██████╔╝██████╔╝█████╗  ███████║██████╔╝█████╗  ██████╔╝
+██║███╗██║██╔══╝  ██╔══██╗██╔══██╗██╔══╝  ██╔══██║██╔═══╝ ██╔══╝  ██╔══██╗
+╚███╔███╔╝███████╗██████╔╝██║  ██║███████╗██║  ██║██║     ███████╗██║  ██║
+ ╚══╝╚══╝ ╚══════╝╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝`;
+
+function el(cls,text){const d=document.createElement("div");d.className="line "+(cls||"");d.textContent=text===undefined?"":text;return d}
+function addLine(text,cls,fresh=true){const d=el(cls,text);if(fresh&&!reduced)d.classList.add("fresh");log.appendChild(d);return d}
+function addHTML(html,cls){const d=el(cls);d.innerHTML=html;log.appendChild(d);return d}
+function scrollBottom(){term.scrollTop=term.scrollHeight}
+const sleep=ms=>new Promise(r=>setTimeout(r,reduced?0:ms));
+
+async function print(lines,perLine=14){
+  for(const L of lines){
+    const [text,cls]=Array.isArray(L)?L:[L,""];
+    addLine(text,cls);scrollBottom();
+    if(perLine)await sleep(perLine);
+  }
+}
+/* ---------- content ---------- */
+const INSTALL=[
+["┌─ INSTALL ─────────────────────────────────────────────┐","rule"],
+["  macOS / Linux   brew install alex-on-ai/webreaper/webreaper","bright"],
+["  any POSIX sh    curl -fsSL https://raw.githubusercontent.com/alex-on-ai/","bright"],
+["                  WebReaper/master/scripts/install.sh | sh","bright"],
+["  .NET library    dotnet add package WebReaper","bright"],
+["  Windows         binaries on GitHub Releases (win-x64 / win-arm64)",""],
+["└───────────────────────────────────────────────────────┘","rule"],
+["  one ~12 MB native binary · six platforms · Apple-notarized on macOS","dim"],
+["  no Docker, no Postgres, no signup, no API key","dim"],
+];
+const HELP=[
+["COMMANDS","bright"],
+["  webreaper scrape <url>      one page → Markdown (JSON envelope)",""],
+["  webreaper crawl  <url>      whole site → JSON Lines",""],
+["  webreaper map    <url>      discover a site's URLs",""],
+["  webreaper init              write the Claude Code skill",""],
+["  webreaper version           what's installed",""],
+["","" ],
+["  install      how to get the binary (brew / sh / dotnet)",""],
+["  climb        bot-protection: the HTTP→browser→stealth ladder",""],
+["  library      the .NET library in ten lines",""],
+["  agent        Claude Code skill + MCP servers",""],
+["  packages     the 15 NuGet packages",""],
+["  why          vs Firecrawl / Crawl4AI / WebFetch",""],
+["  man webreaper· the full manual",""],
+["  theme        amber | green phosphor",""],
+["  guide        how this site was made (→ /guide)",""],
+["  clear · history · whoami · exit","" ],
+["","" ],
+["TIP: ↑ recalls history, TAB completes, or click a suggestion below.","dim"],
+];
+const LIBRARY=[
+["// dotnet add package WebReaper","dim"],
+["using WebReaper.Builders;","bright"],
+["","" ],
+["var engine = await ScraperEngineBuilder","bright"],
+["    .Crawl(\"https://news.ycombinator.com\")","bright"],
+["    .AsMarkdown()                 // or .Extract(schema) / .ExtractInferred(goal)","bright"],
+["    .WriteToConsole()             // or .WriteToJsonFile / .WriteToMongoDb / …","bright"],
+["    .BuildAsync();","bright"],
+["","" ],
+["await engine.RunAsync();","bright"],
+["","" ],
+["same engine, distributed: swap three lines —","dim"],
+["    .WithRedisScheduler(...)      // workers share one crawl","" ],
+["    .TrackVisitedLinksInRedis(...)","" ],
+["    .WithRedisConfigStorage(...)","" ],
+["fluent builder over public seams: IScheduler, IPageLoader, IContentExtractor,","dim"],
+["IScraperSink, IAgentBrain … implement one interface to replace any stage.","dim"],
+];
+const CLIMB=[
+["$ webreaper scrape https://shop.example/catalog","bright"],
+["# simulated transcript — the ladder is the real ADR-0083 behavior","dim"],
+["[http]     GET /catalog ............................. 403","" ],
+["[detect]   challenge marker: cloudflare — page looks blocked","amber"],
+["[climb]    escalating to headless browser (no flag needed)","amber"],
+["[browser]  chromium render ......................... 403","" ],
+["[climb]    stealth tier? [Y/n]  (--auto-stealth skips the prompt)","amber"],
+["[stealth]  cloakbrowser ............................ 200 OK","bright"],
+["[floor]    shop.example pinned at STEALTH for the rest of the run","" ],
+["{\"title\":\"Catalog\",\"markdown\":\"# Catalog\\n…\",\"url\":\"https://shop.example/catalog\"}","bright"],
+["","" ],
+["the rules:","dim"],
+["  · climbs per page, only when a page actually looks blocked","" ],
+["  · first block on a host lifts that host's floor — you pay the climb once","" ],
+["  · still blocked at the top tier → the page is DROPPED, exit code non-zero","" ],
+["  · challenge pages never masquerade as data","" ],
+];
+const AGENT=[
+["three ways to hand the reaper to an agent:","bright"],
+["","" ],
+["1 · CLAUDE CODE SKILL","amber"],
+["    $ webreaper init","bright"],
+["    Wrote WebReaper Agent Skill to .claude/skills/webreaper/SKILL.md","" ],
+["    next session, “scrape the top 5 stories and summarize” routes here.","dim"],
+["","" ],
+["2 · MCP SERVERS — six tools: scrape, map, extract,","amber"],
+["    extract_with_prompt, extract_inferred, crawl","" ],
+["    stdio  WebReaper.Mcp            (Cursor, Claude Desktop)","" ],
+["    http   WebReaper.Mcp.AspNetCore (n8n and URL-only clients):","" ],
+["    $ docker run -p 8080:8080 -e WEBREAPER_MCP_TOKEN=secret \\","bright"],
+["        ghcr.io/alex-on-ai/webreaper-mcp-http:latest","bright"],
+["","" ],
+["3 · ANY SHELL HARNESS","amber"],
+["    one binary, one syscall — LangChain ShellTool, CI, cron, scripts.","" ],
+["","" ],
+["autonomous mode (library): LlmAgent.RunAsync(url, goal, chatClient)","dim"],
+["decide → persist → execute; durable resume across restarts.","dim"],
+];
+const PACKAGES=[
+["15 packages, one version, lockstep:","bright"],
+["  WebReaper                    core: crawl, parse, Markdown, schema fold","" ],
+["  WebReaper.Playwright         browser transport (multi-browser)","" ],
+["  WebReaper.Cdp                raw CDP transport, AOT-clean","" ],
+["  WebReaper.Stealth.CloakBrowser  stealth Chromium fork","" ],
+["  WebReaper.AI                 LLM fallback, self-healing, agent brain","" ],
+["  WebReaper.AI.Http            AOT-safe OpenAI-compatible IChatClient","" ],
+["  WebReaper.Extraction.Attributes   [ScrapeSchema] / [ScrapeField]","" ],
+["  WebReaper.Extraction.Generators   Roslyn source generator","" ],
+["  WebReaper.Mcp                MCP server (stdio)","" ],
+["  WebReaper.Mcp.AspNetCore     MCP server (Streamable HTTP)","" ],
+["  WebReaper.Redis · .Mongo · .Sqlite · .AzureServiceBus · .Cosmos","" ],
+["                               distributed state + sinks","" ],
+["the CLI itself isn't a package — it ships as release binaries.","dim"],
+];
+const WHY=[
+["WHY WEBREAPER","bright"],
+["  · one ~12 MB binary — Firecrawl self-host wants Docker+Postgres+Redis,","" ],
+["    Crawl4AI wants Docker+Python+Playwright","" ],
+["  · MIT — embed it in commercial software; Firecrawl is AGPL-3.0","" ],
+["  · bring ANY LLM (OpenAI, Anthropic, Ollama, Azure) via IChatClient —","" ],
+["    or none: Markdown and CSS-schema extraction are deterministic, $0","" ],
+["  · bot-checks handled automatically: HTTP → browser → stealth, per page","" ],
+["  · distributed when needed: Redis / Service Bus / Mongo / Cosmos seams","" ],
+["  · autonomous agent, durable resume: LlmAgent.RunAsync(url, goal, llm)","" ],
+["","" ],
+["if you want a managed cloud, buy Firecrawl.","dim"],
+["if you want a binary that runs anywhere with your own key — this.","dim"],
+];
+const MAN=[
+["WEBREAPER(1)                 User Commands                 WEBREAPER(1)","dim"],
+["","" ],
+["NAME","amber"],
+["    webreaper — declarative .NET web scraper / crawler, AI-native","" ],
+["","" ],
+["SYNOPSIS","amber"],
+["    webreaper <command> [args] [flags]","" ],
+["","" ],
+["COMMANDS","amber"],
+["    scrape <url>   Fetch one URL. Markdown by default (JSON envelope:","" ],
+["                   {title, markdown, url}); JSON fields with --schema.","" ],
+["    crawl <url>    Recursive on-domain crawl → JSON Lines on stdout.","" ],
+["    map <url>      Discover URLs (sitemap.xml + root-page links).","" ],
+["    init           Write the Agent Skill to .claude/skills/webreaper/.","" ],
+["    browser <sub>  install | path | list — managed Chromium.","" ],
+["    stealth <sub>  install | path | list — stealth forks (CloakBrowser).","" ],
+["    version, help","" ],
+["","" ],
+["FLAGS","amber"],
+["    --schema <path>      CSS-selector JSON schema → structured output","" ],
+["    --prompt \"<text>\"    schema-free LLM extraction (per page)","" ],
+["    --infer [\"goal\"]     infer schema once w/ LLM, extract the rest","" ],
+["                         deterministically — ~one LLM call per site","" ],
+["    --model, --llm-url   OpenAI-compatible endpoint for the two above;","" ],
+["    ","" ],
+["                         key via WEBREAPER_LLM_API_KEY / OPENAI_API_KEY","" ],
+["    --browser            headless-browser transport","" ],
+["    --stealth            start at the stealth tier","" ],
+["    --auto-stealth       no Y/n prompt (CI); --no-auto-stealth caps climb","" ],
+["    --follow <selector>  follow matching links before extraction","" ],
+["    --output, --output-dir, --max-age <30s|5m|2h|1d>, --search,","" ],
+["    --max-urls, --allow-offsite, --no-sitemap, --open, --yes","" ],
+["","" ],
+["ESCALATION","amber"],
+["    A blocked page climbs HTTP → browser → stealth on its own, per page,","" ],
+["    host-sticky. Challenge pages are dropped, never returned as data;","" ],
+["    a run that ends blocked exits non-zero. (ADR-0083)","" ],
+["","" ],
+["ENVIRONMENT","amber"],
+["    WEBREAPER_LLM_API_KEY · OPENAI_API_KEY · WEBREAPER_AUTO_STEALTH","" ],
+["    WEBREAPER_NO_UPDATE_CHECK","" ],
+["","" ],
+["EXAMPLES","amber"],
+["    webreaper scrape https://example.com","" ],
+["    webreaper scrape https://example.com | jq -r .markdown","" ],
+["    webreaper crawl https://docs.example > pages.jsonl","" ],
+["    webreaper crawl https://shop.example --infer \"name and price\" \\","" ],
+["        --model gpt-4o-mini --llm-url https://api.openai.com/v1","" ],
+["","" ],
+["SEE ALSO","amber"],
+["    github.com/alex-on-ai/WebReaper · nuget: WebReaper · /guide","" ],
+["","" ],
+["WebReaper 11.3.2                2026                      WEBREAPER(1)","dim"],
+];
+/* recorded outputs (real runs, v11.3.2 release binary, 2026-07-10) */
+const SCRAPE_SELF=[
+["# recorded from a real run · v11.3.2 · 2026-07-10","dim"],
+["{\"title\":\"Scrape any site.Feed your AI.\",\"markdown\":\"# Scrape any site.\\n\\nFeed your AI.\\n\\nWebReaper is an AI-native web scraper for .NET. One ~12 MB binary turns any site, even bot-protected ones, into clean Markdown or structured data, climbing from HTTP to a browser to stealth to get through. Bring your own LLM when you need it. No Docker, no signup, MIT licensed.…\",\"url\":\"https://webreaper.ai\"}","" ],
+["","" ],
+["yes — it just reaped its own homepage. one JSON envelope per page:","dim"],
+["title · markdown · url. pipe it somewhere useful:","dim"],
+["  $ webreaper scrape https://webreaper.ai | jq -r .markdown","bright"],
+];
+const SCRAPE_JQ=[
+["# recorded from a real run · v11.3.2 · 2026-07-10","dim"],
+["# Scrape any site.  ","bright"],
+["Feed your AI.","bright"],
+["","" ],
+["WebReaper is an AI-native web scraper for .NET. One ~12 MB binary turns","" ],
+["any site, even bot-protected ones, into clean Markdown or structured","" ],
+["data, climbing from HTTP to a browser to stealth to get through. Bring","" ],
+["your own LLM when you need it. No Docker, no signup, MIT licensed.","" ],
+["","" ],
+["## Everything a modern scraper needs","bright"],
+["","" ],
+["### Drop on PATH, run","bright"],
+["A single ~12 MB native binary. No Docker, no Postgres, no signup.","" ],
+["…","dim"],
+["","" ],
+["LLM-ready Markdown from any URL — that's the default, no flags.","dim"],
+];
+const MAP_SELF=[
+["# recorded from a real run · v11.3.2 · 2026-07-10","dim"],
+["https://webreaper.ai","" ],
+["https://webreaper.ai/docs","" ],
+["https://webreaper.ai/use-cases","" ],
+["https://webreaper.ai/blog","" ],
+["https://webreaper.ai/pricing","" ],
+["https://webreaper.ai/privacy","" ],
+["https://webreaper.ai/terms","" ],
+["https://webreaper.ai/docs/ai","" ],
+["https://webreaper.ai/docs/autonomous-agent","" ],
+["https://webreaper.ai/docs/browser-and-stealth","" ],
+["https://webreaper.ai/docs/claude-code-skill","" ],
+["https://webreaper.ai/docs/cli","" ],
+["","" ],
+["sitemap.xml + root-page links, deduped. feed it back:","dim"],
+["  $ webreaper map site | while read u; do webreaper scrape $u; done","bright"],
+];
+const INIT_OUT=[
+["# recorded from a real run · v11.3.2 · 2026-07-10","dim"],
+["Wrote WebReaper Agent Skill to .claude/skills/webreaper/SKILL.md","bright"],
+["","" ],
+["Try it out:","" ],
+["  webreaper scrape https://example.com   # one page as Markdown (or JSON with --schema)","" ],
+["  webreaper crawl  https://example.com   # the whole site as JSON Lines","" ],
+["  webreaper map    https://example.com   # list the site's URLs","" ],
+["","" ],
+["your agent now knows when to reach for the reaper instead of WebFetch.","dim"],
+];
+const CRAWL_OUT=[
+["# recorded shape — one JSON object per page, streaming","dim"],
+["{\"title\":\"Docs\",\"markdown\":\"# Docs\\n…\",\"url\":\"https://webreaper.ai/docs\"}","" ],
+["{\"title\":\"CLI\",\"markdown\":\"# CLI\\n…\",\"url\":\"https://webreaper.ai/docs/cli\"}","" ],
+["{\"title\":\"Use cases\",\"markdown\":\"…\",\"url\":\"https://webreaper.ai/use-cases\"}","" ],
+["  ⋮","dim"],
+["","" ],
+["recursive, on-domain, sitemap-seeded. pipe to a file, a vector DB","" ],
+["loader, or straight into a prompt. blocked pages? see 'climb'.","" ],
+];
+const GUIDE=[
+["this site is one static HTML file pretending to be a DEC tube.","" ],
+["creative direction, build notes, and the three iteration passes:","" ],
+["  → /guide  (also linked top-right)","bright"],
+];
+const COW=String.raw`
+   _______________________
+  < REAP WHAT YOU CRAWL. >
+   -----------------------
+      \    ___
+       \  /   \__/\
+         |  ()  |  \
+         |      |   |==== ~~~~~~
+          \____/    |
+          /    \   /|
+         | REAP |   |
+          \____/    |`;
+/* ---------- command router ---------- */
+const CMDS={
+  "help":()=>print(HELP,10),
+  "install":()=>print(INSTALL,16),
+  "climb":()=>print(CLIMB,60),
+  "library":()=>print(LIBRARY,22),
+  "agent":()=>print(AGENT,16),
+  "packages":()=>print(PACKAGES,12),
+  "why":()=>print(WHY,18),
+  "guide":()=>print(GUIDE,20),
+  "man webreaper":()=>print(MAN,7),
+  "man":()=>print(MAN,7),
+  "webreaper scrape https://webreaper.ai":()=>print(SCRAPE_SELF,24),
+  "webreaper scrape https://webreaper.ai | jq -r .markdown":()=>print(SCRAPE_JQ,22),
+  "webreaper map https://webreaper.ai --max-urls 12":()=>print(MAP_SELF,26),
+  "webreaper crawl https://webreaper.ai":()=>print(CRAWL_OUT,40),
+  "webreaper init":()=>print(INIT_OUT,26),
+  "webreaper version":()=>print([["11.3.1+063d76383b31dff08def780fa9e51ffc5734073a","bright"],["(recorded — 11.3.2 was a single-satellite MCP release; the CLI shipped unchanged)","dim"]],20),
+  "webreaper help":()=>print(MAN,7),
+  "webreaper":()=>print([["usage: webreaper <scrape|crawl|map|init|browser|stealth|version|help>",""],["try 'man webreaper' — or just 'help' for this site's commands","dim"]],14),
+  "whoami":()=>print([["reaper","bright"]],0),
+  "uname -a":()=>print([["WebReaperOS 11.3.2 aot-native #1 SMP PREEMPT arm64 GNU/Web",""]],0),
+  "ls":()=>print([["LICENSE.txt   README.md   webreaper",""]],0),
+  "cowsay":()=>print([[COW,"bright"]],0),
+  "sudo":()=>print([["the reaper bows to no one.","amber"]],0),
+  "history":()=>print(history.map((h,i)=>[`  ${i+1}  ${h}`,""]),6),
+  "theme amber":()=>{document.documentElement.dataset.theme="amber";return print([["phosphor set to P3 AMBER — 'theme green' to switch back","amber"]],0)},
+  "theme green":()=>{delete document.documentElement.dataset.theme;return print([["phosphor set to P1 GREEN","bright"]],0)},
+  "theme":()=>print([["usage: theme amber | theme green","dim"]],0),
+  "clear":()=>{log.innerHTML="";return Promise.resolve()},
+  "exit":doExit,"logout":doExit,"poweroff":doExit,
+};
+const ALIASES={"scrape":"webreaper scrape https://webreaper.ai","map":"webreaper map https://webreaper.ai --max-urls 12","crawl":"webreaper crawl https://webreaper.ai","init":"webreaper init","version":"webreaper version","stealth":"climb","mcp":"agent","docs":"man webreaper","?":"help"};
+async function doExit(){
+  if(reduced){await print([["logout",""],["(there is no escape. the prompt returns.)","dim"]],20);return}
+  const off=$("#off");off.classList.add("on");off.setAttribute("aria-hidden","false");
+  await sleep(2600);
+  off.classList.remove("on");off.setAttribute("aria-hidden","true");
+  log.innerHTML="";banner(false);
+}
+function unknown(c){
+  if(/rm\s+-rf/.test(c))return print([["I'm a scraper, not a destroyer. Try 'webreaper scrape' instead.","amber"]],0);
+  if(/^webreaper\s+scrape\s+\S+/.test(c))return print([["this demo replays recorded runs only — it doesn't scrape live.","amber"],["install the real thing:  brew install alex-on-ai/webreaper/webreaper","bright"],["…then that exact command will work on your machine.","dim"]],16);
+  return print([[`command not found: ${c}`,"err"],["type 'help' for the menu.","dim"]],10);
+}
+async function run(raw){
+  const c=raw.trim();if(!c)return;
+  history.push(c);hIdx=history.length;
+  addLine("reaper@web:~$ "+c,"dim",false);
+  const key=c.toLowerCase();
+  const fn=CMDS[c]||CMDS[key]||(ALIASES[key]&&CMDS[ALIASES[key]]);
+  busy=true;promptline.hidden=true;chipsBox.hidden=true;
+  try{ if(fn)await fn(); else await unknown(c);}finally{
+    addLine("","",false);
+    busy=false;promptline.hidden=false;chipsBox.hidden=false;
+    log.appendChild(chipsBox);log.appendChild(promptline);
+    scrollBottom();kbd.focus({preventScroll:true});
+  }
+}
+/* ---------- chips ---------- */
+const CHIP_CMDS=[
+ ["scrape webreaper.ai","webreaper scrape https://webreaper.ai"],
+ ["| jq -r .markdown","webreaper scrape https://webreaper.ai | jq -r .markdown"],
+ ["map","webreaper map https://webreaper.ai --max-urls 12"],
+ ["climb (bot-protection)","climb"],
+ ["install","install"],
+ ["library (.NET)","library"],
+ ["agent / mcp","agent"],
+ ["why","why"],
+ ["man webreaper","man webreaper"],
+];
+for(const [label,cmd] of CHIP_CMDS){
+  const b=document.createElement("button");b.type="button";b.textContent=label;
+  b.addEventListener("click",()=>{if(!busy)typeAndRun(cmd)});chipsBox.appendChild(b);
+}
+async function typeAndRun(cmd){
+  kbd.value="";cmdline.textContent="";
+  if(!reduced){for(let i=0;i<cmd.length;i++){cmdline.textContent=cmd.slice(0,i+1);await sleep(cmd.length>40?6:14)}await sleep(120)}
+  cmdline.textContent="";await run(cmd);
+}
+/* ---------- input ---------- */
+document.addEventListener("click",e=>{if(!e.target.closest("a,button")&&booted)kbd.focus({preventScroll:true})});
+kbd.addEventListener("input",()=>{cmdline.textContent=kbd.value});
+kbd.addEventListener("keydown",e=>{
+  if(busy){e.preventDefault();return}
+  if(e.key==="Enter"){const v=kbd.value;kbd.value="";cmdline.textContent="";run(v)}
+  else if(e.key==="ArrowUp"){e.preventDefault();if(hIdx>0){hIdx--;kbd.value=history[hIdx]||"";cmdline.textContent=kbd.value}}
+  else if(e.key==="ArrowDown"){e.preventDefault();if(hIdx<history.length){hIdx++;kbd.value=history[hIdx]||"";cmdline.textContent=kbd.value}}
+  else if(e.key==="Tab"){e.preventDefault();const v=kbd.value.toLowerCase();if(!v)return;
+    const pool=Object.keys(CMDS).concat(Object.keys(ALIASES));
+    const hit=pool.find(k=>k.startsWith(v));if(hit){kbd.value=hit;cmdline.textContent=hit}}
+  else if(e.key==="l"&&e.ctrlKey){e.preventDefault();log.innerHTML="";log.appendChild(chipsBox);log.appendChild(promptline)}
+});
+$("#themelink").addEventListener("click",e=>{e.preventDefault();
+  const amber=document.documentElement.dataset.theme==="amber";
+  run(amber?"theme green":"theme amber")});
+/* ---------- boot ---------- */
+const BOOT=[
+["WEBREAPER BIOS 11.3.2 — NATIVE AOT",""],
+["MEM CHECK ................. 12288 KB OK   (yes, the whole binary fits)","dim"],
+["PHOSPHOR .................. P1 GREEN","dim"],
+["TRANSPORTS ................ HTTP ✓   CHROMIUM ✓   CLOAK ✓","dim"],
+["MOUNT /usr/bin/webreaper .. OK","dim"],
+["SKILL .claude/skills/webreaper ......... LOADED","dim"],
+["READY.","bright"],
+];
+async function banner(withIntro=true){
+  const big=el("banner",BANNER_BIG);log.appendChild(big);
+  const sm=el("banner-sm","WEB\nREAPER");log.appendChild(sm);
+  await print([
+    ["","" ],
+    ["AI-NATIVE WEB SCRAPER — ONE BINARY · ~12 MB · MIT","bright"],
+    ["any site → clean Markdown or structured JSON.","" ],
+    ["bot-checks climb HTTP → browser → stealth on their own.","" ],
+    ["three surfaces: CLI · .NET LIBRARY · MCP SERVERS","" ],
+    ["","" ],
+    ["  $ brew install alex-on-ai/webreaper/webreaper","amber"],
+    ["","" ],
+    withIntro?["type 'help', or click a suggestion:","dim"]:["back so soon? type 'help'.","dim"],
+  ],26);
+  log.appendChild(chipsBox);chipsBox.hidden=false;
+  log.appendChild(promptline);promptline.hidden=false;
+  booted=true;scrollBottom();
+  if(matchMedia("(hover:hover)").matches)kbd.focus({preventScroll:true});
+}
+async function boot(){
+  if(reduced||sessionStorage.getItem("wr-booted")){await banner();return}
+  sessionStorage.setItem("wr-booted","1");
+  let skipped=false;
+  const skip=()=>{skipped=true};
+  addEventListener("keydown",skip,{once:true});addEventListener("pointerdown",skip,{once:true});
+  for(const [t,c] of BOOT){
+    if(skipped)break;
+    addLine(t,c);scrollBottom();await sleep(150);
+  }
+  await sleep(skipped?0:420);
+  log.innerHTML="";
+  await banner();
+}
+boot();
+})();
+</script>
+</body>
+</html>

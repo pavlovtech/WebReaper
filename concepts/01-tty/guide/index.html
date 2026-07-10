@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GUIDE(7) — WEBREAPER // TTY</title>
+<meta name="description" content="Creative direction and build notes for the WEBREAPER // TTY concept site.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23030503'/%3E%3Crect x='6' y='8' width='12' height='18' fill='%2341ff7d'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#030503;--screen:#06110a;--phos:#41ff7d;--phos-dim:#2fbf63;
+  --phos-faint:rgba(65,255,125,.30);--bright:#d9ffe6;--amber:#ffb347;
+  --glow:0 0 6px rgba(65,255,125,.40);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  min-height:100vh;background:radial-gradient(ellipse 120% 90% at 50% 30%,var(--screen),var(--bg));
+  color:var(--phos);font-family:"VT323","Courier New",ui-monospace,monospace;
+  font-size:clamp(17px,1.3vw,20px);line-height:1.38;text-shadow:var(--glow);
+}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.12;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0 2px,rgba(0,0,0,.85) 2px 3px)}
+main{max-width:76ch;margin:0 auto;padding:2.2em 1.2em 4em}
+h1{font-size:1.35em;font-weight:400;color:var(--bright);letter-spacing:.04em}
+h1 small{color:var(--phos-dim);font-size:.7em}
+h2{color:var(--amber);font-size:1.05em;font-weight:400;margin:1.8em 0 .4em;letter-spacing:.08em;text-shadow:0 0 6px rgba(255,179,71,.3)}
+p,li{color:var(--phos)}
+ul{list-style:none;padding-left:1.4em}
+li{margin:.18em 0}
+li::before{content:"·";margin-right:.6em;color:var(--phos-dim)}
+.dim{color:var(--phos-dim);text-shadow:none}
+a{color:var(--bright);text-decoration:none;border-bottom:1px dotted var(--phos-faint)}
+a:hover,a:focus-visible{border-bottom-color:var(--phos)}
+:focus-visible{outline:2px dashed var(--phos);outline-offset:3px}
+pre{color:var(--bright);background:rgba(65,255,125,.06);border:1px solid var(--phos-faint);
+  padding:.7em .9em;margin:.5em 0 .9em;overflow-x:auto;text-shadow:none;font-family:inherit}
+header{border-bottom:1px solid var(--phos-faint);padding-bottom:.7em;margin-bottom:1.4em;
+  display:flex;justify-content:space-between;gap:1em;flex-wrap:wrap}
+footer{border-top:1px solid var(--phos-faint);margin-top:2.4em;padding-top:.8em;color:var(--phos-dim);text-shadow:none;
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5em}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <h1>GUIDE(7) <small>— WEBREAPER // TTY</small></h1>
+  <nav><a href="../">← back to the terminal</a></nav>
+</header>
+
+<h2>CONCEPT</h2>
+<p>WebReaper's headline claim is that the whole scraper fits in one ~12&nbsp;MB
+binary you run from a shell. So the site refuses to be a website: it is the
+shell. A single full-viewport CRT — P1 green phosphor, scanlines, a slow
+refresh sweep — boots a fake BIOS, prints an MOTD, and hands you a live
+prompt. Every product fact is a command you run, not a section you scroll.
+The register is literal: monospace because it is a terminal, green because
+it is a tube.</p>
+
+<h2>WHAT'S REAL</h2>
+<ul>
+<li>Transcripts marked <span class="dim">"recorded from a real run"</span> were captured
+from the actual v11.3.2 release binary on 2026-07-10 — including
+<code>webreaper scrape https://webreaper.ai</code> reaping its own homepage,
+<code>map</code>, <code>init</code>, and <code>version</code> (which honestly prints
+11.3.1+…, because 11.3.2 was an MCP-satellite-only release).</li>
+<li>The bot-protection ladder transcript is labeled <em>simulated</em> — the
+ladder itself (HTTP → browser → stealth, host-sticky floor, blocked pages
+dropped, non-zero exit) is the real documented ADR-0083 behavior.</li>
+<li>Nothing scrapes live from the page; typing a novel URL tells you so and
+points at the install command instead.</li>
+</ul>
+
+<h2>IMPLEMENTATION</h2>
+<ul>
+<li>One static HTML file, zero dependencies, ~30 KB. A hidden input drives
+the prompt; output is a <code>role="log"</code> aria-live region.</li>
+<li>Command router with history (↑/↓), TAB completion, ctrl-L, aliases,
+easter eggs (<code>cowsay</code>, <code>sudo</code>, <code>exit</code> = CRT power-off collapse).</li>
+<li><code>theme amber</code> swaps the whole phosphor palette via CSS custom
+properties on <code>data-theme</code> — P1 green and P3 amber, like real tubes.</li>
+<li>CRT optics are layered pseudo-elements: corner vignette, 3px scanline
+raster, a 9s refresh sweep, and a rare flicker keyframe. New lines land
+bright and settle — phosphor persistence as a CSS animation.</li>
+<li>Typography: VT323 (a digitization of the DEC VT320 glyphs) — the one
+case where "terminal font" is the register, not a costume.</li>
+</ul>
+
+<h2>ACCESSIBILITY & PERFORMANCE</h2>
+<ul>
+<li><code>prefers-reduced-motion</code> kills the boot animation, sweep, flicker,
+cursor blink, and typing effects — everything prints instantly.</li>
+<li>Suggested-command chips are real buttons (mobile users never need the
+keyboard); focus-visible outlines; noscript fallback carries the full
+pitch and install commands.</li>
+<li>One font, no JS libraries, no images. First paint is the boot screen.</li>
+</ul>
+
+<h2>ITERATION LOG</h2>
+<ul>
+<li><strong>Pass 1 — structure.</strong> Boot felt slow (2.8s) and the banner
+overflowed at 375px: cut boot to ~1.2s + skip-on-input, added a compact
+two-line banner under 640px, moved chips into the log flow so they
+scroll with history.</li>
+<li><strong>Pass 2 — optics & type.</strong> Scanlines were muddying small
+glyphs: raster dropped to 14% opacity and body size raised; dim-green
+contrast lifted from 3.9:1 to ≥4.6:1; glow reduced on body text and
+reserved (strong) for the banner and cursor.</li>
+<li><strong>Pass 3 — honesty & detail.</strong> Every transcript re-checked
+against captures; added the recorded-run date stamps, the
+<code>version</code> footnote, the "replays recorded runs" footer note; exit
+animation rebuilt as clip-path collapse; TAB completion pool widened to
+aliases.</li>
+</ul>
+
+<h2>REPRODUCE THIS</h2>
+<pre>1. capture ground truth:   download the release binary, run
+   scrape/map/init under `script -q /dev/null`, save stdout+stderr
+2. write the command table first (content), theme second (optics)
+3. one CSS variable set per phosphor; test both at 375/768/1440px
+4. verify: axe pass, reduced-motion pass, keyboard-only session
+5. deploy: static directory → `vercel deploy --prod`</pre>
+<p class="dim">Built with Claude (Fable 5). Design system: none — a tube, a
+font, two phosphors. Assets: none. LLM image tools: none needed here.</p>
+
+<footer>
+  <span>WEBREAPER // TTY · concept 01/10</span>
+  <span><a href="https://github.com/alex-on-ai/WebReaper">github.com/alex-on-ai/WebReaper</a></span>
+</footer>
+</main>
+</body>
+</html>
