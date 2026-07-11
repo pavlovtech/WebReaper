@@ -8,7 +8,7 @@
 <meta property="og:title" content="WebReaper: Scrape any site. Feed your AI.">
 <meta property="og:description" content="An AI-native web scraper for .NET. Build the pipeline: the CLI command and the C# write themselves.">
 <meta name="theme-color" content="#f6f6f2">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2316181d'/%3E%3Cpath d='M8 21c5-9 11-9 16-7-6 0-10 3-12 9z' fill='%23f6f6f2'/%3E%3Ccircle cx='22' cy='20' r='3' fill='%237c5cff'/%3E%3C/svg%3E">
+<link rel="icon" type="image/png" href="webreaper-logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
@@ -50,6 +50,7 @@ header.site{position:sticky;top:0;z-index:50;background:oklch(97.1% .004 106 / .
 header.site .wrap{display:flex;align-items:center;gap:1.5rem;height:60px}
 .wordmark{display:flex;align-items:center;gap:.55rem;font-weight:800;font-size:1.12rem;letter-spacing:-.01em;text-decoration:none}
 .wordmark svg{flex:none}
+.wordmark .mark{flex:none;width:28px;height:28px;display:block}
 header nav{margin-left:auto;display:flex;gap:1.15rem;font-weight:600;font-size:.92rem}
 header nav a{text-decoration:none;border-bottom:2px solid transparent;padding:.2rem 0}
 header nav a:hover{border-bottom-color:var(--ink)}
@@ -186,7 +187,7 @@ footer.site .r{margin-left:auto}
 <header class="site">
   <div class="wrap">
     <a class="wordmark" href="#">
-      <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#16181d"/><path d="M8 21c5-9 11-9 16-7-6 0-10 3-12 9z" fill="#f6f6f2"/><circle cx="22" cy="20" r="3" fill="#7c5cff"/></svg>
+      <img class="mark" src="webreaper-logo.png" srcset="webreaper-logo.png 1x, webreaper-logo@2x.png 2x" width="28" height="28" alt="" aria-hidden="true">
       WebReaper
     </a>
     <nav aria-label="site">
