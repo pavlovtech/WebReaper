@@ -229,37 +229,45 @@ export default function Home() {
   const tierBLive = process.env.NEXT_PUBLIC_PLAYGROUND_TIERB_LIVE === "1";
   return (
     <>
-      {/* Hero */}
+      {/* Hero — left-aligned; the configurator IS the hero */}
       <section className="relative overflow-hidden border-b-2 border-border-strong">
-        <div className="pointer-events-none absolute inset-0 -z-10 bg-dot mask-fade-b opacity-70" />
-        <div className={`${container} pb-20 pt-16 sm:pb-24 sm:pt-24`}>
-          <div className="mx-auto max-w-3xl text-center">
-            <Link
-              href="/blog/introducing-webreaper"
-              className="inline-flex items-center gap-2 rounded-full border-2 border-border-strong bg-surface px-3 py-1 text-xs text-muted transition hover:text-foreground"
-            >
-              <span className="rounded-full bg-accent-soft px-2 py-0.5 font-semibold text-accent">
-                v{siteConfig.version}
-              </span>
-              AI-native scraping for .NET is here
-              <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-dot opacity-70" />
+        <div className={`${container} pb-16 pt-12 sm:pb-20 sm:pt-16`}>
+          <div className="max-w-3xl">
+            <div className="flex flex-wrap gap-2 text-xs font-semibold text-foreground">
+              {[
+                "MIT licensed",
+                "~12 MB single binary",
+                ".NET library",
+                "MCP servers",
+                "any LLM, or none",
+              ].map((f) => (
+                <span
+                  key={f}
+                  className="rounded-full border-2 border-border-strong bg-surface px-3 py-1"
+                >
+                  {f}
+                </span>
+              ))}
+            </div>
 
-            <h1 className="mt-6 text-balance text-[2.7rem] font-extrabold leading-[1.02] tracking-tight sm:text-6xl">
-              <span className="text-gradient">Scrape any site.</span>
+            <h1 className="mt-5 text-[2.8rem] font-extrabold leading-[0.98] tracking-tight sm:text-[4.25rem]">
+              <span className="text-foreground">Scrape any site.</span>
               <br />
-              <span className="text-accent-gradient">Feed your AI.</span>
+              <span className="text-accent">Feed your AI.</span>
             </h1>
 
-            <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-muted">
-              WebReaper is an AI-native web scraper for .NET. One ~12 MB binary
-              turns any site, even bot-protected ones, into clean Markdown or
-              structured data, climbing from HTTP to a browser to stealth to get
-              through. Bring your own LLM when you need it. No Docker, no signup,
-              MIT licensed.
+            <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted">
+              WebReaper is an AI-native web scraper for .NET: one ~12 MB binary
+              that turns any site, even bot-protected ones, into clean Markdown or
+              structured data.{" "}
+              <strong className="text-foreground">
+                Build the line below and the command and the code write
+                themselves.
+              </strong>
             </p>
 
-            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <div className="mt-7 flex flex-wrap items-center gap-3">
               <Button href="/docs/getting-started" size="lg">
                 Get started
                 <ArrowRight className="h-4 w-4" />
@@ -268,26 +276,22 @@ export default function Home() {
                 <GitHubIcon className="h-4 w-4" />
                 Star on GitHub
               </Button>
-            </div>
-
-            <div className="mx-auto mt-8 flex max-w-md items-center gap-3 rounded-lg border-2 border-border-strong bg-surface px-4 py-3 font-mono text-sm shadow-[3px_3px_0_var(--shadow-ink)]">
-              <span className="select-none text-muted-2">$</span>
-              <code className="truncate text-foreground">{siteConfig.install.brew}</code>
-              <CopyButton value={siteConfig.install.brew} className="ml-auto shrink-0" />
+              <div className="flex items-center gap-2.5 rounded-lg border-2 border-border-strong bg-surface px-3.5 py-2.5 font-mono text-sm shadow-[3px_3px_0_var(--shadow-ink)]">
+                <span className="select-none text-muted-2">$</span>
+                <code className="text-foreground">{siteConfig.install.brew}</code>
+                <CopyButton value={siteConfig.install.brew} className="shrink-0" />
+              </div>
             </div>
           </div>
 
-          {/* Build the line — the configurator writes the command + the code */}
-          <div className="mx-auto mt-16 max-w-5xl">
-            <p className="mb-3 text-center text-sm font-semibold text-muted">
-              Build the line — the CLI command and the C# write themselves.
-            </p>
+          {/* the configurator is the centrepiece, full width */}
+          <div className="mt-10">
             <Configurator />
           </div>
 
-          {/* Then watch a real run climb the tiers */}
-          <div className="mx-auto mt-12 max-w-3xl">
-            <p className="mb-3 text-center text-sm font-semibold text-muted">
+          {/* then watch a real run climb the tiers */}
+          <div className="mt-10 max-w-3xl">
+            <p className="mb-3 text-sm font-semibold text-muted">
               Then watch a run climb HTTP → browser → stealth on a blocked site.
             </p>
             <HeroClimb live={tierBLive} />
