@@ -16,27 +16,47 @@
    (bg-surface, text-accent, border-border …) keeps working; only values moved.
 ---------------------------------------------------------------------------- */
 :root {
-  --background: #f4f3ec;
-  --background-subtle: #ecebe1;
-  --surface: #ffffff;
-  --surface-2: #ecebe1;
-  --border: #d8d6c8;         /* soft warm wire — 1px dividers, quiet pages */
-  --border-strong: #201d2a;  /* ink — hard 2px card borders */
-  --foreground: #201d2a;     /* ink text (~13:1 on the canvas) */
-  --muted: #55505f;          /* secondary text (~7:1) */
-  --muted-2: #635e6d;        /* tertiary text (~5.7:1) */
-  --accent: #7c5cff;         /* violet — the one brand accent */
-  --accent-strong: #6a45e6;
+  /* The Reaping Line palette, verbatim from the concept (OKLCH). These names
+     are what the concept's own stylesheet (reaping.css + the shell rules below)
+     references, so that CSS is pasted essentially unchanged. */
+  --bg: oklch(97.1% 0.004 106);
+  --panel: #ffffff;
+  --ink: oklch(21% 0.012 270);
+  --ink-2: oklch(38% 0.012 270);
+  --wire: oklch(86% 0.006 106);
+  --line: oklch(30% 0.01 270);
+  --transport: oklch(52% 0.19 262);
+  --extract: oklch(50% 0.21 296);
+  --ai: oklch(62% 0.15 70);
+  --sink: oklch(56% 0.12 172);
+  --danger: oklch(55% 0.2 27);
+  --chip-bg: oklch(94.5% 0.006 106);
+  --shadow: 4px 4px 0 oklch(21% 0.012 270 / 0.12);
+  --r: 10px;
+
+  /* Token names the Tailwind @theme + the content pages already use, mapped
+     onto the concept palette so both systems share one source of truth. */
+  --background: var(--bg);
+  --background-subtle: var(--chip-bg);
+  --surface: var(--panel);
+  --surface-2: var(--chip-bg);
+  --border: var(--wire);         /* soft warm wire: 1px dividers, quiet pages */
+  --border-strong: var(--ink);   /* ink: hard 2px card borders */
+  --foreground: var(--ink);      /* ink text */
+  --muted: var(--ink-2);         /* secondary text */
+  --muted-2: oklch(46% 0.012 270); /* tertiary text */
+  --accent: var(--extract);      /* violet: the one brand accent */
+  --accent-strong: oklch(44% 0.2 296);
   --accent-foreground: #ffffff;
-  --accent-soft: rgba(124, 92, 255, 0.1);
-  --ring: #7c5cff;
+  --accent-soft: oklch(50% 0.21 296 / 0.1);
+  --ring: var(--transport);      /* the concept's focus ring is transport blue */
 
   /* pipeline role palette (configurator, diagrams, station swatches) */
-  --role-transport: #3f6bd6;
-  --role-extract: #7c5cff;
-  --role-sink: #17a67f;
+  --role-transport: var(--transport);
+  --role-extract: var(--extract);
+  --role-sink: var(--sink);
 
-  --shadow-ink: rgba(32, 29, 42, 0.16);
+  --shadow-ink: oklch(21% 0.012 270 / 0.12);
 }
 
 @theme inline {
@@ -76,9 +96,17 @@
     -webkit-text-size-adjust: 100%;
   }
   body {
-    background-color: var(--background);
+    background-color: var(--bg);
+    /* the concept's signature: a warm canvas under a faint ink dot-grid */
+    background-image: radial-gradient(
+      oklch(21% 0.012 270 / 0.075) 1px,
+      transparent 1px
+    );
+    background-size: 22px 22px;
     color: var(--foreground);
     font-family: var(--font-sans);
+    font-size: 16.5px;
+    line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
@@ -347,4 +375,166 @@
   font-size: 0.85em;
   font-weight: 500;
   color: var(--foreground);
+}
+
+/* ----------------------------------------------------------------------------
+   Shell — the concept's sticky ink-bordered header and one-row footer, shared
+   across every route. Class-based (rl-*) so they never collide with Tailwind.
+---------------------------------------------------------------------------- */
+.rl-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: oklch(97.1% 0.004 106 / 0.88);
+  backdrop-filter: blur(6px);
+  border-bottom: 2px solid var(--ink);
+}
+.rl-shell {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 3.4vw, 40px);
+}
+.rl-header-inner {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  height: 60px;
+}
+.rl-wordmark {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-weight: 800;
+  font-size: 1.12rem;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  color: var(--ink);
+}
+.rl-wordmark img {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  display: block;
+}
+.rl-nav {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 1.15rem;
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+.rl-link {
+  text-decoration: none;
+  color: var(--ink);
+  border-bottom: 2px solid transparent;
+  padding: 0.2rem 0;
+  transition: border-color 0.12s ease;
+}
+.rl-link:hover,
+.rl-link[data-active="true"] {
+  border-bottom-color: var(--ink);
+}
+.rl-iconbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--ink-2);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.86rem;
+}
+.rl-iconbtn:hover {
+  color: var(--ink);
+}
+.rl-iconbtn kbd {
+  border: 1px solid var(--wire);
+  border-radius: 4px;
+  padding: 0 0.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+}
+.rl-gh {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  padding: 0.28rem 0.8rem;
+  text-decoration: none;
+  color: var(--ink);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  font-size: 0.88rem;
+  font-weight: 700;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease;
+}
+.rl-gh:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 oklch(21% 0.012 270 / 0.12);
+}
+.rl-menu-btn {
+  display: none;
+  margin-left: auto;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--ink);
+  border-radius: 9px;
+  background: var(--panel);
+  color: var(--ink);
+  cursor: pointer;
+}
+.rl-mobile {
+  border-bottom: 2px solid var(--ink);
+  background: oklch(97.1% 0.004 106 / 0.97);
+  backdrop-filter: blur(6px);
+}
+.rl-mobile a {
+  display: block;
+  padding: 0.75rem clamp(16px, 3.4vw, 40px);
+  text-decoration: none;
+  color: var(--ink);
+  font-weight: 600;
+  border-top: 1px solid var(--wire);
+}
+.rl-mobile a:first-child {
+  border-top: 0;
+}
+.rl-footer {
+  margin-top: clamp(3rem, 7vw, 5rem);
+  border-top: 2px solid var(--ink);
+  padding: 1.4rem 0 2.2rem;
+  font-size: 0.88rem;
+  color: var(--ink-2);
+}
+.rl-footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem 1.6rem;
+  align-items: center;
+}
+.rl-footer a {
+  font-weight: 600;
+  color: var(--ink-2);
+  text-decoration: none;
+}
+.rl-footer a:hover {
+  color: var(--ink);
+}
+.rl-footer .rl-right {
+  margin-left: auto;
+}
+@media (max-width: 820px) {
+  .rl-nav {
+    display: none;
+  }
+  .rl-menu-btn {
+    display: inline-flex;
+  }
 }
