@@ -222,8 +222,14 @@
    MDX / rehype-pretty-code (Shiki). Code stays on dark panels inside the light
    page — a deliberate "terminal" contrast, matching the hero's install band.
 ---------------------------------------------------------------------------- */
+/* The bench signature carried onto MDX code: an ink panel that sits on the
+   page with a hard offset block shadow, matching the homepage CodeBlock and
+   the concept's configurator panes. The shadow rides the whole figure so a
+   titled block (title bar + pre) casts one shadow, not two. */
 [data-rehype-pretty-code-figure] {
   margin: 1.25rem 0;
+  border-radius: 0.7rem;
+  box-shadow: 4px 4px 0 var(--shadow-ink);
 }
 [data-rehype-pretty-code-figure] pre {
   overflow-x: auto;
