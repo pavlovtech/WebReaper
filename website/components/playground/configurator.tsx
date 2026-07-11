@@ -167,7 +167,7 @@ function noteFor(s: {
             the stealth rung unattended.
           </>
         ) : (
-          <> The library can still pin a browser transport — see the C# pane.</>
+          <> The library can still pin a browser transport: see the C# pane.</>
         )}
       </>
     );
@@ -220,13 +220,13 @@ function extraNote(s: { extract: Extract; sink: Sink }): React.ReactNode {
       <>
         <strong className="text-foreground">MongoDB is a library sink</strong>{" "}
         (<code>WebReaper.Mongo</code>); the CLI pane shows the closest CLI
-        equivalent — stdout you can pipe.
+        equivalent: stdout you can pipe.
       </>
     );
   if (s.extract === "md")
     return (
       <>
-        Markdown is the default — no schema, no LLM, no cost. The envelope is{" "}
+        Markdown is the default: no schema, no LLM, no cost. The envelope is{" "}
         <code>{"{title, markdown, url}"}</code> per page.
       </>
     );
@@ -324,7 +324,7 @@ export function Configurator({ className = "" }: { className?: string }) {
           ))}
         </span>
         <strong className="text-[13px] tracking-wide">
-          REAPING LINE — configurator
+          REAPING LINE: configurator
         </strong>
         <span className="ml-auto hidden text-xs text-muted-2 sm:inline">
           every option is a real flag or builder call
@@ -452,7 +452,7 @@ export function Configurator({ className = "" }: { className?: string }) {
         </div>
         <div className="flex min-w-0 flex-col border-t-2 border-border-strong lg:border-l-2 lg:border-t-0">
           <div className="flex items-center gap-2 border-b border-border px-3.5 py-2 text-[12px] font-bold tracking-wide">
-            C# — same line, as a library
+            C#: same line, as a library
             <CopyButton value={csText} className="ml-auto" />
           </div>
           <pre className="flex-1 overflow-x-auto whitespace-pre px-4 py-4 font-mono text-[13px] leading-relaxed">
