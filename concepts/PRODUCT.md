@@ -4,14 +4,11 @@
 
 Standalone single-page marketing sites for **WebReaper**: an AI-native web scraper shipped as a ~12 MB single-binary CLI, a .NET library (NuGet `WebReaper`), and MCP servers. MIT-licensed, local-first, no accounts. Each site is a self-contained static build in `concepts/<nn-name>/` with a `/guide` route documenting its creative direction, and deploys as its own Vercel project.
 
-**Scope note (2026-07-10):** the original brief explored ten aesthetic lanes; the owner cut scope mid-run, then asked for one more. Shipped:
+**Scope note (2026-07-11):** the original brief explored ten aesthetic lanes; four were built and deployed (PHOSPHOR TTY, The Reaping Line, The Daily Harvest, HARVEST CONTROL). The owner chose **The Reaping Line** as the direction to carry into the real product site (its design system plus the configurator hero, ported into `website/`, taking content from webreaper.ai). The other three were retired: their Vercel projects (`webreaper-tty`, `webreaper-broadsheet`, `webreaper-ops`) were deleted and their directories removed from the tree. Only the winner remains here:
 
-1. `01-tty`, "PHOSPHOR": a literal DEC-terminal CRT. The site is an interactive shell; every product fact is a command. Drenched P1 green (P3 amber togglable), VT323, recorded-real transcripts.
-2. `06-pipeline`, "The Reaping Line": a bright workshop configurator. Four stations (scope, transport, extraction, destination) assemble a real CLI command and the equivalent C# builder chain live. Technical-toy aesthetic: dot grid, 2 px ink borders, offset block shadows, one OKLCH role color per station.
-3. `02-broadsheet`, "The Daily Harvest": an 1890s broadsheet. Features become editorial forms (the escalation ladder as a correspondent's dispatch, architecture as a patent filing, packages as classified ads); four gpt-image-2 engravings multiply-blended into the newsprint; one interaction, a telegraph key that replays a labeled dramatisation of the climb.
-4. `10-ops`, "HARVEST CONTROL": the domain itself as the aesthetic. A fleet-supervisor console running a deterministic simulated crawl: radial crawl graph on canvas, escalation-ladder telemetry, host floors, event log, RunReport on the outstanding-work latch; scenarios (clean sweep / bot wall / agent run / inject block). Numbers synthetic, semantics documented; labeled SIMULATION persistently.
+- `06-pipeline`, "The Reaping Line": a bright workshop configurator. Four stations (scope, transport, extraction, destination) assemble a real CLI command and the equivalent C# builder chain live. Technical-toy aesthetic: warm-white dot grid, 2 px ink borders, offset block shadows, one OKLCH role color per station. Live at https://webreaper-pipeline.vercel.app.
 
-Unbuilt lanes (blueprint, field guide, WebGL harvest, manga, Swiss grid, Win-98, mission control) were direction-only; generated art for two of them (field guide, manga) is preserved in git history (commit f2ed825) if ever revived.
+The retired three and the never-built lanes (blueprint, field guide, WebGL harvest, manga, Swiss grid, Win-98) live in git history: the built sites at their commits (`214297a` TTY + pipeline, `86e2dd9` broadsheet, `b158266` ops), and generated art (broadsheet engravings, field-guide plates, manga pages) at `f2ed825`, if ever revived.
 
 ## Audience
 
