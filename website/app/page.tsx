@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import { CodeBlock } from "@/components/code/code-block";
 import { CopyButton } from "@/components/code/copy-button";
 import { HeroClimb } from "@/components/playground/hero-climb";
+import { Configurator } from "@/components/playground/configurator";
 import { GitHubIcon } from "@/components/icons";
 import { siteConfig } from "@/lib/site";
 
@@ -229,23 +230,22 @@ export default function Home() {
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 -z-10 bg-grid mask-fade-b opacity-60" />
-        <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[600px] glow-accent" />
-        <div className={`${container} pb-20 pt-20 sm:pb-28 sm:pt-28`}>
+      <section className="relative overflow-hidden border-b-2 border-border-strong">
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-dot mask-fade-b opacity-70" />
+        <div className={`${container} pb-20 pt-16 sm:pb-24 sm:pt-24`}>
           <div className="mx-auto max-w-3xl text-center">
             <Link
               href="/blog/introducing-webreaper"
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-3 py-1 text-xs text-muted backdrop-blur transition hover:border-accent/50 hover:text-foreground"
+              className="inline-flex items-center gap-2 rounded-full border-2 border-border-strong bg-surface px-3 py-1 text-xs text-muted transition hover:text-foreground"
             >
-              <span className="rounded-full bg-accent/15 px-2 py-0.5 font-medium text-accent">
+              <span className="rounded-full bg-accent-soft px-2 py-0.5 font-semibold text-accent">
                 v{siteConfig.version}
               </span>
               AI-native scraping for .NET is here
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
 
-            <h1 className="mt-6 text-balance text-4xl font-semibold tracking-tight sm:text-6xl">
+            <h1 className="mt-6 text-balance text-[2.7rem] font-extrabold leading-[1.02] tracking-tight sm:text-6xl">
               <span className="text-gradient">Scrape any site.</span>
               <br />
               <span className="text-accent-gradient">Feed your AI.</span>
@@ -270,14 +270,28 @@ export default function Home() {
               </Button>
             </div>
 
-            <div className="mx-auto mt-8 flex max-w-md items-center gap-3 rounded-lg border border-border bg-surface/60 px-4 py-3 font-mono text-sm backdrop-blur">
+            <div className="mx-auto mt-8 flex max-w-md items-center gap-3 rounded-lg border-2 border-border-strong bg-surface px-4 py-3 font-mono text-sm shadow-[3px_3px_0_var(--shadow-ink)]">
               <span className="select-none text-muted-2">$</span>
               <code className="truncate text-foreground">{siteConfig.install.brew}</code>
               <CopyButton value={siteConfig.install.brew} className="ml-auto shrink-0" />
             </div>
           </div>
 
-          <HeroClimb live={tierBLive} className="mx-auto mt-16 max-w-3xl" />
+          {/* Build the line — the configurator writes the command + the code */}
+          <div className="mx-auto mt-16 max-w-5xl">
+            <p className="mb-3 text-center text-sm font-semibold text-muted">
+              Build the line — the CLI command and the C# write themselves.
+            </p>
+            <Configurator />
+          </div>
+
+          {/* Then watch a real run climb the tiers */}
+          <div className="mx-auto mt-12 max-w-3xl">
+            <p className="mb-3 text-center text-sm font-semibold text-muted">
+              Then watch a run climb HTTP → browser → stealth on a blocked site.
+            </p>
+            <HeroClimb live={tierBLive} />
+          </div>
         </div>
       </section>
 

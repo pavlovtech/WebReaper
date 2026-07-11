@@ -8,7 +8,6 @@ import { siteConfig } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { GitHubIcon } from "@/components/icons";
 import { Logo } from "./logo";
-import { ThemeToggle } from "./theme-toggle";
 import { Button } from "@/components/ui/button";
 
 export function Navbar() {
@@ -72,7 +71,6 @@ export function Navbar() {
               ⌘K
             </kbd>
           </button>
-          <ThemeToggle />
           <a
             href={siteConfig.links.github}
             target="_blank"
@@ -114,7 +112,6 @@ export function Navbar() {
               </li>
             ))}
             <li className="flex items-center gap-2 px-1 pt-3">
-              <ThemeToggle />
               <Button href="/docs/getting-started" size="sm" className="flex-1">
                 Get started
               </Button>
